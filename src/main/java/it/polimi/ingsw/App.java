@@ -12,8 +12,6 @@ public class App
     {
         System.out.println( "Hello World!" );
 
-        System.out.println( "Test Commit" );
-        //second test commit
     }
 
     public int prova(int num){

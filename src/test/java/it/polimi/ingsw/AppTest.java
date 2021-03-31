@@ -18,8 +18,6 @@ public class AppTest
     {
         assertTrue( true );
 
-        //commentino
-
     }
     @Test
     public void testX(){
