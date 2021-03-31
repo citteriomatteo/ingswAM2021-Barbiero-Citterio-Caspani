@@ -1,8 +1,9 @@
 package it.polimi.ingsw;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
 
 /**
  * Unit test for simple it.polimi.ingsw.App.
@@ -16,7 +17,15 @@ public class AppTest
     public void shouldAnswerWithTrue()
     {
         assertTrue( true );
+
         //commentino
 
+    }
+    @Test
+    public void testX(){
+        App app = new App();
+        for(int i=0; i<50; i++){
+            assertTrue(app.prova(i) == i+1);
+        }
     }
 }
