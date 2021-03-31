@@ -23,7 +23,7 @@ public class AppTest
     public void testX(){
         App app = new App();
         for(int i=0; i<50; i++){
-            assertTrue(app.prova(i) == i+1);
+            assertEquals(app.prova(i), i+1);
         }
     }
 }
