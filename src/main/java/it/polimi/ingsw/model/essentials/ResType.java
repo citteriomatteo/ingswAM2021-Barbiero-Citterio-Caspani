@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.essentials;
 
 public enum ResType {
-    UNKOWN,
+    UNKNOWN,
     STONE,
     SHIELD,
     SERVANT,

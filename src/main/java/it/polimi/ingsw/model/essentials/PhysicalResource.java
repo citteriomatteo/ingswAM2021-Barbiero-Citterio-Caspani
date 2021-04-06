@@ -43,9 +43,16 @@ public class PhysicalResource implements Resource, Requirable {
         }
         PhysicalResource physicalResource = (PhysicalResource) obj;
 
-        if(this.type.equals(physicalResource.type))
-            return true;
-        else
-            return false;
+        return this.type.equals(physicalResource.type);
+
+    }
+
+
+    @Override
+    public String toString() {
+        return "PhysicalResource{" +
+                "type=" + type +
+                ", quantity=" + quantity +
+                '}';
     }
 }

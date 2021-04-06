@@ -6,12 +6,12 @@ import it.polimi.ingsw.model.essentials.PhysicalResource;
 
 public interface Verificator {
 
-    //this method verify the presence of the PhisicalResources in the wherhouse or in the StrongBox
+    //this method verify the presence of the PhysicalResources in the warehouse or in the StrongBox
     boolean verifyResources(PhysicalResource physicalResource);
 
     //this method verify the presence of a card with the indicated color
     boolean verifyColor(CardColor color);
 
-    ////this method verify the presence of a card with the indicated color and level
+    //this method verify the presence of a card with the indicated color and level
     boolean verifyCard(CardType card);
 }
