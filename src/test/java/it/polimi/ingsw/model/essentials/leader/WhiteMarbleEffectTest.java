@@ -1,4 +1,4 @@
 package it.polimi.ingsw.model.essentials.leader;
 
-public class WhiteMarbleEffect {
+public class WhiteMarbleEffectTest {
 }
