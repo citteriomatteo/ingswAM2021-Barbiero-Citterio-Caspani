@@ -1,4 +1,4 @@
 package it.polimi.ingsw.model.essentials.leader;
 
-public class SlotEffect {
+public class LeaderCardTest {
 }

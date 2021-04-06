@@ -1,4 +1,4 @@
 package it.polimi.ingsw.model.match.market;
 
-public class BlueMarble {
+public class MarketTest {
 }
