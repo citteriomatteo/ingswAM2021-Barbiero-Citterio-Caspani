@@ -1,4 +1,4 @@
 package it.polimi.ingsw.model.match.player;
 
-public interface Adder {
+public class PlayerTest {
 }

@@ -1,4 +1,4 @@
 package it.polimi.ingsw.model.match.player.personalBoard;
 
-public class BasicProduction {
+public class PersonalBoardTest {
 }

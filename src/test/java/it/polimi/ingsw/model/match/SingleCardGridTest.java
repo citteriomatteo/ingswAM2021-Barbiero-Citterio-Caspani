@@ -1,4 +1,4 @@
 package it.polimi.ingsw.model.match;
 
-public class Match {
+public class SingleCardGridTest {
 }

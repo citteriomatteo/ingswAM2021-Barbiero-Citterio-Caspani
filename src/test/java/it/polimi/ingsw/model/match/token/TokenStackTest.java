@@ -1,4 +1,4 @@
 package it.polimi.ingsw.model.match.token;
 
-public class BlueToken {
+public class TokenStackTest {
 }
