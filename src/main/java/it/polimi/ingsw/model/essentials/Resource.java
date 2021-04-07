@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.match.player.Adder;
 
 public interface Resource {
 
-    //This metod add the resource to the StrongBox or increse the faitMarker
-
+    //This method adds the resource to the StrongBox or increments the faitMarker
     boolean add(Adder adder) throws InvalidAddFaithException;
 }
