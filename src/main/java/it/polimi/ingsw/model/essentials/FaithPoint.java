@@ -6,8 +6,11 @@ import it.polimi.ingsw.model.match.player.Adder;
 public class FaithPoint implements Resource{
     private int quantity;
 
-    public FaithPoint(int quantity) {
-        this.quantity = quantity;
+    public FaithPoint(int quantity) throws InvalidAddFaithException {
+        if(quantity > 0)
+            this.quantity = quantity;
+        else
+            throw new InvalidAddFaithException("Negative quantity of faith");
     }
 
 

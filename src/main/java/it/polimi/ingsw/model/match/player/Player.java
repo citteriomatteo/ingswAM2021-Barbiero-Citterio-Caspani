@@ -18,13 +18,13 @@ public class Player implements Adder, Verificator {
     }
 
     @Override
-    public boolean verifyResources(PhysicalResource physicalResource) {
+    public boolean addToWarehouse(PhysicalResource resource) {
         //TODO
         return true;
     }
 
     @Override
-    public boolean verifyColor(CardColor color) {
+    public boolean verifyResources(PhysicalResource physicalResource) {
         //TODO
         return true;
     }
@@ -34,4 +34,6 @@ public class Player implements Adder, Verificator {
         //TODO
         return true;
     }
+
+
 }

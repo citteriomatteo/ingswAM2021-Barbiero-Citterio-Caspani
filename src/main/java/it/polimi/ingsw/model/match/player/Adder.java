@@ -13,4 +13,7 @@ public interface Adder {
 
     //This method adds resource to the strong box
     boolean addToStrongBox(PhysicalResource resource);
+
+    //Add the resource to the warehouse
+    boolean addToWarehouse(PhysicalResource resource);
 }
