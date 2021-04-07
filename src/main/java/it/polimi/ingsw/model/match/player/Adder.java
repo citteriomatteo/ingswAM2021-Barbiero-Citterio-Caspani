@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.essentials.PhysicalResource;
     Interface used for limiting access to player methods
     It contains methods for adding resources or faith points
 */
-public interface Adder {
+public interface Adder  {
 
     //This method increments player's faithPoints
     boolean addFaithPoints(int quantity);

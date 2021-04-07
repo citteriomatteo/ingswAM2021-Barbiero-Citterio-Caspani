@@ -5,12 +5,14 @@ import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import java.util.Random;
 
 import it.polimi.ingsw.model.match.player.Adder;
+import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.Verificator;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PhysicalResourceTest {
+    private Player player = new Player();
     @Test
     public void testCreate() {
         Random gen = new Random();
@@ -34,17 +36,17 @@ public class PhysicalResourceTest {
     }
 
     @Test
-    public void testAdd(Adder adder) throws NegativeQuantityException, InvalidAddFaithException {
+    public void testAdd() throws NegativeQuantityException, InvalidAddFaithException {
         PhysicalResource resource1 = new PhysicalResource(ResType.SERVANT,3);
 
-        assertTrue(resource1.add(adder));
+        assertTrue(resource1.add(player));
     }
 
     @Test
-    public void testVerify(Verificator verificator) throws NegativeQuantityException {
+    public void testVerify() throws NegativeQuantityException {
         PhysicalResource resource1 = new PhysicalResource(ResType.COIN,1);
 
-        assertTrue(resource1.verify(verificator));
+        assertTrue(resource1.verify(player));
     }
 
 

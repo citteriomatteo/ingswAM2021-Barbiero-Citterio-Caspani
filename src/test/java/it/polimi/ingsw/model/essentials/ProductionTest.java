@@ -24,7 +24,7 @@ public class ProductionTest {
     //test the constructor with random cost and earnings
     @Test
     @Order(1)
-    public void ConstructorTest() throws NegativeQuantityException {
+    public void ConstructorTest() throws NegativeQuantityException, InvalidAddFaithException {
         List<PhysicalResource> cost = new ArrayList<>();
         List<Resource> earnings = new ArrayList<>();
         Random rand = new Random();

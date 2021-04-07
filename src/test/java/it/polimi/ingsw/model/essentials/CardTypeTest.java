@@ -1,12 +1,15 @@
 package it.polimi.ingsw.model.essentials;
 
 import it.polimi.ingsw.model.exceptions.InvalidQuantityException;
+import it.polimi.ingsw.model.match.player.Adder;
+import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.Verificator;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CardTypeTest {
+    private Player player = new Player();
 
     @Test
     public void testEquals() throws InvalidQuantityException {
@@ -30,9 +33,9 @@ public class CardTypeTest {
     }
 
     @Test
-    public void testVerify(Verificator verificator) throws InvalidQuantityException {
+    public void testVerify() throws InvalidQuantityException {
         CardType cardType = new CardType(CardColor.GREEN,2,1);
 
-        assertTrue(cardType.verify(verificator));
+        assertTrue(cardType.verify(player));
     }
 }
