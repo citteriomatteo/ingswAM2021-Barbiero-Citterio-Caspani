@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.match.player.Verificator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /*
 Represents a production with its cost and earnings
@@ -64,4 +65,20 @@ public class Production {
 
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Production that = (Production) o;
+        return Objects.equals(getCost(), that.getCost()) && Objects.equals(getEarnings(), that.getEarnings());
+    }
+
+
+    @Override
+    public String toString() {
+        return "Production{" +
+                "cost=" + cost +
+                ", earnings=" + earnings +
+                '}';
+    }
 }

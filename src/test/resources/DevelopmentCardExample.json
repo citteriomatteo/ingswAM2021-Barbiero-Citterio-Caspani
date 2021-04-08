@@ -1,0 +1,27 @@
+{
+  "type": {
+    "color": "GREEN",
+    "level": 1
+  },
+  "price": [
+    {
+      "type": "SHIELD",
+      "quantity": 2
+    }
+  ],
+  "production": {
+    "sentCost": [
+      {
+        "type": "COIN",
+        "quantity": 1
+      }
+    ],
+    "earnings": [
+      {
+        "faithPoint": true,
+        "quantity": 1
+      }
+    ]
+  },
+  "winPoints": 1
+}
