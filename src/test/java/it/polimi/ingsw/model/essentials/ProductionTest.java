@@ -4,10 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import it.polimi.ingsw.model.exceptions.InvalidAddFaithException;
 import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.Player;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,14 +15,13 @@ import java.util.Random;
 /*
 Test for Production class
  */
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ProductionTest {
 
     private Production production;
 
     //test the constructor with random cost and earnings
     @Test
-    @Order(1)
+    @BeforeEach
     public void ConstructorTest() throws NegativeQuantityException, InvalidAddFaithException {
         List<PhysicalResource> cost = new ArrayList<>();
         List<Resource> earnings = new ArrayList<>();
@@ -38,7 +36,7 @@ public class ProductionTest {
         for (i = 0; i<5; i++){
             faith=rand.nextBoolean();
             if (faith)
-                earnings.add(new FaithPoint(rand.nextInt(5)));
+                earnings.add(new FaithPoint(rand.nextInt(4)+1));
             else
                 earnings.add(new PhysicalResource(ResType.values()[rand.nextInt(4)+1], rand.nextInt(10)));
         }
@@ -47,7 +45,7 @@ public class ProductionTest {
     }
 
     @Test
-    public void ProduceTest() throws NegativeQuantityException, InvalidAddFaithException {
+    public void produceTest() throws NegativeQuantityException, InvalidAddFaithException {
         List<PhysicalResource> cost = new ArrayList<>();
         List<Resource> earnings = new ArrayList<>();
         earnings.add(new PhysicalResource(ResType.SHIELD, 1));
