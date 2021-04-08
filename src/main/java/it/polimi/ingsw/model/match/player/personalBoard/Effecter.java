@@ -15,6 +15,9 @@ public interface Effecter
     /*
     This method evolves the warehouse structure (updating the new shelves),
     according to the Decorator pattern we use.
+    Warehouse wh = new ConcreteWarehouse()
+                   -> new ExtraShelfWarehouse() (that points to the Concrete)
+                    -> new ExtraShelfWarehouse() (that points to the first ExtraShelf).
      */
     boolean warehouseEvolution(PhysicalResource resource);
 

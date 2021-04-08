@@ -41,7 +41,7 @@ public class StrongBoxTest
         int rndtype=gen.nextInt(4);
 
         final PhysicalResource res = new PhysicalResource(ResType.values()[rndtype], 1);
-        NotEnoughResourcesException e = assertThrows(NotEnoughResourcesException.class, ()->sb.take(res));
+        assertThrows(NotEnoughResourcesException.class, ()->sb.take(res));
 
         sb.put(res);
 
