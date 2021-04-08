@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.match.market;
 
+import it.polimi.ingsw.model.exceptions.InvalidQuantityException;
 import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.Adder;
 import java.util.ArrayList;
@@ -61,8 +62,11 @@ public class Market {
         return this.slide;
     }
 
-    public int selectRow(int numRow, Adder adder) throws NegativeQuantityException {
+    public int selectRow(int numRow, Adder adder) throws NegativeQuantityException, InvalidQuantityException {
         int countWhite = 0;
+
+        if(numRow < 0 || numRow > 3)
+            throw new InvalidQuantityException("The number of column is out of range");
 
         for(int i = 0; i < 4; ++i) {
             if (this.board[numRow][i].onDraw(adder)) {
@@ -74,8 +78,11 @@ public class Market {
         return countWhite;
     }
 
-    public int selectColumn(int numColumn, Adder adder) throws NegativeQuantityException {
+    public int selectColumn(int numColumn, Adder adder) throws NegativeQuantityException, InvalidQuantityException {
         int countWhite = 0;
+
+        if(numColumn < 0 || numColumn > 4)
+            throw new InvalidQuantityException("The number of column is out of range");
 
         for(int i = 0; i < 3; ++i) {
             if (this.board[i][numColumn].onDraw(adder)) {
