@@ -1,7 +1,8 @@
 {
   "type": {
     "color": "GREEN",
-    "level": 1
+    "level": 1,
+    "quantity": 1
   },
   "price": [
     {
@@ -10,7 +11,7 @@
     }
   ],
   "production": {
-    "sentCost": [
+    "cost": [
       {
         "type": "COIN",
         "quantity": 1
@@ -18,7 +19,7 @@
     ],
     "earnings": [
       {
-        "faithPoint": true,
+        "resource": "faithPoint",
         "quantity": 1
       }
     ]
