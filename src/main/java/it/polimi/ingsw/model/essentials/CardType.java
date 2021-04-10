@@ -17,6 +17,16 @@ public class CardType implements Requirable{
         this.quantity = quantity;
     }
 
+    //Set quantity to default 1
+    public CardType(CardColor color, int level) throws InvalidQuantityException {
+        this.color = color;
+        if(level >= 0 && level < 3)
+            this.level = level;
+        else
+            throw new InvalidQuantityException("Invalid Level");
+        this.quantity = 1;
+    }
+
     public CardColor getColor() {
         return color;
     }
@@ -37,15 +47,21 @@ public class CardType implements Requirable{
 
         CardType cardType = (CardType) obj;
 
-        if(this.color.equals(cardType.color) && this.level == cardType.level)
-            return true;
-        else
-            return false;
+        return this.color.equals(cardType.color) && this.level == cardType.level;
     }
 
     @Override
     public boolean verify(Verificator verificator) {
 
         return verificator.verifyCard(this);
+    }
+
+    @Override
+    public String toString() {
+        return "CardType{" +
+                "color=" + color +
+                ", level=" + level +
+                ", quantity=" + quantity +
+                '}';
     }
 }
