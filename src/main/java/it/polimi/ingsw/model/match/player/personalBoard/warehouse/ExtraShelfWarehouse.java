@@ -36,10 +36,7 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
     }
 
     @Override
-    public boolean marketDraw(PhysicalResource res) throws NegativeQuantityException
-    {
-        return oldWarehouse.marketDraw(res);
-    }
+    public boolean marketDraw(PhysicalResource res) throws NegativeQuantityException { return oldWarehouse.marketDraw(res); }
 
     @Override
     public int discardRemains() {
@@ -92,7 +89,6 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
 
             //Shelf update:
             extraShelf = new PhysicalResource(extraShelf.getType(), extraShelf.getQuantity()+res.getQuantity());
-            //extraShelf = newshelf;
 
             //bufferMarket cleaning:
             cleanMarketBuffer(res);

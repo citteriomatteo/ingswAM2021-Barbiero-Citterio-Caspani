@@ -6,4 +6,6 @@ public class InvalidCardRequestException extends InvalidOperationException
     {
         super(error);
     }
+
+    public String getError() {return error;}
 }

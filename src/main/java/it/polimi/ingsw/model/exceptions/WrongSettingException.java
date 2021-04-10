@@ -7,4 +7,6 @@ public class WrongSettingException extends Exception
     {
         this.error=error;
     }
+
+    public String getError() {return error;}
 }
