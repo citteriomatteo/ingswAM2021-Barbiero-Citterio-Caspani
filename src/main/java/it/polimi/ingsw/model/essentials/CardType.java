@@ -10,7 +10,7 @@ public class CardType implements Requirable{
 
     public CardType(CardColor color, int level, int quantity) throws InvalidQuantityException {
         this.color = color;
-        if(level >= 0 && level < 3)
+        if(level >= 0 && level <= 3)
             this.level = level;
         else
             throw new InvalidQuantityException("Invalid Level");
@@ -20,7 +20,7 @@ public class CardType implements Requirable{
     //Set quantity to default 1
     public CardType(CardColor color, int level) throws InvalidQuantityException {
         this.color = color;
-        if(level >= 0 && level < 3)
+        if(level >= 0 && level <= 3)
             this.level = level;
         else
             throw new InvalidQuantityException("Invalid Level");

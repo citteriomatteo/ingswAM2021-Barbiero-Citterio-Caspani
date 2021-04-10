@@ -15,6 +15,7 @@ import java.util.Stack;
 
 public class CardGrid {
     private final Stack<DevelopmentCard>[][] topGrid;
+    private static final int MAXLEVEL = 3;
 
     public Stack<DevelopmentCard>[][] getTopGrid() {
         return topGrid;
@@ -31,8 +32,8 @@ public class CardGrid {
         //initialization of variable count used for index of the cards list
         int count = 0;
 
-        topGrid = new Stack[3][CardColor.values().length];
-        for (int lv = 0; lv < 3; lv++) {
+        topGrid = new Stack[MAXLEVEL][CardColor.values().length];
+        for (int lv = 0; lv < MAXLEVEL; lv++) {
             for (CardColor color : CardColor.values()) {
 
                 if(!cards.get(count).getType().getColor().equals(color) || cards.get(count).getType().getLevel()!=lv+1)
@@ -53,7 +54,7 @@ public class CardGrid {
         int count = 0;
         CardType[] res = new CardType[CardColor.values().length * 3];
 
-        for (int lv = 0; lv < 3; lv++) {
+        for (int lv = 0; lv < MAXLEVEL; lv++) {
             for (CardColor color : CardColor.values()) {
                 try {
                     res[count] = new CardType(color, lv, topGrid[lv][color.ordinal()].size());
@@ -70,7 +71,7 @@ public class CardGrid {
 
     //Returns True if the card in the given position is buyable by the player passed as verificator
     public boolean isBuyable(Verificator verificator, int lv, int color) throws InvalidCardRequestException, NoMoreCardsException {
-        if (lv < 1 || lv > 3 || color < 0 || color > CardColor.values().length)
+        if (lv < 1 || lv > MAXLEVEL || color < 0 || color > CardColor.values().length)
             throw new InvalidCardRequestException("Tried to control a card out of range");
 
         try {
@@ -88,7 +89,7 @@ public class CardGrid {
     You can use it also thinking lv = row and color = (column - 1)
      */
     public DevelopmentCard take(int lv, int color) throws InvalidCardRequestException, NoMoreCardsException {
-        if (lv < 1 || lv > 3 || color < 0 || color > CardColor.values().length)
+        if (lv < 1 || lv > MAXLEVEL || color < 0 || color > CardColor.values().length)
             throw new InvalidCardRequestException("Tried to take a card out of range");
         try {
 
