@@ -14,14 +14,18 @@ import java.util.List;
 import java.util.Stack;
 
 public class CardGrid {
-    private Stack<DevelopmentCard>[][] topGrid;
+    private final Stack<DevelopmentCard>[][] topGrid;
+
+    public Stack<DevelopmentCard>[][] getTopGrid() {
+        return topGrid;
+    }
 
     /*
-    Builds the card grid receiving a list sorted by CardType in this order:
-    {[lv1, GREEN], [lv1, BLUE], [lv1, YELLOW], [lv1, PURPLE], [lv2, GREEN], [lv2, BLUE], ...etc.}
-    following the order of the color in the enumeration CardColor
-    You have to provide at least one card of any type
-     */
+        Builds the card grid receiving a list sorted by CardType in this order:
+        {[lv1, GREEN], [lv1, BLUE], [lv1, YELLOW], [lv1, PURPLE], [lv2, GREEN], [lv2, BLUE], ...etc.}
+        following the order of the color in the enumeration CardColor
+        You have to provide at least one card of any type
+         */
     public CardGrid(List<DevelopmentCard> cards) throws WrongSettingException {
 
         //initialization of variable count used for index of the cards list
@@ -64,31 +68,38 @@ public class CardGrid {
         return res;
     }
 
+    //Returns True if the card in the given position is buyable by the player passed as verificator
     public boolean isBuyable(Verificator verificator, int lv, int color) throws InvalidCardRequestException, NoMoreCardsException {
-        if (lv > 3 || color > CardColor.values().length)
-            throw new InvalidCardRequestException("Tried to take a card out of range");
+        if (lv < 1 || lv > 3 || color < 0 || color > CardColor.values().length)
+            throw new InvalidCardRequestException("Tried to control a card out of range");
 
         try {
 
-            return topGrid[lv-1][color-1].peek().isBuyable(verificator);
+            return topGrid[lv-1][color].peek().isBuyable(verificator);
         }
         catch (EmptyStackException e){
-            throw new NoMoreCardsException("Tried to take a card from an empty stack");
+            throw new NoMoreCardsException("Tried to control a card from an empty stack");
         }
 
     }
 
+    /*
+    Take the first card in the pile with level = lv and color = color.ordinal()
+    You can use it also thinking lv = row and color = (column - 1)
+     */
     public DevelopmentCard take(int lv, int color) throws InvalidCardRequestException, NoMoreCardsException {
-        if (lv > 3 || color > CardColor.values().length)
+        if (lv < 1 || lv > 3 || color < 0 || color > CardColor.values().length)
             throw new InvalidCardRequestException("Tried to take a card out of range");
         try {
 
-            return topGrid[lv - 1][color - 1].pop();
+            return topGrid[lv - 1][color].pop();
         }
         catch (EmptyStackException e){
             throw new NoMoreCardsException("Tried to take a card from an empty stack");
         }
     }
+
+
 
 
 

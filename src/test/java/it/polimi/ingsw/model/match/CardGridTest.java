@@ -63,19 +63,20 @@ public class CardGridTest {
 
         player.addToStrongBox(new PhysicalResource(ResType.SHIELD, 2));
 
-        assertTrue(grid.isBuyable(player,1,1));
+        assertTrue(grid.isBuyable(player,1, CardColor.GREEN.ordinal()));
     }
 
 
     @Test
     public void takeTest() throws InvalidCardRequestException, NoMoreCardsException, InvalidAddFaithException, NegativeQuantityException, InvalidQuantityException {
-        DevelopmentCard card = grid.take(1,1);
+        DevelopmentCard card = grid.take(1,CardColor.GREEN.ordinal());
         DevelopmentCard cardExpected = new DevelopmentCard(new CardType(CardColor.GREEN, 1),
                 new ArrayList<>(List.of(new PhysicalResource(ResType.SHIELD, 2))),
                 new Production(new ArrayList<>(List.of(new PhysicalResource(ResType.COIN, 1))),
                         new ArrayList<>(List.of(new FaithPoint(1)))), 1);
 
         assertEquals(cardExpected, card);
+
     }
 
     @Test
@@ -95,15 +96,8 @@ public class CardGridTest {
     @Test
     public void controlCardOutOfRangeTest(){
         Player player = new Player();
-        try {
-            grid.isBuyable(player,3,5);
-            fail();
-        } catch (InvalidCardRequestException e) {
-            assertTrue(true);
 
-        } catch (NoMoreCardsException e) {
-            e.printStackTrace();
-        }
+        assertThrows(InvalidCardRequestException.class, () -> grid.isBuyable(player,3,5));
 
     }
 }
