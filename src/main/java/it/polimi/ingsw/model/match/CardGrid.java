@@ -52,7 +52,7 @@ public class CardGrid {
 
     public CardType[] countRemaining() {
         int count = 0;
-        CardType[] res = new CardType[CardColor.values().length * 3];
+        CardType[] res = new CardType[CardColor.values().length * MAXLEVEL];
 
         for (int lv = 0; lv < MAXLEVEL; lv++) {
             for (CardColor color : CardColor.values()) {
@@ -71,12 +71,12 @@ public class CardGrid {
 
     //Returns True if the card in the given position is buyable by the player passed as verificator
     public boolean isBuyable(Verificator verificator, int lv, int color) throws InvalidCardRequestException, NoMoreCardsException {
-        if (lv < 1 || lv > MAXLEVEL || color < 0 || color > CardColor.values().length)
+        if (lv < 1 || lv > MAXLEVEL || color < 1 || color > CardColor.values().length)
             throw new InvalidCardRequestException("Tried to control a card out of range");
 
         try {
 
-            return topGrid[lv-1][color].peek().isBuyable(verificator);
+            return topGrid[lv-1][color-1].peek().isBuyable(verificator);
         }
         catch (EmptyStackException e){
             throw new NoMoreCardsException("Tried to control a card from an empty stack");
@@ -85,15 +85,15 @@ public class CardGrid {
     }
 
     /*
-    Take the first card in the pile with level = lv and color = color.ordinal()
-    You can use it also thinking lv = row and color = (column - 1)
+    Take the first card in the pile with level = lv and color = color.asNumber()
+    You can use it also thinking lv = row and color = column
      */
     public DevelopmentCard take(int lv, int color) throws InvalidCardRequestException, NoMoreCardsException {
-        if (lv < 1 || lv > MAXLEVEL || color < 0 || color > CardColor.values().length)
+        if (lv < 1 || lv > MAXLEVEL || color < 1 || color > CardColor.values().length)
             throw new InvalidCardRequestException("Tried to take a card out of range");
         try {
 
-            return topGrid[lv - 1][color].pop();
+            return topGrid[lv - 1][color-1].pop();
         }
         catch (EmptyStackException e){
             throw new NoMoreCardsException("Tried to take a card from an empty stack");

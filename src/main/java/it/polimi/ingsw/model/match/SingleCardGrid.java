@@ -22,7 +22,7 @@ public class SingleCardGrid extends CardGrid {
 
             try {
                 //try to remove level 1
-                super.take(1, color.ordinal());
+                super.take(1, color.getVal());
 
             } catch (InvalidCardRequestException e) {
                 e.printStackTrace();
@@ -31,7 +31,7 @@ public class SingleCardGrid extends CardGrid {
             } catch (NoMoreCardsException e) {
                 try {
                     //try to remove level 2
-                    super.take(2, color.ordinal());
+                    super.take(2, color.getVal());
 
                 } catch (InvalidCardRequestException e2) {
                     e2.printStackTrace();
@@ -40,7 +40,7 @@ public class SingleCardGrid extends CardGrid {
                 } catch (NoMoreCardsException e2) {
                     try {
                         //try to remove level 3
-                        super.take(3, color.ordinal());
+                        super.take(3, color.getVal());
 
                     } catch (InvalidCardRequestException e3) {
                         e3.printStackTrace();

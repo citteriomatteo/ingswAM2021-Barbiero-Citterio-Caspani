@@ -113,4 +113,104 @@ public class DevCardSlotsTest {
         assertIterableEquals(expected, actual);
 
     }
+
+    @Test
+    public void isPlaceable() throws InvalidQuantityException, NegativeQuantityException, InvalidAddFaithException, InvalidOperationException {
+        DevCardSlots slots = new DevCardSlots();
+
+        assertTrue(slots.isPlaceable(1));
+
+        DevelopmentCard card = new DevelopmentCard(new CardType(CardColor.GREEN, 1),
+                new ArrayList<>(List.of(new PhysicalResource(ResType.SHIELD, 2))),
+                new Production(new ArrayList<>(List.of(new PhysicalResource(ResType.COIN, 1))),
+                        new ArrayList<>(List.of(new FaithPoint(1)))), 1);
+
+        //push of a level 1 card
+        slots.pushNewCard(1, card);
+
+        //now is placeable a level 2
+        assertTrue(slots.isPlaceable(2));
+
+        //push another level 1
+        slots.pushNewCard(1, card);
+
+        //is placeable only a level 2
+        assertTrue(slots.isPlaceable(2));
+        assertFalse(slots.isPlaceable(3));
+
+        DevelopmentCard card2 = new DevelopmentCard(new CardType(CardColor.BLUE, 2),
+                new ArrayList<>(List.of(new PhysicalResource(ResType.SHIELD, 2))),
+                new Production(new ArrayList<>(List.of(new PhysicalResource(ResType.COIN, 1))),
+                        new ArrayList<>(List.of(new FaithPoint(1)))), 1);
+
+        //push a level 2 card on the last slot of the first column
+        slots.pushNewCard(1, card2);
+
+        //Now I can't place either a level 2 or level 3
+        assertFalse(slots.isPlaceable(3));
+        assertFalse(slots.isPlaceable(2));
+
+        //push on the second column a level 1 and a level 2 card
+        slots.pushNewCard(2, card);
+        slots.pushNewCard(2, card2);
+
+        //Now I can place a level 3 card but not a level 2
+        assertTrue(slots.isPlaceable(3));
+        assertFalse(slots.isPlaceable(2));
+    }
+
+    @Test
+    public void getWinPointsTest() {
+        DevCardSlots slots = setSituation();
+        assertEquals(10, slots.getWinPoints());
+    }
+
+
+    @Test
+    public void getCardsNumberTest(){
+        DevCardSlots slots = setSituation();
+        assertEquals(4, slots.getCardsNumber());
+    }
+
+    @Test
+    public void isSatisfiedTest() throws InvalidQuantityException {
+        DevCardSlots slots = setSituation();
+        assertTrue(slots.isSatisfied(new CardType(CardColor.GREEN, 0, 4)));
+        assertTrue(slots.isSatisfied(new CardType(CardColor.GREEN, 0, 1)));
+        assertTrue(slots.isSatisfied(new CardType(CardColor.GREEN, 2, 1)));
+        assertTrue(slots.isSatisfied(new CardType(CardColor.GREEN, 1, 2)));
+        assertTrue(slots.isSatisfied(new CardType(CardColor.GREEN, 1, 3)));
+        assertFalse(slots.isSatisfied(new CardType(CardColor.BLUE, 0, 1)));
+        assertFalse(slots.isSatisfied(new CardType(CardColor.BLUE, 1, 2)));
+        assertFalse(slots.isSatisfied(new CardType(CardColor.GREEN, 1, 4)));
+        assertFalse(slots.isSatisfied(new CardType(CardColor.GREEN, 0, 5)));
+    }
+
+    //used for other tests
+    public DevCardSlots setSituation(){
+        DevCardSlots slots = new DevCardSlots();
+        try {
+            DevelopmentCard card = new DevelopmentCard(new CardType(CardColor.GREEN, 1),
+                    new ArrayList<>(List.of(new PhysicalResource(ResType.SHIELD, 2))),
+                    new Production(new ArrayList<>(List.of(new PhysicalResource(ResType.COIN, 1))),
+                            new ArrayList<>(List.of(new FaithPoint(1)))), 2);
+
+            slots.pushNewCard(1, card);
+            slots.pushNewCard(1, card);
+
+            DevelopmentCard card2 = new DevelopmentCard(new CardType(CardColor.GREEN, 2),
+                    new ArrayList<>(List.of(new PhysicalResource(ResType.SHIELD, 2))),
+                    new Production(new ArrayList<>(List.of(new PhysicalResource(ResType.COIN, 1))),
+                            new ArrayList<>(List.of(new FaithPoint(1)))), 4);
+
+            slots.pushNewCard(1, card2);
+            slots.pushNewCard(3, card);
+
+        }catch(Exception e){
+            fail();
+        }
+
+        return slots;
+    }
+
 }
