@@ -61,7 +61,6 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
             if(numResources > extraShelf.getQuantity())
                 throw new NotEnoughResourcesException("Not enough resources in the extra shelf!");
             extraShelf = new PhysicalResource(extraShelf.getType(), (extraShelf.getQuantity()-numResources));
-            //extraShelf = newshelf;
             takenres = new PhysicalResource(extraShelf.getType(), numResources);
         }
         else
