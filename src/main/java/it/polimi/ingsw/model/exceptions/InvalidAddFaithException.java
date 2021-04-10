@@ -6,4 +6,6 @@ public class InvalidAddFaithException extends Exception {
     public InvalidAddFaithException(String error) {
         this.error = error;
     }
+
+    public String getError() {return error;}
 }

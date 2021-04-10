@@ -203,7 +203,7 @@ public class ExtraShelfWarehouseTest
         Warehouse wh = new ConcreteWarehouse();
         List<PhysicalResource> l = new ArrayList<>();
         l.add(new PhysicalResource(ResType.COIN,1));
-        wh.marketDraw(l.get(0)); wh.moveInShelf(l.get(0),1);
+        wh.marketDraw(l.get(0)); wh.moveInShelf(l.get(0), 1);
         l.add(new PhysicalResource(ResType.STONE,2));
         wh.marketDraw(l.get(1)); wh.moveInShelf(l.get(1),2);
         l.add(new PhysicalResource(ResType.SERVANT,3));

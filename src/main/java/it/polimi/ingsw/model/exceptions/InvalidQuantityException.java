@@ -6,4 +6,6 @@ public class InvalidQuantityException extends Exception {
     public InvalidQuantityException(String error) {
         this.error = error;
     }
+
+    public String getError() {return error;}
 }
