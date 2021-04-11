@@ -7,9 +7,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DiscountMap {
-    private final Map<ResType, Integer> discountMap = new HashMap<>();
+    private final Map<ResType, Integer> discountMap;
 
-    public DiscountMap() {
+    public DiscountMap()
+    {
+        discountMap = new HashMap<>();
     }
 
     public Map<ResType, Integer> getDiscountMap() {
