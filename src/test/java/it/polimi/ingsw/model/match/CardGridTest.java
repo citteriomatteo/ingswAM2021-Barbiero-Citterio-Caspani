@@ -59,7 +59,7 @@ public class CardGridTest {
 
     @Test
     public void isBuyableTest() throws NegativeQuantityException, InvalidCardRequestException, NoMoreCardsException {
-        Player player = new Player();
+        Player player = new Player("player1",null);
 
         player.addToStrongBox(new PhysicalResource(ResType.SHIELD, 2));
 
@@ -94,8 +94,8 @@ public class CardGridTest {
     }
 
     @Test
-    public void controlCardOutOfRangeTest(){
-        Player player = new Player();
+    public void controlCardOutOfRangeTest() throws NegativeQuantityException {
+        Player player = new Player("player1", null);
 
         assertThrows(InvalidCardRequestException.class, () -> grid.isBuyable(player,3,5));
 

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.essentials;
 
+import it.polimi.ingsw.model.exceptions.FaithPathCreationException;
 import it.polimi.ingsw.model.exceptions.InvalidAddFaithException;
+import it.polimi.ingsw.model.exceptions.MatchEndedException;
 import it.polimi.ingsw.model.match.player.Adder;
 
 import java.util.Objects;
@@ -17,7 +19,7 @@ public class FaithPoint implements Resource{
 
 
     @Override
-    public boolean add(Adder adder) throws InvalidAddFaithException {
+    public boolean add(Adder adder) throws InvalidAddFaithException, FaithPathCreationException, MatchEndedException {
        return adder.addFaithPoints(quantity);
     }
 

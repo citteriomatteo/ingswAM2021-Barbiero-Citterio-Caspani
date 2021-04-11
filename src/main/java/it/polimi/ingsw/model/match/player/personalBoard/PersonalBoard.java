@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.essentials.leader.LeaderCard;
 import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.FaithPath;
+import it.polimi.ingsw.model.match.player.personalBoard.faithPath.SingleFaithPath;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.ConcreteWarehouse;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.ExtraShelfWarehouse;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
@@ -37,10 +38,25 @@ public class PersonalBoard implements Effecter
         devCardSlots = new DevCardSlots();
     }
 
+    //this constructor implements the singleFaithPath
+    public PersonalBoard(ArrayList<Cell> path, Production basicProduction) throws NegativeQuantityException
+    {
+        activeLeaders = new ArrayList<>();
+        activeProductionLeaders = new ArrayList<>();
+        whiteMarbleConversions = new ArrayList<>();
+        this.basicProduction = basicProduction;
+        warehouse = new ConcreteWarehouse();
+        strongBox = new StrongBox();
+        faithPath = new SingleFaithPath(path, 0);
+        discountMap = new DiscountMap();
+        devCardSlots = new DevCardSlots();
+    }
+
+
     /*
-    Inserts the new leader into the activeLeaders list and,
-    if it's a production one, also in the activeProductionLeaders list.
-     */
+        Inserts the new leader into the activeLeaders list and,
+        if it's a production one, also in the activeProductionLeaders list.
+         */
     public boolean addActiveLeader(LeaderCard newleader, boolean hasProduction) throws NegativeQuantityException
     {
         activeLeaders.add(newleader);

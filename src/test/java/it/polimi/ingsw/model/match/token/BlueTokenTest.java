@@ -1,4 +1,31 @@
 package it.polimi.ingsw.model.match.token;
 
+import it.polimi.ingsw.model.essentials.DevelopmentCard;
+import it.polimi.ingsw.model.exceptions.MatchEndedException;
+import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
+import it.polimi.ingsw.model.exceptions.WrongSettingException;
+import it.polimi.ingsw.model.match.LeaderStack;
+import it.polimi.ingsw.model.match.SingleCardGrid;
+import it.polimi.ingsw.model.match.SingleMatch;
+import it.polimi.ingsw.model.match.player.Player;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class BlueTokenTest {
+    private List<Player> players = new ArrayList<>();
+    private LeaderStack leaderStack = new LeaderStack();
+    private SingleMatch singleMatch;
+    private BlueToken blueToken = new BlueToken();
+
+    @Test
+    public void testOnDraw() throws NegativeQuantityException, MatchEndedException, FileNotFoundException, WrongSettingException {
+        players.add(new Player("player1",null));
+        singleMatch = new SingleMatch(players);
+        assertTrue(blueToken.onDraw(singleMatch));
+
+    }
 }

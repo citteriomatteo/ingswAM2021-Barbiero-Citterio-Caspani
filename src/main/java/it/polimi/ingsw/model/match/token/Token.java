@@ -1,4 +1,10 @@
 package it.polimi.ingsw.model.match.token;
 
-public class Token {
+import it.polimi.ingsw.model.exceptions.InvalidAddFaithException;
+import it.polimi.ingsw.model.exceptions.MatchEndedException;
+import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
+import it.polimi.ingsw.model.match.SingleMatch;
+
+public abstract class Token {
+    public abstract boolean onDraw(SingleMatch match) throws MatchEndedException, NegativeQuantityException;
 }

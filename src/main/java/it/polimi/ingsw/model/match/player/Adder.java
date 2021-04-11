@@ -1,6 +1,9 @@
 package it.polimi.ingsw.model.match.player;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
+import it.polimi.ingsw.model.exceptions.FaithPathCreationException;
+import it.polimi.ingsw.model.exceptions.MatchEndedException;
+import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 
 /*
     Interface used for limiting access to player methods
@@ -9,11 +12,11 @@ import it.polimi.ingsw.model.essentials.PhysicalResource;
 public interface Adder  {
 
     //This method increments player's faithPoints
-    boolean addFaithPoints(int quantity);
+    boolean addFaithPoints(int quantity) throws FaithPathCreationException, MatchEndedException;
 
     //This method adds resource to the strong box
     boolean addToStrongBox(PhysicalResource resource);
 
     //Add the resource to the warehouse
-    boolean addToWarehouse(PhysicalResource resource);
+    boolean addToWarehouse(PhysicalResource resource) throws NegativeQuantityException;
 }

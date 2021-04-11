@@ -22,11 +22,11 @@ public class CardGrid {
     }
 
     /*
-        Builds the card grid receiving a list sorted by CardType in this order:
-        {[lv1, GREEN], [lv1, BLUE], [lv1, YELLOW], [lv1, PURPLE], [lv2, GREEN], [lv2, BLUE], ...etc.}
-        following the order of the color in the enumeration CardColor
-        You have to provide at least one card of any type
-         */
+            Builds the card grid receiving a list sorted by CardType in this order:
+            {[lv1, GREEN], [lv1, BLUE], [lv1, YELLOW], [lv1, PURPLE], [lv2, GREEN], [lv2, BLUE], ...etc.}
+            following the order of the color in the enumeration CardColor
+            You have to provide at least one card of any type
+             */
     public CardGrid(List<DevelopmentCard> cards) throws WrongSettingException {
 
         //initialization of variable count used for index of the cards list

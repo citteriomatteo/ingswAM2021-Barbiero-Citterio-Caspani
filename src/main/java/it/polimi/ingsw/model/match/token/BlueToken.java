@@ -1,4 +1,14 @@
 package it.polimi.ingsw.model.match.token;
 
-public class BlueToken {
+import it.polimi.ingsw.model.essentials.CardColor;
+import it.polimi.ingsw.model.exceptions.MatchEndedException;
+import it.polimi.ingsw.model.match.SingleMatch;
+
+public class BlueToken extends Token{
+    @Override
+    public boolean onDraw(SingleMatch match) throws MatchEndedException {
+
+        return match.getSingleCardGrid().discard(CardColor.BLUE);
+
+    }
 }

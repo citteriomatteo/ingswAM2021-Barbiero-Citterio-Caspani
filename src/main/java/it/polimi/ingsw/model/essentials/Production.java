@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.essentials;
 
+import it.polimi.ingsw.model.exceptions.FaithPathCreationException;
 import it.polimi.ingsw.model.exceptions.InvalidAddFaithException;
+import it.polimi.ingsw.model.exceptions.MatchEndedException;
 import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.Adder;
 import it.polimi.ingsw.model.match.player.Verificator;
@@ -46,7 +48,7 @@ public class Production {
     }
 
     //Adds the earnings without paying the costs, they have to be paid before anywhere else
-    public boolean produce(Adder adder) throws InvalidAddFaithException {
+    public boolean produce(Adder adder) throws InvalidAddFaithException, FaithPathCreationException, MatchEndedException {
         for (Resource resource : earnings){
             resource.add(adder);
         }

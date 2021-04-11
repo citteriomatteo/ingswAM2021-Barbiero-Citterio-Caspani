@@ -1,9 +1,13 @@
 package it.polimi.ingsw.model.essentials;
 
-import it.polimi.ingsw.model.exceptions.InvalidAddFaithException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
+import it.polimi.ingsw.model.exceptions.*;
+
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
+import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.player.Adder;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.Verificator;
@@ -12,7 +16,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PhysicalResourceTest {
-    private Player player = new Player();
+    private Player player = new Player("player1",null);
+
+    public PhysicalResourceTest() throws NegativeQuantityException {
+    }
+
     @Test
     public void testCreate() {
         Random gen = new Random();
@@ -43,10 +51,34 @@ public class PhysicalResourceTest {
     }
 
     @Test
-    public void testVerify() throws NegativeQuantityException {
+    public void testVerify() throws NegativeQuantityException, FileNotFoundException, WrongSettingException, InvalidOperationException, ShelfInsertException {
+        List<Player> players = new ArrayList<>();
+        Player player = new Player("player1",null);
+        players.add(player);
+        Match match = new Match(players);
+        player.setMatch(match);
         PhysicalResource resource1 = new PhysicalResource(ResType.COIN,1);
+        PhysicalResource resource2 = new PhysicalResource(ResType.STONE,2);
+        PhysicalResource resource3 = new PhysicalResource(ResType.SERVANT,1);
+        PhysicalResource resource4 = new PhysicalResource(ResType.STONE,4);
+        PhysicalResource resource5 = new PhysicalResource(ResType.STONE,3);
+
+        assertFalse(resource1.verify(player));
+
+        player.addToStrongBox(resource1);
 
         assertTrue(resource1.verify(player));
+
+        player.addToWarehouse(resource2);
+        player.getPersonalBoard().getWarehouse().moveInShelf(resource2,2);
+
+        assertTrue(resource2.verify(player));
+        assertFalse(resource3.verify(player));
+        assertFalse(resource4.verify(player));
+
+        player.addToStrongBox(resource5);
+
+        assertTrue(resource4.verify(player));
     }
 
 

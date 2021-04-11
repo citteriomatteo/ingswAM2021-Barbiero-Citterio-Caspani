@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.essentials;
 import static org.junit.jupiter.api.Assertions.*;
 
 import it.polimi.ingsw.model.exceptions.InvalidAddFaithException;
+import it.polimi.ingsw.model.exceptions.MatchEndedException;
 import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.Player;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +19,7 @@ Test for Production class
 public class ProductionTest {
 
     private Production production;
+    private Player player;
 
     //test the constructor with random cost and earnings
     @Test
@@ -45,13 +47,13 @@ public class ProductionTest {
     }
 
     @Test
-    public void produceTest() throws NegativeQuantityException, InvalidAddFaithException {
+    public void produceTest() throws NegativeQuantityException, InvalidAddFaithException, MatchEndedException {
         List<PhysicalResource> cost = new ArrayList<>();
         List<Resource> earnings = new ArrayList<>();
         earnings.add(new PhysicalResource(ResType.SHIELD, 1));
         Production prod = new Production(cost, earnings);
 
-        assertTrue(prod.produce(new Player()), "produce returned false");
+        assertTrue(prod.produce(new Player("player1", null)), "produce returned false");
 
 
         //TODO finish produceTest after implementing add methods
@@ -63,11 +65,16 @@ public class ProductionTest {
         List<Resource> earnings = new ArrayList<>();
         cost.add(new PhysicalResource(ResType.SHIELD, 1));
         Production prod = new Production(cost, earnings);
+        player = new Player("player1", null);
 
-        assertTrue(prod.isPlayable(new Player()), "isPlayable returned false");
+        assertFalse(prod.isPlayable(player),"isPlayable returned true");
+
+        player.addToStrongBox(new PhysicalResource(ResType.SHIELD,1));
+
+        assertTrue(prod.isPlayable(player), "isPlayable returned false");
 
 
-        //TODO finish isPlayableTest after implementing verify methods
+
     }
 }
 

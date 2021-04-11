@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.match.market;
 
 import it.polimi.ingsw.model.exceptions.InvalidQuantityException;
+import it.polimi.ingsw.model.exceptions.MatchEndedException;
 import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.Adder;
 import java.util.ArrayList;
@@ -62,7 +63,7 @@ public class Market {
         return this.slide;
     }
 
-    public int selectRow(int numRow, Adder adder) throws NegativeQuantityException, InvalidQuantityException {
+    public int selectRow(int numRow, Adder adder) throws NegativeQuantityException, InvalidQuantityException, MatchEndedException {
         int countWhite = 0;
 
         if(numRow < 0 || numRow > 3)
@@ -78,7 +79,7 @@ public class Market {
         return countWhite;
     }
 
-    public int selectColumn(int numColumn, Adder adder) throws NegativeQuantityException, InvalidQuantityException {
+    public int selectColumn(int numColumn, Adder adder) throws NegativeQuantityException, InvalidQuantityException, MatchEndedException {
         int countWhite = 0;
 
         if(numColumn < 0 || numColumn > 4)

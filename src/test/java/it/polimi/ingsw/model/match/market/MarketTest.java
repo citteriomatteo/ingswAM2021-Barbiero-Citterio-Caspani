@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.match.market;
 
 import it.polimi.ingsw.model.exceptions.InvalidQuantityException;
+import it.polimi.ingsw.model.exceptions.MatchEndedException;
 import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.Adder;
 import it.polimi.ingsw.model.match.player.Player;
@@ -64,9 +65,9 @@ public class MarketTest {
     }
 
     @Test
-    public void testSelectRow() throws NegativeQuantityException, InvalidQuantityException {
+    public void testSelectRow() throws NegativeQuantityException, InvalidQuantityException, MatchEndedException {
         Random gen = new Random();
-        Adder player = new Player();
+        Adder player = new Player("player1",null);
         int numRow = gen.nextInt(3);
         int countWhite = 0;
 
@@ -94,9 +95,9 @@ public class MarketTest {
     }
 
     @Test
-    public void testSelectColumn() throws NegativeQuantityException, InvalidQuantityException {
+    public void testSelectColumn() throws NegativeQuantityException, InvalidQuantityException, MatchEndedException {
         Random gen = new Random();
-        Adder player = new Player();
+        Adder player = new Player("player1",null);
         int numColumn = gen.nextInt(3);
         int countWhite = 0;
 
