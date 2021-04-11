@@ -1,0 +1,23 @@
+{
+  "requirements": [
+    {
+      "requirement": "physicalResource",
+      "type": "SHIELD",
+      "quantity": 2
+    },
+    {
+      "requirement": "cardType",
+      "color": "GREEN",
+      "level": 1,
+      "quantity": 2
+    }
+  ],
+  "winPoints": 5,
+  "effect": {
+    "name": "slotEffect",
+    "extraShelf": {
+      "type": "SHIELD",
+      "quantity": 2
+    }
+  }
+}

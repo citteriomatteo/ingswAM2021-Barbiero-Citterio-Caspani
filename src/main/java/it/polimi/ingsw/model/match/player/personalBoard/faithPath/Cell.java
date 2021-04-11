@@ -5,14 +5,14 @@ import it.polimi.ingsw.model.match.Comunicator;
 
 public class Cell
 {
-    private int winpoints;
+    private int winPoints;
     private int vaticanReportSection;
 
-    public Cell(int winpoints, int vaticanReportSection) throws FaithPathCreationException
+    public Cell(int winPoints, int vaticanReportSection) throws FaithPathCreationException
     {
-        if(winpoints<0)
-            throw new FaithPathCreationException("Error in faith path creation: negative winpoints on a Cell.");
-        this.winpoints = winpoints;
+        if(winPoints <0)
+            throw new FaithPathCreationException("Error in faith path creation: negative winPoints on a Cell.");
+        this.winPoints = winPoints;
         this.vaticanReportSection = vaticanReportSection;
     }
 
@@ -22,6 +22,6 @@ public class Cell
 
     public int getReportSection() { return vaticanReportSection; }
 
-    public int getWinPoints() {return winpoints;}
+    public int getWinPoints() {return winPoints;}
 
 }
