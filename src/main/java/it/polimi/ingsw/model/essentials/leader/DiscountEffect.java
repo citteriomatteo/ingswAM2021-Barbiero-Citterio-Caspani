@@ -14,7 +14,8 @@ public class DiscountEffect implements Effect{
     }
 
     @Override
-    public boolean activate(Effecter effecter) {
+    public boolean activate(Effecter effecter)
+    {
         effecter.setDiscount(discount);
         return false;
     }

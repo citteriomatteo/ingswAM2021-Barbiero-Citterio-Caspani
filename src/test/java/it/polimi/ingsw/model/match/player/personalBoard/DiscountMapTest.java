@@ -6,23 +6,25 @@ import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class DiscountMapTest {
+public class DiscountMapTest
+{
     private final DiscountMap discountMap = new DiscountMap();
 
-    public DiscountMapTest() {
-    }
-
     @Test
-    public void testSetDiscount() throws NegativeQuantityException {
+    public void testSetDiscount() throws NegativeQuantityException
+    {
         PhysicalResource resource = new PhysicalResource(ResType.COIN, 1);
         this.discountMap.setDiscount(resource);
-        Assertions.assertFalse(this.discountMap.getDiscountMap().isEmpty());
-        Assertions.assertFalse(this.discountMap.getDiscountMap().containsKey(ResType.SERVANT));
-        Assertions.assertTrue(this.discountMap.getDiscountMap().containsKey(ResType.COIN) && this.discountMap.getDiscountMap().get(ResType.COIN) == 1);
+        //Assertions.assertFalse(this.discountMap.getDiscountMap().isEmpty());
+        Assertions.assertEquals(1, this.discountMap.getDiscountMap().get(ResType.COIN));
+        Assertions.assertEquals(0, this.discountMap.getDiscountMap().get(ResType.SERVANT));
+        this.discountMap.setDiscount(resource);
+        Assertions.assertTrue(this.discountMap.getDiscountMap().containsKey(ResType.COIN) && this.discountMap.getDiscountMap().get(ResType.COIN) == 2);
     }
 
     @Test
-    public void testApplyDiscount() throws NegativeQuantityException {
+    public void testApplyDiscount() throws NegativeQuantityException
+    {
         PhysicalResource resource = new PhysicalResource(ResType.COIN, 2);
         PhysicalResource resource1 = new PhysicalResource(ResType.COIN, 3);
         PhysicalResource resource2 = new PhysicalResource(ResType.STONE, 1);

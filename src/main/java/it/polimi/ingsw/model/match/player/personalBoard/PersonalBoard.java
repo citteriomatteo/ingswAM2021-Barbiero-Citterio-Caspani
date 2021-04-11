@@ -13,13 +13,11 @@ import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 
 import java.util.*;
 
-public class PersonalBoard
+public class PersonalBoard implements Effecter
 {
-    private List<LeaderCard> activeLeaders;
-    private List<LeaderCard> activeProductionLeaders;
+    private List<LeaderCard> activeLeaders, activeProductionLeaders;
     private List<PhysicalResource> whiteMarbleConversions;
     private Production basicProduction;
-
     private Warehouse warehouse;
     private StrongBox strongBox;
     private FaithPath faithPath;
@@ -43,7 +41,7 @@ public class PersonalBoard
     Inserts the new leader into the activeLeaders list and,
     if it's a production one, also in the activeProductionLeaders list.
      */
-    public boolean addActiveLeader(LeaderCard newleader, boolean hasProduction)
+    public boolean addActiveLeader(LeaderCard newleader, boolean hasProduction) throws NegativeQuantityException
     {
         activeLeaders.add(newleader);
         if(hasProduction)
@@ -55,27 +53,22 @@ public class PersonalBoard
     This method evolves the warehouse onto a new ExtraShelf version.
     The new shelf define procedure is made by the ExtraShelfWarehouse constructor.
      */
-    public boolean warehouseEvolution(PhysicalResource res) throws NegativeQuantityException
+    public boolean warehouseEvolution(PhysicalResource extraShelf) throws NegativeQuantityException
     {
-        Warehouse newWh = new ExtraShelfWarehouse(getWarehouse(), res);
+        Warehouse newWh = new ExtraShelfWarehouse(getWarehouse(), extraShelf);
         warehouse = newWh;
         return true;
     }
 
-
-    public boolean addNewConversion(PhysicalResource res)
-    {
-        return getWhiteMarbleConversions().add(res);
-    }
+    public boolean addNewConversion(PhysicalResource conversion) { return getWhiteMarbleConversions().add(conversion); }
 
     //Inserts a new discount (the Resource defines it) in the discountMap.
-    public boolean setDiscount(PhysicalResource res)
+    public boolean setDiscount(PhysicalResource discount)
     {
-        return discountMap.setDiscount(res);
+        return discountMap.setDiscount(discount);
     }
 
     //ALL GETTERS:
-
     public List<LeaderCard> getActiveLeaders() { return activeLeaders; }
     public List<LeaderCard> getActiveProductionLeaders() { return activeProductionLeaders; }
     public List<PhysicalResource> getWhiteMarbleConversions() { return whiteMarbleConversions; }
@@ -85,6 +78,4 @@ public class PersonalBoard
     public FaithPath getFaithPath() { return faithPath; }
     public Map<ResType, Integer> getDiscountMap() { return discountMap.getDiscountMap(); }
     public DevCardSlots getDevCardSlots() { return devCardSlots; }
-
-
 }

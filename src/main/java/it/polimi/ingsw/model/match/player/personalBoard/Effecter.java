@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.match.player.personalBoard;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.leader.LeaderCard;
+import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 
 // Effecter interface is used to limit controller's access into the personal board.
 public interface Effecter
@@ -10,7 +11,7 @@ public interface Effecter
     This method removes the activated leader from handLeader list and adds it to the activeLeaders list.
     Eventually adds it to the ProductionActiveLeader list, if it has a production effect.
      */
-    boolean addActiveLeader(LeaderCard lc, boolean hasProduction);
+    boolean addActiveLeader(LeaderCard lc, boolean hasProduction) throws NegativeQuantityException;
 
     /*
     This method evolves the warehouse structure (updating the new shelves),
@@ -19,7 +20,7 @@ public interface Effecter
                    -> new ExtraShelfWarehouse(...) (that points to the Concrete)
                     -> new ExtraShelfWarehouse(...) (that points to the first ExtraShelf).
      */
-    boolean warehouseEvolution(PhysicalResource extraShelf);
+    boolean warehouseEvolution(PhysicalResource extraShelf) throws NegativeQuantityException;
 
     //This method adds a new white-marble conversion to the WhiteMarbleConversions list.
     boolean addNewConversion(PhysicalResource conversion);

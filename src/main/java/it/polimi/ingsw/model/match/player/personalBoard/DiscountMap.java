@@ -12,14 +12,17 @@ public class DiscountMap {
     public DiscountMap()
     {
         discountMap = new HashMap<>();
+        for(ResType type: ResType.values())
+            discountMap.put(type, 0);
     }
 
     public Map<ResType, Integer> getDiscountMap() {
         return this.discountMap;
     }
 
-    public boolean setDiscount(PhysicalResource resource) {
-        this.discountMap.put(resource.getType(), resource.getQuantity());
+    public boolean setDiscount(PhysicalResource resource)
+    {
+        discountMap.replace(resource.getType(), (discountMap.get(resource.getType()) + resource.getQuantity()));
         return true;
     }
 
