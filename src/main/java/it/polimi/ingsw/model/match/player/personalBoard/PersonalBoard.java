@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.essentials.leader.LeaderCard;
 import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.FaithPath;
+import it.polimi.ingsw.model.match.player.personalBoard.faithPath.MultiFaithPath;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.SingleFaithPath;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.ConcreteWarehouse;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.ExtraShelfWarehouse;
@@ -16,14 +17,15 @@ import java.util.*;
 
 public class PersonalBoard implements Effecter
 {
-    private List<LeaderCard> activeLeaders, activeProductionLeaders;
-    private List<PhysicalResource> whiteMarbleConversions;
-    private Production basicProduction;
+    private final List<LeaderCard> activeLeaders;
+    private final List<LeaderCard> activeProductionLeaders;
+    private final List<PhysicalResource> whiteMarbleConversions;
+    private final Production basicProduction;
     private Warehouse warehouse;
-    private StrongBox strongBox;
-    private FaithPath faithPath;
-    private DiscountMap discountMap;
-    private DevCardSlots devCardSlots;
+    private final StrongBox strongBox;
+    private final FaithPath faithPath;
+    private final DiscountMap discountMap;
+    private final DevCardSlots devCardSlots;
 
     public PersonalBoard(ArrayList<Cell> path, int startingPos, Production basicProduction) throws NegativeQuantityException
     {
@@ -33,7 +35,7 @@ public class PersonalBoard implements Effecter
         this.basicProduction = basicProduction;
         warehouse = new ConcreteWarehouse();
         strongBox = new StrongBox();
-        faithPath = new FaithPath(path, startingPos);
+        faithPath = new MultiFaithPath(path, startingPos);
         discountMap = new DiscountMap();
         devCardSlots = new DevCardSlots();
     }
@@ -57,11 +59,11 @@ public class PersonalBoard implements Effecter
         Inserts the new leader into the activeLeaders list and,
         if it's a production one, also in the activeProductionLeaders list.
          */
-    public boolean addActiveLeader(LeaderCard newleader, boolean hasProduction) throws NegativeQuantityException
+    public boolean addActiveLeader(LeaderCard newLeader, boolean hasProduction) throws NegativeQuantityException
     {
-        activeLeaders.add(newleader);
+        activeLeaders.add(newLeader);
         if(hasProduction)
-            activeProductionLeaders.add(activeLeaders.get(activeLeaders.indexOf(newleader)));
+            activeProductionLeaders.add(activeLeaders.get(activeLeaders.indexOf(newLeader)));
         return true;
     }
 
@@ -71,8 +73,7 @@ public class PersonalBoard implements Effecter
      */
     public boolean warehouseEvolution(PhysicalResource extraShelf) throws NegativeQuantityException
     {
-        Warehouse newWh = new ExtraShelfWarehouse(getWarehouse(), extraShelf);
-        warehouse = newWh;
+        warehouse = new ExtraShelfWarehouse(getWarehouse(), extraShelf);
         return true;
     }
 
