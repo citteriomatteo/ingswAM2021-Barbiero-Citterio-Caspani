@@ -7,13 +7,15 @@ import it.polimi.ingsw.model.essentials.leader.*;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.VaticanReportCell;
 
-/*
- Class that expose static methods used for better build the GsonBuilder,
- to create the Gson object just call on the returned object .create()
+/**
+ * Class that expose static methods used for better build the GsonBuilder,
+ * to create the Gson object just call on the returned object .create()
  */
 public class GsonHandler {
-
-    // Returns a gson builder ready to parse an object that implements Resource Interface
+    /**
+     * @param builder a generic GsonBuilder
+     * @return a gson builder ready to parse an object that implements Resource Interface
+     */
     public static GsonBuilder resourceConfig(GsonBuilder builder){
 
         return builder.registerTypeAdapterFactory(RuntimeTypeAdapterFactory
@@ -22,7 +24,11 @@ public class GsonHandler {
                 .registerSubtype(FaithPoint.class, "faithPoint"));
     }
 
-    // Returns a gson builder ready to parse an object that is a Cell
+
+    /**
+     * @param builder a generic GsonBuilder
+     * @return a gson builder ready to parse an object that could be a Cell or a subclass
+     */
     public static GsonBuilder cellConfig(GsonBuilder builder){
 
         return builder.registerTypeAdapterFactory(RuntimeTypeAdapterFactory
@@ -32,7 +38,10 @@ public class GsonHandler {
     }
 
 
-    // Returns a gson builder ready to parse an object that implements Effect Interface
+    /**
+     * @param builder a generic GsonBuilder
+     * @return a gson builder ready to parse an object that implements Effect Interface
+     */
     public static GsonBuilder effectConfig(GsonBuilder builder){
 
         return builder.registerTypeAdapterFactory(RuntimeTypeAdapterFactory
@@ -44,6 +53,11 @@ public class GsonHandler {
     }
 
     // Returns a gson builder ready to parse an object that implements Requirable Interface
+
+    /**
+     * @param builder a generic GsonBuilder
+     * @return a gson builder ready to parse an object that implements Requirable Interface
+     */
     public static GsonBuilder requirableConfig(GsonBuilder builder){
 
         return builder.registerTypeAdapterFactory(RuntimeTypeAdapterFactory

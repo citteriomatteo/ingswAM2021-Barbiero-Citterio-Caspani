@@ -4,15 +4,25 @@ import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.match.player.personalBoard.Effecter;
 
 import java.util.Objects;
-
+/**
+ * Auxiliary class used for implementing Strategy pattern for the LeaderCard effect : Discount
+ */
 public class DiscountEffect implements Effect{
-    //The 'discount' variable set in 'quantity' the entity of the discount on a resource of the relative type
     private final PhysicalResource discount;
 
+    /**
+     * Simple constructor
+     * @param discount set in 'quantity' the entity of the discount on a resource of the relative type
+     */
     public DiscountEffect(PhysicalResource discount) {
         this.discount = discount;
     }
 
+    /**
+     * Sets the relative discount in the discount map
+     * @param effecter the PersonalBoard owned by the player who wants to activate the LeaderCard effect
+     * @return false
+     */
     @Override
     public boolean activate(Effecter effecter)
     {

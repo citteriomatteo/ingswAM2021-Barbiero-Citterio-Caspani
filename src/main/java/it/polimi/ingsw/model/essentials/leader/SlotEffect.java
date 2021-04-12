@@ -5,15 +5,25 @@ import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.personalBoard.Effecter;
 
 import java.util.Objects;
-
+/**
+ * Auxiliary class used for implementing Strategy pattern for the LeaderCard effect: Extra Slot
+ */
 public class SlotEffect implements Effect{
-    // The 'extraShelf' variable set in 'quantity' the size of the new shelf that contains only resource of the relative type
     private final PhysicalResource extraShelf;
 
+    /**
+     * Simple constructor
+     * @param extraShelf set in 'quantity' the size of the new shelf that contains only resource of the relative type
+     */
     public SlotEffect(PhysicalResource extraShelf) {
         this.extraShelf = extraShelf;
     }
 
+    /**
+     * Evolves the warehouse adding the extra slot
+     * @param effecter the PersonalBoard owned by the player who wants to activate the LeaderCard effect
+     * @return false
+     */
     @Override
     public boolean activate(Effecter effecter)
     {

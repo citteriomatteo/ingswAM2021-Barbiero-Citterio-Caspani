@@ -9,10 +9,12 @@ import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+/**
+@deprecated Leave this class only for reference
 
-@Deprecated //Leave this class only for reference
 
-//this class is used to tell the gsonBuilder how to deserialize a DevelopmentCard object
+  This class is used to tell the gsonBuilder how to deserialize a DevelopmentCard object
+ */
 public class DevelopmentCardDeserializer implements JsonDeserializer<DevelopmentCard>
 {
     //the JsonElement is a parsed json string that you can navigate
