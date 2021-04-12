@@ -10,95 +10,66 @@ import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.VaticanReportCell;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
-public class Player implements Adder, Verificator {
-    private String nickname;
+public class Player implements Adder, Verificator
+{
+    private final String nickname;
     private boolean connected;
     private Match match;
     private List<LeaderCard> handLeaders;
     private PersonalBoard personalBoard;
+    private Production tempProduction;
 
-    public Player(String nickname, List<LeaderCard> handLeaders) throws NegativeQuantityException {
+    public Player(String nickname)
+    {
         this.nickname = nickname;
-        this.connected = true;
-        this.handLeaders = handLeaders;
-        ArrayList<Cell> path = new ArrayList<>();
-        List<Integer> wp = Arrays.asList(0,0,0,1,0,0,2,0,0,4,0,0,6,0,0,9,0,0,12,0,0,16,0,0,20);
-        List<Integer> vrs = Arrays.asList(0,0,0,0,0,1,1,1,1,0,0,0,2,2,2,2,2,0,0,3,3,3,3,3,3);
-        for(int i=0; i<25; i++) {
-            if (i == 8 || i == 16 || i == 24)
-                path.add(new VaticanReportCell(wp.get(i), vrs.get(i)));
-            else
-                path.add(new Cell(wp.get(i), vrs.get(i)));
-        }
-
-        ArrayList<PhysicalResource> costs = new ArrayList<>();
-        costs.add(new PhysicalResource(ResType.UNKNOWN,2));
-        ArrayList<Resource> earnings = new ArrayList<>();
-        earnings.add(new PhysicalResource(ResType.UNKNOWN,1));
-        Production production = new Production(costs,earnings);
-        personalBoard = new PersonalBoard(path,0,production);
-
+        connected = true;
     }
 
-    //this constructor implements the SingleFaithPath
-    public Player(String nickname) throws NegativeQuantityException{
-        this.nickname = nickname;
-        this.connected = true;
-        this.handLeaders = null;
-        ArrayList<Cell> path = new ArrayList<>();
-        List<Integer> wp = Arrays.asList(0,0,0,1,0,0,2,0,0,4,0,0,6,0,0,9,0,0,12,0,0,16,0,0,20);
-        List<Integer> vrs = Arrays.asList(0,0,0,0,0,1,1,1,1,0,0,0,2,2,2,2,2,0,0,3,3,3,3,3,3);
-        for(int i=0; i<25; i++) {
-            if (i == 8 || i == 16 || i == 24)
-                path.add(new VaticanReportCell(wp.get(i), vrs.get(i)));
-            else
-                path.add(new Cell(wp.get(i), vrs.get(i)));
+    //ALL SETTERS:
+    public boolean setHandLeaders(ArrayList<LeaderCard> handLeaders)
+    {
+        if(this.handLeaders == null)
+        {
+            this.handLeaders = handLeaders;
+            return true;
         }
-
-        ArrayList<PhysicalResource> costs = new ArrayList<>();
-        costs.add(new PhysicalResource(ResType.UNKNOWN,2));
-        ArrayList<Resource> earnings = new ArrayList<>();
-        earnings.add(new PhysicalResource(ResType.UNKNOWN,1));
-        Production production = new Production(costs,earnings);
-        personalBoard = new PersonalBoard(path,production);
-
+        return false;
     }
 
-
-    public void setMatch(Match match) {
-        if(this.match == null)
+    public boolean setMatch(Match match) throws NegativeQuantityException
+    {
+        if (this.match == null)
+        {
             this.match = match;
-        else
-            return;
+            return true;
+        }
+        return false;
     }
 
-    public String getNickname() {
-        return nickname;
+    public boolean setPersonalBoard(PersonalBoard personalBoard) {
+        if (match != null) {
+            this.personalBoard = personalBoard;
+            return true;
+        }
+        return false;
     }
 
-    public boolean isConnected() {
-        return connected;
-    }
+    //ALL GETTERS:
+    public Match getMatch() { return match; }
+    public String getNickname() { return nickname; }
+    public boolean isConnected() { return connected; }
+    public List<LeaderCard> getHandLeaders() { return handLeaders; }
+    public PersonalBoard getPersonalBoard() { return personalBoard; }
+    public List<PhysicalResource> getWhiteMarbleConversions() { return getPersonalBoard().getWhiteMarbleConversions(); }
 
-    public Match getMatch() {
-        return match;
-    }
 
-    public List<LeaderCard> getHandLeaders() {
-        return handLeaders;
-    }
-
-    public PersonalBoard getPersonalBoard() {
-        return personalBoard;
-    }
-
+    //"ADDER" INTERFACE METHODS:
     @Override
-    public boolean addFaithPoints(int quantity) throws FaithPathCreationException, MatchEndedException {
-        return personalBoard.getFaithPath().addFaithPoints(quantity,match);
+    public boolean addFaithPoints(int quantity) throws FaithPathCreationException, MatchEndedException
+    {
+        return personalBoard.getFaithPath().addFaithPoints(quantity, match);
     }
 
     @Override
@@ -111,6 +82,7 @@ public class Player implements Adder, Verificator {
         return personalBoard.getWarehouse().marketDraw(resource);
     }
 
+    //"VERIFICATOR" INTERFACE METHODS:
     @Override
     public boolean verifyResources(PhysicalResource physicalResource) {
         int numInWarehouse;
@@ -118,13 +90,13 @@ public class Player implements Adder, Verificator {
         numInWarehouse = personalBoard.getWarehouse().getNumberOf(physicalResource.getType());
         numInStrongbox = personalBoard.getStrongBox().getNumberOf(physicalResource.getType());
 
-        if( numInWarehouse >= physicalResource.getQuantity())
+        if (numInWarehouse >= physicalResource.getQuantity())
             return true;
 
         else if (numInStrongbox >= physicalResource.getQuantity())
-                return true;
+            return true;
 
-        else if(numInStrongbox + numInWarehouse >= physicalResource.getQuantity())
+        else if (numInStrongbox + numInWarehouse >= physicalResource.getQuantity())
             return true;
 
         else
@@ -136,5 +108,75 @@ public class Player implements Adder, Verificator {
         return personalBoard.getDevCardSlots().isSatisfied(card);
     }
 
+    @Override
+    public boolean verifyPlaceability(int cardLevel)
+    {
+        return personalBoard.getDevCardSlots().isPlaceable(cardLevel);
+    }
+
+    //OTHER METHODS:
+    public boolean connect() {connected=true; return true;}
+    public boolean disconnect() {connected=false; return true;}
+
+    public boolean leadersChoice(ArrayList<LeaderCard> choseLeaders)
+    {
+        //TODO
+        return true;
+    }
+
+    public boolean activateLeader(LeaderCard leader)
+    {
+        //TODO
+        return true;
+    }
+
+    public boolean discardUselessLeader(LeaderCard leader)
+    {
+        //TODO
+        return true;
+    }
+
+    //this method does a market action and returns the number of white marbles.
+    public int marketDeal(boolean row, int number)
+    {
+        //TODO
+        return 0;
+    }
+
+    public boolean takeDevelopmentCard(int gridR, int gridC, int slot)
+    {
+        //TODO
+        return true;
+    }
+
+    public boolean isProducible(Production production)
+    {
+        //TODO
+        return true;
+    }
+
+    public boolean payFromWarehouse(int shelf, PhysicalResource res)
+    {
+        //TODO
+        return true;
+    }
+
+    public boolean payFromStrongbox(PhysicalResource res)
+    {
+        //TODO
+        return true;
+    }
+
+    public boolean produce()
+    {
+        //TODO
+        return true;
+    }
+
+    public int totalWinPoints()
+    {
+        //TODO
+        return 0;
+    }
 
 }

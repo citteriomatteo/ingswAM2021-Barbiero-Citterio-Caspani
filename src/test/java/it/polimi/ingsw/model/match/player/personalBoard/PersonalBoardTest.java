@@ -46,7 +46,6 @@ public class PersonalBoardTest extends FaithPathTest
         l7.activate(personalBoard);
         l8.activate(personalBoard);
 
-
         //"correct leaders disposition" test:
         assertEquals(Arrays.asList(l1,l2,l3,l4,l5,l6,l7,l8), personalBoard.getActiveLeaders());
         assertEquals(Arrays.asList(l1,l2,l5), personalBoard.getActiveProductionLeaders());
@@ -55,11 +54,6 @@ public class PersonalBoardTest extends FaithPathTest
         assertEquals(4, personalBoard.getWarehouse().getWarehouseDisposition().size());
         assertEquals(2, personalBoard.getWhiteMarbleConversions().size());
         assertEquals(2, personalBoard.getDiscountMap().get(ResType.STONE));
-
-
-
-
-
     }
 
 }

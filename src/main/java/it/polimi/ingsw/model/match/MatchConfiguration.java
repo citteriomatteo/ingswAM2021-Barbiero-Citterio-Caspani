@@ -7,7 +7,8 @@ import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 
 import java.util.List;
 
-public class MatchConfiguration {
+public class MatchConfiguration
+{
     private List<DevelopmentCard> allDevCards;
     private List<LeaderCard> allLeaderCards;
     private List<Cell> customPath;

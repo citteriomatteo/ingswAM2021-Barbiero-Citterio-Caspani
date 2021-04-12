@@ -6,24 +6,39 @@ import it.polimi.ingsw.model.match.player.Player;
 
 public class VaticanReportCell extends Cell
 {
-    public VaticanReportCell(int winpoints, int vaticanReportSection) throws FaithPathCreationException
+    /**
+     * This constructor calls the super-class method.
+     * @param winPoints            defines the winpoints of the cell
+     * @param vaticanReportSection defines the number of the report section the Cell is in.
+     * @throws FaithPathCreationException (propagated)
+     */
+    public VaticanReportCell(int winPoints, int vaticanReportSection) throws FaithPathCreationException
     {
-        super(winpoints, vaticanReportSection);
+        super(winPoints, vaticanReportSection);
     }
 
+    /**
+     * This method, when called, causes an externalVaticanReport() invocation on every player's multiFaithPath.
+     * @param comunicator is the interface responsible of the available functions to call
+     * @return true
+     */
     //TODO
     @Override
     public boolean vaticanReport(Comunicator comunicator)
     {
-        /*
         for(Player p : comunicator.getPlayers())
-            p.getPersonalBoard().getFaithPath().externalVaticanReport(getReportSection());
-         */
-
+        {
+            MultiFaithPath path = (MultiFaithPath) p.getPersonalBoard().getFaithPath();
+            path.externalVaticanReport(getReportSection());
+        }
         return true;
     }
 
+    /**
+     * This method specifies, in a Singleplayer match, that this Cell is a VaticanReportCell.
+     * @return            true
+     * @see Cell
+     */
     @Override
     public boolean singleVaticanReport() {return true;}
-
 }

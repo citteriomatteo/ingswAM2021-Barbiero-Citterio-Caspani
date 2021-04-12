@@ -8,10 +8,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class FaithPathTest
 {
-    //Generates 25-steps path, same report sections as the default path, but with random winpoints.
+    //Generates 25-steps path, same report sections as the default path.
     public ArrayList<Cell> generatePath() throws FaithPathCreationException
     {
-        Random rnd = new Random();
         ArrayList<Cell> path = new ArrayList<>();
         List<Integer> wp = Arrays.asList(0,0,0,1,0,0,2,0,0,4,0,0,6,0,0,9,0,0,12,0,0,16,0,0,20);
         List<Integer> vrs = Arrays.asList(0,0,0,0,0,1,1,1,1,0,0,0,2,2,2,2,2,0,0,3,3,3,3,3,3);
@@ -28,7 +27,7 @@ public class FaithPathTest
     @Test
     public void getWinPointsTest() throws FaithPathCreationException, MatchEndedException
     {
-        FaithPath path = new FaithPath(generatePath(),0);
+        FaithPath path = new MultiFaithPath(generatePath(),0);
         assertEquals(70, path.getWinPoints());
 
         //null MUST BE SUBSTITUTED WITH A COMUNICATOR WHEN IT'LL BE AVAILABLE!
@@ -43,7 +42,7 @@ public class FaithPathTest
     @Test
     public void CellCollapseTest() throws FaithPathCreationException, MatchEndedException
     {
-        FaithPath path = new FaithPath(generatePath(), 0);
+        FaithPath path = new MultiFaithPath(generatePath(), 0);
         assertTrue(path.getFaithPath().get(8).singleVaticanReport());
         path.addFaithPoints(9, null);
         assertFalse(path.getFaithPath().get(8).singleVaticanReport());

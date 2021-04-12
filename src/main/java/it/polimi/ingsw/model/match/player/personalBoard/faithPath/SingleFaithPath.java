@@ -10,16 +10,29 @@ public class SingleFaithPath extends FaithPath
 {
     private int blackCrossMarker;
 
+    /**
+     * This is the constructor of the Singleplayer FaithPath.
+     * @param faithPath                   is the list of the Cells
+     * @param faithMarker                 is the starting point of the player on the path
+     * @throws FaithPathCreationException (propagated)
+     */
     public SingleFaithPath(ArrayList<Cell>faithPath, int faithMarker) throws FaithPathCreationException
     {
         super(faithPath, faithMarker);
         blackCrossMarker = 0;
     }
 
-    //TESTED
+    /** @return Lorenzo's position on the path */
     public int getBlackPosition() { return blackCrossMarker; }
 
-    //TESTED
+    /**
+     * This method adds "steps" points, one by one. For every cell passed,
+     * it checks for a vatican report: if a report is effectively called, it collapses vaticanReportCell to Cell.
+     * @param points        represents the points that Lorenzo has done
+     * @return              true
+     * @throws MatchEndedException          if Lorenzo ends the path journey
+     * @throws FaithPathCreationException   (propagated)
+     */
     public boolean addBlackPoints(int points) throws MatchEndedException, NegativeQuantityException
     {
         if(points<0)
@@ -32,14 +45,15 @@ public class SingleFaithPath extends FaithPath
                 cellCollapse(blackCrossMarker);
 
             if(blackCrossMarker==24)
-                throw new MatchEndedException("A player reached the end of the path.");
+                throw new MatchEndedException("Lorenzo has reached the end of the path.");
         }
         return true;
     }
 
-    //This method checks, if Lorenzo is in a report cell, how to turn the player's pope tile depending on its position.
-    //Then returns true (for Cell collapse), else returns false.
-    //TESTED
+    /**
+     * This method checks, if Lorenzo is in a report cell, how to turn the player's pope tile depending on its position.
+     * @return  returns true (for Cell collapse), else false.
+     */
     public boolean blackVaticanReport()
     {
         if(getFaithPath().get(blackCrossMarker).singleVaticanReport())

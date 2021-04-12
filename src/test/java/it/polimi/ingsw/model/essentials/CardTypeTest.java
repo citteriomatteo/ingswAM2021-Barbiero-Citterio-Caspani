@@ -4,6 +4,8 @@ import it.polimi.ingsw.model.essentials.leader.LeaderCard;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.player.Player;
+import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
+import it.polimi.ingsw.model.match.player.personalBoard.faithPath.FaithPathTest;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -12,7 +14,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CardTypeTest {
+public class CardTypeTest
+{
     private Player player;
 
     @Test
@@ -36,6 +39,7 @@ public class CardTypeTest {
 
     }
 
+    //TODO
     @Test
     public void testVerify() throws InvalidQuantityException, NegativeQuantityException, FileNotFoundException, WrongSettingException, InvalidAddFaithException, InvalidOperationException {
         CardType cardType = new CardType(CardColor.GREEN,1,1);
@@ -46,11 +50,15 @@ public class CardTypeTest {
                 new Production(new ArrayList<>(List.of(new PhysicalResource(ResType.COIN, 1))),
                         new ArrayList<>(List.of(new FaithPoint(1)))), 1);
 
-        List<LeaderCard> leaders = new ArrayList<>();
+        ArrayList<LeaderCard> leaders = new ArrayList<>();
         List<Player> players = new ArrayList<>();
-        player = new Player("player1", leaders);
+        //HERE
+        player = new Player("player1");
+        player.setHandLeaders(leaders);
+        //player.setPersonalBoard(new PersonalBoard(generatePath(), 0, new BasicPro));
         players.add(player);
-        Match match = new Match(players);
+        //HERE
+        Match match = new Match(players,"");
         player.setMatch(match);
         player.getPersonalBoard().getDevCardSlots().pushNewCard(1,developmentCard);
 

@@ -16,9 +16,12 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
     private PhysicalResource extraShelf;
     private int shelfSize;
 
-    /*
-    to check!! -> receives a PhysicalResource with quantity=shelfSize and puts it into extraShelfWarehouse splitting the quantity
-                    in shelfSize and the PhysicalResource in extraShelf with quantity=0.
+    /**
+     * The constructor receives a PhysicalResource with quantity=shelfSize and puts it into extraShelfWarehouse splitting the quantity
+     * in shelfSize and the PhysicalResource in extraShelf with quantity=0.
+     * @param oldWarehouse is a reference to the last version of the warehouse (Concrete or already ExtraShelf)
+     * @param extraShelf   contains a resource that will define the type and quantity of the extraShelf.
+     * @see ConcreteWarehouse
      */
     public ExtraShelfWarehouse(Warehouse oldWarehouse, PhysicalResource extraShelf) throws NegativeQuantityException
     {
@@ -29,20 +32,38 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
 
     //ALREADY DEFINED METHODS IN THE OLDER VERSIONS OF THE WAREHOUSE:
 
+    /**
+     * @return the marketBuffer
+     * @see ConcreteWarehouse
+     */
     @Override
     public List<PhysicalResource> getBuffer()
     {
         return oldWarehouse.getBuffer();
     }
-
+    /**
+     * @param res is the resource to insert into the marketBuffer, that is on the Concrete version of the warehouse.
+     * @see ConcreteWarehouse
+     */
     @Override
     public boolean marketDraw(PhysicalResource res) throws NegativeQuantityException { return oldWarehouse.marketDraw(res); }
 
+    /**
+     * @return the quantity of resources remained.
+     * @see ConcreteWarehouse
+     */
     @Override
-    public int discardRemains() {
+    public int discardRemains()
+    {
         return oldWarehouse.discardRemains();
     }
 
+    /**
+     * This method counts the requested resource on extraShelf and basic Shelves.
+     * @param type the type to count.
+     * @return     the quantity of the type.
+     * @see ConcreteWarehouse
+     */
     @Override
     public int getNumberOf(ResType type) {
         return (extraShelf.getType().equals(type) ? extraShelf.getQuantity() : 0) + oldWarehouse.getNumberOf(type);
@@ -50,7 +71,15 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
 
     //METHODS TO REDEFINE:
 
-    //Uses getWarehouseDisposition() to check the possibility of the move, then eventually does the job or delegates it. TESTED
+    /**
+     * This method uses getWarehouseDisposition() to check the possibility of the move,
+     * then eventually does the job or delegates it to the lower shelves.
+     * @throws NotEnoughResourcesException to check for resource availability
+     * @param shelf        indicates the chosen shelf
+     * @param numResources stays for the quantity of resources to take
+     * @return             the requested resource
+     * @see ConcreteWarehouse
+     */
     @Override
     public PhysicalResource take(int shelf, int numResources) throws NotEnoughResourcesException, NegativeQuantityException
     {
@@ -69,7 +98,15 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
         return takenres;
     }
 
-    //Redefines the simple moveInShelf and extends it to the new slots. TESTED
+    /**
+     * This method redefines the simple moveInShelf and extends it to the new slots.
+     * It also checks if the resource is of the same type of the leader shelf's one, even when quantity=0.
+     * @throws ShelfInsertException      for invalid "shelf" values or not compatible resources move attempts.
+     * @throws InvalidOperationException when the resource is not present of the market buffer.
+     * @param res                        defines the resource to move
+     * @param shelf                      indicates the chosen shelf
+     * @see ConcreteWarehouse
+     */
     @Override
     public boolean moveInShelf(PhysicalResource res, int shelf) throws ShelfInsertException, NegativeQuantityException, InvalidOperationException
     {
@@ -97,13 +134,22 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
         return true;
     }
 
-    //TESTED (instructions covered)
+    /**
+     * This method delegates the buffer clean operation to the concreteWarehouse.
+     * @param res is the resource to clean
+     * @return    true
+     * @see ConcreteWarehouse
+     */
     @Override
     public boolean cleanMarketBuffer(PhysicalResource res) throws NegativeQuantityException
     {
         return oldWarehouse.cleanMarketBuffer(res);
     }
 
+    /**
+     * @return an HashMap version of the warehouse status, considering the 'decorating' shelves.
+     * @see ConcreteWarehouse
+     */
     @Override
     public Map<ResType, Integer> getWarehouse()
     {
@@ -112,7 +158,9 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
         return requestedMap;
     }
 
-    //TESTED (used in CorrectDisposition.... -> instructions covered)
+    /**
+     * @return an ArrayList representing all the extended warehouse status.
+     */
     @Override
     public List<PhysicalResource> getWarehouseDisposition()
     {
@@ -121,11 +169,16 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
         return list;
     }
 
-    /*
-    This method considers all the problems and dynamics involved
-        in switching resources between extra and basic shelves, then does it.
-
-    TESTED
+    /**
+     * This method considers all the problems and dynamics involved
+     * in switching resources between Extra and Basic shelves (such as type problems,
+     * resources quantity problems), then eventually does the switch.
+     * @throws ShelfInsertException      for switching quantities-related problems and issues between basic-extra/extra-extra types.
+     * @throws InvalidOperationException for errors in parameters values.
+     * @param shelf1                     stays for the first shelf
+     * @param shelf2                     stays for the second shelf
+     * @return                           true
+     * @see ConcreteWarehouse
      */
     @Override
     public boolean switchShelf(int shelf1, int shelf2)
@@ -164,7 +217,12 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
         return true;
     }
 
-    //Returns the size of the specified shelf: calls old warehouse versions if the request has to drill down.
+    /**
+     * This method returns the size of the specified shelf: calls old warehouse versions if the request has to drill down.
+     * @param shelf indicates the chosen shelf
+     * @return      the busy size of the shelf
+     * @see ConcreteWarehouse
+     */
     @Override
     public int getShelfSize(int shelf)
     {

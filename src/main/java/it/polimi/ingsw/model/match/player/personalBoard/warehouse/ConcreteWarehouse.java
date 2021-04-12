@@ -24,29 +24,33 @@ public class ConcreteWarehouse implements Warehouse
         marketBuffer = new ArrayList<>();
     }
 
-    /*
-    "shelf" parameter goes from 1 to 3 for the shelf selection.
-    Returns the PhysicalResource in the chosen quantity, if possible, and removes it from the shelf.
-    TESTED
+    /**
+     * Returns the PhysicalResource in the chosen quantity, if possible, and removes it from the shelf.
+     * @param shelf         the number of the shelf, starting from 1
+     * @param numResources  the amount of resources to take from the specified shelf
+     * @return              the resource taken from the shelf.
      */
     @Override
-    public PhysicalResource take(int shelf, int numresources) throws NotEnoughResourcesException , NegativeQuantityException
+    public PhysicalResource take(int shelf, int numResources) throws NotEnoughResourcesException , NegativeQuantityException
     {
         shelf--;
         int available= shelves.get(shelf).getQuantity();
-        if(numresources > available)
+        if(numResources > available)
             throw new NotEnoughResourcesException("Not enough resources in shelf "+shelf+"!");
-        PhysicalResource newshelf = new PhysicalResource(shelves.get(shelf).getType(), (available-numresources));
+        PhysicalResource newshelf = new PhysicalResource(shelves.get(shelf).getType(), (available-numResources));
         shelves.set(shelf, newshelf);
-        return new PhysicalResource(shelves.get(shelf).getType(), numresources);
+        return new PhysicalResource(shelves.get(shelf).getType(), numResources);
     }
 
 
-    /*
-    Moves in the specified shelf, if there is enough space or an EMPTY (quantity=0) shelf with whatever previous ResType in it.
-    Throws ShelfInsertException for every problem space-or-type related, and InvalidOperationException whenever the received
-        resource is not present in the marketBuffer first.
-    TESTED
+    /**
+     * Moves in the specified shelf, if there is enough space or an EMPTY (quantity=0) shelf with whatever previous ResType in it.
+     * Before moving, checks for "res" presence in the market buffer.
+     * @throws ShelfInsertException for every problem space-or-type related
+     * @throws InvalidOperationException whenever the received resource is not present in the marketBuffer first.
+     * @param res   the resource to try to insert into the shelf (the same resource MUST be present in the market buffer before)
+     * @param shelf the number of the shelf, starting from 1.
+     * @return      true
      */
     @Override
     public boolean moveInShelf(PhysicalResource res, int shelf)
@@ -75,7 +79,11 @@ public class ConcreteWarehouse implements Warehouse
 
     }
 
-    //receives the resource to remove from the marketBuffer, and does it one by one. TESTED
+    /**
+     * Receives the resource to remove from the marketBuffer, and does it one by one.
+     * @param res the resource to remove from the marketBuffer
+     * @return    true
+     */
     public boolean cleanMarketBuffer(PhysicalResource res) throws NegativeQuantityException
     {
         for(int i=res.getQuantity(); i>0; i--)
@@ -83,7 +91,10 @@ public class ConcreteWarehouse implements Warehouse
         return true;
     }
 
-    //Returns the shelves List, converted to a Map.
+    /**
+     * This method returns the shelves List, converted to a Map.
+     * @return an HashMap version of the warehouse status.
+     */
     @Override
     public Map<ResType, Integer> getWarehouse()
     {
@@ -93,7 +104,10 @@ public class ConcreteWarehouse implements Warehouse
         return whMap;
     }
 
-    //returns the perfect disposition of the warehouse. TESTED
+    /**
+     * This method returns the perfect disposition of the warehouse.
+     * @return an ArrayList representing the resources disposition in the warehouse.
+     */
     public List<PhysicalResource> getWarehouseDisposition()
     {
         List<PhysicalResource> list = new ArrayList<>();
@@ -101,10 +115,13 @@ public class ConcreteWarehouse implements Warehouse
         return list;
     }
 
-    /*
-    First of all, there must be enough space for the switch.
-    Then, the method switches the resources.
-    TESTED
+    /**
+     * The method checks for the availability of the space in both resources before switching shelves,
+     * avoiding the Undo procedure, then switches resources between the two shelves.
+     * @throws ShelfInsertException when the switch is impossible due to resources quantities.
+     * @param shelf1 the first shelf
+     * @param shelf2 the second shelf
+     * @return       true
      */
     @Override
     public boolean switchShelf(int shelf1, int shelf2)  throws ShelfInsertException
@@ -121,10 +138,17 @@ public class ConcreteWarehouse implements Warehouse
         return true;
     }
 
+    /**
+     * @return the market buffer.
+     */
     @Override
     public List<PhysicalResource> getBuffer() { return marketBuffer; }
 
-    //Eventually, splits the received resource in a more single quantities and inserts them in the marketBuffer.
+    /**
+     * This method, eventually, splits the received resource in more single quantities and inserts them in the marketBuffer.
+     * @param res the resource to insert in the buffer
+     * @return    true
+     */
     @Override
     public boolean marketDraw(PhysicalResource res) throws NegativeQuantityException
     {
@@ -137,7 +161,10 @@ public class ConcreteWarehouse implements Warehouse
         return true;
     }
 
-    //Clears marketBuffer and returns its previous size.
+    /**
+     * This method clears marketBuffer and returns its previous size, for penalty faith points purposes.
+     * @return the remaining size of the buffer
+     */
     @Override
     public int discardRemains()
     {
@@ -146,7 +173,11 @@ public class ConcreteWarehouse implements Warehouse
         return remainingSize;
     }
 
-    //Returns the quantity of resources of the requested type. TESTED
+    /**
+     * This method returns the quantity of resources of the requested type.
+     * @param  type the type to count.
+     * @return the number of type occurrences.
+     */
     @Override
     public int getNumberOf(ResType type)
     {
@@ -156,6 +187,11 @@ public class ConcreteWarehouse implements Warehouse
         return number;
     }
 
+    /**
+     * This method returns the size of the requested shelf.
+     * @param shelf the shelf to analyze
+     * @return      the shelf size
+     */
     @Override
     public int getShelfSize(int shelf)
     {

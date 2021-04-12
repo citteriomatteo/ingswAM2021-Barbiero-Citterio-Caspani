@@ -9,7 +9,7 @@ public class StrongBox
 {
     private Map<ResType, Integer> resources;
 
-    //Constructor initialize the empty map.
+    /** The constructor initialize the empty map, with all the available Resource types put at 0 quantity. */
     public StrongBox()
     {
         resources = new HashMap<>();
@@ -17,11 +17,13 @@ public class StrongBox
             resources.put(type, 0);
     }
 
+    /** @return the Stronbox map */
     public Map<ResType, Integer> getResources() { return resources; }
 
-    /*
-    This method adds the received resource into the strongbox.
-    Launches an exception if something goes wrong.
+    /**
+     * This method adds the received resource into the strongbox.
+     * @param res is the resource to put
+     * @return    true
      */
     public boolean put(PhysicalResource res)
     {
@@ -29,9 +31,11 @@ public class StrongBox
         return true;
     }
 
-    /*
-    This method takes the resources from the strongbox, if present.
-    Otherwise, the operation throws an exception.
+    /**
+     * This method takes the resources from the strongbox, if present.
+     * @param res indicates the resource to take
+     * @return    the same "res" resource, taken from the strongbox
+     * @throws NotEnoughResourcesException if the chosen resources are not present in the strongbox
      */
     public PhysicalResource take(PhysicalResource res) throws NotEnoughResourcesException
     {
@@ -42,7 +46,11 @@ public class StrongBox
         return res;
     }
 
-    //Returns the quantity of the specified resource.
+    /**
+     * This method returns the quantity of the specified resource.
+     * @param type is the type to search
+     * @return     the HashMap get-end flag
+     */
     public int getNumberOf(ResType type) { return resources.get(type); }
 
 
