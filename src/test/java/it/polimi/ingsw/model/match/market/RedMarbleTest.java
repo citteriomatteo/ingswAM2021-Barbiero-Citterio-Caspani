@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class RedMarbleTest {
-    private Adder player = new Player("player1",null);
+    private Adder player = new Player("player1");
 
     public RedMarbleTest() throws NegativeQuantityException {
     }

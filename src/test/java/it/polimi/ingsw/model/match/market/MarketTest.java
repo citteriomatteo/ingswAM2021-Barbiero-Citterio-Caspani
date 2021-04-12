@@ -67,7 +67,7 @@ public class MarketTest {
     @Test
     public void testSelectRow() throws NegativeQuantityException, InvalidQuantityException, MatchEndedException {
         Random gen = new Random();
-        Adder player = new Player("player1",null);
+        Adder player = new Player("player1");
         int numRow = gen.nextInt(3);
         int countWhite = 0;
 
@@ -97,7 +97,7 @@ public class MarketTest {
     @Test
     public void testSelectColumn() throws NegativeQuantityException, InvalidQuantityException, MatchEndedException {
         Random gen = new Random();
-        Adder player = new Player("player1",null);
+        Adder player = new Player("player1");
         int numColumn = gen.nextInt(3);
         int countWhite = 0;
 

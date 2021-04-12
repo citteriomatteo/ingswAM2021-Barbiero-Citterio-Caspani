@@ -11,7 +11,7 @@ import it.polimi.ingsw.model.match.player.Player;
 import org.junit.jupiter.api.Test;
 
 public class FaithPointTest {
-    private Player player = new Player("player1",null);
+    private Player player = new Player("player1");
 
     public FaithPointTest() throws NegativeQuantityException {
     }

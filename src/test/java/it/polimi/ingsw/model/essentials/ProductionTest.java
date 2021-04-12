@@ -53,7 +53,7 @@ public class ProductionTest {
         earnings.add(new PhysicalResource(ResType.SHIELD, 1));
         Production prod = new Production(cost, earnings);
 
-        assertTrue(prod.produce(new Player("player1", null)), "produce returned false");
+        assertTrue(prod.produce(new Player("player1")), "produce returned false");
 
 
         //TODO finish produceTest after implementing add methods
@@ -65,7 +65,7 @@ public class ProductionTest {
         List<Resource> earnings = new ArrayList<>();
         cost.add(new PhysicalResource(ResType.SHIELD, 1));
         Production prod = new Production(cost, earnings);
-        player = new Player("player1", null);
+        player = new Player("player1");
 
         assertFalse(prod.isPlayable(player),"isPlayable returned true");
 
