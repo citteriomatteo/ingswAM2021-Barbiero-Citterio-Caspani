@@ -19,10 +19,10 @@ import java.util.List;
 
 public class Match implements Comunicator{
     private Player currentPlayer;
-    private List<Player> players;
-    private Market market;
-    private CardGrid cardGrid;
-    private LeaderStack leaderStack;
+    private final List<Player> players;
+    private final Market market;
+    private final CardGrid cardGrid;
+ //   private final LeaderStack leaderStack;
     private int numPlayer = 0;
 
 
@@ -38,7 +38,8 @@ public class Match implements Comunicator{
         this.players = players;
         this.market = new Market();
         this.cardGrid = new CardGrid(extractedJson);
-        this.leaderStack = new LeaderStack();
+        //TODO leader stack need a list of LeaderCards
+       // this.leaderStack = new LeaderStack(null);
     }
 
     public Player getCurrentPlayer() {
@@ -57,10 +58,10 @@ public class Match implements Comunicator{
         return cardGrid;
     }
 
-    public LeaderStack getLeaderStack() {
+ /*   public LeaderStack getLeaderStack() {
         return leaderStack;
     }
-
+*/
     public Player getNextPlayer(){
         if(numPlayer < players.size()-1)
             return players.get(numPlayer+1);

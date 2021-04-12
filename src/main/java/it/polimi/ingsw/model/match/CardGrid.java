@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.exceptions.NoMoreCardsException;
 import it.polimi.ingsw.model.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.player.Verificator;
 
+import java.util.Collections;
 import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Stack;
@@ -40,10 +41,13 @@ public class CardGrid {
                     throw new WrongSettingException("Not enough CardTypes or given in the wrong order");
 
                 topGrid[lv][color.ordinal()] = new Stack<>();
-                while (count < cards.size() && cards.get(count).getType().getColor().equals(color) && cards.get(count).getType().getLevel()==lv+1) {
+                while (count < cards.size() && cards.get(count).getType().getColor().equals(color)
+                        && cards.get(count).getType().getLevel()==lv+1) {
                     topGrid[lv][color.ordinal()].push(cards.get(count));
                     count++;
                 }
+                //After creating all the single stacks, they are shuffled
+                Collections.shuffle(topGrid[lv][color.ordinal()]);
 
             }
         }

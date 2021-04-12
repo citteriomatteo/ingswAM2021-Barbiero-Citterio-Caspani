@@ -17,7 +17,6 @@ import java.util.List;
 
 public class BlueTokenTest {
     private List<Player> players = new ArrayList<>();
-    private LeaderStack leaderStack = new LeaderStack();
     private SingleMatch singleMatch;
     private BlueToken blueToken = new BlueToken();
 
