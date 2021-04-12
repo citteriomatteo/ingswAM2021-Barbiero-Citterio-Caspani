@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PhysicalResourceTest {
-    private Player player = new Player("player1",null);
+    private Player player = new Player("player1");
 
     public PhysicalResourceTest() throws NegativeQuantityException {
     }
@@ -53,9 +53,9 @@ public class PhysicalResourceTest {
     @Test
     public void testVerify() throws NegativeQuantityException, FileNotFoundException, WrongSettingException, InvalidOperationException, ShelfInsertException {
         List<Player> players = new ArrayList<>();
-        Player player = new Player("player1",null);
+        Player player = new Player("player1");
         players.add(player);
-        Match match = new Match(players);
+        Match match = new Match(players,"src/test/resources/Example.json");
         player.setMatch(match);
         PhysicalResource resource1 = new PhysicalResource(ResType.COIN,1);
         PhysicalResource resource2 = new PhysicalResource(ResType.STONE,2);

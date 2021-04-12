@@ -20,8 +20,8 @@ public class GreenTokenTest {
 
     @Test
     public void testOnDraw() throws NegativeQuantityException, FileNotFoundException, WrongSettingException, MatchEndedException {
-        players.add(new Player("player1",null));
-        singleMatch = new SingleMatch(players);
+        players.add(new Player("player1"));
+        singleMatch = new SingleMatch(players,"src/test/resources/Example.json");
         assertTrue(greenToken.onDraw(singleMatch));
 
     }

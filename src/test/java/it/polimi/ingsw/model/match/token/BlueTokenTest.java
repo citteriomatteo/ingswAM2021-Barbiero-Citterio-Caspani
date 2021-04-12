@@ -22,8 +22,8 @@ public class BlueTokenTest {
 
     @Test
     public void testOnDraw() throws NegativeQuantityException, MatchEndedException, FileNotFoundException, WrongSettingException {
-        players.add(new Player("player1",null));
-        singleMatch = new SingleMatch(players);
+        players.add(new Player("player1"));
+        singleMatch = new SingleMatch(players,"src/test/resources/Example.json");
         assertTrue(blueToken.onDraw(singleMatch));
 
     }
