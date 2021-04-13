@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.match;
 import it.polimi.ingsw.model.essentials.CardColor;
 import it.polimi.ingsw.model.essentials.CardType;
 import it.polimi.ingsw.model.essentials.DevelopmentCard;
+import it.polimi.ingsw.model.essentials.leader.CardComparator;
 import it.polimi.ingsw.model.exceptions.InvalidCardRequestException;
 import it.polimi.ingsw.model.exceptions.InvalidQuantityException;
 import it.polimi.ingsw.model.exceptions.NoMoreCardsException;
@@ -32,6 +33,7 @@ public class CardGrid {
 
         //initialization of variable count used for index of the cards list
         int count = 0;
+
 
         topGrid = new Stack[MAXLEVEL][CardColor.values().length];
         for (int lv = 0; lv < MAXLEVEL; lv++) {

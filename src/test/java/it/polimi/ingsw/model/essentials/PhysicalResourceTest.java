@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 import it.polimi.ingsw.model.match.Match;
+import it.polimi.ingsw.model.match.SingleMatch;
 import it.polimi.ingsw.model.match.player.Adder;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.Verificator;
@@ -39,24 +40,21 @@ public class PhysicalResourceTest {
         PhysicalResource resource2 = new PhysicalResource(ResType.STONE, 2);
         PhysicalResource resource3 = new PhysicalResource(ResType.COIN,5);
 
-        assertTrue(resource1.equals(resource2));
-        assertFalse(resource1.equals(resource3));
+        assertEquals(resource1, resource2);
+        assertNotEquals(resource1, resource3);
     }
 
     @Test
-    public void testAdd() throws NegativeQuantityException, InvalidAddFaithException {
+    public void testAdd() throws NegativeQuantityException, InvalidAddFaithException, FileNotFoundException, WrongSettingException {
         PhysicalResource resource1 = new PhysicalResource(ResType.SERVANT,3);
-
+        Match match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
         assertTrue(resource1.add(player));
     }
 
     @Test
     public void testVerify() throws NegativeQuantityException, FileNotFoundException, WrongSettingException, InvalidOperationException, ShelfInsertException {
-        List<Player> players = new ArrayList<>();
         Player player = new Player("player1");
-        players.add(player);
-        Match match = new Match(players,"src/test/resources/Example.json");
-        player.setMatch(match);
+        Match match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
         PhysicalResource resource1 = new PhysicalResource(ResType.COIN,1);
         PhysicalResource resource2 = new PhysicalResource(ResType.STONE,2);
         PhysicalResource resource3 = new PhysicalResource(ResType.SERVANT,1);

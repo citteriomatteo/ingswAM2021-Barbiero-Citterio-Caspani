@@ -95,9 +95,9 @@ public abstract class FaithPath
     public int getWinPoints()
     {
         int points = 0;
-        points = getFaithPath().stream().map(x -> x.getWinPoints()).reduce(points, (x, y) -> x + y);
-        for (int tile : popeTiles)
-            points += (tile + 2) * ((popeTiles.get(tile) == 1) ? 1 : 0);
+        points = getFaithPath().stream().filter((x)->faithPath.indexOf(x) < faithMarker).map(x -> x.getWinPoints()).reduce(points, (x, y) -> x + y);
+        for (int i=0; i<3; i++)
+            points += (i + 2) * ((popeTiles.get(i) == 1) ? 1 : 0);
         return points;
     }
 }

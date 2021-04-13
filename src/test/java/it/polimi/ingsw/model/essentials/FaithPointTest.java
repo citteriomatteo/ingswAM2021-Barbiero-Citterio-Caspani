@@ -1,14 +1,17 @@
 package it.polimi.ingsw.model.essentials;
 
-import it.polimi.ingsw.model.exceptions.FaithPathCreationException;
-import it.polimi.ingsw.model.exceptions.InvalidAddFaithException;
+import it.polimi.ingsw.model.exceptions.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-import it.polimi.ingsw.model.exceptions.MatchEndedException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
+import it.polimi.ingsw.model.match.Match;
+import it.polimi.ingsw.model.match.SingleMatch;
 import it.polimi.ingsw.model.match.player.Adder;
 import it.polimi.ingsw.model.match.player.Player;
 import org.junit.jupiter.api.Test;
+
+import java.io.FileNotFoundException;
+import java.util.List;
 
 public class FaithPointTest {
     private Player player = new Player("player1");
@@ -23,7 +26,8 @@ public class FaithPointTest {
     }
 
     @Test
-    public void testAdd() throws InvalidAddFaithException, FaithPathCreationException, MatchEndedException {
+    public void testAdd() throws InvalidAddFaithException, NegativeQuantityException, MatchEndedException, FileNotFoundException, WrongSettingException, SingleMatchException {
+        Match match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
         FaithPoint faithPoint = new FaithPoint(2);
 
         assertTrue(faithPoint.add(player));

@@ -16,6 +16,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static it.polimi.ingsw.gsonUtilities.GsonHandler.*;
@@ -67,9 +68,9 @@ public class MatchTest extends FaithPathTest {
             e.printStackTrace();
         }
 
-         */
 
-        String filePath = "src/test/resources/StandardConfiguration.json";
+
+        String filePath = "src/test/resources/OrderCards.json";
         Gson g = cellConfig(resourceConfig(requirableConfig(effectConfig(new GsonBuilder())))).setPrettyPrinting().create();
 
         try (FileWriter writer = new FileWriter(filePath)){
@@ -322,7 +323,7 @@ public class MatchTest extends FaithPathTest {
                     devCard40,devCard41,devCard42,devCard43,devCard44,devCard45,devCard46,devCard47),
                     Arrays.asList(leaderCard,leaderCard1,leaderCard2,leaderCard3,leaderCard4,leaderCard5,leaderCard6,leaderCard7,leaderCard8,leaderCard9,leaderCard10,
                             leaderCard11,leaderCard12,leaderCard13,leaderCard14,leaderCard15), path, prod);
-
+            Collections.sort(config.getAllDevCards(),new CardComparator());
             g.toJson(config, writer);
 
 
@@ -335,7 +336,7 @@ public class MatchTest extends FaithPathTest {
         }
         //%%%%%%%%%%%%% Reading from json file &&&&&&&&&&&&&&&&&&
         //open the file
-/*        try (FileReader reader = new FileReader(filePath)) {
+       try (FileReader reader = new FileReader(filePath)) {
             //parse the object and instantiate it
             LeaderCard extractedJson = g.fromJson(reader, LeaderCard.class);
 

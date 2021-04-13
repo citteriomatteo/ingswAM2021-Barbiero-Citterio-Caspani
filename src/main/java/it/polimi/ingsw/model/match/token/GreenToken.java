@@ -2,11 +2,13 @@ package it.polimi.ingsw.model.match.token;
 
 import it.polimi.ingsw.model.essentials.CardColor;
 import it.polimi.ingsw.model.exceptions.MatchEndedException;
+import it.polimi.ingsw.model.match.SingleCardGrid;
 import it.polimi.ingsw.model.match.SingleMatch;
 
 public class GreenToken extends Token{
     @Override
     public boolean onDraw(SingleMatch match) throws MatchEndedException {
-        return match.getSingleCardGrid().discard(CardColor.GREEN);
+        SingleCardGrid singleCardGrid = (SingleCardGrid) match.getCardGrid();
+        return singleCardGrid.discard(CardColor.GREEN);
     }
 }

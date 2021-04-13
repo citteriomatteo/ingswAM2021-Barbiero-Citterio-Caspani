@@ -18,8 +18,7 @@ public class PlusOneShuffleTokenTest {
     private PlusOneShuffleToken plusOneShuffleToken = new PlusOneShuffleToken();
     @Test
     public void testOnDraw() throws NegativeQuantityException, FileNotFoundException, WrongSettingException, MatchEndedException {
-        players.add(new Player("player1"));
-        singleMatch = new SingleMatch(players,"src/test/resources/Example.json");
+        singleMatch = new SingleMatch(new Player("player1"),"src/test/resources/StandardConfiguration.json");
 
         assertTrue(plusOneShuffleToken.onDraw(singleMatch));
     }

@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.essentials;
 import it.polimi.ingsw.model.essentials.leader.LeaderCard;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.match.Match;
+import it.polimi.ingsw.model.match.SingleMatch;
 import it.polimi.ingsw.model.match.player.Player;
 import org.junit.jupiter.api.Test;
 
@@ -22,10 +23,10 @@ public class CardTypeTest {
         CardType card3 = new CardType(CardColor.BLUE,1,2);
         CardType card4 = new CardType(CardColor.GREEN,1,2);
 
-        assertTrue(card1.equals(card2));
-        assertFalse(card1.equals(card3));
-        assertFalse(card1.equals(card4));
-        assertFalse(card3.equals(card4));
+        assertEquals(card1, card2);
+        assertNotEquals(card1, card3);
+        assertNotEquals(card1, card4);
+        assertNotEquals(card3, card4);
 
     }
 
@@ -37,7 +38,7 @@ public class CardTypeTest {
     }
 
     @Test
-    public void testVerify() throws InvalidQuantityException, NegativeQuantityException, FileNotFoundException, WrongSettingException, InvalidAddFaithException, InvalidOperationException {
+    public void testVerify() throws InvalidQuantityException, NegativeQuantityException, FileNotFoundException, WrongSettingException, InvalidAddFaithException, InvalidOperationException, SingleMatchException {
         CardType cardType = new CardType(CardColor.GREEN,1,1);
         CardType cardType1 = new CardType(CardColor.GREEN,2,1);
         CardType cardType2 = new CardType(CardColor.GREEN,1,2);
@@ -46,12 +47,8 @@ public class CardTypeTest {
                 new Production(new ArrayList<>(List.of(new PhysicalResource(ResType.COIN, 1))),
                         new ArrayList<>(List.of(new FaithPoint(1)))), 1);
 
-        List<LeaderCard> leaders = new ArrayList<>();
-        List<Player> players = new ArrayList<>();
         player = new Player("player1");
-        players.add(player);
-        Match match = new Match(players,"src/test/resources/Example.json");
-        player.setMatch(match);
+        Match match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
         player.getPersonalBoard().getDevCardSlots().pushNewCard(1,developmentCard);
 
 

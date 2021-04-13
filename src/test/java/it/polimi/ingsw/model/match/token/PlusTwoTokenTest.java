@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.match.token;
 
 import it.polimi.ingsw.model.exceptions.MatchEndedException;
 import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
+import it.polimi.ingsw.model.exceptions.SingleMatchException;
 import it.polimi.ingsw.model.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.SingleMatch;
 import it.polimi.ingsw.model.match.player.Player;
@@ -18,9 +19,9 @@ public class PlusTwoTokenTest {
     private SingleMatch singleMatch;
     private PlusTwoToken plusTwoToken = new PlusTwoToken();
     @Test
-    public void testOnDraw() throws NegativeQuantityException, FileNotFoundException, WrongSettingException, MatchEndedException {
-        players.add(new Player("player1"));
-        singleMatch = new SingleMatch(players,"src/test/resources/Example.json");
+    public void testOnDraw() throws NegativeQuantityException, FileNotFoundException, WrongSettingException, MatchEndedException, SingleMatchException {
+
+        singleMatch = new SingleMatch(new Player("player1"),"src/test/resources/StandardConfiguration.json");
 
         assertTrue(plusTwoToken.onDraw(singleMatch));
     }

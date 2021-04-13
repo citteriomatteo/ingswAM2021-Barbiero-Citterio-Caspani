@@ -3,8 +3,14 @@ package it.polimi.ingsw.model.match.market;
 import it.polimi.ingsw.model.exceptions.InvalidQuantityException;
 import it.polimi.ingsw.model.exceptions.MatchEndedException;
 import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
+import it.polimi.ingsw.model.exceptions.WrongSettingException;
+import it.polimi.ingsw.model.match.Match;
+import it.polimi.ingsw.model.match.SingleMatch;
 import it.polimi.ingsw.model.match.player.Adder;
 import it.polimi.ingsw.model.match.player.Player;
+
+import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Random;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -14,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MarketTest {
     private Market market1 = new Market();
     private Marble[][] board;
+    private Match match;
 
     public MarketTest() {
         this.board = this.market1.getBoard();
@@ -65,9 +72,10 @@ public class MarketTest {
     }
 
     @Test
-    public void testSelectRow() throws NegativeQuantityException, InvalidQuantityException, MatchEndedException {
+    public void testSelectRow() throws NegativeQuantityException, InvalidQuantityException, MatchEndedException, FileNotFoundException, WrongSettingException {
         Random gen = new Random();
-        Adder player = new Player("player1");
+        Player player = new Player("player1");
+        match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
         int numRow = gen.nextInt(3);
         int countWhite = 0;
 
@@ -95,9 +103,10 @@ public class MarketTest {
     }
 
     @Test
-    public void testSelectColumn() throws NegativeQuantityException, InvalidQuantityException, MatchEndedException {
+    public void testSelectColumn() throws NegativeQuantityException, InvalidQuantityException, MatchEndedException, FileNotFoundException, WrongSettingException {
         Random gen = new Random();
-        Adder player = new Player("player1");
+        Player player = new Player("player1");
+        match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
         int numColumn = gen.nextInt(3);
         int countWhite = 0;
 

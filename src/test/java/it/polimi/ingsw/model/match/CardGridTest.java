@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.match.player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -58,8 +59,9 @@ public class CardGridTest {
     }
 
     @Test
-    public void isBuyableTest() throws NegativeQuantityException, InvalidCardRequestException, NoMoreCardsException {
+    public void isBuyableTest() throws NegativeQuantityException, InvalidCardRequestException, NoMoreCardsException, FileNotFoundException, WrongSettingException {
         Player player = new Player("player1");
+        Match match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
 
         player.addToStrongBox(new PhysicalResource(ResType.SHIELD, 2));
 

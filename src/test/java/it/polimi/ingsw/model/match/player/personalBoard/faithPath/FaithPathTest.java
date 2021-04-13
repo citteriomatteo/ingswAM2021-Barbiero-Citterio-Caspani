@@ -1,8 +1,12 @@
 package it.polimi.ingsw.model.match.player.personalBoard.faithPath;
 
-import it.polimi.ingsw.model.exceptions.FaithPathCreationException;
-import it.polimi.ingsw.model.exceptions.MatchEndedException;
+import it.polimi.ingsw.model.exceptions.*;
+import it.polimi.ingsw.model.match.Match;
+import it.polimi.ingsw.model.match.MultiMatch;
+import it.polimi.ingsw.model.match.player.Player;
 import org.junit.jupiter.api.Test;
+
+import java.io.FileNotFoundException;
 import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,15 +29,18 @@ public class FaithPathTest
 
     //TODO
     @Test
-    public void getWinPointsTest() throws FaithPathCreationException, MatchEndedException
-    {
-        FaithPath path = new MultiFaithPath(generatePath(),0);
-        assertEquals(70, path.getWinPoints());
+    public void getWinPointsTest() throws NegativeQuantityException, MatchEndedException, FileNotFoundException, WrongSettingException, SingleMatchException {
+        Player player = new Player("player1");
+        Player player1 = new Player("player2");
+        MultiMatch match = new MultiMatch(List.of(player,player1),"src/test/resources/StandardConfiguration.json");
+        FaithPath path = match.getCurrentPlayer().getPersonalBoard().getFaithPath();
 
         //null MUST BE SUBSTITUTED WITH A COMUNICATOR WHEN IT'LL BE AVAILABLE!
-        path.addFaithPoints(17,null);
-        //assertEquals(Arrays.asList(1,1,0),path.getPopeTiles());
-        //assertEquals(75, path.getWinPoints());
+        path.addFaithPoints(17,match);
+        assertEquals(Arrays.asList(1,1,0),path.getPopeTiles());
+        assertEquals(27, path.getWinPoints());
+
+
     }
 
     /*
@@ -42,10 +49,13 @@ public class FaithPathTest
     @Test
     public void CellCollapseTest() throws FaithPathCreationException, MatchEndedException
     {
+        /*
         FaithPath path = new MultiFaithPath(generatePath(), 0);
         assertTrue(path.getFaithPath().get(8).singleVaticanReport());
         path.addFaithPoints(9, null);
         assertFalse(path.getFaithPath().get(8).singleVaticanReport());
+
+         */
     }
 
     //TODO

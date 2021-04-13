@@ -4,11 +4,15 @@ import static org.junit.jupiter.api.Assertions.*;
 import it.polimi.ingsw.model.exceptions.InvalidAddFaithException;
 import it.polimi.ingsw.model.exceptions.MatchEndedException;
 import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
+import it.polimi.ingsw.model.exceptions.WrongSettingException;
+import it.polimi.ingsw.model.match.Match;
+import it.polimi.ingsw.model.match.SingleMatch;
 import it.polimi.ingsw.model.match.player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -47,25 +51,29 @@ public class ProductionTest {
     }
 
     @Test
-    public void produceTest() throws NegativeQuantityException, InvalidAddFaithException, MatchEndedException {
+    public void produceTest() throws NegativeQuantityException, InvalidAddFaithException, MatchEndedException, FileNotFoundException, WrongSettingException {
         List<PhysicalResource> cost = new ArrayList<>();
         List<Resource> earnings = new ArrayList<>();
         earnings.add(new PhysicalResource(ResType.SHIELD, 1));
         Production prod = new Production(cost, earnings);
+        Player player = new Player("player1");
+        Match match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
 
-        assertTrue(prod.produce(new Player("player1")), "produce returned false");
+        assertTrue(prod.produce(player), "produce returned false");
 
 
         //TODO finish produceTest after implementing add methods
     }
 
     @Test
-    public void isPlayableTest() throws NegativeQuantityException {
+    public void isPlayableTest() throws NegativeQuantityException, FileNotFoundException, WrongSettingException {
         List<PhysicalResource> cost = new ArrayList<>();
         List<Resource> earnings = new ArrayList<>();
         cost.add(new PhysicalResource(ResType.SHIELD, 1));
         Production prod = new Production(cost, earnings);
         player = new Player("player1");
+        Match match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
+
 
         assertFalse(prod.isPlayable(player),"isPlayable returned true");
 
