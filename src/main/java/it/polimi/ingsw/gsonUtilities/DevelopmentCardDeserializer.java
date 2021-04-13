@@ -3,7 +3,6 @@ package it.polimi.ingsw.gsonUtilities;
 
 import com.google.gson.*;
 import it.polimi.ingsw.model.essentials.*;
-import it.polimi.ingsw.model.exceptions.InvalidAddFaithException;
 import it.polimi.ingsw.model.exceptions.InvalidQuantityException;
 import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 
@@ -63,7 +62,7 @@ public class DevelopmentCardDeserializer implements JsonDeserializer<Development
 
 
 
-        } catch (InvalidQuantityException | NegativeQuantityException | InvalidAddFaithException e) {
+        } catch (InvalidQuantityException e) {
             System.err.println("Problem in parameters of json file elements");
             e.printStackTrace();
         }

@@ -1,25 +1,24 @@
 package it.polimi.ingsw.model.essentials;
 
 import it.polimi.ingsw.model.exceptions.FaithPathCreationException;
-import it.polimi.ingsw.model.exceptions.InvalidAddFaithException;
-import it.polimi.ingsw.model.exceptions.MatchEndedException;
-import it.polimi.ingsw.model.match.player.Adder;
 
-import java.util.Objects;
+import it.polimi.ingsw.model.exceptions.MatchEndedException;
+import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
+import it.polimi.ingsw.model.match.player.Adder;
 
 public class FaithPoint implements Resource{
     private final int quantity;
 
-    public FaithPoint(int quantity) throws InvalidAddFaithException {
-        if(quantity > 0)
+    public FaithPoint(int quantity) throws NegativeQuantityException {
+        if(quantity >= 0)
             this.quantity = quantity;
         else
-            throw new InvalidAddFaithException("Negative quantity of faith");
+            throw new NegativeQuantityException("Negative quantity of faith");
     }
 
 
     @Override
-    public boolean add(Adder adder) throws InvalidAddFaithException, FaithPathCreationException, MatchEndedException {
+    public boolean add(Adder adder) throws MatchEndedException {
        return adder.addFaithPoints(quantity);
     }
 

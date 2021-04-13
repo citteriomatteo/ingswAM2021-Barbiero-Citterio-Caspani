@@ -38,7 +38,7 @@ public class CardTypeTest {
     }
 
     @Test
-    public void testVerify() throws InvalidQuantityException, NegativeQuantityException, FileNotFoundException, WrongSettingException, InvalidAddFaithException, InvalidOperationException, SingleMatchException {
+    public void testVerify() throws InvalidQuantityException, NegativeQuantityException, FileNotFoundException, WrongSettingException, InvalidOperationException, SingleMatchException {
         CardType cardType = new CardType(CardColor.GREEN,1,1);
         CardType cardType1 = new CardType(CardColor.GREEN,2,1);
         CardType cardType2 = new CardType(CardColor.GREEN,1,2);

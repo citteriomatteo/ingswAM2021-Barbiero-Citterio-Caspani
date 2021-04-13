@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.match;
 import it.polimi.ingsw.model.essentials.CardColor;
 import it.polimi.ingsw.model.essentials.CardType;
 import it.polimi.ingsw.model.essentials.DevelopmentCard;
-import it.polimi.ingsw.model.essentials.leader.CardComparator;
 import it.polimi.ingsw.model.exceptions.InvalidCardRequestException;
 import it.polimi.ingsw.model.exceptions.InvalidQuantityException;
 import it.polimi.ingsw.model.exceptions.NoMoreCardsException;

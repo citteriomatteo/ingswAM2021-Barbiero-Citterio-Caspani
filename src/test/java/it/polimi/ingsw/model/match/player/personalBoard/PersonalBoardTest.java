@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.essentials.Production;
 
 import it.polimi.ingsw.model.essentials.ResType;
 import it.polimi.ingsw.model.essentials.leader.*;
+import it.polimi.ingsw.model.exceptions.FaithPathCreationException;
 import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.FaithPathTest;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,7 @@ public class PersonalBoardTest extends FaithPathTest
     Also tests the correct behaviour of every leader activated.
      */
     @Test
-    public void personalBoardTest() throws NegativeQuantityException
+    public void personalBoardTest() throws NegativeQuantityException, FaithPathCreationException
     {
         ArrayList<PhysicalResource> bcost= new ArrayList<>();
         ArrayList bearnings= new ArrayList<>();

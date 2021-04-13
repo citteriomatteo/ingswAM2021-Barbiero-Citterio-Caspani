@@ -11,16 +11,20 @@ import java.util.*;
 
 public class ConcreteWarehouse implements Warehouse
 {
-    private List<PhysicalResource> shelves;
-    private List<PhysicalResource> marketBuffer;
+    private final List<PhysicalResource> shelves;
+    private final List<PhysicalResource> marketBuffer;
 
     //constructor initializes the three shelves with UNKNOWN type and zero quantity.
-    public ConcreteWarehouse() throws NegativeQuantityException
+    public ConcreteWarehouse()
     {
         shelves = new ArrayList<>();
-        shelves.add(new PhysicalResource(ResType.UNKNOWN, 0));
-        shelves.add(new PhysicalResource(ResType.UNKNOWN, 0));
-        shelves.add(new PhysicalResource(ResType.UNKNOWN, 0));
+        try {
+            shelves.add(new PhysicalResource(ResType.UNKNOWN, 0));
+            shelves.add(new PhysicalResource(ResType.UNKNOWN, 0));
+            shelves.add(new PhysicalResource(ResType.UNKNOWN, 0));
+        }
+        catch(NegativeQuantityException e) { e.printStackTrace(); System.err.println("Application shutdown due to an internal error."); System.exit(1);}
+
         marketBuffer = new ArrayList<>();
     }
 
@@ -31,15 +35,24 @@ public class ConcreteWarehouse implements Warehouse
      * @return              the resource taken from the shelf.
      */
     @Override
-    public PhysicalResource take(int shelf, int numResources) throws NotEnoughResourcesException , NegativeQuantityException
+    public PhysicalResource take(int shelf, int numResources) throws NotEnoughResourcesException
     {
         shelf--;
         int available= shelves.get(shelf).getQuantity();
         if(numResources > available)
             throw new NotEnoughResourcesException("Not enough resources in shelf "+shelf+"!");
-        PhysicalResource newshelf = new PhysicalResource(shelves.get(shelf).getType(), (available-numResources));
-        shelves.set(shelf, newshelf);
-        return new PhysicalResource(shelves.get(shelf).getType(), numResources);
+        try
+        {
+            PhysicalResource newshelf = new PhysicalResource(shelves.get(shelf).getType(), (available - numResources));
+            shelves.set(shelf, newshelf);
+        }
+        catch(NegativeQuantityException e)
+        { e.printStackTrace(); System.err.println("Application shutdown due to an internal error.."); System.exit(1);}
+        PhysicalResource res=null;
+        try { res = new PhysicalResource(shelves.get(shelf).getType(), numResources); }
+        catch(NegativeQuantityException e)
+        { e.printStackTrace(); System.err.println("Application shutdown due to an internal error.."); System.exit(1);}
+        return res;
     }
 
 
@@ -54,7 +67,7 @@ public class ConcreteWarehouse implements Warehouse
      */
     @Override
     public boolean moveInShelf(PhysicalResource res, int shelf)
-            throws ShelfInsertException, NegativeQuantityException, InvalidOperationException
+            throws ShelfInsertException, InvalidOperationException
     {
         shelf--;
         //first of all, check for "res" presence in the marketBuffer.
@@ -71,8 +84,11 @@ public class ConcreteWarehouse implements Warehouse
             throw new ShelfInsertException ("Error in shelf insert procedure! Operation failed.");
 
         //Shelf update:
-        PhysicalResource newshelf = new PhysicalResource(res.getType(), shelves.get(shelf).getQuantity()+res.getQuantity());
-        shelves.set(shelf, newshelf);
+        try {
+            PhysicalResource newshelf = new PhysicalResource(res.getType(), shelves.get(shelf).getQuantity() + res.getQuantity());
+            shelves.set(shelf, newshelf);
+        }
+        catch(NegativeQuantityException e) { e.printStackTrace(); System.err.println("Application shutdown due to an internal error."); }
 
         //marketBuffer cleaning:
         return cleanMarketBuffer(res);
@@ -84,10 +100,11 @@ public class ConcreteWarehouse implements Warehouse
      * @param res the resource to remove from the marketBuffer
      * @return    true
      */
-    public boolean cleanMarketBuffer(PhysicalResource res) throws NegativeQuantityException
+    public boolean cleanMarketBuffer(PhysicalResource res)
     {
         for(int i=res.getQuantity(); i>0; i--)
-            marketBuffer.remove(new PhysicalResource(res.getType(), 1));
+            try { marketBuffer.remove(new PhysicalResource(res.getType(), 1));}
+            catch(NegativeQuantityException e) { e.printStackTrace(); System.err.println("Application shutdown due to an internal error."); }
         return true;
     }
 
@@ -108,12 +125,7 @@ public class ConcreteWarehouse implements Warehouse
      * This method returns the perfect disposition of the warehouse.
      * @return an ArrayList representing the resources disposition in the warehouse.
      */
-    public List<PhysicalResource> getWarehouseDisposition()
-    {
-        List<PhysicalResource> list = new ArrayList<>();
-        list.addAll(shelves);
-        return list;
-    }
+    public List<PhysicalResource> getWarehouseDisposition() { return new ArrayList<>(shelves); }
 
     /**
      * The method checks for the availability of the space in both resources before switching shelves,
@@ -128,13 +140,12 @@ public class ConcreteWarehouse implements Warehouse
     {
         shelf1--; shelf2--;
 
-        if(shelf1 < 0 || shelf2<0 || shelves.get(shelf1).getQuantity()>(shelf2+1) || shelves.get(shelf2).getQuantity()>(shelf1+1))
+        if(shelf1 < 0 || shelf2 < 0 || shelves.get(shelf1).getQuantity()>(shelf2+1) || shelves.get(shelf2).getQuantity()>(shelf1+1))
             throw new ShelfInsertException("Not enough space on both shelves to switch! Operation Failed.");
 
-        PhysicalResource buffershelf = shelves.get(shelf1);
+        PhysicalResource bufferShelf = shelves.get(shelf1);
         shelves.set(shelf1, shelves.get(shelf2));
-        shelves.set(shelf2, buffershelf);
-
+        shelves.set(shelf2, bufferShelf);
         return true;
     }
 
@@ -150,13 +161,14 @@ public class ConcreteWarehouse implements Warehouse
      * @return    true
      */
     @Override
-    public boolean marketDraw(PhysicalResource res) throws NegativeQuantityException
+    public boolean marketDraw(PhysicalResource res)
     {
         int i=0;
         while(i<res.getQuantity())
         {
             i++;
-            marketBuffer.add(new PhysicalResource(res.getType(), 1));
+            try { marketBuffer.add(new PhysicalResource(res.getType(), 1)); }
+            catch(NegativeQuantityException e) { e.printStackTrace(); System.err.println("Application shutdown due to an internal error."); }
         }
         return true;
     }

@@ -4,14 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.model.essentials.*;
 import it.polimi.ingsw.model.essentials.leader.*;
-import it.polimi.ingsw.model.exceptions.InvalidAddFaithException;
 import it.polimi.ingsw.model.exceptions.InvalidQuantityException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.FaithPathTest;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;

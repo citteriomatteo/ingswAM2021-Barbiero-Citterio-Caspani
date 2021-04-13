@@ -2,9 +2,7 @@ package it.polimi.ingsw.model.essentials;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.gsonUtilities.GsonHandler;
-import it.polimi.ingsw.model.exceptions.InvalidAddFaithException;
 import it.polimi.ingsw.model.exceptions.InvalidQuantityException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +20,7 @@ public class DevelopmentCardTest {
     //Tests the constructor
     @Test
     @BeforeEach
-    public void ConstructorTest() throws InvalidAddFaithException, NegativeQuantityException, InvalidQuantityException {
+    public void ConstructorTest() throws InvalidQuantityException {
 
         devCard = new DevelopmentCard(new CardType(CardColor.GREEN, 1),
                 new ArrayList<>(List.of(new PhysicalResource(ResType.SHIELD, 2))),

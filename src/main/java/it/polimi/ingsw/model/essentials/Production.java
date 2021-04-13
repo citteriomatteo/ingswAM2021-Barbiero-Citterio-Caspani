@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.essentials;
 
 import it.polimi.ingsw.model.exceptions.FaithPathCreationException;
-import it.polimi.ingsw.model.exceptions.InvalidAddFaithException;
 import it.polimi.ingsw.model.exceptions.MatchEndedException;
 import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.Adder;
@@ -14,7 +13,8 @@ import java.util.Objects;
 /*
 Represents a production with its cost and earnings
  */
-public class Production {
+public class Production
+{
     private final List<PhysicalResource> cost;
     private final List<Resource> earnings;
 
@@ -22,7 +22,8 @@ public class Production {
     Simple constructor, if the cost list contains multiple occurrences of the same ResType
     the constructor reformat the list in the correct way
      */
-    public Production(List<PhysicalResource> sentCost, List<Resource> earnings) throws NegativeQuantityException {
+    public Production(List<PhysicalResource> sentCost, List<Resource> earnings)
+    {
         this.cost = new ArrayList<>();
         int count;
         for(ResType type : ResType.values()){
@@ -33,7 +34,8 @@ public class Production {
                 }
             }
             if (count!=0)
-                cost.add(new PhysicalResource(type, count));
+                try { cost.add(new PhysicalResource(type, count)); }
+                catch(NegativeQuantityException e) { e.printStackTrace(); System.err.println("Application shutdown due to an internal error."); }
 
         }
         this.earnings = earnings;
@@ -48,7 +50,7 @@ public class Production {
     }
 
     //Adds the earnings without paying the costs, they have to be paid before anywhere else
-    public boolean produce(Adder adder) throws InvalidAddFaithException, FaithPathCreationException, MatchEndedException {
+    public boolean produce(Adder adder) throws MatchEndedException {
         for (Resource resource : earnings){
             resource.add(adder);
         }

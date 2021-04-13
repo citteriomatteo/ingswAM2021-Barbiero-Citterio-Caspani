@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.exceptions.MatchEndedException;
 import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SingleFaithPath extends FaithPath
 {
@@ -33,11 +34,14 @@ public class SingleFaithPath extends FaithPath
      * @throws MatchEndedException          if Lorenzo ends the path journey
      * @throws FaithPathCreationException   (propagated)
      */
-    public boolean addBlackPoints(int points) throws MatchEndedException, NegativeQuantityException
+    public boolean addBlackPoints(int points) throws MatchEndedException
     {
+        //critical error: wrong tokens!
         if(points<0)
-            throw new NegativeQuantityException ("Error in Lorenzo's points: negative argument.");
-
+        {
+            System.err.println("Application shutdown due to an internal error.");
+            System.exit(1);
+        }
         for(; points>0; points--)
         {
             blackCrossMarker++;
@@ -52,16 +56,18 @@ public class SingleFaithPath extends FaithPath
 
     /**
      * This method checks, if Lorenzo is in a report cell, how to turn the player's pope tile depending on its position.
-     * @return  returns true (for Cell collapse), else false.
+     * @return true (for Cell collapse), else false.
      */
     public boolean blackVaticanReport()
     {
         if(getFaithPath().get(blackCrossMarker).singleVaticanReport())
         {
-            if (getFaithPath().get(getPosition()).getReportSection() < getFaithPath().get(blackCrossMarker).getReportSection())
-                setPopeTile(getFaithPath().get(blackCrossMarker).getReportSection()-1, 2);
+            List<Cell> fp = getFaithPath();
+            if ((fp.get(getPosition()).getReportSection()>0 && fp.get(getPosition()).getReportSection() < fp.get(blackCrossMarker).getReportSection())
+                || (fp.get(getPosition()).getReportSection()==0 && getPosition()<blackCrossMarker))
+                setPopeTile(fp.get(blackCrossMarker).getReportSection()-1, 2);
             else
-                setPopeTile(getFaithPath().get(blackCrossMarker).getReportSection()-1, 1);
+                setPopeTile(fp.get(blackCrossMarker).getReportSection()-1, 1);
             return true;
         }
         return false;

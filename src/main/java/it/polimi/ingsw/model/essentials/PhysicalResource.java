@@ -1,11 +1,12 @@
 package it.polimi.ingsw.model.essentials;
 
-import it.polimi.ingsw.model.exceptions.InvalidAddFaithException;
+import it.polimi.ingsw.model.exceptions.InvalidQuantityException;
 import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.Adder;
 import it.polimi.ingsw.model.match.player.Verificator;
 
-public class PhysicalResource implements Resource, Requirable {
+public class PhysicalResource implements Resource, Requirable
+{
     private final ResType type;
     private final int quantity;
 
@@ -27,7 +28,8 @@ public class PhysicalResource implements Resource, Requirable {
     }
 
     @Override
-    public boolean add(Adder adder) throws InvalidAddFaithException {
+    public boolean add(Adder adder)
+    {
         return adder.addToStrongBox(this);
     }
 
@@ -46,8 +48,7 @@ public class PhysicalResource implements Resource, Requirable {
         return this.type.equals(physicalResource.type);
 
     }
-
-
+    
     @Override
     public String toString() {
         return "PhysicalResource{" +

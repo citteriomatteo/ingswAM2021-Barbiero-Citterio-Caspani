@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.match.market;
 
+import it.polimi.ingsw.model.exceptions.InvalidOperationException;
 import it.polimi.ingsw.model.exceptions.InvalidQuantityException;
 import it.polimi.ingsw.model.exceptions.MatchEndedException;
 import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
@@ -72,7 +73,7 @@ public class MarketTest {
     }
 
     @Test
-    public void testSelectRow() throws NegativeQuantityException, InvalidQuantityException, MatchEndedException, FileNotFoundException, WrongSettingException {
+    public void testSelectRow() throws InvalidQuantityException, MatchEndedException, FileNotFoundException, WrongSettingException, InvalidOperationException {
         Random gen = new Random();
         Player player = new Player("player1");
         match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
@@ -85,8 +86,8 @@ public class MarketTest {
             }
         }
 
-        assertThrows(InvalidQuantityException.class,()->market1.selectRow(-1,player));
-        assertThrows(InvalidQuantityException.class,()->market1.selectRow(6,player));
+        assertThrows(InvalidOperationException.class,()->market1.selectRow(-1,player));
+        assertThrows(InvalidOperationException.class,()->market1.selectRow(6,player));
 
         Marble marble1 = this.board[numRow][0];
         Marble marble2 = this.board[numRow][1];
@@ -103,7 +104,7 @@ public class MarketTest {
     }
 
     @Test
-    public void testSelectColumn() throws NegativeQuantityException, InvalidQuantityException, MatchEndedException, FileNotFoundException, WrongSettingException {
+    public void testSelectColumn() throws NegativeQuantityException, InvalidQuantityException, MatchEndedException, FileNotFoundException, WrongSettingException, InvalidOperationException {
         Random gen = new Random();
         Player player = new Player("player1");
         match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
@@ -116,8 +117,8 @@ public class MarketTest {
             }
         }
 
-        assertThrows(InvalidQuantityException.class,()->market1.selectColumn(-1,player));
-        assertThrows(InvalidQuantityException.class,()->market1.selectColumn(6,player));
+        assertThrows(InvalidOperationException.class,()->market1.selectColumn(-1,player));
+        assertThrows(InvalidOperationException.class,()->market1.selectColumn(6,player));
 
 
         Marble marble1 = this.board[0][numColumn];

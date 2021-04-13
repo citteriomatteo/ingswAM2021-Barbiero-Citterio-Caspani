@@ -45,7 +45,7 @@ public class PhysicalResourceTest {
     }
 
     @Test
-    public void testAdd() throws NegativeQuantityException, InvalidAddFaithException, FileNotFoundException, WrongSettingException {
+    public void testAdd() throws NegativeQuantityException, FileNotFoundException, WrongSettingException {
         PhysicalResource resource1 = new PhysicalResource(ResType.SERVANT,3);
         Match match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
         assertTrue(resource1.add(player));

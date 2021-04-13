@@ -19,7 +19,7 @@ public interface Warehouse
      * @see ConcreteWarehouse
      * @see ExtraShelfWarehouse
      */
-    PhysicalResource take(int shelf, int numResources) throws NotEnoughResourcesException, NegativeQuantityException;
+    PhysicalResource take(int shelf, int numResources) throws NotEnoughResourcesException;
 
     /**
      * Moves in the specified shelf, if there is enough space or an EMPTY (quantity=0) shelf with whatever previous ResType in it.
@@ -30,14 +30,14 @@ public interface Warehouse
      * @param shelf the number of the shelf, starting from 1.
      * @return      true
      */
-    boolean moveInShelf(PhysicalResource res, int shelf) throws ShelfInsertException, NegativeQuantityException, InvalidOperationException;
+    boolean moveInShelf(PhysicalResource res, int shelf) throws ShelfInsertException, InvalidOperationException;
 
     /**
      * Receives the resource to remove from the marketBuffer, and does it one by one.
      * @param res the resource to remove from the marketBuffer
      * @return    true
      */
-    boolean cleanMarketBuffer(PhysicalResource res) throws NegativeQuantityException;
+    boolean cleanMarketBuffer(PhysicalResource res);
 
     /**
      * This method returns the shelves List, converted to a Map.
@@ -59,7 +59,7 @@ public interface Warehouse
      * @param shelf2 the second shelf
      * @return       true
      */
-    boolean switchShelf(int shelf1, int shelf2) throws ShelfInsertException, NegativeQuantityException, InvalidOperationException, NotEnoughResourcesException;
+    boolean switchShelf(int shelf1, int shelf2) throws InvalidOperationException;
 
     /**
      * @return the market buffer.
@@ -71,7 +71,7 @@ public interface Warehouse
      * @param res the resource to insert in the buffer
      * @return    true
      */
-    boolean marketDraw(PhysicalResource res) throws NegativeQuantityException;
+    boolean marketDraw(PhysicalResource res);
 
     /**
      * This method clears marketBuffer and returns its previous size, for penalty faith points purposes.

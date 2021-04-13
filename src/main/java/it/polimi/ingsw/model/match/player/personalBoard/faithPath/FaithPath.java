@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.match.player.personalBoard.faithPath;
 
 import it.polimi.ingsw.model.exceptions.FaithPathCreationException;
 import it.polimi.ingsw.model.exceptions.MatchEndedException;
+import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.Comunicator;
 
 import java.util.*;
@@ -44,7 +45,7 @@ public abstract class FaithPath
      * @throws MatchEndedException          if a player ends the path journey
      * @throws FaithPathCreationException   (propagated)
      */
-    public boolean addFaithPoints(int steps, Comunicator comunicator) throws MatchEndedException, FaithPathCreationException
+    public boolean addFaithPoints(int steps, Comunicator comunicator) throws MatchEndedException
     {
         for(; steps>0; steps--)
         {
@@ -80,9 +81,10 @@ public abstract class FaithPath
      * @return    true
      * @throws FaithPathCreationException (propagated)
      */
-    public boolean cellCollapse(int pos) throws FaithPathCreationException
+    public boolean cellCollapse(int pos)
     {
-        faithPath.set(pos, new Cell(faithPath.get(pos).getWinPoints(), faithPath.get(pos).getReportSection()));
+        try{faithPath.set(pos, new Cell(faithPath.get(pos).getWinPoints(), faithPath.get(pos).getReportSection()));}
+        catch(FaithPathCreationException e) { e.printStackTrace(); System.err.println("Application shutdown due to an internal error."); }
         return true;
     }
 
@@ -95,9 +97,9 @@ public abstract class FaithPath
     public int getWinPoints()
     {
         int points = 0;
-        points = getFaithPath().stream().filter((x)->faithPath.indexOf(x) < faithMarker).map(x -> x.getWinPoints()).reduce(points, (x, y) -> x + y);
+        points = getFaithPath().stream().filter((x)->faithPath.indexOf(x)<=faithMarker).map(x -> x.getWinPoints()).reduce(points, (x, y) -> x + y);
         for (int i=0; i<3; i++)
-            points += (i + 2) * ((popeTiles.get(i) == 1) ? 1 : 0);
+                points += (i + 2) * ((popeTiles.get(i) == 1) ? 1 : 0);
         return points;
     }
 }

@@ -2,13 +2,11 @@ package it.polimi.ingsw.model.match.player;
 
 import it.polimi.ingsw.model.essentials.*;
 import it.polimi.ingsw.model.essentials.leader.LeaderCard;
-import it.polimi.ingsw.model.exceptions.FaithPathCreationException;
-import it.polimi.ingsw.model.exceptions.MatchEndedException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
+import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
-import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
-import it.polimi.ingsw.model.match.player.personalBoard.faithPath.VaticanReportCell;
+import it.polimi.ingsw.model.match.player.personalBoard.StrongBox;
+import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 
 import java.util.*;
 
@@ -21,13 +19,23 @@ public class Player implements Adder, Verificator
     private PersonalBoard personalBoard;
     private Production tempProduction;
 
+    /**
+     * This constructor creates a new unassociated player, without giving it the match.
+     * @param nickname is the nickname of the player
+     */
     public Player(String nickname)
     {
         this.nickname = nickname;
         connected = true;
+        match = null;
     }
 
     //ALL SETTERS:
+    /**
+     * This method sets the initial configuration of the player's leaders.
+     * @param handLeaders is the Leaders list
+     * @return
+     */
     public boolean setHandLeaders(ArrayList<LeaderCard> handLeaders)
     {
         if(this.handLeaders == null)
@@ -38,7 +46,13 @@ public class Player implements Adder, Verificator
         return false;
     }
 
-    public boolean setMatch(Match match) throws NegativeQuantityException
+    /**
+     * This method sets the Match to the player.
+     * @param match is the Match instantiation
+     * @return true if the player had no match, else false.
+     * @throws NegativeQuantityException (propagated)
+     */
+    public boolean setMatch(Match match)
     {
         if (this.match == null)
         {
@@ -48,8 +62,15 @@ public class Player implements Adder, Verificator
         return false;
     }
 
-    public boolean setPersonalBoard(PersonalBoard personalBoard) {
-        if (match != null) {
+    /**
+     * This method sets the player's personal Board.
+     * @param personalBoard is the personal Board object.
+     * @return true if the player has a match, else false.
+     */
+    public boolean setPersonalBoard(PersonalBoard personalBoard)
+    {
+        if (this.personalBoard == null)
+        {
             this.personalBoard = personalBoard;
             return true;
         }
@@ -57,34 +78,66 @@ public class Player implements Adder, Verificator
     }
 
     //ALL GETTERS:
+    /** @return match */
     public Match getMatch() { return match; }
+    /** @return nickname */
     public String getNickname() { return nickname; }
+    /** @return the state of the player's connection */
     public boolean isConnected() { return connected; }
+    /** @return the hand leaders list */
     public List<LeaderCard> getHandLeaders() { return handLeaders; }
+    /** @return personal Board */
     public PersonalBoard getPersonalBoard() { return personalBoard; }
+    /** @return the possible white marble conversions */
     public List<PhysicalResource> getWhiteMarbleConversions() { return getPersonalBoard().getWhiteMarbleConversions(); }
 
 
     //"ADDER" INTERFACE METHODS:
+
+    /**
+     * This method adds faith points to to the faith path, looking for the match end.
+     * @param quantity is the quantity of steps
+     * @return         true
+     * @throws FaithPathCreationException
+     * @throws MatchEndedException
+     */
     @Override
-    public boolean addFaithPoints(int quantity) throws FaithPathCreationException, MatchEndedException
+    public boolean addFaithPoints(int quantity)
     {
-        return personalBoard.getFaithPath().addFaithPoints(quantity, match);
+        try{ personalBoard.getFaithPath().addFaithPoints(quantity, match); }
+        catch(MatchEndedException e){ /*notify controller here?*/}
+        return true;
     }
 
+    /**
+     * This method adds resources to the strongbox.
+     * @param resource is the resource to insert
+     * @return the confirmation of the operation
+     * @see it.polimi.ingsw.model.match.player.personalBoard.StrongBox
+     */
     @Override
-    public boolean addToStrongBox(PhysicalResource resource) {
-        return personalBoard.getStrongBox().put(resource);
-    }
+    public boolean addToStrongBox(PhysicalResource resource) { return personalBoard.getStrongBox().put(resource); }
 
+    /**
+     * This method adds resources to the latest warehouse version.
+     * @param resource is the resource to insert
+     * @return the confirmation of the operation
+     * @see it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse
+     */
     @Override
-    public boolean addToWarehouse(PhysicalResource resource) throws NegativeQuantityException {
+    public boolean addToWarehouse(PhysicalResource resource) {
         return personalBoard.getWarehouse().marketDraw(resource);
     }
 
     //"VERIFICATOR" INTERFACE METHODS:
+    /**
+     * This method verifies if the resource is present, as sum of the resources in the deposits.
+     * @param physicalResource is the resource to look for
+     * @return                 true if it's presente, else false
+     */
     @Override
-    public boolean verifyResources(PhysicalResource physicalResource) {
+    public boolean verifyResources(PhysicalResource physicalResource)
+    {
         int numInWarehouse;
         int numInStrongbox;
         numInWarehouse = personalBoard.getWarehouse().getNumberOf(physicalResource.getType());
@@ -103,11 +156,23 @@ public class Player implements Adder, Verificator
             return false;
     }
 
+    /**
+     * This method calls DevCardSlots' isSatisfied function.
+     * @param card is the card to check
+     * @return true if ok, else false
+     * @see it.polimi.ingsw.model.match.player.personalBoard.DevCardSlots
+     */
     @Override
     public boolean verifyCard(CardType card) {
         return personalBoard.getDevCardSlots().isSatisfied(card);
     }
 
+    /**
+     * This method verifies a card's placeability basing on its level.
+     * @param cardLevel is the level to check
+     * @return          true if ok, else false
+     * @see it.polimi.ingsw.model.match.player.personalBoard.DevCardSlots
+     */
     @Override
     public boolean verifyPlaceability(int cardLevel)
     {
@@ -115,68 +180,155 @@ public class Player implements Adder, Verificator
     }
 
     //OTHER METHODS:
+    /** * This method connects the player.
+     * @return true */
     public boolean connect() {connected=true; return true;}
+    /** * This method disconnects the player.
+     * @return true */
     public boolean disconnect() {connected=false; return true;}
 
     public boolean leadersChoice(ArrayList<LeaderCard> choseLeaders)
     {
-        //TODO
+        handLeaders = choseLeaders;
         return true;
     }
 
-    public boolean activateLeader(LeaderCard leader)
+    /**
+     * This method checks for the possibility to activate the leader,
+     * then activates it passing through the card's methods.
+     * @param leader the card to activate
+     * @return true if ok, else false
+     * @throws NegativeQuantityException (propagated)
+     */
+    public boolean activateLeader(LeaderCard leader) throws NegativeQuantityException
     {
-        //TODO
-        return true;
-    }
-
-    public boolean discardUselessLeader(LeaderCard leader)
-    {
-        //TODO
-        return true;
-    }
-
-    //this method does a market action and returns the number of white marbles.
-    public int marketDeal(boolean row, int number)
-    {
-        //TODO
-        return 0;
-    }
-
-    public boolean takeDevelopmentCard(int gridR, int gridC, int slot)
-    {
-        //TODO
-        return true;
+        if(leader.isActivable(this))
+        {
+            leader.activate(getPersonalBoard());
+            return true;
+        }
+        return false;
     }
 
     public boolean isProducible(Production production)
     {
-        //TODO
-        return true;
+        if(production.isPlayable(this))
+        {
+            tempProduction = production;
+            return true;
+        }
+        return false;
     }
 
-    public boolean payFromWarehouse(int shelf, PhysicalResource res)
+    /**
+     * This method discards the non-chosen leaders from handLeader.
+     * @requires the leader card must be contained in the handLeader list.
+     * @param leader the leader to discard
+     * @return       true
+     */
+    public boolean discardUselessLeader(LeaderCard leader)
     {
-        //TODO
+        handLeaders.remove(leader);
         return true;
     }
 
+    /**
+     * this method does a market action and returns the number of white marbles.
+     * @param row       if true, representes a 'row' draw, else a 'column' draw.
+     * @param number
+     * @return
+     */
+    public int marketDeal(boolean row, int number) throws NegativeQuantityException, MatchEndedException
+    {
+        int whiteMarbles=0;
+        if(row)
+            //parameters errors are handled here.
+            try{ whiteMarbles = match.getMarket().selectRow(number, this);}
+            catch (InvalidQuantityException | InvalidOperationException e){ e.printStackTrace(); }
+        else
+            //parameters errors are handled here.
+            try{ whiteMarbles = match.getMarket().selectColumn(number, this);}
+            catch (InvalidQuantityException | InvalidOperationException e){ e.printStackTrace(); }
+        return whiteMarbles;
+    }
+
+    /**
+     *This method takes a DevelopmentCard from the CardGrid.
+     * @param gridR the chosen row
+     * @param gridC the chosen column
+     * @param slot  the slot in which the card will be inserted
+     * @return      buyable flag: true if ok, false if not ok
+     */
+    public boolean takeDevelopmentCard(int gridR, int gridC, int slot) throws InvalidCardRequestException
+    {
+        boolean buyable=false;
+        try
+        {
+            buyable = match.getCardGrid().isBuyable(this, gridR, gridC);
+        }
+        catch(NoMoreCardsException e) {e.printStackTrace();}
+        if(buyable)
+            try { getPersonalBoard().getDevCardSlots().pushNewCard(slot, match.getCardGrid().take(gridR, gridC)); }
+            catch (InvalidOperationException e) { e.printStackTrace(); }
+        return buyable;
+    }
+
+    /**
+     * This method tries to pay "res" taking it from the warehouse.
+     * Handles InvalidCardRequestException and NotEnoughResourcesException.
+     * @param shelf is the chosen shelf
+     * @param res   is the resource to pay
+     * @return      true
+     * @throws InvalidCardRequestException relative to the problem about the incompatibility
+     *                                     between the requested resource and the one in the shelf
+     * @throws NegativeQuantityException (propagated)
+     */
+    public boolean payFromWarehouse(int shelf, PhysicalResource res) throws InvalidCardRequestException, NegativeQuantityException {
+        Warehouse wh = personalBoard.getWarehouse();
+        if(!res.getType().equals(wh.getWarehouseDisposition().get(shelf-1).getType()))
+            throw new InvalidCardRequestException ("The resource 'res' is not present on the shelf! Operation failed.");
+        //NotEnoughResourcesException handled here.
+        try { wh.take(shelf, res.getQuantity()); }
+        catch(NotEnoughResourcesException e){ e.printStackTrace(); }
+        return true;
+    }
+
+    /**
+     * This method tries to pay "res" taking it from the strongbox.
+     * Handles NotEnoughResourcesException.
+     * @param res   is the resource to pay
+     * @return      true
+     */
     public boolean payFromStrongbox(PhysicalResource res)
     {
-        //TODO
+        StrongBox sb = personalBoard.getStrongBox();
+        //NotEnoughResourcesException handled here.
+        try { sb.take(res); }
+        catch(NotEnoughResourcesException e){ e.printStackTrace(); }
         return true;
     }
 
-    public boolean produce()
+    public boolean produce() throws MatchEndedException
     {
-        //TODO
+        tempProduction.produce(this);
         return true;
     }
 
     public int totalWinPoints()
     {
-        //TODO
-        return 0;
+        int points = 0;
+        PersonalBoard pb = getPersonalBoard();
+        pb.getActiveLeaders().stream().map(x->x.getWinPoints()).reduce(points,(x,y)->x+y);
+        points += pb.getDevCardSlots().getWinPoints();
+        points += pb.getFaithPath().getWinPoints();
+        int partialPoints = 0;
+        for(int value : pb.getWarehouse().getWarehouse().values())
+            partialPoints += value;
+        for(int value : pb.getStrongBox().getResources().values())
+            partialPoints += value;
+        points += partialPoints/5;
+
+        return points;
     }
 
 }

@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DevCardSlotsTest {
 
     @Test
-    public void pushNewCardTest() throws InvalidQuantityException, NegativeQuantityException, InvalidAddFaithException {
+    public void pushNewCardTest() throws InvalidQuantityException, NegativeQuantityException {
         DevCardSlots slots = new DevCardSlots();
 
         DevelopmentCard card = new DevelopmentCard(new CardType(CardColor.GREEN, 1),
@@ -41,7 +41,7 @@ public class DevCardSlotsTest {
     }
 
     @Test
-    public void pushNewCardExceptionsTest() throws InvalidQuantityException, NegativeQuantityException, InvalidAddFaithException {
+    public void pushNewCardExceptionsTest() throws InvalidQuantityException, NegativeQuantityException {
         DevCardSlots slots = new DevCardSlots();
 
         DevelopmentCard card = new DevelopmentCard(new CardType(CardColor.GREEN, 2),
@@ -71,7 +71,7 @@ public class DevCardSlotsTest {
     }
 
     @Test
-    public void getTopTest() throws InvalidQuantityException, NegativeQuantityException, InvalidAddFaithException {
+    public void getTopTest() throws InvalidQuantityException, NegativeQuantityException {
         DevCardSlots slots = new DevCardSlots();
 
         DevelopmentCard card = new DevelopmentCard(new CardType(CardColor.GREEN, 1),
@@ -115,7 +115,7 @@ public class DevCardSlotsTest {
     }
 
     @Test
-    public void isPlaceable() throws InvalidQuantityException, NegativeQuantityException, InvalidAddFaithException, InvalidOperationException {
+    public void isPlaceable() throws InvalidQuantityException, NegativeQuantityException, InvalidOperationException {
         DevCardSlots slots = new DevCardSlots();
 
         assertTrue(slots.isPlaceable(1));

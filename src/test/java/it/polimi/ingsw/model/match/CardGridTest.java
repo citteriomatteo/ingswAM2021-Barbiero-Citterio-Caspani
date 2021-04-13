@@ -70,7 +70,7 @@ public class CardGridTest {
 
 
     @Test
-    public void takeTest() throws InvalidCardRequestException, NoMoreCardsException, InvalidAddFaithException, NegativeQuantityException, InvalidQuantityException {
+    public void takeTest() throws InvalidCardRequestException, NoMoreCardsException, NegativeQuantityException, InvalidQuantityException {
         DevelopmentCard card = grid.take(1,CardColor.GREEN.getVal());
         DevelopmentCard cardExpected = new DevelopmentCard(new CardType(CardColor.GREEN, 1),
                 new ArrayList<>(List.of(new PhysicalResource(ResType.SHIELD, 2))),
@@ -96,7 +96,8 @@ public class CardGridTest {
     }
 
     @Test
-    public void controlCardOutOfRangeTest() throws NegativeQuantityException {
+    public void controlCardOutOfRangeTest() throws NegativeQuantityException
+    {
         Player player = new Player("player1");
 
         assertThrows(InvalidCardRequestException.class, () -> grid.isBuyable(player,3,5));

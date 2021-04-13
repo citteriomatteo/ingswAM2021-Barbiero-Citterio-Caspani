@@ -7,7 +7,7 @@ public class WhiteMarble extends Marble {
     public WhiteMarble() {
     }
 
-    public boolean onDraw(Adder adder) throws NegativeQuantityException {
+    public boolean onDraw(Adder adder) {
         return true;
     }
 

@@ -19,7 +19,7 @@ public interface WarehouseDecorator extends Warehouse
      * @return             the requested resource
      * @see ConcreteWarehouse
      */
-    PhysicalResource take(int shelf, int numResources) throws NotEnoughResourcesException, NegativeQuantityException;
+    PhysicalResource take(int shelf, int numResources) throws NotEnoughResourcesException;
 
     /**
      * This method redefines the simple moveInShelf and extends it to the new slots.
@@ -30,7 +30,7 @@ public interface WarehouseDecorator extends Warehouse
      * @param shelf                      indicates the chosen shelf
      * @see ConcreteWarehouse
      */
-    boolean moveInShelf(PhysicalResource res, int shelf) throws ShelfInsertException, NegativeQuantityException, InvalidOperationException;
+    boolean moveInShelf(PhysicalResource res, int shelf) throws ShelfInsertException, InvalidOperationException;
 
     /**
      * This method delegates the buffer clean operation to the concreteWarehouse.
@@ -38,7 +38,7 @@ public interface WarehouseDecorator extends Warehouse
      * @return    true
      * @see ConcreteWarehouse
      */
-    boolean cleanMarketBuffer(PhysicalResource res) throws NegativeQuantityException;
+    boolean cleanMarketBuffer(PhysicalResource res);
 
     /**
      * @return an HashMap version of the warehouse status, considering the 'decorating' shelves.
@@ -57,5 +57,5 @@ public interface WarehouseDecorator extends Warehouse
      * @return                           true
      * @see ConcreteWarehouse
      */
-    boolean switchShelf(int shelf1, int shelf2) throws ShelfInsertException, NegativeQuantityException, InvalidOperationException, NotEnoughResourcesException;
+    boolean switchShelf(int shelf1, int shelf2) throws ShelfInsertException, InvalidOperationException;
 }

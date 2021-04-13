@@ -22,11 +22,11 @@ public class FaithPointTest {
     @Test
     public void testCreate() {
 
-        assertThrows(InvalidAddFaithException.class, ()-> new FaithPoint(-2));
+        assertThrows(InvalidQuantityException.class, ()-> new FaithPoint(-2));
     }
 
     @Test
-    public void testAdd() throws InvalidAddFaithException, NegativeQuantityException, MatchEndedException, FileNotFoundException, WrongSettingException, SingleMatchException {
+    public void testAdd() throws NegativeQuantityException, MatchEndedException, FileNotFoundException, WrongSettingException, SingleMatchException {
         Match match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
         FaithPoint faithPoint = new FaithPoint(2);
 

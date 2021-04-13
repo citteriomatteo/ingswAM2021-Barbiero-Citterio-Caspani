@@ -18,7 +18,6 @@ public class MultiMatch extends Match implements Comunicator{
     private Market market;
     private final CardGrid cardGrid;
     private LeaderStack leaderStack;
-    private final MatchConfiguration matchConfiguration;
     private int numPlayer = 0;
 
     public MultiMatch(List<Player> players,String config) throws SingleMatchException, FileNotFoundException, WrongSettingException, NegativeQuantityException {
@@ -26,7 +25,7 @@ public class MultiMatch extends Match implements Comunicator{
         if(players.size() == 1)
             throw new SingleMatchException("This match has only one player");
 
-        matchConfiguration = super.getMatchConfiguration();
+        MatchConfiguration matchConfiguration = super.getMatchConfiguration();
 
         this.players = players;
         this.currentPlayer = players.get(0);
@@ -49,6 +48,7 @@ public class MultiMatch extends Match implements Comunicator{
         return currentPlayer;
     }
 
+    @Override
     public CardGrid getCardGrid() {
         return cardGrid;
     }

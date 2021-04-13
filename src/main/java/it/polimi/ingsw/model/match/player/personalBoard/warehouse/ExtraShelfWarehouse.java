@@ -23,11 +23,12 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
      * @param extraShelf   contains a resource that will define the type and quantity of the extraShelf.
      * @see ConcreteWarehouse
      */
-    public ExtraShelfWarehouse(Warehouse oldWarehouse, PhysicalResource extraShelf) throws NegativeQuantityException
+    public ExtraShelfWarehouse(Warehouse oldWarehouse, PhysicalResource extraShelf)
     {
         this.oldWarehouse = oldWarehouse;
         this.shelfSize = extraShelf.getQuantity();
-        this.extraShelf = new PhysicalResource(extraShelf.getType(), 0);
+        try { this.extraShelf = new PhysicalResource(extraShelf.getType(), 0); }
+        catch(NegativeQuantityException e) { e.printStackTrace(); System.err.println("Application shutdown due to an internal error."); }
     }
 
     //ALREADY DEFINED METHODS IN THE OLDER VERSIONS OF THE WAREHOUSE:
@@ -46,17 +47,14 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
      * @see ConcreteWarehouse
      */
     @Override
-    public boolean marketDraw(PhysicalResource res) throws NegativeQuantityException { return oldWarehouse.marketDraw(res); }
+    public boolean marketDraw(PhysicalResource res) { return oldWarehouse.marketDraw(res); }
 
     /**
      * @return the quantity of resources remained.
      * @see ConcreteWarehouse
      */
     @Override
-    public int discardRemains()
-    {
-        return oldWarehouse.discardRemains();
-    }
+    public int discardRemains() { return oldWarehouse.discardRemains(); }
 
     /**
      * This method counts the requested resource on extraShelf and basic Shelves.
@@ -81,21 +79,25 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
      * @see ConcreteWarehouse
      */
     @Override
-    public PhysicalResource take(int shelf, int numResources) throws NotEnoughResourcesException, NegativeQuantityException
+    public PhysicalResource take(int shelf, int numResources) throws NotEnoughResourcesException
     {
-        PhysicalResource takenres;
+        PhysicalResource takenRes=null;
 
         if(getWarehouseDisposition().size() == shelf)
         {
             if(numResources > extraShelf.getQuantity())
                 throw new NotEnoughResourcesException("Not enough resources in the extra shelf!");
-            extraShelf = new PhysicalResource(extraShelf.getType(), (extraShelf.getQuantity()-numResources));
-            takenres = new PhysicalResource(extraShelf.getType(), numResources);
+            try {
+                extraShelf = new PhysicalResource(extraShelf.getType(), (extraShelf.getQuantity() - numResources));
+                takenRes = new PhysicalResource(extraShelf.getType(), numResources);
+            }
+            catch(NegativeQuantityException e) { e.printStackTrace(); System.err.println("Application shutdown due to an internal error."); }
+
         }
         else
-            takenres = oldWarehouse.take(shelf, numResources);
+            takenRes = oldWarehouse.take(shelf, numResources);
 
-        return takenres;
+        return takenRes;
     }
 
     /**
@@ -108,7 +110,7 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
      * @see ConcreteWarehouse
      */
     @Override
-    public boolean moveInShelf(PhysicalResource res, int shelf) throws ShelfInsertException, NegativeQuantityException, InvalidOperationException
+    public boolean moveInShelf(PhysicalResource res, int shelf) throws ShelfInsertException, InvalidOperationException
     {
         if(shelf>getWarehouseDisposition().size())
             throw new ShelfInsertException ("Exception thrown: the shelf "+shelf+" does not exist.");
@@ -116,15 +118,20 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
         if(getWarehouseDisposition().size() == shelf)
         {
             //first of all, check for "res" presence in the marketBuffer.
-            long numbufferel = getBuffer().stream().filter((t)->t.getType().equals(res.getType())).count();
-            if(res.getQuantity()>numbufferel)
+            long numBufferEl = getBuffer().stream().filter((t)->t.getType().equals(res.getType())).count();
+            if(res.getQuantity()>numBufferEl)
                 throw new InvalidOperationException("The resource is not present in the marketBuffer! Operation failed.");
 
             if((res.getQuantity()+extraShelf.getQuantity())>shelfSize || !res.getType().equals(extraShelf.getType()))
                 throw new ShelfInsertException("Error in leader shelf insert procedure! Operation cancelled.");
 
             //Shelf update:
-            extraShelf = new PhysicalResource(extraShelf.getType(), extraShelf.getQuantity()+res.getQuantity());
+            try
+            {
+                extraShelf = new PhysicalResource(extraShelf.getType(), extraShelf.getQuantity()+res.getQuantity());
+            }
+            catch(NegativeQuantityException e) { e.printStackTrace(); System.err.println("Application shutdown due to an internal error."); }
+
 
             //bufferMarket cleaning:
             cleanMarketBuffer(res);
@@ -141,7 +148,7 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
      * @see ConcreteWarehouse
      */
     @Override
-    public boolean cleanMarketBuffer(PhysicalResource res) throws NegativeQuantityException
+    public boolean cleanMarketBuffer(PhysicalResource res)
     {
         return oldWarehouse.cleanMarketBuffer(res);
     }
@@ -182,7 +189,7 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
      */
     @Override
     public boolean switchShelf(int shelf1, int shelf2)
-            throws ShelfInsertException, NegativeQuantityException, InvalidOperationException, NotEnoughResourcesException
+            throws ShelfInsertException, InvalidOperationException
     {
         if(shelf1<0 || shelf1>getWarehouseDisposition().size() || shelf2<0 || shelf2>getWarehouseDisposition().size())
             throw new InvalidOperationException ("Incorrect attributes! Operation Failed.");
@@ -208,11 +215,11 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
                 if(!disp.get(shelf1-1).getType().equals(disp.get(shelf2-1).getType()))
                     throw new ShelfInsertException("Impossible switch: two leaders slots are not compatible.");
 
-            PhysicalResource buffres1= take(shelf1, getWarehouseDisposition().get(shelf1-1).getQuantity());
-            PhysicalResource buffres2= take(shelf2, getWarehouseDisposition().get(shelf2-1).getQuantity());
-            marketDraw(buffres1); marketDraw(buffres2);
-            moveInShelf(buffres2,shelf1);
-            moveInShelf(buffres1, shelf2);
+            PhysicalResource buffRes1= take(shelf1, getWarehouseDisposition().get(shelf1-1).getQuantity());
+            PhysicalResource buffRes2= take(shelf2, getWarehouseDisposition().get(shelf2-1).getQuantity());
+            marketDraw(buffRes1); marketDraw(buffRes2);
+            moveInShelf(buffRes2,shelf1);
+            moveInShelf(buffRes1, shelf2);
         }
         return true;
     }

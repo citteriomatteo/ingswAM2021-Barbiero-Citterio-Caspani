@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.match;
 import it.polimi.ingsw.model.exceptions.MatchEndedException;
 import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.exceptions.WrongSettingException;
-import it.polimi.ingsw.model.match.market.Market;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
@@ -15,21 +14,18 @@ import java.util.List;
 
 public class SingleMatch extends Match{
     private final Player currentPlayer;
-    private Market market;
-    private LeaderStack leaderStack;
-    private final MatchConfiguration matchConfiguration;
     private final SingleCardGrid singleCardGrid;
     private final TokenStack tokenStack;
 
 
-    public SingleMatch(Player player, String config) throws FileNotFoundException, WrongSettingException, NegativeQuantityException {
+    public SingleMatch(Player player, String config) throws FileNotFoundException, WrongSettingException, NegativeQuantityException
+    {
         super(config);
-        matchConfiguration = super.getMatchConfiguration();
-
         this.currentPlayer = player;
+        MatchConfiguration matchConfiguration = super.getMatchConfiguration();
         this.singleCardGrid = new SingleCardGrid(matchConfiguration.getAllDevCards());
         this.tokenStack = new TokenStack();
-        currentPlayer.setPersonalBoard(new PersonalBoard((ArrayList<Cell>) super.getMatchConfiguration().getCustomPath(), super.getMatchConfiguration().getBasicProduction()));
+        currentPlayer.setPersonalBoard(new PersonalBoard((ArrayList<Cell>) matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction()));
         currentPlayer.setMatch(this);
 
 
@@ -44,6 +40,7 @@ public class SingleMatch extends Match{
         return currentPlayer;
     }
 
+    @Override
     public CardGrid getCardGrid() {
         return singleCardGrid;
     }

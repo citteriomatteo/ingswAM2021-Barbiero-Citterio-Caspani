@@ -19,7 +19,8 @@ public class DevCardSlots {
     }
 
     //Verify if the card could be pushed and than add it to the column
-    public boolean pushNewCard(int column, DevelopmentCard card) throws InvalidOperationException {
+    public boolean pushNewCard(int column, DevelopmentCard card) throws InvalidOperationException
+    {
         if (column < 1 || column > NUMBER_OF_COLUMNS)
             throw new InvalidOperationException("Tried to insert card out of bounds");
 

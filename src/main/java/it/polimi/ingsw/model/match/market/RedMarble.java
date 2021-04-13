@@ -8,7 +8,7 @@ public class RedMarble extends Marble {
     public RedMarble() {
     }
 
-    public boolean onDraw(Adder adder) throws NegativeQuantityException, MatchEndedException {
+    public boolean onDraw(Adder adder) throws MatchEndedException {
         adder.addFaithPoints(1);
         return false;
     }

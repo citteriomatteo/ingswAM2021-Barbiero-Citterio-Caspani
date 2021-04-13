@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.essentials;
 import static org.junit.jupiter.api.Assertions.*;
 
-import it.polimi.ingsw.model.exceptions.InvalidAddFaithException;
 import it.polimi.ingsw.model.exceptions.MatchEndedException;
 import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.exceptions.WrongSettingException;
@@ -28,7 +27,7 @@ public class ProductionTest {
     //test the constructor with random cost and earnings
     @Test
     @BeforeEach
-    public void ConstructorTest() throws NegativeQuantityException, InvalidAddFaithException {
+    public void ConstructorTest() throws NegativeQuantityException {
         List<PhysicalResource> cost = new ArrayList<>();
         List<Resource> earnings = new ArrayList<>();
         Random rand = new Random();
@@ -51,7 +50,7 @@ public class ProductionTest {
     }
 
     @Test
-    public void produceTest() throws NegativeQuantityException, InvalidAddFaithException, MatchEndedException, FileNotFoundException, WrongSettingException {
+    public void produceTest() throws NegativeQuantityException, MatchEndedException, FileNotFoundException, WrongSettingException {
         List<PhysicalResource> cost = new ArrayList<>();
         List<Resource> earnings = new ArrayList<>();
         earnings.add(new PhysicalResource(ResType.SHIELD, 1));

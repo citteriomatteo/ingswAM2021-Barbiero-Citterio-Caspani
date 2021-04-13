@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.exceptions.SingleMatchException;
 import it.polimi.ingsw.model.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.market.Market;
 import it.polimi.ingsw.model.match.player.Player;
+import it.polimi.ingsw.model.match.player.personalBoard.DevCardSlots;
 import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 
@@ -19,9 +20,9 @@ import java.util.List;
 import static it.polimi.ingsw.gsonUtilities.GsonHandler.*;
 
 public abstract class Match implements Comunicator{
-    private Market market;
-    private LeaderStack leaderStack;
-    private MatchConfiguration matchConfiguration;
+    private final Market market;
+    private final LeaderStack leaderStack;
+    private final MatchConfiguration matchConfiguration;
 
 
 
@@ -49,6 +50,8 @@ public abstract class Match implements Comunicator{
     }
 
     public abstract boolean nextTurn() throws NegativeQuantityException, MatchEndedException;
+
+    public abstract CardGrid getCardGrid();
 
 
 

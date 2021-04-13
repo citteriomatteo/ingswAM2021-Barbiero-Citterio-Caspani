@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.Production;
 import it.polimi.ingsw.model.essentials.ResType;
 import it.polimi.ingsw.model.essentials.leader.LeaderCard;
+import it.polimi.ingsw.model.exceptions.FaithPathCreationException;
 import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.FaithPath;
@@ -34,7 +35,7 @@ public class PersonalBoard implements Effecter
      * @param basicProduction is the basic Production
      */
 
-    public PersonalBoard(ArrayList<Cell> path, int startingPos, Production basicProduction) throws NegativeQuantityException
+    public PersonalBoard(ArrayList<Cell> path, int startingPos, Production basicProduction) throws FaithPathCreationException
     {
         activeLeaders = new ArrayList<>();
         activeProductionLeaders = new ArrayList<>();
@@ -52,8 +53,7 @@ public class PersonalBoard implements Effecter
      * @param path            is the Cell-made path useful for the faithPath initialization
      * @param basicProduction is the basic Production
      */
-    public PersonalBoard(ArrayList<Cell> path, Production basicProduction) throws NegativeQuantityException
-    {
+    public PersonalBoard(ArrayList<Cell> path, Production basicProduction) throws FaithPathCreationException {
         activeLeaders = new ArrayList<>();
         activeProductionLeaders = new ArrayList<>();
         whiteMarbleConversions = new ArrayList<>();
@@ -72,7 +72,7 @@ public class PersonalBoard implements Effecter
      * @param hasProduction is a boolean identifying if it is a Production one or not
      * @return              true
      */
-    public boolean addActiveLeader(LeaderCard newLeader, boolean hasProduction) throws NegativeQuantityException
+    public boolean addActiveLeader(LeaderCard newLeader, boolean hasProduction)
     {
         activeLeaders.add(newLeader);
         if(hasProduction)
@@ -86,7 +86,7 @@ public class PersonalBoard implements Effecter
      * @param extraShelf is the resource that has all the informations about the new shelf (quantity and type)
      * @return           true
      */
-    public boolean warehouseEvolution(PhysicalResource extraShelf) throws NegativeQuantityException
+    public boolean warehouseEvolution(PhysicalResource extraShelf)
     {
         warehouse = new ExtraShelfWarehouse(getWarehouse(), extraShelf);
         return true;
