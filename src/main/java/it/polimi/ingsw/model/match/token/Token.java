@@ -5,5 +5,5 @@ import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.SingleMatch;
 
 public abstract class Token {
-    public abstract boolean onDraw(SingleMatch match) throws MatchEndedException, NegativeQuantityException;
+    public abstract boolean onDraw(SingleMatch match) throws MatchEndedException;
 }

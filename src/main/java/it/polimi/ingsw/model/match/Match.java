@@ -15,7 +15,6 @@ import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.List;
 
 import static it.polimi.ingsw.gsonUtilities.GsonHandler.*;
 
@@ -26,7 +25,7 @@ public abstract class Match implements Comunicator{
 
 
 
-    public Match(String config) throws WrongSettingException, FileNotFoundException, NegativeQuantityException {
+    public Match(String config) throws WrongSettingException, FileNotFoundException {
         Gson g = cellConfig(resourceConfig(requirableConfig(effectConfig(new GsonBuilder())))).setPrettyPrinting().create();
         FileReader reader = new FileReader(config);
 
@@ -49,9 +48,13 @@ public abstract class Match implements Comunicator{
         return matchConfiguration;
     }
 
+    public abstract CardGrid getCardGrid();
+
+    public abstract ArrayList<Player> getPlayers();
+
     public abstract boolean nextTurn() throws NegativeQuantityException, MatchEndedException;
 
-    public abstract CardGrid getCardGrid();
+
 
 
 

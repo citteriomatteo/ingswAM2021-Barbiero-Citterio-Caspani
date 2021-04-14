@@ -7,11 +7,9 @@ import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.SingleMatch;
-import it.polimi.ingsw.model.match.player.Adder;
 import it.polimi.ingsw.model.match.player.Player;
 
 import java.io.FileNotFoundException;
-import java.util.List;
 import java.util.Random;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -73,7 +71,7 @@ public class MarketTest {
     }
 
     @Test
-    public void testSelectRow() throws InvalidQuantityException, MatchEndedException, FileNotFoundException, WrongSettingException, InvalidOperationException {
+    public void testSelectRow() throws MatchEndedException, FileNotFoundException, WrongSettingException, InvalidOperationException {
         Random gen = new Random();
         Player player = new Player("player1");
         match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
@@ -104,7 +102,7 @@ public class MarketTest {
     }
 
     @Test
-    public void testSelectColumn() throws NegativeQuantityException, InvalidQuantityException, MatchEndedException, FileNotFoundException, WrongSettingException, InvalidOperationException {
+    public void testSelectColumn() throws MatchEndedException, FileNotFoundException, WrongSettingException, InvalidOperationException {
         Random gen = new Random();
         Player player = new Player("player1");
         match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");

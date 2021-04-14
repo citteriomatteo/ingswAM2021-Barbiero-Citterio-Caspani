@@ -18,7 +18,7 @@ public class SingleMatch extends Match{
     private final TokenStack tokenStack;
 
 
-    public SingleMatch(Player player, String config) throws FileNotFoundException, WrongSettingException, NegativeQuantityException
+    public SingleMatch(Player player, String config) throws FileNotFoundException, WrongSettingException
     {
         super(config);
         this.currentPlayer = player;
@@ -39,19 +39,18 @@ public class SingleMatch extends Match{
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
-
     @Override
     public CardGrid getCardGrid() {
         return singleCardGrid;
     }
 
     @Override
-    public boolean nextTurn() throws NegativeQuantityException, MatchEndedException {
+    public boolean nextTurn() throws MatchEndedException {
         return tokenStack.draw(this);
     }
 
     @Override
-    public List<Player> getPlayers() {
-        return List.of(currentPlayer);
+    public ArrayList<Player> getPlayers() {
+        return new ArrayList<>(List.of(currentPlayer));
     }
 }

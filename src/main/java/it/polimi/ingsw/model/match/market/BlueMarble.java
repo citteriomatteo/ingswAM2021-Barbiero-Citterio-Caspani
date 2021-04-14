@@ -9,8 +9,13 @@ public class BlueMarble extends Marble {
     public BlueMarble() {
     }
 
-    public boolean onDraw(Adder adder) throws NegativeQuantityException {
-        adder.addToWarehouse(new PhysicalResource(ResType.SHIELD, 1));
+    public boolean onDraw(Adder adder) {
+        try {
+            adder.addToWarehouse(new PhysicalResource(ResType.SHIELD, 1));
+        } catch (NegativeQuantityException e) {
+            e.printStackTrace(); System.err.println("Application shutdown due to an internal error.");
+            System.exit(1);
+        }
         return false;
     }
 

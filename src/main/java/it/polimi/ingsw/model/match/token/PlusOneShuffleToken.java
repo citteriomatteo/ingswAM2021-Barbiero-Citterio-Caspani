@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.match.player.personalBoard.faithPath.SingleFaithPat
 
 public class PlusOneShuffleToken extends Token{
     @Override
-    public boolean onDraw(SingleMatch match) throws NegativeQuantityException, MatchEndedException {
+    public boolean onDraw(SingleMatch match) throws MatchEndedException {
         SingleFaithPath singleFaithPath;
         singleFaithPath = (SingleFaithPath) match.getCurrentPlayer().getPersonalBoard().getFaithPath();
         singleFaithPath.addBlackPoints(1);

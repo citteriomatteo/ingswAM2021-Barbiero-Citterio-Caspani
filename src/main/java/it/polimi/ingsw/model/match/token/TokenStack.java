@@ -22,7 +22,11 @@ public class TokenStack {
         Collections.shuffle(tokenStack);
     }
 
-    public boolean draw(SingleMatch match) throws MatchEndedException, NegativeQuantityException {
+    public Stack<Token> getStack() {
+        return (Stack<Token>) tokenStack.clone();
+    }
+
+    public boolean draw(SingleMatch match) throws MatchEndedException {
 
         return tokenStack.pop().onDraw(match);
     }

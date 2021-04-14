@@ -34,7 +34,7 @@ public class Player implements Adder, Verificator
     /**
      * This method sets the initial configuration of the player's leaders.
      * @param handLeaders is the Leaders list
-     * @return
+     * @return false
      */
     public boolean setHandLeaders(ArrayList<LeaderCard> handLeaders)
     {
@@ -50,7 +50,6 @@ public class Player implements Adder, Verificator
      * This method sets the Match to the player.
      * @param match is the Match instantiation
      * @return true if the player had no match, else false.
-     * @throws NegativeQuantityException (propagated)
      */
     public boolean setMatch(Match match)
     {
@@ -244,11 +243,11 @@ public class Player implements Adder, Verificator
         if(row)
             //parameters errors are handled here.
             try{ whiteMarbles = match.getMarket().selectRow(number, this);}
-            catch (InvalidQuantityException | InvalidOperationException e){ e.printStackTrace(); }
+            catch ( InvalidOperationException e){ e.printStackTrace(); }
         else
             //parameters errors are handled here.
             try{ whiteMarbles = match.getMarket().selectColumn(number, this);}
-            catch (InvalidQuantityException | InvalidOperationException e){ e.printStackTrace(); }
+            catch ( InvalidOperationException e){ e.printStackTrace(); }
         return whiteMarbles;
     }
 
@@ -308,12 +307,21 @@ public class Player implements Adder, Verificator
         return true;
     }
 
+    /**
+     * this method produces the actual production in tempProduction.
+     * @return true
+     * @throws MatchEndedException (propagated)
+     */
     public boolean produce() throws MatchEndedException
     {
         tempProduction.produce(this);
         return true;
     }
 
+    /**
+     * this method returns the player's total amount of win points.
+     * @return int totalWinPoints
+     */
     public int totalWinPoints()
     {
         int points = 0;

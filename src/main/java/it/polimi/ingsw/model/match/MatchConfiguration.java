@@ -37,9 +37,7 @@ public class MatchConfiguration
     public void setAllDevCards(List<DevelopmentCard> allDevCards) {
         this.allDevCards = allDevCards;
     }
-    public void setAllLeaderCards(List<LeaderCard> allLeaderCards) {
-        this.allLeaderCards = allLeaderCards;
-    }
+    public void setAllLeaderCards(List<LeaderCard> allLeaderCards) { this.allLeaderCards = allLeaderCards;}
     public void setCustomPath(List<Cell> customPath) {
         this.customPath = customPath;
     }

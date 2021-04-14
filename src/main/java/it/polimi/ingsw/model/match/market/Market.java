@@ -64,7 +64,7 @@ public class Market {
         return this.slide;
     }
 
-    public int selectRow(int numRow, Adder adder) throws NegativeQuantityException, InvalidOperationException, MatchEndedException {
+    public int selectRow(int numRow, Adder adder) throws InvalidOperationException, MatchEndedException {
         int countWhite = 0;
 
         if(numRow < 0 || numRow > 3)
@@ -80,7 +80,7 @@ public class Market {
         return countWhite;
     }
 
-    public int selectColumn(int numColumn, Adder adder) throws MatchEndedException, InvalidOperationException, NegativeQuantityException
+    public int selectColumn(int numColumn, Adder adder) throws MatchEndedException, InvalidOperationException
     {
         int countWhite = 0;
 

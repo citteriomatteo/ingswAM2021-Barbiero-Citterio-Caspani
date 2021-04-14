@@ -20,7 +20,7 @@ public class MultiMatch extends Match implements Comunicator{
     private LeaderStack leaderStack;
     private int numPlayer = 0;
 
-    public MultiMatch(List<Player> players,String config) throws SingleMatchException, FileNotFoundException, WrongSettingException, NegativeQuantityException {
+    public MultiMatch(List<Player> players,String config) throws SingleMatchException, FileNotFoundException, WrongSettingException {
         super(config);
         if(players.size() == 1)
             throw new SingleMatchException("This match has only one player");
@@ -54,8 +54,8 @@ public class MultiMatch extends Match implements Comunicator{
     }
 
     @Override
-    public List<Player> getPlayers() {
-        return players;
+    public ArrayList<Player> getPlayers() {
+        return (ArrayList<Player>) players;
     }
 
     public Player getNextPlayer(){
