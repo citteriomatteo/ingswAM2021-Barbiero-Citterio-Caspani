@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.match.player.personalBoard.faithPath;
 
 import it.polimi.ingsw.model.exceptions.*;
-import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.MultiMatch;
 import it.polimi.ingsw.model.match.player.Player;
 import org.junit.jupiter.api.Test;
@@ -13,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class FaithPathTest
 {
     //Generates 25-steps path, same report sections as the default path.
-    public ArrayList<Cell> generatePath() throws FaithPathCreationException
+    public static ArrayList<Cell> generatePath() throws FaithPathCreationException
     {
         ArrayList<Cell> path = new ArrayList<>();
         List<Integer> wp = Arrays.asList(0,0,0,1,0,0,2,0,0,4,0,0,6,0,0,9,0,0,12,0,0,16,0,0,20);
@@ -29,7 +28,7 @@ public class FaithPathTest
 
     //TODO
     @Test
-    public void getWinPointsTest() throws NegativeQuantityException, MatchEndedException, FileNotFoundException, WrongSettingException, SingleMatchException {
+    public void getWinPointsTest() throws MatchEndedException, FileNotFoundException, WrongSettingException, SingleMatchException {
         Player player = new Player("player1");
         Player player1 = new Player("player2");
         MultiMatch match = new MultiMatch(List.of(player,player1),"src/test/resources/StandardConfiguration.json");
@@ -45,7 +44,7 @@ public class FaithPathTest
 
     /*
     Tests the correct type-cast of a VaticanReportCell to a Cell, when the relative vaticanReport is triggered.
-    */
+
     @Test
     public void CellCollapseTest() throws FaithPathCreationException, MatchEndedException
     {
@@ -55,9 +54,9 @@ public class FaithPathTest
         path.addFaithPoints(9, null);
         assertFalse(path.getFaithPath().get(8).singleVaticanReport());
 
-         */
-    }
 
+    }
+*/
     //TODO
     @Test
     public void addFaithPointsTest()

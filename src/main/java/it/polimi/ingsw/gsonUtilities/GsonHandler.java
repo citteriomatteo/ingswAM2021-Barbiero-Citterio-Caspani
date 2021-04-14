@@ -24,7 +24,6 @@ public class GsonHandler {
                 .registerSubtype(FaithPoint.class, "faithPoint"));
     }
 
-
     /**
      * @param builder a generic GsonBuilder
      * @return a gson builder ready to parse an object that could be a Cell or a subclass
@@ -36,7 +35,6 @@ public class GsonHandler {
                 .registerSubtype(VaticanReportCell.class, "vaticanReportCell")
                 .registerSubtype(Cell.class, "cell"));
     }
-
 
     /**
      * @param builder a generic GsonBuilder
@@ -51,8 +49,6 @@ public class GsonHandler {
                 .registerSubtype(SlotEffect.class, "slotEffect")
                 .registerSubtype(WhiteMarbleEffect.class, "whiteMarbleEffect"));
     }
-
-    // Returns a gson builder ready to parse an object that implements Requirable Interface
 
     /**
      * @param builder a generic GsonBuilder

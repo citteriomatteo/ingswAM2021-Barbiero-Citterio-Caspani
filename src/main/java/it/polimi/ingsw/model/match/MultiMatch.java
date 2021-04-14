@@ -51,8 +51,8 @@ public class MultiMatch extends Match implements Comunicator{
     }
 
     @Override
-    public ArrayList<Player> getPlayers() {
-        return (ArrayList<Player>) players;
+    public List<Player> getPlayers() {
+        return players;
     }
 
     public Player getNextPlayer(){

@@ -10,7 +10,7 @@ import it.polimi.ingsw.model.match.player.Player;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.ArrayList;
+import java.util.List;
 
 import static it.polimi.ingsw.gsonUtilities.GsonHandler.*;
 
@@ -46,7 +46,7 @@ public abstract class Match implements Comunicator{
 
     public abstract CardGrid getCardGrid();
 
-    public abstract ArrayList<Player> getPlayers();
+    public abstract List<Player> getPlayers();
 
     public abstract Player getCurrentPlayer();
 

@@ -11,7 +11,7 @@ public interface Effecter
     This method removes the activated leader from handLeader list and adds it to the activeLeaders list.
     Eventually adds it to the ProductionActiveLeader list, if it has a production effect.
      */
-    boolean addActiveLeader(LeaderCard lc, boolean hasProduction) throws NegativeQuantityException;
+    boolean addActiveLeader(LeaderCard lc, boolean hasProduction);
 
     /*
     This method evolves the warehouse structure (updating the new shelves),
@@ -20,7 +20,7 @@ public interface Effecter
                    -> new ExtraShelfWarehouse(...) (that points to the Concrete)
                     -> new ExtraShelfWarehouse(...) (that points to the first ExtraShelf).
      */
-    boolean warehouseEvolution(PhysicalResource extraShelf) throws NegativeQuantityException;
+    boolean warehouseEvolution(PhysicalResource extraShelf);
 
     //This method adds a new white-marble conversion to the WhiteMarbleConversions list.
     boolean addNewConversion(PhysicalResource conversion);

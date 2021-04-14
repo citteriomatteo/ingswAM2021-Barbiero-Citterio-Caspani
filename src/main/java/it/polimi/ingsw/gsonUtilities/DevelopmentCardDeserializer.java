@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gsonUtilities;
 
-
 import com.google.gson.*;
 import it.polimi.ingsw.model.essentials.*;
 import it.polimi.ingsw.model.exceptions.InvalidQuantityException;
@@ -9,10 +8,9 @@ import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 /**
-@deprecated Leave this class only for reference
-
-
-  This class is used to tell the gsonBuilder how to deserialize a DevelopmentCard object
+ * @deprecated Leave this class only for reference
+ *
+ * This class is used to tell the gsonBuilder how to deserialize a DevelopmentCard object
  */
 public class DevelopmentCardDeserializer implements JsonDeserializer<DevelopmentCard>
 {

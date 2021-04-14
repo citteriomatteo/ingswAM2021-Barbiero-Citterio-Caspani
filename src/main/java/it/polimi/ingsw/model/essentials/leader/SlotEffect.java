@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.essentials.leader;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.personalBoard.Effecter;
 
 import java.util.Objects;
@@ -27,8 +26,7 @@ public class SlotEffect implements Effect{
     @Override
     public boolean activate(Effecter effecter)
     {
-        try{ effecter.warehouseEvolution(extraShelf); }
-        catch(NegativeQuantityException e) {e.printStackTrace();}
+        effecter.warehouseEvolution(extraShelf);
         return false;
     }
 

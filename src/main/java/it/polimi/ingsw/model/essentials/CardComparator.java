@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.essentials.leader;
+package it.polimi.ingsw.model.essentials;
 
 
 import it.polimi.ingsw.model.essentials.DevelopmentCard;
@@ -12,6 +12,8 @@ public class CardComparator implements Comparator<DevelopmentCard> {
         if(devCard1.getType().getLevel() < devCard2.getType().getLevel() ||
                 (devCard1.getType().getLevel() == devCard2.getType().getLevel() && devCard1.getType().getColor().getVal() < devCard2.getType().getColor().getVal()))
             return -1;
+        else if (devCard1.getType().equals(devCard2.getType()))
+                return 0;
         else
             return 1;
     }

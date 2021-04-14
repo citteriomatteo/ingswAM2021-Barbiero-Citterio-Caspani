@@ -10,12 +10,11 @@ import java.io.FileNotFoundException;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SingleMatchTest {
-    private SingleMatch match;
 
     @Test
     public void testNextTurn() throws WrongSettingException, FileNotFoundException, MatchEndedException {
         int dim;
-        match = new SingleMatch(new Player("player1"),"src/test/resources/StandardConfiguration.json");
+        SingleMatch match = new SingleMatch(new Player("player1"), "src/test/resources/StandardConfiguration.json");
 
         dim = match.getTokenStack().getStack().size();
 

@@ -17,31 +17,6 @@ public class LeaderCard {
     private final Effect effect;
 
     /**
-     * Getter
-     * @return the list of requirements needed to be satisfied in order to place the card
-     */
-    public List<Requirable> getRequirements() {
-        return requirements;
-    }
-
-    /**
-     * Getter
-     * @return the amount of win points the card give
-     */
-    public int getWinPoints() {
-        return winPoints;
-    }
-
-    /**
-     * Getter
-     * @return the effect of the card
-     */
-    public Effect getEffect() {
-        return effect;
-    }
-
-
-    /**
      * Simple constructor
      * @param requirements the list of requirements needed to be satisfied in order to place the card
      * @param winPoints the amount of win points the card give
@@ -53,7 +28,28 @@ public class LeaderCard {
         this.effect = effect;
     }
 
-    // Verify if the player has satisfied all the requirements
+    /**
+     * Getter
+     * @return the list of requirements needed to be satisfied in order to place the card
+     */
+    public List<Requirable> getRequirements() {
+        return requirements;
+    }
+    /**
+     * Getter
+     * @return the amount of win points the card give
+     */
+    public int getWinPoints() {
+        return winPoints;
+    }
+    /**
+     * Getter
+     * @return the effect of the card
+     */
+    public Effect getEffect() {
+        return effect;
+    }
+
 
     /**
      * Verifies if the player has satisfied all the requirements
@@ -68,16 +64,13 @@ public class LeaderCard {
         return true;
     }
 
-    // Activate the precise effect and then add the leader to the ActiveLeader List
-    // The player must have already called isActivable himself before
-
     /**
      * Activate the precise effect and then add the leader to the ActiveLeader List
      * @requires The player must have already called isActivable himself before.
      * @param effecter the PersonalBoard owned by the player who wants to activate the LeaderCard
      * @return true if the method has worked correctly
      */
-    public boolean activate (Effecter effecter) throws NegativeQuantityException {  //TODO remove this throw of exception
+    public boolean activate (Effecter effecter) {
         return effecter.addActiveLeader(this, effect.activate(effecter));
     }
 

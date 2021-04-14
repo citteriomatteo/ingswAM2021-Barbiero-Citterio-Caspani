@@ -2,7 +2,6 @@ package it.polimi.ingsw.model.match.player.personalBoard.faithPath;
 
 import it.polimi.ingsw.model.exceptions.FaithPathCreationException;
 import it.polimi.ingsw.model.exceptions.MatchEndedException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.Comunicator;
 
 import java.util.*;
@@ -10,8 +9,8 @@ import java.util.*;
 public abstract class FaithPath
 {
     private int faithMarker;
-    private List<Integer> popeTiles; //Tiles values -> 0: downside (not reached yet), 1: upside, 2:rejected.
-    private List<Cell> faithPath;
+    private final List<Integer> popeTiles; //Tiles values -> 0: downside (not reached yet), 1: upside, 2:rejected.
+    private final List<Cell> faithPath;
 
     /**
      * This is the constructor of the abstract FaithPath.
@@ -43,7 +42,6 @@ public abstract class FaithPath
      * @param comunicator   is the interface with all the usable methods
      * @return              true
      * @throws MatchEndedException          if a player ends the path journey
-     * @throws FaithPathCreationException   (propagated)
      */
     public boolean addFaithPoints(int steps, Comunicator comunicator) throws MatchEndedException
     {
@@ -79,7 +77,6 @@ public abstract class FaithPath
      * the report procedure for the next players who pass.
      * @param pos is the position of the cell that has to be casted.
      * @return    true
-     * @throws FaithPathCreationException (propagated)
      */
     public boolean cellCollapse(int pos)
     {
@@ -97,7 +94,7 @@ public abstract class FaithPath
     public int getWinPoints()
     {
         int points = 0;
-        points = getFaithPath().stream().filter((x)->faithPath.indexOf(x)<=faithMarker).map(x -> x.getWinPoints()).reduce(points, (x, y) -> x + y);
+        points = getFaithPath().stream().filter((x)->faithPath.indexOf(x)<=faithMarker).map(Cell::getWinPoints).reduce(points, Integer::sum);
         for (int i=0; i<3; i++)
                 points += (i + 2) * ((popeTiles.get(i) == 1) ? 1 : 0);
         return points;

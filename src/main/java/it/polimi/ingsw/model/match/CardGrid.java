@@ -14,12 +14,19 @@ import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Stack;
 
+/**
+ * A grid of card
+ */
 public class CardGrid {
-    private final Stack<DevelopmentCard>[][] topGrid;
-    private static final int MAXLEVEL = 3;
+    private final Stack<DevelopmentCard>[][] grid;
+    private static final int MAX_LEVEL = 3;
 
-    public Stack<DevelopmentCard>[][] getTopGrid() {
-        return topGrid;
+    /**
+     * Return a copy of the two-dimensional array of decks that form the grid
+     * @return a copy of the entire grid
+     */
+    public Stack<DevelopmentCard>[][] getGrid() {
+        return grid.clone();
     }
 
     /*
@@ -34,21 +41,21 @@ public class CardGrid {
         int count = 0;
 
 
-        topGrid = new Stack[MAXLEVEL][CardColor.values().length];
-        for (int lv = 0; lv < MAXLEVEL; lv++) {
+        grid = new Stack[MAX_LEVEL][CardColor.values().length];
+        for (int lv = 0; lv < MAX_LEVEL; lv++) {
             for (CardColor color : CardColor.values()) {
 
                 if(!cards.get(count).getType().getColor().equals(color) || cards.get(count).getType().getLevel()!=lv+1)
                     throw new WrongSettingException("Not enough CardTypes or given in the wrong order");
 
-                topGrid[lv][color.ordinal()] = new Stack<>();
+                grid[lv][color.ordinal()] = new Stack<>();
                 while (count < cards.size() && cards.get(count).getType().getColor().equals(color)
                         && cards.get(count).getType().getLevel()==lv+1) {
-                    topGrid[lv][color.ordinal()].push(cards.get(count));
+                    grid[lv][color.ordinal()].push(cards.get(count));
                     count++;
                 }
                 //After creating all the single stacks, they are shuffled
-                Collections.shuffle(topGrid[lv][color.ordinal()]);
+                Collections.shuffle(grid[lv][color.ordinal()]);
 
             }
         }
@@ -57,16 +64,17 @@ public class CardGrid {
 
     public CardType[] countRemaining() {
         int count = 0;
-        CardType[] res = new CardType[CardColor.values().length * MAXLEVEL];
+        CardType[] res = new CardType[CardColor.values().length * MAX_LEVEL];
 
-        for (int lv = 0; lv < MAXLEVEL; lv++) {
+        for (int lv = 0; lv < MAX_LEVEL; lv++) {
             for (CardColor color : CardColor.values()) {
                 try {
-                    res[count] = new CardType(color, lv, topGrid[lv][color.ordinal()].size());
+                    res[count] = new CardType(color, lv, grid[lv][color.ordinal()].size());
                     count++;
                 } catch (InvalidQuantityException e) {
-                    System.err.println("an error has occurred inside cardGrid");
+                    System.err.println("System shutdown. An error has occurred inside cardGrid");
                     e.printStackTrace();
+                    System.exit(1);
                 }
             }
         }
@@ -76,12 +84,12 @@ public class CardGrid {
 
     //Returns True if the card in the given position is buyable by the player passed as verificator
     public boolean isBuyable(Verificator verificator, int lv, int color) throws InvalidCardRequestException, NoMoreCardsException {
-        if (lv < 1 || lv > MAXLEVEL || color < 1 || color > CardColor.values().length)
+        if (lv < 1 || lv > MAX_LEVEL || color < 1 || color > CardColor.values().length)
             throw new InvalidCardRequestException("Tried to control a card out of range");
 
         try {
 
-            return topGrid[lv-1][color-1].peek().isBuyable(verificator);
+            return grid[lv-1][color-1].peek().isBuyable(verificator);
         }
         catch (EmptyStackException e){
             throw new NoMoreCardsException("Tried to control a card from an empty stack");
@@ -94,11 +102,11 @@ public class CardGrid {
     You can use it also thinking lv = row and color = column
      */
     public DevelopmentCard take(int lv, int color) throws InvalidCardRequestException, NoMoreCardsException {
-        if (lv < 1 || lv > MAXLEVEL || color < 1 || color > CardColor.values().length)
+        if (lv < 1 || lv > MAX_LEVEL || color < 1 || color > CardColor.values().length)
             throw new InvalidCardRequestException("Tried to take a card out of range");
         try {
 
-            return topGrid[lv - 1][color-1].pop();
+            return grid[lv - 1][color-1].pop();
         }
         catch (EmptyStackException e){
             throw new NoMoreCardsException("Tried to take a card from an empty stack");

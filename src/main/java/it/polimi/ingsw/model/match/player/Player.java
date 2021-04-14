@@ -97,14 +97,11 @@ public class Player implements Adder, Verificator
      * This method adds faith points to to the faith path, looking for the match end.
      * @param quantity is the quantity of steps
      * @return         true
-     * @throws FaithPathCreationException
      * @throws MatchEndedException
      */
     @Override
-    public boolean addFaithPoints(int quantity)
-    {
-        try{ personalBoard.getFaithPath().addFaithPoints(quantity, match); }
-        catch(MatchEndedException e){ /*notify controller here?*/}
+    public boolean addFaithPoints(int quantity) throws MatchEndedException {
+        personalBoard.getFaithPath().addFaithPoints(quantity, match);
         return true;
     }
 
@@ -148,11 +145,7 @@ public class Player implements Adder, Verificator
         else if (numInStrongbox >= physicalResource.getQuantity())
             return true;
 
-        else if (numInStrongbox + numInWarehouse >= physicalResource.getQuantity())
-            return true;
-
-        else
-            return false;
+        else return numInStrongbox + numInWarehouse >= physicalResource.getQuantity();
     }
 
     /**
@@ -197,9 +190,8 @@ public class Player implements Adder, Verificator
      * then activates it passing through the card's methods.
      * @param leader the card to activate
      * @return true if ok, else false
-     * @throws NegativeQuantityException (propagated)
      */
-    public boolean activateLeader(LeaderCard leader) throws NegativeQuantityException
+    public boolean activateLeader(LeaderCard leader)
     {
         if(leader.isActivable(this))
         {
@@ -280,9 +272,8 @@ public class Player implements Adder, Verificator
      * @return      true
      * @throws InvalidCardRequestException relative to the problem about the incompatibility
      *                                     between the requested resource and the one in the shelf
-     * @throws NegativeQuantityException (propagated)
      */
-    public boolean payFromWarehouse(int shelf, PhysicalResource res) throws InvalidCardRequestException, NegativeQuantityException {
+    public boolean payFromWarehouse(int shelf, PhysicalResource res) throws InvalidCardRequestException{
         Warehouse wh = personalBoard.getWarehouse();
         if(!res.getType().equals(wh.getWarehouseDisposition().get(shelf-1).getType()))
             throw new InvalidCardRequestException ("The resource 'res' is not present on the shelf! Operation failed.");
@@ -326,7 +317,7 @@ public class Player implements Adder, Verificator
     {
         int points = 0;
         PersonalBoard pb = getPersonalBoard();
-        pb.getActiveLeaders().stream().map(x->x.getWinPoints()).reduce(points,(x,y)->x+y);
+        points += pb.getActiveLeaders().stream().map(LeaderCard::getWinPoints).reduce(points, Integer::sum);
         points += pb.getDevCardSlots().getWinPoints();
         points += pb.getFaithPath().getWinPoints();
         int partialPoints = 0;
