@@ -15,7 +15,7 @@ public class DiscountMapTest
     {
         PhysicalResource resource = new PhysicalResource(ResType.COIN, 1);
         this.discountMap.setDiscount(resource);
-        //Assertions.assertFalse(this.discountMap.getDiscountMap().isEmpty());
+        Assertions.assertFalse(this.discountMap.getDiscountMap().isEmpty());
         Assertions.assertEquals(1, this.discountMap.getDiscountMap().get(ResType.COIN));
         Assertions.assertEquals(0, this.discountMap.getDiscountMap().get(ResType.SERVANT));
         this.discountMap.setDiscount(resource);

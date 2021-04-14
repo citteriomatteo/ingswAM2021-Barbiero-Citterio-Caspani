@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.essentials.leader;
 
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.personalBoard.Effecter;
 
 /**

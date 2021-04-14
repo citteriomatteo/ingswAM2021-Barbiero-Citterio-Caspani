@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.essentials;
 
-import it.polimi.ingsw.model.essentials.leader.LeaderCard;
+
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.SingleMatch;
@@ -38,7 +38,7 @@ public class CardTypeTest {
     }
 
     @Test
-    public void testVerify() throws InvalidQuantityException, NegativeQuantityException, FileNotFoundException, WrongSettingException, InvalidOperationException, SingleMatchException {
+    public void testVerify() throws InvalidQuantityException, FileNotFoundException, WrongSettingException, InvalidOperationException {
         CardType cardType = new CardType(CardColor.GREEN,1,1);
         CardType cardType1 = new CardType(CardColor.GREEN,2,1);
         CardType cardType2 = new CardType(CardColor.GREEN,1,2);

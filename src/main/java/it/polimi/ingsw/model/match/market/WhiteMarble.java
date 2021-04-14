@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.match.market;
 
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.Adder;
 
 public class WhiteMarble extends Marble {

@@ -1,9 +1,7 @@
 package it.polimi.ingsw.model.match.market;
 
 import it.polimi.ingsw.model.exceptions.InvalidOperationException;
-import it.polimi.ingsw.model.exceptions.InvalidQuantityException;
 import it.polimi.ingsw.model.exceptions.MatchEndedException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.Adder;
 import java.util.ArrayList;
 import java.util.Collections;

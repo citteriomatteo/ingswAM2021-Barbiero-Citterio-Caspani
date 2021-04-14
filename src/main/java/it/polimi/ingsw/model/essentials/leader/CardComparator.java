@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.essentials.leader;
 
-import it.polimi.ingsw.model.essentials.CardColor;
+
 import it.polimi.ingsw.model.essentials.DevelopmentCard;
 
 import java.util.Comparator;

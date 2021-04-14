@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.match;
 
 import it.polimi.ingsw.model.exceptions.MatchEndedException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
@@ -36,6 +35,7 @@ public class SingleMatch extends Match{
         return tokenStack;
     }
 
+    @Override
     public Player getCurrentPlayer() {
         return currentPlayer;
     }

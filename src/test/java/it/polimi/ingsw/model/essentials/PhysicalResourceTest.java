@@ -3,24 +3,17 @@ package it.polimi.ingsw.model.essentials;
 import it.polimi.ingsw.model.exceptions.*;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.SingleMatch;
-import it.polimi.ingsw.model.match.player.Adder;
 import it.polimi.ingsw.model.match.player.Player;
-import it.polimi.ingsw.model.match.player.Verificator;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PhysicalResourceTest {
     private Player player = new Player("player1");
-
-    public PhysicalResourceTest() throws NegativeQuantityException {
-    }
 
     @Test
     public void testCreate() {
@@ -49,10 +42,12 @@ public class PhysicalResourceTest {
         PhysicalResource resource1 = new PhysicalResource(ResType.SERVANT,3);
         Match match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
         assertTrue(resource1.add(player));
+
+        assertEquals(3,player.getPersonalBoard().getStrongBox().getNumberOf(ResType.SERVANT));
     }
 
     @Test
-    public void testVerify() throws NegativeQuantityException, FileNotFoundException, WrongSettingException, InvalidOperationException, ShelfInsertException {
+    public void testVerify() throws NegativeQuantityException, FileNotFoundException, WrongSettingException, InvalidOperationException {
         Player player = new Player("player1");
         Match match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
         PhysicalResource resource1 = new PhysicalResource(ResType.COIN,1);

@@ -4,13 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.model.exceptions.MatchEndedException;
 import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
-import it.polimi.ingsw.model.exceptions.SingleMatchException;
 import it.polimi.ingsw.model.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.market.Market;
 import it.polimi.ingsw.model.match.player.Player;
-import it.polimi.ingsw.model.match.player.personalBoard.DevCardSlots;
-import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
-import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -51,6 +47,8 @@ public abstract class Match implements Comunicator{
     public abstract CardGrid getCardGrid();
 
     public abstract ArrayList<Player> getPlayers();
+
+    public abstract Player getCurrentPlayer();
 
     public abstract boolean nextTurn() throws NegativeQuantityException, MatchEndedException;
 

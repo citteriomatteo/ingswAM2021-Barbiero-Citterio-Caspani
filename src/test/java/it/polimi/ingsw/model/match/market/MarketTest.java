@@ -1,9 +1,7 @@
 package it.polimi.ingsw.model.match.market;
 
 import it.polimi.ingsw.model.exceptions.InvalidOperationException;
-import it.polimi.ingsw.model.exceptions.InvalidQuantityException;
 import it.polimi.ingsw.model.exceptions.MatchEndedException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.SingleMatch;

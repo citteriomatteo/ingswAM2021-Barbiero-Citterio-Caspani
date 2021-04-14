@@ -1,9 +1,7 @@
 package it.polimi.ingsw.model.match;
 
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.exceptions.SingleMatchException;
 import it.polimi.ingsw.model.exceptions.WrongSettingException;
-import it.polimi.ingsw.model.match.market.Market;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
@@ -15,9 +13,7 @@ import java.util.List;
 public class MultiMatch extends Match implements Comunicator{
     private Player currentPlayer;
     private final List<Player> players;
-    private Market market;
     private final CardGrid cardGrid;
-    private LeaderStack leaderStack;
     private int numPlayer = 0;
 
     public MultiMatch(List<Player> players,String config) throws SingleMatchException, FileNotFoundException, WrongSettingException {
@@ -44,6 +40,7 @@ public class MultiMatch extends Match implements Comunicator{
     }
 
 
+    @Override
     public Player getCurrentPlayer() {
         return currentPlayer;
     }

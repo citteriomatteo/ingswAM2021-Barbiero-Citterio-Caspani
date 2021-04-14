@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.essentials;
 
-import it.polimi.ingsw.model.exceptions.FaithPathCreationException;
 
 import it.polimi.ingsw.model.exceptions.MatchEndedException;
 import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
