@@ -73,4 +73,10 @@ public class MultiMatch extends Match {
         return true;
     }
 
+    @Override
+    public Player getPlayer(String nickname){
+        return (Player) players.stream().filter((x)->x.getNickname().equals(nickname));
+
+    }
+
 }

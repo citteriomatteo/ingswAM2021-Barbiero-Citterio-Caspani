@@ -77,7 +77,7 @@ public class Market {
      * @param adder the player's interface
      * @return the number of white marbles drawn
      * @throws InvalidOperationException
-     * @throws MatchEndedException if the player reach the end of his faithPath
+     * @throws MatchEndedException if the player reaches the end of his faithPath
      */
 
     public int selectRow(int numRow, Adder adder) throws InvalidOperationException, MatchEndedException {
