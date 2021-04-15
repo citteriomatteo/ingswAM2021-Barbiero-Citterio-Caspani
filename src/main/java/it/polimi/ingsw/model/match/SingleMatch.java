@@ -53,4 +53,12 @@ public class SingleMatch extends Match{
     public ArrayList<Player> getPlayers() {
         return new ArrayList<>(List.of(currentPlayer));
     }
+
+    @Override
+    public Player getPlayer(String nickname){
+        if (currentPlayer.getNickname().equals(nickname))
+            return currentPlayer;
+        else
+            return null;
+    }
 }
