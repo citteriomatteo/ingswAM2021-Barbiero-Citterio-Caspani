@@ -13,7 +13,7 @@ public class PhysicalResource implements Resource, Requirable
      * Class constructor
      * @param type sets the type of the PhysicalResource
      * @param quantity sets the number of ResType in this object
-     * @throws NegativeQuantityException if quantity is negative or 0
+     * @throws NegativeQuantityException if quantity is negative
      */
 
     public PhysicalResource(ResType type, int quantity) throws NegativeQuantityException {

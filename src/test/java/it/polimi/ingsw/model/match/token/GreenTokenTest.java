@@ -33,7 +33,7 @@ public class GreenTokenTest {
         }
         assertEquals(10, count);
 
-        for(int i=0; i<5; i++){
+        for(int i=0; i<4; i++){
             assertTrue(greenToken.onDraw(singleMatch));
         }
 

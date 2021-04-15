@@ -19,6 +19,14 @@ public class SlotEffect implements Effect{
     }
 
     /**
+     * getter for testing
+     * @return the PhysicalResource indicating the extra shelf
+     */
+    PhysicalResource getExtraShelf() {
+        return extraShelf;
+    }
+
+    /**
      * Evolves the warehouse adding the extra slot
      * @param effecter the PersonalBoard owned by the player who wants to activate the LeaderCard effect
      * @return false

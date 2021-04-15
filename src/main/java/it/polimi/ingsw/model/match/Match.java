@@ -50,7 +50,7 @@ public abstract class Match implements Comunicator{
 
     public abstract Player getCurrentPlayer();
 
-    public abstract boolean nextTurn() throws NegativeQuantityException, MatchEndedException;
+    public abstract boolean nextTurn() throws MatchEndedException;
 
     public abstract Player getPlayer(String nickname);
 

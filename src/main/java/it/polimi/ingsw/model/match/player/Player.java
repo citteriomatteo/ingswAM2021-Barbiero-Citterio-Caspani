@@ -94,10 +94,10 @@ public class Player implements Adder, Verificator
     //"ADDER" INTERFACE METHODS:
 
     /**
-     * This method adds faith points to to the faith path, looking for the match end.
+     * This method adds faith points to the faith path, looking for the match end.
      * @param quantity is the quantity of steps
      * @return         true
-     * @throws MatchEndedException
+     * @throws MatchEndedException if this player reaches the end of his faith path
      */
     @Override
     public boolean addFaithPoints(int quantity) throws MatchEndedException {
@@ -226,9 +226,9 @@ public class Player implements Adder, Verificator
 
     /**
      * this method does a market action and returns the number of white marbles.
-     * @param row       if true, representes a 'row' draw, else a 'column' draw.
-     * @param number
-     * @return
+     * @param row    if true, represents a 'row' draw, else a 'column' draw.
+     * @param number the number of the row or column
+     * @return the number of white marble in the selected row or column
      */
     public int marketDeal(boolean row, int number) throws NegativeQuantityException, MatchEndedException
     {
@@ -251,8 +251,7 @@ public class Player implements Adder, Verificator
      * @param slot  the slot in which the card will be inserted
      * @return      buyable flag: true if ok, false if not ok
      */
-    public boolean takeDevelopmentCard(int gridR, int gridC, int slot) throws InvalidCardRequestException
-    {
+    public boolean takeDevelopmentCard(int gridR, int gridC, int slot) throws InvalidCardRequestException, MatchEndedException {
         boolean buyable=false;
         try
         {

@@ -19,6 +19,14 @@ public class DiscountEffect implements Effect{
     }
 
     /**
+     * getter for testing
+     * @return the discount given by the effect
+     */
+    PhysicalResource getDiscount() {
+        return discount;
+    }
+
+    /**
      * Sets the relative discount in the discount map
      * @param effecter the PersonalBoard owned by the player who wants to activate the LeaderCard effect
      * @return false

@@ -3,10 +3,7 @@ package it.polimi.ingsw.model.match;
 import it.polimi.ingsw.model.essentials.CardColor;
 import it.polimi.ingsw.model.essentials.CardType;
 import it.polimi.ingsw.model.essentials.DevelopmentCard;
-import it.polimi.ingsw.model.exceptions.InvalidCardRequestException;
-import it.polimi.ingsw.model.exceptions.InvalidQuantityException;
-import it.polimi.ingsw.model.exceptions.NoMoreCardsException;
-import it.polimi.ingsw.model.exceptions.WrongSettingException;
+import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.match.player.Verificator;
 
 import java.util.Collections;
@@ -19,7 +16,7 @@ import java.util.Stack;
  */
 public class CardGrid {
     private final Stack<DevelopmentCard>[][] grid;
-    private static final int MAX_LEVEL = 3;
+    static final int MAX_LEVEL = 3;
 
     /**
      * For tests only
@@ -113,6 +110,26 @@ public class CardGrid {
     }
 
     /**
+     * Verifies if the stack in the given position is empty
+     * @param lv the level of the card or the row of the grid in which it is placed
+     * @param color the int value for the color of the card ({@link CardColor#getVal()})
+     *              or the column of the grid in which it is placed
+     * @return true if the stack in the given position is empty
+     * @throws InvalidCardRequestException if it is tried to control a stack out of range
+     */
+    boolean isEmpty(int lv, int color) throws InvalidCardRequestException {
+        if (lv < 1 || lv > MAX_LEVEL || color < 1 || color > CardColor.values().length)
+            throw new InvalidCardRequestException("Tried to control a card out of range");
+        try {
+            grid[lv-1][color-1].peek();
+        }
+        catch (EmptyStackException e){
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * draws the first DevelopmentCard from the deck in this grid in the given position (or with the given level and color)
      * @param lv the level of the card or the row of the grid in which it is placed
      * @param color the int value for the color of the card ({@link CardColor#getVal()})
@@ -120,8 +137,9 @@ public class CardGrid {
      * @return the drawn DevelopmentCard
      * @throws InvalidCardRequestException if it is tried to draw a card out of range
      * @throws NoMoreCardsException if it is tried to draw a card from an empty stack
+     * @throws MatchEndedException never
      */
-    public DevelopmentCard take(int lv, int color) throws InvalidCardRequestException, NoMoreCardsException {
+    public DevelopmentCard take(int lv, int color) throws InvalidCardRequestException, NoMoreCardsException, MatchEndedException {
         if (lv < 1 || lv > MAX_LEVEL || color < 1 || color > CardColor.values().length)
             throw new InvalidCardRequestException("Tried to take a card out of range");
         try {

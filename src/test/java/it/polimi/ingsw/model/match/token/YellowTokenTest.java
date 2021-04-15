@@ -34,7 +34,7 @@ public class YellowTokenTest {
         }
         assertEquals(10, count);
 
-        for(int i=0; i<5; i++){
+        for(int i=0; i<4; i++){
             assertTrue(yellowToken.onDraw(singleMatch));
         }
 

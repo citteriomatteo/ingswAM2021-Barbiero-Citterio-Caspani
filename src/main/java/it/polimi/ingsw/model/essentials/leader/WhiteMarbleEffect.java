@@ -19,6 +19,14 @@ public class WhiteMarbleEffect implements Effect{
     }
 
     /**
+     * getter for testing
+     * @return the conversion linked to the effect
+     */
+    PhysicalResource getConversion() {
+        return conversion;
+    }
+
+    /**
      * Adds a new possible conversion for the white marble
      * @param effecter the PersonalBoard owned by the player who wants to activate the LeaderCard effect
      * @return false
