@@ -11,38 +11,39 @@ public class Market {
     private Marble[][] board = new Marble[3][4];
     private Marble slide;
 
+    /**
+     * Customized constructor
+     * @param board the market board
+     * @param slide the single marble
+     */
+
     public Market(Marble[][] board, Marble slide) {
         this.board = board;
         this.slide = slide;
     }
 
+    /**
+     * Default constructor.
+     * Puts 4 white marbles, 2 blue marbles, 2 grey marbles, 2 yellow marbles, 2 purple marbles and 1 red marble
+     * in the market's board by a random order
+     */
     public Market() {
         List<Marble> marblesList = new ArrayList<>();
 
-        int countList;
-        for(countList = 0; countList < 4; ++countList) {
+        for(int i = 0; i < 4; i++) {
             marblesList.add(new WhiteMarble());
         }
 
-        for(countList = 4; countList < 6; ++countList) {
+        for(int i = 0; i < 2; i++) {
             marblesList.add(new BlueMarble());
-        }
-
-        for(countList = 6; countList < 8; ++countList) {
             marblesList.add(new GreyMarble());
-        }
-
-        for(countList = 8; countList < 10; ++countList) {
             marblesList.add(new YellowMarble());
-        }
-
-        for(countList = 10; countList < 12; ++countList) {
             marblesList.add(new PurpleMarble());
         }
 
         marblesList.add(new RedMarble());
         Collections.shuffle(marblesList);
-        countList = 0;
+        int countList = 0;
 
         for(int i = 0; i < 3; ++i) {
             for(int j = 0; j < 4; ++j) {
@@ -54,13 +55,30 @@ public class Market {
         this.slide = marblesList.get(countList);
     }
 
+    /**
+     * getter
+     * @return the market's board
+     */
     public Marble[][] getBoard() {
-        return this.board;
+        return this.board.clone();
     }
 
+    /**
+     * getter
+     * @return the market's slide
+     */
     public Marble getSlide() {
         return this.slide;
     }
+
+    /**
+     * This method
+     * @param numRow the row's number
+     * @param adder the player's interface
+     * @return the number of white marbles drawn
+     * @throws InvalidOperationException
+     * @throws MatchEndedException if the player reach the end of his faithPath
+     */
 
     public int selectRow(int numRow, Adder adder) throws InvalidOperationException, MatchEndedException {
         int countWhite = 0;

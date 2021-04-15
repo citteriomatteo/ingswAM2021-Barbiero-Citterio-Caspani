@@ -6,8 +6,14 @@ import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.Adder;
 
 public class BlueMarble extends Marble {
-    public BlueMarble() {
-    }
+
+    /**
+     * This method create a PhysicalResource with type SHIELD and quantity 1 and it adds this resource to the player's
+     * marketBuffer.
+     * If the PhysicalResource throws a NegativeQuantityException this method shuts down the program
+     * @param adder the player's interface
+     * @return false
+     */
 
     public boolean onDraw(Adder adder) {
         try {
