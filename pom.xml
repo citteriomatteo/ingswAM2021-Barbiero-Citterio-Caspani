@@ -10,7 +10,7 @@
 
   <name>AM15</name>
   <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <url>https://www.example.com</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,11 +19,11 @@
   </properties>
 
   <dependencies>
-    <!-- Junit 5 -->
+    <!-- Junit 5  update on 14/04/2021: changed version from RELEASE to 5.8.0-M1-->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
-      <version>RELEASE</version>
+      <version>5.8.0-M1</version>
       <scope>test</scope>
     </dependency>
 
