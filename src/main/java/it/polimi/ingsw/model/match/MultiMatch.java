@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MultiMatch extends Match implements Comunicator{
+public class MultiMatch extends Match {
     private Player currentPlayer;
     private final List<Player> players;
     private final CardGrid cardGrid;
@@ -29,12 +29,12 @@ public class MultiMatch extends Match implements Comunicator{
         for (int i = 0; i < 2; i++) {
             players.get(i).setPersonalBoard(new PersonalBoard((ArrayList<Cell>) matchConfiguration.getCustomPath(), 0, matchConfiguration.getBasicProduction()));
             players.get(i).setMatch(this);
-            if (players.size() > 2) {
-                for (int j = 2; j < players.size(); j++) {
-                    players.get(i).setPersonalBoard(new PersonalBoard((ArrayList<Cell>) matchConfiguration.getCustomPath(), 1, matchConfiguration.getBasicProduction()));
-                    players.get(i).setMatch(this);
+            }
+        if (players.size() > 2) {
+            for (int j = 2; j < players.size(); j++) {
+                players.get(j).setPersonalBoard(new PersonalBoard((ArrayList<Cell>) matchConfiguration.getCustomPath(), 1, matchConfiguration.getBasicProduction()));
+                players.get(j).setMatch(this);
 
-                }
             }
         }
     }
@@ -63,7 +63,7 @@ public class MultiMatch extends Match implements Comunicator{
     @Override
     public boolean nextTurn(){
         numPlayer++;
-        if(numPlayer < players.size()-1)
+        if(numPlayer < players.size())
             currentPlayer = players.get(numPlayer);
         else
             currentPlayer = players.get(0);

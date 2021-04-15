@@ -8,6 +8,12 @@ import it.polimi.ingsw.model.match.player.Adder;
 public class FaithPoint implements Resource{
     private final int quantity;
 
+    /**
+     * constructor
+     * @param quantity how much FaithPoints contains this FaithPoints object
+     * @throws NegativeQuantityException if the number of points is negative or 0
+     */
+
     public FaithPoint(int quantity) throws NegativeQuantityException {
         if(quantity >= 0)
             this.quantity = quantity;
@@ -15,11 +21,23 @@ public class FaithPoint implements Resource{
             throw new NegativeQuantityException("Negative quantity of faith");
     }
 
+    /**
+     * Adds the points contained in this to the player's FaithPath thanks to the adder's method addFaithPoints
+     * @param adder the player's interface
+     * @return true if the player's method addFaithPoints worked
+     * @throws MatchEndedException if the player reaches the end of his FaithPath
+     */
 
     @Override
     public boolean add(Adder adder) throws MatchEndedException {
        return adder.addFaithPoints(quantity);
     }
+
+    /**
+     * The override of the equals method
+     * @param o the other FaithPoint object to be compared
+     * @return true if this and o have the same quantity
+     */
 
     @Override
     public boolean equals(Object o) {

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.match;
 
+import it.polimi.ingsw.model.exceptions.MatchEndedException;
 import it.polimi.ingsw.model.exceptions.SingleMatchException;
 import it.polimi.ingsw.model.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.player.Player;
@@ -30,12 +31,12 @@ public class MultiMatchTest {
         assertEquals(match.getCurrentPlayer(),players.get(0));
 
         match.nextTurn();
-
         assertEquals(match.getCurrentPlayer(),players.get(1));
 
         match.nextTurn();
-        match.nextTurn();
+        assertEquals(match.getCurrentPlayer(),players.get(2));
 
+        match.nextTurn();
         assertEquals(match.getCurrentPlayer(),players.get(0));
 
     }
@@ -47,6 +48,11 @@ public class MultiMatchTest {
         match = new MultiMatch(players,"src/test/resources/StandardConfiguration.json");
 
         assertEquals(match.getNextPlayer(),players.get(1));
+        match.nextTurn();
+        assertEquals(match.getNextPlayer(),players.get(2));
+        match.nextTurn();
+        assertEquals(match.getNextPlayer(),players.get(0));
+
     }
 
 }

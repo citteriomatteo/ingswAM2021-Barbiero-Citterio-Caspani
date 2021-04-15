@@ -1,11 +1,21 @@
 package it.polimi.ingsw.model.essentials;
 
-
-import it.polimi.ingsw.model.essentials.DevelopmentCard;
-
 import java.util.Comparator;
 
+/**
+ * A comparator created to sort the DevelopmentCards
+ */
+
 public class CardComparator implements Comparator<DevelopmentCard> {
+
+    /**
+     * Compare two development cards, the first is lesser if its level is lesser or if the level of the two cards is the same
+     * but che color of the first comes first in the CardColor order.
+     * @param devCard1 the first development card to compare
+     * @param devCard2 the second development card to compare
+     * @return -1 if the first card is less then the second in the comparator's logic,
+     * 0 if the two cards are equals in that logic and 1 if the first card is greater then the second in the comparator's logic
+     */
 
     @Override
     public int compare(DevelopmentCard devCard1, DevelopmentCard devCard2) {
