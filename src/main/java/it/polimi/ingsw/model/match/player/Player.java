@@ -101,7 +101,7 @@ public class Player implements Adder, Verificator
      */
     @Override
     public boolean addFaithPoints(int quantity) throws MatchEndedException {
-        personalBoard.getFaithPath().addFaithPoints(quantity, match);
+        getPersonalBoard().getFaithPath().addFaithPoints(quantity, match);
         return true;
     }
 
@@ -195,6 +195,7 @@ public class Player implements Adder, Verificator
     {
         if(leader.isActivable(this))
         {
+            handLeaders.remove(leader);
             leader.activate(getPersonalBoard());
             return true;
         }

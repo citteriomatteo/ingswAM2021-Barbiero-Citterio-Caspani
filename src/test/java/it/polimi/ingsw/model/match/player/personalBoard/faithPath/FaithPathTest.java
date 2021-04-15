@@ -34,7 +34,6 @@ public class FaithPathTest
         MultiMatch match = new MultiMatch(List.of(player,player1),"src/test/resources/StandardConfiguration.json");
         FaithPath path = match.getCurrentPlayer().getPersonalBoard().getFaithPath();
 
-        //null MUST BE SUBSTITUTED WITH A COMUNICATOR WHEN IT'LL BE AVAILABLE!
         path.addFaithPoints(17,match);
         assertEquals(Arrays.asList(1,1,0),path.getPopeTiles());
         assertEquals(27, path.getWinPoints());
@@ -42,25 +41,19 @@ public class FaithPathTest
 
     }
 
-    /*
-    Tests the correct type-cast of a VaticanReportCell to a Cell, when the relative vaticanReport is triggered.
-
-    @Test
-    public void CellCollapseTest() throws FaithPathCreationException, MatchEndedException
-    {
-        /*
-        FaithPath path = new MultiFaithPath(generatePath(), 0);
-        assertTrue(path.getFaithPath().get(8).singleVaticanReport());
-        path.addFaithPoints(9, null);
-        assertFalse(path.getFaithPath().get(8).singleVaticanReport());
-
-
-    }
-*/
     //TODO
     @Test
-    public void addFaithPointsTest()
+    public void addFaithPointsTest() throws FileNotFoundException, SingleMatchException, WrongSettingException, MatchEndedException
     {
+        Player player = new Player("player1");
+        Player player1 = new Player("player2");
+        MultiMatch match = new MultiMatch(List.of(player,player1),"src/test/resources/StandardConfiguration.json");
+        FaithPath path = match.getCurrentPlayer().getPersonalBoard().getFaithPath();
+
+        path.addFaithPoints(9,match);
+
+        assertEquals(path.getPosition(), 9);
+
 
     }
 

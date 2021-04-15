@@ -2,7 +2,6 @@ package it.polimi.ingsw.model.match.player.personalBoard.faithPath;
 
 import it.polimi.ingsw.model.exceptions.FaithPathCreationException;
 import it.polimi.ingsw.model.exceptions.MatchEndedException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,6 @@ public class SingleFaithPath extends FaithPath
      * @param points        represents the points that Lorenzo has done
      * @return              true
      * @throws MatchEndedException          if Lorenzo ends the path journey
-     * @throws FaithPathCreationException   (propagated)
      */
     public boolean addBlackPoints(int points) throws MatchEndedException
     {

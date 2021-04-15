@@ -1,43 +1,42 @@
 package it.polimi.ingsw.model.match.player.personalBoard.faithPath;
 
-import it.polimi.ingsw.model.exceptions.FaithPathCreationException;
 import it.polimi.ingsw.model.exceptions.MatchEndedException;
 import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
+import it.polimi.ingsw.model.exceptions.SingleMatchException;
+import it.polimi.ingsw.model.exceptions.WrongSettingException;
+import it.polimi.ingsw.model.match.Match;
+import it.polimi.ingsw.model.match.MultiMatch;
+import it.polimi.ingsw.model.match.SingleMatch;
+import it.polimi.ingsw.model.match.player.Player;
 import org.junit.jupiter.api.Test;
-import java.util.*;
+
+import java.io.FileNotFoundException;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SingleFaithPathTest extends FaithPathTest
 {
     /*
     Creates path, tests match end and negative starting marker exception and
-    , meanwhile, player's popeTiles correct switching (player takes 1st tile but loses the other two).
+    , meanwhile, player's popeTiles correct switching when blackReport is called.
      */
     @Test
-    public void blackPointAndBlackReportTest() throws NegativeQuantityException, MatchEndedException
+    public void blackPointAndBlackReportTest() throws MatchEndedException, FileNotFoundException, WrongSettingException
     {
-        /*SingleFaithPath path = new SingleFaithPath(generatePath(), 0);
-
-        assertThrows(NegativeQuantityException.class, ()->path.addBlackPoints(-1));
-
-        //NO MATCH CLASS YET -> null AS A Comunicator!
-        //path.addFaithPoints(8,null);
-
-        path.addBlackPoints(16);
-        assertEquals(Arrays.asList(2,2,0), path.getPopeTiles());
-
-        assertThrows(MatchEndedException.class, ()->path.addBlackPoints(24));
-        assertEquals(path.getPopeTiles(), Arrays.asList(2,2,2));*/
-
+        Player player = new Player("player1");
+        Match match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
+        SingleFaithPath path = (SingleFaithPath) match.getCurrentPlayer().getPersonalBoard().getFaithPath();
+        path.addBlackPoints(10);
+        assertEquals(10, path.getBlackPosition()); assertEquals(0, path.getPosition());
+        assertEquals(2, path.getPopeTiles().get(0));
+        assertFalse(path.getFaithPath().get(9).singleVaticanReport());
     }
 
     //Instruction coverage for black marker getter.
     @Test
-    public void getBlackPositionTest() throws NegativeQuantityException, MatchEndedException
+    public void getBlackPositionTest() throws FileNotFoundException, WrongSettingException
     {
-        /*SingleFaithPath p = new SingleFaithPath(generatePath(), 0);
-        assertEquals(0,p.getBlackPosition());
-        p.addBlackPoints(7);
-        assertEquals(7,p.getBlackPosition());*/
+        Player player = new Player("player1");
+        Match match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
+        FaithPath path = match.getCurrentPlayer().getPersonalBoard().getFaithPath();
     }
 }

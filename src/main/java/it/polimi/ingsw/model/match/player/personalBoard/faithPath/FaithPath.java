@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.match.player.personalBoard.faithPath;
 import it.polimi.ingsw.model.exceptions.FaithPathCreationException;
 import it.polimi.ingsw.model.exceptions.MatchEndedException;
 import it.polimi.ingsw.model.match.Comunicator;
-
 import java.util.*;
 
 public abstract class FaithPath
@@ -48,8 +47,11 @@ public abstract class FaithPath
         for(; steps>0; steps--)
         {
             faithMarker++;
-            if(faithPath.get(faithMarker).vaticanReport(comunicator))
+            if(comunicator.getPlayers().size()==1 && faithPath.get(faithMarker).singleVaticanReport())
                 cellCollapse(faithMarker);
+            else
+                if(comunicator.getPlayers().size()>1 && faithPath.get(faithMarker).vaticanReport(comunicator))
+                    cellCollapse(faithMarker);
 
             if(faithMarker==24)
                 throw new MatchEndedException("A player reached the end of the path.");
