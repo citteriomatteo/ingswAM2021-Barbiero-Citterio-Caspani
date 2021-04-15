@@ -22,7 +22,6 @@ public class VaticanReportCell extends Cell
      * @param comunicator is the interface responsible of the available functions to call
      * @return true
      */
-    //TODO
     @Override
     public boolean vaticanReport(Comunicator comunicator)
     {

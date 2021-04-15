@@ -265,6 +265,27 @@ public class Player implements Adder, Verificator
     }
 
     /**
+     * This method tries to insert the resource into the warehouse.
+     * Catches here the exceptions relative to moveInShelf procedure.
+     * @param resource is the resource to insert
+     * @param shelf    is the chosen shelf
+     * @return         true if operation ended successfully, else false
+     */
+    public boolean moveIntoWarehouse(PhysicalResource resource, int shelf)
+    {
+        boolean ret = false;
+        try
+        {
+            ret = personalBoard.getWarehouse().moveInShelf(resource, shelf);
+        }
+        catch(ShelfInsertException e) {System.err.println("Error in shelf moving action: retry.");}
+        catch (InvalidOperationException e)
+        {System.err.println("Critical error: the resource is not present in the marketBuffer first.");
+         System.exit(1);}
+        return ret;
+    }
+
+    /**
      * This method tries to pay "res" taking it from the warehouse.
      * Handles InvalidCardRequestException and NotEnoughResourcesException.
      * @param shelf is the chosen shelf
@@ -273,7 +294,8 @@ public class Player implements Adder, Verificator
      * @throws InvalidCardRequestException relative to the problem about the incompatibility
      *                                     between the requested resource and the one in the shelf
      */
-    public boolean payFromWarehouse(int shelf, PhysicalResource res) throws InvalidCardRequestException{
+    public boolean payFromWarehouse(PhysicalResource res, int shelf) throws InvalidCardRequestException
+    {
         Warehouse wh = personalBoard.getWarehouse();
         if(!res.getType().equals(wh.getWarehouseDisposition().get(shelf-1).getType()))
             throw new InvalidCardRequestException ("The resource 'res' is not present on the shelf! Operation failed.");

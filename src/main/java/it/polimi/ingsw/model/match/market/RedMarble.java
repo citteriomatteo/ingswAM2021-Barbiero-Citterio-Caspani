@@ -12,7 +12,8 @@ public class RedMarble extends Marble {
      * @throws MatchEndedException if the player reaches the end of his FaithPath
      */
 
-    public boolean onDraw(Adder adder) throws MatchEndedException {
+    public boolean onDraw(Adder adder) throws MatchEndedException
+    {
         adder.addFaithPoints(1);
         return false;
     }

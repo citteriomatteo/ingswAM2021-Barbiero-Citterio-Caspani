@@ -12,7 +12,6 @@ import java.io.FileNotFoundException;
 
 public class VaticanReportCellTest
 {
-    //TODO
     @Test
     public void generalInstructionCoverageTest() throws FileNotFoundException, WrongSettingException, MatchEndedException
     {

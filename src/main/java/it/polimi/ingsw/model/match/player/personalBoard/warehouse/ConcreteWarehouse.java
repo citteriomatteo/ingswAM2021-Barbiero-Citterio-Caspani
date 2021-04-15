@@ -71,8 +71,8 @@ public class ConcreteWarehouse implements Warehouse
     {
         shelf--;
         //first of all, check for "res" presence in the marketBuffer.
-        long numbufferel = getBuffer().stream().filter((t)->t.getType().equals(res.getType())).count();
-        if(res.getQuantity()>numbufferel)
+        long numBufferEl = getBuffer().stream().filter((t)->t.getType().equals(res.getType())).count();
+        if(res.getQuantity()>numBufferEl)
             throw new InvalidOperationException("The resource is not present in the marketBuffer! Operation failed.");
 
         //resource is unknown or already placed on another shelf.

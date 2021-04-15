@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.match.player.personalBoard.faithPath;
 
 import it.polimi.ingsw.model.exceptions.*;
+import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.MultiMatch;
 import it.polimi.ingsw.model.match.player.Player;
 import org.junit.jupiter.api.Test;
@@ -26,22 +27,18 @@ public class FaithPathTest
         return path;
     }
 
-    //TODO
     @Test
     public void getWinPointsTest() throws MatchEndedException, FileNotFoundException, WrongSettingException, SingleMatchException {
         Player player = new Player("player1");
         Player player1 = new Player("player2");
-        MultiMatch match = new MultiMatch(List.of(player,player1),"src/test/resources/StandardConfiguration.json");
+        Match match = new MultiMatch(List.of(player,player1),"src/test/resources/StandardConfiguration.json");
         FaithPath path = match.getCurrentPlayer().getPersonalBoard().getFaithPath();
 
         path.addFaithPoints(17,match);
         assertEquals(Arrays.asList(1,1,0),path.getPopeTiles());
         assertEquals(27, path.getWinPoints());
-
-
     }
 
-    //TODO
     @Test
     public void addFaithPointsTest() throws FileNotFoundException, SingleMatchException, WrongSettingException, MatchEndedException
     {
@@ -49,12 +46,8 @@ public class FaithPathTest
         Player player1 = new Player("player2");
         MultiMatch match = new MultiMatch(List.of(player,player1),"src/test/resources/StandardConfiguration.json");
         FaithPath path = match.getCurrentPlayer().getPersonalBoard().getFaithPath();
-
         path.addFaithPoints(9,match);
-
         assertEquals(path.getPosition(), 9);
-
-
     }
 
 }
