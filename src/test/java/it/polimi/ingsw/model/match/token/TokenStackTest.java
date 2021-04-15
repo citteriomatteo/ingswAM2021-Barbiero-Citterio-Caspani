@@ -17,7 +17,7 @@ public class TokenStackTest {
     public void testDraw() throws FileNotFoundException, WrongSettingException, MatchEndedException {
         match = new SingleMatch(new Player("player1"),"src/test/resources/StandardConfiguration.json");
 
-        for(int i=0; i < 15; i++)
+        for(int i=0; i < 10; i++)
             assertTrue(match.getTokenStack().draw(match));
 
         for(int i=0; i < 100; i++)

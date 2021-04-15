@@ -9,6 +9,11 @@ import java.util.Map;
 public class DiscountMap {
     private final Map<ResType, Integer> discountMap;
 
+    /**
+     * Constructor
+     * create a map where the ResType are the keys
+     */
+
     public DiscountMap()
     {
         discountMap = new HashMap<>();
@@ -16,9 +21,20 @@ public class DiscountMap {
             discountMap.put(type, 0);
     }
 
+    /**
+     * Getter
+     * @return the map
+     */
+
     public Map<ResType, Integer> getDiscountMap() {
         return this.discountMap;
     }
+
+    /**
+     * This method adds the quantity of resource to the value mapped by resource type
+     * @param resource the parameter resource contains the type of the key and the quantity of discount to add
+     * @return true
+     */
 
     public boolean setDiscount(PhysicalResource resource)
     {
@@ -26,7 +42,15 @@ public class DiscountMap {
         return true;
     }
 
-    public PhysicalResource applyDiscount(PhysicalResource resource) throws NegativeQuantityException {
+    /**
+     * This method receive a PhysicalResource and returns the same resource if there isn't a discount for that resource,
+     * or returns a new PhysicalResource with quantity reduced by the discount
+     * @param resource a PhysicalResource to be discounted
+     * @return a new discounted PhysicalResource
+     * @throws NegativeQuantityException
+     */
+
+    public PhysicalResource applyDiscount(PhysicalResource resource) {
         Integer discount = this.discountMap.get(resource.getType());
         if (discount == null) {
             return resource;
@@ -35,7 +59,18 @@ public class DiscountMap {
                 discount = resource.getQuantity();
             }
 
-            return new PhysicalResource(resource.getType(), resource.getQuantity() - discount);
+            try {
+                return new PhysicalResource(resource.getType(), resource.getQuantity() - discount);
+            } catch (NegativeQuantityException e) {
+                try {
+                    return new PhysicalResource(resource.getType(),0);
+                } catch (NegativeQuantityException negativeQuantityException) {
+                    negativeQuantityException.printStackTrace(); System.err.println("Application shutdown due to an internal error.");
+                    System.exit(1);
+                }
+            }
         }
+
+        return null;
     }
 }

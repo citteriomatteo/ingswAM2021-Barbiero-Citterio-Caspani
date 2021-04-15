@@ -20,7 +20,6 @@ public abstract class Match implements Comunicator{
     private final MatchConfiguration matchConfiguration;
 
 
-
     public Match(String config) throws WrongSettingException, FileNotFoundException {
         Gson g = cellConfig(resourceConfig(requirableConfig(effectConfig(new GsonBuilder())))).setPrettyPrinting().create();
         FileReader reader = new FileReader(config);

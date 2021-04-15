@@ -72,11 +72,11 @@ public class Market {
     }
 
     /**
-     * This method
+     * This method draw all the marbles in the selected row
      * @param numRow the row's number
      * @param adder the player's interface
      * @return the number of white marbles drawn
-     * @throws InvalidOperationException
+     * @throws InvalidOperationException if the numRow is less then 0 or more than 3
      * @throws MatchEndedException if the player reaches the end of his faithPath
      */
 
@@ -96,6 +96,15 @@ public class Market {
         return countWhite;
     }
 
+    /**
+     * This method draw all the marbles in the selected column
+     * @param numColumn the column's number
+     * @param adder the player's interface
+     * @return the number of white marbles drawn
+     * @throws MatchEndedException if the numColumn is less then 0 or more than 4
+     * @throws InvalidOperationException if the player reaches the end of his faithPath
+     */
+
     public int selectColumn(int numColumn, Adder adder) throws MatchEndedException, InvalidOperationException
     {
         int countWhite = 0;
@@ -112,6 +121,12 @@ public class Market {
         this.rearrange(false, numColumn);
         return countWhite;
     }
+
+    /**
+     * This method rearrange the market board after the calls of selectColumn or selectRow
+     * @param choice true means that this method was called by selectRow, false means that this method was called by selectColumn
+     * @param num the number of column or row
+     */
 
     private void rearrange(boolean choice, int num) {
         Marble tempMarble = this.slide;

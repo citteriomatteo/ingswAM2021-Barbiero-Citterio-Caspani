@@ -8,6 +8,11 @@ import java.util.Stack;
 public class TokenStack {
     private Stack<Token> tokenStack = new Stack<>();
 
+    /**
+     * Constructor. Create a stack with one blueToken, one greenToken, one PurpleToken, one yellowToken,
+     * one plusOneShuffleToken, two plusTwoToken and it shuffles the stack.
+     */
+
     public TokenStack() {
 
         tokenStack.push(new BlueToken());
@@ -21,14 +26,31 @@ public class TokenStack {
         Collections.shuffle(tokenStack);
     }
 
+    /**
+     * Getter
+     * @return a copy of the stack
+     */
+
     public Stack<Token> getStack() {
         return (Stack<Token>) tokenStack.clone();
     }
+
+    /**
+     * This method draw a single token and activate its effect
+     * @param match the actual singleMatch
+     * @return true if the method works
+     * @throws MatchEndedException if the number of a certain type of card in singleCardGrid became 0
+     */
 
     public boolean draw(SingleMatch match) throws MatchEndedException {
 
         return tokenStack.pop().onDraw(match);
     }
+
+    /**
+     * This method recreate a new shuffled tokenStack
+     * @return true
+     */
 
     public boolean shuffle(){
         tokenStack = new Stack<>();

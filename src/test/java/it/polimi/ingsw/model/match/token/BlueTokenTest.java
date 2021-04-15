@@ -25,7 +25,6 @@ public class BlueTokenTest {
 
         CardType[] cards = singleMatch.getCardGrid().countRemaining();
 
-
         int count = 0;
         for(CardType type : cards){
             if (type.getColor().equals(CardColor.BLUE))
