@@ -9,6 +9,13 @@ public class PhysicalResource implements Resource, Requirable
     private final ResType type;
     private final int quantity;
 
+    /**
+     * Class constructor
+     * @param type sets the type of the PhysicalResource
+     * @param quantity sets the number of ResType in this object
+     * @throws NegativeQuantityException if quantity is negative or 0
+     */
+
     public PhysicalResource(ResType type, int quantity) throws NegativeQuantityException {
         if(quantity >= 0)
             this.quantity = quantity;
@@ -18,25 +25,50 @@ public class PhysicalResource implements Resource, Requirable
         this.type = type;
     }
 
+    /**
+     * getter
+     * @return the number of ResType that are contained
+     */
+
     public int getQuantity() {
         return quantity;
     }
+
+    /**
+     * getter
+     * @return the ResType of the resources contained
+     */
 
     public ResType getType() {
         return type;
     }
 
+    /**
+     * Adds the PhysicalResource to the player's strongbox
+     * @param adder the player's interface
+     * @return true if adder.addToStrongBox works
+     */
     @Override
     public boolean add(Adder adder)
     {
         return adder.addToStrongBox(this);
     }
 
+    /**
+     * Verify if the player has the resources contained in this
+     * @param verificator the player's interface
+     * @return true if the player has the resources contained in this
+     */
     @Override
     public boolean verify(Verificator verificator) {
         return verificator.verifyResources(this);
     }
 
+    /**
+     * The override of the equals method
+     * @param obj the other PhysicalResources object to be compared
+     * @return true if this and obj has the same ResType
+     */
     @Override
     public boolean equals(Object obj){
         if (!(obj instanceof PhysicalResource)) {

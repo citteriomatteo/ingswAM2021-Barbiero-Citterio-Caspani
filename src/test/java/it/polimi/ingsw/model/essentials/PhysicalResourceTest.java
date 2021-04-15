@@ -44,6 +44,9 @@ public class PhysicalResourceTest {
         assertTrue(resource1.add(player));
 
         assertEquals(3,player.getPersonalBoard().getStrongBox().getNumberOf(ResType.SERVANT));
+        assertEquals(0,player.getPersonalBoard().getStrongBox().getNumberOf(ResType.STONE));
+        assertEquals(0,player.getPersonalBoard().getStrongBox().getNumberOf(ResType.SHIELD));
+        assertEquals(0,player.getPersonalBoard().getStrongBox().getNumberOf(ResType.COIN));
     }
 
     @Test

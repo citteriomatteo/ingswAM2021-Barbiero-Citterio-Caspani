@@ -26,7 +26,7 @@ public class SingleMatch extends Match{
         this.tokenStack = new TokenStack();
         currentPlayer.setPersonalBoard(new PersonalBoard((ArrayList<Cell>) matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction()));
         currentPlayer.setMatch(this);
-
+        currentPlayer.setHandLeaders(getLeaderStack().draw(4));
 
     }
 

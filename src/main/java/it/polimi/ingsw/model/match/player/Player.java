@@ -36,7 +36,7 @@ public class Player implements Adder, Verificator
      * @param handLeaders is the Leaders list
      * @return false
      */
-    public boolean setHandLeaders(ArrayList<LeaderCard> handLeaders)
+    public boolean setHandLeaders(List<LeaderCard> handLeaders)
     {
         if(this.handLeaders == null)
         {
@@ -328,6 +328,11 @@ public class Player implements Adder, Verificator
         points += partialPoints/5;
 
         return points;
+    }
+
+    @Override
+    public String toString(){
+        return nickname;
     }
 
 }
