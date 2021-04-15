@@ -4,14 +4,21 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.model.essentials.*;
 import it.polimi.ingsw.model.exceptions.InvalidQuantityException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
+import it.polimi.ingsw.model.exceptions.SingleMatchException;
+import it.polimi.ingsw.model.exceptions.WrongSettingException;
+import it.polimi.ingsw.model.match.Match;
+import it.polimi.ingsw.model.match.MultiMatch;
+import it.polimi.ingsw.model.match.player.Player;
+import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static it.polimi.ingsw.gsonUtilities.GsonHandler.*;
@@ -24,7 +31,7 @@ public class LeaderCardTest {
     //Tests the constructor
     @Test
     @BeforeEach
-    public void ConstructorTest() throws NegativeQuantityException, InvalidQuantityException {
+    public void ConstructorTest() throws InvalidQuantityException {
 
         slotLeader = new LeaderCard(new ArrayList<>(List.of(new PhysicalResource(ResType.SHIELD, 2),
                 new CardType(CardColor.GREEN, 1, 2))), 5,
@@ -66,9 +73,59 @@ public class LeaderCardTest {
 
     }
 
+    //Test the activation of all kinds of leaders
     @Test
-    public void slotLeaderActivation(){
-        //TODO
+    public void leaderActivationTest() throws WrongSettingException, FileNotFoundException, SingleMatchException {
+        PhysicalResource effectResource;
+
+        Match match1 = new MultiMatch(Arrays.asList(new Player("Giorgio"), new Player("Luca")), "src/test/resources/StandardConfiguration.json");
+        Player giorgio = match1.getCurrentPlayer();
+        PersonalBoard personalBoard = giorgio.getPersonalBoard();
+        List<LeaderCard> handLeaders = giorgio.getHandLeaders();
+        LeaderCard leader;
+        Effect effect;
+        for (int i = 0; i < 4; i++) {
+
+            leader = handLeaders.get(i);
+            effect = leader.getEffect();
+            System.out.println("--> Found a " + effect.getClass().getName() + " leader");
+
+            if (effect instanceof DiscountEffect) {
+                effectResource = ((DiscountEffect) effect).getDiscount();
+                leader.activate(personalBoard);
+                PhysicalResource cheapResource = personalBoard.getDiscountMap().applyDiscount(effectResource);
+                System.out.println("effect: " + effectResource + " cheap: " + cheapResource);
+                assertEquals(0, cheapResource.getQuantity());
+
+            } else if (effect instanceof SlotEffect) {
+           //     effectResource = ((SlotEffect) effect).getExtraShelf();
+                int previousDimension = personalBoard.getWarehouse().getWarehouseDisposition().size();
+                System.out.println(personalBoard.getWarehouse().getWarehouseDisposition());
+                leader.activate(personalBoard);
+                System.out.println(personalBoard.getWarehouse().getWarehouseDisposition());
+                int evolvedDimension = personalBoard.getWarehouse().getWarehouseDisposition().size();
+                assertEquals(previousDimension+1, evolvedDimension);
+
+            } else if (effect instanceof WhiteMarbleEffect) {
+           //     effectResource = ((WhiteMarbleEffect) effect).getConversion();
+                int previousDimension = personalBoard.getWhiteMarbleConversions().size();
+                System.out.println(personalBoard.getWhiteMarbleConversions());
+                leader.activate(personalBoard);
+                System.out.println("Conversions: " + personalBoard.getWhiteMarbleConversions());
+                int evolvedDimension = personalBoard.getWhiteMarbleConversions().size();
+                assertEquals(previousDimension+1, evolvedDimension);
+
+            } else if (effect instanceof ProductionEffect) {
+                Production effectProduction = ((ProductionEffect) effect).getProduction();
+     //           System.out.println(effectProduction);
+                int previousDimension = personalBoard.getActiveProductionLeaders().size();
+    //            System.out.println(personalBoard.getActiveProductionLeaders());
+                leader.activate(personalBoard);
+                System.out.println("ActiveProductionLeaders: " + personalBoard.getActiveProductionLeaders());
+                int evolvedDimension = personalBoard.getActiveProductionLeaders().size();
+                assertEquals(previousDimension+1, evolvedDimension);
+            }
+        }
     }
 
     @Test
@@ -76,5 +133,4 @@ public class LeaderCardTest {
         //TODO
     }
 
-    //TODO all the other leader's effect tests
 }

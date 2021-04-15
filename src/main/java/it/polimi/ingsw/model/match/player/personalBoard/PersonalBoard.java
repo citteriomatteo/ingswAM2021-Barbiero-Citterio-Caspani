@@ -125,7 +125,7 @@ public class PersonalBoard implements Effecter
         return faithPath;
     }
     /** @return the discount map */
-    public Map<ResType, Integer> getDiscountMap() { return discountMap.getDiscountMap(); }
+    public DiscountMap getDiscountMap() { return discountMap; }
     /** @return the Development cards slots */
     public DevCardSlots getDevCardSlots() { return devCardSlots; }
 }

@@ -13,7 +13,6 @@ public class DiscountMap {
      * Constructor
      * create a map where the ResType are the keys
      */
-
     public DiscountMap()
     {
         discountMap = new HashMap<>();
@@ -25,7 +24,6 @@ public class DiscountMap {
      * Getter
      * @return the map
      */
-
     public Map<ResType, Integer> getDiscountMap() {
         return this.discountMap;
     }
@@ -35,7 +33,6 @@ public class DiscountMap {
      * @param resource the parameter resource contains the type of the key and the quantity of discount to add
      * @return true
      */
-
     public boolean setDiscount(PhysicalResource resource)
     {
         discountMap.replace(resource.getType(), (discountMap.get(resource.getType()) + resource.getQuantity()));
@@ -47,9 +44,7 @@ public class DiscountMap {
      * or returns a new PhysicalResource with quantity reduced by the discount
      * @param resource a PhysicalResource to be discounted
      * @return a new discounted PhysicalResource
-     * @throws NegativeQuantityException
      */
-
     public PhysicalResource applyDiscount(PhysicalResource resource) {
         Integer discount = this.discountMap.get(resource.getType());
         if (discount == null) {

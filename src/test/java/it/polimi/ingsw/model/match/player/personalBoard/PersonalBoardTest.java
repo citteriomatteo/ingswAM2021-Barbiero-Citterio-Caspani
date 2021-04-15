@@ -52,7 +52,7 @@ public class PersonalBoardTest extends FaithPathTest
         //"correct leader effect activation" effect:
         assertEquals(4, personalBoard.getWarehouse().getWarehouseDisposition().size());
         assertEquals(2, personalBoard.getWhiteMarbleConversions().size());
-        assertEquals(2, personalBoard.getDiscountMap().get(ResType.STONE));
+        assertEquals(2, personalBoard.getDiscountMap().getDiscountMap().get(ResType.STONE));
     }
 
 }
