@@ -57,12 +57,8 @@ public class DiscountMap {
             try {
                 return new PhysicalResource(resource.getType(), resource.getQuantity() - discount);
             } catch (NegativeQuantityException e) {
-                try {
-                    return new PhysicalResource(resource.getType(),0);
-                } catch (NegativeQuantityException negativeQuantityException) {
-                    negativeQuantityException.printStackTrace(); System.err.println("Application shutdown due to an internal error.");
-                    System.exit(1);
-                }
+                e.printStackTrace(); System.err.println("Application shutdown due to an internal error.");
+                System.exit(1);
             }
         }
 

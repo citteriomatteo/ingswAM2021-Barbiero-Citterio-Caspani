@@ -16,6 +16,16 @@ public class SingleMatch extends Match{
     private final SingleCardGrid singleCardGrid;
     private final TokenStack tokenStack;
 
+    /**
+     * Constructor, calls the super constructor to builds the matchConfiguration, the market and the leaderStack.
+     * After that it initializes the currentPlayer, builds the singleCardGrid, the tokenStack and sets
+     * the personalBoard and the list of handLeader of the singlePlayer.
+     * It also associates this as the match of the singlePlayer.
+     * @param player the player of this match
+     * @param config the directory of the configuration file
+     * @throws FileNotFoundException if it can't reade the configuration file
+     * @throws WrongSettingException if are given not enough CardTypes or in the wrong order to create the singleCardGrid
+     */
 
     public SingleMatch(Player player, String config) throws FileNotFoundException, WrongSettingException
     {
@@ -30,29 +40,50 @@ public class SingleMatch extends Match{
 
     }
 
+    /**
+     * Getter
+     * @return the tokenStack
+     */
 
     public TokenStack getTokenStack() {
         return tokenStack;
     }
 
+    /**
+     * Getter
+     * @return the only player
+     */
+
     @Override
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
+
+    /**
+     * Getter
+     * @return the singleCardGrid
+     */
+
     @Override
     public CardGrid getCardGrid() {
         return singleCardGrid;
     }
 
-    @Override
-    public boolean nextTurn() throws MatchEndedException {
-        return tokenStack.draw(this);
-    }
+    /**
+     * Getter
+     * @return the single player as list
+     */
 
     @Override
     public ArrayList<Player> getPlayers() {
         return new ArrayList<>(List.of(currentPlayer));
     }
+
+    /**
+     * This method returns the player with the searched nickname if it is in the player of this match, else return null
+     * @param nickname the nickname of the searched player
+     * @return the player searched if it's the player of this match, or null if it isn't
+     */
 
     @Override
     public Player getPlayer(String nickname){
@@ -61,4 +92,18 @@ public class SingleMatch extends Match{
         else
             return null;
     }
+
+    /**
+     * This method finish the turn by calling the draw method in tokenStack
+     * @return true if the draw method worked
+     * @throws MatchEndedException if the number of a certain type of developmentCards became 0
+     */
+
+    @Override
+    public boolean nextTurn() throws MatchEndedException {
+        return tokenStack.draw(this);
+    }
+
+
+
 }
