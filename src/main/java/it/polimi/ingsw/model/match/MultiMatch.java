@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class MultiMatch extends Match {
     private Player currentPlayer;
@@ -117,8 +118,12 @@ public class MultiMatch extends Match {
 
     @Override
     public Player getPlayer(String nickname){
-        return (Player) players.stream().filter((x)->x.getNickname().equals(nickname));
+        for (Player player : players) {
+            if (player.getNickname().equals(nickname))
+                return player;
+        }
 
+        return null;
     }
 
 }

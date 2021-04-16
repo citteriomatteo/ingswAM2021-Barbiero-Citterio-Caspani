@@ -60,4 +60,17 @@ public class MultiMatchTest {
 
     }
 
+    @Test
+    public void testGetPlayer() throws WrongSettingException, FileNotFoundException, SingleMatchException {
+        List<Player> players = new ArrayList<>(List.of(new Player("player1"), new Player("player2"), new Player("player3")));
+
+        match = new MultiMatch(players,"src/test/resources/StandardConfiguration.json");
+
+        assertEquals(players.get(0),match.getPlayer("player1"));
+        assertEquals(players.get(1),match.getPlayer("player2"));
+        assertEquals(players.get(2),match.getPlayer("player3"));
+        assertNull(match.getPlayer("player10"));
+
+    }
+
 }
