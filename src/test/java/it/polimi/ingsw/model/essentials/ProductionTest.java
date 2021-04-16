@@ -21,12 +21,8 @@ Test for Production class
  */
 public class ProductionTest {
 
-    private Production production;
-    private Player player;
-
     //test the constructor with random cost and earnings
     @Test
-    @BeforeEach
     public void ConstructorTest() throws NegativeQuantityException {
         List<PhysicalResource> cost = new ArrayList<>();
         List<Resource> earnings = new ArrayList<>();
@@ -45,7 +41,7 @@ public class ProductionTest {
             else
                 earnings.add(new PhysicalResource(ResType.values()[rand.nextInt(4)+1], rand.nextInt(10)));
         }
-        production = new Production(cost, earnings);
+        Production production = new Production(cost, earnings);
         assertTrue(production.getCost().size() <= ResType.values().length, "Wrong dimension of cost List in constructor");
     }
 
@@ -58,10 +54,9 @@ public class ProductionTest {
         Player player = new Player("player1");
         Match match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
 
+        assertEquals(0, match.getCurrentPlayer().getPersonalBoard().getStrongBox().getNumberOf(ResType.SHIELD));
         assertTrue(prod.produce(player), "produce returned false");
-
-
-        //TODO finish produceTest after implementing add methods
+        assertEquals(1, match.getCurrentPlayer().getPersonalBoard().getStrongBox().getNumberOf(ResType.SHIELD));
     }
 
     @Test
@@ -70,7 +65,7 @@ public class ProductionTest {
         List<Resource> earnings = new ArrayList<>();
         cost.add(new PhysicalResource(ResType.SHIELD, 1));
         Production prod = new Production(cost, earnings);
-        player = new Player("player1");
+        Player player = new Player("player1");
         Match match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
 
 
@@ -79,8 +74,6 @@ public class ProductionTest {
         player.addToStrongBox(new PhysicalResource(ResType.SHIELD,1));
 
         assertTrue(prod.isPlayable(player), "isPlayable returned false");
-
-
 
     }
 }

@@ -3,12 +3,20 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.gsonUtilities.GsonHandler;
 import it.polimi.ingsw.model.exceptions.InvalidQuantityException;
+import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
+import it.polimi.ingsw.model.exceptions.SingleMatchException;
+import it.polimi.ingsw.model.exceptions.WrongSettingException;
+import it.polimi.ingsw.model.match.Match;
+import it.polimi.ingsw.model.match.MultiMatch;
+import it.polimi.ingsw.model.match.player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -53,7 +61,16 @@ public class DevelopmentCardTest {
     }
 
     @Test
-    public void isBuyableTest() {
-        //TODO isBuyableTest after implementing verify methods
+    public void isBuyableTest() throws WrongSettingException, FileNotFoundException, SingleMatchException, NegativeQuantityException {
+        Match match1 = new MultiMatch(Arrays.asList(new Player("Joe"), new Player("Sara")), "src/test/resources/StandardConfiguration.json");
+        Player joe = match1.getPlayer("Joe");
+        assertFalse(devCard.isBuyable(joe));
+        joe.addToStrongBox(new PhysicalResource(ResType.COIN, 2));
+        assertFalse(devCard.isBuyable(joe));
+        joe.addToStrongBox(new PhysicalResource(ResType.SHIELD, 1));
+        assertFalse(devCard.isBuyable(joe));
+        joe.addToStrongBox(new PhysicalResource(ResType.SHIELD, 1));
+        assertTrue(devCard.isBuyable(joe));
+
     }
 }

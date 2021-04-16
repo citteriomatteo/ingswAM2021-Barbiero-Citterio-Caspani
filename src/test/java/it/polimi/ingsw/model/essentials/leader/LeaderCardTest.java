@@ -3,9 +3,7 @@ package it.polimi.ingsw.model.essentials.leader;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.model.essentials.*;
-import it.polimi.ingsw.model.exceptions.InvalidQuantityException;
-import it.polimi.ingsw.model.exceptions.SingleMatchException;
-import it.polimi.ingsw.model.exceptions.WrongSettingException;
+import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.MultiMatch;
 import it.polimi.ingsw.model.match.player.Player;
@@ -22,7 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static it.polimi.ingsw.gsonUtilities.GsonHandler.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LeaderCardTest {
 
@@ -73,7 +71,9 @@ public class LeaderCardTest {
 
     }
 
-    //Test the activation of all kinds of leaders
+    // Test the activation of all kinds of leaders
+    // It prepares the match with a player and then activate all the four leaders in his hand
+    // verifying that have had the desired effect
     @Test
     public void leaderActivationTest() throws WrongSettingException, FileNotFoundException, SingleMatchException {
         PhysicalResource effectResource;
@@ -128,9 +128,31 @@ public class LeaderCardTest {
         }
     }
 
+    // Verify that a leader without any requirement is always activable
+    // if one without an effectively useful requirement (Resource with quantity = 0) is always activable
+    // and then if another one with multiple requirements is activable only after that those requirements are satisfied
     @Test
-    public void isActivableTest(){
-        //TODO
+    public void isActivableTest() throws NegativeQuantityException, WrongSettingException, FileNotFoundException, SingleMatchException, MatchEndedException, InvalidCardRequestException {
+        LeaderCard freeLeader1 = new LeaderCard(new ArrayList<>(), 5,
+                new SlotEffect(new PhysicalResource(ResType.SHIELD, 2)));
+        LeaderCard freeLeader2 = new LeaderCard(new ArrayList<>(List.of(new PhysicalResource(ResType.SHIELD, 0))), 5,
+                new SlotEffect(new PhysicalResource(ResType.SHIELD, 2)));
+
+        Match match1 = new MultiMatch(Arrays.asList(new Player("Joe"), new Player("Sara")), "src/test/resources/StandardConfiguration.json");
+        Player joe = match1.getPlayer("Joe");
+
+        assertTrue(freeLeader1.isActivable(joe));
+        assertTrue(freeLeader2.isActivable(joe));
+        assertFalse(slotLeader.isActivable(joe));
+
+        joe.addToStrongBox(new PhysicalResource(ResType.SHIELD, 2));
+        assertFalse(slotLeader.isActivable(joe));
+
+        joe.takeDevelopmentCard(1, CardColor.GREEN.getVal(), 1);
+        assertFalse(slotLeader.isActivable(joe));
+
+        joe.takeDevelopmentCard(1, CardColor.GREEN.getVal(), 1);
+        assertTrue(slotLeader.isActivable(joe));
     }
 
 }

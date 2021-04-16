@@ -130,7 +130,8 @@ public class CardGrid {
     }
 
     /**
-     * draws the first DevelopmentCard from the deck in this grid in the given position (or with the given level and color)
+     * draws the first DevelopmentCard from the deck in this grid in the given position (or with the given level and color).
+     * This method doesn't control if the player has already payed the resources to buy that card.
      * @param lv the level of the card or the row of the grid in which it is placed
      * @param color the int value for the color of the card ({@link CardColor#getVal()})
      *              or the column of the grid in which it is placed

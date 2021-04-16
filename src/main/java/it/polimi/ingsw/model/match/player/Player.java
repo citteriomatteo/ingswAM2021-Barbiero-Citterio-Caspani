@@ -246,22 +246,16 @@ public class Player implements Adder, Verificator
 
     /**
      *This method takes a DevelopmentCard from the CardGrid.
+     * @requires The player must have already payed the relative resources himself before.
      * @param gridR the chosen row
      * @param gridC the chosen column
      * @param slot  the slot in which the card will be inserted
-     * @return      buyable flag: true if ok, false if not ok
+     * @return      true
      */
     public boolean takeDevelopmentCard(int gridR, int gridC, int slot) throws InvalidCardRequestException, MatchEndedException {
-        boolean buyable=false;
-        try
-        {
-            buyable = match.getCardGrid().isBuyable(this, gridR, gridC);
-        }
-        catch(NoMoreCardsException e) {e.printStackTrace();}
-        if(buyable)
             try { getPersonalBoard().getDevCardSlots().pushNewCard(slot, match.getCardGrid().take(gridR, gridC)); }
             catch (InvalidOperationException e) { e.printStackTrace(); }
-        return buyable;
+        return true;
     }
 
     /**
