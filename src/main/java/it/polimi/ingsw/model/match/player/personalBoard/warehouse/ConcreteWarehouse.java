@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.exceptions.NotEnoughResourcesException;
 import it.polimi.ingsw.model.exceptions.ShelfInsertException;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ConcreteWarehouse implements Warehouse
 {
@@ -173,11 +174,22 @@ public class ConcreteWarehouse implements Warehouse
 
     /**
      * This method clears marketBuffer and returns its previous size, for penalty faith points purposes.
+     * @throws InvalidOperationException when trying to discard resources that can be placed.
      * @return the remaining size of the buffer
      */
     @Override
-    public int discardRemains()
+    public int discardRemains() throws InvalidOperationException
     {
+        //CHECKS IF THERE IS A PLACE FOR ATLEAST A RESOURCE IN THE BUFFER. IF SO, THROWS A "RETRY" EXCEPTION
+        for(PhysicalResource r : getBuffer())
+            if(getWarehouseDisposition().stream().anyMatch((x) -> (x.getType().equals(r.getType())
+                    && r.getQuantity() + x.getQuantity() <= (getWarehouseDisposition().indexOf(x) + 1))) ||
+                    ( getWarehouseDisposition().stream()
+                            .noneMatch((x)->x.getType().equals(r.getType()) && x.getQuantity()>0) &&
+                            getWarehouseDisposition().stream().anyMatch((x) -> x.getQuantity() == 0))
+            )
+                throw new InvalidOperationException("There's a space in warehouse for atleast a buffer resource! Retry to select.");
+
         int remainingSize= marketBuffer.size();
         marketBuffer.clear();
         return remainingSize;

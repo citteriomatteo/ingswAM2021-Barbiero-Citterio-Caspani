@@ -53,7 +53,14 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
      * @see ConcreteWarehouse
      */
     @Override
-    public int discardRemains() { return oldWarehouse.discardRemains(); }
+    public int discardRemains() throws InvalidOperationException
+    {
+        for(PhysicalResource r : getBuffer())
+            if(extraShelf.getType().equals(r.getType()) && (extraShelf.getQuantity()+r.getQuantity())<=shelfSize)
+                throw new InvalidOperationException("There's a space in warehouse for atleast a buffer resource! Retry to select.");
+
+        return oldWarehouse.discardRemains();
+    }
 
     /**
      * This method counts the requested resource on extraShelf and basic Shelves.

@@ -178,8 +178,17 @@ public class Player implements Adder, Verificator
      * @return true */
     public boolean disconnect() {connected=false; return true;}
 
-    public boolean leadersChoice(ArrayList<LeaderCard> choseLeaders)
+    /**
+     * This method sets the in-hand leaders chosen by the player.
+     * @throws InvalidOperationException if the chosen leaders are not present in the handLeader's list.
+     * @param choseLeaders a list containing the chosen starting leaders
+     * @return             true
+     */
+    public boolean leadersChoice(ArrayList<LeaderCard> choseLeaders) throws InvalidOperationException
     {
+        for(LeaderCard lc : choseLeaders)
+            if(!handLeaders.contains(lc))
+                throw new InvalidOperationException ("A chosen leader is not available in your hand! Retry.");
         handLeaders = choseLeaders;
         return true;
     }

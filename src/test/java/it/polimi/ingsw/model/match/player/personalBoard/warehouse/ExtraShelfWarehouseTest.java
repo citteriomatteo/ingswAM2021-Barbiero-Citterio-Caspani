@@ -2,10 +2,10 @@ package it.polimi.ingsw.model.match.player.personalBoard.warehouse;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.ResType;
-import it.polimi.ingsw.model.exceptions.InvalidOperationException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
-import it.polimi.ingsw.model.exceptions.NotEnoughResourcesException;
-import it.polimi.ingsw.model.exceptions.ShelfInsertException;
+import it.polimi.ingsw.model.exceptions.*;
+import it.polimi.ingsw.model.match.Match;
+import it.polimi.ingsw.model.match.MultiMatch;
+import it.polimi.ingsw.model.match.player.Player;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -19,7 +19,7 @@ public class ExtraShelfWarehouseTest
     Also tests the delegation of the move operation, if needed.
      */
     @Test
-    public void extraWarehouseDispositionTest() throws NegativeQuantityException, InvalidOperationException, ShelfInsertException
+    public void extraWarehouseDispositionTest() throws NegativeQuantityException, InvalidOperationException
     {
         Random rnd = new Random();
         Warehouse wh = new ConcreteWarehouse();
@@ -54,7 +54,6 @@ public class ExtraShelfWarehouseTest
     @Test
     public void extraImpossibleMovesTest() throws NegativeQuantityException
     {
-        Random rnd = new Random();
         Warehouse wh = new ConcreteWarehouse();
         Warehouse extrawh1 = new ExtraShelfWarehouse(wh, new PhysicalResource(ResType.COIN, 2));
         Warehouse extrawh2 = new ExtraShelfWarehouse(extrawh1, new PhysicalResource(ResType.STONE, 2));
@@ -88,7 +87,7 @@ public class ExtraShelfWarehouseTest
     Tests take operation exception in the extraShelf.
      */
     @Test
-    public void fullExtraTakeTest() throws NegativeQuantityException, InvalidOperationException, ShelfInsertException, NotEnoughResourcesException
+    public void fullExtraTakeTest() throws NegativeQuantityException, InvalidOperationException
     {
         Warehouse wh = new ConcreteWarehouse();
         PhysicalResource res1 = new PhysicalResource(ResType.COIN, 2);
@@ -120,7 +119,7 @@ public class ExtraShelfWarehouseTest
     Tests switch behaviour, in the three combinations, when the operation isn't allowed (no enough space).
      */
     @Test
-    public void ExtraWarehouseSwitchShelfTest() throws NegativeQuantityException, InvalidOperationException, ShelfInsertException, NotEnoughResourcesException
+    public void ExtraWarehouseSwitchShelfTest() throws NegativeQuantityException, InvalidOperationException
     {
         Warehouse wh = new ConcreteWarehouse();
         Warehouse extrawh1 = new ExtraShelfWarehouse(wh, new PhysicalResource(ResType.values()[1], 2));
@@ -198,7 +197,7 @@ public class ExtraShelfWarehouseTest
     }
 
     @Test
-    public void extraGetNumberOfTest() throws NegativeQuantityException, InvalidOperationException, ShelfInsertException
+    public void extraGetNumberOfTest() throws NegativeQuantityException, InvalidOperationException
     {
         Warehouse wh = new ConcreteWarehouse();
         List<PhysicalResource> l = new ArrayList<>();
@@ -219,5 +218,25 @@ public class ExtraShelfWarehouseTest
         assertEquals(extrawh2.getNumberOf(ResType.STONE),l.get(1).getQuantity());
         assertEquals(extrawh2.getNumberOf(ResType.SERVANT),l.get(2).getQuantity()+l.get(4).getQuantity());
         assertEquals(extrawh2.getNumberOf(ResType.UNKNOWN),0);
+    }
+
+    @Test
+    public void wrongBufferDiscardTest() throws SingleMatchException, WrongSettingException, NegativeQuantityException, InvalidOperationException
+    {
+        Player player = new Player("player1");
+        Player player1 = new Player("player2");
+        Match match = new MultiMatch(Arrays.asList(player, player1),"src/test/resources/StandardConfiguration.json");
+
+        player.getPersonalBoard().warehouseEvolution(new PhysicalResource(ResType.COIN,2));
+        player.addToWarehouse(new PhysicalResource(ResType.COIN,5));
+        player.moveIntoWarehouse(new PhysicalResource(ResType.COIN,2),2);
+
+        //There must be space in the ExtraShelf yet
+        assertThrows(InvalidOperationException.class, ()->player.getPersonalBoard().getWarehouse().discardRemains());
+        player.getPersonalBoard().getWarehouse().switchShelf(2,3);
+        player.moveIntoWarehouse(new PhysicalResource(ResType.COIN,2),4);
+
+        //Now, after the switch, there must be a place for the remaining Coin in the shelf 3.
+        assertThrows(InvalidOperationException.class, ()->player.getPersonalBoard().getWarehouse().discardRemains());
     }
 }

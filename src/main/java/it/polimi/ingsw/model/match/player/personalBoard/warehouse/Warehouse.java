@@ -77,7 +77,7 @@ public interface Warehouse
      * This method clears marketBuffer and returns its previous size, for penalty faith points purposes.
      * @return the remaining size of the buffer
      */
-    int discardRemains();
+    int discardRemains() throws InvalidOperationException;
 
     /**
      * This method returns the quantity of resources of the requested type.
