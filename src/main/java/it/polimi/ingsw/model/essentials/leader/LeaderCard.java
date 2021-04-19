@@ -1,9 +1,8 @@
 package it.polimi.ingsw.model.essentials.leader;
 
 import it.polimi.ingsw.model.essentials.Requirable;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.Verificator;
-import it.polimi.ingsw.model.match.player.personalBoard.Effecter;
+import it.polimi.ingsw.model.match.player.personalBoard.Effector;
 
 import java.util.List;
 import java.util.Objects;
@@ -67,11 +66,11 @@ public class LeaderCard {
     /**
      * Activate the precise effect and then add the leader to the ActiveLeader List
      * @requires The player must have already called isActivable himself before.
-     * @param effecter the PersonalBoard owned by the player who wants to activate the LeaderCard
+     * @param effector the PersonalBoard owned by the player who wants to activate the LeaderCard
      * @return true if the method has worked correctly
      */
-    public boolean activate (Effecter effecter) {
-        return effecter.addActiveLeader(this, effect.activate(effecter));
+    public boolean activate (Effector effector) {
+        return effector.addActiveLeader(this, effect.activate(effector));
     }
 
     @Override

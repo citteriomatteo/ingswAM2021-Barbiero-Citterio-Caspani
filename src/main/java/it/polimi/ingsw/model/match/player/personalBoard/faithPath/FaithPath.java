@@ -14,14 +14,17 @@ public abstract class FaithPath
 
     /**
      * This is the constructor of the abstract FaithPath.
+     * Shutdowns the application for a negative startingPos.
      * @param faithPath                   is the list of the Cells
      * @param faithMarker                 is the starting point of the player on the path
-     * @throws FaithPathCreationException for faithMarker invalid values
      */
-    public FaithPath(ArrayList<Cell>faithPath, int faithMarker) throws FaithPathCreationException
+    public FaithPath(ArrayList<Cell>faithPath, int faithMarker)
     {
         if(faithMarker<0 || faithMarker>1)
-            throw new FaithPathCreationException ("Error in faith path creation: invalid marker argument.");
+        {
+            System.err.println("Error in faith path creation: invalid marker argument.");
+            System.exit(1);
+        }
         this.faithMarker = faithMarker;
         this.faithPath = faithPath;
         //pope tiles initialization:
@@ -76,8 +79,8 @@ public abstract class FaithPath
     public List<Integer> getPopeTiles() { return popeTiles; }
 
     /**
-     * This method casts a VaticanReportCell at position "pos" to a normal Cell, in order to 'disable'
-     * the report procedure for the next players who pass.
+     * This method casts the VaticanReportCell at position "pos" to a normal Cell, in order to 'disable'
+     * the Report procedure for the next players who pass.
      * @param pos is the position of the cell that has to be casted.
      * @return    true
      */

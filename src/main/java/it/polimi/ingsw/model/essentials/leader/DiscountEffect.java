@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.essentials.leader;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
-import it.polimi.ingsw.model.match.player.personalBoard.Effecter;
+import it.polimi.ingsw.model.match.player.personalBoard.Effector;
 
 import java.util.Objects;
 /**
@@ -28,13 +28,13 @@ public class DiscountEffect implements Effect{
 
     /**
      * Sets the relative discount in the discount map
-     * @param effecter the PersonalBoard owned by the player who wants to activate the LeaderCard effect
+     * @param effector the PersonalBoard owned by the player who wants to activate the LeaderCard effect
      * @return false
      */
     @Override
-    public boolean activate(Effecter effecter)
+    public boolean activate(Effector effector)
     {
-        effecter.setDiscount(discount);
+        effector.setDiscount(discount);
         return false;
     }
 

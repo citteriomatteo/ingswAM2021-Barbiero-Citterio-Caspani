@@ -76,7 +76,7 @@ public class Player implements Adder, Verificator
         return false;
     }
 
-    //ALL GETTERS:
+    // ----- ALL GETTERS -----
     /** @return match */
     public Match getMatch() { return match; }
     /** @return nickname */
@@ -91,8 +91,7 @@ public class Player implements Adder, Verificator
     public List<PhysicalResource> getWhiteMarbleConversions() { return getPersonalBoard().getWhiteMarbleConversions(); }
 
 
-    //"ADDER" INTERFACE METHODS:
-
+    // ----- "ADDER" INTERFACE METHODS -----
     /**
      * This method adds faith points to the faith path, looking for the match end.
      * @param quantity is the quantity of steps
@@ -252,7 +251,8 @@ public class Player implements Adder, Verificator
      * @param slot  the slot in which the card will be inserted
      * @return      true
      */
-    public boolean takeDevelopmentCard(int gridR, int gridC, int slot) throws InvalidCardRequestException, MatchEndedException {
+    public boolean takeDevelopmentCard(int gridR, int gridC, int slot) throws InvalidCardRequestException, MatchEndedException
+    {
             try { getPersonalBoard().getDevCardSlots().pushNewCard(slot, match.getCardGrid().take(gridR, gridC)); }
             catch (InvalidOperationException e) { e.printStackTrace(); }
         return true;

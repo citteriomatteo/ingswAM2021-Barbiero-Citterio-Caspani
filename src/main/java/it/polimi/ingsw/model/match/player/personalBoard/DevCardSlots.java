@@ -14,7 +14,8 @@ import java.util.List;
  * @see it.polimi.ingsw.model.match.CardGrid
  * @see DevelopmentCard
  */
-public class DevCardSlots {
+public class DevCardSlots
+{
     private final DevelopmentCard[][] slots;
     private static final int NUMBER_OF_ROWS = 3;
     private static final int NUMBER_OF_COLUMNS = 3;
@@ -39,7 +40,7 @@ public class DevCardSlots {
             throw new InvalidOperationException("Tried to insert card out of bounds");
 
         int position = firstEmptySpace(column);
-        if (position>= NUMBER_OF_ROWS)
+        if (position >= NUMBER_OF_ROWS)
             throw new FullColumnException("Tried to add a card to a full stack");
 
         if(card.getType().getLevel()==1 ||
@@ -56,11 +57,11 @@ public class DevCardSlots {
      * @param column the column in which to search for empty space
      * @return the first empty slot in a column, if the column is full returns NUMBER_OF_ROWS
      */
-    private int firstEmptySpace(int column){
-        for (int i = 0; i < NUMBER_OF_ROWS; i++) {
+    private int firstEmptySpace(int column)
+    {
+        for (int i = 0; i < NUMBER_OF_ROWS; i++)
             if (slots[i][column-1]==null)
                 return i;
-        }
         return NUMBER_OF_ROWS;
     }
 
@@ -68,10 +69,12 @@ public class DevCardSlots {
      * Returns the card on the top of each stack
      * @return available DevelopmentCards for production, the ones on the top of each stack
      */
-    public List<DevelopmentCard> getTop(){
+    public List<DevelopmentCard> getTop()
+    {
         List<DevelopmentCard> res = new ArrayList<>();
         int pointer;
-        for (int i = 1; i <= NUMBER_OF_COLUMNS; i++) {
+        for (int i = 1; i <= NUMBER_OF_COLUMNS; i++)
+        {
             pointer = firstEmptySpace(i);
             if(pointer>0)
                 res.add(slots[pointer-1][i-1]);
@@ -79,10 +82,7 @@ public class DevCardSlots {
         return res;
     }
 
-    /**
-     * Returns the number of cards in all the structure
-     * @return the number of cards in all the structure
-     */
+    /** @return the number of cards in all the structure */
     public int getCardsNumber(){
         int cardCount = 0;
 
@@ -96,11 +96,9 @@ public class DevCardSlots {
         return cardCount;
     }
 
-    /**
-     * Returns the sum of all the WinPoints given from the DevelopmentCards in this structure
-     * @return the sum of all the WinPoints given from the DevelopmentCards in this structure
-     */
-    public int getWinPoints(){
+    /** @return the sum of all the WinPoints given from the DevelopmentCards in this structure */
+    public int getWinPoints()
+    {
         int totalWinPoints = 0;
 
         for (int i = 0; i < NUMBER_OF_COLUMNS; i++) {
@@ -114,27 +112,28 @@ public class DevCardSlots {
     }
 
     /**
-     * Verify if there is a free slot over a card whose level is: cardLevel-1.
-     * If such a card exists it means that a card of the given type is placeable in this grid
+     * Verifies if there is a free slot over a card whose level is: cardLevel-1.
+     * If such a card exists it means that a card of the given type is placeable in this grid.
      * @param cardLevel the level of a card you want to verify if is placeable
      * @return true if the a card of the given level is placeable
      */
-    public boolean isPlaceable(int cardLevel){
+    public boolean isPlaceable(int cardLevel)
+    {
         if (cardLevel == 1)
             return true;
 
         int pointer;
-        for (int i = 1; i <= NUMBER_OF_COLUMNS; i++) {
+        for (int i = 1; i <= NUMBER_OF_COLUMNS; i++)
+        {
             pointer = firstEmptySpace(i);
-            if(pointer>0 && pointer< NUMBER_OF_ROWS && cardLevel-1==slots[pointer-1][i-1].getType().getLevel())
+            if(pointer>0 && pointer<NUMBER_OF_ROWS && cardLevel-1==slots[pointer-1][i-1].getType().getLevel())
                 return true;
         }
-
         return false;
     }
 
     /**
-     * Verify if the requirement is satisfied:
+     * Verifies if the requirement is satisfied:
      *     If the level in requirement is = 0 -> Controls if there are 'quantity' cards of that color
      *     Otherwise -> Controls if there are 'quantity' cards of that type
      * @param requirement the color (and the level) of the cards you want to verify the presence
@@ -142,14 +141,18 @@ public class DevCardSlots {
      * @see CardType
      * @return true if the requirement is satisfied
      */
-    public boolean isSatisfied(CardType requirement){
+    public boolean isSatisfied(CardType requirement)
+    {
         int toSearch = requirement.getQuantity();
         if(requirement.getLevel()==0){
-            for (int i = 0; i < NUMBER_OF_COLUMNS; i++) {
-                for (int j = 0; j < NUMBER_OF_ROWS; j++) {
+            for (int i = 0; i < NUMBER_OF_COLUMNS; i++)
+            {
+                for (int j = 0; j < NUMBER_OF_ROWS; j++)
+                {
                     if (slots[j][i] == null)
                         break;
-                    if(requirement.getColor().equals(slots[j][i].getType().getColor())) {
+                    if(requirement.getColor().equals(slots[j][i].getType().getColor()))
+                    {
                         toSearch--;
                         if (toSearch == 0)
                             return true;
@@ -159,12 +162,14 @@ public class DevCardSlots {
             return false;
         }
 
-
-        for (int i = 0; i < NUMBER_OF_COLUMNS; i++) {
-            for (int j = 0; j < NUMBER_OF_ROWS; j++) {
+        for (int i = 0; i < NUMBER_OF_COLUMNS; i++)
+        {
+            for (int j = 0; j < NUMBER_OF_ROWS; j++)
+            {
                 if (slots[j][i] == null)
                     break;
-                if (requirement.equals(slots[j][i].getType())) {
+                if (requirement.equals(slots[j][i].getType()))
+                {
                     toSearch--;
                     if (toSearch == 0)
                         return true;

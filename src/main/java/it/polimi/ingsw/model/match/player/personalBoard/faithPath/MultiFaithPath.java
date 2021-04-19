@@ -11,7 +11,7 @@ public class MultiFaithPath extends FaithPath
      * @param faithMarker                 is the starting point of the player on the path
      * @throws FaithPathCreationException (propagated)
      */
-    public MultiFaithPath(ArrayList<Cell>faithPath, int faithMarker) throws FaithPathCreationException
+    public MultiFaithPath(ArrayList<Cell>faithPath, int faithMarker)
     {
         super(faithPath, faithMarker);
     }

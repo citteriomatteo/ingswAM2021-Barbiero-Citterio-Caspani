@@ -55,7 +55,6 @@ public class ConcreteWarehouse implements Warehouse
         return res;
     }
 
-
     /**
      * Moves in the specified shelf, if there is enough space or an EMPTY (quantity=0) shelf with whatever previous ResType in it.
      * Before moving, checks for "res" presence in the market buffer.
@@ -66,8 +65,7 @@ public class ConcreteWarehouse implements Warehouse
      * @return      true
      */
     @Override
-    public boolean moveInShelf(PhysicalResource res, int shelf)
-            throws ShelfInsertException, InvalidOperationException
+    public boolean moveInShelf(PhysicalResource res, int shelf) throws ShelfInsertException, InvalidOperationException
     {
         shelf--;
         //first of all, check for "res" presence in the marketBuffer.
@@ -88,7 +86,7 @@ public class ConcreteWarehouse implements Warehouse
             PhysicalResource newshelf = new PhysicalResource(res.getType(), shelves.get(shelf).getQuantity() + res.getQuantity());
             shelves.set(shelf, newshelf);
         }
-        catch(NegativeQuantityException e) { e.printStackTrace(); System.err.println("Application shutdown due to an internal error."); }
+        catch(NegativeQuantityException e) { e.printStackTrace(); System.err.println("Application shutdown due to an internal error in "+this.getClass().getSimpleName()+"."); }
 
         //marketBuffer cleaning:
         return cleanMarketBuffer(res);
@@ -104,7 +102,7 @@ public class ConcreteWarehouse implements Warehouse
     {
         for(int i=res.getQuantity(); i>0; i--)
             try { marketBuffer.remove(new PhysicalResource(res.getType(), 1));}
-            catch(NegativeQuantityException e) { e.printStackTrace(); System.err.println("Application shutdown due to an internal error."); }
+            catch(NegativeQuantityException e) { e.printStackTrace(); System.err.println("Application shutdown due to an internal error in "+this.getClass().getSimpleName()+"."); }
         return true;
     }
 

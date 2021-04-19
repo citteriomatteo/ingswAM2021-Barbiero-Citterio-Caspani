@@ -19,7 +19,7 @@ public class BlueMarble extends Marble {
         try {
             adder.addToWarehouse(new PhysicalResource(ResType.SHIELD, 1));
         } catch (NegativeQuantityException e) {
-            e.printStackTrace(); System.err.println("Application shutdown due to an internal error.");
+            e.printStackTrace(); System.err.println("Application shutdown due to an internal error in "+this.getClass().getSimpleName()+".");
             System.exit(1);
         }
         return false;

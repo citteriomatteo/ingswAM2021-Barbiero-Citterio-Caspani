@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model.exceptions;
 
+/**
+ * This exceptions handles: invalid faith path starting point, negative quantity of cell winpoints.
+ */
 public class FaithPathCreationException extends WrongSettingException
 {
 

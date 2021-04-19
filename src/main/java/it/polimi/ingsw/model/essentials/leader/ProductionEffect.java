@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.essentials.leader;
 
 import it.polimi.ingsw.model.essentials.Production;
-import it.polimi.ingsw.model.match.player.personalBoard.Effecter;
+import it.polimi.ingsw.model.match.player.personalBoard.Effector;
 
 import java.util.Objects;
 /**
@@ -29,11 +29,11 @@ public class ProductionEffect implements Effect{
     /**
      * Return true without doing anything
      * because the concrete effect is realized moving the leader in the productionActiveLeader list
-     * @param effecter the PersonalBoard owned by the player who wants to activate the LeaderCard effect
+     * @param effector the PersonalBoard owned by the player who wants to activate the LeaderCard effect
      * @return true
      */
     @Override
-    public boolean activate(Effecter effecter) {
+    public boolean activate(Effector effector) {
         return true;
     }
 

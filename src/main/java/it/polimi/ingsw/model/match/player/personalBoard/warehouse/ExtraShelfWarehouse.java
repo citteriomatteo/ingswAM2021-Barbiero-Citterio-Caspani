@@ -28,11 +28,10 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
         this.oldWarehouse = oldWarehouse;
         this.shelfSize = extraShelf.getQuantity();
         try { this.extraShelf = new PhysicalResource(extraShelf.getType(), 0); }
-        catch(NegativeQuantityException e) { e.printStackTrace(); System.err.println("Application shutdown due to an internal error."); }
+        catch(NegativeQuantityException e) { e.printStackTrace(); System.err.println("Application shutdown due to an internal error in "+this.getClass().getSimpleName()+"."); }
     }
 
-    //ALREADY DEFINED METHODS IN THE OLDER VERSIONS OF THE WAREHOUSE:
-
+    // ----- ALREADY DEFINED METHODS IN THE OLDER VERSIONS OF THE WAREHOUSE -----
     /**
      * @return the marketBuffer
      * @see ConcreteWarehouse
@@ -63,12 +62,12 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
      * @see ConcreteWarehouse
      */
     @Override
-    public int getNumberOf(ResType type) {
+    public int getNumberOf(ResType type)
+    {
         return (extraShelf.getType().equals(type) ? extraShelf.getQuantity() : 0) + oldWarehouse.getNumberOf(type);
     }
 
-    //METHODS TO REDEFINE:
-
+    // ----- METHODS TO REDEFINE -----
     /**
      * This method uses getWarehouseDisposition() to check the possibility of the move,
      * then eventually does the job or delegates it to the lower shelves.
@@ -91,7 +90,7 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
                 extraShelf = new PhysicalResource(extraShelf.getType(), (extraShelf.getQuantity() - numResources));
                 takenRes = new PhysicalResource(extraShelf.getType(), numResources);
             }
-            catch(NegativeQuantityException e) { e.printStackTrace(); System.err.println("Application shutdown due to an internal error."); }
+            catch(NegativeQuantityException e) { e.printStackTrace(); System.err.println("Application shutdown due to an internal error in "+this.getClass().getSimpleName()+"."); }
 
         }
         else
@@ -130,8 +129,7 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
             {
                 extraShelf = new PhysicalResource(extraShelf.getType(), extraShelf.getQuantity()+res.getQuantity());
             }
-            catch(NegativeQuantityException e) { e.printStackTrace(); System.err.println("Application shutdown due to an internal error."); }
-
+            catch(NegativeQuantityException e) { e.printStackTrace(); System.err.println("Application shutdown due to an internal error in "+this.getClass().getSimpleName()+"."); }
 
             //bufferMarket cleaning:
             cleanMarketBuffer(res);
@@ -188,8 +186,7 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
      * @see ConcreteWarehouse
      */
     @Override
-    public boolean switchShelf(int shelf1, int shelf2)
-            throws ShelfInsertException, InvalidOperationException
+    public boolean switchShelf(int shelf1, int shelf2) throws ShelfInsertException, InvalidOperationException
     {
         if(shelf1<0 || shelf1>getWarehouseDisposition().size() || shelf2<0 || shelf2>getWarehouseDisposition().size())
             throw new InvalidOperationException ("Incorrect attributes! Operation Failed.");

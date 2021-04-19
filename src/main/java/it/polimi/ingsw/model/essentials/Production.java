@@ -35,7 +35,7 @@ public class Production {
             }
             if (count!=0)
                 try { cost.add(new PhysicalResource(type, count)); }
-                catch(NegativeQuantityException e) { e.printStackTrace(); System.err.println("Application shutdown due to an internal error."); }
+                catch(NegativeQuantityException e) { e.printStackTrace(); System.err.println("Application shutdown due to an internal error."); System.exit(1);}
 
         }
         this.earnings = earnings;

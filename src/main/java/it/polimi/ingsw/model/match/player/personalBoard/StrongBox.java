@@ -17,7 +17,7 @@ public class StrongBox
             resources.put(type, 0);
     }
 
-    /** @return the Stronbox map */
+    /** @return the Strongbox map */
     public Map<ResType, Integer> getResources() { return resources; }
 
     /**

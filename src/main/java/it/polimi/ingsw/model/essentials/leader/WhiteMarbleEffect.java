@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.essentials.leader;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
-import it.polimi.ingsw.model.match.player.personalBoard.Effecter;
+import it.polimi.ingsw.model.match.player.personalBoard.Effector;
 
 import java.util.Objects;
 /**
@@ -28,12 +28,12 @@ public class WhiteMarbleEffect implements Effect{
 
     /**
      * Adds a new possible conversion for the white marble
-     * @param effecter the PersonalBoard owned by the player who wants to activate the LeaderCard effect
+     * @param effector the PersonalBoard owned by the player who wants to activate the LeaderCard effect
      * @return false
      */
     @Override
-    public boolean activate(Effecter effecter) {
-        effecter.addNewConversion(conversion);
+    public boolean activate(Effector effector) {
+        effector.addNewConversion(conversion);
         return false;
     }
 

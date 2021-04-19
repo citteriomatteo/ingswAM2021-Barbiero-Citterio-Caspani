@@ -2,10 +2,8 @@ package it.polimi.ingsw.model.match.player.personalBoard;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.Production;
-import it.polimi.ingsw.model.essentials.ResType;
 import it.polimi.ingsw.model.essentials.leader.LeaderCard;
 import it.polimi.ingsw.model.exceptions.FaithPathCreationException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.FaithPath;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.MultiFaithPath;
@@ -16,7 +14,7 @@ import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 
 import java.util.*;
 
-public class PersonalBoard implements Effecter
+public class PersonalBoard implements Effector
 {
     private final List<LeaderCard> activeLeaders;
     private final List<LeaderCard> activeProductionLeaders;
@@ -35,7 +33,7 @@ public class PersonalBoard implements Effecter
      * @param basicProduction is the basic Production
      */
 
-    public PersonalBoard(ArrayList<Cell> path, int startingPos, Production basicProduction) throws FaithPathCreationException
+    public PersonalBoard(ArrayList<Cell> path, int startingPos, Production basicProduction)
     {
         activeLeaders = new ArrayList<>();
         activeProductionLeaders = new ArrayList<>();
@@ -53,7 +51,8 @@ public class PersonalBoard implements Effecter
      * @param path            is the Cell-made path useful for the faithPath initialization
      * @param basicProduction is the basic Production
      */
-    public PersonalBoard(ArrayList<Cell> path, Production basicProduction) throws FaithPathCreationException {
+    public PersonalBoard(ArrayList<Cell> path, Production basicProduction) throws FaithPathCreationException
+    {
         activeLeaders = new ArrayList<>();
         activeProductionLeaders = new ArrayList<>();
         whiteMarbleConversions = new ArrayList<>();

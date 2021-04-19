@@ -79,18 +79,16 @@ public class Market {
      * @throws InvalidOperationException if the numRow is less then 0 or more than 3
      * @throws MatchEndedException if the player reaches the end of his faithPath
      */
-
-    public int selectRow(int numRow, Adder adder) throws InvalidOperationException, MatchEndedException {
+    public int selectRow(int numRow, Adder adder) throws InvalidOperationException, MatchEndedException
+    {
         int countWhite = 0;
 
         if(numRow < 0 || numRow > 3)
             throw new InvalidOperationException("The number of column is out of range");
 
-        for(int i = 0; i < 4; ++i) {
-            if (this.board[numRow][i].onDraw(adder)) {
+        for(int i = 0; i < 4; ++i)
+            if (this.board[numRow][i].onDraw(adder))
                 ++countWhite;
-            }
-        }
 
         this.rearrange(true, numRow);
         return countWhite;
@@ -101,10 +99,9 @@ public class Market {
      * @param numColumn the column's number
      * @param adder the player's interface
      * @return the number of white marbles drawn
-     * @throws MatchEndedException if the numColumn is less then 0 or more than 4
+     * @throws MatchEndedException if the numColumn is less than 0 or more than 4
      * @throws InvalidOperationException if the player reaches the end of his faithPath
      */
-
     public int selectColumn(int numColumn, Adder adder) throws MatchEndedException, InvalidOperationException
     {
         int countWhite = 0;
@@ -112,11 +109,9 @@ public class Market {
         if(numColumn < 0 || numColumn > 4)
             throw new InvalidOperationException("The number of column is out of range");
 
-        for(int i = 0; i < 3; ++i) {
-            if (this.board[i][numColumn].onDraw(adder)) {
+        for(int i = 0; i < 3; ++i)
+            if (this.board[i][numColumn].onDraw(adder))
                 ++countWhite;
-            }
-        }
 
         this.rearrange(false, numColumn);
         return countWhite;
@@ -127,27 +122,24 @@ public class Market {
      * @param choice true means that this method was called by selectRow, false means that this method was called by selectColumn
      * @param num the number of column or row
      */
-
-    private void rearrange(boolean choice, int num) {
+    private void rearrange(boolean choice, int num)
+    {
         Marble tempMarble = this.slide;
         int i;
-        if (choice) {
+        if (choice)
+        {
             this.slide = this.board[num][0];
-
-            for(i = 0; i < 3; ++i) {
+            for(i = 0; i < 3; ++i)
                 this.board[num][i] = this.board[num][i + 1];
-            }
-
             this.board[num][3] = tempMarble;
-        } else {
-            this.slide = this.board[0][num];
-
-            for(i = 0; i < 2; ++i) {
-                this.board[i][num] = this.board[i + 1][num];
-            }
-
-            this.board[2][num] = tempMarble;
         }
-
+        else
+            {
+                this.slide = this.board[0][num];
+                for(i = 0; i < 2; ++i)
+                    this.board[i][num] = this.board[i + 1][num];
+                this.board[2][num] = tempMarble;
+            }
     }
+
 }

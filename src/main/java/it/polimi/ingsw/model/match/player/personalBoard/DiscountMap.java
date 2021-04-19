@@ -6,7 +6,8 @@ import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DiscountMap {
+public class DiscountMap
+{
     private final Map<ResType, Integer> discountMap;
 
     /**
@@ -20,10 +21,7 @@ public class DiscountMap {
             discountMap.put(type, 0);
     }
 
-    /**
-     * Getter
-     * @return the map
-     */
+    /** @return the map of discounts */
     public Map<ResType, Integer> getDiscountMap() {
         return this.discountMap;
     }
@@ -45,23 +43,21 @@ public class DiscountMap {
      * @param resource a PhysicalResource to be discounted
      * @return a new discounted PhysicalResource
      */
-    public PhysicalResource applyDiscount(PhysicalResource resource) {
+    public PhysicalResource applyDiscount(PhysicalResource resource)
+    {
         Integer discount = this.discountMap.get(resource.getType());
-        if (discount == null) {
+        if (discount == null)
             return resource;
-        } else {
-            if (discount > resource.getQuantity()) {
+        else {
+            if (discount > resource.getQuantity())
                 discount = resource.getQuantity();
-            }
-
             try {
                 return new PhysicalResource(resource.getType(), resource.getQuantity() - discount);
             } catch (NegativeQuantityException e) {
-                e.printStackTrace(); System.err.println("Application shutdown due to an internal error.");
+                e.printStackTrace(); System.err.println("Application shutdown due to an internal error in "+this.getClass().getSimpleName()+".");
                 System.exit(1);
             }
         }
-
         return null;
     }
 }
