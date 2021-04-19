@@ -12,27 +12,40 @@ import java.util.List;
 
 import static it.polimi.ingsw.gsonUtilities.GsonHandler.*;
 
-public abstract class Match implements Comunicator{
+public abstract class Match implements Communicator {
     private final Market market;
-    private final LeaderStack leaderStack;
+    private final LeaderStack leaderStack ;
     private final MatchConfiguration matchConfiguration;
 
     /**
      * Constructor, builds the common parts to MultiMatch and SingleMatch (matchConfiguration, Market and LeaderStack)
      * from a json file
-     * @param config the directory of the configuration file
-     * @throws FileNotFoundException if it can't reade the configuration file
+     * @param config the file path of the configuration file
      */
-
-    public Match(String config) throws FileNotFoundException {
-        Gson g = cellConfig(resourceConfig(requirableConfig(effectConfig(new GsonBuilder())))).setPrettyPrinting().create();
-        FileReader reader = new FileReader(config);
-
-        matchConfiguration = g.fromJson(reader, MatchConfiguration.class);
-
-        this.market = new Market();
-        this.leaderStack = new LeaderStack(matchConfiguration.getAllLeaderCards());
+    public Match(String config){
+            matchConfiguration = assignConfiguration(config);
+            this.market = new Market();
+            this.leaderStack = new LeaderStack(matchConfiguration.getAllLeaderCards());
     }
+
+    /**
+     * Internal function used to read the configuration from the json file at 'config' filePath
+     * @param config the file path of the configuration file
+     * @return the object read in the json
+     */
+    private MatchConfiguration assignConfiguration(String config){
+        Gson g = cellConfig(resourceConfig(requirableConfig(effectConfig(new GsonBuilder())))).setPrettyPrinting().create();
+        try {
+            FileReader reader = new FileReader(config);
+            return g.fromJson(reader, MatchConfiguration.class);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.err.println("Application shutdown due to an internal error in " + this.getClass().getSimpleName());
+            System.exit(1);
+            return null;
+        }
+    }
+
 
     /**
      * Getter
@@ -64,7 +77,6 @@ public abstract class Match implements Comunicator{
      * Getter, returns a CardGrid or a singleCardGrid
      * @return cardGrid
      */
-
     public abstract CardGrid getCardGrid();
 
     /**
@@ -75,17 +87,15 @@ public abstract class Match implements Comunicator{
 
     /**
      * Getter
-     * @return the player whose playing in this turn
+     * @return the player who is playing in this turn
      */
-
     public abstract Player getCurrentPlayer();
 
     /**
      * This method finish the turn
      * @return true if it worked
-     * @throws MatchEndedException if the number of a certain type of developmentCards became 0
+     * @throws MatchEndedException if the number of a certain type of developmentCards became 0 in single player
      */
-
     public abstract boolean nextTurn() throws MatchEndedException;
 
     /**
@@ -93,7 +103,6 @@ public abstract class Match implements Comunicator{
      * @param nickname the nickname of the searched player
      * @return the player searched if it's in the players list, or null if it isn't
      */
-
     public abstract Player getPlayer(String nickname);
 
 

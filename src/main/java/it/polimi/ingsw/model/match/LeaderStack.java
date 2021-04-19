@@ -15,7 +15,7 @@ public class LeaderStack {
     private final Stack<LeaderCard> deck;
 
     /**
-     * Constructor, it takes all the playable LeaderCards of the match, shuffle them and then and form the deck
+     * Constructor, it takes all the playable LeaderCards of the match, shuffles them and then forms the deck
      * @param cards a list of all the playable LeaderCards of the match
      */
     public LeaderStack(List<LeaderCard> cards) {
@@ -33,15 +33,13 @@ public class LeaderStack {
         List<LeaderCard> res = new ArrayList<>();
 
         if (numLeaders>deck.size()) {
-            for (int i = 0; i < deck.size(); i++) {
+            for (int i = 0; i < deck.size(); i++)
                 res.add(deck.pop());
-            }
         }
 
         else {
-            for (int i = 0; i < numLeaders; i++) {
+            for (int i = 0; i < numLeaders; i++)
                 res.add(deck.pop());
-            }
         }
         return res;
     }

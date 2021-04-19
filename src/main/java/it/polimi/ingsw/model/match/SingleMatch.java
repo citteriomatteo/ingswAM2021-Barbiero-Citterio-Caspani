@@ -23,11 +23,9 @@ public class SingleMatch extends Match{
      * It also associates this as the match of the singlePlayer.
      * @param player the player of this match
      * @param config the directory of the configuration file
-     * @throws FileNotFoundException if it can't reade the configuration file
      * @throws WrongSettingException if are given not enough CardTypes or in the wrong order to create the singleCardGrid
      */
-
-    public SingleMatch(Player player, String config) throws FileNotFoundException, WrongSettingException
+    public SingleMatch(Player player, String config) throws WrongSettingException
     {
         super(config);
         this.currentPlayer = player;
@@ -44,7 +42,6 @@ public class SingleMatch extends Match{
      * Getter
      * @return the tokenStack
      */
-
     public TokenStack getTokenStack() {
         return tokenStack;
     }
@@ -53,7 +50,6 @@ public class SingleMatch extends Match{
      * Getter
      * @return the only player
      */
-
     @Override
     public Player getCurrentPlayer() {
         return currentPlayer;
@@ -63,7 +59,6 @@ public class SingleMatch extends Match{
      * Getter
      * @return the singleCardGrid
      */
-
     @Override
     public CardGrid getCardGrid() {
         return singleCardGrid;
@@ -73,7 +68,6 @@ public class SingleMatch extends Match{
      * Getter
      * @return the single player as list
      */
-
     @Override
     public ArrayList<Player> getPlayers() {
         return new ArrayList<>(List.of(currentPlayer));
@@ -84,7 +78,6 @@ public class SingleMatch extends Match{
      * @param nickname the nickname of the searched player
      * @return the player searched if it's the player of this match, or null if it isn't
      */
-
     @Override
     public Player getPlayer(String nickname){
         if (currentPlayer.getNickname().equals(nickname))
@@ -98,7 +91,6 @@ public class SingleMatch extends Match{
      * @return true if the draw method worked
      * @throws MatchEndedException if the number of a certain type of developmentCards became 0
      */
-
     @Override
     public boolean nextTurn() throws MatchEndedException {
         return tokenStack.draw(this);

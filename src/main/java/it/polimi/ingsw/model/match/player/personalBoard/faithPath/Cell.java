@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.match.player.personalBoard.faithPath;
 
 import it.polimi.ingsw.model.exceptions.FaithPathCreationException;
-import it.polimi.ingsw.model.match.Comunicator;
+import it.polimi.ingsw.model.match.Communicator;
 
 public class Cell
 {
@@ -24,11 +24,11 @@ public class Cell
 
     /**
      * This method specifies, in a Multiplayer match, that this Cell is not a VaticanReportCell.
-     * @param comunicator has no use in this method
+     * @param communicator has no use in this method
      * @return            false
      * @see VaticanReportCell
      */
-    public boolean vaticanReport(Comunicator comunicator) {return false;}
+    public boolean vaticanReport(Communicator communicator) {return false;}
 
     /**
      * This method specifies, in a Singleplayer match, that this Cell is not a VaticanReportCell.

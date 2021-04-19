@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.match.player.personalBoard.faithPath;
 
 import it.polimi.ingsw.model.exceptions.FaithPathCreationException;
-import it.polimi.ingsw.model.match.Comunicator;
+import it.polimi.ingsw.model.match.Communicator;
 import it.polimi.ingsw.model.match.player.Player;
 
 public class VaticanReportCell extends Cell
@@ -19,13 +19,13 @@ public class VaticanReportCell extends Cell
 
     /**
      * This method, when called, causes an externalVaticanReport() invocation on every player's multiFaithPath.
-     * @param comunicator is the interface responsible of the available functions to call
+     * @param communicator is the interface responsible of the available functions to call
      * @return true
      */
     @Override
-    public boolean vaticanReport(Comunicator comunicator)
+    public boolean vaticanReport(Communicator communicator)
     {
-        for(Player p : comunicator.getPlayers())
+        for(Player p : communicator.getPlayers())
         {
             MultiFaithPath path = (MultiFaithPath) p.getPersonalBoard().getFaithPath();
             path.externalVaticanReport(getReportSection());

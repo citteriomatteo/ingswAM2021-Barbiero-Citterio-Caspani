@@ -2,7 +2,8 @@ package it.polimi.ingsw.model.match.player.personalBoard.faithPath;
 
 import it.polimi.ingsw.model.exceptions.FaithPathCreationException;
 import it.polimi.ingsw.model.exceptions.MatchEndedException;
-import it.polimi.ingsw.model.match.Comunicator;
+import it.polimi.ingsw.model.match.Communicator;
+
 import java.util.*;
 
 public abstract class FaithPath
@@ -38,19 +39,19 @@ public abstract class FaithPath
      * This method adds "steps" points, one by one. For every cell passed,
      * it checks for a vatican report: if a report is effectively called, it collapses vaticanReportCell to Cell.
      * @param steps         is the number of steps to do
-     * @param comunicator   is the interface with all the usable methods
+     * @param communicator   is the interface with all the usable methods
      * @return              true
      * @throws MatchEndedException          if a player ends the path journey
      */
-    public boolean addFaithPoints(int steps, Comunicator comunicator) throws MatchEndedException
+    public boolean addFaithPoints(int steps, Communicator communicator) throws MatchEndedException
     {
         for(; steps>0; steps--)
         {
             faithMarker++;
-            if(comunicator.getPlayers().size()==1 && faithPath.get(faithMarker).singleVaticanReport())
+            if(communicator.getPlayers().size()==1 && faithPath.get(faithMarker).singleVaticanReport())
                 cellCollapse(faithMarker);
             else
-                if(comunicator.getPlayers().size()>1 && faithPath.get(faithMarker).vaticanReport(comunicator))
+                if(communicator.getPlayers().size()>1 && faithPath.get(faithMarker).vaticanReport(communicator))
                     cellCollapse(faithMarker);
 
             if(faithMarker==24)

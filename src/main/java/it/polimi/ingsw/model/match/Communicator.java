@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.match.player.Player;
 
 import java.util.List;
 
-public interface Comunicator {
+public interface Communicator {
 
     /**
      * This method returns the list of players

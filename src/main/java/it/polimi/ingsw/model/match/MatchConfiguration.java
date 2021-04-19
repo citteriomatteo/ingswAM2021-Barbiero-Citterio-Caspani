@@ -7,6 +7,9 @@ import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 
 import java.util.List;
 
+/**
+ * A configuration of the match all contained in one object
+ */
 public class MatchConfiguration
 {
     private List<DevelopmentCard> allDevCards;
@@ -14,6 +17,13 @@ public class MatchConfiguration
     private List<Cell> customPath;
     private Production basicProduction;
 
+    /**
+     * Simple constructor
+     * @param allDevCards all the DevelopmentCards in the game
+     * @param allLeaderCards all the LeaderCards in the game
+     * @param customPath a list of cell that represents the custom FaithPath
+     * @param basicProduction the custom basicProduction
+     */
     public MatchConfiguration(List<DevelopmentCard> allDevCards, List<LeaderCard> allLeaderCards, List<Cell> customPath, Production basicProduction) {
         this.allDevCards = allDevCards;
         this.allLeaderCards = allLeaderCards;
@@ -21,26 +31,52 @@ public class MatchConfiguration
         this.basicProduction = basicProduction;
     }
 
+    //GETTER
+    /**
+     * @return all the DevelopmentCards in this configuration
+     */
     public List<DevelopmentCard> getAllDevCards() {
         return allDevCards;
     }
+    /**
+     * @return all the LeaderCards in this configuration
+     */
     public List<LeaderCard> getAllLeaderCards() {
         return allLeaderCards;
     }
+    /**
+     * @return a list of cell that represents the custom FaithPath in this configuration
+     */
     public List<Cell> getCustomPath() {
         return customPath;
     }
+    /**
+     * @return the custom basicProduction of this configuration
+     */
     public Production getBasicProduction() {
         return basicProduction;
     }
 
+    //SETTER
+    /**
+     * @param allDevCards all the DevelopmentCards in this configuration
+     */
     public void setAllDevCards(List<DevelopmentCard> allDevCards) {
         this.allDevCards = allDevCards;
     }
+    /**
+     * @param allLeaderCards all the LeaderCards in this configuration
+     */
     public void setAllLeaderCards(List<LeaderCard> allLeaderCards) { this.allLeaderCards = allLeaderCards;}
+    /**
+     * @param customPath a list of cell that represents the custom FaithPath in this configuration
+     */
     public void setCustomPath(List<Cell> customPath) {
         this.customPath = customPath;
     }
+    /**
+     * @param basicProduction the custom basicProduction of this configuration
+     */
     public void setBasicProduction(Production basicProduction) {
         this.basicProduction = basicProduction;
     }

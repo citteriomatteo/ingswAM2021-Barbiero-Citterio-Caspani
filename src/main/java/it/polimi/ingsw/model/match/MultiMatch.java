@@ -6,10 +6,8 @@ import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class MultiMatch extends Match {
     private Player currentPlayer;
@@ -25,11 +23,9 @@ public class MultiMatch extends Match {
      * @param players the list of players in this game
      * @param config the directory of the configuration file
      * @throws SingleMatchException if the list of players contains only one player
-     * @throws FileNotFoundException if it can't reade the configuration file
      * @throws WrongSettingException if are given not enough CardTypes or in the wrong order to create the cardGrid
      */
-
-    public MultiMatch(List<Player> players,String config) throws SingleMatchException, FileNotFoundException, WrongSettingException {
+    public MultiMatch(List<Player> players,String config) throws SingleMatchException, WrongSettingException {
         super(config);
         if(players.size() == 1)
             throw new SingleMatchException("This match has only one player");
@@ -58,7 +54,6 @@ public class MultiMatch extends Match {
      * Getter
      * @return the player whose playing in this turn
      */
-
     @Override
     public Player getCurrentPlayer() {
         return currentPlayer;
@@ -68,7 +63,6 @@ public class MultiMatch extends Match {
      * Getter
      * @return the cardGrid
      */
-
     @Override
     public CardGrid getCardGrid() {
         return cardGrid;
@@ -78,7 +72,6 @@ public class MultiMatch extends Match {
      * Getter
      * @return the list of players
      */
-
     @Override
     public List<Player> getPlayers() {
         return players;
@@ -88,7 +81,6 @@ public class MultiMatch extends Match {
      * This method return the player who will play the next turn
      * @return the next player
      */
-
     public Player getNextPlayer(){
         if(numPlayer < players.size()-1)
             return players.get(numPlayer+1);
@@ -115,7 +107,6 @@ public class MultiMatch extends Match {
      * @param nickname the nickname of the searched player
      * @return the player searched if it's in the players list, or null if it isn't
      */
-
     @Override
     public Player getPlayer(String nickname){
         for (Player player : players) {
@@ -125,5 +116,4 @@ public class MultiMatch extends Match {
 
         return null;
     }
-
 }
