@@ -28,7 +28,7 @@ public class Server {
             try {
                 Socket socket = serverSocket.accept();
                 System.out.println("new client accepted");
-                executor.submit(new ServerClientHandler(socket));
+                executor.submit(new PlayersHandler(socket));
             }
             catch(IOException e) {
                  break;  //entrerei qui se serverSocket venisse chiuso
