@@ -41,4 +41,11 @@ public class EndGameResultsMessage extends Message {
         return true;
     }
 
+    private StoCMessageType getType(){
+        return type;
+    }
+    private Map<String, Integer> getLeaderBoard(){
+        return leaderBoard;
+    }
+
 }

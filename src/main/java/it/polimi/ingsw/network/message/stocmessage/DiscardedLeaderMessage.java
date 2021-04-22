@@ -17,4 +17,9 @@ public class DiscardedLeaderMessage extends Message {
         this.nickname = nickname;
     }
 
+    private StoCMessageType getType(){
+        return type;
+    }
+    private String getNickname(){ return nickname; }
+
 }

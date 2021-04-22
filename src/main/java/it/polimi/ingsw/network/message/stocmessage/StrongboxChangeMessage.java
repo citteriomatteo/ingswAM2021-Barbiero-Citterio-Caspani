@@ -21,4 +21,8 @@ public class StrongboxChangeMessage extends Message {
         this.newStrongbox = newStrongbox;
     }
 
+    private StoCMessageType getType(){ return type; }
+    private String getNickname(){ return nickname; }
+    private StrongBox getNewStrongbox(){ return newStrongbox; }
+
 }

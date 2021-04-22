@@ -17,4 +17,7 @@ public class TokenDrawMessage extends Message {
         this.tokenName = tokenName;
     }
 
+    private StoCMessageType getType(){ return type; }
+    private String tokenName(){ return tokenName; }
+
 }

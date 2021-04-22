@@ -19,4 +19,14 @@ public class ActivatedLeaderMessage extends Message {
         this.cardID = cardID;
     }
 
+    private StoCMessageType getType(){
+        return type;
+    }
+    private String getNickname(){
+        return nickname;
+    }
+    private String getCardID(){
+        return cardID;
+    }
+
 }

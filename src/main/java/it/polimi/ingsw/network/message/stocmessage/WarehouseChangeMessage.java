@@ -20,4 +20,8 @@ public class WarehouseChangeMessage extends Message {
         this.newWarehouse = newWarehouse;
     }
 
+    private StoCMessageType getType(){ return type; }
+    private String getNickname(){ return nickname; }
+    private Warehouse getNewWarehouse(){ return newWarehouse; }
+
 }

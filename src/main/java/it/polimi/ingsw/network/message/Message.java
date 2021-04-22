@@ -13,7 +13,8 @@ public abstract class Message {
         this.nickname = nickname;
     }
 
-    public String getNickname(){
+    private String getNickname(){
         return nickname;
     }
+
 }

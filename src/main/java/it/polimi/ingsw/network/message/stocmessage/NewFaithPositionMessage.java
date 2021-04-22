@@ -20,4 +20,8 @@ public class NewFaithPositionMessage extends Message {
         this.newPosition = newPosition;
     }
 
+    private StoCMessageType getType(){ return type; }
+    private String getNickname(){ return nickname; }
+    private int getNewPosition(){ return newPosition; }
+
 }

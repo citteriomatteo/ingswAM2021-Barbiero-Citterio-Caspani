@@ -20,4 +20,13 @@ public class CardGridChangeMessage extends Message {
         this.cardID = cardID;
     }
 
+    private StoCMessageType getType(){
+        return type;
+    }
+    private int getRow(){ return row; }
+    private int getColumn(){ return column; }
+    private int getCardID(){
+        return cardID;
+    }
+
 }
