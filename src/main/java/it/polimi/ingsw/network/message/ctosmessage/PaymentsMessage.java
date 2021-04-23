@@ -33,4 +33,5 @@ public class PaymentsMessage extends Message {
     public CtoSMessageType getType() {
         return type;
     }
+
 }

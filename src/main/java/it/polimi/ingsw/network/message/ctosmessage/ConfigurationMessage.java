@@ -22,7 +22,6 @@ public class ConfigurationMessage extends Message {
      * Getter
      * @return the configuration of the match
      */
-
     public MatchConfiguration getConfig(){
         return config;
     }
@@ -35,4 +34,5 @@ public class ConfigurationMessage extends Message {
     public CtoSMessageType getType() {
         return type;
     }
+
 }

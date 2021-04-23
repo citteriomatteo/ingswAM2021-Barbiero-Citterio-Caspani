@@ -1,6 +1,8 @@
 package it.polimi.ingsw.network.message.stocmessage;
 
-public enum StoCMessageType {
+import it.polimi.ingsw.network.message.MessageType;
+
+public enum StoCMessageType implements MessageType {
 
     MARKET_CHANGE (1),
     CARD_GRID_CHANGE (2),

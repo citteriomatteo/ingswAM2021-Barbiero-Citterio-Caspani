@@ -41,4 +41,5 @@ public class MarketDrawMessage extends Message {
     public CtoSMessageType getType() {
         return type;
     }
+
 }

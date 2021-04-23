@@ -16,5 +16,6 @@ public abstract class Message {
     public String getNickname(){
         return nickname;
     }
+    public abstract MessageType getType();
 
 }

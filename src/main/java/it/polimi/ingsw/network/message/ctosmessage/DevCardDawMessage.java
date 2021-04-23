@@ -23,7 +23,6 @@ public class DevCardDawMessage extends Message {
      * Getter
      * @return the row's number
      */
-
     public int getRow() {
         return row;
     }
@@ -32,7 +31,6 @@ public class DevCardDawMessage extends Message {
      * Getter
      * @return the column's number
      */
-
     public int getColumn() {
         return column;
     }
@@ -41,7 +39,6 @@ public class DevCardDawMessage extends Message {
      * Getter
      * @return the message's type
      */
-
     public CtoSMessageType getType() {
         return type;
     }
