@@ -18,7 +18,7 @@ public class WarehouseChangeMessage extends Message {
         this.newWarehouse = newWarehouse;
     }
 
-    private StoCMessageType getType(){ return type; }
-    private Warehouse getNewWarehouse(){ return newWarehouse; }
+    public StoCMessageType getType(){ return type; }
+    public Warehouse getNewWarehouse(){ return newWarehouse; }
 
 }

@@ -29,10 +29,10 @@ public class MarketChangeMessage extends Message {
         this.sectionIndex = sectionIndex;
     }
 
-    private StoCMessageType getType(){ return type; }
-    private Marble getSideMarble(){ return sideMarble; }
-    private List<Marble> getChangedSection(){ return changedSection; }
-    private boolean isRow(){ return row; }
-    private int getSectionIndex(){ return sectionIndex; }
+    public StoCMessageType getType(){ return type; }
+    public Marble getSideMarble(){ return sideMarble; }
+    public List<Marble> getChangedSection(){ return changedSection; }
+    public boolean isRow(){ return row; }
+    public int getSectionIndex(){ return sectionIndex; }
 
 }

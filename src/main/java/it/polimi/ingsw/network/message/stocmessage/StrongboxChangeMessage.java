@@ -19,7 +19,7 @@ public class StrongboxChangeMessage extends Message {
         this.newStrongbox = newStrongbox;
     }
 
-    private StoCMessageType getType(){ return type; }
-    private StrongBox getNewStrongbox(){ return newStrongbox; }
+    public StoCMessageType getType(){ return type; }
+    public StrongBox getNewStrongbox(){ return newStrongbox; }
 
 }

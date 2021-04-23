@@ -21,10 +21,10 @@ public class DevCardSlotChangeMessage extends Message {
         this.cardID = cardID;
     }
 
-    private StoCMessageType getType(){
+    public StoCMessageType getType(){
         return type;
     }
-    private int getColumn(){ return column; }
-    private int getCardID(){ return cardID; }
+    public int getColumn(){ return column; }
+    public int getCardID(){ return cardID; }
 
 }

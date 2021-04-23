@@ -17,7 +17,7 @@ public class RetryMessage extends Message {
         this.errMessage = errMessage;
     }
 
-    private StoCMessageType getType(){ return type; }
-    private String getErrorMessage(){ return errMessage; }
+    public StoCMessageType getType(){ return type; }
+    public String getErrorMessage(){ return errMessage; }
 
 }

@@ -15,7 +15,7 @@ public class DiscardedLeaderMessage extends Message {
         super(nickname);
     }
 
-    private StoCMessageType getType(){
+    public StoCMessageType getType(){
         return type;
     }
 

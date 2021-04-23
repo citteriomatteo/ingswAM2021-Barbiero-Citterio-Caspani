@@ -2,12 +2,12 @@ package it.polimi.ingsw.network.message.stocmessage;
 
 import it.polimi.ingsw.network.message.Message;
 
-public class RematchOfferMessage extends Message {
+public class RematchOfferedMessage extends Message {
 
     private final StoCMessageType type = StoCMessageType.REMATCH_OFFERED;
     private final String message;
 
-    public RematchOfferMessage(String nickname, String proposer) {
+    public RematchOfferedMessage(String nickname, String proposer) {
         super(nickname);
         this.message = proposer+" offered a rematch.\nAccept? [y/n]";
     }

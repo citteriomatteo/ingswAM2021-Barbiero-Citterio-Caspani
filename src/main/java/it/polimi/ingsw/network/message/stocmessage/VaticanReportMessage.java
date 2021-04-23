@@ -46,8 +46,8 @@ public class VaticanReportMessage extends Message {
     }
 
 
-    private StoCMessageType getType(){ return type; }
-    private int getTileNumber(){ return tileNumber; }
-    private Map<String,Integer> getTilesState(){ return tilesState; }
+    public StoCMessageType getType(){ return type; }
+    public int getTileNumber(){ return tileNumber; }
+    public Map<String,Integer> getTilesState(){ return tilesState; }
 
 }

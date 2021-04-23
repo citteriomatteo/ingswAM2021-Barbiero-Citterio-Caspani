@@ -17,10 +17,10 @@ public class ActivatedLeaderMessage extends Message {
         this.cardID = cardID;
     }
 
-    private StoCMessageType getType(){
+    public StoCMessageType getType(){
         return type;
     }
-    private String getCardID(){
+    public String getCardID(){
         return cardID;
     }
 
