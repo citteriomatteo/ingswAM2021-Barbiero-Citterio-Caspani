@@ -15,10 +15,10 @@ import java.util.List;
 public class MarketChangeMessage extends Message {
 
     private final StoCMessageType type = StoCMessageType.MARKET_CHANGE;
-    private Marble sideMarble;
-    private List<Marble> changedSection;
-    private boolean row;
-    private int sectionIndex;
+    private final Marble sideMarble;
+    private final List<Marble> changedSection;
+    private final boolean row;
+    private final int sectionIndex;
 
     public MarketChangeMessage(String nickname, Marble sideMarble, List<Marble> changedSection, boolean row, int sectionIndex)
     {

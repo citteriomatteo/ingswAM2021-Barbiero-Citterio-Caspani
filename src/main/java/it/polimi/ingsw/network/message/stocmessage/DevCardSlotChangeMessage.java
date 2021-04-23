@@ -12,13 +12,11 @@ import it.polimi.ingsw.network.message.Message;
 public class DevCardSlotChangeMessage extends Message {
 
     private final StoCMessageType type = StoCMessageType.DEV_CARD_SLOT_CHANGE;
-    private String nickname;
-    private int column;
-    private int cardID;
+    private final int column;
+    private final int cardID;
 
-    public DevCardSlotChangeMessage(String receiver, String nickname, int column, int cardID){
-        super(receiver);
-        this.nickname = nickname;
+    public DevCardSlotChangeMessage(String nickname, int column, int cardID){
+        super(nickname);
         this.column = column;
         this.cardID = cardID;
     }
@@ -26,7 +24,6 @@ public class DevCardSlotChangeMessage extends Message {
     private StoCMessageType getType(){
         return type;
     }
-    private String getNickname(){ return nickname; }
     private int getColumn(){ return column; }
     private int getCardID(){ return cardID; }
 

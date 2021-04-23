@@ -11,17 +11,14 @@ import it.polimi.ingsw.network.message.Message;
 public class WarehouseChangeMessage extends Message {
 
     private final StoCMessageType type = StoCMessageType.WAREHOUSE_CHANGE;
-    private String nickname;
-    private Warehouse newWarehouse;
+    private final Warehouse newWarehouse;
 
-    public WarehouseChangeMessage(String receiver, String nickname, Warehouse newWarehouse){
-        super(receiver);
-        this.nickname = nickname;
+    public WarehouseChangeMessage(String nickname, Warehouse newWarehouse){
+        super(nickname);
         this.newWarehouse = newWarehouse;
     }
 
     private StoCMessageType getType(){ return type; }
-    private String getNickname(){ return nickname; }
     private Warehouse getNewWarehouse(){ return newWarehouse; }
 
 }

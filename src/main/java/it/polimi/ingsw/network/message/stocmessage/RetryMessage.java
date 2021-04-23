@@ -10,7 +10,7 @@ import it.polimi.ingsw.network.message.Message;
 public class RetryMessage extends Message {
 
     private final StoCMessageType type = StoCMessageType.RETRY;
-    private String errMessage;
+    private final String errMessage;
 
     public RetryMessage(String nickname, String errMessage){
         super(nickname);

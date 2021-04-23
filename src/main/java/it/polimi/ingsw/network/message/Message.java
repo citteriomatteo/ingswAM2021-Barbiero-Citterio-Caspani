@@ -7,7 +7,7 @@ package it.polimi.ingsw.network.message;
  */
 public abstract class Message {
 
-    private String nickname;
+    private final String nickname;
 
     public Message(String nickname){
         this.nickname = nickname;

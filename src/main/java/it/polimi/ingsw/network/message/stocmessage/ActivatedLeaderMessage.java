@@ -10,20 +10,15 @@ import it.polimi.ingsw.network.message.Message;
 public class ActivatedLeaderMessage extends Message {
 
     private final StoCMessageType type = StoCMessageType.ACTIVATED_LEADER;
-    private String nickname;
-    private String cardID;
+    private final String cardID;
 
-    public ActivatedLeaderMessage(String receiver, String nickname, String cardID){
-        super(receiver);
-        this.nickname = nickname;
+    public ActivatedLeaderMessage(String nickname, String cardID){
+        super(nickname);
         this.cardID = cardID;
     }
 
     private StoCMessageType getType(){
         return type;
-    }
-    private String getNickname(){
-        return nickname;
     }
     private String getCardID(){
         return cardID;

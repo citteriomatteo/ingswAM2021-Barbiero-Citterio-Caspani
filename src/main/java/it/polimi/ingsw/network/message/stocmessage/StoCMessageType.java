@@ -13,7 +13,9 @@ public enum StoCMessageType {
     ACTIVATED_LEADER (9),
     TOKEN_DRAW (10),
     END_GAME_RESULTS (11),
-    RETRY (12);
+    RETRY (12),
+    YOUR_TURN (13),
+    REMATCH_OFFERED (14);
 
     private int val;
     private StoCMessageType(int val){

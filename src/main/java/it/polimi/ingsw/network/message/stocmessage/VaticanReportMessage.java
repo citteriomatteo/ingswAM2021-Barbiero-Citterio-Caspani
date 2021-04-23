@@ -15,8 +15,8 @@ import java.util.Map;
 public class VaticanReportMessage extends Message {
 
     private final StoCMessageType type = StoCMessageType.VATICAN_REPORT;
-    private int tileNumber;
-    private Map<String, Integer> tilesState;
+    private final int tileNumber;
+    private final Map<String, Integer> tilesState;
 
     public VaticanReportMessage(String nickname, int tileNumber, Map<String, Integer> tilesState){
         super(nickname);
@@ -30,6 +30,7 @@ public class VaticanReportMessage extends Message {
      */
     public VaticanReportMessage(String nickname, int tileNumber){
         super(nickname);
+        this.tilesState = new HashMap<>();
         this.tileNumber = tileNumber;
     }
 

@@ -10,16 +10,13 @@ import it.polimi.ingsw.network.message.Message;
 public class DiscardedLeaderMessage extends Message {
 
     private final StoCMessageType type = StoCMessageType.DISCARDED_LEADER;
-    private String nickname;
 
-    public DiscardedLeaderMessage(String receiver, String nickname){
-        super(receiver);
-        this.nickname = nickname;
+    public DiscardedLeaderMessage(String nickname){
+        super(nickname);
     }
 
     private StoCMessageType getType(){
         return type;
     }
-    private String getNickname(){ return nickname; }
 
 }

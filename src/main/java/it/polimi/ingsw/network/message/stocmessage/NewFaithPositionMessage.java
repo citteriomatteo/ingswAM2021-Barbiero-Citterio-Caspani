@@ -11,17 +11,14 @@ import it.polimi.ingsw.network.message.Message;
 public class NewFaithPositionMessage extends Message {
 
     private final StoCMessageType type = StoCMessageType.NEW_FAITH_POSITION;
-    private String nickname;
-    private int newPosition;
+    private final int newPosition;
 
-    public NewFaithPositionMessage(String receiver, String nickname, int newPosition){
-        super(receiver);
-        this.nickname = nickname;
+    public NewFaithPositionMessage(String nickname, int newPosition){
+        super(nickname);
         this.newPosition = newPosition;
     }
 
     private StoCMessageType getType(){ return type; }
-    private String getNickname(){ return nickname; }
     private int getNewPosition(){ return newPosition; }
 
 }

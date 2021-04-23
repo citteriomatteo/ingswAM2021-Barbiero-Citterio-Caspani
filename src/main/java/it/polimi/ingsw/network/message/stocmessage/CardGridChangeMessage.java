@@ -10,8 +10,8 @@ import it.polimi.ingsw.network.message.Message;
 public class CardGridChangeMessage extends Message {
 
     private final StoCMessageType type = StoCMessageType.CARD_GRID_CHANGE;
-    private int row, column;
-    private int cardID;
+    private final int row, column;
+    private final int cardID;
 
     public CardGridChangeMessage(String nickname, int row, int column, int cardID){
         super(nickname);
