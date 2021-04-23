@@ -22,8 +22,8 @@ public enum CtoSMessageType implements MessageType
     REMATCH_RESPONSE (16),
     DISCONNECTION (17);
 
-    private int val;
-    private CtoSMessageType(int val){
+    private final int val;
+    CtoSMessageType(int val){
         this.val = val;
     }
 

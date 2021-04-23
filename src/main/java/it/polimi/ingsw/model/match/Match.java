@@ -51,7 +51,6 @@ public abstract class Match implements Communicator {
      * Getter
      * @return market
      */
-
     public Market getMarket() {
         return market;
     }
@@ -68,7 +67,6 @@ public abstract class Match implements Communicator {
      * Getter
      * @return matchConfiguration
      */
-
     public MatchConfiguration getMatchConfiguration() {
         return matchConfiguration;
     }

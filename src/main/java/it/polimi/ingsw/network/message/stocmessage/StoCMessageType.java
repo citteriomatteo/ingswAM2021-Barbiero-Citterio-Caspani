@@ -19,8 +19,9 @@ public enum StoCMessageType implements MessageType {
     YOUR_TURN (13),
     REMATCH_OFFERED (14);
 
-    private int val;
-    private StoCMessageType(int val){
+    private final int val;
+
+    StoCMessageType(int val){
         this.val = val;
     }
 

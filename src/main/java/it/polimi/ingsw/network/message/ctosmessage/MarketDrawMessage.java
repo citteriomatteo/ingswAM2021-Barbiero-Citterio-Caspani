@@ -8,7 +8,7 @@ import it.polimi.ingsw.network.message.Message;
  * the number of the row/column selected}
  */
 public class MarketDrawMessage extends Message {
-    private final CtoSMessageType type = CtoSMessageType.MARKET_DRAW;
+    private static final CtoSMessageType type = CtoSMessageType.MARKET_DRAW;
     private final boolean row;
     private final int num;
 

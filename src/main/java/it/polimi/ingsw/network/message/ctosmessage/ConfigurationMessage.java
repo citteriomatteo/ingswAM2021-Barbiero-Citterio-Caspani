@@ -2,7 +2,6 @@ package it.polimi.ingsw.network.message.ctosmessage;
 
 import it.polimi.ingsw.model.match.MatchConfiguration;
 import it.polimi.ingsw.network.message.Message;
-import it.polimi.ingsw.network.message.stocmessage.StoCMessageType;
 
 /**
  * This class implements a message from the client to initialize the configuration of the match
@@ -30,7 +29,6 @@ public class ConfigurationMessage extends Message {
      * Getter
      * @return the message's type
      */
-
     public CtoSMessageType getType() {
         return type;
     }
