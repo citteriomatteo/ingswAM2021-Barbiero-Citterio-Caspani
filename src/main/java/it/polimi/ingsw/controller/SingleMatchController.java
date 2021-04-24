@@ -2,12 +2,13 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.match.player.Player;
 
-public class SingleMatchController extends Thread {
-
+public class SingleMatchController extends Thread implements MatchController {
     private Player player;
-    public SingleMatchController(String nickname){
-        player = new Player(nickname);
+
+    public SingleMatchController(Player player){
+        this.player = player;
     }
+
     @Override
     public void run() {
 
