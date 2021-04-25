@@ -12,10 +12,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.List;
 
 import static it.polimi.ingsw.gsonUtilities.GsonHandler.*;
-import static it.polimi.ingsw.network.server.ServerUtilities.addNewPlayer;
-import static it.polimi.ingsw.network.server.ServerUtilities.removePlayer;
+import static it.polimi.ingsw.network.server.ServerUtilities.*;
+import static java.lang.Integer.parseInt;
 
 /**
  * This class manages the direct talk with the player, every exchanged message between client
@@ -33,6 +34,10 @@ public class PlayersHandler implements Runnable {
      */
     public PlayersHandler(Socket socket) {
         this.socket = socket;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     /**
@@ -69,6 +74,7 @@ public class PlayersHandler implements Runnable {
             //TODO: controls on existing nickname and previous players disconnection
 
             player = new Player(readLine);
+            //add the player in the global register
             addNewPlayer(this);
 
             do {
@@ -78,10 +84,35 @@ public class PlayersHandler implements Runnable {
 
             if(readLine.equals("y"))
             {
+                System.out.println("Player: "+ player.getNickname() + " chose to play a single-player match");
                 new SingleMatchController(player).start();
             }
-            else
+
+
+            else  //%%%%%%%%%%%%%%% MULTIPLAYER %%%%%%%%%%%%%%%%%%%
                 {
+                    System.out.println("Player: "+ player.getNickname() + " chose to play a multiplayer match");
+
+                    if(isThereAPendentMatch()) {
+                        out.println("Participating to an existing match...");
+                        participateToCurrentMatch(player);
+                    }
+                    else {
+                        int numPlayers = 0;
+                        do {
+                            out.println("You are the first player, select how many player you want in your match [2/3/4]");
+                            try{
+                                numPlayers = parseInt(in.readLine());
+                            }catch (NumberFormatException ignored){
+                            }
+                        }while(numPlayers<2 || numPlayers>4);
+
+                        searchingForPlayers(player, numPlayers);
+                        System.out.println(player.getNickname() + " is searching for " + numPlayers + " players...");
+                        List<Player> playersInMatch = matchParticipants();
+                        System.out.println(playersInMatch);
+
+                    }
                     //TODO: MULTI MATCH IMPLEMENTATION.
                 }
 
