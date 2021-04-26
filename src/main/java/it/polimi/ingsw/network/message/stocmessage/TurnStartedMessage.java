@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.message.stocmessage;
 
 import it.polimi.ingsw.network.message.Message;
+import it.polimi.ingsw.network.message.MessageType;
 
 public class TurnStartedMessage extends Message {
 
@@ -9,5 +10,10 @@ public class TurnStartedMessage extends Message {
 
     public TurnStartedMessage(String nickname){
         super(nickname);
+    }
+
+    @Override
+    public MessageType getType() {
+        return type;
     }
 }

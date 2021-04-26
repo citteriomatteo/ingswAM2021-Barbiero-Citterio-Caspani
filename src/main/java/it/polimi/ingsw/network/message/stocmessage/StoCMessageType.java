@@ -1,6 +1,8 @@
 package it.polimi.ingsw.network.message.stocmessage;
 
-public enum StoCMessageType {
+import it.polimi.ingsw.network.message.MessageType;
+
+public enum StoCMessageType implements MessageType {
 
     MARKET_CHANGE (1),
     CARD_GRID_CHANGE (2),
@@ -17,8 +19,9 @@ public enum StoCMessageType {
     YOUR_TURN (13),
     REMATCH_OFFERED (14);
 
-    private int val;
-    private StoCMessageType(int val){
+    private final int val;
+
+    StoCMessageType(int val){
         this.val = val;
     }
 

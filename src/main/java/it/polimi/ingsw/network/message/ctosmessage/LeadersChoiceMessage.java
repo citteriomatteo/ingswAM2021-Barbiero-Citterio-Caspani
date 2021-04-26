@@ -31,4 +31,5 @@ public class LeadersChoiceMessage extends Message {
     public CtoSMessageType getType() {
         return type;
     }
+
 }

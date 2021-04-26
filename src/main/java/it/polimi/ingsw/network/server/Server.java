@@ -7,7 +7,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server {
-    private int port;
+    private final int port;
 
     public Server(int port) {
         this.port = port;
@@ -20,7 +20,8 @@ public class Server {
             serverSocket = new ServerSocket(port);
         }
         catch (IOException e) {
-            System.err.println(e.getMessage()); // porta non disponibile
+            //can't open the ServerSocket
+            System.err.println(e.getMessage());
             return;
         }
         System.out.println("Server ready");
@@ -28,14 +29,18 @@ public class Server {
             try {
                 Socket socket = serverSocket.accept();
                 System.out.println("new client accepted");
-                executor.submit(new PlayersHandler(socket));
+                PlayersHandler player = new PlayersHandler(socket);
+                executor.submit(player);
             }
             catch(IOException e) {
-                 break;  //entrerei qui se serverSocket venisse chiuso
+                System.out.println("ServerSocket closed");
+                 break;  //I'll enter here if ServerSocket will be closed
             }
          }
              executor.shutdown();
     }
+
+
     public static void main(String[] args) {
         Server echoServer = new Server(1337);
         echoServer.startServer();

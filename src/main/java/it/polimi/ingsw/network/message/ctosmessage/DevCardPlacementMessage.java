@@ -42,4 +42,5 @@ public class DevCardPlacementMessage extends Message {
     public CtoSMessageType getType() {
         return type;
     }
+
 }

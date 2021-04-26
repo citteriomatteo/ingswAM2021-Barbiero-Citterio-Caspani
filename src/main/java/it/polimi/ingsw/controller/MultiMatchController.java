@@ -1,4 +1,4 @@
 package it.polimi.ingsw.controller;
 
-public class MultiMatchController {
+public class MultiMatchController implements MatchController {
 }

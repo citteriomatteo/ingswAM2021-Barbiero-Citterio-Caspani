@@ -1,0 +1,14 @@
+[
+  {
+    "Message": "switchShelf",
+    "shelf1": 1,
+    "shelf2": 2,
+    "nickname": "giorgio"
+  },
+  {
+    "Message": "marketDraw",
+    "row": true,
+    "num": 1,
+    "nickname": "carlo"
+  }
+]

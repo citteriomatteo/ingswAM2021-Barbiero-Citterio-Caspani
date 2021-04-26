@@ -31,4 +31,5 @@ public class LeaderDiscardingMessage extends Message {
     public CtoSMessageType getType() {
         return type;
     }
+
 }

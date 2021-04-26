@@ -11,7 +11,6 @@ import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -75,7 +74,7 @@ public class LeaderCardTest {
     // It prepares the match with a player and then activate all the four leaders in his hand
     // verifying that have had the desired effect
     @Test
-    public void leaderActivationTest() throws WrongSettingException, FileNotFoundException, SingleMatchException {
+    public void leaderActivationTest() throws WrongSettingException, SingleMatchException {
         PhysicalResource effectResource;
 
         Match match1 = new MultiMatch(Arrays.asList(new Player("Giorgio"), new Player("Luca")), "src/test/resources/StandardConfiguration.json");
@@ -116,7 +115,7 @@ public class LeaderCardTest {
                 assertEquals(previousDimension+1, evolvedDimension);
 
             } else if (effect instanceof ProductionEffect) {
-                Production effectProduction = ((ProductionEffect) effect).getProduction();
+      //          Production effectProduction = ((ProductionEffect) effect).getProduction();
      //           System.out.println(effectProduction);
                 int previousDimension = personalBoard.getActiveProductionLeaders().size();
     //            System.out.println(personalBoard.getActiveProductionLeaders());
@@ -129,10 +128,10 @@ public class LeaderCardTest {
     }
 
     // Verify that a leader without any requirement is always activable
-    // if one without an effectively useful requirement (Resource with quantity = 0) is always activable
-    // and then if another one with multiple requirements is activable only after that those requirements are satisfied
+    // that one without an effectively useful requirement (Resource with quantity = 0) is always activable
+    // and then that another one with multiple requirements is activable only after that those requirements are satisfied
     @Test
-    public void isActivableTest() throws NegativeQuantityException, WrongSettingException, FileNotFoundException, SingleMatchException, MatchEndedException, InvalidCardRequestException {
+    public void isActivableTest() throws NegativeQuantityException, WrongSettingException, SingleMatchException, MatchEndedException, InvalidCardRequestException {
         LeaderCard freeLeader1 = new LeaderCard(new ArrayList<>(), 5,
                 new SlotEffect(new PhysicalResource(ResType.SHIELD, 2)));
         LeaderCard freeLeader2 = new LeaderCard(new ArrayList<>(List.of(new PhysicalResource(ResType.SHIELD, 0))), 5,

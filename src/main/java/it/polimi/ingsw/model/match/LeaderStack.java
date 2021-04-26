@@ -25,15 +25,17 @@ public class LeaderStack {
     }
 
     /**
-     * Draws the first 'numLeaders' cards from the top of the deck
+     * Draws the first 'numLeaders' cards from the top of the deck,
+     * if there are less cards in the stack, draws all the remaining cards
      * @param numLeaders number of cards to draw
      * @return the list of the drawn cards
      */
     public List<LeaderCard> draw(int numLeaders){
         List<LeaderCard> res = new ArrayList<>();
+        int size = deck.size();
 
-        if (numLeaders>deck.size()) {
-            for (int i = 0; i < deck.size(); i++)
+        if (numLeaders>size) {
+            for (int i = 0; i < size; i++)
                 res.add(deck.pop());
         }
 

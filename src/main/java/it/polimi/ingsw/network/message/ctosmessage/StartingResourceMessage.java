@@ -31,4 +31,5 @@ public class StartingResourceMessage extends Message {
     public CtoSMessageType getType() {
         return type;
     }
+
 }

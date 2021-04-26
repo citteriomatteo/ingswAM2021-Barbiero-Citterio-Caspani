@@ -10,7 +10,7 @@ import java.util.List;
  * Message structure: { nickname, list of costs }
  */
 public class PaymentsMessage extends Message {
-    private final CtoSMessageType type = CtoSMessageType.PAYMENTS;
+    private static final CtoSMessageType type = CtoSMessageType.PAYMENTS;
     private final List<PhysicalResource> costs;
 
     public PaymentsMessage(String nickname, List<PhysicalResource> costs) {
@@ -33,4 +33,5 @@ public class PaymentsMessage extends Message {
     public CtoSMessageType getType() {
         return type;
     }
+
 }

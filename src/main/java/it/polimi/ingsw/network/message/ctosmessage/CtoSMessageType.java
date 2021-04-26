@@ -1,6 +1,8 @@
 package it.polimi.ingsw.network.message.ctosmessage;
 
-public enum CtoSMessageType
+import it.polimi.ingsw.network.message.MessageType;
+
+public enum CtoSMessageType implements MessageType
 {
     CONFIGURATION (1),
     LEADERS_CHOICE (2),
@@ -14,10 +16,14 @@ public enum CtoSMessageType
     DEV_CARD_DRAW (10),
     PAYMENTS (11),
     DEV_CARD_PLACEMENT (12),
-    PRODUCTION (13);
+    PRODUCTION (13),
+    END_MATCH (14),
+    REMATCH_OFFER (15),
+    REMATCH_RESPONSE (16),
+    DISCONNECTION (17);
 
-    private int val;
-    private CtoSMessageType(int val){
+    private final int val;
+    CtoSMessageType(int val){
         this.val = val;
     }
 
