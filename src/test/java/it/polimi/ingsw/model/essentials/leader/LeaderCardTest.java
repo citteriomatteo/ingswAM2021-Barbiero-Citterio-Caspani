@@ -148,10 +148,12 @@ public class LeaderCardTest {
         joe.addToStrongBox(new PhysicalResource(ResType.SHIELD, 2));
         assertFalse(slotLeader.isActivable(joe));
 
-        joe.takeDevelopmentCard(1, CardColor.GREEN.getVal(), 1);
+        joe.drawDevelopmentCard(1, CardColor.GREEN.getVal());
+        joe.insertDevelopmentCard(1);
         assertFalse(slotLeader.isActivable(joe));
 
-        joe.takeDevelopmentCard(1, CardColor.GREEN.getVal(), 1);
+        joe.drawDevelopmentCard(1, CardColor.GREEN.getVal());
+        joe.insertDevelopmentCard(1);
         assertTrue(slotLeader.isActivable(joe));
     }
 

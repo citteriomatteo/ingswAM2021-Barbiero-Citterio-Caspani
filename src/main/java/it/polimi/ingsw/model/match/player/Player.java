@@ -18,6 +18,7 @@ public class Player implements Adder, Verificator
     private List<LeaderCard> handLeaders;
     private PersonalBoard personalBoard;
     private Production tempProduction;
+    private DevelopmentCard tempDevCard;
 
     /**
      * This constructor creates a new unassociated player, without giving it the match.
@@ -76,6 +77,18 @@ public class Player implements Adder, Verificator
         return false;
     }
 
+    /**
+     * This method sets the temporary dev card.
+     * @return true if the tempdevcard was null before, else false.
+     */
+    public boolean setTempDevCard(DevelopmentCard tempDevCard){
+        if(this.tempDevCard==null) {
+            this.tempDevCard = tempDevCard;
+            return true;
+        }
+        return false;
+    }
+
     // ----- ALL GETTERS -----
     /** @return match */
     public Match getMatch() { return match; }
@@ -89,6 +102,8 @@ public class Player implements Adder, Verificator
     public PersonalBoard getPersonalBoard() { return personalBoard; }
     /** @return the possible white marble conversions */
     public List<PhysicalResource> getWhiteMarbleConversions() { return getPersonalBoard().getWhiteMarbleConversions(); }
+    /** @return the temporary dev card to insert */
+    public DevelopmentCard getTempDevCard() { return tempDevCard; }
 
 
     // ----- "ADDER" INTERFACE METHODS -----
@@ -253,16 +268,28 @@ public class Player implements Adder, Verificator
     }
 
     /**
-     *This method takes a DevelopmentCard from the CardGrid.
-     * @requires The player must have already payed the relative resources himself before.
+     *This method takes the Temp DevelopmentCard and puts it in tempDevCard.
      * @param gridR the chosen row
      * @param gridC the chosen column
+     * @return      true
+     */
+    public boolean drawDevelopmentCard(int gridR, int gridC) throws MatchEndedException
+    {
+        try { setTempDevCard(match.getCardGrid().take(gridR, gridC)); }
+        catch (InvalidOperationException e) { e.printStackTrace(); }
+        return true;
+    }
+
+
+    /**
+     *This method takes the Temp DevelopmentCard from the tempDevCard object and puts it in the DevCardSlot.
+     * @requires The player must have already payed the relative resources himself before.
      * @param slot  the slot in which the card will be inserted
      * @return      true
      */
-    public boolean takeDevelopmentCard(int gridR, int gridC, int slot) throws InvalidCardRequestException, MatchEndedException
+    public boolean insertDevelopmentCard(int slot) throws InvalidCardRequestException, MatchEndedException
     {
-            try { getPersonalBoard().getDevCardSlots().pushNewCard(slot, match.getCardGrid().take(gridR, gridC)); }
+            try { getPersonalBoard().getDevCardSlots().pushNewCard(slot, tempDevCard); }
             catch (InvalidOperationException e) { e.printStackTrace(); }
         return true;
     }
