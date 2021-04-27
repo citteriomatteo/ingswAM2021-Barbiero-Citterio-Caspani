@@ -13,14 +13,15 @@ public enum CtoSMessageType implements MessageType
     MARKET_DRAW (7),
     WHITE_MARBLE_CONVERSIONS (8),
     WAREHOUSE_INSERTION (9),
-    DEV_CARD_DRAW (10),
-    PAYMENTS (11),
-    DEV_CARD_PLACEMENT (12),
-    PRODUCTION (13),
-    END_MATCH (14),
-    REMATCH_OFFER (15),
-    REMATCH_RESPONSE (16),
-    DISCONNECTION (17);
+    DISCARD_REMAINS (10),
+    DEV_CARD_DRAW (11),
+    PAYMENTS (12),
+    DEV_CARD_PLACEMENT (13),
+    PRODUCTION (14),
+    END_MATCH (15),
+    REMATCH_OFFER (16),
+    REMATCH_RESPONSE (17),
+    DISCONNECTION (18);
 
     private final int val;
     CtoSMessageType(int val){

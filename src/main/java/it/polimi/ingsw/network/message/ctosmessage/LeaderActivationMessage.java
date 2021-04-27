@@ -7,7 +7,7 @@ import it.polimi.ingsw.network.message.Message;
  * Message structure: { nickname, leader's Id }
  */
 public class LeaderActivationMessage extends Message {
-    private final CtoSMessageType type = CtoSMessageType.LEADER_ACTIVATION;
+    private static final CtoSMessageType type = CtoSMessageType.LEADER_ACTIVATION;
     private final String leaderId;
 
     public LeaderActivationMessage(String nickname, String leader) {

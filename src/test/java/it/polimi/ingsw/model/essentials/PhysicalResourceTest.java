@@ -50,7 +50,7 @@ public class PhysicalResourceTest {
     }
 
     @Test
-    public void testVerify() throws NegativeQuantityException, FileNotFoundException, WrongSettingException, InvalidOperationException {
+    public void testVerify() throws NegativeQuantityException, FileNotFoundException, WrongSettingException, InvalidQuantityException, ShelfInsertException {
         Player player = new Player("player1");
         Match match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
         PhysicalResource resource1 = new PhysicalResource(ResType.COIN,1);

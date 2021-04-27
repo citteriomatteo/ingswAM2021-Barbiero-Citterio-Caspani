@@ -3,35 +3,32 @@ package it.polimi.ingsw.network.message.ctosmessage;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.network.message.Message;
 
+import java.util.List;
+import java.util.Map;
+
 /**
- * This class implements a message from the client to insert a PhysicalResource in the selected shelf
- * Message structure: { nickname, resource, the number of the shelf }
+ * This class implements a message from the client to insert a list of ResTypes in the selected shelf
+ * Message structure: { nickname, list of PhysicalResource where the ResType is the actual resource,
+ * and the int value is the number of the shelf }
  */
 public class WarehouseInsertionMessage extends Message {
-    private final CtoSMessageType type = CtoSMessageType.WAREHOUSE_INSERTION;
-    private final PhysicalResource resource;
-    private final int shelf;
+    private static final CtoSMessageType type = CtoSMessageType.WAREHOUSE_INSERTION;
+    private final List<PhysicalResource> resources;
 
-    public WarehouseInsertionMessage(String nickname, PhysicalResource resource, int shelf) {
+
+
+    public WarehouseInsertionMessage(String nickname, List<PhysicalResource> resources) {
         super(nickname);
-        this.resource = resource;
-        this.shelf = shelf;
+        this.resources = resources;
     }
 
     /**
      * Getter
-     * @return the PhysicalResource to insert
+     * @return the list of PhysicalResource where the ResType is the actual resource,
+     *  and the int value is the number of the shelf
      */
-    public PhysicalResource getResource() {
-        return resource;
-    }
-
-    /**
-     * Getter
-     * @return the number of the shelf
-     */
-    public int getShelf() {
-        return shelf;
+    public List<PhysicalResource> getResources() {
+        return resources;
     }
 
     /**

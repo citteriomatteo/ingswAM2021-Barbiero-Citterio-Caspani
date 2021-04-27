@@ -8,7 +8,7 @@ import it.polimi.ingsw.network.message.Message;
  * Message structure: { nickname, the chosen resource }
  */
 public class StartingResourceMessage extends Message {
-    private final CtoSMessageType type = CtoSMessageType.STARTING_RESOURCES;
+    private static final CtoSMessageType type = CtoSMessageType.STARTING_RESOURCES;
     private final PhysicalResource resource;
 
     public StartingResourceMessage(String nickname, PhysicalResource resource) {

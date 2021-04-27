@@ -8,7 +8,7 @@ import java.util.List;
  * Message structure: { nickname, leaders' Id }
  */
 public class LeadersChoiceMessage extends Message {
-    private final CtoSMessageType type = CtoSMessageType.LEADERS_CHOICE;
+    private static final CtoSMessageType type = CtoSMessageType.LEADERS_CHOICE;
     private final List<String> leaderIds;
 
     public LeadersChoiceMessage(String nickname, List<String> leaderIds) {

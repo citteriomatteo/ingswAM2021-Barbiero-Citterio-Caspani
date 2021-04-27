@@ -8,9 +8,9 @@ import it.polimi.ingsw.network.message.Message;
  * Message structure: { nickname, row's number, column's number }
  */
 public class DevCardDrawMessage extends Message {
-    private final CtoSMessageType type = CtoSMessageType.DEV_CARD_DRAW;
-    private final int row;
-    private final int column;
+    private static final CtoSMessageType type = CtoSMessageType.DEV_CARD_DRAW;
+    private final int lv;
+    private final int color;
 
     public DevCardDrawMessage(String nickname, int row, int column) {
         super(nickname);

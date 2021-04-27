@@ -131,7 +131,7 @@ public class LeaderCardTest {
     // that one without an effectively useful requirement (Resource with quantity = 0) is always activable
     // and then that another one with multiple requirements is activable only after that those requirements are satisfied
     @Test
-    public void isActivableTest() throws NegativeQuantityException, WrongSettingException, SingleMatchException, MatchEndedException, InvalidCardRequestException {
+    public void isActivableTest() throws NegativeQuantityException, WrongSettingException, SingleMatchException, MatchEndedException, InvalidOperationException {
         LeaderCard freeLeader1 = new LeaderCard(new ArrayList<>(), 5,
                 new SlotEffect(new PhysicalResource(ResType.SHIELD, 2)));
         LeaderCard freeLeader2 = new LeaderCard(new ArrayList<>(List.of(new PhysicalResource(ResType.SHIELD, 0))), 5,

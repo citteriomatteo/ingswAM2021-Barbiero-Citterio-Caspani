@@ -8,7 +8,7 @@ import it.polimi.ingsw.network.message.Message;
  * Message structure: { nickname, leader's Id }
  */
 public class LeaderDiscardingMessage extends Message {
-    private final CtoSMessageType type = CtoSMessageType.LEADER_DISCARDING;
+    private static final CtoSMessageType type = CtoSMessageType.LEADER_DISCARDING;
     private final String leaderId;
 
     public LeaderDiscardingMessage(String nickname, String leaderId) {

@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MultiMatch extends Match {
@@ -32,6 +33,7 @@ public class MultiMatch extends Match {
 
         MatchConfiguration matchConfiguration = super.getMatchConfiguration();
 
+        Collections.shuffle(players);
         this.players = players;
         this.currentPlayer = players.get(0);
         this.cardGrid = new CardGrid(matchConfiguration.getAllDevCards());

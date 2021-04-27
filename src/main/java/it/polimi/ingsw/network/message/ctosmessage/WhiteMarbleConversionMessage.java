@@ -10,7 +10,7 @@ import java.util.List;
  * Message structure: { nickname, the list of Physical resource to be obtained from the conversion }
  */
 public class WhiteMarbleConversionMessage extends Message {
-    private final CtoSMessageType type = CtoSMessageType.WHITE_MARBLE_CONVERSIONS;
+    private static final CtoSMessageType type = CtoSMessageType.WHITE_MARBLE_CONVERSIONS;
     private final List<PhysicalResource> resources;
 
     public WhiteMarbleConversionMessage(String nickname, List<PhysicalResource> resources) {

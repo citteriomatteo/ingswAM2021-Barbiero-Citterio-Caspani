@@ -89,6 +89,14 @@ public class Player implements Adder, Verificator
         return false;
     }
 
+    /**
+     * Sets the tempProduction to the production that will be produce after the payments
+     * @param tempProduction the production to be added to tempProduction
+     */
+    public void setTempProduction(Production tempProduction) {
+        this.tempProduction = tempProduction;
+    }
+
     // ----- ALL GETTERS -----
     /** @return match */
     public Match getMatch() { return match; }
@@ -104,6 +112,8 @@ public class Player implements Adder, Verificator
     public List<PhysicalResource> getWhiteMarbleConversions() { return getPersonalBoard().getWhiteMarbleConversions(); }
     /** @return the temporary dev card to insert */
     public DevelopmentCard getTempDevCard() { return tempDevCard; }
+    /**@return the temporary production to produce */
+    public Production getTempProduction(){return tempProduction;}
 
 
     // ----- "ADDER" INTERFACE METHODS -----
@@ -253,13 +263,11 @@ public class Player implements Adder, Verificator
      * @param number the number of the row or column
      * @return the number of white marble in the selected row or column
      */
-    public int marketDeal(boolean row, int number) throws InvalidQuantityException, MatchEndedException
+    public int marketDeal(boolean row, int number) throws InvalidOperationException, MatchEndedException
     {
         int whiteMarbles=0;
         if(row)
-            //parameters errors are handled here.
-            try{ whiteMarbles = match.getMarket().selectRow(number, this);}
-            catch ( InvalidOperationException e){ e.printStackTrace(); }
+            whiteMarbles = match.getMarket().selectRow(number, this);
         else
             //parameters errors are handled here.
             try{ whiteMarbles = match.getMarket().selectColumn(number, this);}
@@ -273,10 +281,8 @@ public class Player implements Adder, Verificator
      * @param gridC the chosen column
      * @return      true
      */
-    public boolean drawDevelopmentCard(int gridR, int gridC) throws MatchEndedException
-    {
-        try { setTempDevCard(match.getCardGrid().take(gridR, gridC)); }
-        catch (InvalidOperationException e) { e.printStackTrace(); }
+    public boolean drawDevelopmentCard(int gridR, int gridC) throws NoMoreCardsException, InvalidCardRequestException, MatchEndedException {
+        setTempDevCard(match.getCardGrid().take(gridR, gridC));
         return true;
     }
 
@@ -301,15 +307,13 @@ public class Player implements Adder, Verificator
      * @param shelf    is the chosen shelf
      * @return         true if operation ended successfully, else false
      */
-    public boolean moveIntoWarehouse(PhysicalResource resource, int shelf)
+    public boolean moveIntoWarehouse(PhysicalResource resource, int shelf) throws ShelfInsertException
     {
         boolean ret = false;
         try
         {
             ret = personalBoard.getWarehouse().moveInShelf(resource, shelf);
-        }
-        catch(ShelfInsertException e) {System.err.println("Error in shelf moving action: retry.");}
-        catch (InvalidOperationException e)
+        } catch (InvalidQuantityException e)
         {System.err.println("Critical error: the resource is not present in the marketBuffer first.");
          System.exit(1);}
         return ret;
@@ -341,12 +345,10 @@ public class Player implements Adder, Verificator
      * @param res   is the resource to pay
      * @return      true
      */
-    public boolean payFromStrongbox(PhysicalResource res)
-    {
+    public boolean payFromStrongbox(PhysicalResource res) throws NotEnoughResourcesException {
         StrongBox sb = personalBoard.getStrongBox();
         //NotEnoughResourcesException handled here.
-        try { sb.take(res); }
-        catch(NotEnoughResourcesException e){ e.printStackTrace(); }
+        sb.take(res);
         return true;
     }
 

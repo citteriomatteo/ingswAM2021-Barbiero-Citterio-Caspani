@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.essentials.leader;
 
+import it.polimi.ingsw.model.essentials.Card;
 import it.polimi.ingsw.model.essentials.Requirable;
 import it.polimi.ingsw.model.match.player.Verificator;
 import it.polimi.ingsw.model.match.player.personalBoard.Effector;
@@ -10,7 +11,7 @@ import java.util.Objects;
 /**
  * Class that represent a Leader card of the game
  */
-public class LeaderCard {
+public class LeaderCard implements Card {
     private final List<Requirable> requirements;
     private final int winPoints;
     private final Effect effect;
@@ -47,6 +48,15 @@ public class LeaderCard {
      */
     public Effect getEffect() {
         return effect;
+    }
+
+    /**
+     * Returns true to show that it's a leader
+     * @return true
+     */
+    @Override
+    public boolean isLeader(){
+        return true;
     }
 
 

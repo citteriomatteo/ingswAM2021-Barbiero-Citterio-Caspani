@@ -57,6 +57,15 @@ public class DevelopmentCard {
     }
 
     /**
+     * Returns false to show that it's a devCard
+     * @return false
+     */
+    @Override
+    public boolean isLeader(){
+        return false;
+    }
+
+    /**
      * Verifies if the player has the required resources in his strongBox or Warehouse to buy this
      * @param verificator the player who wants to buy this
      * @return true if the player have the required resources in his strongBox or Warehouse

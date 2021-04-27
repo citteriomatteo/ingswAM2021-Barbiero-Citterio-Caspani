@@ -19,8 +19,7 @@ public class ExtraShelfWarehouseTest
     Also tests the delegation of the move operation, if needed.
      */
     @Test
-    public void extraWarehouseDispositionTest() throws NegativeQuantityException, InvalidOperationException
-    {
+    public void extraWarehouseDispositionTest() throws NegativeQuantityException, InvalidQuantityException, ShelfInsertException {
         Random rnd = new Random();
         Warehouse wh = new ConcreteWarehouse();
         Warehouse extrawh1 = new ExtraShelfWarehouse(wh, new PhysicalResource(ResType.values()[rnd.nextInt(5)], 2));
@@ -78,7 +77,7 @@ public class ExtraShelfWarehouseTest
 
         //"move with no marketDraw" test:
         PhysicalResource res4 = new PhysicalResource(ResType.STONE,1);
-        assertThrows(InvalidOperationException.class, ()->extrawh2.moveInShelf(res4,5));
+        assertThrows(InvalidQuantityException.class, ()->extrawh2.moveInShelf(res4,5));
         extrawh2.cleanMarketBuffer(res4);
     }
 
@@ -87,8 +86,7 @@ public class ExtraShelfWarehouseTest
     Tests take operation exception in the extraShelf.
      */
     @Test
-    public void fullExtraTakeTest() throws NegativeQuantityException, InvalidOperationException
-    {
+    public void fullExtraTakeTest() throws NegativeQuantityException, InvalidQuantityException, ShelfInsertException, NotEnoughResourcesException {
         Warehouse wh = new ConcreteWarehouse();
         PhysicalResource res1 = new PhysicalResource(ResType.COIN, 2);
         wh.marketDraw(res1); wh.moveInShelf(res1,3);
@@ -119,8 +117,7 @@ public class ExtraShelfWarehouseTest
     Tests switch behaviour, in the three combinations, when the operation isn't allowed (no enough space).
      */
     @Test
-    public void ExtraWarehouseSwitchShelfTest() throws NegativeQuantityException, InvalidOperationException
-    {
+    public void ExtraWarehouseSwitchShelfTest() throws NegativeQuantityException, InvalidQuantityException, InvalidOperationException {
         Warehouse wh = new ConcreteWarehouse();
         Warehouse extrawh1 = new ExtraShelfWarehouse(wh, new PhysicalResource(ResType.values()[1], 2));
         Warehouse extrawh2 = new ExtraShelfWarehouse(extrawh1, new PhysicalResource(ResType.values()[4], 3));
@@ -197,7 +194,7 @@ public class ExtraShelfWarehouseTest
     }
 
     @Test
-    public void extraGetNumberOfTest() throws NegativeQuantityException, InvalidOperationException
+    public void extraGetNumberOfTest() throws InvalidQuantityException, InvalidOperationException
     {
         Warehouse wh = new ConcreteWarehouse();
         List<PhysicalResource> l = new ArrayList<>();
@@ -221,8 +218,7 @@ public class ExtraShelfWarehouseTest
     }
 
     @Test
-    public void wrongBufferDiscardTest() throws SingleMatchException, WrongSettingException, NegativeQuantityException, InvalidOperationException
-    {
+    public void wrongBufferDiscardTest() throws SingleMatchException, WrongSettingException, NegativeQuantityException, InvalidQuantityException, InvalidOperationException {
         Player player = new Player("player1");
         Player player1 = new Player("player2");
         Match match = new MultiMatch(Arrays.asList(player, player1),"src/test/resources/StandardConfiguration.json");
@@ -241,8 +237,7 @@ public class ExtraShelfWarehouseTest
     }
 
     @Test
-    public void cloneTest() throws NegativeQuantityException, InvalidOperationException
-    {
+    public void cloneTest() throws NegativeQuantityException, InvalidQuantityException, ShelfInsertException {
         Warehouse wh = new ConcreteWarehouse();
         List<PhysicalResource> l = new ArrayList<>();
         l.add(new PhysicalResource(ResType.COIN,1));

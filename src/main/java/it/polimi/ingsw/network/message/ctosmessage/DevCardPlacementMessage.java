@@ -9,11 +9,11 @@ import it.polimi.ingsw.network.message.Message;
  */
 
 public class DevCardPlacementMessage extends Message {
-    private final CtoSMessageType type = CtoSMessageType.DEV_CARD_PLACEMENT;
-    private final int devCardId;
+    private static final CtoSMessageType type = CtoSMessageType.DEV_CARD_PLACEMENT;
+    private final String devCardId;
     private final int column;
 
-    public DevCardPlacementMessage(String nickname, int devCardId, int column) {
+    public DevCardPlacementMessage(String nickname, String devCardId, int column) {
         super(nickname);
         this.devCardId = devCardId;
         this.column = column;
@@ -23,7 +23,7 @@ public class DevCardPlacementMessage extends Message {
      * Getter
      * @return the card's Id
      */
-    public int getDevCardId() {
+    public String getDevCardId() {
         return devCardId;
     }
 

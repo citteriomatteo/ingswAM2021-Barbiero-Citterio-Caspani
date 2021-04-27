@@ -15,15 +15,13 @@ public class PlayerTest
 {
 
 
-    public void paySequence(Player p1, Player p2) throws NegativeQuantityException, InvalidCardRequestException
-    {
+    public void paySequence(Player p1, Player p2) throws NegativeQuantityException, InvalidOperationException {
         p1.payFromWarehouse(new PhysicalResource(ResType.SHIELD,1), 3);
         p2.payFromStrongbox(new PhysicalResource(ResType.COIN,3));
     }
 
 
-    public void addSequence(Player p1, Player p2) throws NegativeQuantityException
-    {
+    public void addSequence(Player p1, Player p2) throws NegativeQuantityException, InvalidOperationException {
         p1.addToWarehouse(new PhysicalResource(ResType.SERVANT,3));
         p1.addToWarehouse(new PhysicalResource(ResType.COIN, 2));
         p1.addToWarehouse(new PhysicalResource(ResType.SHIELD,4));
@@ -47,8 +45,7 @@ public class PlayerTest
 
     @Test
     public void totalWinPointsTest() throws NegativeQuantityException, FileNotFoundException,
-            SingleMatchException, WrongSettingException, InvalidCardRequestException, MatchEndedException
-    {
+            SingleMatchException, WrongSettingException, InvalidOperationException, MatchEndedException {
         Player player = new Player("player1");
         Player player1 = new Player("player2");
         Match match = new MultiMatch(Arrays.asList(player, player1),"src/test/resources/StandardConfiguration.json");

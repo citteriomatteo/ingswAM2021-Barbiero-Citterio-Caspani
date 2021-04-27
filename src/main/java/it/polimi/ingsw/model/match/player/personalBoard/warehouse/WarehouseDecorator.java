@@ -2,10 +2,8 @@ package it.polimi.ingsw.model.match.player.personalBoard.warehouse;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.ResType;
-import it.polimi.ingsw.model.exceptions.InvalidOperationException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
-import it.polimi.ingsw.model.exceptions.NotEnoughResourcesException;
-import it.polimi.ingsw.model.exceptions.ShelfInsertException;
+import it.polimi.ingsw.model.exceptions.*;
+
 import java.util.Map;
 
 public interface WarehouseDecorator extends Warehouse
@@ -25,7 +23,7 @@ public interface WarehouseDecorator extends Warehouse
      * This method redefines the simple moveInShelf and extends it to the new slots.
      * It also checks if the resource is of the same type of the leader shelf's one, even when quantity=0.
      * @throws ShelfInsertException      for invalid "shelf" values or not compatible resources move attempts.
-     * @throws InvalidOperationException when the resource is not present of the market buffer.
+     * @throws InvalidQuantityException when the resource is not present of the market buffer.
      * @param res                        defines the resource to move
      * @param shelf                      indicates the chosen shelf
      * @see ConcreteWarehouse

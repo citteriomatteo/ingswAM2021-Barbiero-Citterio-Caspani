@@ -9,7 +9,7 @@ import it.polimi.ingsw.network.message.Message;
  */
 
 public class ConfigurationMessage extends Message {
-    private final CtoSMessageType type = CtoSMessageType.CONFIGURATION;
+    private static final CtoSMessageType type = CtoSMessageType.CONFIGURATION;
     private final MatchConfiguration config;
 
     public ConfigurationMessage(String nickname, MatchConfiguration config){

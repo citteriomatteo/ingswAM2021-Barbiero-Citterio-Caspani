@@ -2,10 +2,7 @@ package it.polimi.ingsw.model.match.player.personalBoard.warehouse;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.ResType;
-import it.polimi.ingsw.model.exceptions.InvalidOperationException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
-import it.polimi.ingsw.model.exceptions.NotEnoughResourcesException;
-import it.polimi.ingsw.model.exceptions.ShelfInsertException;
+import it.polimi.ingsw.model.exceptions.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,8 +17,7 @@ public class ConcreteWarehouseTest
     */
 
     @Test
-    public void correctWarehouseDispositionTest() throws NegativeQuantityException, ShelfInsertException, InvalidOperationException
-    {
+    public void correctWarehouseDispositionTest() throws NegativeQuantityException, ShelfInsertException, InvalidQuantityException {
         Random rnd = new Random();
 
         for(int i=0; i<30; i++)
@@ -50,7 +46,7 @@ public class ConcreteWarehouseTest
     Also tests its behaviour if the resource is already present on another shelf.
      */
     @Test
-    public void impossibleMovesTest() throws NegativeQuantityException, ShelfInsertException, InvalidOperationException
+    public void impossibleMovesTest() throws NegativeQuantityException, ShelfInsertException, InvalidQuantityException
     {
         Random rnd = new Random();
 
@@ -71,7 +67,7 @@ public class ConcreteWarehouseTest
         assertThrows(ShelfInsertException.class, ()->wh.moveInShelf(res2,2));
 
         Warehouse wh1 = new ConcreteWarehouse();
-        assertThrows(InvalidOperationException.class, () -> wh1.moveInShelf(new PhysicalResource(ResType.values()[rnd.nextInt(4)+1], 1), 1));
+        assertThrows(InvalidQuantityException.class, () -> wh1.moveInShelf(new PhysicalResource(ResType.values()[rnd.nextInt(4)+1], 1), 1));
     }
 
     /*
@@ -79,7 +75,7 @@ public class ConcreteWarehouseTest
      */
     @Test
     public void fullTakeTest()
-            throws NegativeQuantityException, InvalidOperationException, ShelfInsertException, NotEnoughResourcesException
+            throws NegativeQuantityException, InvalidQuantityException, ShelfInsertException, NotEnoughResourcesException
     {
         Random rnd = new Random();
         for(int i=0; i<30; i++)
@@ -114,7 +110,7 @@ public class ConcreteWarehouseTest
     Tests also the affordability of the switch.
      */
     @Test
-    public void BasicWarehouseSwitchShelfTest() throws NegativeQuantityException, InvalidOperationException, ShelfInsertException, NotEnoughResourcesException {
+    public void BasicWarehouseSwitchShelfTest() throws NegativeQuantityException, InvalidQuantityException, InvalidOperationException {
         Warehouse wh = new ConcreteWarehouse();
 
         //"negative shelf values" test:
@@ -140,7 +136,7 @@ public class ConcreteWarehouseTest
     }
 
     @Test
-    public void getNumberOfTest() throws NegativeQuantityException, InvalidOperationException, ShelfInsertException
+    public void getNumberOfTest() throws NegativeQuantityException, InvalidQuantityException, ShelfInsertException
     {
         Warehouse wh = new ConcreteWarehouse();
         List<PhysicalResource> l = new ArrayList<>();

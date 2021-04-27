@@ -23,6 +23,7 @@ public class DevelopmentCardDeserializer implements JsonDeserializer<Development
 
         //now i can use the parameters of that object for building my desired object
         try {
+
             //--first: create the CardType
             JsonObject jsonType = jsonObject.get("type").getAsJsonObject();
             CardType type = new CardType(CardColor.valueOf(jsonType.get("color").getAsString()),

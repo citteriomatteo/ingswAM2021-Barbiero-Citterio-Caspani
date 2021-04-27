@@ -10,7 +10,7 @@ import java.util.List;
  * Message structure: { nickname, leaders' Id, a production the contains the translation of the unknown resources }
  */
 public class ProductionMessage extends Message {
-    private final CtoSMessageType type = CtoSMessageType.PRODUCTION;
+    private static final CtoSMessageType type = CtoSMessageType.PRODUCTION;
     private final List<String> cardIds;
     private final Production ProductionOfUnknown;
 
