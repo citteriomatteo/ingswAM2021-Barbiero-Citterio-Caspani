@@ -66,8 +66,5 @@ public class PlayerTest
         Player player1 = new Player("player2");
         Match match = new MultiMatch(Arrays.asList(player, player1),"src/test/resources/StandardConfiguration.json");
 
-
-
-
     }
 }

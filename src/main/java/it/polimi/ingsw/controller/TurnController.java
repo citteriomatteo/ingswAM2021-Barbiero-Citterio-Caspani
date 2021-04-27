@@ -11,7 +11,6 @@ import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.WarehouseDecorator;
 import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.ctosmessage.*;
-import it.polimi.ingsw.network.message.stocmessage.TurnStartedMessage;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -220,16 +219,16 @@ public class TurnController {
             case DEV_CARD_DRAW:
                 DevCardDrawMessage devCardDrawMessage = (DevCardDrawMessage) message;
                 try {
-                    if(!match.getCardGrid().isBuyable(currentPlayer,devCardDrawMessage.getLevel(),
-                            devCardDrawMessage.getColor())) {
+                    if(!match.getCardGrid().isBuyable(currentPlayer,devCardDrawMessage.getRow(),
+                            devCardDrawMessage.getColumn())) {
                         //TODO: create a retry message and send it to the player
                     }
 
-                    else if(!currentPlayer.verifyPlaceability((devCardDrawMessage.getLevel()))) {
+                    else if(!currentPlayer.verifyPlaceability((devCardDrawMessage.getRow()))) {
                         //TODO: create a retry message and send it to the player
                     }
                     else {
-                        currentPlayer.drawDevelopmentCard(devCardDrawMessage.getLevel(),devCardDrawMessage.getColor());
+                        currentPlayer.drawDevelopmentCard(devCardDrawMessage.getRow(),devCardDrawMessage.getColumn());
                         currentState = StateName.BUY_DEV_ACTION;
 
                     }

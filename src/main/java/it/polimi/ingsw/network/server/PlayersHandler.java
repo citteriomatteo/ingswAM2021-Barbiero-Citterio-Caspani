@@ -84,10 +84,10 @@ public class PlayersHandler implements Runnable {
 
             if(readLine.equals("y"))
             {
+                //TODO: ACCEPT CONFIGURATION FROM THE PLAYER, CREATE THE SINGLEMATCH AND START A SINGLECONTROLLER THREAD.
                 System.out.println("Player: "+ player.getNickname() + " chose to play a single-player match");
                 new SingleMatchController(player).start();
             }
-
 
             else  //%%%%%%%%%%%%%%% MULTIPLAYER %%%%%%%%%%%%%%%%%%%
                 {

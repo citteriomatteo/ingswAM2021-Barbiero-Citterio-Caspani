@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.match.player.Verificator;
 import java.util.List;
 import java.util.Objects;
 
-public class DevelopmentCard {
+public class DevelopmentCard implements Card{
     private final CardType type;
     private final List<PhysicalResource> price;
     private final Production production;

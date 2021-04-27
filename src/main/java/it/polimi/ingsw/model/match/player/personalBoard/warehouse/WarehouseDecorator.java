@@ -28,7 +28,7 @@ public interface WarehouseDecorator extends Warehouse
      * @param shelf                      indicates the chosen shelf
      * @see ConcreteWarehouse
      */
-    boolean moveInShelf(PhysicalResource res, int shelf) throws ShelfInsertException, InvalidOperationException;
+    boolean moveInShelf(PhysicalResource res, int shelf) throws ShelfInsertException, InvalidQuantityException;
 
     /**
      * This method delegates the buffer clean operation to the concreteWarehouse.
@@ -74,7 +74,7 @@ public interface WarehouseDecorator extends Warehouse
                 clonedWh.marketDraw(wh.getWarehouseDisposition().get(i));
                 clonedWh.moveInShelf(wh.getWarehouseDisposition().get(i), i+1);
             }
-            catch(InvalidOperationException e){ System.err.println("extra2: System shutdown due to an internal error."); System.exit(1); }
+            catch(InvalidQuantityException | ShelfInsertException e){ System.err.println("extra2: System shutdown due to an internal error."); System.exit(1); }
         }
         return clonedWh;
     }

@@ -26,10 +26,16 @@ public class PhysicalResource implements Resource, Requirable
     }
 
     /**
+     * Getter
+     * @return true to show that this is a physical resource.
+     */
+    @Override
+    public boolean isPhysical(){ return true; }
+
+    /**
      * getter
      * @return the number of ResType that are contained
      */
-
     public int getQuantity() {
         return quantity;
     }
@@ -38,7 +44,6 @@ public class PhysicalResource implements Resource, Requirable
      * getter
      * @return the ResType of the resources contained
      */
-
     public ResType getType() {
         return type;
     }

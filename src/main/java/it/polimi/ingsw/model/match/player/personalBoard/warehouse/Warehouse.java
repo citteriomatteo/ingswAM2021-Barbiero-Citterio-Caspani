@@ -2,10 +2,7 @@ package it.polimi.ingsw.model.match.player.personalBoard.warehouse;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.ResType;
-import it.polimi.ingsw.model.exceptions.InvalidOperationException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
-import it.polimi.ingsw.model.exceptions.NotEnoughResourcesException;
-import it.polimi.ingsw.model.exceptions.ShelfInsertException;
+import it.polimi.ingsw.model.exceptions.*;
 
 import java.util.*;
 
@@ -30,7 +27,7 @@ public interface Warehouse
      * @param shelf the number of the shelf, starting from 1.
      * @return      true
      */
-    boolean moveInShelf(PhysicalResource res, int shelf) throws ShelfInsertException, InvalidOperationException;
+    boolean moveInShelf(PhysicalResource res, int shelf) throws ShelfInsertException, InvalidQuantityException;
 
     /**
      * Receives the resource to remove from the marketBuffer, and does it one by one.
@@ -104,7 +101,7 @@ public interface Warehouse
             clonedWh.moveInShelf(wh.getWarehouseDisposition().get(1), 2);
             clonedWh.moveInShelf(wh.getWarehouseDisposition().get(2), 3);
         }
-        catch(InvalidOperationException e){
+        catch(InvalidQuantityException | ShelfInsertException e){
             System.err.println(" basic: System shutdown due to an internal error."); System.exit(1);
         }
     }

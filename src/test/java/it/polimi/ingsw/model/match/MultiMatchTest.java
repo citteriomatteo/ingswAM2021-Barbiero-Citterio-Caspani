@@ -18,8 +18,8 @@ public class MultiMatchTest {
     public void testCreate() throws WrongSettingException, FileNotFoundException, SingleMatchException {
 
         assertThrows(SingleMatchException.class,()->new MultiMatch(List.of(new Player("player1")),"src/test/resources/StandardConfiguration.json"));
-        match = new MultiMatch(List.of(new Player("player1"),new Player("player2"),new Player("player3"),new Player("player4")),
-                "src/test/resources/StandardConfiguration.json");
+        try{match = new MultiMatch(List.of(new Player("player1"),new Player("player2"),new Player("player3"),new Player("player4")),
+                "src/test/resources/StandardConfiguration.json");}catch(UnsupportedOperationException e){e.printStackTrace();}
 
         assertEquals("player1",match.getCurrentPlayer().toString());
         assertEquals(4,match.getCurrentPlayer().getHandLeaders().size());

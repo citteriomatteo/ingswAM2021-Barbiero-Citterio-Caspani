@@ -2,10 +2,7 @@ package it.polimi.ingsw.model.match.player.personalBoard.warehouse;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.ResType;
-import it.polimi.ingsw.model.exceptions.InvalidOperationException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
-import it.polimi.ingsw.model.exceptions.NotEnoughResourcesException;
-import it.polimi.ingsw.model.exceptions.ShelfInsertException;
+import it.polimi.ingsw.model.exceptions.*;
 
 import java.util.List;
 import java.util.Map;
@@ -110,13 +107,13 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
      * This method redefines the simple moveInShelf and extends it to the new slots.
      * It also checks if the resource is of the same type of the leader shelf's one, even when quantity=0.
      * @throws ShelfInsertException      for invalid "shelf" values or not compatible resources move attempts.
-     * @throws InvalidOperationException when the resource is not present of the market buffer.
+     * @throws InvalidQuantityException when the resource is not present of the market buffer.
      * @param res                        defines the resource to move
      * @param shelf                      indicates the chosen shelf
      * @see ConcreteWarehouse
      */
     @Override
-    public boolean moveInShelf(PhysicalResource res, int shelf) throws ShelfInsertException, InvalidOperationException
+    public boolean moveInShelf(PhysicalResource res, int shelf) throws ShelfInsertException, InvalidQuantityException
     {
         if(shelf>getWarehouseDisposition().size())
             throw new ShelfInsertException ("Exception thrown: the shelf "+shelf+" does not exist.");
@@ -126,7 +123,7 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
             //first of all, check for "res" presence in the marketBuffer.
             long numBufferEl = getBuffer().stream().filter((t)->t.getType().equals(res.getType())).count();
             if(res.getQuantity()>numBufferEl)
-                throw new InvalidOperationException("The resource is not present in the marketBuffer! Operation failed.");
+                throw new InvalidQuantityException("The resource is not present in the marketBuffer! Operation failed.");
 
             if((res.getQuantity()+extraShelf.getQuantity())>shelfSize || !res.getType().equals(extraShelf.getType()))
                 throw new ShelfInsertException("Error in leader shelf insert procedure! Operation cancelled.");
@@ -222,8 +219,13 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
             PhysicalResource buffRes1= take(shelf1, getWarehouseDisposition().get(shelf1-1).getQuantity());
             PhysicalResource buffRes2= take(shelf2, getWarehouseDisposition().get(shelf2-1).getQuantity());
             marketDraw(buffRes1); marketDraw(buffRes2);
-            moveInShelf(buffRes2,shelf1);
-            moveInShelf(buffRes1, shelf2);
+            try {
+                moveInShelf(buffRes2, shelf1);
+                moveInShelf(buffRes1, shelf2);
+            }
+            catch(InvalidQuantityException | ShelfInsertException e){
+                System.err.println("System shutdown due to an internal error."); System.exit(1);
+            }
         }
         return true;
     }

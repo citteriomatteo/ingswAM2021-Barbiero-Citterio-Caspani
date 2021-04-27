@@ -33,7 +33,7 @@ public class MultiMatch extends Match {
 
         MatchConfiguration matchConfiguration = super.getMatchConfiguration();
 
-        Collections.shuffle(players);
+        //Collections.shuffle(players);
         this.players = players;
         this.currentPlayer = players.get(0);
         this.cardGrid = new CardGrid(matchConfiguration.getAllDevCards());

@@ -13,4 +13,6 @@ public interface Resource {
      */
 
     boolean add(Adder adder) throws MatchEndedException;
+
+    boolean isPhysical();
 }

@@ -9,8 +9,8 @@ import it.polimi.ingsw.network.message.Message;
  */
 public class DevCardDrawMessage extends Message {
     private static final CtoSMessageType type = CtoSMessageType.DEV_CARD_DRAW;
-    private final int lv;
-    private final int color;
+    private final int row;
+    private final int column;
 
     public DevCardDrawMessage(String nickname, int row, int column) {
         super(nickname);

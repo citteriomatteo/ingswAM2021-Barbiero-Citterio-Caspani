@@ -22,12 +22,18 @@ public class FaithPoint implements Resource{
     }
 
     /**
+     * Getter
+     * @return false to show that this is a faith point.
+     */
+    @Override
+    public boolean isPhysical(){ return false; }
+
+    /**
      * Adds the points contained in this to the player's FaithPath thanks to the adder's method addFaithPoints
      * @param adder the player's interface
      * @return true if the player's method addFaithPoints worked
      * @throws MatchEndedException if the player reaches the end of his FaithPath
      */
-
     @Override
     public boolean add(Adder adder) throws MatchEndedException {
        return adder.addFaithPoints(quantity);
@@ -38,7 +44,6 @@ public class FaithPoint implements Resource{
      * @param o the other FaithPoint object to be compared
      * @return true if this and o have the same quantity
      */
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

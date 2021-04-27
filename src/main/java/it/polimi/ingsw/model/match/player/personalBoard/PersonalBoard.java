@@ -21,7 +21,7 @@ public class PersonalBoard implements Effector
     private final List<PhysicalResource> whiteMarbleConversions;
     private final Production basicProduction;
     private Warehouse warehouse;
-    private final StrongBox strongBox;
+    private StrongBox strongBox;
     private final FaithPath faithPath;
     private final DiscountMap discountMap;
     private final DevCardSlots devCardSlots;
@@ -127,4 +127,14 @@ public class PersonalBoard implements Effector
     public DiscountMap getDiscountMap() { return discountMap; }
     /** @return the Development cards slots */
     public DevCardSlots getDevCardSlots() { return devCardSlots; }
+
+    //ALL SETTERS:
+    public boolean setStrongBox(StrongBox strongBox){
+        this.strongBox = strongBox;
+        return true;
+    }
+    public boolean setWarehouse(Warehouse warehouse){
+        this.warehouse = warehouse;
+        return true;
+    }
 }

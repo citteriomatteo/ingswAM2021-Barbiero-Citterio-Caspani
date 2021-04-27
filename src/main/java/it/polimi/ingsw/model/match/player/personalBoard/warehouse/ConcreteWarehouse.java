@@ -2,10 +2,7 @@ package it.polimi.ingsw.model.match.player.personalBoard.warehouse;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.ResType;
-import it.polimi.ingsw.model.exceptions.InvalidOperationException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
-import it.polimi.ingsw.model.exceptions.NotEnoughResourcesException;
-import it.polimi.ingsw.model.exceptions.ShelfInsertException;
+import it.polimi.ingsw.model.exceptions.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -60,19 +57,19 @@ public class ConcreteWarehouse implements Warehouse
      * Moves in the specified shelf, if there is enough space or an EMPTY (quantity=0) shelf with whatever previous ResType in it.
      * Before moving, checks for "res" presence in the market buffer.
      * @throws ShelfInsertException for every problem space-or-type related
-     * @throws InvalidOperationException whenever the received resource is not present in the marketBuffer first.
+     * @throws InvalidQuantityException whenever the received resource is not present in the marketBuffer first.
      * @param res   the resource to try to insert into the shelf (the same resource MUST be present in the market buffer before)
      * @param shelf the number of the shelf, starting from 1.
      * @return      true
      */
     @Override
-    public boolean moveInShelf(PhysicalResource res, int shelf) throws ShelfInsertException, InvalidOperationException
+    public boolean moveInShelf(PhysicalResource res, int shelf) throws ShelfInsertException, InvalidQuantityException
     {
         shelf--;
         //first of all, check for "res" presence in the marketBuffer.
         long numBufferEl = getBuffer().stream().filter((t)->t.getType().equals(res.getType())).count();
         if(res.getQuantity()>numBufferEl)
-            throw new InvalidOperationException("The resource is not present in the marketBuffer! Operation failed.");
+            throw new InvalidQuantityException("The resource is not present in the marketBuffer! Operation failed.");
 
         //resource is unknown or already placed on another shelf.
         if(res.getType().equals(ResType.UNKNOWN) || (getNumberOf(res.getType())>0 && !getWarehouseDisposition().get(shelf).getType().equals(res.getType())))
