@@ -53,5 +53,13 @@ public class StrongBox
      */
     public int getNumberOf(ResType type) { return resources.get(type); }
 
+    public static StrongBox clone(StrongBox sb){
+        StrongBox clone = null;
+        try {
+            clone = (StrongBox) sb.clone();
+        }
+        catch(CloneNotSupportedException e){ e.printStackTrace(); }
+        return clone;
+    }
 
 }

@@ -58,4 +58,26 @@ public interface WarehouseDecorator extends Warehouse
      * @see ConcreteWarehouse
      */
     boolean switchShelf(int shelf1, int shelf2) throws ShelfInsertException, InvalidOperationException;
+
+    /**
+     * This method clones the current Warehouse.
+     * @param wh warehouse to clone
+     * @return the cloned version of the warehouse
+     */
+     static Warehouse clone(Warehouse wh){
+        Warehouse clonedWh = new ConcreteWarehouse();
+        Warehouse.clone(wh, clonedWh);
+        for(int i=3; i<wh.getWarehouseDisposition().size(); i++)
+        {
+            try{
+                clonedWh = new ExtraShelfWarehouse(clonedWh, new PhysicalResource(wh.getWarehouseDisposition().get(i).getType(),wh.getShelfSize(i)));
+            } catch(NegativeQuantityException e){ System.err.println("extra1: System shutdown due to an internal error."); System.exit(1); }
+            try {
+                clonedWh.marketDraw(wh.getWarehouseDisposition().get(i));
+                clonedWh.moveInShelf(wh.getWarehouseDisposition().get(i), i+1);
+            }
+            catch(InvalidOperationException e){ System.err.println("extra2: System shutdown due to an internal error."); System.exit(1); }
+        }
+        return clonedWh;
+    }
 }

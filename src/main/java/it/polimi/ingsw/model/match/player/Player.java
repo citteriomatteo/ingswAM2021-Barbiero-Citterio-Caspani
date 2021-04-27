@@ -253,7 +253,7 @@ public class Player implements Adder, Verificator
      * @param number the number of the row or column
      * @return the number of white marble in the selected row or column
      */
-    public int marketDeal(boolean row, int number) throws NegativeQuantityException, MatchEndedException
+    public int marketDeal(boolean row, int number) throws InvalidQuantityException, MatchEndedException
     {
         int whiteMarbles=0;
         if(row)

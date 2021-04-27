@@ -63,4 +63,14 @@ public class PlayerTest
         assertEquals(42,player.totalWinPoints());
         assertEquals(4,player1.totalWinPoints());
     }
+
+    public void boh() throws WrongSettingException, SingleMatchException {
+        Player player = new Player("player1");
+        Player player1 = new Player("player2");
+        Match match = new MultiMatch(Arrays.asList(player, player1),"src/test/resources/StandardConfiguration.json");
+
+
+
+
+    }
 }

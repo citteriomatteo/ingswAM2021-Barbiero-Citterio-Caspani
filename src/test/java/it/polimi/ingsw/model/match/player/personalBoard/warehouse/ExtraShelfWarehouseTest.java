@@ -239,4 +239,25 @@ public class ExtraShelfWarehouseTest
         //Now, after the switch, there must be a place for the remaining Coin in the shelf 3.
         assertThrows(InvalidOperationException.class, ()->player.getPersonalBoard().getWarehouse().discardRemains());
     }
+
+    @Test
+    public void cloneTest() throws NegativeQuantityException, InvalidOperationException
+    {
+        Warehouse wh = new ConcreteWarehouse();
+        List<PhysicalResource> l = new ArrayList<>();
+        l.add(new PhysicalResource(ResType.COIN,1));
+        wh.marketDraw(l.get(0)); wh.moveInShelf(l.get(0), 1);
+        l.add(new PhysicalResource(ResType.STONE,2));
+        wh.marketDraw(l.get(1)); wh.moveInShelf(l.get(1),2);
+        l.add(new PhysicalResource(ResType.SERVANT,3));
+        wh.marketDraw(l.get(2)); wh.moveInShelf(l.get(2),3);
+        wh = new ExtraShelfWarehouse(wh, new PhysicalResource(ResType.COIN, 2));
+        wh = new ExtraShelfWarehouse(wh, new PhysicalResource(ResType.SERVANT, 2));
+        wh.marketDraw(new PhysicalResource(ResType.SERVANT, 2));
+        wh.moveInShelf(new PhysicalResource(ResType.SERVANT, 2), 5);
+
+        Warehouse clone = WarehouseDecorator.clone(wh);
+        assertEquals(wh.getWarehouseDisposition(), clone.getWarehouseDisposition());
+    }
+
 }
