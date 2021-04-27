@@ -3,10 +3,13 @@ package it.polimi.ingsw.network.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server {
+//    private static final int TIME_FOR_PING = 10000; //10 seconds
     private final int port;
 
     public Server(int port) {
@@ -24,12 +27,14 @@ public class Server {
             System.err.println(e.getMessage());
             return;
         }
+
+//        setConnectionController();
         System.out.println("Server ready");
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
                 System.out.println("new client accepted");
-                PlayersHandler player = new PlayersHandler(socket);
+                PlayerHandler player = new PlayerHandler(socket);
                 executor.submit(player);
             }
             catch(IOException e) {
@@ -39,6 +44,23 @@ public class Server {
          }
              executor.shutdown();
     }
+
+// &&&&&&&&&&&&& First attempt for implementing ping
+
+//    private void setConnectionController() {
+//        Timer t = new Timer();
+//        TimerTask tt = new TimerTask() {
+//            @Override
+//            public void run() {
+//                System.out.println("It's ping time!");
+//                pingAll();
+//            }
+//        };
+//        t.scheduleAtFixedRate(tt,6000,TIME_FOR_PING);
+//    }
+
+
+
 
 
     public static void main(String[] args) {

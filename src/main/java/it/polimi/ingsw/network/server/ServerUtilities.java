@@ -2,7 +2,9 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.player.Player;
+import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.Topic;
+import it.polimi.ingsw.network.message.stocmessage.TokenDrawMessage;
 
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -13,9 +15,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * Static class fundamental for synchronizing the threads that control the clients communication and the game logic
  */
 public class ServerUtilities {
-    private static final Map<Player, PlayersHandler> activeClients = new ConcurrentHashMap<>();
-    private static final Map<Match, Topic> communication = new ConcurrentHashMap<>();
+    private static final Map<Player, PlayerHandler> activeClients = new ConcurrentHashMap<>();
+    private static final Map<Match, Topic> communicationMap = new ConcurrentHashMap<>();
     private static BlockingQueue<Player> pendentMatchWaiting = null;
+//    private static final Map<Player, PlayerHandler> disconnectedClients = new ConcurrentHashMap<>();
 
     /**
      * Adds a new player to the global list of active Players,
@@ -24,7 +27,7 @@ public class ServerUtilities {
      * @return true if there wasn't a previous player with the same nickname in this list
      *         false if the previous player has been substituted by the new one
      */
-    public static boolean addNewPlayer(PlayersHandler client){
+    public static boolean addNewPlayer(PlayerHandler client){
         return activeClients.put(client.getPlayer(), client) != null;
     }
 
@@ -32,13 +35,25 @@ public class ServerUtilities {
      * Removes a player from the global list of active Players,
      * this list can be useful for searching existing nicknames or other things
      * @param removedClient the client to remove from the global list
-     * @return true if the PlayersHandler was previously in the global list
-     *         false if there are no such PlayersHandler in the global list
+     * @return true if the PlayerHandler was previously in the global list
+     *         false if there are no such PlayerHandler in the global list
      */
-    public static boolean removePlayer(PlayersHandler removedClient){
+    public static boolean removePlayer(PlayerHandler removedClient){
         return activeClients.remove(removedClient.getPlayer()) != null;
     }
 
+// &&&&&&&&&&&&& First attempt for implementing ping
+
+//    public static void pingAll(){
+//        for(PlayerHandler p : activeClients.values()){
+//            if(!p.verifyConnection()) {
+//                removePlayer(p);
+//                disconnectedClients.put(p.getPlayer(), p);
+//            }
+//        }
+//    }
+
+    //%%%%%%%%%%%%%%% MULTIPLAYER PART %%%%%%%%%%%%%
 
     /**
      * Try to create a new waiting list for players to join a new match, if indeed exists another waiting list,
@@ -137,19 +152,59 @@ public class ServerUtilities {
 
 
 
-
-
-
     //%%%%%%%%%% communication part %%%%%%%%%%%%%
 
     /**
      * Creates a new topic for communication linked to a match, if a topic linked to this match already exists,
-     * all the previous messages in the topic will be lost and this method will return false
+     * all the previous messages in the topic will be lost and this method will return false.
+     * This method also sets the players in the match as observer of the new topic.
      * @param match the match you want to link the new topic to
      * @return true if a topic linked to the given match doesn't already exist
      */
     public static boolean createNewTopic(Match match){
-        return communication.put(match, new Topic()) != null;
+        Topic topic = new Topic(match.getPlayers().size());
+        boolean res = communicationMap.put(match, topic) != null;
+        for(Player p : match.getPlayers()){
+            topic.addObserver(activeClients.get(p));
+            System.out.println("added " + p + " as Observer of the topic for match " + match);
+        }
+
+        sendAMessageWithDelay(15000, match);
+        return res;
     }
 
+    public static boolean pushStoCMessage(Match match, Message msg){
+        return communicationMap.get(match).pushStoCMessage(msg);
+    }
+
+    public static boolean pushCtoSMessage(Match match, Message msg){
+        return communicationMap.get(match).pushCtoSMessage(msg);
+    }
+
+    public static Message pullStoCMessage(Match match){
+        return communicationMap.get(match).pullStoCMessage();
+    }
+
+    public static Message pullCtoSMessage(Match match){
+        return communicationMap.get(match).pullCtoSMessage();
+    }
+
+
+    //!!!!!!!!!!!!!TODO: REMOVE ME!!!!!!!!!!!!!!!!!!!
+    //only for test purpose
+    private static void sendAMessageWithDelay(int delay, Match match) {
+
+        Timer t = new Timer();
+        TimerTask tt = new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("Sending a StoC Message in the first match");
+                Message msg = new TokenDrawMessage("giorgio", "yellow token");
+                pushStoCMessage(match, msg);
+            }
+        };
+        System.out.println("sending a message in " + delay/1000 + " seconds");
+        t.schedule(tt, delay);
+    }
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 }
