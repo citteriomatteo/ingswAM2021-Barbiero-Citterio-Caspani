@@ -3,11 +3,10 @@ package it.polimi.ingsw.model.match;
 import it.polimi.ingsw.model.exceptions.MatchEndedException;
 import it.polimi.ingsw.model.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.player.Player;
-import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
+import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
 import it.polimi.ingsw.model.match.token.TokenStack;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 

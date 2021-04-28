@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.network.message.Message;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * This class implements a message from the client to insert a list of ResTypes in the selected shelf

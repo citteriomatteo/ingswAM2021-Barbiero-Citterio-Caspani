@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.match.player.personalBoard;
 
 import it.polimi.ingsw.model.essentials.*;
 import it.polimi.ingsw.model.exceptions.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class DevCardSlotsTest {
                 new Production(new ArrayList<>(List.of(new PhysicalResource(ResType.COIN, 1))),
                         new ArrayList<>(List.of(new FaithPoint(1)))), 1);
 
-        assertDoesNotThrow(()-> slots.pushNewCard(1, card));
+        Assertions.assertDoesNotThrow(()-> slots.pushNewCard(1, card));
 
 
         DevelopmentCard card2 = new DevelopmentCard(new CardType(CardColor.YELLOW, 2),
@@ -28,7 +29,7 @@ public class DevCardSlotsTest {
                 new Production(new ArrayList<>(List.of(new PhysicalResource(ResType.COIN, 1))),
                         new ArrayList<>(List.of(new FaithPoint(1)))), 1);
 
-        assertDoesNotThrow(()-> slots.pushNewCard(1, card2));
+        Assertions.assertDoesNotThrow(()-> slots.pushNewCard(1, card2));
 
 
         DevelopmentCard card3 = new DevelopmentCard(new CardType(CardColor.BLUE, 3),
@@ -36,7 +37,7 @@ public class DevCardSlotsTest {
                 new Production(new ArrayList<>(List.of(new PhysicalResource(ResType.COIN, 1))),
                         new ArrayList<>(List.of(new FaithPoint(1)))), 1);
 
-        assertDoesNotThrow(()-> slots.pushNewCard(1, card3));
+        Assertions.assertDoesNotThrow(()-> slots.pushNewCard(1, card3));
 
     }
 
@@ -79,7 +80,7 @@ public class DevCardSlotsTest {
                 new Production(new ArrayList<>(List.of(new PhysicalResource(ResType.COIN, 1))),
                         new ArrayList<>(List.of(new FaithPoint(1)))), 1);
 
-        assertDoesNotThrow(()-> slots.pushNewCard(1, card));
+        Assertions.assertDoesNotThrow(()-> slots.pushNewCard(1, card));
 
 
         DevelopmentCard card2 = new DevelopmentCard(new CardType(CardColor.YELLOW, 2),
@@ -87,7 +88,7 @@ public class DevCardSlotsTest {
                 new Production(new ArrayList<>(List.of(new PhysicalResource(ResType.COIN, 1))),
                         new ArrayList<>(List.of(new FaithPoint(1)))), 1);
 
-        assertDoesNotThrow(()-> slots.pushNewCard(1, card2));
+        Assertions.assertDoesNotThrow(()-> slots.pushNewCard(1, card2));
 
 
         DevelopmentCard card3 = new DevelopmentCard(new CardType(CardColor.BLUE, 3),
@@ -95,14 +96,14 @@ public class DevCardSlotsTest {
                 new Production(new ArrayList<>(List.of(new PhysicalResource(ResType.COIN, 1))),
                         new ArrayList<>(List.of(new FaithPoint(1)))), 1);
 
-        assertDoesNotThrow(()-> slots.pushNewCard(1, card3));
+        Assertions.assertDoesNotThrow(()-> slots.pushNewCard(1, card3));
 
         DevelopmentCard card4 = new DevelopmentCard(new CardType(CardColor.BLUE, 1),
                 new ArrayList<>(List.of(new PhysicalResource(ResType.SHIELD, 1))),
                 new Production(new ArrayList<>(List.of(new PhysicalResource(ResType.COIN, 3))),
                         new ArrayList<>(List.of(new FaithPoint(2)))), 2);
 
-        assertDoesNotThrow(()-> slots.pushNewCard(3, card4));
+        Assertions.assertDoesNotThrow(()-> slots.pushNewCard(3, card4));
 
         List<DevelopmentCard> expected = new ArrayList<>();
         expected.add(card3);

@@ -1,9 +1,7 @@
 package it.polimi.ingsw.model.match.player;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
-import it.polimi.ingsw.model.exceptions.FaithPathCreationException;
 import it.polimi.ingsw.model.exceptions.MatchEndedException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 
 /*
     Interface used for limiting access to player methods

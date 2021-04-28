@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.essentials.ResType;
 import it.polimi.ingsw.model.exceptions.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ConcreteWarehouse implements Warehouse
 {
