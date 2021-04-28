@@ -136,7 +136,7 @@ public class ConcreteWarehouse implements Warehouse
     {
         shelf1--; shelf2--;
 
-        if(shelf1 < 0 || shelf2 < 0 || shelves.get(shelf1).getQuantity()>(shelf2+1) || shelves.get(shelf2).getQuantity()>(shelf1+1))
+        if(shelf1 < 0 || shelf2 < 0 || shelf1 > 2 || shelf2 > 2 || shelves.get(shelf1).getQuantity()>(shelf2+1) || shelves.get(shelf2).getQuantity()>(shelf1+1))
             throw new ShelfInsertException("Not enough space on both shelves to switch! Operation Failed.");
 
         PhysicalResource bufferShelf = shelves.get(shelf1);
