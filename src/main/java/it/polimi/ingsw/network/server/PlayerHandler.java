@@ -34,6 +34,7 @@ public class PlayerHandler implements Runnable, Observer {
     private BufferedReader in;
     private PrintWriter out;
     private final AtomicBoolean pendantMessage;
+    private final Object lock;
 
     /**
      * Generate a PlayerHandler
@@ -53,27 +54,12 @@ public class PlayerHandler implements Runnable, Observer {
 
         this.socket = socket;
         pendantMessage = new AtomicBoolean();
+        lock = new Object();
     }
 
     public Player getPlayer() {
         return player;
     }
-
-// &&&&&&&&&&&&& First attempt for implementing ping
-
-//    public synchronized boolean verifyConnection(){
-//        out.println("ping");
-//        try {
-//            if(in.readLine() == null ) {
-//                System.out.println("Player "+ player + " is unavailable");
-//                player.disconnect();
-//                return false;
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return true;
-//    }
 
     /**
      * Used for restoring connection with a disconnected player previously linked to this handler.
@@ -117,9 +103,12 @@ public class PlayerHandler implements Runnable, Observer {
             System.out.println("Player " + player + " enters the main cycle");
             boolean stop = false;
             //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            //%%%%%%%%%%%%%% MAIN CYCLE %%%%%%%%%%%%%%%
-            //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            //%%%%%%%%%%%%%% MAIN CYCLE %%%%%%%%%%%%%%% Now the cycle immediately stops until the firs message comes
+            //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Then read an input and then goes sleep and wait for the next one
             while (!stop) {
+                synchronized (lock) {
+                    lock.wait();
+                }
                 while(pendantMessage.getAndSet(false)){
                     System.out.println("there is a new message to send at " + player);
                     outMsg = pullStoCMessage(player.getMatch());
@@ -148,7 +137,7 @@ public class PlayerHandler implements Runnable, Observer {
             //close reader, writer and socket connection
             terminateConnection();
         }
-        catch (IOException e) {
+        catch (IOException | InterruptedException e) {
             System.err.println(e.getMessage());
         }
     }
@@ -205,6 +194,7 @@ public class PlayerHandler implements Runnable, Observer {
 
                 try {
                     new MultiMatchController(playersInMatch).start();
+
                 } catch (SingleMatchException e) {
                     //TODO: wrong match choose
                     e.printStackTrace();
@@ -232,13 +222,15 @@ public class PlayerHandler implements Runnable, Observer {
     }
 
 
+    //Change this doing an awakening process
     @Override
     public void update(Observable o, Object arg) {
         System.out.println("player " + player + " updated");
-        if(arg.equals("StoC")) {
-            pendantMessage.set(true);
-            System.out.println("set the boolean in " + player);
+        pendantMessage.set(true);
+        synchronized (lock) {
+            lock.notifyAll();
         }
+        System.out.println("set the boolean in " + player);
     }
 }
 

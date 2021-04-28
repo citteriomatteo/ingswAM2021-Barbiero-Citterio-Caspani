@@ -42,21 +42,10 @@ public class ServerUtilities {
         return activeClients.remove(removedClient.getPlayer()) != null;
     }
 
-// &&&&&&&&&&&&& First attempt for implementing ping
-
-//    public static void pingAll(){
-//        for(PlayerHandler p : activeClients.values()){
-//            if(!p.verifyConnection()) {
-//                removePlayer(p);
-//                disconnectedClients.put(p.getPlayer(), p);
-//            }
-//        }
-//    }
-
     //%%%%%%%%%%%%%%% MULTIPLAYER PART %%%%%%%%%%%%%
 
     /**
-     * Try to create a new waiting list for players to join a new match, if indeed exists another waiting list,
+     * Tries to create a new waiting list for players to join a new match, if indeed exists another waiting list,
      * wait until the previous match is completed and then ask for the new one
      * @param submitter the player who wants to create the new match
      * @param numPlayers the number of player who have to participate in the new match
@@ -97,7 +86,8 @@ public class ServerUtilities {
                 System.out.println("Something goes wrong while waiting for players joining the new match");
             }
         }
-        //when the queue is full then copy the object on a temporary pointer in order to call the notify after the pendentMatchWaiting is resettled to null
+        //when the queue is full then copy the object on a temporary pointer
+        // in order to call the notify after the pendentMatchWaiting is resettled to null
         List<Player> res = new ArrayList<>();
         BlockingQueue<Player> tempQueue = pendentMatchWaiting;
         pendentMatchWaiting = null;
@@ -173,19 +163,46 @@ public class ServerUtilities {
         return res;
     }
 
+    /**
+     * Tries to add a StoC message in the topic linked to the match,
+     * if the queue of messages is full, wait since someone else pulls out another StoC message.
+     * After the insertion, Observers (Clients) will be notified.
+     * @param msg the message you want to push
+     * @return true if the message has been inserted, false if something goes wrong while waiting for free space
+     */
     public static boolean pushStoCMessage(Match match, Message msg){
         return communicationMap.get(match).pushStoCMessage(msg);
     }
 
+    /**
+     * Tries to add a CtoS message in the topic linked to the match,
+     * if the queue of messages is full, wait since someone else pulls out another CtoS message
+     * @param msg the message you want to push
+     * @return true if the message has been inserted, false if something goes wrong while waiting for free space
+     */
     public static boolean pushCtoSMessage(Match match, Message msg){
         return communicationMap.get(match).pushCtoSMessage(msg);
     }
 
+    /**
+     * Takes the first possible message from the StoC queue of the topic linked to the passed match,
+     * if there aren't messages to be pulled returns null.
+     * If you are not the last player of the match the message remains inside the queue,
+     * ready to be pulled by the others, otherwise the message is removed from the queue.
+     * Then controls if are there any other messages to be read, in that case, notifies all the Observers
+     * @return the first message in the StoC queue or null
+     */
     public static Message pullStoCMessage(Match match){
         return communicationMap.get(match).pullStoCMessage();
     }
 
-    public static Message pullCtoSMessage(Match match){
+    /**
+     * Takes the first possible message from the CtoS queue of the topic linked to the passed match,
+     * if there aren't messages to be pulled wait since someone pushes a message.
+     * @return the first message in the CtoS queue or null
+     * @throws InterruptedException if interrupted while waiting
+     */
+    public static Message pullCtoSMessage(Match match) throws InterruptedException {
         return communicationMap.get(match).pullCtoSMessage();
     }
 
