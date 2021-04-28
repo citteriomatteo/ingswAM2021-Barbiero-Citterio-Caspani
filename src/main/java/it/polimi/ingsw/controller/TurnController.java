@@ -1,9 +1,9 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.essentials.*;
+import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.essentials.leader.LeaderCard;
 import it.polimi.ingsw.model.essentials.leader.ProductionEffect;
-import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.personalBoard.StrongBox;
@@ -23,15 +23,16 @@ public class TurnController {
     private StateName currentState;
     private final Match match;
     private final Map<String, Card> cardMap;
+    private int whiteMarbleDrawn;
 
-    public TurnController(Player firstPlayer, Match match,
-                          Map<String, Card> cardMap) {
+    public TurnController(Player firstPlayer, Match match, Map<String, Card> cardMap) {
         this.lastRound = false;
         this.currentPlayer = firstPlayer;
         this.firstPlayer = firstPlayer;
         this.currentState = StateName.STARTING_TURN;
         this.match = match;
         this.cardMap = cardMap;
+        this.whiteMarbleDrawn = 0;
 
     }
 
@@ -157,8 +158,10 @@ public class TurnController {
                 LeaderDiscardingMessage discardingMessage = (LeaderDiscardingMessage) message;
 
                 for(LeaderCard card : currentPlayer.getHandLeaders())
-                    if (card.equals(cardMap.get(discardingMessage.getLeader())))
+                    if (card.equals(cardMap.get(discardingMessage.getLeader()))) {
                         currentPlayer.discardUselessLeader(card);
+                        break;
+                    }
                 break;
 
             case MARKET_DRAW:
@@ -223,8 +226,8 @@ public class TurnController {
      */
     private void marketDraw(MarketDrawMessage drawMessage){
         try {
-            int whiteNumber = currentPlayer.marketDeal(drawMessage.isRow(), drawMessage.getNum());
-            if(whiteNumber == 0)
+            whiteMarbleDrawn = currentPlayer.marketDeal(drawMessage.isRow(), drawMessage.getNum());
+            if(whiteMarbleDrawn == 0)
                 currentState = StateName.INTERMEDIATE;
             else
                 currentState = StateName.MARKET_ACTION;
@@ -249,14 +252,25 @@ public class TurnController {
      * @return true if the operation went well, false elsewhere
      */
     private boolean whiteMarbleConversions(WhiteMarbleConversionMessage whiteMarbleConversionMessage){
+        if(whiteMarbleConversionMessage.getResources().size() != whiteMarbleDrawn) {
+            //TODO: create a retry message
+            return false;
+        }
         for(PhysicalResource resource : whiteMarbleConversionMessage.getResources()) {
-            if(! currentPlayer.getWhiteMarbleConversions().contains(resource)) {
+            boolean found=false;
+            for(PhysicalResource resource1 : currentPlayer.getWhiteMarbleConversions())
+                if(resource1.equals(resource) && !found) {
+                    currentPlayer.addToWarehouse(resource);
+                    found=true;
+                    whiteMarbleDrawn--;
+                }
+            if(!found){
                 //TODO: create a retry message
                 return false;
             }
-            currentPlayer.addToWarehouse(resource);
         }
-        currentState = StateName.INTERMEDIATE;
+        if(whiteMarbleDrawn==0)
+            currentState = StateName.INTERMEDIATE;
         //TODO: eventually, build the relative StoCMessage
 
         return true;
@@ -554,4 +568,8 @@ public class TurnController {
         return null;
     }
 
+    public StateName getCurrentState() { return currentState; }
+    public void setCurrentState(StateName currentState) { this.currentState = currentState; }
+    public int getWhiteMarbleDrawn() { return whiteMarbleDrawn; }
+    public void setWhiteMarbleDrawn(int whiteMarbleDrawn) { this.whiteMarbleDrawn = whiteMarbleDrawn; }
 }

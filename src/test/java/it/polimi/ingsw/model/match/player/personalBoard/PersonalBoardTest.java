@@ -1,11 +1,13 @@
 package it.polimi.ingsw.model.match.player.personalBoard;
 
-import it.polimi.ingsw.model.essentials.*;
-
+import it.polimi.ingsw.model.essentials.PhysicalResource;
+import it.polimi.ingsw.model.essentials.Production;
+import it.polimi.ingsw.model.essentials.ResType;
 import it.polimi.ingsw.model.essentials.leader.*;
+import it.polimi.ingsw.model.match.player.personalBoard.faithPath.FaithPathTest;
+
 import it.polimi.ingsw.model.exceptions.FaithPathCreationException;
 import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
-import it.polimi.ingsw.model.match.player.personalBoard.faithPath.FaithPathTest;
 import org.junit.jupiter.api.Test;
 import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;

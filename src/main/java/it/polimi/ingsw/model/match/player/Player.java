@@ -1,12 +1,16 @@
 package it.polimi.ingsw.model.match.player;
 
-import it.polimi.ingsw.model.essentials.*;
+import it.polimi.ingsw.model.essentials.CardType;
+import it.polimi.ingsw.model.essentials.DevelopmentCard;
+import it.polimi.ingsw.model.essentials.PhysicalResource;
+import it.polimi.ingsw.model.essentials.Production;
 import it.polimi.ingsw.model.essentials.leader.LeaderCard;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.match.Match;
+import it.polimi.ingsw.model.match.player.personalBoard.DevCardSlots;
+import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
 import it.polimi.ingsw.model.match.player.personalBoard.StrongBox;
-import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 
 import java.util.*;
 
@@ -39,12 +43,9 @@ public class Player implements Adder, Verificator
      */
     public boolean setHandLeaders(List<LeaderCard> handLeaders)
     {
-        if(this.handLeaders == null)
-        {
-            this.handLeaders = handLeaders;
-            return true;
-        }
-        return false;
+        this.handLeaders = handLeaders;
+
+        return true;
     }
 
     /**
@@ -133,7 +134,7 @@ public class Player implements Adder, Verificator
      * This method adds resources to the strongbox.
      * @param resource is the resource to insert
      * @return the confirmation of the operation
-     * @see it.polimi.ingsw.model.match.player.personalBoard.StrongBox
+     * @see StrongBox
      */
     @Override
     public boolean addToStrongBox(PhysicalResource resource) { return personalBoard.getStrongBox().put(resource); }
@@ -142,7 +143,7 @@ public class Player implements Adder, Verificator
      * This method adds resources to the latest warehouse version.
      * @param resource is the resource to insert
      * @return the confirmation of the operation
-     * @see it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse
+     * @see Warehouse
      */
     @Override
     public boolean addToWarehouse(PhysicalResource resource) {
@@ -176,7 +177,7 @@ public class Player implements Adder, Verificator
      * This method calls DevCardSlots' isSatisfied function.
      * @param card is the card to check
      * @return true if ok, else false
-     * @see it.polimi.ingsw.model.match.player.personalBoard.DevCardSlots
+     * @see DevCardSlots
      */
     @Override
     public boolean verifyCard(CardType card) {
@@ -187,7 +188,7 @@ public class Player implements Adder, Verificator
      * This method verifies a card's placeability basing on its level.
      * @param cardLevel is the level to check
      * @return          true if ok, else false
-     * @see it.polimi.ingsw.model.match.player.personalBoard.DevCardSlots
+     * @see DevCardSlots
      */
     @Override
     public boolean verifyPlaceability(int cardLevel)

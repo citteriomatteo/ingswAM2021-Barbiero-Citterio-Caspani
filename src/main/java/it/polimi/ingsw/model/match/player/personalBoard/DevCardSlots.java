@@ -5,13 +5,14 @@ import it.polimi.ingsw.model.essentials.DevelopmentCard;
 import it.polimi.ingsw.model.exceptions.FullColumnException;
 import it.polimi.ingsw.model.exceptions.HighCardLevelException;
 import it.polimi.ingsw.model.exceptions.InvalidOperationException;
+import it.polimi.ingsw.model.match.CardGrid;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * This class represents the place where the player holds his DevelopmentCards purchased by the CardGrid
- * @see it.polimi.ingsw.model.match.CardGrid
+ * @see CardGrid
  * @see DevelopmentCard
  */
 public class DevCardSlots

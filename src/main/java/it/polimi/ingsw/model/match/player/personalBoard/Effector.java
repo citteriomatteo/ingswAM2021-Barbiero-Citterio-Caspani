@@ -2,7 +2,6 @@ package it.polimi.ingsw.model.match.player.personalBoard;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.leader.LeaderCard;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
 
 /** Effector interface is used to limit controller's access into the personal board. */
 public interface Effector

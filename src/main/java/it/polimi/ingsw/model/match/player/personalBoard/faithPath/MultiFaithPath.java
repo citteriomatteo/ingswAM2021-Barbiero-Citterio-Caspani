@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.match.player.personalBoard.faithPath;
 
 import it.polimi.ingsw.model.exceptions.FaithPathCreationException;
+
 import java.util.ArrayList;
 
 public class MultiFaithPath extends FaithPath

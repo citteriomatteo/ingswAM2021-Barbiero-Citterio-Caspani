@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.MultiMatch;
 import it.polimi.ingsw.model.match.player.Player;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -93,10 +94,10 @@ public class ExtraShelfWarehouseTest
         Warehouse extrawh1 = new ExtraShelfWarehouse(wh, new PhysicalResource(ResType.STONE,3));
 
         //"concreteWarehouse take and clean (from extraWarehouse)" test:
-        assertEquals(new PhysicalResource(ResType.COIN,1),extrawh1.take(3,1));
-        assertEquals(extrawh1.getWarehouseDisposition().get(2).getQuantity(), 1);
-        assertEquals(new PhysicalResource(ResType.COIN,0),extrawh1.take(3,1));
-        assertEquals(extrawh1.getWarehouseDisposition().get(2).getQuantity(), 0);
+        Assertions.assertEquals(new PhysicalResource(ResType.COIN,1),extrawh1.take(3,1));
+        Assertions.assertEquals(extrawh1.getWarehouseDisposition().get(2).getQuantity(), 1);
+        Assertions.assertEquals(new PhysicalResource(ResType.COIN,0),extrawh1.take(3,1));
+        Assertions.assertEquals(extrawh1.getWarehouseDisposition().get(2).getQuantity(), 0);
 
         //"exception thrown" test:
         assertThrows(NotEnoughResourcesException.class, ()->extrawh1.take(1, 1)); //random take try on an empty basic shelf.
@@ -106,10 +107,10 @@ public class ExtraShelfWarehouseTest
         extrawh1.cleanMarketBuffer(res2);
 
         //"extraShelf take and clean" test:
-        assertEquals(new PhysicalResource(ResType.STONE,1),extrawh1.take(4,1));
-        assertEquals(extrawh1.getWarehouseDisposition().get(3).getQuantity(), 2);
-        assertEquals(new PhysicalResource(ResType.STONE,2),extrawh1.take(4,2));
-        assertEquals(extrawh1.getWarehouseDisposition().get(3).getQuantity(), 0);
+        Assertions.assertEquals(new PhysicalResource(ResType.STONE,1),extrawh1.take(4,1));
+        Assertions.assertEquals(extrawh1.getWarehouseDisposition().get(3).getQuantity(), 2);
+        Assertions.assertEquals(new PhysicalResource(ResType.STONE,2),extrawh1.take(4,2));
+        Assertions.assertEquals(extrawh1.getWarehouseDisposition().get(3).getQuantity(), 0);
     }
 
     /*
@@ -139,8 +140,8 @@ public class ExtraShelfWarehouseTest
         List<PhysicalResource> whbefore = extrawh2.getWarehouseDisposition();
         //ok
         extrawh2.switchShelf(1,2);
-        assertEquals(extrawh2.getWarehouseDisposition().get(1), whbefore.get(0));
-        assertEquals(extrawh2.getWarehouseDisposition().get(0), whbefore.get(1));
+        Assertions.assertEquals(extrawh2.getWarehouseDisposition().get(1), whbefore.get(0));
+        Assertions.assertEquals(extrawh2.getWarehouseDisposition().get(0), whbefore.get(1));
         extrawh2.switchShelf(1,2);
         //not ok
         assertThrows(ShelfInsertException.class, ()->extrawh2.switchShelf(1,3));
@@ -149,8 +150,8 @@ public class ExtraShelfWarehouseTest
         //"basic-extra switch" ok and not ok test:
         //ok
         extrawh2.switchShelf(1,4);
-        assertEquals(extrawh2.getWarehouseDisposition().get(0), whbefore.get(3));
-        assertEquals(extrawh2.getWarehouseDisposition().get(3), whbefore.get(0));
+        Assertions.assertEquals(extrawh2.getWarehouseDisposition().get(0), whbefore.get(3));
+        Assertions.assertEquals(extrawh2.getWarehouseDisposition().get(3), whbefore.get(0));
         extrawh2.switchShelf(1,4);
         assertEquals(whbefore, extrawh2.getWarehouseDisposition());
 
@@ -178,8 +179,8 @@ public class ExtraShelfWarehouseTest
         extrawh22.moveInShelf(res1, 5);
 
         extrawh22.switchShelf(4,5);
-        assertEquals(extrawh22.getWarehouseDisposition().get(3), whbefore.get(4));
-        assertEquals(extrawh22.getWarehouseDisposition().get(4), whbefore.get(3));
+        Assertions.assertEquals(extrawh22.getWarehouseDisposition().get(3), whbefore.get(4));
+        Assertions.assertEquals(extrawh22.getWarehouseDisposition().get(4), whbefore.get(3));
         extrawh22.switchShelf(4,5);
         assertEquals(extrawh22.getWarehouseDisposition(),whbefore);
 
