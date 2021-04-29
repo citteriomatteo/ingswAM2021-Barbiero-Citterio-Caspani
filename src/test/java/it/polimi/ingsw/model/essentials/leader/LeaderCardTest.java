@@ -155,7 +155,7 @@ public class LeaderCardTest {
         assertFalse(slotLeader.isActivable(joe));
 
         joe.drawDevelopmentCard(1, CardColor.GREEN.getVal());
-        joe.insertDevelopmentCard(1);
+        joe.insertDevelopmentCard(2);
         assertTrue(slotLeader.isActivable(joe));
     }
 

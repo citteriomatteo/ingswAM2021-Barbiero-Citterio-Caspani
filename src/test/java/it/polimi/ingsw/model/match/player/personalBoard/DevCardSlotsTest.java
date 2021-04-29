@@ -42,7 +42,7 @@ public class DevCardSlotsTest {
     }
 
     @Test
-    public void pushNewCardExceptionsTest() throws InvalidQuantityException, NegativeQuantityException {
+    public void pushNewCardExceptionsTest() throws InvalidQuantityException {
         DevCardSlots slots = new DevCardSlots();
 
         DevelopmentCard card = new DevelopmentCard(new CardType(CardColor.GREEN, 2),
@@ -61,10 +61,15 @@ public class DevCardSlotsTest {
                 new Production(new ArrayList<>(List.of(new PhysicalResource(ResType.COIN, 1))),
                         new ArrayList<>(List.of(new FaithPoint(1)))), 1);
 
+        DevelopmentCard card3 = new DevelopmentCard(new CardType(CardColor.GREEN, 3),
+                new ArrayList<>(List.of(new PhysicalResource(ResType.SHIELD, 2))),
+                new Production(new ArrayList<>(List.of(new PhysicalResource(ResType.COIN, 1))),
+                        new ArrayList<>(List.of(new FaithPoint(1)))), 1);
+
         try{
             slots.pushNewCard(1, card2);
-            slots.pushNewCard(1, card2);
-            slots.pushNewCard(1, card2);
+            slots.pushNewCard(1, card);
+            slots.pushNewCard(1, card3);
         } catch (InvalidOperationException e) {
             fail();
         }
@@ -116,7 +121,7 @@ public class DevCardSlotsTest {
     }
 
     @Test
-    public void isPlaceable() throws InvalidQuantityException, NegativeQuantityException, InvalidOperationException {
+    public void isPlaceable() throws InvalidQuantityException, InvalidOperationException {
         DevCardSlots slots = new DevCardSlots();
 
         assertTrue(slots.isPlaceable(1));
@@ -132,8 +137,8 @@ public class DevCardSlotsTest {
         //now is placeable a level 2
         assertTrue(slots.isPlaceable(2));
 
-        //push another level 1
-        slots.pushNewCard(1, card);
+        //push another level 1 on the same column will throw an exception
+        assertThrows(HighCardLevelException.class ,()-> slots.pushNewCard(1, card));
 
         //is placeable only a level 2
         assertTrue(slots.isPlaceable(2));
@@ -144,11 +149,11 @@ public class DevCardSlotsTest {
                 new Production(new ArrayList<>(List.of(new PhysicalResource(ResType.COIN, 1))),
                         new ArrayList<>(List.of(new FaithPoint(1)))), 1);
 
-        //push a level 2 card on the last slot of the first column
+        //push a level 2 card in the first column
         slots.pushNewCard(1, card2);
 
-        //Now I can't place either a level 2 or level 3
-        assertFalse(slots.isPlaceable(3));
+        //Now I can't place a level 2 but i can place a level 3
+        assertTrue(slots.isPlaceable(3));
         assertFalse(slots.isPlaceable(2));
 
         //push on the second column a level 1 and a level 2 card
@@ -197,7 +202,7 @@ public class DevCardSlotsTest {
                             new ArrayList<>(List.of(new FaithPoint(1)))), 2);
 
             slots.pushNewCard(1, card);
-            slots.pushNewCard(1, card);
+            slots.pushNewCard(2, card);
 
             DevelopmentCard card2 = new DevelopmentCard(new CardType(CardColor.GREEN, 2),
                     new ArrayList<>(List.of(new PhysicalResource(ResType.SHIELD, 2))),

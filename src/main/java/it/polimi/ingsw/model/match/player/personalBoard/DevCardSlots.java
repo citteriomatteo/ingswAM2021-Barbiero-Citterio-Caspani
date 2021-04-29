@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class DevCardSlots
 {
-    private final DevelopmentCard[][] slots;
+    private final ArrayList<DevelopmentCard>[] slots;
     private static final int NUMBER_OF_ROWS = 3;
     private static final int NUMBER_OF_COLUMNS = 3;
 
@@ -25,7 +25,10 @@ public class DevCardSlots
      * Simple constructor, it instantiates the DevCardSlots of the default dimensions
      */
     public DevCardSlots() {
-        slots = new DevelopmentCard[NUMBER_OF_ROWS][NUMBER_OF_COLUMNS];
+        slots = new ArrayList[NUMBER_OF_COLUMNS];
+        for (int i = 0; i < NUMBER_OF_COLUMNS; i++) {
+            slots[i] = new ArrayList<>(NUMBER_OF_ROWS);
+        }
     }
 
     /**
@@ -41,12 +44,11 @@ public class DevCardSlots
             throw new InvalidOperationException("Tried to insert card out of bounds");
 
         int position = firstEmptySpace(column);
-        if (position >= NUMBER_OF_ROWS)
+        if (position > NUMBER_OF_ROWS)
             throw new FullColumnException("Tried to add a card to a full stack");
 
-        if(card.getType().getLevel()==1 ||
-                (position > 0 && card.getType().getLevel()<=slots[position-1][column-1].getType().getLevel()+1)) {
-            slots[position][column - 1] = card;
+        if(card.getType().getLevel() == firstEmptySpace(column)) {
+            slots[column - 1].add(card);
             return true;
         }
         else
@@ -60,10 +62,7 @@ public class DevCardSlots
      */
     private int firstEmptySpace(int column)
     {
-        for (int i = 0; i < NUMBER_OF_ROWS; i++)
-            if (slots[i][column-1]==null)
-                return i;
-        return NUMBER_OF_ROWS;
+        return slots[column-1].size()+1;
     }
 
     /**
@@ -72,13 +71,13 @@ public class DevCardSlots
      */
     public List<DevelopmentCard> getTop()
     {
-        List<DevelopmentCard> res = new ArrayList<>();
-        int pointer;
-        for (int i = 1; i <= NUMBER_OF_COLUMNS; i++)
+        List<DevelopmentCard> res = new ArrayList<>(NUMBER_OF_COLUMNS);
+
+        for (List<DevelopmentCard> currentColumn : slots)
         {
-            pointer = firstEmptySpace(i);
-            if(pointer>0)
-                res.add(slots[pointer-1][i-1]);
+            if(!currentColumn.isEmpty()){
+                res.add(currentColumn.get(currentColumn.size()-1));
+            }
         }
         return res;
     }
@@ -86,14 +85,9 @@ public class DevCardSlots
     /** @return the number of cards in all the structure */
     public int getCardsNumber(){
         int cardCount = 0;
+        for (List<DevelopmentCard> currentColumn : slots)
+            cardCount += currentColumn.size();
 
-        for (int i = 0; i < NUMBER_OF_COLUMNS; i++) {
-            for (int j = 0; j < NUMBER_OF_ROWS; j++) {
-                if (slots[j][i]==null)
-                    break;
-                cardCount++;
-            }
-        }
         return cardCount;
     }
 
@@ -101,14 +95,11 @@ public class DevCardSlots
     public int getWinPoints()
     {
         int totalWinPoints = 0;
-
-        for (int i = 0; i < NUMBER_OF_COLUMNS; i++) {
-            for (int j = 0; j < NUMBER_OF_ROWS; j++) {
-                if (slots[j][i]==null)
-                    break;
-                totalWinPoints += slots[j][i].getWinPoints();
-            }
+        for (List<DevelopmentCard> currentColumn : slots) {
+            for (DevelopmentCard card : currentColumn)
+                totalWinPoints += card.getWinPoints();
         }
+
         return totalWinPoints;
     }
 
@@ -120,14 +111,9 @@ public class DevCardSlots
      */
     public boolean isPlaceable(int cardLevel)
     {
-        if (cardLevel == 1)
-            return true;
-
-        int pointer;
         for (int i = 1; i <= NUMBER_OF_COLUMNS; i++)
         {
-            pointer = firstEmptySpace(i);
-            if(pointer>0 && pointer<NUMBER_OF_ROWS && cardLevel-1==slots[pointer-1][i-1].getType().getLevel())
+            if(cardLevel==firstEmptySpace(i))
                 return true;
         }
         return false;
@@ -142,17 +128,14 @@ public class DevCardSlots
      * @see CardType
      * @return true if the requirement is satisfied
      */
-    public boolean isSatisfied(CardType requirement)
-    {
+    public boolean isSatisfied(CardType requirement){
+
         int toSearch = requirement.getQuantity();
         if(requirement.getLevel()==0){
-            for (int i = 0; i < NUMBER_OF_COLUMNS; i++)
-            {
-                for (int j = 0; j < NUMBER_OF_ROWS; j++)
+            for (List<DevelopmentCard> currentColumn : slots){
+                for (DevelopmentCard card : currentColumn)
                 {
-                    if (slots[j][i] == null)
-                        break;
-                    if(requirement.getColor().equals(slots[j][i].getType().getColor()))
+                    if(requirement.getColor().equals(card.getType().getColor()))
                     {
                         toSearch--;
                         if (toSearch == 0)
@@ -163,13 +146,10 @@ public class DevCardSlots
             return false;
         }
 
-        for (int i = 0; i < NUMBER_OF_COLUMNS; i++)
-        {
-            for (int j = 0; j < NUMBER_OF_ROWS; j++)
+        for (List<DevelopmentCard> currentColumn : slots){
+            for (DevelopmentCard card : currentColumn)
             {
-                if (slots[j][i] == null)
-                    break;
-                if (requirement.equals(slots[j][i].getType()))
+                if(requirement.equals(card.getType()))
                 {
                     toSearch--;
                     if (toSearch == 0)

@@ -16,6 +16,7 @@ import java.util.*;
 
 public class Player implements Adder, Verificator
 {
+    private static final int WINNING_CONDITION_CARDS = 7;
     private final String nickname;
     private boolean connected;
     private Match match;
@@ -294,10 +295,12 @@ public class Player implements Adder, Verificator
      * @param slot  the slot in which the card will be inserted
      * @return      true
      */
-    public boolean insertDevelopmentCard(int slot) throws InvalidCardRequestException, MatchEndedException
-    {
-            try { getPersonalBoard().getDevCardSlots().pushNewCard(slot, tempDevCard); }
-            catch (InvalidOperationException e) { e.printStackTrace(); }
+    public boolean insertDevelopmentCard(int slot) throws MatchEndedException, InvalidOperationException {
+            personalBoard.getDevCardSlots().pushNewCard(slot, tempDevCard);
+            if(personalBoard.getDevCardSlots().getCardsNumber()>= WINNING_CONDITION_CARDS)
+                throw new MatchEndedException("The player " + this +
+                        " has reached " + WINNING_CONDITION_CARDS + " cards in his DevCardSlots");
+
         return true;
     }
 

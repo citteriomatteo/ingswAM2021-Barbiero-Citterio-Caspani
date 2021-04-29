@@ -70,8 +70,8 @@ public class ServerUtilities {
     }
 
     /**
-     * Waits until the waiting queue is full and then return the list of player who joins the match
-     * @return the list of player who joins the match
+     * Waits until the waiting queue is full and then returns the list of players who joins the match
+     * @return the list of players who joins the match
      */
     public static List<Player> matchParticipants(){
         //if there aren't enough players, wait until the queue is full
@@ -138,7 +138,6 @@ public class ServerUtilities {
          }
          return false;
     }
-
 
 
 
