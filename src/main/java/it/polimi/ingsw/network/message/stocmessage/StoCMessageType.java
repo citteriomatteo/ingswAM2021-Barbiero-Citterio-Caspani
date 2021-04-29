@@ -17,7 +17,8 @@ public enum StoCMessageType implements MessageType {
     END_GAME_RESULTS (11),
     RETRY (12),
     YOUR_TURN (13),
-    REMATCH_OFFERED (14);
+    REMATCH_OFFERED (14),
+    NEXT_STATE (15);
 
     private final int val;
 

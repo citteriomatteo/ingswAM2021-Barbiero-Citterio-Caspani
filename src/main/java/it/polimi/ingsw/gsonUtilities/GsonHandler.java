@@ -103,6 +103,7 @@ public class GsonHandler {
 
         GsonBuilder res = builder.registerTypeAdapterFactory(RuntimeTypeAdapterFactory
                         .of(Message.class, "Message")
+                        .registerSubtype(AcknowledgementMessage.class, "acknowledgement")
                         .registerSubtype(ConfigurationMessage.class, "configuration")
                         .registerSubtype(DevCardDrawMessage.class, "devCardDraw")
                         .registerSubtype(DevCardPlacementMessage.class, "devCardPlacement")
@@ -112,11 +113,10 @@ public class GsonHandler {
                         .registerSubtype(MarketDrawMessage.class, "marketDraw")
                         .registerSubtype(PaymentsMessage.class, "payments")
                         .registerSubtype(ProductionMessage.class, "production")
-                        .registerSubtype(StartingResourceMessage.class, "startingResource")
+                        .registerSubtype(StartingResourcesMessage.class, "startingResource")
                         .registerSubtype(SwitchShelfMessage.class, "switchShelf")
                         .registerSubtype(WarehouseInsertionMessage.class, "warehouseInsertion")
                         .registerSubtype(WhiteMarbleConversionMessage.class, "whiteMarbleConversion"));
-
         return completeModelConfig(res);
     }
 
@@ -141,7 +141,6 @@ public class GsonHandler {
                         .registerSubtype(RetryMessage.class, "retry")
                         .registerSubtype(StrongboxChangeMessage.class, "strongboxChange")
                         .registerSubtype(TokenDrawMessage.class, "tokenDraw")
-                        .registerSubtype(TurnStartedMessage.class, "turnStarted")
                         .registerSubtype(VaticanReportMessage.class, "vaticanReport")
                         .registerSubtype(WarehouseChangeMessage.class, "warehouseChange"));
 

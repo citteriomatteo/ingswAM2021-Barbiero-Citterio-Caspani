@@ -42,7 +42,6 @@ public class TurnControllerTest {
              cardMap.put("D"+i,match.getMatchConfiguration().getAllDevCards().get(i-1));
         for (int i=1; i<=match.getMatchConfiguration().getAllLeaderCards().size(); i++)
             cardMap.put("L"+i,match.getMatchConfiguration().getAllLeaderCards().get(i-1));
-
         this.controller = new TurnController(match.getCurrentPlayer(),match,cardMap);
         this.currentState = controller.getCurrentState();
     }

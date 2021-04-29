@@ -3,25 +3,28 @@ package it.polimi.ingsw.network.message.ctosmessage;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.network.message.Message;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class implements a message from the client to choose the initial bonus PhysicalResource
  * Message structure: { nickname, the chosen resource }
  */
-public class StartingResourceMessage extends Message {
+public class StartingResourcesMessage extends Message {
     private static final CtoSMessageType type = CtoSMessageType.STARTING_RESOURCES;
-    private final PhysicalResource resource;
+    private final List<PhysicalResource> resources;
 
-    public StartingResourceMessage(String nickname, PhysicalResource resource) {
+    public StartingResourcesMessage(String nickname, List<PhysicalResource> resources) {
         super(nickname);
-        this.resource = resource;
+        this.resources = resources;
     }
 
     /**
      * Getter
      * @return the chosen bonus resource
      */
-    public PhysicalResource getResource() {
-        return resource;
+    public List<PhysicalResource> getResources() {
+        return resources;
     }
 
     /**

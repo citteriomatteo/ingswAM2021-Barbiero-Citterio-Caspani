@@ -4,6 +4,7 @@ import it.polimi.ingsw.network.message.MessageType;
 
 public enum CtoSMessageType implements MessageType
 {
+    ACKNOWLEDGEMENT (0),
     CONFIGURATION (1),
     LEADERS_CHOICE (2),
     STARTING_RESOURCES (3),
@@ -19,9 +20,9 @@ public enum CtoSMessageType implements MessageType
     DEV_CARD_PLACEMENT (13),
     PRODUCTION (14),
     END_MATCH (15),
-    REMATCH_OFFER (16),
-    REMATCH_RESPONSE (17),
-    DISCONNECTION (18);
+    REMATCH (16),
+    DISCONNECTION (17),
+    END_TURN (18);
 
     private final int val;
     CtoSMessageType(int val){

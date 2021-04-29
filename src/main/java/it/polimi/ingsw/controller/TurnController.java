@@ -73,14 +73,13 @@ public class TurnController {
             case MARKET_ACTION:
                 accepted.add(CtoSMessageType.WHITE_MARBLE_CONVERSIONS);
                 break;
-
+                //TODO: collapse INTERMEDIATE and RESOURCES_PLACEMENT together
             case INTERMEDIATE:
                 accepted.add(CtoSMessageType.WAREHOUSE_INSERTION);
                 break;
 
-            case NOT_DISCARDABLE_RESOURCES:
+            case RESOURCES_PLACEMENT:
                 accepted.add(CtoSMessageType.WAREHOUSE_INSERTION);
-                accepted.add(CtoSMessageType.DISCARD_REMAINS);
                 break;
 
             case BUY_DEV_ACTION:
@@ -102,13 +101,13 @@ public class TurnController {
                 break;
 
             case END_MATCH:
-                accepted.add(CtoSMessageType.REMATCH_OFFER);
+                accepted.add(CtoSMessageType.REMATCH);
                 accepted.add(CtoSMessageType.DISCONNECTION);
                 accepted.remove(CtoSMessageType.SWITCH_SHELF);
                 break;
 
             case REMATCH_OFFER:
-                accepted.add(CtoSMessageType.REMATCH_RESPONSE);
+                accepted.add(CtoSMessageType.REMATCH);
                 accepted.remove(CtoSMessageType.SWITCH_SHELF);
                 break;
 
@@ -197,12 +196,7 @@ public class TurnController {
                 //TODO: eventually, build the relative StoCMessage
                 break;
 
-            case REMATCH_OFFER:
-
-                //TODO: eventually, build the relative StoCMessage
-                break;
-
-            case REMATCH_RESPONSE:
+            case REMATCH:
 
                 //TODO: eventually, build the relative StoCMessage
                 break;
@@ -295,7 +289,7 @@ public class TurnController {
                 if(err)
                     errMessage+="(invalid insert choice number "+errors.indexOf(err)+")\n";
             //TODO: create a retry message with errMessage and send it to the player
-            currentState = StateName.NOT_DISCARDABLE_RESOURCES;
+            currentState = StateName.RESOURCES_PLACEMENT;
 
         }
         else {
@@ -303,7 +297,7 @@ public class TurnController {
                 currentPlayer.getPersonalBoard().getWarehouse().discardRemains();
             } catch (InvalidOperationException e) {
                 e.printStackTrace();
-                currentState = StateName.NOT_DISCARDABLE_RESOURCES;
+                currentState = StateName.RESOURCES_PLACEMENT;
                 //TODO: create a retry message and send it to the player
             }
             currentState = StateName.END_TURN;
