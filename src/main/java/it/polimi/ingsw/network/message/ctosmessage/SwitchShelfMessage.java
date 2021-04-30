@@ -6,7 +6,7 @@ import it.polimi.ingsw.network.message.Message;
  * This class implements a message from the client to switch two shelves
  * Message structure: { nickname, the number of the first shelf, the number of the second shelf }
  */
-public class SwitchShelfMessage extends Message {
+public class SwitchShelfMessage extends CtoSMessage {
     private static final CtoSMessageType type = CtoSMessageType.SWITCH_SHELF;
     private final int shelf1;
     private final int shelf2;

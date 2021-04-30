@@ -2,7 +2,7 @@ package it.polimi.ingsw.network.message.stocmessage;
 
 import it.polimi.ingsw.network.message.Message;
 
-public class RematchOfferedMessage extends Message {
+public class RematchOfferedMessage extends StoCMessage {
 
     private final StoCMessageType type = StoCMessageType.REMATCH_OFFERED;
     private final String message;

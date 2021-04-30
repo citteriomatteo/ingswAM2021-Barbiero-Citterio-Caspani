@@ -12,7 +12,7 @@ import java.util.Map;
  * Message structure: { nickname, number of the tile, Map<player_nickname,new value of tile> }
  */
 
-public class VaticanReportMessage extends Message {
+public class VaticanReportMessage extends StoCMessage {
 
     private final StoCMessageType type = StoCMessageType.VATICAN_REPORT;
     private final int tileNumber;

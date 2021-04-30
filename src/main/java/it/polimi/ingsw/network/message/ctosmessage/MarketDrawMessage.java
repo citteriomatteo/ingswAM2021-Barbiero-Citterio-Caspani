@@ -7,7 +7,7 @@ import it.polimi.ingsw.network.message.Message;
  * Message structure: { nickname, true if the player selected a row (false if he selected a column),
  * the number of the row/column selected}
  */
-public class MarketDrawMessage extends Message {
+public class MarketDrawMessage extends CtoSMessage {
     private static final CtoSMessageType type = CtoSMessageType.MARKET_DRAW;
     private final boolean row;
     private final int num;

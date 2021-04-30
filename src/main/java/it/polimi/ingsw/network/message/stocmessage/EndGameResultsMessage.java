@@ -11,7 +11,7 @@ import java.util.Map;
  * Message structure: { Map<nickname, final points> }
  */
 
-public class EndGameResultsMessage extends Message {
+public class EndGameResultsMessage extends StoCMessage {
 
     private final StoCMessageType type = StoCMessageType.END_GAME_RESULTS;
     private final Map<String, Integer> leaderBoard;

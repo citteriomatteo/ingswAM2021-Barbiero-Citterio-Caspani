@@ -6,7 +6,7 @@ import it.polimi.ingsw.network.message.Message;
  * This class implements a message from the client to activate the selected leader
  * Message structure: { nickname, leader's Id }
  */
-public class LeaderActivationMessage extends Message {
+public class LeaderActivationMessage extends CtoSMessage {
     private static final CtoSMessageType type = CtoSMessageType.LEADER_ACTIVATION;
     private final String leaderId;
 

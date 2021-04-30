@@ -1,5 +1,8 @@
 package it.polimi.ingsw.network.message;
 
+import it.polimi.ingsw.network.message.ctosmessage.CtoSMessage;
+import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
+
 import java.util.Observable;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -13,8 +16,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Topic extends Observable {
     //CAPACITY constant set the maximum dimension of the buffer for messages
     private static final int CAPACITY = 10;
-    private final BlockingQueue<Message> inMessages;   //CtoS
-    private final BlockingQueue<Message> outMessages;  //StoC
+    private final BlockingQueue<CtoSMessage> inMessages;   //CtoS
+    private final BlockingQueue<StoCMessage> outMessages;  //StoC
     private final AtomicInteger activePlayersInMatch;
     private final AtomicInteger views;
 
@@ -47,7 +50,7 @@ public class Topic extends Observable {
      * @param msg the message you want to push
      * @return true if the message has been inserted, false if something goes wrong while waiting for free space
      */
-    public boolean pushCtoSMessage(Message msg){
+    public boolean pushCtoSMessage(CtoSMessage msg){
         try {
             inMessages.put(msg);
             return true;
@@ -65,7 +68,7 @@ public class Topic extends Observable {
      * @param msg the message you want to push
      * @return true if the message has been inserted, false if something goes wrong while waiting for free space
      */
-    public boolean pushStoCMessage(Message msg){
+    public boolean pushStoCMessage(StoCMessage msg){
         try {
             outMessages.put(msg);
             System.out.println("Message pushed inside of topic");
@@ -88,7 +91,7 @@ public class Topic extends Observable {
      * @return the first message in the CtoS queue or null
      * @throws InterruptedException if interrupted while waiting
      */
-    public Message pullCtoSMessage() throws InterruptedException {
+    public CtoSMessage pullCtoSMessage() throws InterruptedException {
         return inMessages.take();
     }
 
@@ -107,9 +110,9 @@ public class Topic extends Observable {
      * then controls if are there any other messages to be read, in that case, notifies all the Observers
      * @return the first message in the StoC queue or null
      */
-    public Message pullStoCMessage(){
+    public StoCMessage pullStoCMessage(){
         if(views.incrementAndGet() == activePlayersInMatch.get()) {
-            Message msg = outMessages.poll();
+            StoCMessage msg = outMessages.poll();
             views.set(0);
             if(!outMessages.isEmpty()) {
                 setChanged();

@@ -8,7 +8,7 @@ import it.polimi.ingsw.network.message.Message;
  * Message structure: { nickname, new position }
  */
 
-public class NewFaithPositionMessage extends Message {
+public class NewFaithPositionMessage extends StoCMessage {
 
     private final StoCMessageType type = StoCMessageType.NEW_FAITH_POSITION;
     private final int newPosition;

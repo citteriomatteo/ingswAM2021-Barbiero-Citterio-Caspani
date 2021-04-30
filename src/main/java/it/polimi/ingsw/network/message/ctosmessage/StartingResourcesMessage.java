@@ -10,7 +10,7 @@ import java.util.List;
  * This class implements a message from the client to choose the initial bonus PhysicalResource
  * Message structure: { nickname, the chosen resource }
  */
-public class StartingResourcesMessage extends Message {
+public class StartingResourcesMessage extends CtoSMessage {
     private static final CtoSMessageType type = CtoSMessageType.STARTING_RESOURCES;
     private final List<PhysicalResource> resources;
 

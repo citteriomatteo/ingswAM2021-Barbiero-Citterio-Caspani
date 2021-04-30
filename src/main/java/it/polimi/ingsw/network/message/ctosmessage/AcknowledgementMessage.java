@@ -4,7 +4,7 @@ import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.MessageType;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessageType;
 
-public class AcknowledgementMessage extends Message {
+public class AcknowledgementMessage extends CtoSMessage {
 
     private final CtoSMessageType type = CtoSMessageType.ACKNOWLEDGEMENT;
 
@@ -13,7 +13,7 @@ public class AcknowledgementMessage extends Message {
     }
 
     @Override
-    public MessageType getType() {
+    public CtoSMessageType getType() {
         return type;
     }
 

@@ -9,7 +9,7 @@ import it.polimi.ingsw.network.message.Message;
  * Message structure: { nickname, column, ID of the card }
  */
 
-public class DevCardSlotChangeMessage extends Message {
+public class DevCardSlotChangeMessage extends StoCMessage {
 
     private final StoCMessageType type = StoCMessageType.DEV_CARD_SLOT_CHANGE;
     private final int column;

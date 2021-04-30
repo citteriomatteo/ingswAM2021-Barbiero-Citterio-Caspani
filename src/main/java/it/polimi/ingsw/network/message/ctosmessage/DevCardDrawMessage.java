@@ -7,7 +7,7 @@ import it.polimi.ingsw.network.message.Message;
  * from the cardGrid
  * Message structure: { nickname, row's number, column's number }
  */
-public class DevCardDrawMessage extends Message {
+public class DevCardDrawMessage extends CtoSMessage {
     private static final CtoSMessageType type = CtoSMessageType.DEV_CARD_DRAW;
     private final int row;
     private final int column;

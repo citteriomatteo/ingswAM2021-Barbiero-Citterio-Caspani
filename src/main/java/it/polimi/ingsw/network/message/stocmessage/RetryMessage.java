@@ -7,7 +7,7 @@ import it.polimi.ingsw.network.message.Message;
  * Message structure: { error string }
  */
 
-public class RetryMessage extends Message {
+public class RetryMessage extends StoCMessage {
 
     private final StoCMessageType type = StoCMessageType.RETRY;
     private final String errMessage;

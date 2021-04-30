@@ -6,7 +6,7 @@ import it.polimi.ingsw.network.message.Message;
  * This class implements the message of a leader discard.
  * Message structure: { nickname }
  */
-public class DiscardedLeaderMessage extends Message {
+public class DiscardedLeaderMessage extends StoCMessage {
 
     private final StoCMessageType type = StoCMessageType.DISCARDED_LEADER;
 

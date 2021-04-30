@@ -8,7 +8,7 @@ import it.polimi.ingsw.network.message.Message;
  * Message structure: { nickname, configuration }
  */
 
-public class ConfigurationMessage extends Message {
+public class ConfigurationMessage extends CtoSMessage {
     private static final CtoSMessageType type = CtoSMessageType.CONFIGURATION;
     private final MatchConfiguration config;
 

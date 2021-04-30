@@ -7,7 +7,7 @@ import it.polimi.ingsw.network.message.Message;
  * Message structure: { nickname, num of row, num of column, ID of the new surfaced card }
  */
 
-public class CardGridChangeMessage extends Message {
+public class CardGridChangeMessage extends StoCMessage {
 
     private final StoCMessageType type = StoCMessageType.CARD_GRID_CHANGE;
     private final int row, column;
