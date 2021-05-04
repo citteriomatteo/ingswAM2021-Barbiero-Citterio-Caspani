@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.match.player.personalBoard;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.Production;
 import it.polimi.ingsw.model.essentials.leader.LeaderCard;
-import it.polimi.ingsw.model.exceptions.FaithPathCreationException;
+import it.polimi.ingsw.exceptions.FaithPathCreationException;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.FaithPath;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.MultiFaithPath;

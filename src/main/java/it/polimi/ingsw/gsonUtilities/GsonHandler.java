@@ -103,7 +103,6 @@ public class GsonHandler {
 
         GsonBuilder res = builder.registerTypeAdapterFactory(RuntimeTypeAdapterFactory
                         .of(CtoSMessage.class, "Message")
-                        .registerSubtype(AcknowledgementMessage.class, "acknowledgement")
                         .registerSubtype(ConfigurationMessage.class, "configuration")
                         .registerSubtype(DevCardDrawMessage.class, "devCardDraw")
                         .registerSubtype(DevCardPlacementMessage.class, "devCardPlacement")

@@ -4,7 +4,7 @@ import java.util.*;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.ResType;
-import it.polimi.ingsw.model.exceptions.NotEnoughResourcesException;
+import it.polimi.ingsw.exceptions.NotEnoughResourcesException;
 
 public class StrongBox
 {

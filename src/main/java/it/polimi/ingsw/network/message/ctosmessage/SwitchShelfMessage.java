@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.message.ctosmessage;
 
 import it.polimi.ingsw.network.message.Message;
+import it.polimi.ingsw.network.server.ControlBase;
 
 /**
  * This class implements a message from the client to switch two shelves
@@ -31,6 +32,12 @@ public class SwitchShelfMessage extends CtoSMessage {
      */
     public int getShelf2() {
         return shelf2;
+    }
+
+    @Override
+    public boolean computeMessage(ControlBase controlBase) {
+        return false;
+        //TODO
     }
 
     /**

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.message.ctosmessage;
 
 import it.polimi.ingsw.network.message.Message;
+import it.polimi.ingsw.network.server.ControlBase;
 
 /**
  * This class implements a message from the client to activate the selected leader
@@ -21,6 +22,12 @@ public class LeaderActivationMessage extends CtoSMessage {
      */
     public String getLeader() {
         return leaderId;
+    }
+
+    @Override
+    public boolean computeMessage(ControlBase controlBase) {
+        return false;
+        //TODO
     }
 
     /**

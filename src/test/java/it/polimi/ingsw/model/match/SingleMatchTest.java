@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.match;
 
-import it.polimi.ingsw.model.exceptions.MatchEndedException;
-import it.polimi.ingsw.model.exceptions.WrongSettingException;
+import it.polimi.ingsw.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.token.PlusOneShuffleToken;
 import org.junit.jupiter.api.Test;

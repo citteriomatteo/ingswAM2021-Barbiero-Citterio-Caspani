@@ -2,7 +2,6 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.player.Player;
-import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.Topic;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessage;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
@@ -17,10 +16,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * Static class fundamental for synchronizing the threads that control the clients communication and the game logic
  */
 public class ServerUtilities {
-    private static final Map<Player, PlayerHandler> activeClients = new ConcurrentHashMap<>();
-    private static final Map<Match, Topic> communicationMap = new ConcurrentHashMap<>();
+    private static final Map<String, PlayerHandler> activeClients = new ConcurrentHashMap<>();
     private static BlockingQueue<Player> pendentMatchWaiting = null;
-//    private static final Map<Player, PlayerHandler> disconnectedClients = new ConcurrentHashMap<>();
 
     /**
      * Adds a new player to the global list of active Players,
@@ -30,7 +27,7 @@ public class ServerUtilities {
      *         false if the previous player has been substituted by the new one
      */
     public static boolean addNewPlayer(PlayerHandler client){
-        return activeClients.put(client.getPlayer(), client) != null;
+        return activeClients.put(client.getPlayer().getNickname(), client) != null;
     }
 
     /**
@@ -41,7 +38,7 @@ public class ServerUtilities {
      *         false if there are no such PlayerHandler in the global list
      */
     public static boolean removePlayer(PlayerHandler removedClient){
-        return activeClients.remove(removedClient.getPlayer()) != null;
+        return activeClients.remove(removedClient.getPlayer().getNickname()) != null;
     }
 
     //%%%%%%%%%%%%%%% MULTIPLAYER PART %%%%%%%%%%%%%
@@ -141,90 +138,21 @@ public class ServerUtilities {
          return false;
     }
 
-
-
-    //%%%%%%%%%% communication part %%%%%%%%%%%%%
-
-    /**
-     * Creates a new topic for communication linked to a match, if a topic linked to this match already exists,
-     * all the previous messages in the topic will be lost and this method will return false.
-     * This method also sets the players in the match as observer of the new topic.
-     * @param match the match you want to link the new topic to
-     * @return true if a topic linked to the given match doesn't already exist
-     */
-    public static boolean createNewTopic(Match match){
-        Topic topic = new Topic(match.getPlayers().size());
-        boolean res = communicationMap.put(match, topic) != null;
-        for(Player p : match.getPlayers()){
-            topic.addObserver(activeClients.get(p));
-            System.out.println("added " + p + " as Observer of the topic for match " + match);
-        }
-
-        sendAMessageWithDelay(15000, match);
-        return res;
-    }
-
-    /**
-     * Tries to add a StoC message in the topic linked to the match,
-     * if the queue of messages is full, wait since someone else pulls out another StoC message.
-     * After the insertion, Observers (Clients) will be notified.
-     * @param match the match to notify
-     * @param msg the message you want to push
-     * @return true if the message has been inserted, false if something goes wrong while waiting for free space
-     */
-    public static boolean pushStoCMessage(Match match, StoCMessage msg){
-        return communicationMap.get(match).pushStoCMessage(msg);
-    }
-
-    /**
-     * Tries to add a CtoS message in the topic linked to the match,
-     * if the queue of messages is full, wait since someone else pulls out another CtoS message
-     * @param match the match to notify
-     * @param msg the message you want to push
-     * @return true if the message has been inserted, false if something goes wrong while waiting for free space
-     */
-    public static boolean pushCtoSMessage(Match match, CtoSMessage msg){
-        return communicationMap.get(match).pushCtoSMessage(msg);
-    }
-
-    /**
-     * Takes the first possible message from the StoC queue of the topic linked to the passed match,
-     * if there aren't messages to be pulled returns null.
-     * If you are not the last player of the match the message remains inside the queue,
-     * ready to be pulled by the others, otherwise the message is removed from the queue.
-     * Then controls if are there any other messages to be read, in that case, notifies all the Observers
-     * @return the first message in the StoC queue or null
-     */
-    public static StoCMessage pullStoCMessage(Match match){
-        return communicationMap.get(match).pullStoCMessage();
-    }
-
-    /**
-     * Takes the first possible message from the CtoS queue of the topic linked to the passed match,
-     * if there aren't messages to be pulled wait since someone pushes a message.
-     * @return the first message in the CtoS queue or null
-     * @throws InterruptedException if interrupted while waiting
-     */
-    public static CtoSMessage pullCtoSMessage(Match match) throws InterruptedException {
-        return communicationMap.get(match).pullCtoSMessage();
-    }
-
-
-    //!!!!!!!!!!!!!TODO: REMOVE ME!!!!!!!!!!!!!!!!!!!
-    //only for test purpose
-    private static void sendAMessageWithDelay(int delay, Match match) {
-
-        Timer t = new Timer();
-        TimerTask tt = new TimerTask() {
-            @Override
-            public void run() {
-                System.out.println("Sending a StoC Message in the first match");
-                StoCMessage msg = new TokenDrawMessage("giorgio", "yellow token");
-                msg.send(match);
-            }
-        };
-        System.out.println("sending a message in " + delay/1000 + " seconds");
-        t.schedule(tt, delay);
-    }
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//    //!!!!!!!!!!!!!TODO: REMOVE ME!!!!!!!!!!!!!!!!!!!
+//    //only for test purpose
+//    private static void sendAMessageWithDelay(int delay, Match match) {
+//
+//        Timer t = new Timer();
+//        TimerTask tt = new TimerTask() {
+//            @Override
+//            public void run() {
+//                System.out.println("Sending a StoC Message in the first match");
+//                StoCMessage msg = new TokenDrawMessage("giorgio", "yellow token");
+//     //           msg.send(match);
+//            }
+//        };
+//        System.out.println("sending a message in " + delay/1000 + " seconds");
+//        t.schedule(tt, delay);
+//    }
+//    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 }

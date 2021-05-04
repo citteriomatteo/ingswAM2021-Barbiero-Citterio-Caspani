@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.match;
 
-import it.polimi.ingsw.model.exceptions.SingleMatchException;
-import it.polimi.ingsw.model.exceptions.WrongSettingException;
+import it.polimi.ingsw.exceptions.SingleMatchException;
+import it.polimi.ingsw.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;

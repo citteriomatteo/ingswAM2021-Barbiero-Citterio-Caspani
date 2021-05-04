@@ -1,9 +1,9 @@
 package it.polimi.ingsw.model.essentials;
 import static org.junit.jupiter.api.Assertions.*;
 
-import it.polimi.ingsw.model.exceptions.MatchEndedException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
-import it.polimi.ingsw.model.exceptions.WrongSettingException;
+import it.polimi.ingsw.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.NegativeQuantityException;
+import it.polimi.ingsw.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.SingleMatch;
 import it.polimi.ingsw.model.match.player.Player;

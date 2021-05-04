@@ -2,12 +2,12 @@ package it.polimi.ingsw.network.message.ctosmessage;
 
 import it.polimi.ingsw.model.match.MatchConfiguration;
 import it.polimi.ingsw.network.message.Message;
+import it.polimi.ingsw.network.server.ControlBase;
 
 /**
  * This class implements a message from the client to initialize the configuration of the match
  * Message structure: { nickname, configuration }
  */
-
 public class ConfigurationMessage extends CtoSMessage {
     private static final CtoSMessageType type = CtoSMessageType.CONFIGURATION;
     private final MatchConfiguration config;
@@ -23,6 +23,12 @@ public class ConfigurationMessage extends CtoSMessage {
      */
     public MatchConfiguration getConfig(){
         return config;
+    }
+
+    @Override
+    public boolean computeMessage(ControlBase controlBase) {
+        //TODO
+        return false;
     }
 
     /**

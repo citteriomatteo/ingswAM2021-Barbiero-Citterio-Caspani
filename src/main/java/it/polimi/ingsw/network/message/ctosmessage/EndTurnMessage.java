@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.message.ctosmessage;
 
 import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.MessageType;
+import it.polimi.ingsw.network.server.ControlBase;
 
 public class EndTurnMessage extends CtoSMessage {
 
@@ -10,6 +11,12 @@ public class EndTurnMessage extends CtoSMessage {
 
     public EndTurnMessage(String nickname){
         super(nickname);
+    }
+
+    @Override
+    public boolean computeMessage(ControlBase controlBase) {
+        return false;
+        //TODO
     }
 
     @Override

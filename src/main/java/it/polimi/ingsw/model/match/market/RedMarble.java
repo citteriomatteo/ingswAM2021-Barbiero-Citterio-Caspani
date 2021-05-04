@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.match.market;
 
-import it.polimi.ingsw.model.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.MatchEndedException;
 import it.polimi.ingsw.model.match.player.Adder;
 
 public class RedMarble extends Marble

@@ -4,27 +4,28 @@ import it.polimi.ingsw.network.message.MessageType;
 
 public enum StoCMessageType implements MessageType {
 
-    MARKET_CHANGE (1),
-    CARD_GRID_CHANGE (2),
-    DEV_CARD_SLOT_CHANGE (3),
-    NEW_FAITH_POSITION (4),
-    VATICAN_REPORT (5),
-    WAREHOUSE_CHANGE (6),
-    STRONGBOX_CHANGE (7),
-    DISCARDED_LEADER (8),
-    ACTIVATED_LEADER (9),
-    TOKEN_DRAW (10),
-    END_GAME_RESULTS (11),
-    RETRY (12),
-    YOUR_TURN (13),
-    REMATCH_OFFERED (14),
-    NEXT_STATE (15);
+    BINARY_SELECTION,
+    MARKET_CHANGE,
+    CARD_GRID_CHANGE,
+    DEV_CARD_SLOT_CHANGE,
+    NEW_FAITH_POSITION,
+    VATICAN_REPORT,
+    WAREHOUSE_CHANGE,
+    STRONGBOX_CHANGE,
+    DISCARDED_LEADER,
+    ACTIVATED_LEADER,
+    TOKEN_DRAW,
+    END_GAME_RESULTS,
+    RETRY,
+    YOUR_TURN,
+    REMATCH_OFFERED,
+    NEXT_STATE
 
-    private final int val;
-
-    StoCMessageType(int val){
-        this.val = val;
-    }
-
-    public int getVal(){ return val; }
+//    private final int val;
+//
+//    StoCMessageType(int val){
+//        this.val = val;
+//    }
+//
+//    public int getVal(){ return val; }
 }

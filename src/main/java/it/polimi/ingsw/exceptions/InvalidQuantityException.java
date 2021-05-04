@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.exceptions;
+package it.polimi.ingsw.exceptions;
 
 public class InvalidQuantityException extends Exception {
     private String error;

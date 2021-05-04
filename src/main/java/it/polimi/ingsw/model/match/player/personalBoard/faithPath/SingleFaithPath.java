@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.match.player.personalBoard.faithPath;
 
-import it.polimi.ingsw.model.exceptions.FaithPathCreationException;
-import it.polimi.ingsw.model.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.FaithPathCreationException;
+import it.polimi.ingsw.exceptions.MatchEndedException;
 
 import java.util.ArrayList;
 import java.util.List;

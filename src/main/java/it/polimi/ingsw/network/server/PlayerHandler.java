@@ -3,11 +3,12 @@ package it.polimi.ingsw.network.server;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import it.polimi.ingsw.controller.InitController;
+import it.polimi.ingsw.controller.MatchController;
 import it.polimi.ingsw.controller.MultiMatchController;
 import it.polimi.ingsw.controller.SingleMatchController;
-import it.polimi.ingsw.model.exceptions.SingleMatchException;
+import it.polimi.ingsw.exceptions.SingleMatchException;
 import it.polimi.ingsw.model.match.player.Player;
-import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessage;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
 
@@ -17,9 +18,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import static it.polimi.ingsw.gsonUtilities.GsonHandler.*;
 import static it.polimi.ingsw.network.server.ServerUtilities.*;
@@ -29,14 +27,20 @@ import static java.lang.Integer.parseInt;
  * This class manages the direct talk with the player, every exchanged message between client
  * and server has to pass from here
  */
-public class PlayerHandler implements Runnable, Observer {
+public class PlayerHandler implements Runnable, ControlBase{
 //    private static final int WAIT_FOR_READING = 60000; //1 minute
+
+    //Build the parser for json input message
+    private static final Gson parserCtoS = cToSMessageConfig(new GsonBuilder()).setPrettyPrinting().create();
+    //Build the parser for json output message
+    private static final Gson parserStoC = sToCMessageConfig(new GsonBuilder()).setPrettyPrinting().create();
     private Socket socket;
     private Player player;
     private BufferedReader in;
     private PrintWriter out;
-    private final AtomicBoolean pendantMessage;
     private final Object lock;
+    private MatchController matchController;
+    private InitController initController;
 
     /**
      * Generate a PlayerHandler
@@ -55,7 +59,6 @@ public class PlayerHandler implements Runnable, Observer {
 //        }
 
         this.socket = socket;
-        pendantMessage = new AtomicBoolean();
         lock = new Object();
     }
 
@@ -63,13 +66,17 @@ public class PlayerHandler implements Runnable, Observer {
         return player;
     }
 
+
     /**
      * Used for restoring connection with a disconnected player previously linked to this handler.
      * If the player wasn't previously disconnected the socket isn't substituted.
+     * @deprecated
+     * Can't reuse the same handler, is easier to create a new one and assign him the old information of the player
      * @param socket the new socket created for the new connection with this player
      * @return true if the socket has been correctly substituted,
      *         false if the player is still connected before the call of this method
      */
+    @Deprecated
     public boolean setSocket(Socket socket) {
         if (!player.isConnected()) {
             this.socket = socket;
@@ -92,31 +99,15 @@ public class PlayerHandler implements Runnable, Observer {
             //initialize the player and do the configuration
             init();
 
-            //Build the parser for json input message
-            Gson parserCtoS = cToSMessageConfig(new GsonBuilder()).setPrettyPrinting().create();
-
-            //Build the parser for json output message
-            Gson parserStoC = sToCMessageConfig(new GsonBuilder()).setPrettyPrinting().create();
-
             CtoSMessage inMsg;
-            StoCMessage outMsg;
 
             String readLine;
             System.out.println("Player " + player + " enters the main cycle");
             boolean stop = false;
             //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            //%%%%%%%%%%%%%% MAIN CYCLE %%%%%%%%%%%%%%% Now the cycle immediately stops until the firs message comes
-            //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Then read an input and then goes sleep and wait for the next one
+            //%%%%%%%%%%%%%% MAIN CYCLE %%%%%%%%%%%%%%%
+            //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             while (!stop) {
-//                synchronized (lock) {
-//                   lock.wait();
-//                }
-                while(pendantMessage.getAndSet(false)){
-                    System.out.println("there is a new message to send at " + player);
-                    outMsg = pullStoCMessage(player.getMatch());
-                    parserStoC.toJson(outMsg, out);
-                    System.out.println("Message sent");
-                }
 
                 out.println("Write a message object in json format or \"exit\" to close the connection"); //this part will be deleted
                 readLine = in.readLine();
@@ -195,7 +186,8 @@ public class PlayerHandler implements Runnable, Observer {
                 System.out.println("forming a new match for... " + playersInMatch);
 
                 try {
-                    new MultiMatchController(playersInMatch).start();
+                    //todo
+                    new MultiMatchController(playersInMatch);
 
                 } catch (SingleMatchException e) {
                     //TODO: wrong match choose
@@ -223,16 +215,23 @@ public class PlayerHandler implements Runnable, Observer {
         removePlayer(this);
     }
 
-
-    //Change this doing a more precise awakening process
-    @Override
-    public void update(Observable o, Object arg) {
-        System.out.println("player " + player + " updated");
-        pendantMessage.set(true);
-        synchronized (lock) {
-            lock.notifyAll();
+    public synchronized boolean write(StoCMessage msg){
+        try{
+            parserStoC.toJson(msg, StoCMessage.class, out);
+            return true;
+        }catch (Exception e){
+            return false;
         }
-        System.out.println("set the boolean in " + player);
+    }
+
+    @Override
+    public MatchController getMatchController() {
+        return matchController;
+    }
+
+    @Override
+    public InitController getInitController() {
+        return initController;
     }
 }
 

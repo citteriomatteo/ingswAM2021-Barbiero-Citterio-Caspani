@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.exceptions;
+package it.polimi.ingsw.exceptions;
 
 /**
  * This exceptions handles: invalid faith path starting point, negative quantity of cell winPoints.

@@ -7,8 +7,8 @@ import it.polimi.ingsw.gsonUtilities.GsonHandler;
 import it.polimi.ingsw.model.essentials.CardColor;
 import it.polimi.ingsw.model.essentials.CardType;
 import it.polimi.ingsw.model.essentials.DevelopmentCard;
-import it.polimi.ingsw.model.exceptions.MatchEndedException;
-import it.polimi.ingsw.model.exceptions.WrongSettingException;
+import it.polimi.ingsw.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.WrongSettingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

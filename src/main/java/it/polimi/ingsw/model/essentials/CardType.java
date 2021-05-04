@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.essentials;
 
-import it.polimi.ingsw.model.exceptions.InvalidQuantityException;
+import it.polimi.ingsw.exceptions.InvalidQuantityException;
 import it.polimi.ingsw.model.match.player.Verificator;
 
 /**

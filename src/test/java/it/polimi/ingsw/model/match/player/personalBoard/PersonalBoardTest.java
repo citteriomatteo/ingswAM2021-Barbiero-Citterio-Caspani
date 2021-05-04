@@ -6,8 +6,8 @@ import it.polimi.ingsw.model.essentials.ResType;
 import it.polimi.ingsw.model.essentials.leader.*;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.FaithPathTest;
 
-import it.polimi.ingsw.model.exceptions.FaithPathCreationException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
+import it.polimi.ingsw.exceptions.FaithPathCreationException;
+import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import org.junit.jupiter.api.Test;
 import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;

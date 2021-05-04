@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.message.ctosmessage;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.network.message.Message;
+import it.polimi.ingsw.network.server.ControlBase;
 
 import java.util.List;
 
@@ -24,6 +25,12 @@ public class WhiteMarbleConversionMessage extends CtoSMessage {
      */
     public List<PhysicalResource> getResources() {
         return resources;
+    }
+
+    @Override
+    public boolean computeMessage(ControlBase controlBase) {
+        return false;
+        //TODO
     }
 
     /**

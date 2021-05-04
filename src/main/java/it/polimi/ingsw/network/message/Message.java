@@ -16,7 +16,7 @@ public abstract class Message {
     public String getNickname(){
         return nickname;
     }
-    //TODO: create two subclasses
+
     public abstract MessageType getType();
 
 }

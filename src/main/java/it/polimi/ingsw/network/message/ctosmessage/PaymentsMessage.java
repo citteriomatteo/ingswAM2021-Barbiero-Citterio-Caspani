@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.message.ctosmessage;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.network.message.Message;
+import it.polimi.ingsw.network.server.ControlBase;
 
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,13 @@ public class PaymentsMessage extends CtoSMessage {
     public List<PhysicalResource> getStrongboxCosts() {
         return strongboxCosts;
     }
+
+    @Override
+    public boolean computeMessage(ControlBase controlBase) {
+        return false;
+        //TODO
+    }
+
     /**
      * Getter
      * @return the message's type

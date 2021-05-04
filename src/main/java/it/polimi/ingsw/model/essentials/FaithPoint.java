@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model.essentials;
 
 
-import it.polimi.ingsw.model.exceptions.MatchEndedException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
+import it.polimi.ingsw.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.Adder;
 
 public class FaithPoint implements Resource{

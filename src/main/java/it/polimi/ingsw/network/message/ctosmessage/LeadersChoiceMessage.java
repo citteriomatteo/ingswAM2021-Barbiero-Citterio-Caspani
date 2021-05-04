@@ -1,6 +1,8 @@
 package it.polimi.ingsw.network.message.ctosmessage;
 
 import it.polimi.ingsw.network.message.Message;
+import it.polimi.ingsw.network.server.ControlBase;
+
 import java.util.List;
 
 /**
@@ -22,6 +24,12 @@ public class LeadersChoiceMessage extends CtoSMessage {
      */
     public List<String> getLeaders() {
         return leaderIds;
+    }
+
+    @Override
+    public boolean computeMessage(ControlBase controlBase) {
+        return false;
+        //TODO
     }
 
     /**

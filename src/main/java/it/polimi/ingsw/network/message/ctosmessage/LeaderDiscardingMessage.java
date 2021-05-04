@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.message.ctosmessage;
 
 
 import it.polimi.ingsw.network.message.Message;
+import it.polimi.ingsw.network.server.ControlBase;
 
 /**
  * This class implements a message from the client to discard the selected leader
@@ -22,6 +23,12 @@ public class LeaderDiscardingMessage extends CtoSMessage {
      */
     public String getLeader() {
         return leaderId;
+    }
+
+    @Override
+    public boolean computeMessage(ControlBase controlBase) {
+        //TODO
+        return false;
     }
 
     /**

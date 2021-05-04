@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.message.ctosmessage;
 
 import it.polimi.ingsw.network.message.Message;
+import it.polimi.ingsw.network.server.ControlBase;
 
 /**
  * This class implements a message from the client to call a draw action from the market
@@ -32,6 +33,12 @@ public class MarketDrawMessage extends CtoSMessage {
      */
     public int getNum() {
         return num;
+    }
+
+    @Override
+    public boolean computeMessage(ControlBase controlBase) {
+        return false;
+        //TODO
     }
 
     /**

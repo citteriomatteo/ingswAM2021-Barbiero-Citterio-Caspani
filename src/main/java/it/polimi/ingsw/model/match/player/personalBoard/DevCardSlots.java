@@ -2,9 +2,9 @@ package it.polimi.ingsw.model.match.player.personalBoard;
 
 import it.polimi.ingsw.model.essentials.CardType;
 import it.polimi.ingsw.model.essentials.DevelopmentCard;
-import it.polimi.ingsw.model.exceptions.FullColumnException;
-import it.polimi.ingsw.model.exceptions.HighCardLevelException;
-import it.polimi.ingsw.model.exceptions.InvalidOperationException;
+import it.polimi.ingsw.exceptions.FullColumnException;
+import it.polimi.ingsw.exceptions.HighCardLevelException;
+import it.polimi.ingsw.exceptions.InvalidOperationException;
 import it.polimi.ingsw.model.match.CardGrid;
 
 import java.util.ArrayList;

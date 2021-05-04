@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.match.player;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
-import it.polimi.ingsw.model.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.MatchEndedException;
 
 /*
     Interface used for limiting access to player methods

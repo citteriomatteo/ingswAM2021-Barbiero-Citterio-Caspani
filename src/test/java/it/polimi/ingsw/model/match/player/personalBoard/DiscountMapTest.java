@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.match.player.personalBoard;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.ResType;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
+import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

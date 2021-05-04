@@ -3,10 +3,10 @@ package it.polimi.ingsw.model.match;
 import it.polimi.ingsw.model.essentials.CardColor;
 import it.polimi.ingsw.model.essentials.CardType;
 import it.polimi.ingsw.model.essentials.DevelopmentCard;
-import it.polimi.ingsw.model.exceptions.InvalidCardRequestException;
-import it.polimi.ingsw.model.exceptions.MatchEndedException;
-import it.polimi.ingsw.model.exceptions.NoMoreCardsException;
-import it.polimi.ingsw.model.exceptions.WrongSettingException;
+import it.polimi.ingsw.exceptions.InvalidCardRequestException;
+import it.polimi.ingsw.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.NoMoreCardsException;
+import it.polimi.ingsw.exceptions.WrongSettingException;
 
 import java.util.List;
 

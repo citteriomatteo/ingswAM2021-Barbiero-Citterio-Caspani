@@ -6,10 +6,10 @@ import it.polimi.ingsw.model.essentials.ResType;
 import it.polimi.ingsw.model.essentials.leader.LeaderCard;
 import it.polimi.ingsw.model.essentials.leader.SlotEffect;
 import it.polimi.ingsw.model.essentials.leader.WhiteMarbleEffect;
-import it.polimi.ingsw.model.exceptions.InvalidOperationException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
-import it.polimi.ingsw.model.exceptions.SingleMatchException;
-import it.polimi.ingsw.model.exceptions.WrongSettingException;
+import it.polimi.ingsw.exceptions.InvalidOperationException;
+import it.polimi.ingsw.exceptions.NegativeQuantityException;
+import it.polimi.ingsw.exceptions.SingleMatchException;
+import it.polimi.ingsw.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.MultiMatch;
 import it.polimi.ingsw.model.match.player.Player;
@@ -27,6 +27,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TurnControllerTest {
+/*
 
     private Match match;
     private TurnController controller;
@@ -155,5 +156,6 @@ public class TurnControllerTest {
         }
         return null;
     }
+*/
 
 }

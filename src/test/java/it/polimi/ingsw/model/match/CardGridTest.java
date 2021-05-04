@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.essentials.*;
-import it.polimi.ingsw.model.exceptions.*;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.gsonUtilities.GsonHandler;
 import it.polimi.ingsw.model.match.player.Player;
 import org.junit.jupiter.api.BeforeEach;

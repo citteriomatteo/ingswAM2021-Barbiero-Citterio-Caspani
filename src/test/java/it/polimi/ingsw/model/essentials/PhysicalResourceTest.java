@@ -1,9 +1,9 @@
 package it.polimi.ingsw.model.essentials;
 
-import it.polimi.ingsw.model.exceptions.InvalidQuantityException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
-import it.polimi.ingsw.model.exceptions.ShelfInsertException;
-import it.polimi.ingsw.model.exceptions.WrongSettingException;
+import it.polimi.ingsw.exceptions.InvalidQuantityException;
+import it.polimi.ingsw.exceptions.NegativeQuantityException;
+import it.polimi.ingsw.exceptions.ShelfInsertException;
+import it.polimi.ingsw.exceptions.WrongSettingException;
 
 import java.io.FileNotFoundException;
 import java.util.Random;

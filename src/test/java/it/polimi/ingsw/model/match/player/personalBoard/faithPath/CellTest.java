@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.match.player.personalBoard.faithPath;
 
-import it.polimi.ingsw.model.exceptions.FaithPathCreationException;
+import it.polimi.ingsw.exceptions.FaithPathCreationException;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;

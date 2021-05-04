@@ -1,11 +1,9 @@
 package it.polimi.ingsw.network.message.stocmessage;
 
-import it.polimi.ingsw.model.match.Match;
+import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.network.message.Message;
-import it.polimi.ingsw.network.message.MessageType;
 
-
-import static it.polimi.ingsw.network.server.ServerUtilities.pushStoCMessage;
+import java.util.List;
 
 public abstract class StoCMessage extends Message {
 
@@ -14,14 +12,18 @@ public abstract class StoCMessage extends Message {
     }
 
     /**
-     * Tries to add this in the topic linked to the match,
-     * if the queue of messages is full, wait since someone else pulls out another CtoS message.
-     * After the insertion, Observers (Clients) will be notified.
-     * @param match the match to notify
-     * @return true if the message has been inserted, false if something goes wrong while waiting for free space
+     * Write the message on all the players socket
+     * @param players the players you want to send the message to
+     * @return true if the message has been sent, false if something goes wrong
      */
-    public boolean send(Match match){
-        return pushStoCMessage(match, this);
+    public boolean sendBroadcast(List<Player> players){
+        return false;
+        //Todo
+    }
+
+    public boolean send(Player player){
+        return false;
+        //todo
     }
 
     @Override

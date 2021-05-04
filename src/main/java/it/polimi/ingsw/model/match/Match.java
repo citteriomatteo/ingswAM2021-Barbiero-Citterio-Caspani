@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.match;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.model.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.MatchEndedException;
 import it.polimi.ingsw.model.match.market.Market;
 import it.polimi.ingsw.model.match.player.Player;
 

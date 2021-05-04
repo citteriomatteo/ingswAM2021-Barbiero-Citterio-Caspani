@@ -4,8 +4,8 @@ import java.util.Random;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.ResType;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
-import it.polimi.ingsw.model.exceptions.NotEnoughResourcesException;
+import it.polimi.ingsw.exceptions.NegativeQuantityException;
+import it.polimi.ingsw.exceptions.NotEnoughResourcesException;
 import org.junit.jupiter.api.Test;
 
 public class StrongBoxTest

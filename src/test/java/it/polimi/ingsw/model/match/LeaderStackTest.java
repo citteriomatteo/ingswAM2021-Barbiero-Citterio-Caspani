@@ -8,7 +8,7 @@ import it.polimi.ingsw.model.essentials.leader.DiscountEffect;
 import it.polimi.ingsw.model.essentials.leader.LeaderCard;
 import it.polimi.ingsw.model.essentials.leader.SlotEffect;
 import it.polimi.ingsw.model.essentials.leader.WhiteMarbleEffect;
-import it.polimi.ingsw.model.exceptions.InvalidQuantityException;
+import it.polimi.ingsw.exceptions.InvalidQuantityException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

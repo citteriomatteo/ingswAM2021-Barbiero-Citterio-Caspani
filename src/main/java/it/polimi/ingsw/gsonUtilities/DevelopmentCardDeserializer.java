@@ -2,8 +2,8 @@ package it.polimi.ingsw.gsonUtilities;
 
 import com.google.gson.*;
 import it.polimi.ingsw.model.essentials.*;
-import it.polimi.ingsw.model.exceptions.InvalidQuantityException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityException;
+import it.polimi.ingsw.exceptions.InvalidQuantityException;
+import it.polimi.ingsw.exceptions.NegativeQuantityException;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
