@@ -8,7 +8,7 @@ import it.polimi.ingsw.network.message.Message;
  * Message structure: {nickname, new warehouse}
  */
 
-public class WarehouseChangeMessage extends Message {
+public class WarehouseChangeMessage extends StoCMessage {
 
     private final StoCMessageType type = StoCMessageType.WAREHOUSE_CHANGE;
     private final Warehouse newWarehouse;

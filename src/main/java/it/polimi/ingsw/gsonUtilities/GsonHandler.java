@@ -102,7 +102,7 @@ public class GsonHandler {
     public static GsonBuilder cToSMessageConfig(GsonBuilder builder){
 
         GsonBuilder res = builder.registerTypeAdapterFactory(RuntimeTypeAdapterFactory
-                        .of(Message.class, "Message")
+                        .of(CtoSMessage.class, "Message")
                         .registerSubtype(AcknowledgementMessage.class, "acknowledgement")
                         .registerSubtype(ConfigurationMessage.class, "configuration")
                         .registerSubtype(DevCardDrawMessage.class, "devCardDraw")
@@ -129,7 +129,7 @@ public class GsonHandler {
     public static GsonBuilder sToCMessageConfig(GsonBuilder builder){
 
         GsonBuilder res = builder.registerTypeAdapterFactory(RuntimeTypeAdapterFactory
-                        .of(Message.class, "Message")
+                        .of(StoCMessage.class, "Message")
                         .registerSubtype(ActivatedLeaderMessage.class, "activatedLeader")
                         .registerSubtype(CardGridChangeMessage.class, "cardGridChange")
                         .registerSubtype(DevCardSlotChangeMessage.class, "devCardSlotChange")

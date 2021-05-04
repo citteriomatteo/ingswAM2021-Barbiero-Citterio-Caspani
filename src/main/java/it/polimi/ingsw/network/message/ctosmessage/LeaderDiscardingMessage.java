@@ -7,7 +7,7 @@ import it.polimi.ingsw.network.message.Message;
  * This class implements a message from the client to discard the selected leader
  * Message structure: { nickname, leader's Id }
  */
-public class LeaderDiscardingMessage extends Message {
+public class LeaderDiscardingMessage extends CtoSMessage {
     private static final CtoSMessageType type = CtoSMessageType.LEADER_DISCARDING;
     private final String leaderId;
 

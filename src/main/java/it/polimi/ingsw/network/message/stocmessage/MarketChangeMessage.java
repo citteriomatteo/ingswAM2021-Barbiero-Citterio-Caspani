@@ -12,7 +12,7 @@ import java.util.List;
  * Message structure: { nickname, side marble, row/column changed, row/column boolean, chosen row/column }
  */
 
-public class MarketChangeMessage extends Message {
+public class MarketChangeMessage extends StoCMessage {
 
     private final StoCMessageType type = StoCMessageType.MARKET_CHANGE;
     private final Marble sideMarble;

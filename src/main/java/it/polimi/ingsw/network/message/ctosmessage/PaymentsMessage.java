@@ -10,7 +10,7 @@ import java.util.Map;
  * This class implements a message from the client to pay the costs of a production
  * Message structure: { nickname, list of costs }
  */
-public class PaymentsMessage extends Message {
+public class PaymentsMessage extends CtoSMessage {
     private static final CtoSMessageType type = CtoSMessageType.PAYMENTS;
     private final List<PhysicalResource> strongboxCosts;
     private final Map<Integer,PhysicalResource> warehouseCosts;

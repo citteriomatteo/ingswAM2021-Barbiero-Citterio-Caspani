@@ -8,6 +8,8 @@ import it.polimi.ingsw.controller.SingleMatchController;
 import it.polimi.ingsw.model.exceptions.SingleMatchException;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.network.message.Message;
+import it.polimi.ingsw.network.message.ctosmessage.CtoSMessage;
+import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -96,8 +98,8 @@ public class PlayerHandler implements Runnable, Observer {
             //Build the parser for json output message
             Gson parserStoC = sToCMessageConfig(new GsonBuilder()).setPrettyPrinting().create();
 
-            Message inMsg;
-            Message outMsg;
+            CtoSMessage inMsg;
+            StoCMessage outMsg;
 
             String readLine;
             System.out.println("Player " + player + " enters the main cycle");
@@ -106,9 +108,9 @@ public class PlayerHandler implements Runnable, Observer {
             //%%%%%%%%%%%%%% MAIN CYCLE %%%%%%%%%%%%%%% Now the cycle immediately stops until the firs message comes
             //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Then read an input and then goes sleep and wait for the next one
             while (!stop) {
-                synchronized (lock) {
-                    lock.wait();
-                }
+//                synchronized (lock) {
+//                   lock.wait();
+//                }
                 while(pendantMessage.getAndSet(false)){
                     System.out.println("there is a new message to send at " + player);
                     outMsg = pullStoCMessage(player.getMatch());
@@ -122,7 +124,7 @@ public class PlayerHandler implements Runnable, Observer {
                     out.println("pong");
                 } else {
                     try {
-                        inMsg = parserCtoS.fromJson(readLine, Message.class);
+                        inMsg = parserCtoS.fromJson(readLine, CtoSMessage.class);
                     } catch (JsonSyntaxException e) {
                         if (readLine.equals("exit"))
                             stop = true;
@@ -137,7 +139,7 @@ public class PlayerHandler implements Runnable, Observer {
             //close reader, writer and socket connection
             terminateConnection();
         }
-        catch (IOException | InterruptedException e) {
+        catch (IOException e) {
             System.err.println(e.getMessage());
         }
     }
@@ -217,12 +219,12 @@ public class PlayerHandler implements Runnable, Observer {
         in.close();
         out.close();
         socket.close();
-        System.out.println("Closed connection with " + player.getNickname());
+        System.out.println("Closed connection with " + player);
         removePlayer(this);
     }
 
 
-    //Change this doing an awakening process
+    //Change this doing a more precise awakening process
     @Override
     public void update(Observable o, Object arg) {
         System.out.println("player " + player + " updated");

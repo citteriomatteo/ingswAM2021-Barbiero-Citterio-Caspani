@@ -3,7 +3,7 @@ package it.polimi.ingsw.network.message.stocmessage;
 import it.polimi.ingsw.controller.StateName;
 import it.polimi.ingsw.network.message.Message;
 
-public class NextStateMessage extends Message {
+public class NextStateMessage extends StoCMessage {
 
     private StoCMessageType type = StoCMessageType.NEXT_STATE;
     private StateName newState;

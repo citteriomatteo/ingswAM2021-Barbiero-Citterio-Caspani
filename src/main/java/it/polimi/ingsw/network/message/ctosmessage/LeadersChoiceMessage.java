@@ -7,7 +7,7 @@ import java.util.List;
  * This class implements a message from the client to chose the starting leaders
  * Message structure: { nickname, leaders' Id }
  */
-public class LeadersChoiceMessage extends Message {
+public class LeadersChoiceMessage extends CtoSMessage {
     private static final CtoSMessageType type = CtoSMessageType.LEADERS_CHOICE;
     private final List<String> leaderIds;
 

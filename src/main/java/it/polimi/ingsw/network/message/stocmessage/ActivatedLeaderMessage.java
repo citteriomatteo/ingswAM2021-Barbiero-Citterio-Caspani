@@ -7,7 +7,7 @@ import it.polimi.ingsw.network.message.Message;
  * Message structure: { nickname, ID of the card }
  */
 
-public class ActivatedLeaderMessage extends Message {
+public class ActivatedLeaderMessage extends StoCMessage {
 
     private final StoCMessageType type = StoCMessageType.ACTIVATED_LEADER;
     private final String cardID;

@@ -10,7 +10,7 @@ import java.util.List;
  * Message structure: { nickname, list of PhysicalResource where the ResType is the actual resource,
  * and the int value is the number of the shelf }
  */
-public class WarehouseInsertionMessage extends Message {
+public class WarehouseInsertionMessage extends CtoSMessage {
     private static final CtoSMessageType type = CtoSMessageType.WAREHOUSE_INSERTION;
     private final List<PhysicalResource> resources;
 

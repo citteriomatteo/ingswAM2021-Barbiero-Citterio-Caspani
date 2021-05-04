@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.network.message.Message;
+import it.polimi.ingsw.network.message.ctosmessage.CtoSMessage;
 import it.polimi.ingsw.network.message.ctosmessage.MarketDrawMessage;
 import it.polimi.ingsw.network.message.ctosmessage.SwitchShelfMessage;
 import org.junit.jupiter.api.Test;
@@ -27,14 +28,14 @@ public class MessageTest {
         //Build the parser for json file
         Gson g = cToSMessageConfig(new GsonBuilder()).setPrettyPrinting().create();
 
-        Message msg = new SwitchShelfMessage("giorgio", 1,2);
-        Message msg2 = new MarketDrawMessage("carlo", true,1);
-        List<Message> messages = new ArrayList<>();
+        CtoSMessage msg = new SwitchShelfMessage("giorgio", 1,2);
+        CtoSMessage msg2 = new MarketDrawMessage("carlo", true,1);
+        List<CtoSMessage> messages = new ArrayList<>();
         messages.add(msg);
         messages.add(msg2);
 
         //extrapolate the type of the collection
-        Type collectionType = new TypeToken<ArrayList<Message>>(){}.getType();
+        Type collectionType = new TypeToken<ArrayList<CtoSMessage>>(){}.getType();
 
         //%%%%%%%%%%%%%%% Writing on json file %%%%%%%%%%%%%%%%%%
         try (FileWriter writer = new FileWriter(filePath)) {
@@ -49,7 +50,7 @@ public class MessageTest {
         //open the file
         try (FileReader reader = new FileReader(filePath)) {
             //parse the object and instantiate it
-            ArrayList<Message> extractedJson = g.fromJson(reader, collectionType);
+            ArrayList<CtoSMessage> extractedJson = g.fromJson(reader, collectionType);
 
             System.out.println(extractedJson);
             assertEquals(extractedJson.get(0).getNickname(), msg.getNickname());

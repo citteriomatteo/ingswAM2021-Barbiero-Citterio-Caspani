@@ -9,7 +9,7 @@ import java.util.List;
  * This class implements a message from the client for starting a production
  * Message structure: { nickname, leaders' Id, a production the contains the translation of the unknown resources }
  */
-public class ProductionMessage extends Message {
+public class ProductionMessage extends CtoSMessage {
     private static final CtoSMessageType type = CtoSMessageType.PRODUCTION;
     private final List<String> cardIds;
     private final Production ProductionOfUnknown;

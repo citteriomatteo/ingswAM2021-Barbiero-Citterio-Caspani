@@ -7,7 +7,7 @@ import it.polimi.ingsw.network.message.Message;
  * Message structure: { token name string }
  */
 
-public class TokenDrawMessage extends Message {
+public class TokenDrawMessage extends StoCMessage {
 
     private final StoCMessageType type = StoCMessageType.TOKEN_DRAW;
     private final String tokenName;

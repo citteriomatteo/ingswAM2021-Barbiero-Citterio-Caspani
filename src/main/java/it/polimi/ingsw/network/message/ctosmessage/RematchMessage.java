@@ -3,7 +3,7 @@ package it.polimi.ingsw.network.message.ctosmessage;
 import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.MessageType;
 
-public class RematchMessage extends Message {
+public class RematchMessage extends CtoSMessage {
     private final CtoSMessageType type = CtoSMessageType.REMATCH;
     private final boolean accepted;
 
@@ -14,7 +14,7 @@ public class RematchMessage extends Message {
     }
 
     @Override
-    public MessageType getType() {
+    public CtoSMessageType getType() {
         return type;
     }
 
