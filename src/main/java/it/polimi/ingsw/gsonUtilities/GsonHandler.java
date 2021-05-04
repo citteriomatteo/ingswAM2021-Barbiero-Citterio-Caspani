@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.essentials.leader.*;
 import it.polimi.ingsw.model.match.market.*;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.VaticanReportCell;
-import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.ctosmessage.*;
 import it.polimi.ingsw.network.message.stocmessage.*;
 
@@ -115,7 +114,7 @@ public class GsonHandler {
                         .registerSubtype(StartingResourcesMessage.class, "startingResource")
                         .registerSubtype(SwitchShelfMessage.class, "switchShelf")
                         .registerSubtype(WarehouseInsertionMessage.class, "warehouseInsertion")
-                        .registerSubtype(WhiteMarbleConversionMessage.class, "whiteMarbleConversion"));
+                        .registerSubtype(WhiteMarblesConversionMessage.class, "whiteMarbleConversion"));
         return completeModelConfig(res);
     }
 

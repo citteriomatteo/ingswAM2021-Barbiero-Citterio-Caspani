@@ -10,11 +10,11 @@ import java.util.List;
  * This class implements a message from the client to choose the conversion of the drawn white marbles
  * Message structure: { nickname, the list of Physical resource to be obtained from the conversion }
  */
-public class WhiteMarbleConversionMessage extends CtoSMessage {
+public class WhiteMarblesConversionMessage extends CtoSMessage {
     private static final CtoSMessageType type = CtoSMessageType.WHITE_MARBLE_CONVERSIONS;
     private final List<PhysicalResource> resources;
 
-    public WhiteMarbleConversionMessage(String nickname, List<PhysicalResource> resources) {
+    public WhiteMarblesConversionMessage(String nickname, List<PhysicalResource> resources) {
         super(nickname);
         this.resources = resources;
     }

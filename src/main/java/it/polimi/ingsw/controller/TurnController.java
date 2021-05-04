@@ -53,7 +53,7 @@ public class TurnController {
             currentState = StateName.STARTING_TURN;
         }
         //If it's the last turn of the last player of the last round...
-        else if(currentPlayer.equals(match.getPlayers().get(match.getPlayers().size()-1)) && currentState.equals(StateName.END_TURN) && lastRound){
+        else if(currentPlayer.equals(firstPlayer) && currentState.equals(StateName.STARTING_TURN) && lastRound){
             Map<String, Integer> ranking = new HashMap<>();
             for(Player p : match.getPlayers())
                 ranking.put(p.getNickname(), p.totalWinPoints());
@@ -65,28 +65,47 @@ public class TurnController {
 
     //METHODS FOR THE SINGLE EVENT HANDLING:
 
-    public StateName switchShelf(SwitchShelfMessage shelfMessage) throws RetryException {
+    /**
+     * This method does the switch between two shelves, if possible.
+     * @param shelf1 the first shelf
+     * @param shelf2 the second shelf
+     * @return the new State of the controller and client
+     * @throws RetryException
+     */
+    public StateName switchShelf(int shelf1, int shelf2) throws RetryException {
         try {
-            currentPlayer.getPersonalBoard().getWarehouse().switchShelf(shelfMessage.getShelf1(), shelfMessage.getShelf2());
+            currentPlayer.getPersonalBoard().getWarehouse().switchShelf(shelf1, shelf2);
         } catch (InvalidOperationException e) {
             throw new RetryException ("Invalid shelves switch.");
         }
         return currentState;
     }
 
-    public StateName leaderActivation(LeaderActivationMessage activationMessage) throws RetryException {
+    /**
+     * This method does the discard of the chosen leader.
+     * @param leaderId is the id of the leader card
+     * @return the new State of the controller and client
+     * @throws RetryException
+     */
+    public StateName leaderActivation(String leaderId) throws RetryException {
 
         for(LeaderCard card : currentPlayer.getHandLeaders())
-            if (card.equals(cardMap.get(activationMessage.getLeader()))) {
+            if (card.equals(cardMap.get(leaderId))) {
                 currentPlayer.activateLeader(card);
                 return currentState;
             }
         throw new RetryException ("Invalid leader activation attempt.");
     }
 
-    public StateName leaderDiscarding(LeaderDiscardingMessage discardingMessage) throws RetryException {
+    /**
+     * This method does the activate of the chosen leader.
+     * @param leaderId is the id of the leader card
+     * @return the new State of the controller and client
+     * @throws RetryException
+     */
+    public StateName leaderDiscarding(String leaderId) throws RetryException {
         for(LeaderCard card : currentPlayer.getHandLeaders())
-            if (card.equals(cardMap.get(discardingMessage.getLeader()))) {
+            if (card.equals(cardMap.get(leaderId))) {
                 currentPlayer.discardUselessLeader(card);
                 return currentState;
             }
@@ -94,13 +113,16 @@ public class TurnController {
     }
 
     /**
-     * This method, after having received a MarketDrawMessage, does the draw from the market and decides if
+     * This method does the draw from the market and decides if
      * the controller will be waiting for white marble conversions or straight warehouse insert choices.
-     * @param drawMessage the message
+     * @param row the choice between row and column
+     * @param num the value of the choice
+     * @return the new State of the controller and client
+     * @throws RetryException
      */
-    public StateName marketDraw(MarketDrawMessage drawMessage) throws RetryException {
+    public StateName marketDraw(boolean row, int num) throws RetryException {
         try {
-            whiteMarbleDrawn = currentPlayer.marketDeal(drawMessage.isRow(), drawMessage.getNum());
+            whiteMarbleDrawn = currentPlayer.marketDeal(row, num);
             if(whiteMarbleDrawn == 0)
                 currentState = StateName.RESOURCES_PLACEMENT;
             else
@@ -114,17 +136,17 @@ public class TurnController {
     }
 
     /**
-     * This method, after having received a WhiteMarbleConversionMessage, checks if the chosen conversions are made
-     * available by the player's actual active leaders list.
+     * This method checks if the chosen conversions are made available by the player's actual active leaders list.
      * Then it inserts the resources in the buffer.
-     * @param whiteMarbleConversionMessage the message
-     * @return true if the operation went well, false elsewhere
+     * @param resources the conversions
+     * @return the new State of the controller and client
+     * @throws RetryException
      */
-    public StateName whiteMarbleConversions(WhiteMarbleConversionMessage whiteMarbleConversionMessage) throws RetryException {
-        if(whiteMarbleConversionMessage.getResources().size() != whiteMarbleDrawn) {
+    public StateName whiteMarblesConversion(List<PhysicalResource> resources) throws RetryException {
+        if(resources.size() != whiteMarbleDrawn) {
             throw new RetryException ("Invalid conversions.");
         }
-        for(PhysicalResource resource : whiteMarbleConversionMessage.getResources()) {
+        for(PhysicalResource resource : resources) {
             boolean found=false;
             for(PhysicalResource resource1 : currentPlayer.getWhiteMarbleConversions())
                 if(resource1.equals(resource) && !found) {
@@ -142,18 +164,19 @@ public class TurnController {
         return currentState;
     }
 
-    /** This method, after having received a WarehouseInsertionMessage, checks if the resources are insertable in
-     * the chosen shelves.
+    /** This method checks if the resources are insertable in the chosen shelves.
      * - If something goes wrong, leaves the already inserted resources in the shelves and the controller expects a
      *   new Message with new shelf choices.
      * - If it works well, it proceeds with trying to discard resources in the buffer, if it's still not possible
      *   the controller will expect shelf choices again.
      * The process iterates until the buffer is discardable.
-     * @param insertionMessage the message
+     * @param resources the resources list, with quantity -> shelf.
+     * @return the new State of the controller and client
+     * @throws RetryException
      */
-    public StateName warehouseInsertion(WarehouseInsertionMessage insertionMessage) throws RetryException {
+    public StateName warehouseInsertion(List<PhysicalResource> resources) throws RetryException {
         List<Boolean> errors = new ArrayList<>();
-        for(PhysicalResource resource : insertionMessage.getResources())
+        for(PhysicalResource resource : resources)
             errors.add(singleWarehouseMove(resource));
         if(errors.contains(true)){
             String errMessage = "";
@@ -179,20 +202,23 @@ public class TurnController {
     /**
      * This method, after having received a DevCardDrawMessage, checks first if the chosen card is placeable and buyable.
      * Then, he takes the card and puts it in the TempDevCard slot (not paid yet).
-     * @param devCardDrawMessage the message
+     * @param row    the row
+     * @param column the column
+     * @return       the new State of the controller and client
+     * @throws RetryException
      */
-    public StateName devCardDraw(DevCardDrawMessage devCardDrawMessage) throws RetryException {
+    public StateName devCardDraw(int row, int column) throws RetryException {
         try {
-            if(!match.getCardGrid().isBuyable(currentPlayer,devCardDrawMessage.getRow(),
-                    devCardDrawMessage.getColumn())) {
+            if(!match.getCardGrid().isBuyable(currentPlayer,row,
+                    column)) {
                 throw new RetryException ("You can't buy this card.");
             }
 
-            else if(!currentPlayer.verifyPlaceability((devCardDrawMessage.getRow()))) {
+            else if(!currentPlayer.verifyPlaceability(row)) {
                 throw new RetryException ("You can't place this card.");
             }
             else {
-                currentPlayer.drawDevelopmentCard(devCardDrawMessage.getRow(),devCardDrawMessage.getColumn());
+                currentPlayer.drawDevelopmentCard(row,column);
                 currentState = StateName.BUY_DEV_ACTION;
 
             }
@@ -208,22 +234,25 @@ public class TurnController {
     }
 
     /**
-     * This method is used in production/devCard payments and, after having receiver a PaymentsMessage,
+     * This method is used in production/devCard payments and
      *   clones the warehouse and strongbox states before payments and tries to pay everything.
      * If something goes wrong, it refreshes the old storage versions.
      * Does an addictional control for the production payment, summing the resources by type for a simple
      *   no-order "equals" operation with the TempProduction and then, eventually, produces it.
-     * @param paymentsMessage the message
+     * @param strongboxCosts the list of resources for the Strongbox
+     * @param warehouseCosts the map of resources to insert in the warehouse
+     * @return               the new State of the controller and client
+     * @throws RetryException
      */
-    public StateName payments(PaymentsMessage paymentsMessage) throws RetryException {
+    public StateName payments(List<PhysicalResource> strongboxCosts, Map<Integer, PhysicalResource> warehouseCosts) throws RetryException {
         StrongBox sbUndo = StrongBox.clone(currentPlayer.getPersonalBoard().getStrongBox());
         Warehouse whUndo = WarehouseDecorator.clone(currentPlayer.getPersonalBoard().getWarehouse());
 
         if(currentState.getVal() == StateName.PRODUCTION_ACTION.getVal()){
 
             List<PhysicalResource> payments = new ArrayList<>();
-            payments.addAll(paymentsMessage.getStrongboxCosts());
-            payments.addAll(paymentsMessage.getWarehouseCosts().values());
+            payments.addAll(strongboxCosts);
+            payments.addAll(warehouseCosts.values());
 
             for(PhysicalResource r : payments)
                 for(PhysicalResource r1 : payments)
@@ -241,7 +270,7 @@ public class TurnController {
             }
         }
 
-        for(PhysicalResource r : paymentsMessage.getStrongboxCosts())
+        for(PhysicalResource r : strongboxCosts)
             try {
                 currentPlayer.payFromStrongbox(r);
             } catch (NotEnoughResourcesException e) {
@@ -249,9 +278,9 @@ public class TurnController {
                 currentPlayer.getPersonalBoard().setStrongBox(sbUndo);
             }
 
-        for(PhysicalResource r : paymentsMessage.getWarehouseCosts().values()) {
+        for(PhysicalResource r : warehouseCosts.values()) {
             try {
-                currentPlayer.payFromWarehouse(r,getKeyByValue(paymentsMessage.getWarehouseCosts(),r));
+                currentPlayer.payFromWarehouse(r,getKeyByValue(warehouseCosts,r));
             } catch (InvalidOperationException e) {
                 currentPlayer.getPersonalBoard().setWarehouse(whUndo);
                 currentPlayer.getPersonalBoard().setStrongBox(sbUndo);
@@ -274,11 +303,13 @@ public class TurnController {
     /**
      * This method, after having received a DevCardPlacementMessage, tries to insert the card in TempDevCard and
      * updates sets the new state to END_TURN.
-     * @param devCardPlacementMessage the message
+     * @param column    the chosen dev slot
+     * @return the new State of the controller and client
+     * @throws RetryException
      */
-    public StateName devCardPlacement(DevCardPlacementMessage devCardPlacementMessage) throws RetryException {
+    public StateName devCardPlacement(int column) throws RetryException {
         try {
-            currentPlayer.insertDevelopmentCard(devCardPlacementMessage.getColumn());
+            currentPlayer.insertDevelopmentCard(column);
         } catch (MatchEndedException e) { lastRound = true; }
         catch (InvalidOperationException e) {
             currentPlayer.setTempDevCard(null);
@@ -294,20 +325,22 @@ public class TurnController {
      * - checks if the number of unknown costs and earnings corresponds to the chosen cards unknown quantities;
      * and aborts the operation in both cases, if something went wrong.
      * Then, this method correctly builds the temporary production and insert it into tempProduction (for next).
-     * @param productionMessage the message
-     * @return true if the operation went well, false elsewhere.
+     * @param cardIds the list of the cards to produce
+     * @param productionOfUnknown the summative production of all the unknowns
+     * @return the new State of the controller and client
+     * @throws RetryException
      */
-    public StateName production(ProductionMessage productionMessage) throws RetryException {
+    public StateName production(List<String> cardIds, Production productionOfUnknown) throws RetryException {
         //checking if the player has all the cards that he wants to produce
         boolean basicProdFound=false;
         List<Boolean> cardsErrors = new ArrayList<>();
-        for(String id : productionMessage.getCardIds())
+        for(String id : cardIds)
             if(!id.equals("BASICPROD"))
                 cardsErrors.add(!(currentPlayer.getPersonalBoard().getDevCardSlots().getTop().contains(cardMap.get(id)) ||
                         currentPlayer.getPersonalBoard().getActiveProductionLeaders().contains(cardMap.get(id))));
             else {
                 basicProdFound = true;
-                productionMessage.getCardIds().remove("BASICPROD");
+                cardIds.remove("BASICPROD");
             }
 
         if(cardsErrors.contains(true)) {
@@ -329,7 +362,7 @@ public class TurnController {
                     uEarnings += (usefulR.getType().equals(ResType.UNKNOWN) ? 1 : 0);
                 }
         }
-        for(String id : productionMessage.getCardIds()){
+        for(String id : cardIds){
             Production prod;
             if(!cardMap.get(id).isLeader())
                 prod = ((DevelopmentCard) cardMap.get(id)).getProduction();
@@ -343,16 +376,16 @@ public class TurnController {
                 }
         }
 
-        if(uCosts != productionMessage.getProductionOfUnknown().getCost().size() ||
-                uEarnings != productionMessage.getProductionOfUnknown().getEarnings().size()) {
+        if(uCosts != productionOfUnknown.getCost().size() ||
+                uEarnings != productionOfUnknown.getEarnings().size()) {
             throw new RetryException ("Invalid choices for unknown conversions.");
         }
 
         //create the tempProduction
-        List<PhysicalResource> totalCosts = new ArrayList<>(productionMessage.getProductionOfUnknown().getCost());
-        List<Resource> totalEarnings = new ArrayList<>(productionMessage.getProductionOfUnknown().getEarnings());
+        List<PhysicalResource> totalCosts = new ArrayList<>(productionOfUnknown.getCost());
+        List<Resource> totalEarnings = new ArrayList<>(productionOfUnknown.getEarnings());
 
-        for(String id : productionMessage.getCardIds()) {
+        for(String id : cardIds) {
             Production prod;
             if(!cardMap.get(id).isLeader())
                 prod = ((DevelopmentCard) cardMap.get(id)).getProduction();
