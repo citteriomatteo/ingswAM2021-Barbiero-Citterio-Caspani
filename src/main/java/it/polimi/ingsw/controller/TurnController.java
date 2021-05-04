@@ -9,7 +9,6 @@ import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.personalBoard.StrongBox;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.WarehouseDecorator;
-import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.ctosmessage.*;
 
 import java.util.*;
@@ -25,217 +24,92 @@ public class TurnController {
     private final Map<String, Card> cardMap;
     private int whiteMarbleDrawn;
 
-    public TurnController(Player firstPlayer, Match match, Map<String, Card> cardMap) {
+    public TurnController(Match match, Map<String, Card> cardMap) {
         this.lastRound = false;
-        this.currentPlayer = firstPlayer;
-        this.firstPlayer = firstPlayer;
+        this.currentPlayer = match.getCurrentPlayer();
+        this.firstPlayer = match.getCurrentPlayer();
         this.currentState = StateName.STARTING_TURN;
         this.match = match;
         this.cardMap = cardMap;
         this.whiteMarbleDrawn = 0;
-
     }
 
     /**
      * This method returns a list of the accepted messages depending on the current state.
      * @return List<CtoSMessageType>
      */
-    public List<CtoSMessageType> acceptedMessages(){
+    public StateName nextTurn() throws MatchEndedException {
         if(currentState.equals(StateName.END_TURN) && !lastRound) {
             try{
                 match.nextTurn();
             }
             catch(MatchEndedException e){
-                lastRound = true;
-                //TODO: send a message to the singlePlayer to inform him that he has lost
-
+                Map<String, Integer> myScore = new HashMap<>();
+                myScore.put(currentPlayer.getNickname(), currentPlayer.totalWinPoints());
+                throw new MatchEndedException("You lost!", myScore);
             }
             currentPlayer = match.getCurrentPlayer();
             currentState = StateName.STARTING_TURN;
         }
-        else if(currentState.equals(StateName.END_TURN) && lastRound){
-            //TODO: create a LeaderBoardMessage and send it to every player
-            currentState = StateName.END_MATCH;
+        //If it's the last turn of the last player of the last round...
+        else if(currentPlayer.equals(match.getPlayers().get(match.getPlayers().size()-1)) && currentState.equals(StateName.END_TURN) && lastRound){
+            Map<String, Integer> ranking = new HashMap<>();
+            for(Player p : match.getPlayers())
+                ranking.put(p.getNickname(), p.totalWinPoints());
+            throw new MatchEndedException("Match Ranking:", ranking);
         }
-
-        List<CtoSMessageType> accepted = new ArrayList<>();
-        accepted.add(CtoSMessageType.SWITCH_SHELF);
-        switch (currentState)
-        {
-            case STARTING_TURN:
-                accepted.add(CtoSMessageType.LEADER_ACTIVATION);
-                accepted.add(CtoSMessageType.LEADER_DISCARDING);
-                accepted.add(CtoSMessageType.MARKET_DRAW);
-                accepted.add(CtoSMessageType.DEV_CARD_DRAW);
-                accepted.add(CtoSMessageType.PRODUCTION);
-                break;
-
-            case MARKET_ACTION:
-                accepted.add(CtoSMessageType.WHITE_MARBLE_CONVERSIONS);
-                break;
-                //TODO: collapse INTERMEDIATE and RESOURCES_PLACEMENT together
-            case INTERMEDIATE:
-                accepted.add(CtoSMessageType.WAREHOUSE_INSERTION);
-                break;
-
-            case RESOURCES_PLACEMENT:
-                accepted.add(CtoSMessageType.WAREHOUSE_INSERTION);
-                break;
-
-            case BUY_DEV_ACTION:
-                accepted.add(CtoSMessageType.PAYMENTS);
-                break;
-
-            case PLACE_DEV_CARD:
-                accepted.add(CtoSMessageType.DEV_CARD_PLACEMENT);
-                break;
-
-            case PRODUCTION_ACTION:
-                accepted.add(CtoSMessageType.PAYMENTS);
-                break;
-
-            case END_TURN:
-                accepted.add(CtoSMessageType.LEADER_ACTIVATION);
-                accepted.add(CtoSMessageType.LEADER_DISCARDING);
-                accepted.add(CtoSMessageType.END_MATCH);
-                break;
-
-            case END_MATCH:
-                accepted.add(CtoSMessageType.REMATCH);
-                accepted.add(CtoSMessageType.DISCONNECTION);
-                accepted.remove(CtoSMessageType.SWITCH_SHELF);
-                break;
-
-            case REMATCH_OFFER:
-                accepted.add(CtoSMessageType.REMATCH);
-                accepted.remove(CtoSMessageType.SWITCH_SHELF);
-                break;
-
-            default:
-                accepted.remove(CtoSMessageType.SWITCH_SHELF);
-                break;
-
-        }
-        return accepted;
-    }
-
-
-    /**
-     * This method takes the message, probably from the MatchController, checks if the message if acceptable
-     * and sends it to the method that is specific for this type of message.
-     * @param message the message
-     * @return        true
-     */
-    public boolean newOperation(Message message){
-        if(!message.getNickname().equals(currentPlayer.getNickname()))
-            return false;
-
-        if(!acceptedMessages().contains(message.getType()))
-            return false;
-
-        switch ((CtoSMessageType) message.getType())
-        {
-            case SWITCH_SHELF:
-                SwitchShelfMessage shelfMessage = (SwitchShelfMessage) message;
-                try {
-                    currentPlayer.getPersonalBoard().getWarehouse().switchShelf(shelfMessage.getShelf1(), shelfMessage.getShelf2());
-                } catch (InvalidOperationException e) {
-
-                    //TODO: create a retry message and send it to the player
-                }
-                break;
-
-            case LEADER_ACTIVATION:
-                LeaderActivationMessage activationMessage = (LeaderActivationMessage) message;
-
-                for(LeaderCard card : currentPlayer.getHandLeaders())
-                    if (card.equals(cardMap.get(activationMessage.getLeader())))
-                        currentPlayer.activateLeader(card);
-                break;
-
-            case LEADER_DISCARDING:
-                LeaderDiscardingMessage discardingMessage = (LeaderDiscardingMessage) message;
-
-                for(LeaderCard card : currentPlayer.getHandLeaders())
-                    if (card.equals(cardMap.get(discardingMessage.getLeader()))) {
-                        currentPlayer.discardUselessLeader(card);
-                        break;
-                    }
-                break;
-
-            case MARKET_DRAW:
-                marketDraw((MarketDrawMessage) message);
-                break;
-
-            case WHITE_MARBLE_CONVERSIONS:
-                whiteMarbleConversions((WhiteMarbleConversionMessage) message);
-                break;
-
-            case WAREHOUSE_INSERTION:
-                warehouseInsertion((WarehouseInsertionMessage) message);
-                break;
-
-            case DEV_CARD_DRAW:
-                devCardDraw((DevCardDrawMessage) message);
-                break;
-
-            case PAYMENTS:
-                payments((PaymentsMessage) message);
-                break;
-
-            case DEV_CARD_PLACEMENT:
-                devCardPlacement((DevCardPlacementMessage) message);
-                break;
-
-            case PRODUCTION:
-                production((ProductionMessage) message);
-                break;
-
-            case END_MATCH:
-
-                //TODO: eventually, build the relative StoCMessage
-                break;
-
-            case REMATCH:
-
-                //TODO: eventually, build the relative StoCMessage
-                break;
-
-            case DISCONNECTION:
-
-                //TODO: eventually, build the relative StoCMessage
-                break;
-        }
-
-        return true;
+        return currentState;
     }
 
 
     //METHODS FOR THE SINGLE EVENT HANDLING:
+
+    public StateName switchShelf(SwitchShelfMessage shelfMessage) throws RetryException {
+        try {
+            currentPlayer.getPersonalBoard().getWarehouse().switchShelf(shelfMessage.getShelf1(), shelfMessage.getShelf2());
+        } catch (InvalidOperationException e) {
+            throw new RetryException ("Invalid shelves switch.");
+        }
+        return currentState;
+    }
+
+    public StateName leaderActivation(LeaderActivationMessage activationMessage) throws RetryException {
+
+        for(LeaderCard card : currentPlayer.getHandLeaders())
+            if (card.equals(cardMap.get(activationMessage.getLeader()))) {
+                currentPlayer.activateLeader(card);
+                return currentState;
+            }
+        throw new RetryException ("Invalid leader activation attempt.");
+    }
+
+    public StateName leaderDiscarding(LeaderDiscardingMessage discardingMessage) throws RetryException {
+        for(LeaderCard card : currentPlayer.getHandLeaders())
+            if (card.equals(cardMap.get(discardingMessage.getLeader()))) {
+                currentPlayer.discardUselessLeader(card);
+                return currentState;
+            }
+        throw new RetryException ("Invalid leader discarding attempt.");
+    }
 
     /**
      * This method, after having received a MarketDrawMessage, does the draw from the market and decides if
      * the controller will be waiting for white marble conversions or straight warehouse insert choices.
      * @param drawMessage the message
      */
-    private void marketDraw(MarketDrawMessage drawMessage){
+    public StateName marketDraw(MarketDrawMessage drawMessage) throws RetryException {
         try {
             whiteMarbleDrawn = currentPlayer.marketDeal(drawMessage.isRow(), drawMessage.getNum());
             if(whiteMarbleDrawn == 0)
-                currentState = StateName.INTERMEDIATE;
+                currentState = StateName.RESOURCES_PLACEMENT;
             else
                 currentState = StateName.MARKET_ACTION;
 
-            //TODO: eventually, build the relative StoCMessage
-        } catch (MatchEndedException e) {
-            e.printStackTrace();
-            //TODO: create a matchEnd message and send it to the player
-        } catch (InvalidOperationException e) {
-            e.printStackTrace();
-            //TODO: create a retry message and send it to the player
+        } catch (MatchEndedException e) { lastRound = true; }
+        catch (InvalidOperationException e) {
+            throw new RetryException ("Invalid market parameters.");
         }
-
-        //TODO: eventually, build the relative StoCMessage
+        return currentState;
     }
 
     /**
@@ -245,10 +119,9 @@ public class TurnController {
      * @param whiteMarbleConversionMessage the message
      * @return true if the operation went well, false elsewhere
      */
-    private boolean whiteMarbleConversions(WhiteMarbleConversionMessage whiteMarbleConversionMessage){
+    public StateName whiteMarbleConversions(WhiteMarbleConversionMessage whiteMarbleConversionMessage) throws RetryException {
         if(whiteMarbleConversionMessage.getResources().size() != whiteMarbleDrawn) {
-            //TODO: create a retry message
-            return false;
+            throw new RetryException ("Invalid conversions.");
         }
         for(PhysicalResource resource : whiteMarbleConversionMessage.getResources()) {
             boolean found=false;
@@ -258,16 +131,14 @@ public class TurnController {
                     found=true;
                     whiteMarbleDrawn--;
                 }
-            if(!found){
-                //TODO: create a retry message
-                return false;
-            }
+            if(!found)
+                throw new RetryException ("Invalid conversions.");
+
         }
         if(whiteMarbleDrawn==0)
-            currentState = StateName.INTERMEDIATE;
-        //TODO: eventually, build the relative StoCMessage
+            currentState = StateName.RESOURCES_PLACEMENT;
 
-        return true;
+        return currentState;
     }
 
     /** This method, after having received a WarehouseInsertionMessage, checks if the resources are insertable in
@@ -279,7 +150,7 @@ public class TurnController {
      * The process iterates until the buffer is discardable.
      * @param insertionMessage the message
      */
-    private void warehouseInsertion(WarehouseInsertionMessage insertionMessage){
+    public StateName warehouseInsertion(WarehouseInsertionMessage insertionMessage) throws RetryException {
         List<Boolean> errors = new ArrayList<>();
         for(PhysicalResource resource : insertionMessage.getResources())
             errors.add(singleWarehouseMove(resource));
@@ -288,9 +159,7 @@ public class TurnController {
             for(boolean err : errors)
                 if(err)
                     errMessage+="(invalid insert choice number "+errors.indexOf(err)+")\n";
-            //TODO: create a retry message with errMessage and send it to the player
-            currentState = StateName.RESOURCES_PLACEMENT;
-
+            throw new RetryException (errMessage);
         }
         else {
             try {
@@ -298,10 +167,12 @@ public class TurnController {
             } catch (InvalidOperationException e) {
                 e.printStackTrace();
                 currentState = StateName.RESOURCES_PLACEMENT;
-                //TODO: create a retry message and send it to the player
+                throw new RetryException ("You can still place other resources.");
             }
             currentState = StateName.END_TURN;
         }
+
+        return currentState;
     }
 
     /**
@@ -309,31 +180,30 @@ public class TurnController {
      * Then, he takes the card and puts it in the TempDevCard slot (not paid yet).
      * @param devCardDrawMessage the message
      */
-    private void devCardDraw(DevCardDrawMessage devCardDrawMessage){
+    public StateName devCardDraw(DevCardDrawMessage devCardDrawMessage) throws RetryException {
         try {
             if(!match.getCardGrid().isBuyable(currentPlayer,devCardDrawMessage.getRow(),
                     devCardDrawMessage.getColumn())) {
-                //TODO: create a retry message and send it to the player
+                throw new RetryException ("You can't buy this card.");
             }
 
             else if(!currentPlayer.verifyPlaceability((devCardDrawMessage.getRow()))) {
-                //TODO: create a retry message and send it to the player
+                throw new RetryException ("You can't place this card.");
             }
             else {
                 currentPlayer.drawDevelopmentCard(devCardDrawMessage.getRow(),devCardDrawMessage.getColumn());
                 currentState = StateName.BUY_DEV_ACTION;
 
             }
-            //TODO: eventually, build the relative StoCMessage
-
         } catch (InvalidCardRequestException e) {
-            //TODO: create a retry message and send it to the player
+            throw new RetryException ("Invalid development card draw parameters.");
         } catch (NoMoreCardsException e) {
-            //TODO: create a retry message and send it to the player
+            throw new RetryException ("The selected cell is empty.");
 
         } catch (MatchEndedException e) {
             lastRound = true;
         }
+        return currentState;
     }
 
     /**
@@ -344,7 +214,7 @@ public class TurnController {
      *   no-order "equals" operation with the TempProduction and then, eventually, produces it.
      * @param paymentsMessage the message
      */
-    private void payments(PaymentsMessage paymentsMessage){
+    public StateName payments(PaymentsMessage paymentsMessage) throws RetryException {
         StrongBox sbUndo = StrongBox.clone(currentPlayer.getPersonalBoard().getStrongBox());
         Warehouse whUndo = WarehouseDecorator.clone(currentPlayer.getPersonalBoard().getWarehouse());
 
@@ -366,7 +236,7 @@ public class TurnController {
 
             //checking if the list of payments equals to the one chosen before (in tempProduction):
             if(!(new HashSet<>(payments).equals(new HashSet<>(currentPlayer.getTempProduction().getCost())))) {
-                //TODO: create a retry message and send it to the player
+                throw new RetryException ("Payments don't match the chosen production ones.");
             }
         }
 
@@ -384,7 +254,7 @@ public class TurnController {
             } catch (InvalidOperationException e) {
                 currentPlayer.getPersonalBoard().setWarehouse(whUndo);
                 currentPlayer.getPersonalBoard().setStrongBox(sbUndo);
-                //TODO: create a retry message
+                throw new RetryException ("Invalid shelves choice.");
             }
         }
 
@@ -394,14 +264,10 @@ public class TurnController {
             try {
                 currentPlayer.getTempProduction().produce(currentPlayer);
                 currentPlayer.setTempProduction(null);
-            } catch (MatchEndedException e) {
-                e.printStackTrace();
-                lastRound = true;
-                //TODO: create a MatchEndedMessage and send it to every player.
-            }
+            } catch (MatchEndedException e) { lastRound = true; }
             currentState = StateName.END_TURN;
         }
-        //TODO: eventually, build the relative StoCMessage
+        return currentState;
     }
 
     /**
@@ -409,19 +275,16 @@ public class TurnController {
      * updates sets the new state to END_TURN.
      * @param devCardPlacementMessage the message
      */
-    public void devCardPlacement(DevCardPlacementMessage devCardPlacementMessage){
+    public StateName devCardPlacement(DevCardPlacementMessage devCardPlacementMessage) throws RetryException {
         try {
             currentPlayer.insertDevelopmentCard(devCardPlacementMessage.getColumn());
-        } catch (MatchEndedException e) {
-            lastRound = true;
-            //TODO: create a MatchEndedMessage and send it to every player.
-        } catch (InvalidOperationException e) {
+        } catch (MatchEndedException e) { lastRound = true; }
+        catch (InvalidOperationException e) {
             currentPlayer.setTempDevCard(null);
-            //TODO: create a RetryMessage and send it to the player.
+            throw new RetryException ("Invalid placement parameters.");
         }
-
-        //TODO: eventually, build the relative StoCMessage
         currentState = StateName.END_TURN;
+        return currentState;
     }
 
     /**
@@ -433,7 +296,7 @@ public class TurnController {
      * @param productionMessage the message
      * @return true if the operation went well, false elsewhere.
      */
-    public boolean production(ProductionMessage productionMessage){
+    public StateName production(ProductionMessage productionMessage) throws RetryException {
         //checking if the player has all the cards that he wants to produce
         boolean basicProdFound=false;
         List<Boolean> cardsErrors = new ArrayList<>();
@@ -451,8 +314,7 @@ public class TurnController {
             for (boolean err : cardsErrors)
                 if (err)
                     errMessage = errMessage + "(invalid insert choice number " + cardsErrors.indexOf(err) + ")\n";
-            //TODO: create a retry message with errMessage and send it to the player
-            return false;
+            throw new RetryException (errMessage);
         }
 
         //checks if the number of unknown costs and earnings corresponds to the chosen cards unknown quantities
@@ -482,8 +344,7 @@ public class TurnController {
 
         if(uCosts != productionMessage.getProductionOfUnknown().getCost().size() ||
                 uEarnings != productionMessage.getProductionOfUnknown().getEarnings().size()) {
-            //TODO: create a retry message and send it to the player
-            return false;
+            throw new RetryException ("Invalid choices for unknown conversions.");
         }
 
         //create the tempProduction
@@ -510,18 +371,15 @@ public class TurnController {
 
         Production totalProduction = new Production(totalCosts, totalEarnings);
 
-        if(!totalProduction.isPlayable(currentPlayer)){
-            //TODO: create a RetryMessage and send it to the player
-            return false;
-        }
+        if(!totalProduction.isPlayable(currentPlayer))
+            throw new RetryException ("The production is unplayable.");
+
         currentPlayer.setTempProduction(totalProduction);
 
-        //TODO: eventually, build the relative StoCMessage
         currentState = StateName.PRODUCTION_ACTION;
 
-        return true;
+        return currentState;
     }
-
 
     //FUNCTIONAL METHODS:
 
@@ -562,6 +420,7 @@ public class TurnController {
         return null;
     }
 
+    public Player getCurrentPlayer(){ return currentPlayer; }
     public StateName getCurrentState() { return currentState; }
     public void setCurrentState(StateName currentState) { this.currentState = currentState; }
     public int getWhiteMarbleDrawn() { return whiteMarbleDrawn; }
