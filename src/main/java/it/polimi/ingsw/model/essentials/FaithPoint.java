@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.essentials;
 
 
-import it.polimi.ingsw.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.Adder;
 
@@ -32,10 +32,10 @@ public class FaithPoint implements Resource{
      * Adds the points contained in this to the player's FaithPath thanks to the adder's method addFaithPoints
      * @param adder the player's interface
      * @return true if the player's method addFaithPoints worked
-     * @throws MatchEndedException if the player reaches the end of his FaithPath
+     * @throws LastRoundException if the player reaches the end of his FaithPath
      */
     @Override
-    public boolean add(Adder adder) throws MatchEndedException {
+    public boolean add(Adder adder) throws LastRoundException {
        return adder.addFaithPoints(quantity);
     }
 

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.match.player;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
-import it.polimi.ingsw.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.LastRoundException;
 
 /*
     Interface used for limiting access to player methods
@@ -10,7 +10,7 @@ import it.polimi.ingsw.exceptions.MatchEndedException;
 public interface Adder  {
 
     //This method increments player's faithPoints
-    boolean addFaithPoints(int quantity) throws MatchEndedException;
+    boolean addFaithPoints(int quantity) throws LastRoundException;
 
     //This method adds resource to the strong box
     boolean addToStrongBox(PhysicalResource resource);

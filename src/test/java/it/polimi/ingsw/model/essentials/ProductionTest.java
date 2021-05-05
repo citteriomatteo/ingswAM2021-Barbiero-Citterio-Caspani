@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.essentials;
 import static org.junit.jupiter.api.Assertions.*;
 
-import it.polimi.ingsw.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.Match;
@@ -45,7 +45,7 @@ public class ProductionTest {
     }
 
     @Test
-    public void produceTest() throws NegativeQuantityException, MatchEndedException, FileNotFoundException, WrongSettingException {
+    public void produceTest() throws NegativeQuantityException, LastRoundException, FileNotFoundException, WrongSettingException {
         List<PhysicalResource> cost = new ArrayList<>();
         List<Resource> earnings = new ArrayList<>();
         earnings.add(new PhysicalResource(ResType.SHIELD, 1));

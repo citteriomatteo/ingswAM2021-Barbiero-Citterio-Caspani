@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.match.player.personalBoard.faithPath;
 
 import it.polimi.ingsw.exceptions.FaithPathCreationException;
-import it.polimi.ingsw.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.LastRoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +30,9 @@ public class SingleFaithPath extends FaithPath
      * it checks for a vatican report: if a report is effectively called, it collapses vaticanReportCell to Cell.
      * @param points        represents the points that Lorenzo has done
      * @return              true
-     * @throws MatchEndedException          if Lorenzo ends the path journey
+     * @throws LastRoundException          if Lorenzo ends the path journey
      */
-    public boolean addBlackPoints(int points) throws MatchEndedException
+    public boolean addBlackPoints(int points) throws LastRoundException
     {
         //critical error: wrong tokens!
         if(points<0)
@@ -47,7 +47,7 @@ public class SingleFaithPath extends FaithPath
                 cellCollapse(blackCrossMarker);
 
             if(blackCrossMarker==24)
-                throw new MatchEndedException("Lorenzo has reached the end of the path.");
+                throw new LastRoundException("Lorenzo has reached the end of the path.");
         }
         return true;
     }

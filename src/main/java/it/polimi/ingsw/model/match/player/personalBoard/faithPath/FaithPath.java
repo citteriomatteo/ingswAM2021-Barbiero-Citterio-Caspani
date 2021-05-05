@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.match.player.personalBoard.faithPath;
 
 import it.polimi.ingsw.exceptions.FaithPathCreationException;
-import it.polimi.ingsw.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.model.match.Communicator;
 
 import java.util.*;
@@ -44,9 +44,9 @@ public abstract class FaithPath
      * @param steps         is the number of steps to do
      * @param communicator   is the interface with all the usable methods
      * @return              true
-     * @throws MatchEndedException          if a player ends the path journey
+     * @throws LastRoundException          if a player ends the path journey
      */
-    public boolean addFaithPoints(int steps, Communicator communicator) throws MatchEndedException
+    public boolean addFaithPoints(int steps, Communicator communicator) throws LastRoundException
     {
         for(; steps>0; steps--)
         {
@@ -58,7 +58,7 @@ public abstract class FaithPath
                     cellCollapse(faithMarker);
 
             if(faithMarker==24)
-                throw new MatchEndedException("A player reached the end of the path.");
+                throw new LastRoundException("A player reached the end of the path.");
         }
         return true;
     }

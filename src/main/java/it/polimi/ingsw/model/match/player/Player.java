@@ -123,10 +123,10 @@ public class Player implements Adder, Verificator
      * This method adds faith points to the faith path, looking for the match end.
      * @param quantity is the quantity of steps
      * @return         true
-     * @throws MatchEndedException if this player reaches the end of his faith path
+     * @throws LastRoundException if this player reaches the end of his faith path
      */
     @Override
-    public boolean addFaithPoints(int quantity) throws MatchEndedException {
+    public boolean addFaithPoints(int quantity) throws LastRoundException {
         getPersonalBoard().getFaithPath().addFaithPoints(quantity, match);
         return true;
     }
@@ -265,7 +265,7 @@ public class Player implements Adder, Verificator
      * @param number the number of the row or column
      * @return the number of white marble in the selected row or column
      */
-    public int marketDeal(boolean row, int number) throws InvalidOperationException, MatchEndedException
+    public int marketDeal(boolean row, int number) throws InvalidOperationException, LastRoundException
     {
         int whiteMarbles=0;
         if(row)
@@ -283,7 +283,7 @@ public class Player implements Adder, Verificator
      * @param gridC the chosen column
      * @return      true
      */
-    public boolean drawDevelopmentCard(int gridR, int gridC) throws NoMoreCardsException, InvalidCardRequestException, MatchEndedException {
+    public boolean drawDevelopmentCard(int gridR, int gridC) throws NoMoreCardsException, InvalidCardRequestException, LastRoundException {
         setTempDevCard(match.getCardGrid().take(gridR, gridC));
         return true;
     }
@@ -295,10 +295,10 @@ public class Player implements Adder, Verificator
      * @param slot  the slot in which the card will be inserted
      * @return      true
      */
-    public boolean insertDevelopmentCard(int slot) throws MatchEndedException, InvalidOperationException {
+    public boolean insertDevelopmentCard(int slot) throws LastRoundException, InvalidOperationException {
             personalBoard.getDevCardSlots().pushNewCard(slot, tempDevCard);
             if(personalBoard.getDevCardSlots().getCardsNumber()>= WINNING_CONDITION_CARDS)
-                throw new MatchEndedException("The player " + this +
+                throw new LastRoundException("The player " + this +
                         " has reached " + WINNING_CONDITION_CARDS + " cards in his DevCardSlots");
 
         return true;
@@ -359,9 +359,9 @@ public class Player implements Adder, Verificator
     /**
      * this method produces the actual production in tempProduction.
      * @return true
-     * @throws MatchEndedException (propagated)
+     * @throws LastRoundException (propagated)
      */
-    public boolean produce() throws MatchEndedException
+    public boolean produce() throws LastRoundException
     {
         tempProduction.produce(this);
         return true;

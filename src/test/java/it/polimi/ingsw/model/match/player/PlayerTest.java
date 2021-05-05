@@ -45,7 +45,7 @@ public class PlayerTest
 
     @Test
     public void totalWinPointsTest() throws NegativeQuantityException, FileNotFoundException,
-            SingleMatchException, WrongSettingException, InvalidOperationException, MatchEndedException {
+            SingleMatchException, WrongSettingException, InvalidOperationException, LastRoundException {
         Player player = new Player("player1");
         Player player1 = new Player("player2");
         Match match = new MultiMatch(Arrays.asList(player, player1),"src/test/resources/StandardConfiguration.json");

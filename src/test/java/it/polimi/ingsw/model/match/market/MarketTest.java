@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.match.market;
 
 import it.polimi.ingsw.exceptions.InvalidOperationException;
-import it.polimi.ingsw.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.SingleMatch;
@@ -69,7 +69,7 @@ public class MarketTest {
     }
 
     @Test
-    public void testSelectRow() throws MatchEndedException, FileNotFoundException, WrongSettingException, InvalidOperationException {
+    public void testSelectRow() throws LastRoundException, FileNotFoundException, WrongSettingException, InvalidOperationException {
         Random gen = new Random();
         Player player = new Player("player1");
         match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
@@ -100,7 +100,7 @@ public class MarketTest {
     }
 
     @Test
-    public void testSelectColumn() throws MatchEndedException, FileNotFoundException, WrongSettingException, InvalidOperationException {
+    public void testSelectColumn() throws LastRoundException, FileNotFoundException, WrongSettingException, InvalidOperationException {
         Random gen = new Random();
         Player player = new Player("player1");
         match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");

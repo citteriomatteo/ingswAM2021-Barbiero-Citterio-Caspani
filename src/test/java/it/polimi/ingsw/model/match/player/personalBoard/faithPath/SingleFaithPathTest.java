@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.match.player.personalBoard.faithPath;
 
-import it.polimi.ingsw.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.SingleMatch;
@@ -17,7 +17,7 @@ public class SingleFaithPathTest extends FaithPathTest
     , meanwhile, player's popeTiles correct switching when blackReport is called.
      */
     @Test
-    public void blackPointAndBlackReportTest() throws MatchEndedException, FileNotFoundException, WrongSettingException
+    public void blackPointAndBlackReportTest() throws LastRoundException, FileNotFoundException, WrongSettingException
     {
         Player player = new Player("player1");
         Match match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");

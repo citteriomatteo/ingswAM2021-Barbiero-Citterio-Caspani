@@ -138,9 +138,9 @@ public class CardGrid {
      * @return the drawn DevelopmentCard
      * @throws InvalidCardRequestException if it is tried to draw a card out of range
      * @throws NoMoreCardsException if it is tried to draw a card from an empty stack
-     * @throws MatchEndedException never
+     * @throws LastRoundException never
      */
-    public DevelopmentCard take(int lv, int color) throws InvalidCardRequestException, NoMoreCardsException, MatchEndedException {
+    public DevelopmentCard take(int lv, int color) throws InvalidCardRequestException, NoMoreCardsException, LastRoundException {
         if (lv < 1 || lv > MAX_LEVEL || color < 1 || color > CardColor.values().length)
             throw new InvalidCardRequestException("Tried to take a card out of range");
         try {

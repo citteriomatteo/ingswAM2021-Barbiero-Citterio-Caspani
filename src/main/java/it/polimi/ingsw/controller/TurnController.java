@@ -10,7 +10,6 @@ import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.personalBoard.StrongBox;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.WarehouseDecorator;
-import it.polimi.ingsw.network.message.ctosmessage.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -44,7 +43,7 @@ public class TurnController {
             try{
                 match.nextTurn();
             }
-            catch(MatchEndedException e){
+            catch(LastRoundException e){
                 Map<String, Integer> myScore = new HashMap<>();
                 myScore.put(currentPlayer.getNickname(), currentPlayer.totalWinPoints());
                 throw new MatchEndedException("You lost!", myScore);
@@ -128,7 +127,7 @@ public class TurnController {
             else
                 currentState = StateName.MARKET_ACTION;
 
-        } catch (MatchEndedException e) { lastRound = true; }
+        } catch (LastRoundException e) { lastRound = true; }
         catch (InvalidOperationException e) {
             throw new RetryException ("Invalid market parameters.");
         }
@@ -227,7 +226,7 @@ public class TurnController {
         } catch (NoMoreCardsException e) {
             throw new RetryException ("The selected cell is empty.");
 
-        } catch (MatchEndedException e) {
+        } catch (LastRoundException e) {
             lastRound = true;
         }
         return currentState;
@@ -294,7 +293,7 @@ public class TurnController {
             try {
                 currentPlayer.getTempProduction().produce(currentPlayer);
                 currentPlayer.setTempProduction(null);
-            } catch (MatchEndedException e) { lastRound = true; }
+            } catch (LastRoundException e) { lastRound = true; }
             currentState = StateName.END_TURN;
         }
         return currentState;
@@ -310,7 +309,7 @@ public class TurnController {
     public StateName devCardPlacement(int column) throws RetryException {
         try {
             currentPlayer.insertDevelopmentCard(column);
-        } catch (MatchEndedException e) { lastRound = true; }
+        } catch (LastRoundException e) { lastRound = true; }
         catch (InvalidOperationException e) {
             currentPlayer.setTempDevCard(null);
             throw new RetryException ("Invalid placement parameters.");

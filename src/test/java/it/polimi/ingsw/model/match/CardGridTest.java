@@ -70,7 +70,7 @@ public class CardGridTest {
 
 
     @Test
-    public void takeTest() throws InvalidCardRequestException, NoMoreCardsException, InvalidQuantityException, MatchEndedException {
+    public void takeTest() throws InvalidCardRequestException, NoMoreCardsException, InvalidQuantityException, LastRoundException {
         DevelopmentCard card = grid.take(1,CardColor.GREEN.getVal());
         DevelopmentCard cardExpected = new DevelopmentCard(new CardType(CardColor.GREEN, 1),
                 new ArrayList<>(List.of(new PhysicalResource(ResType.SHIELD, 2))),
@@ -82,7 +82,7 @@ public class CardGridTest {
     }
 
     @Test
-    public void takeTooMuchCardsTest() throws MatchEndedException {
+    public void takeTooMuchCardsTest() throws LastRoundException {
         try {
             grid.take(1,1);
             grid.take(1,1);

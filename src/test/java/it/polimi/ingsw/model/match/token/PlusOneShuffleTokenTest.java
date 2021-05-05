@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.match.token;
 
-import it.polimi.ingsw.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.SingleMatch;
@@ -20,7 +20,7 @@ public class PlusOneShuffleTokenTest {
     private SingleMatch singleMatch;
     private PlusOneShuffleToken plusOneShuffleToken = new PlusOneShuffleToken();
     @Test
-    public void testOnDraw() throws NegativeQuantityException, FileNotFoundException, WrongSettingException, MatchEndedException {
+    public void testOnDraw() throws NegativeQuantityException, FileNotFoundException, WrongSettingException, LastRoundException {
         singleMatch = new SingleMatch(new Player("player1"),"src/test/resources/StandardConfiguration.json");
         Stack<Token> tokenStack = singleMatch.getTokenStack().getStack();
 

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.match.market;
 
 import it.polimi.ingsw.exceptions.InvalidOperationException;
-import it.polimi.ingsw.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.model.match.player.Adder;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -77,9 +77,9 @@ public class Market {
      * @param adder the player's interface
      * @return the number of white marbles drawn
      * @throws InvalidOperationException if the numRow is less then 0 or more than 3
-     * @throws MatchEndedException if the player reaches the end of his faithPath
+     * @throws LastRoundException if the player reaches the end of his faithPath
      */
-    public int selectRow(int numRow, Adder adder) throws InvalidOperationException, MatchEndedException
+    public int selectRow(int numRow, Adder adder) throws InvalidOperationException, LastRoundException
     {
         int countWhite = 0;
 
@@ -99,10 +99,10 @@ public class Market {
      * @param numColumn the column's number
      * @param adder the player's interface
      * @return the number of white marbles drawn
-     * @throws MatchEndedException if the numColumn is less than 0 or more than 4
+     * @throws LastRoundException if the numColumn is less than 0 or more than 4
      * @throws InvalidOperationException if the player reaches the end of his faithPath
      */
-    public int selectColumn(int numColumn, Adder adder) throws MatchEndedException, InvalidOperationException
+    public int selectColumn(int numColumn, Adder adder) throws LastRoundException, InvalidOperationException
     {
         int countWhite = 0;
 

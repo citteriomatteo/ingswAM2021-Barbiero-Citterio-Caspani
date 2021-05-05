@@ -1,5 +1,5 @@
 package it.polimi.ingsw.model.match.token;
-import it.polimi.ingsw.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.model.match.SingleMatch;
 
 import java.util.Collections;
@@ -39,10 +39,10 @@ public class TokenStack {
      * This method draw a single token and activate its effect
      * @param match the actual singleMatch
      * @return true if the method works
-     * @throws MatchEndedException if the number of a certain type of card in singleCardGrid became 0
+     * @throws LastRoundException if the number of a certain type of card in singleCardGrid became 0
      */
 
-    public boolean draw(SingleMatch match) throws MatchEndedException {
+    public boolean draw(SingleMatch match) throws LastRoundException {
 
         return tokenStack.pop().onDraw(match);
     }

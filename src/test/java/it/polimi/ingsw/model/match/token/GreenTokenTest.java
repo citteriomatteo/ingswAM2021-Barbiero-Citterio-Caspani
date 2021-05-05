@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.match.token;
 
 import it.polimi.ingsw.model.essentials.CardColor;
 import it.polimi.ingsw.model.essentials.CardType;
-import it.polimi.ingsw.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.SingleMatch;
@@ -18,7 +18,7 @@ public class GreenTokenTest {
     private GreenToken greenToken = new GreenToken();
 
     @Test
-    public void testOnDraw() throws NegativeQuantityException, FileNotFoundException, WrongSettingException, MatchEndedException {
+    public void testOnDraw() throws NegativeQuantityException, FileNotFoundException, WrongSettingException, LastRoundException {
         singleMatch = new SingleMatch(new Player("player1"),"src/test/resources/StandardConfiguration.json");
         greenToken = new GreenToken();
 
@@ -37,6 +37,6 @@ public class GreenTokenTest {
             assertTrue(greenToken.onDraw(singleMatch));
         }
 
-        assertThrows(MatchEndedException.class,()->greenToken.onDraw(singleMatch));
+        assertThrows(LastRoundException.class,()->greenToken.onDraw(singleMatch));
     }
 }

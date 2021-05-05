@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.match;
 
-import it.polimi.ingsw.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.token.PlusOneShuffleToken;
@@ -14,7 +14,7 @@ public class SingleMatchTest {
     private SingleMatch match;
 
     @Test
-    public void testNextTurn() throws WrongSettingException, FileNotFoundException, MatchEndedException {
+    public void testNextTurn() throws WrongSettingException, FileNotFoundException, LastRoundException {
         int dim;
         match = new SingleMatch(new Player("player1"), "src/test/resources/StandardConfiguration.json");
 

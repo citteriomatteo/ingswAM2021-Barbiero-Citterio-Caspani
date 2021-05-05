@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.match.player.personalBoard.faithPath;
 
 import it.polimi.ingsw.exceptions.FaithPathCreationException;
-import it.polimi.ingsw.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.SingleMatchException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.Match;
@@ -31,7 +31,7 @@ public class FaithPathTest
     }
 
     @Test
-    public void getWinPointsTest() throws MatchEndedException, FileNotFoundException, WrongSettingException, SingleMatchException {
+    public void getWinPointsTest() throws LastRoundException, FileNotFoundException, WrongSettingException, SingleMatchException {
         Player player = new Player("player1");
         Player player1 = new Player("player2");
         Match match = new MultiMatch(List.of(player,player1),"src/test/resources/StandardConfiguration.json");
@@ -43,7 +43,7 @@ public class FaithPathTest
     }
 
     @Test
-    public void addFaithPointsTest() throws FileNotFoundException, SingleMatchException, WrongSettingException, MatchEndedException
+    public void addFaithPointsTest() throws FileNotFoundException, SingleMatchException, WrongSettingException, LastRoundException
     {
         Player player = new Player("player1");
         Player player1 = new Player("player2");

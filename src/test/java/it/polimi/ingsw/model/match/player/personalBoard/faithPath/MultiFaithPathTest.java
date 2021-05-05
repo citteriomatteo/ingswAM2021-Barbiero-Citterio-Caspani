@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.match.player.personalBoard.faithPath;
 
-import it.polimi.ingsw.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.exceptions.SingleMatchException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
@@ -20,7 +20,7 @@ public class MultiFaithPathTest extends FaithPathTest
 
     @Test
     public void externalVaticanReportTest() throws FileNotFoundException, SingleMatchException,
-            WrongSettingException, MatchEndedException, NegativeQuantityException {
+            WrongSettingException, LastRoundException, NegativeQuantityException {
         List<Player> players = new ArrayList<>(List.of(new Player("player1"),
                 new Player("player2"), new Player("player3")));
         Match match = new MultiMatch(players,"src/test/resources/StandardConfiguration.json");
@@ -43,7 +43,7 @@ public class MultiFaithPathTest extends FaithPathTest
 
         //"last vatican report before ending" test;
         match.nextTurn();
-        assertThrows(MatchEndedException.class, ()->match.getCurrentPlayer().addFaithPoints(24));
+        assertThrows(LastRoundException.class, ()->match.getCurrentPlayer().addFaithPoints(24));
 
         tiles = match.getPlayers().get(0).getPersonalBoard().getFaithPath().getPopeTiles();
         assertEquals(1,tiles.get(0)); assertEquals(2,tiles.get(1)); assertEquals(2,tiles.get(2));

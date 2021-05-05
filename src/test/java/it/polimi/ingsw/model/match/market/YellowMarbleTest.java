@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.match.market;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.ResType;
-import it.polimi.ingsw.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.Match;
@@ -18,7 +18,7 @@ public class YellowMarbleTest {
     private Match match;
 
     @Test
-    public void testOnDraw() throws NegativeQuantityException, MatchEndedException, FileNotFoundException, WrongSettingException {
+    public void testOnDraw() throws NegativeQuantityException, LastRoundException, FileNotFoundException, WrongSettingException {
         match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
         Marble yellowMarble = new YellowMarble();
         Assertions.assertFalse(yellowMarble.onDraw(this.player));

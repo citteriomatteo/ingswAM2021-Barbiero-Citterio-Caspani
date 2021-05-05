@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.match.token;
 
-import it.polimi.ingsw.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.SingleMatch;
 import it.polimi.ingsw.model.match.player.Player;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TokenStackTest {
     private SingleMatch match;
     @Test
-    public void testDraw() throws FileNotFoundException, WrongSettingException, MatchEndedException {
+    public void testDraw() throws FileNotFoundException, WrongSettingException, LastRoundException {
         match = new SingleMatch(new Player("player1"),"src/test/resources/StandardConfiguration.json");
 
         for(int i=0; i < 10; i++)

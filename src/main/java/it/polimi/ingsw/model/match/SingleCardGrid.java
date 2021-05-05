@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.essentials.CardColor;
 import it.polimi.ingsw.model.essentials.CardType;
 import it.polimi.ingsw.model.essentials.DevelopmentCard;
 import it.polimi.ingsw.exceptions.InvalidCardRequestException;
-import it.polimi.ingsw.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.NoMoreCardsException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
 
@@ -38,11 +38,11 @@ public class SingleCardGrid extends CardGrid {
      * @return the drawn DevelopmentCard
      * @throws InvalidCardRequestException if it is tried to draw a card out of range
      * @throws NoMoreCardsException if it is tried to draw a card from an empty stack
-     * @throws MatchEndedException if Cards of that color are finished: Lorenzo win the game
+     * @throws LastRoundException if Cards of that color are finished: Lorenzo win the game
      * @see CardGrid#take(int, int)
      */
     @Override
-    public DevelopmentCard take(int lv, int color) throws InvalidCardRequestException, NoMoreCardsException, MatchEndedException {
+    public DevelopmentCard take(int lv, int color) throws InvalidCardRequestException, NoMoreCardsException, LastRoundException {
         if (lv<MAX_LEVEL)
             return super.take(lv, color);
         DevelopmentCard res = null;
@@ -56,7 +56,7 @@ public class SingleCardGrid extends CardGrid {
 
         if(super.isEmpty(lv, color))
             //Cards of that color are finished: Lorenzo win the game -> You lost
-            throw new MatchEndedException("Player have lost -> Lorenzo finished the " + color + " cards");
+            throw new LastRoundException("Player have lost -> Lorenzo finished the " + color + " cards");
 
         return res;
     }
@@ -65,11 +65,10 @@ public class SingleCardGrid extends CardGrid {
      * Discards 2 cards of the given color, starting from the lowest level possible
      * @param color the color of the cards to discard
      * @return true
-     * @throws MatchEndedException if Cards of that color are finished: Lorenzo win the game
+     * @throws LastRoundException if Cards of that color are finished: Lorenzo win the game
      */
-    public boolean discard(CardColor color) throws MatchEndedException {
+    public boolean discard(CardColor color) throws LastRoundException {
         for (int i = 0; i < 2; i++) {
-
             try {
                 //try to remove level 1
                 super.take(1, color.getVal());
@@ -93,7 +92,7 @@ public class SingleCardGrid extends CardGrid {
                         super.take(3, color.getVal());
                         if(super.isEmpty(3, color.getVal()))
                             //Cards of that color are finished: Lorenzo win the game -> You lost
-                            throw new MatchEndedException("Player have lost -> Lorenzo finished the " + color + " cards");
+                            throw new LastRoundException("Player have lost -> Lorenzo finished the " + color + " cards");
 
                     } catch (InvalidCardRequestException | NoMoreCardsException e3) {
                         e3.printStackTrace();

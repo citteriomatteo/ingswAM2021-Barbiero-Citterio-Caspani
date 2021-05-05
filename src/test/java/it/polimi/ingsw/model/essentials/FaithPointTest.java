@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.essentials;
 
 import it.polimi.ingsw.exceptions.InvalidQuantityException;
-import it.polimi.ingsw.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
 
@@ -24,7 +24,7 @@ public class FaithPointTest {
     }
 
     @Test
-    public void testAdd() throws NegativeQuantityException, MatchEndedException, FileNotFoundException, WrongSettingException {
+    public void testAdd() throws NegativeQuantityException, LastRoundException, FileNotFoundException, WrongSettingException {
         Match match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
         FaithPoint faithPoint = new FaithPoint(2);
 

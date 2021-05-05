@@ -7,7 +7,7 @@ import it.polimi.ingsw.gsonUtilities.GsonHandler;
 import it.polimi.ingsw.model.essentials.CardColor;
 import it.polimi.ingsw.model.essentials.CardType;
 import it.polimi.ingsw.model.essentials.DevelopmentCard;
-import it.polimi.ingsw.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -54,11 +54,11 @@ public class SingleCardGridTest {
     public void discardEndGameTest(){
         try {
             grid.discard(CardColor.GREEN);
-        } catch (MatchEndedException e) {
+        } catch (LastRoundException e) {
             fail();
         }
 
-        assertThrows(MatchEndedException.class, ()->grid.discard(CardColor.GREEN));
+        assertThrows(LastRoundException.class, ()->grid.discard(CardColor.GREEN));
     }
 
 
@@ -74,7 +74,7 @@ public class SingleCardGridTest {
 
         try {
             grid.discard(CardColor.PURPLE);
-        } catch (MatchEndedException e) {
+        } catch (LastRoundException e) {
             fail();
         }
 

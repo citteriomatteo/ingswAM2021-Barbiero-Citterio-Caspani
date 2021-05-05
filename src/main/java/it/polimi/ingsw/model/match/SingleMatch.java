@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.match;
 
-import it.polimi.ingsw.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
@@ -88,10 +88,10 @@ public class SingleMatch extends Match{
     /**
      * This method finish the turn by calling the draw method in tokenStack
      * @return true if the draw method worked
-     * @throws MatchEndedException if the number of a certain type of developmentCards became 0
+     * @throws LastRoundException if the number of a certain type of developmentCards became 0
      */
     @Override
-    public boolean nextTurn() throws MatchEndedException {
+    public boolean nextTurn() throws LastRoundException {
         return tokenStack.draw(this);
     }
 

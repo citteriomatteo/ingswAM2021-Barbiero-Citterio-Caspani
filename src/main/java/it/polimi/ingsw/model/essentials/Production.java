@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.essentials;
 
-import it.polimi.ingsw.exceptions.MatchEndedException;
+import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.Adder;
 import it.polimi.ingsw.model.match.player.Verificator;
@@ -62,9 +62,9 @@ public class Production {
      * @requires the costs have to be paid by the player before anywhere else
      * @param adder the player whom the earnings has to be added to
      * @return true
-     * @throws MatchEndedException if this production make the player reach the end of his FaithPath
+     * @throws LastRoundException if this production make the player reach the end of his FaithPath
      */
-    public boolean produce(Adder adder) throws MatchEndedException {
+    public boolean produce(Adder adder) throws LastRoundException {
         for (Resource resource : earnings){
             resource.add(adder);
         }
