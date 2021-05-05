@@ -11,7 +11,7 @@ import it.polimi.ingsw.network.message.Message;
 
 public class DevCardSlotChangeMessage extends StoCMessage {
 
-    private final StoCMessageType type = StoCMessageType.DEV_CARD_SLOT_CHANGE;
+    private static final StoCMessageType type = StoCMessageType.DEV_CARD_SLOT_CHANGE;
     private final int column;
     private final int cardID;
 

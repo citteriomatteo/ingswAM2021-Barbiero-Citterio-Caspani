@@ -4,7 +4,7 @@ import it.polimi.ingsw.network.message.Message;
 
 public class RematchOfferedMessage extends StoCMessage {
 
-    private final StoCMessageType type = StoCMessageType.REMATCH_OFFERED;
+    private static final StoCMessageType type = StoCMessageType.REMATCH_OFFERED;
     private final String message;
 
     public RematchOfferedMessage(String nickname, String proposer) {

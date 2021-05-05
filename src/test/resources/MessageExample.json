@@ -10,5 +10,9 @@
     "row": true,
     "num": 1,
     "nickname": "carlo"
+  },
+  {
+    "Message": "login",
+    "nickname": "luca"
   }
 ]

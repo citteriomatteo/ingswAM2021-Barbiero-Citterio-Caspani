@@ -11,7 +11,7 @@ import it.polimi.ingsw.network.message.Message;
 
 public class StrongboxChangeMessage extends StoCMessage {
 
-    private final StoCMessageType type = StoCMessageType.STRONGBOX_CHANGE;
+    private static final StoCMessageType type = StoCMessageType.STRONGBOX_CHANGE;
     private final StrongBox newStrongbox;
 
     public StrongboxChangeMessage(String nickname, StrongBox newStrongbox){

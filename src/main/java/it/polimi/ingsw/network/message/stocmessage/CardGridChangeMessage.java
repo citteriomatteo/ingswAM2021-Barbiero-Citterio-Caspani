@@ -9,7 +9,7 @@ import it.polimi.ingsw.network.message.Message;
 
 public class CardGridChangeMessage extends StoCMessage {
 
-    private final StoCMessageType type = StoCMessageType.CARD_GRID_CHANGE;
+    private static final StoCMessageType type = StoCMessageType.CARD_GRID_CHANGE;
     private final int row, column;
     private final int cardID;
 

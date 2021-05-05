@@ -9,7 +9,7 @@ import it.polimi.ingsw.network.message.Message;
 
 public class TokenDrawMessage extends StoCMessage {
 
-    private final StoCMessageType type = StoCMessageType.TOKEN_DRAW;
+    private static final StoCMessageType type = StoCMessageType.TOKEN_DRAW;
     private final String tokenName;
 
     public TokenDrawMessage(String nickname, String tokenName){

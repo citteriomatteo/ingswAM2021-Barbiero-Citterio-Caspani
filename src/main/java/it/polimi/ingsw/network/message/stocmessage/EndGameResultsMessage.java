@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class EndGameResultsMessage extends StoCMessage {
 
-    private final StoCMessageType type = StoCMessageType.END_GAME_RESULTS;
+    private static final StoCMessageType type = StoCMessageType.END_GAME_RESULTS;
     private final Map<String, Integer> leaderBoard;
 
     public EndGameResultsMessage(String nickname, Map<String, Integer> leaderBoard){

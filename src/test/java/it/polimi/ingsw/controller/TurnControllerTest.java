@@ -18,7 +18,7 @@ import it.polimi.ingsw.model.match.player.personalBoard.warehouse.WarehouseDecor
 import it.polimi.ingsw.network.message.ctosmessage.LeaderActivationMessage;
 import it.polimi.ingsw.network.message.ctosmessage.LeaderDiscardingMessage;
 import it.polimi.ingsw.network.message.ctosmessage.SwitchShelfMessage;
-import it.polimi.ingsw.network.message.ctosmessage.WhiteMarbleConversionMessage;
+import it.polimi.ingsw.network.message.ctosmessage.WhiteMarblesConversionMessage;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.match.market.*;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.VaticanReportCell;
 import it.polimi.ingsw.network.message.ctosmessage.*;
+import it.polimi.ingsw.network.message.ctosmessage.BinarySelectionMessage;
 import it.polimi.ingsw.network.message.stocmessage.*;
 
 /**
@@ -102,19 +103,24 @@ public class GsonHandler {
 
         GsonBuilder res = builder.registerTypeAdapterFactory(RuntimeTypeAdapterFactory
                         .of(CtoSMessage.class, "Message")
+                        .registerSubtype(BinarySelectionMessage.class, "binarySelection")
                         .registerSubtype(ConfigurationMessage.class, "configuration")
                         .registerSubtype(DevCardDrawMessage.class, "devCardDraw")
                         .registerSubtype(DevCardPlacementMessage.class, "devCardPlacement")
+                        .registerSubtype(EndTurnMessage.class, "endTurn")
                         .registerSubtype(LeaderActivationMessage.class, "leaderActivation")
                         .registerSubtype(LeaderDiscardingMessage.class, "leaderDiscarding")
                         .registerSubtype(LeadersChoiceMessage.class, "leadersChoice")
+                        .registerSubtype(LoginMessage.class, "login")
                         .registerSubtype(MarketDrawMessage.class, "marketDraw")
+                        .registerSubtype(NumPlayersMessage.class, "numPlayers")
                         .registerSubtype(PaymentsMessage.class, "payments")
                         .registerSubtype(ProductionMessage.class, "production")
+                        .registerSubtype(RematchMessage.class, "rematch")
                         .registerSubtype(StartingResourcesMessage.class, "startingResource")
                         .registerSubtype(SwitchShelfMessage.class, "switchShelf")
                         .registerSubtype(WarehouseInsertionMessage.class, "warehouseInsertion")
-                        .registerSubtype(WhiteMarblesConversionMessage.class, "whiteMarbleConversion"));
+                        .registerSubtype(WhiteMarblesConversionMessage.class, "whiteMarblesConversion"));
         return completeModelConfig(res);
     }
 
@@ -129,12 +135,14 @@ public class GsonHandler {
         GsonBuilder res = builder.registerTypeAdapterFactory(RuntimeTypeAdapterFactory
                         .of(StoCMessage.class, "Message")
                         .registerSubtype(ActivatedLeaderMessage.class, "activatedLeader")
+                        .registerSubtype(it.polimi.ingsw.network.message.stocmessage.BinarySelectionMessage.class, "binarySelection")
                         .registerSubtype(CardGridChangeMessage.class, "cardGridChange")
                         .registerSubtype(DevCardSlotChangeMessage.class, "devCardSlotChange")
                         .registerSubtype(DiscardedLeaderMessage.class, "discardedLeader")
                         .registerSubtype(EndGameResultsMessage.class, "endGameResults")
                         .registerSubtype(MarketChangeMessage.class, "marketChange")
                         .registerSubtype(NewFaithPositionMessage.class, "newFaithPosition")
+                        .registerSubtype(NextStateMessage.class, "nextState")
                         .registerSubtype(RematchOfferedMessage.class, "rematchOffered")
                         .registerSubtype(RetryMessage.class, "retry")
                         .registerSubtype(StrongboxChangeMessage.class, "strongboxChange")

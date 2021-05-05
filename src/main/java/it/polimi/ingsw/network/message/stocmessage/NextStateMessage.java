@@ -5,8 +5,8 @@ import it.polimi.ingsw.network.message.Message;
 
 public class NextStateMessage extends StoCMessage {
 
-    private StoCMessageType type = StoCMessageType.NEXT_STATE;
-    private StateName newState;
+    private static final StoCMessageType type = StoCMessageType.NEXT_STATE;
+    private final StateName newState;
 
     public NextStateMessage(String nickname, StateName newState){
         super(nickname);

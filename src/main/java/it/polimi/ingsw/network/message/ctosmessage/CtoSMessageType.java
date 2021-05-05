@@ -4,31 +4,40 @@ import it.polimi.ingsw.network.message.MessageType;
 
 public enum CtoSMessageType implements MessageType
 {
-    PING,
-    BINARY_SELECTION,
-    CONFIGURATION,
-    LEADERS_CHOICE,
-    STARTING_RESOURCES,
-    SWITCH_SHELF,
-    LEADER_ACTIVATION,
-    LEADER_DISCARDING,
-    MARKET_DRAW,
-    WHITE_MARBLE_CONVERSIONS,
-    WAREHOUSE_INSERTION,
-    DISCARD_REMAINS,
-    DEV_CARD_DRAW,
-    PAYMENTS,
-    DEV_CARD_PLACEMENT,
-    PRODUCTION,
-    END_MATCH,
-    REMATCH,
-    DISCONNECTION,
-    END_TURN
+    PING(0),
+    LOGIN(1),
+    NUM_PLAYERS(1),
+    BINARY_SELECTION(0),
+    CONFIGURATION(1),
+    LEADERS_CHOICE(2),
+    STARTING_RESOURCES(2),
+    SWITCH_SHELF(2),
+    LEADER_ACTIVATION(2),
+    LEADER_DISCARDING(2),
+    MARKET_DRAW(2),
+    WHITE_MARBLE_CONVERSIONS(2),
+    WAREHOUSE_INSERTION(2),
+    DISCARD_REMAINS(2),
+    DEV_CARD_DRAW(2),
+    PAYMENTS(2),
+    DEV_CARD_PLACEMENT(2),
+    PRODUCTION(2),
+    REMATCH(2),
+    DISCONNECTION(0),
+    END_TURN(2);
 
-//    private final int val;
-//    CtoSMessageType(int val){
-//        this.val = val;
-//    }
-//
-//    public int getVal(){ return val; }
+    private final int code;
+
+    CtoSMessageType(int code){
+        this.code = code;
+    }
+
+    /**
+     * Returns a code that indicate in witch phase the message can be handled:
+     * 0: every phase
+     * 1: initialization phase (before the game start)
+     * 2: game phase (the messages require a matchController to work)
+     * @return the code
+     */
+    public int getCode(){ return code; }
 }

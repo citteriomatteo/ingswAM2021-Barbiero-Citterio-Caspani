@@ -10,7 +10,7 @@ import it.polimi.ingsw.network.message.Message;
 
 public class NewFaithPositionMessage extends StoCMessage {
 
-    private final StoCMessageType type = StoCMessageType.NEW_FAITH_POSITION;
+    private static final StoCMessageType type = StoCMessageType.NEW_FAITH_POSITION;
     private final int newPosition;
 
     public NewFaithPositionMessage(String nickname, int newPosition){

@@ -6,7 +6,7 @@ import it.polimi.ingsw.network.server.ControlBase;
 
 public class EndTurnMessage extends CtoSMessage {
 
-    private final CtoSMessageType type = CtoSMessageType.END_TURN;
+    private static final CtoSMessageType type = CtoSMessageType.END_TURN;
 
 
     public EndTurnMessage(String nickname){

@@ -10,7 +10,7 @@ import it.polimi.ingsw.network.message.Message;
 
 public class WarehouseChangeMessage extends StoCMessage {
 
-    private final StoCMessageType type = StoCMessageType.WAREHOUSE_CHANGE;
+    private static final StoCMessageType type = StoCMessageType.WAREHOUSE_CHANGE;
     private final Warehouse newWarehouse;
 
     public WarehouseChangeMessage(String nickname, Warehouse newWarehouse){

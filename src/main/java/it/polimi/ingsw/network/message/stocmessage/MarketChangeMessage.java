@@ -14,7 +14,7 @@ import java.util.List;
 
 public class MarketChangeMessage extends StoCMessage {
 
-    private final StoCMessageType type = StoCMessageType.MARKET_CHANGE;
+    private static final StoCMessageType type = StoCMessageType.MARKET_CHANGE;
     private final Marble sideMarble;
     private final List<Marble> changedSection;
     private final boolean row;

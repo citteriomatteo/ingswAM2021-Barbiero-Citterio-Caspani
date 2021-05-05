@@ -5,7 +5,7 @@ import it.polimi.ingsw.network.message.MessageType;
 import it.polimi.ingsw.network.server.ControlBase;
 
 public class RematchMessage extends CtoSMessage {
-    private final CtoSMessageType type = CtoSMessageType.REMATCH;
+    private static final CtoSMessageType type = CtoSMessageType.REMATCH;
     private final boolean accepted;
 
 

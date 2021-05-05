@@ -9,7 +9,7 @@ import it.polimi.ingsw.network.message.Message;
 
 public class ActivatedLeaderMessage extends StoCMessage {
 
-    private final StoCMessageType type = StoCMessageType.ACTIVATED_LEADER;
+    private static final StoCMessageType type = StoCMessageType.ACTIVATED_LEADER;
     private final String cardID;
 
     public ActivatedLeaderMessage(String nickname, String cardID){

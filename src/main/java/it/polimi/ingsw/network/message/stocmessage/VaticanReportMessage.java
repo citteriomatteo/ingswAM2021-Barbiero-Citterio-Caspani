@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class VaticanReportMessage extends StoCMessage {
 
-    private final StoCMessageType type = StoCMessageType.VATICAN_REPORT;
+    private static final StoCMessageType type = StoCMessageType.VATICAN_REPORT;
     private final int tileNumber;
     private final Map<String, Integer> tilesState;
 

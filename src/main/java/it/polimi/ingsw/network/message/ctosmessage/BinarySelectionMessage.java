@@ -21,8 +21,7 @@ public class BinarySelectionMessage extends CtoSMessage {
 
     @Override
     public boolean computeMessage(ControlBase controlBase) {
-        //TODO
-        return false;
+        return selection;
     }
 
     /**

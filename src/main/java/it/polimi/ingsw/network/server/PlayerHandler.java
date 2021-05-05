@@ -3,13 +3,13 @@ package it.polimi.ingsw.network.server;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
-import it.polimi.ingsw.controller.InitController;
 import it.polimi.ingsw.controller.MatchController;
 import it.polimi.ingsw.controller.MultiMatchController;
-import it.polimi.ingsw.controller.SingleMatchController;
 import it.polimi.ingsw.exceptions.SingleMatchException;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessage;
+import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
+import it.polimi.ingsw.network.message.stocmessage.RetryMessage;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
 
 import java.io.BufferedReader;
@@ -21,7 +21,6 @@ import java.util.List;
 
 import static it.polimi.ingsw.gsonUtilities.GsonHandler.*;
 import static it.polimi.ingsw.network.server.ServerUtilities.*;
-import static java.lang.Integer.parseInt;
 
 /**
  * This class manages the direct talk with the player, every exchanged message between client
@@ -38,9 +37,7 @@ public class PlayerHandler implements Runnable, ControlBase{
     private Player player;
     private BufferedReader in;
     private PrintWriter out;
-    private final Object lock;
     private MatchController matchController;
-    private InitController initController;
 
     /**
      * Generate a PlayerHandler
@@ -59,13 +56,29 @@ public class PlayerHandler implements Runnable, ControlBase{
 //        }
 
         this.socket = socket;
-        lock = new Object();
+        try {
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream())); //consider using TimeoutBufferReader
+            out = new PrintWriter(socket.getOutputStream(), true);
+        }catch (IOException e) {
+            terminateConnection(false);
+            System.out.println("A problem occur when trying to connect with a player");
+        }
     }
 
+    @Override
+    public MatchController getMatchController() {
+        return matchController;
+    }
+
+    @Override
     public Player getPlayer() {
         return player;
     }
 
+    @Override
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
 
     /**
      * Used for restoring connection with a disconnected player previously linked to this handler.
@@ -100,38 +113,22 @@ public class PlayerHandler implements Runnable, ControlBase{
             init();
 
             CtoSMessage inMsg;
-
-            String readLine;
             System.out.println("Player " + player + " enters the main cycle");
-            boolean stop = false;
-            //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            //%%%%%%%%%%%%%% MAIN CYCLE %%%%%%%%%%%%%%%
-            //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            while (!stop) {
-
-                out.println("Write a message object in json format or \"exit\" to close the connection"); //this part will be deleted
-                readLine = in.readLine();
-                if (readLine.equals("ping")) {
-                    out.println("pong");
-                } else {
-                    try {
-                        inMsg = parserCtoS.fromJson(readLine, CtoSMessage.class);
-                    } catch (JsonSyntaxException e) {
-                        if (readLine.equals("exit"))
-                            stop = true;
-                        else
-                            out.println("Wrong json syntax");
-                        continue;
-                    }
-                    System.out.println("Received: " + inMsg);
-                }
+            while (true) {
+                inMsg = read();
+                if(inMsg.computeMessage(this))
+                    break;
             }
 
-            //close reader, writer and socket connection
-            terminateConnection();
-        }
-        catch (IOException e) {
+            //close reader, writer and socket connection, this is the correct total disconnection of the player
+            terminateConnection(true);
+        } catch (IOException e) {
             System.err.println(e.getMessage());
+        }
+        finally {
+            if(player != null)
+                player.disconnect(); //todo: fix disconnection
+            terminateConnection(false);
         }
     }
 
@@ -140,54 +137,47 @@ public class PlayerHandler implements Runnable, ControlBase{
      * @throws IOException if something goes wrong with the reading or writing with the player
      */
     private void init() throws IOException {
-        in = new BufferedReader(new InputStreamReader(socket.getInputStream())); //consider using TimeoutBufferReader
-        out = new PrintWriter(socket.getOutputStream(), true);
-        String readLine;
-
-        out.println("Welcome to Masters of Renaissance!\nEnter your nickname: ");
-        readLine = in.readLine();
-        //TODO: controls on existing nickname and previous players disconnection
-
-        player = new Player(readLine);
+        CtoSMessage inMsg;
+        out.println("Welcome to Masters of Renaissance!\nEnter your nickname: "); //todo: to delete
+        do {
+            inMsg = read();
+            System.out.println(inMsg);
+        }while(!inMsg.getType().equals(CtoSMessageType.LOGIN));
+        //TODO: controls on existing nickname and previous players disconnection are done inside the computeMessage
+        inMsg.computeMessage(this);
         //add the player in the global register
         addNewPlayer(this);
 
         do {
-            out.println("Would you like to play a single match? [y/n]");
-            readLine = in.readLine();
-        } while (!(readLine.equals("y") || readLine.equals(("n"))));
+            out.println("Would you like to play a single match? [y/n]"); //todo: to delete
+            inMsg = read();
+        } while (!inMsg.getType().equals(CtoSMessageType.BINARY_SELECTION));
 
-        if (readLine.equals("y")) { //%%%%%%%%%% SINGLE PLAYER %%%%%%%%%%
+        boolean singlePlayer = inMsg.computeMessage(this);
 
+        if (singlePlayer) { //%%%%%%%%%% SINGLE PLAYER %%%%%%%%%%
             System.out.println("Player: " + player + " chose to play a single-player match");
-            new SingleMatchController(player).start();
+         //   new SingleMatchController(player).start();  //todo: change this part
 
         } else  //%%%%%%%%%%%%%%% MULTIPLAYER %%%%%%%%%%%%%%%%%%%
         {
             System.out.println("Player: " + player + " chose to play a multiplayer match");
 
             if (isThereAPendentMatch()) {
-                out.println("Participating to an existing match...");
+                out.println("Participating to an existing match..."); //todo: delete
                 participateToCurrentMatch(player);
             } else {
-                int numPlayers = 0;
                 do {
-                    out.println("You are the first player, select how many player you want in your match [2/3/4]");
-                    try {
-                        numPlayers = parseInt(in.readLine());
-                    } catch (NumberFormatException ignored) {}
+                    out.println("You are the first player, select how many player you want in your match [2/3/4]"); //todo: delete
+                    inMsg = read();
+                } while (!inMsg.getType().equals(CtoSMessageType.NUM_PLAYERS) || inMsg.computeMessage(this));
 
-                } while (numPlayers < 2 || numPlayers > 4);
-
-                searchingForPlayers(player, numPlayers);
-                System.out.println(player + " is searching for " + numPlayers + " players...");
                 List<Player> playersInMatch = matchParticipants();
-
                 System.out.println("forming a new match for... " + playersInMatch);
 
                 try {
                     //todo
-                    new MultiMatchController(playersInMatch);
+                    matchController = new MultiMatchController(playersInMatch);
 
                 } catch (SingleMatchException e) {
                     //TODO: wrong match choose
@@ -201,37 +191,64 @@ public class PlayerHandler implements Runnable, ControlBase{
     }
 
     /**
-     * Close stream and socket, this doesn't close the connection on the client side.
-     * The client continues thinking the connection with the server is still open
-     * until he tries to send something, in that case the client terminates his execution.
-     * @throws IOException if an I/O error occurs
+     * Closes stream and socket, if removePlayer is true, remove also the player from the global list of players
+     * this parameter is set false in abnormal conditions
+     * @param removePlayer if true, remove also the player from the global list of players
+     *                     is set false in abnormal conditions
      */
-    private void terminateConnection() throws IOException {
-        out.println("Closing connection... Thanks for having played with us!");
-        in.close();
-        out.close();
-        socket.close();
-        System.out.println("Closed connection with " + player);
-        removePlayer(this);
-    }
-
-    public synchronized boolean write(StoCMessage msg){
-        try{
-            parserStoC.toJson(msg, StoCMessage.class, out);
-            return true;
-        }catch (Exception e){
-            return false;
+    private void terminateConnection(boolean removePlayer){
+        try {
+            in.close();
+            out.close();
+            socket.close();
+        }catch (IOException ignored) { /*this exception is thrown when trying to close an already closed stream */}
+        if(removePlayer) {
+            System.out.println("Closed connection with " + player);
+            removePlayer(this);
         }
     }
 
-    @Override
-    public MatchController getMatchController() {
-        return matchController;
+    /**
+     * Reads a message CtoS from this client, if the message is not present, wait until a message is sent
+     * @return the message read
+     * @throws IOException if something goes wrong while waiting for the message
+     */
+    private CtoSMessage read() throws IOException {
+        out.println("Write a message object in json format"); //todo: this part will be deleted
+        String readLine = null;
+        CtoSMessage inMsg;
+        while(true){
+            try {
+                readLine = in.readLine();
+                inMsg = parserCtoS.fromJson(readLine, CtoSMessage.class);
+                return inMsg;
+            } catch (Exception e) {
+                System.out.println("Arrived wrong message syntax from " + player + "\n--> message: " + readLine);
+                if(player != null)
+                    this.write(new RetryMessage(player.getNickname(), "Wrong Json Syntax"));
+            }
+        }
     }
 
-    @Override
-    public InitController getInitController() {
-        return initController;
+    /**
+     * Writes something at this player, the message has to be written in json in the correct format
+     * @param msg the message you want to send to this player
+     * @return true if the message has been sent, false if something goes wrong in the output stream
+     */
+    public synchronized boolean write(StoCMessage msg){
+        System.out.println("entered in write");
+        try {
+            String outMsg = parserStoC.toJson(msg, StoCMessage.class);
+            out.println(outMsg);
+            return true;
+        } catch (JsonSyntaxException e) {
+            System.out.println("System shutdown due to internal error in parsing a StoC message");
+            System.exit(1);
+            return false;
+        } catch (Exception exception) {
+            System.out.println("error in write");
+            return false;
+        }
     }
 }
 

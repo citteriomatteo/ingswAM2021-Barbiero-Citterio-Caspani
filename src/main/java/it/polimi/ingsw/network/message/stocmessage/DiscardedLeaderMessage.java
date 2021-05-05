@@ -8,7 +8,7 @@ import it.polimi.ingsw.network.message.Message;
  */
 public class DiscardedLeaderMessage extends StoCMessage {
 
-    private final StoCMessageType type = StoCMessageType.DISCARDED_LEADER;
+    private static final StoCMessageType type = StoCMessageType.DISCARDED_LEADER;
 
     public DiscardedLeaderMessage(String nickname){
         super(nickname);
