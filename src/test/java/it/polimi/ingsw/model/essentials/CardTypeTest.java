@@ -40,7 +40,7 @@ public class CardTypeTest {
     }
 
     @Test
-    public void testVerify() throws InvalidQuantityException, FileNotFoundException, WrongSettingException, InvalidOperationException {
+    public void testVerify() throws InvalidQuantityException, WrongSettingException, InvalidOperationException {
         CardType cardType = new CardType(CardColor.GREEN,1,1);
         CardType cardType1 = new CardType(CardColor.GREEN,2,1);
         CardType cardType2 = new CardType(CardColor.GREEN,1,2);
@@ -50,7 +50,7 @@ public class CardTypeTest {
                         new ArrayList<>(List.of(new FaithPoint(1)))), 1);
 
         player = new Player("player1");
-        Match match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
+        Match match = new SingleMatch(player);
         player.getPersonalBoard().getDevCardSlots().pushNewCard(1,developmentCard);
 
 

@@ -13,16 +13,19 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class BlueMarbleTest {
-    private Player player = new Player("player1");
+    private Player player;
     private Match match;
 
     @Test
     public void testOnDraw() throws NegativeQuantityException, LastRoundException, FileNotFoundException, WrongSettingException, SingleMatchException {
-        match = new MultiMatch(List.of(player,new Player("player2")),"src/test/resources/StandardConfiguration.json");
+        match = new MultiMatch(new ArrayList<>(Arrays.asList(new Player("player1"),new Player("player2"))));
         Marble blueMarble = new BlueMarble();
+        player = match.getCurrentPlayer();
         Assertions.assertFalse(blueMarble.onDraw(this.player));
 
         Assertions.assertEquals(new PhysicalResource(ResType.SHIELD,1),match.getCurrentPlayer().getPersonalBoard().getWarehouse().getBuffer().get(0));

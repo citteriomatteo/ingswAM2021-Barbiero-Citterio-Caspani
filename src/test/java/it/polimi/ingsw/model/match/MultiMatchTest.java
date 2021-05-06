@@ -15,23 +15,32 @@ public class MultiMatchTest {
     private MultiMatch match;
 
     @Test
-    public void testCreate() throws WrongSettingException, FileNotFoundException, SingleMatchException {
+    public void testCreate() throws WrongSettingException, SingleMatchException {
+        Player player1 = new Player("player1");
+        Player player2 = new Player("player2");
+        Player player3 = new Player("player3");
+        Player player4 = new Player("player4");
 
-        assertThrows(SingleMatchException.class,()->new MultiMatch(List.of(new Player("player1")),"src/test/resources/StandardConfiguration.json"));
-        try{match = new MultiMatch(List.of(new Player("player1"),new Player("player2"),new Player("player3"),new Player("player4")),
-                "src/test/resources/StandardConfiguration.json");}catch(UnsupportedOperationException e){e.printStackTrace();}
+        assertThrows(SingleMatchException.class,()->new MultiMatch(List.of(new Player("player1"))));
+        try{
+            match = new MultiMatch(new ArrayList<>(List.of(player1,player2,player3,player4)));
+        }catch(UnsupportedOperationException e){e.printStackTrace();}
 
-        assertEquals("player1",match.getCurrentPlayer().toString());
+        assertTrue(match.getPlayers().contains(player1));
+        assertTrue(match.getPlayers().contains(player2));
+        assertTrue(match.getPlayers().contains(player3));
+        assertTrue(match.getPlayers().contains(player4));
+
         assertEquals(4,match.getCurrentPlayer().getHandLeaders().size());
 
 
     }
 
     @Test
-    public void testNextTurn() throws WrongSettingException, FileNotFoundException, SingleMatchException {
+    public void testNextTurn() throws WrongSettingException, SingleMatchException {
         List<Player> players = new ArrayList<>(List.of(new Player("player1"), new Player("player2"), new Player("player3")));
 
-        match = new MultiMatch(players,"src/test/resources/StandardConfiguration.json");
+        match = new MultiMatch(players);
 
         assertEquals(match.getCurrentPlayer(),players.get(0));
 
@@ -47,10 +56,10 @@ public class MultiMatchTest {
     }
 
     @Test
-    public void getNextPlayer() throws WrongSettingException, FileNotFoundException, SingleMatchException {
+    public void getNextPlayer() throws WrongSettingException, SingleMatchException {
         List<Player> players = new ArrayList<>(List.of(new Player("player1"), new Player("player2"), new Player("player3")));
 
-        match = new MultiMatch(players,"src/test/resources/StandardConfiguration.json");
+        match = new MultiMatch(players);
 
         assertEquals(match.getNextPlayer(),players.get(1));
         match.nextTurn();
@@ -60,17 +69,5 @@ public class MultiMatchTest {
 
     }
 
-    @Test
-    public void testGetPlayer() throws WrongSettingException, FileNotFoundException, SingleMatchException {
-        List<Player> players = new ArrayList<>(List.of(new Player("player1"), new Player("player2"), new Player("player3")));
-
-        match = new MultiMatch(players,"src/test/resources/StandardConfiguration.json");
-
-        assertEquals(players.get(0),match.getPlayer("player1"));
-        assertEquals(players.get(1),match.getPlayer("player2"));
-        assertEquals(players.get(2),match.getPlayer("player3"));
-        assertNull(match.getPlayer("player10"));
-
-    }
 
 }

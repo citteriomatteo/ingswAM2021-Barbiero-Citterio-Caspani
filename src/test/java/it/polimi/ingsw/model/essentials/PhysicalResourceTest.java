@@ -41,9 +41,9 @@ public class PhysicalResourceTest {
     }
 
     @Test
-    public void testAdd() throws NegativeQuantityException, FileNotFoundException, WrongSettingException {
+    public void testAdd() throws NegativeQuantityException, WrongSettingException {
         PhysicalResource resource1 = new PhysicalResource(ResType.SERVANT,3);
-        Match match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
+        Match match = new SingleMatch(player);
         assertTrue(resource1.add(player));
 
         assertEquals(3,player.getPersonalBoard().getStrongBox().getNumberOf(ResType.SERVANT));
@@ -53,9 +53,9 @@ public class PhysicalResourceTest {
     }
 
     @Test
-    public void testVerify() throws NegativeQuantityException, FileNotFoundException, WrongSettingException, InvalidQuantityException, ShelfInsertException {
+    public void testVerify() throws WrongSettingException, InvalidQuantityException, ShelfInsertException {
         Player player = new Player("player1");
-        Match match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
+        Match match = new SingleMatch(player);
         PhysicalResource resource1 = new PhysicalResource(ResType.COIN,1);
         PhysicalResource resource2 = new PhysicalResource(ResType.STONE,2);
         PhysicalResource resource3 = new PhysicalResource(ResType.SERVANT,1);

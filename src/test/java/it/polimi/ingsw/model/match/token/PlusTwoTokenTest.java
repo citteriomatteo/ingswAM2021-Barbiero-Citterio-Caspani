@@ -20,7 +20,7 @@ public class PlusTwoTokenTest {
     private PlusTwoToken plusTwoToken = new PlusTwoToken();
     @Test
     public void testOnDraw() throws FileNotFoundException, WrongSettingException, LastRoundException {
-        singleMatch = new SingleMatch(new Player("player1"),"src/test/resources/StandardConfiguration.json");
+        singleMatch = new SingleMatch(new Player("player1"));
 
         assertTrue(plusTwoToken.onDraw(singleMatch));
 

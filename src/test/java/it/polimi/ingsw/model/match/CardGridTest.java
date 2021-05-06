@@ -59,9 +59,9 @@ public class CardGridTest {
     }
 
     @Test
-    public void isBuyableTest() throws NegativeQuantityException, InvalidCardRequestException, NoMoreCardsException, FileNotFoundException, WrongSettingException {
+    public void isBuyableTest() throws NegativeQuantityException, InvalidCardRequestException, NoMoreCardsException, WrongSettingException {
         Player player = new Player("player1");
-        Match match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
+        Match match = new SingleMatch(player);
 
         player.addToStrongBox(new PhysicalResource(ResType.SHIELD, 2));
 

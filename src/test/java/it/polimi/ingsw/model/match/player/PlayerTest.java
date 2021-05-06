@@ -44,11 +44,11 @@ public class PlayerTest
     }
 
     @Test
-    public void totalWinPointsTest() throws NegativeQuantityException, FileNotFoundException,
+    public void totalWinPointsTest() throws NegativeQuantityException,
             SingleMatchException, WrongSettingException, InvalidOperationException, LastRoundException {
         Player player = new Player("player1");
         Player player1 = new Player("player2");
-        Match match = new MultiMatch(Arrays.asList(player, player1),"src/test/resources/StandardConfiguration.json");
+        Match match = new MultiMatch(Arrays.asList(player, player1));
 
         addSequence(player, player1);
         paySequence(player, player1);
@@ -64,7 +64,7 @@ public class PlayerTest
     public void boh() throws WrongSettingException, SingleMatchException {
         Player player = new Player("player1");
         Player player1 = new Player("player2");
-        Match match = new MultiMatch(Arrays.asList(player, player1),"src/test/resources/StandardConfiguration.json");
+        Match match = new MultiMatch(Arrays.asList(player, player1));
 
     }
 }

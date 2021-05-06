@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MultiMatch extends Match {
@@ -21,18 +22,17 @@ public class MultiMatch extends Match {
      * the personalBoard and the list of handLeader.
      * It also associates this as the match of each player in the parameter list
      * @param players the list of players in this game
-     * @param config the directory of the configuration file
      * @throws SingleMatchException if the list of players contains only one player
      * @throws WrongSettingException if are given not enough CardTypes or in the wrong order to create the cardGrid
      */
-    public MultiMatch(List<Player> players,String config) throws SingleMatchException, WrongSettingException {
-        super(config);
+    public MultiMatch(List<Player> players) throws SingleMatchException, WrongSettingException {
+        super();
         if(players.size() == 1)
             throw new SingleMatchException("This match has only one player");
 
         MatchConfiguration matchConfiguration = super.getMatchConfiguration();
 
-        //Collections.shuffle(players);
+        Collections.shuffle(players);
         this.players = players;
         this.currentPlayer = players.get(0);
         this.cardGrid = new CardGrid(matchConfiguration.getAllDevCards());
@@ -41,6 +41,29 @@ public class MultiMatch extends Match {
             players.get(i).setMatch(this);
             players.get(i).setHandLeaders(getLeaderStack().draw(4));
             }
+        if (players.size() > 2) {
+            for (int j = 2; j < players.size(); j++) {
+                players.get(j).setPersonalBoard(new PersonalBoard((ArrayList<Cell>) matchConfiguration.getCustomPath(), 1, matchConfiguration.getBasicProduction()));
+                players.get(j).setMatch(this);
+                players.get(j).setHandLeaders(getLeaderStack().draw(4));
+
+            }
+        }
+    }
+
+    public MultiMatch(List<Player> players, MatchConfiguration matchConfiguration) throws SingleMatchException, WrongSettingException {
+        super(matchConfiguration);
+        if(players.size() == 1)
+            throw new SingleMatchException("This match has only one player");
+
+        this.players = players;
+        this.currentPlayer = players.get(0);
+        this.cardGrid = new CardGrid(matchConfiguration.getAllDevCards());
+        for (int i = 0; i < 2; i++) {
+            players.get(i).setPersonalBoard(new PersonalBoard((ArrayList<Cell>) matchConfiguration.getCustomPath(), 0, matchConfiguration.getBasicProduction()));
+            players.get(i).setMatch(this);
+            players.get(i).setHandLeaders(getLeaderStack().draw(4));
+        }
         if (players.size() > 2) {
             for (int j = 2; j < players.size(); j++) {
                 players.get(j).setPersonalBoard(new PersonalBoard((ArrayList<Cell>) matchConfiguration.getCustomPath(), 1, matchConfiguration.getBasicProduction()));

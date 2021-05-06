@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 public enum StateName {
+
     WAITING_LEADERS (1),
     WAITING_RESOURCES (2),
     STARTING_PHASE_DONE (3),
@@ -20,7 +21,7 @@ public enum StateName {
 
 
     private int val;
-    private StateName(int val){
+    StateName(int val){
         this.val = val;
     }
 

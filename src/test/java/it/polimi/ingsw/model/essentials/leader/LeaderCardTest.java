@@ -80,7 +80,7 @@ public class LeaderCardTest {
     public void leaderActivationTest() throws WrongSettingException, SingleMatchException {
         PhysicalResource effectResource;
 
-        Match match1 = new MultiMatch(Arrays.asList(new Player("Giorgio"), new Player("Luca")), "src/test/resources/StandardConfiguration.json");
+        Match match1 = new MultiMatch(Arrays.asList(new Player("Giorgio"), new Player("Luca")));
         Player giorgio = match1.getCurrentPlayer();
         PersonalBoard personalBoard = giorgio.getPersonalBoard();
         List<LeaderCard> handLeaders = giorgio.getHandLeaders();
@@ -140,7 +140,7 @@ public class LeaderCardTest {
         LeaderCard freeLeader2 = new LeaderCard(new ArrayList<>(List.of(new PhysicalResource(ResType.SHIELD, 0))), 5,
                 new SlotEffect(new PhysicalResource(ResType.SHIELD, 2)));
 
-        Match match1 = new MultiMatch(Arrays.asList(new Player("Joe"), new Player("Sara")), "src/test/resources/StandardConfiguration.json");
+        Match match1 = new MultiMatch(Arrays.asList(new Player("Joe"), new Player("Sara")));
         Player joe = match1.getPlayer("Joe");
 
         assertTrue(freeLeader1.isActivable(joe));

@@ -24,8 +24,8 @@ public class FaithPointTest {
     }
 
     @Test
-    public void testAdd() throws NegativeQuantityException, LastRoundException, FileNotFoundException, WrongSettingException {
-        Match match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
+    public void testAdd() throws NegativeQuantityException, LastRoundException, WrongSettingException {
+        Match match = new SingleMatch(player);
         FaithPoint faithPoint = new FaithPoint(2);
 
         assertTrue(faithPoint.add(player));

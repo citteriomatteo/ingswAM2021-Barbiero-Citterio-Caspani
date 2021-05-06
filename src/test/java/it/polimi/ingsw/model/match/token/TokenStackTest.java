@@ -14,8 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TokenStackTest {
     private SingleMatch match;
     @Test
-    public void testDraw() throws FileNotFoundException, WrongSettingException, LastRoundException {
-        match = new SingleMatch(new Player("player1"),"src/test/resources/StandardConfiguration.json");
+    public void testDraw() throws WrongSettingException, LastRoundException {
+        match = new SingleMatch(new Player("player1"));
 
         for(int i=0; i < 10; i++)
             assertTrue(match.getTokenStack().draw(match));
@@ -25,8 +25,8 @@ public class TokenStackTest {
     }
 
     @Test
-    public void testShuffle() throws WrongSettingException, FileNotFoundException {
-        match = new SingleMatch(new Player("player1"),"src/test/resources/StandardConfiguration.json");
+    public void testShuffle() throws WrongSettingException {
+        match = new SingleMatch(new Player("player1"));
 
         Stack<Token> stack = match.getTokenStack().getStack();
 

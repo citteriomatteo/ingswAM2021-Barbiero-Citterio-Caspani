@@ -19,7 +19,7 @@ public class YellowTokenTest {
 
     @Test
     public void testOnDraw() throws NegativeQuantityException, FileNotFoundException, WrongSettingException, LastRoundException {
-        singleMatch = new SingleMatch(new Player("player1"),"src/test/resources/StandardConfiguration.json");
+        singleMatch = new SingleMatch(new Player("player1"));
         yellowToken = new YellowToken();
 
         assertTrue(yellowToken.onDraw(singleMatch));

@@ -13,10 +13,10 @@ import java.io.FileNotFoundException;
 public class VaticanReportCellTest
 {
     @Test
-    public void generalInstructionCoverageTest() throws FileNotFoundException, WrongSettingException, LastRoundException
+    public void generalInstructionCoverageTest() throws WrongSettingException, LastRoundException
     {
         Player player = new Player("player1");
-        Match match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
+        Match match = new SingleMatch(player);
         SingleFaithPath path = (SingleFaithPath) match.getCurrentPlayer().getPersonalBoard().getFaithPath();
         for(int i=0; i<24; i++)
             System.out.println(path.getFaithPath().get(i).singleVaticanReport());

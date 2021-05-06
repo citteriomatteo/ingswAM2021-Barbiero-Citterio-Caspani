@@ -23,6 +23,7 @@ public class TurnController {
     private final Match match;
     private final Map<String, Card> cardMap;
     private int whiteMarbleDrawn;
+    private String bufferResult="";
 
     public TurnController(Match match, Map<String, Card> cardMap) {
         this.lastRound = false;
@@ -56,7 +57,7 @@ public class TurnController {
             Map<String, Integer> ranking = new HashMap<>();
             for(Player p : match.getPlayers())
                 ranking.put(p.getNickname(), p.totalWinPoints());
-            throw new MatchEndedException("Match Ranking:", ranking);
+            throw new MatchEndedException(bufferResult+"\nMatch Ranking:", ranking);
         }
         return currentState;
     }
@@ -225,10 +226,12 @@ public class TurnController {
             throw new RetryException ("Invalid development card draw parameters.");
         } catch (NoMoreCardsException e) {
             throw new RetryException ("The selected cell is empty.");
-
-        } catch (LastRoundException e) {
-            lastRound = true;
         }
+        catch (LastRoundException e) {
+            lastRound = true;
+            bufferResult = "Last card of the column has been drawn. You lost!";
+        }
+
         return currentState;
     }
 
@@ -309,7 +312,11 @@ public class TurnController {
     public StateName devCardPlacement(int column) throws RetryException {
         try {
             currentPlayer.insertDevelopmentCard(column);
-        } catch (LastRoundException e) { lastRound = true; }
+        } catch (LastRoundException e) {
+            lastRound = true;
+            if(match.getPlayers().size()==1)
+                bufferResult = "You bought the 7th card. You won!";
+        }
         catch (InvalidOperationException e) {
             currentPlayer.setTempDevCard(null);
             throw new RetryException ("Invalid placement parameters.");

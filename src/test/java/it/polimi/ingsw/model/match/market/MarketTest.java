@@ -69,10 +69,10 @@ public class MarketTest {
     }
 
     @Test
-    public void testSelectRow() throws LastRoundException, FileNotFoundException, WrongSettingException, InvalidOperationException {
+    public void testSelectRow() throws LastRoundException, WrongSettingException, InvalidOperationException {
         Random gen = new Random();
         Player player = new Player("player1");
-        match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
+        match = new SingleMatch(player);
         int numRow = gen.nextInt(3);
         int countWhite = 0;
 
@@ -100,10 +100,10 @@ public class MarketTest {
     }
 
     @Test
-    public void testSelectColumn() throws LastRoundException, FileNotFoundException, WrongSettingException, InvalidOperationException {
+    public void testSelectColumn() throws LastRoundException, WrongSettingException, InvalidOperationException {
         Random gen = new Random();
         Player player = new Player("player1");
-        match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
+        match = new SingleMatch(player);
         int numColumn = gen.nextInt(3);
         int countWhite = 0;
 

@@ -19,7 +19,7 @@ public class PurpleTokenTest {
 
     @Test
     public void testOnDraw() throws NegativeQuantityException, FileNotFoundException, WrongSettingException, LastRoundException {
-        singleMatch = new SingleMatch(new Player("player1"),"src/test/resources/StandardConfiguration.json");
+        singleMatch = new SingleMatch(new Player("player1"));
         purpleToken = new PurpleToken();
 
         assertTrue(purpleToken.onDraw(singleMatch));

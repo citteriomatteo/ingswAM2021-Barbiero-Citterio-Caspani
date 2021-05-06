@@ -17,7 +17,7 @@ public class WhiteMarbleTest {
 
     @Test
     public void testOnDraw() throws NegativeQuantityException, LastRoundException, FileNotFoundException, WrongSettingException {
-        match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
+        match = new SingleMatch(player);
         Marble whiteMarble = new WhiteMarble();
         Assertions.assertTrue(whiteMarble.onDraw(this.player));
     }

@@ -176,7 +176,7 @@ public class ConcreteWarehouse implements Warehouse
     @Override
     public int discardRemains() throws InvalidOperationException
     {
-        //CHECKS IF THERE IS A PLACE FOR ATLEAST A RESOURCE IN THE BUFFER. IF SO, THROWS A "RETRY" EXCEPTION
+        //CHECKS IF THERE IS A PLACE FOR AT LEAST A RESOURCE IN THE BUFFER. IF SO, THROWS A "RETRY" EXCEPTION
         for(PhysicalResource r : getBuffer())
             if(getWarehouseDisposition().stream().anyMatch((x) -> (x.getType().equals(r.getType())
                     && r.getQuantity() + x.getQuantity() <= (getWarehouseDisposition().indexOf(x) + 1))) ||

@@ -21,7 +21,7 @@ public class PlusOneShuffleTokenTest {
     private PlusOneShuffleToken plusOneShuffleToken = new PlusOneShuffleToken();
     @Test
     public void testOnDraw() throws NegativeQuantityException, FileNotFoundException, WrongSettingException, LastRoundException {
-        singleMatch = new SingleMatch(new Player("player1"),"src/test/resources/StandardConfiguration.json");
+        singleMatch = new SingleMatch(new Player("player1"));
         Stack<Token> tokenStack = singleMatch.getTokenStack().getStack();
 
         assertTrue(plusOneShuffleToken.onDraw(singleMatch));

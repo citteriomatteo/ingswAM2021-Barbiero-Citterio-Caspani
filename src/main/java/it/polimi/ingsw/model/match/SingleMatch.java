@@ -21,12 +21,11 @@ public class SingleMatch extends Match{
      * the personalBoard and the list of handLeader of the singlePlayer.
      * It also associates this as the match of the singlePlayer.
      * @param player the player of this match
-     * @param config the directory of the configuration file
      * @throws WrongSettingException if are given not enough CardTypes or in the wrong order to create the singleCardGrid
      */
-    public SingleMatch(Player player, String config) throws WrongSettingException
+    public SingleMatch(Player player) throws WrongSettingException
     {
-        super(config);
+        super();
         this.currentPlayer = player;
         MatchConfiguration matchConfiguration = super.getMatchConfiguration();
         this.singleCardGrid = new SingleCardGrid(matchConfiguration.getAllDevCards());
@@ -35,6 +34,16 @@ public class SingleMatch extends Match{
         currentPlayer.setMatch(this);
         currentPlayer.setHandLeaders(getLeaderStack().draw(4));
 
+    }
+
+    public SingleMatch(Player player, MatchConfiguration config) throws WrongSettingException {
+        super(config);
+        this.currentPlayer = player;
+        this.singleCardGrid = new SingleCardGrid(config.getAllDevCards());
+        this.tokenStack = new TokenStack();
+        currentPlayer.setPersonalBoard(new PersonalBoard((ArrayList<Cell>) config.getCustomPath(), config.getBasicProduction()));
+        currentPlayer.setMatch(this);
+        currentPlayer.setHandLeaders(getLeaderStack().draw(4));
     }
 
     /**

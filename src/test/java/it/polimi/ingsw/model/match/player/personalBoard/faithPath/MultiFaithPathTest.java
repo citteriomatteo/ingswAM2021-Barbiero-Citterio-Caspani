@@ -19,11 +19,11 @@ public class MultiFaithPathTest extends FaithPathTest
 {
 
     @Test
-    public void externalVaticanReportTest() throws FileNotFoundException, SingleMatchException,
-            WrongSettingException, LastRoundException, NegativeQuantityException {
+    public void externalVaticanReportTest() throws SingleMatchException,
+            WrongSettingException, LastRoundException {
         List<Player> players = new ArrayList<>(List.of(new Player("player1"),
                 new Player("player2"), new Player("player3")));
-        Match match = new MultiMatch(players,"src/test/resources/StandardConfiguration.json");
+        Match match = new MultiMatch(players);
 
         match.getCurrentPlayer().addFaithPoints(9);
         assertEquals(match.getPlayers().get(0).getPersonalBoard().getFaithPath().getPopeTiles().get(0),1);

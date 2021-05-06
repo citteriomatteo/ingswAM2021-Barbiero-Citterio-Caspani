@@ -17,10 +17,10 @@ public class SingleFaithPathTest extends FaithPathTest
     , meanwhile, player's popeTiles correct switching when blackReport is called.
      */
     @Test
-    public void blackPointAndBlackReportTest() throws LastRoundException, FileNotFoundException, WrongSettingException
+    public void blackPointAndBlackReportTest() throws LastRoundException, WrongSettingException
     {
         Player player = new Player("player1");
-        Match match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
+        Match match = new SingleMatch(player);
         SingleFaithPath path = (SingleFaithPath) match.getCurrentPlayer().getPersonalBoard().getFaithPath();
         path.addBlackPoints(10);
         assertEquals(10, path.getBlackPosition()); assertEquals(0, path.getPosition());
@@ -30,10 +30,10 @@ public class SingleFaithPathTest extends FaithPathTest
 
     //Instruction coverage for black marker getter.
     @Test
-    public void getBlackPositionTest() throws FileNotFoundException, WrongSettingException
+    public void getBlackPositionTest() throws WrongSettingException
     {
         Player player = new Player("player1");
-        Match match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
+        Match match = new SingleMatch(player);
         FaithPath path = match.getCurrentPlayer().getPersonalBoard().getFaithPath();
     }
 }

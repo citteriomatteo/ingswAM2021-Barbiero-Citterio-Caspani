@@ -45,13 +45,13 @@ public class ProductionTest {
     }
 
     @Test
-    public void produceTest() throws NegativeQuantityException, LastRoundException, FileNotFoundException, WrongSettingException {
+    public void produceTest() throws NegativeQuantityException, LastRoundException, WrongSettingException {
         List<PhysicalResource> cost = new ArrayList<>();
         List<Resource> earnings = new ArrayList<>();
         earnings.add(new PhysicalResource(ResType.SHIELD, 1));
         Production prod = new Production(cost, earnings);
         Player player = new Player("player1");
-        Match match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
+        Match match = new SingleMatch(player);
 
         assertEquals(0, match.getCurrentPlayer().getPersonalBoard().getStrongBox().getNumberOf(ResType.SHIELD));
         assertTrue(prod.produce(player), "produce returned false");
@@ -59,13 +59,13 @@ public class ProductionTest {
     }
 
     @Test
-    public void isPlayableTest() throws NegativeQuantityException, FileNotFoundException, WrongSettingException {
+    public void isPlayableTest() throws NegativeQuantityException, WrongSettingException {
         List<PhysicalResource> cost = new ArrayList<>();
         List<Resource> earnings = new ArrayList<>();
         cost.add(new PhysicalResource(ResType.SHIELD, 1));
         Production prod = new Production(cost, earnings);
         Player player = new Player("player1");
-        Match match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
+        Match match = new SingleMatch(player);
 
 
         assertFalse(prod.isPlayable(player),"isPlayable returned true");

@@ -222,7 +222,7 @@ public class ExtraShelfWarehouseTest
     public void wrongBufferDiscardTest() throws SingleMatchException, WrongSettingException, NegativeQuantityException, InvalidQuantityException, InvalidOperationException {
         Player player = new Player("player1");
         Player player1 = new Player("player2");
-        Match match = new MultiMatch(Arrays.asList(player, player1),"src/test/resources/StandardConfiguration.json");
+        Match match = new MultiMatch(Arrays.asList(player, player1));
 
         player.getPersonalBoard().warehouseEvolution(new PhysicalResource(ResType.COIN,2));
         player.addToWarehouse(new PhysicalResource(ResType.COIN,5));

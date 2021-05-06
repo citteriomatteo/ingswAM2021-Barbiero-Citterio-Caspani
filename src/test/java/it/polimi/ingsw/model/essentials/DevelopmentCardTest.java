@@ -61,8 +61,8 @@ public class DevelopmentCardTest {
     }
 
     @Test
-    public void isBuyableTest() throws WrongSettingException, FileNotFoundException, SingleMatchException, NegativeQuantityException {
-        Match match1 = new MultiMatch(Arrays.asList(new Player("Joe"), new Player("Sara")), "src/test/resources/StandardConfiguration.json");
+    public void isBuyableTest() throws WrongSettingException, SingleMatchException, NegativeQuantityException {
+        Match match1 = new MultiMatch(Arrays.asList(new Player("Joe"), new Player("Sara")));
         Player joe = match1.getPlayer("Joe");
         assertFalse(devCard.isBuyable(joe));
         joe.addToStrongBox(new PhysicalResource(ResType.COIN, 2));

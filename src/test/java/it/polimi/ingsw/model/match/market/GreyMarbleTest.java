@@ -20,7 +20,7 @@ public class GreyMarbleTest {
 
     @Test
     public void testOnDraw() throws NegativeQuantityException, LastRoundException, FileNotFoundException, WrongSettingException {
-        match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
+        match = new SingleMatch(player);
         Marble greyMarble = new GreyMarble();
         Assertions.assertFalse(greyMarble.onDraw(this.player));
 

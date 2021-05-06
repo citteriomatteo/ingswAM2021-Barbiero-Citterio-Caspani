@@ -31,10 +31,10 @@ public class FaithPathTest
     }
 
     @Test
-    public void getWinPointsTest() throws LastRoundException, FileNotFoundException, WrongSettingException, SingleMatchException {
+    public void getWinPointsTest() throws LastRoundException, WrongSettingException, SingleMatchException {
         Player player = new Player("player1");
         Player player1 = new Player("player2");
-        Match match = new MultiMatch(List.of(player,player1),"src/test/resources/StandardConfiguration.json");
+        Match match = new MultiMatch(new ArrayList<>(Arrays.asList(player,player1)));
         FaithPath path = match.getCurrentPlayer().getPersonalBoard().getFaithPath();
 
         path.addFaithPoints(17,match);
@@ -43,11 +43,11 @@ public class FaithPathTest
     }
 
     @Test
-    public void addFaithPointsTest() throws FileNotFoundException, SingleMatchException, WrongSettingException, LastRoundException
+    public void addFaithPointsTest() throws SingleMatchException, WrongSettingException, LastRoundException
     {
         Player player = new Player("player1");
         Player player1 = new Player("player2");
-        MultiMatch match = new MultiMatch(List.of(player,player1),"src/test/resources/StandardConfiguration.json");
+        MultiMatch match = new MultiMatch(new ArrayList<>(Arrays.asList(player,player1)));
         FaithPath path = match.getCurrentPlayer().getPersonalBoard().getFaithPath();
         path.addFaithPoints(9,match);
         assertEquals(path.getPosition(), 9);

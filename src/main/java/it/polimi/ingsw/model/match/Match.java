@@ -20,13 +20,19 @@ public abstract class Match implements Communicator {
     /**
      * Constructor, builds the common parts to MultiMatch and SingleMatch (matchConfiguration, Market and LeaderStack)
      * from a json file
-     * @param config the file path of the configuration file
      */
-    public Match(String config){
-            matchConfiguration = assignConfiguration(config);
+    public Match(){
+            matchConfiguration = assignConfiguration("src/test/resources/StandardConfiguration.json");
             this.market = new Market();
             this.leaderStack = new LeaderStack(matchConfiguration.getAllLeaderCards());
     }
+
+    public Match(MatchConfiguration matchConfiguration){
+        this.matchConfiguration = matchConfiguration;
+        this.market = new Market();
+        this.leaderStack = new LeaderStack(matchConfiguration.getAllLeaderCards());
+    }
+
 
     /**
      * Internal function used to read the configuration from the json file at 'config' filePath

@@ -14,9 +14,9 @@ public class SingleMatchTest {
     private SingleMatch match;
 
     @Test
-    public void testNextTurn() throws WrongSettingException, FileNotFoundException, LastRoundException {
+    public void testNextTurn() throws WrongSettingException, LastRoundException {
         int dim;
-        match = new SingleMatch(new Player("player1"), "src/test/resources/StandardConfiguration.json");
+        match = new SingleMatch(new Player("player1"));
 
 
         dim = match.getTokenStack().getStack().size();
@@ -34,9 +34,9 @@ public class SingleMatchTest {
     }
 
     @Test
-    public void testGetPlayer() throws WrongSettingException, FileNotFoundException {
+    public void testGetPlayer() throws WrongSettingException {
         Player player = new Player("player1");
-        match = new SingleMatch(player,"src/test/resources/StandardConfiguration.json");
+        match = new SingleMatch(player);
 
         assertEquals(player,match.getPlayer("player1"));
         assertNull(match.getPlayer("player2"));
