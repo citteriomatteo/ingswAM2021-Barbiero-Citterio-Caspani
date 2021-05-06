@@ -1,5 +1,7 @@
 package it.polimi.ingsw.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.essentials.Card;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
@@ -13,10 +15,15 @@ import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
 import it.polimi.ingsw.network.message.stocmessage.EndGameResultsMessage;
 import it.polimi.ingsw.network.message.stocmessage.NextStateMessage;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static it.polimi.ingsw.gsonUtilities.GsonHandler.*;
+import static it.polimi.ingsw.gsonUtilities.GsonHandler.effectConfig;
 
 public class MatchController {
     private Match match;
@@ -26,6 +33,34 @@ public class MatchController {
     private final Map<StateName, List<CtoSMessageType>> acceptedMessagesMap;
     private final Map<String, Card> cardMap;
 
+
+    public MatchController(List<Player> playersInMatch) throws RetryException {
+        acceptedMessagesMap = new HashMap<>();
+        for(StateName sn : StateName.values())
+            acceptedMessagesMap.put(sn, acceptedMessages(sn));
+
+        MatchConfiguration configuration = assignConfiguration("src/test/resources/StandardConfiguration.json");
+        this.cardMap = new HashMap<>();
+        for (int i=1; i<=configuration.getAllDevCards().size(); i++)
+            cardMap.put("D"+i,configuration.getAllDevCards().get(i-1));
+        for (int i=1; i<=configuration.getAllLeaderCards().size(); i++)
+            cardMap.put("L"+i,configuration.getAllLeaderCards().get(i-1));
+
+
+        startingPhaseController = new StartingPhaseController(match, cardMap);
+        turnController = null;
+        rematchPhaseController = null;
+
+        try {
+            this.match = new MultiMatch(playersInMatch, configuration);
+        } catch (SingleMatchException e) {
+            System.err.println("internal error");
+            System.exit(1);
+        } catch (WrongSettingException e) {
+            throw new RetryException("Wrong configuration");
+        }
+
+    }
 
     public MatchController(List<Player> playersInMatch, MatchConfiguration configuration) throws RetryException {
         acceptedMessagesMap = new HashMap<>();
@@ -326,4 +361,23 @@ public class MatchController {
         rematchPhaseController.response(nickname, value);
         return true;
     }
+
+
+    // %%%%% UTILITY METHODS %%%%%
+
+    //Returns the configuration at the path "config".
+    private MatchConfiguration assignConfiguration(String config){
+        Gson g = cellConfig(resourceConfig(requirableConfig(effectConfig(new GsonBuilder())))).setPrettyPrinting().create();
+        try {
+            FileReader reader = new FileReader(config);
+            return g.fromJson(reader, MatchConfiguration.class);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.err.println("Application shutdown due to an internal error in " + this.getClass().getSimpleName());
+            System.exit(1);
+            return null;
+        }
+    }
+
+
 }

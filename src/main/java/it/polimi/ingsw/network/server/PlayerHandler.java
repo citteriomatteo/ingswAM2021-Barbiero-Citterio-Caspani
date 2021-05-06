@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.controller.MatchController;
-import it.polimi.ingsw.controller.MultiMatchController;
+import it.polimi.ingsw.exceptions.RetryException;
 import it.polimi.ingsw.exceptions.SingleMatchException;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessage;
@@ -177,9 +177,9 @@ public class PlayerHandler implements Runnable, ControlBase{
 
                 try {
                     //todo
-                    matchController = new MultiMatchController(playersInMatch);
+                    matchController = new MatchController(playersInMatch);
 
-                } catch (SingleMatchException e) {
+                } catch (RetryException e) {
                     //TODO: wrong match choose
                     e.printStackTrace();
                 }

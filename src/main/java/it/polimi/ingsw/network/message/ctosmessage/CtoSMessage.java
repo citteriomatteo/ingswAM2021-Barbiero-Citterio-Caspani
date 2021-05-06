@@ -18,7 +18,7 @@ public abstract class CtoSMessage extends Message {
      *                     and in case execute him
      * @return true if the execution succeeded
      */
-    public abstract boolean computeMessage(ControlBase controlBase) throws RetryException;
+    public abstract boolean computeMessage(ControlBase controlBase);
 
     @Override
     public abstract CtoSMessageType getType();
