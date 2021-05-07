@@ -138,10 +138,9 @@ public class PlayerHandler implements Runnable, ControlBase{
      */
     private void init() throws IOException {
         CtoSMessage inMsg;
-        out.println("Welcome to Masters of Renaissance!\nEnter your nickname: "); //todo: to delete
+        out.println("Welcome to Masters of Renaissance! Enter your nickname: "); //todo: to delete
         do {
             inMsg = read();
-            System.out.println(inMsg);
         }while(!inMsg.getType().equals(CtoSMessageType.LOGIN));
         //TODO: controls on existing nickname and previous players disconnection are done inside the computeMessage
         inMsg.computeMessage(this);
@@ -214,16 +213,18 @@ public class PlayerHandler implements Runnable, ControlBase{
      * @throws IOException if something goes wrong while waiting for the message
      */
     private CtoSMessage read() throws IOException {
-        out.println("Write a message object in json format"); //todo: this part will be deleted
+        //out.println("Write a message object in json format"); //todo: this part will be deleted
         String readLine = null;
         CtoSMessage inMsg;
         while(true){
             try {
                 readLine = in.readLine();
+                System.out.println("Client wrote: "+readLine);
                 inMsg = parserCtoS.fromJson(readLine, CtoSMessage.class);
                 return inMsg;
             } catch (Exception e) {
                 System.out.println("Arrived wrong message syntax from " + player + "\n--> message: " + readLine);
+                out.println("Please, Write a message object in json format");
                 if(player != null)
                     this.write(new RetryMessage(player.getNickname(), "Wrong Json Syntax"));
             }
