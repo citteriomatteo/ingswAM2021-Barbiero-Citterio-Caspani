@@ -1,7 +1,5 @@
 package it.polimi.ingsw.network.message.stocmessage;
 
-import it.polimi.ingsw.network.message.Message;
-
 /**
  * This class implements a message that notifies every player in the match the new faith
  * position of a certain player.

@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class DevCardSlots
 {
-    private final ArrayList<DevelopmentCard>[] slots;
+    private final List<DevelopmentCard>[] slots;
     private static final int NUMBER_OF_ROWS = 3;
     private static final int NUMBER_OF_COLUMNS = 3;
 
@@ -29,6 +29,13 @@ public class DevCardSlots
         for (int i = 0; i < NUMBER_OF_COLUMNS; i++) {
             slots[i] = new ArrayList<>(NUMBER_OF_ROWS);
         }
+    }
+
+    /**
+     * @return all the cards inside this DevCardSlots in the right column
+     */
+    public List<DevelopmentCard>[] getSlots() {
+        return slots;
     }
 
     /**

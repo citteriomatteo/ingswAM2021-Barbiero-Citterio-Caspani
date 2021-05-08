@@ -1,7 +1,5 @@
 package it.polimi.ingsw.network.message.stocmessage;
 
-import it.polimi.ingsw.network.message.Message;
-
 /**
  * This class implements a message that a server sends to every client,
  * indicating the new card that a certain player has obtained.

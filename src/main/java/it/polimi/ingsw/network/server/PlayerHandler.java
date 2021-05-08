@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.controller.MatchController;
 import it.polimi.ingsw.exceptions.RetryException;
-import it.polimi.ingsw.exceptions.SingleMatchException;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessage;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
@@ -138,41 +137,35 @@ public class PlayerHandler implements Runnable, ControlBase{
      */
     private void init() throws IOException {
         CtoSMessage inMsg;
-        out.println("Welcome to Masters of Renaissance! Enter your nickname: "); //todo: to delete
-        do {
-            inMsg = read();
-        }while(!inMsg.getType().equals(CtoSMessageType.LOGIN));
+        out.println("Welcome to Masters of Renaissance!"); //todo: to delete
+
+        inMsg = receiveLoginMessage();
         //TODO: controls on existing nickname and previous players disconnection are done inside the computeMessage
         inMsg.computeMessage(this);
         //add the player in the global register
         addNewPlayer(this);
 
-        do {
-            out.println("Would you like to play a single match? [y/n]"); //todo: to delete
-            inMsg = read();
-        } while (!inMsg.getType().equals(CtoSMessageType.BINARY_SELECTION));
-
+        inMsg = receiveSelectionMessage();
         boolean singlePlayer = inMsg.computeMessage(this);
 
-        if (singlePlayer) { //%%%%%%%%%% SINGLE PLAYER %%%%%%%%%%
+        //%%%%%%%%%% SINGLE PLAYER %%%%%%%%%%
+        if (singlePlayer) {
             System.out.println("Player: " + player + " chose to play a single-player match");
-         //   new SingleMatchController(player).start();  //todo: change this part
+        //  new SingleMatchController(player);  //todo: change this part
+            return;
+        }
 
-        } else  //%%%%%%%%%%%%%%% MULTIPLAYER %%%%%%%%%%%%%%%%%%%
-        {
-            System.out.println("Player: " + player + " chose to play a multiplayer match");
+        //%%%%%%%%%%%%%%% MULTIPLAYER %%%%%%%%%%%%%%%%%%%
+        System.out.println("Player: " + player + " chose to play a multiplayer match");
 
-            if (isThereAPendentMatch()) {
-                out.println("Participating to an existing match..."); //todo: delete
-                participateToCurrentMatch(player);
-            } else {
-                do {
-                    out.println("You are the first player, select how many player you want in your match [2/3/4]"); //todo: delete
-                    inMsg = read();
-                } while (!inMsg.getType().equals(CtoSMessageType.NUM_PLAYERS) || inMsg.computeMessage(this));
+        if (isThereAPendentMatch()) {
+            out.println("Participating to an existing match..."); //todo: delete
+            participateToCurrentMatch(player);
+        } else {
 
-                List<Player> playersInMatch = matchParticipants();
-                System.out.println("forming a new match for... " + playersInMatch);
+            chooseNumPlayers();
+            List<Player> playersInMatch = matchParticipants();
+            System.out.println("forming a new match for... " + playersInMatch);
 
                 try {
                     //todo
@@ -186,7 +179,36 @@ public class PlayerHandler implements Runnable, ControlBase{
 
             }
             //TODO: MATCH IMPLEMENTATION.
-        }
+    }
+
+    private CtoSMessage receiveLoginMessage() throws IOException {
+        CtoSMessage inMsg;
+        do {
+            out.println("Enter your nickname: ");
+            inMsg = read();
+            System.out.println(inMsg);
+        }while(!inMsg.getType().equals(CtoSMessageType.LOGIN));
+
+        return inMsg;
+    }
+
+    private CtoSMessage receiveSelectionMessage() throws IOException {
+        CtoSMessage inMsg;
+        do {
+            out.println("Would you like to play a single match? [y/n]"); //todo: to delete
+            inMsg = read();
+        } while (!inMsg.getType().equals(CtoSMessageType.BINARY_SELECTION));
+
+        return inMsg;
+    }
+
+    private void chooseNumPlayers() throws IOException {
+        CtoSMessage inMsg;
+        do {
+            out.println("You are the first player, select how many player you want in your match [2/3/4]"); //todo: delete
+            inMsg = read();
+        } while (!inMsg.getType().equals(CtoSMessageType.NUM_PLAYERS) || !inMsg.computeMessage(this));
+
     }
 
     /**

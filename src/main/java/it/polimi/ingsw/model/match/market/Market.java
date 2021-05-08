@@ -16,7 +16,6 @@ public class Market {
      * @param board the market board
      * @param slide the single marble
      */
-
     public Market(Marble[][] board, Marble slide) {
         this.board = board;
         this.slide = slide;

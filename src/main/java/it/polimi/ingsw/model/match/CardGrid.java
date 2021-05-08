@@ -90,9 +90,9 @@ public class CardGrid {
      * Returns True if the card in the given position is buyable by the player passed as verificator.
      * The method controls if the player has the resources either in the warehouse or in the strongbox.
      * @param verificator the player who wants to buy the card
-     * @param lv the level of the card or the row of the grid in which it is placed
+     * @param lv the level of the card or the row of the grid in which it is placed (starting from 1)
      * @param color the int value for the color of the card ({@link CardColor#getVal()})
-     *              or the column of the grid in which it is placed
+     *              or the column of the grid in which it is placed (starting from 1)
      * @return true if the card in the given position is buyable by the player passed as verificator
      * @throws InvalidCardRequestException if it is tried to control a card out of range
      * @throws NoMoreCardsException if it is tried to control a card from an empty stack
@@ -111,9 +111,9 @@ public class CardGrid {
 
     /**
      * Verifies if the stack in the given position is empty
-     * @param lv the level of the card or the row of the grid in which it is placed
+     * @param lv the level of the card or the row of the grid in which it is placed (starting from 1)
      * @param color the int value for the color of the card ({@link CardColor#getVal()})
-     *              or the column of the grid in which it is placed
+     *              or the column of the grid in which it is placed (starting from 1)
      * @return true if the stack in the given position is empty
      * @throws InvalidCardRequestException if it is tried to control a stack out of range
      */
@@ -132,9 +132,9 @@ public class CardGrid {
     /**
      * draws the first DevelopmentCard from the deck in this grid in the given position (or with the given level and color).
      * This method doesn't control if the player has already payed the resources to buy that card.
-     * @param lv the level of the card or the row of the grid in which it is placed
+     * @param lv the level of the card or the row of the grid in which it is placed (starting from 1)
      * @param color the int value for the color of the card ({@link CardColor#getVal()})
-     *              or the column of the grid in which it is placed
+     *              or the column of the grid in which it is placed (starting from 1)
      * @return the drawn DevelopmentCard
      * @throws InvalidCardRequestException if it is tried to draw a card out of range
      * @throws NoMoreCardsException if it is tried to draw a card from an empty stack
@@ -149,5 +149,28 @@ public class CardGrid {
         catch (EmptyStackException e){
             throw new NoMoreCardsException("Tried to take a card from an empty stack");
         }
+    }
+
+    /**
+     * @return a matrix containing the first card of each stack of this in the right position
+     */
+    public DevelopmentCard[][] getTop(){
+        DevelopmentCard[][] res = new DevelopmentCard[MAX_LEVEL][CardColor.values().length];
+        for (int lv = 0; lv < MAX_LEVEL; lv++) {
+            for (CardColor color : CardColor.values()) {
+                res[lv][color.ordinal()] = grid[lv][color.ordinal()].peek();
+            }
+        }
+        return res;
+    }
+
+    /**
+     * Returns the first card of the deck in the given position without removing it
+     * @param row the number of row (starting from 1)
+     * @param col the number of column (starting from 1)
+     * @return the first card of the deck in the given position
+     */
+    public DevelopmentCard peek(int row, int col){
+        return grid[row-1][col-1].peek();
     }
 }
