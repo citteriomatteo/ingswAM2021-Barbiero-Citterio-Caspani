@@ -15,12 +15,12 @@ import java.util.List;
 public class MarketChangeMessage extends StoCMessage {
 
     private static final StoCMessageType type = StoCMessageType.MARKET_CHANGE;
-    private final Marble sideMarble;
-    private final List<Marble> changedSection;
+    private final char sideMarble;
+    private final List<Character> changedSection;
     private final boolean row;
     private final int sectionIndex;
 
-    public MarketChangeMessage(String nickname, Marble sideMarble, List<Marble> changedSection, boolean row, int sectionIndex)
+    public MarketChangeMessage(String nickname, char sideMarble, List<Character> changedSection, boolean row, int sectionIndex)
     {
         super(nickname);
         this.sideMarble = sideMarble;
@@ -30,8 +30,8 @@ public class MarketChangeMessage extends StoCMessage {
     }
 
     public StoCMessageType getType(){ return type; }
-    public Marble getSideMarble(){ return sideMarble; }
-    public List<Marble> getChangedSection(){ return changedSection; }
+    public Character getSideMarble(){ return sideMarble; }
+    public List<Character> getChangedSection(){ return changedSection; }
     public boolean isRow(){ return row; }
     public int getSectionIndex(){ return sectionIndex; }
 

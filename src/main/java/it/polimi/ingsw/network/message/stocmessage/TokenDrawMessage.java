@@ -11,13 +11,16 @@ public class TokenDrawMessage extends StoCMessage {
 
     private static final StoCMessageType type = StoCMessageType.TOKEN_DRAW;
     private final String tokenName;
+    private final int remainingTokens;
 
-    public TokenDrawMessage(String nickname, String tokenName){
+    public TokenDrawMessage(String nickname, String tokenName, int remainingTokens){
         super(nickname);
         this.tokenName = tokenName;
+        this.remainingTokens = remainingTokens;
     }
 
     public StoCMessageType getType(){ return type; }
+    public int getRemainingTokens(){ return remainingTokens; }
     public String tokenName(){ return tokenName; }
 
 }

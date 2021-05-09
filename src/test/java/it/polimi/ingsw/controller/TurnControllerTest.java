@@ -43,7 +43,7 @@ public class TurnControllerTest {
              cardMap.put("D"+i,match.getMatchConfiguration().getAllDevCards().get(i-1));
         for (int i=1; i<=match.getMatchConfiguration().getAllLeaderCards().size(); i++)
             cardMap.put("L"+i,match.getMatchConfiguration().getAllLeaderCards().get(i-1));
-        this.controller = new TurnController(match.getCurrentPlayer(),match,cardMap);
+        this.controller = new TurnController(match,cardMap);
         this.currentState = controller.getCurrentState();
     }
 
@@ -104,16 +104,16 @@ public class TurnControllerTest {
 
         List<PhysicalResource> whiteResources = new LinkedList<>(Arrays.asList(new PhysicalResource(ResType.STONE, 1), new PhysicalResource(ResType.SHIELD, 3), new PhysicalResource(ResType.COIN, 1)));
 
-        controller.newOperation(new WhiteMarbleConversionMessage(p.getNickname(), whiteResources));
+        controller.newOperation(new WhiteMarblesConversionMessage(p.getNickname(), whiteResources));
         assertEquals(1, p.getPersonalBoard().getWarehouse().getBuffer().size());
 
         whiteResources.remove(1);
         whiteResources.remove(1);
-        controller.newOperation(new WhiteMarbleConversionMessage(p.getNickname(), whiteResources));
+        controller.newOperation(new WhiteMarblesConversionMessage(p.getNickname(), whiteResources));
         assertEquals(1, p.getPersonalBoard().getWarehouse().getBuffer().size());
 
         whiteResources.add(new PhysicalResource(ResType.STONE, 1));
-        controller.newOperation(new WhiteMarbleConversionMessage(p.getNickname(), whiteResources));
+        controller.newOperation(new WhiteMarblesConversionMessage(p.getNickname(), whiteResources));
         assertEquals(3, p.getPersonalBoard().getWarehouse().getBuffer().size());
 
     }

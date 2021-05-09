@@ -14,7 +14,7 @@ import java.util.Stack;
 /**
  * A grid of DevelopmentCard decks
  */
-public class CardGrid {
+public class  CardGrid {
     private final Stack<DevelopmentCard>[][] grid;
     static final int MAX_LEVEL = 3;
 

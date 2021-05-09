@@ -12,9 +12,11 @@ import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
 import it.polimi.ingsw.model.match.player.personalBoard.StrongBox;
 
+import it.polimi.ingsw.observer.ModelObservable;
+
 import java.util.*;
 
-public class Player implements Adder, Verificator
+public class Player extends ModelObservable implements Adder, Verificator
 {
     private static final int WINNING_CONDITION_CARDS = 7;
     private final String nickname;
