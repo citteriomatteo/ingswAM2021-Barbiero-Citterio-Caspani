@@ -1,18 +1,17 @@
 package it.polimi.ingsw.network.message.ctosmessage;
 
 import it.polimi.ingsw.model.match.MatchConfiguration;
-import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.server.ControlBase;
 
 /**
  * This class implements a message from the client to initialize the configuration of the match
  * Message structure: { nickname, configuration }
  */
-public class ConfigurationMessage extends CtoSMessage {
-    private static final CtoSMessageType type = CtoSMessageType.CONFIGURATION;
+public class ConfigureMessage extends CtoSMessage {
+    private static final CtoSMessageType type = CtoSMessageType.CONFIGURE;
     private final MatchConfiguration config;
 
-    public ConfigurationMessage(String nickname, MatchConfiguration config){
+    public ConfigureMessage(String nickname, MatchConfiguration config){
         super(nickname);
         this.config = config;
     }

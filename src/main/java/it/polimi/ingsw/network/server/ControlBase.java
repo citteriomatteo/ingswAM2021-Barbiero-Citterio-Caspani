@@ -7,7 +7,14 @@ import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
 
 public interface ControlBase {
     MatchController getMatchController();
+    InitController getInitController();
     void setPlayer(Player player);
     Player getPlayer();
+
+    /**
+     * Writes something at this player, the message has to be written in json in the correct format
+     * @param msg the message you want to send to this player
+     * @return true if the message has been sent, false if something goes wrong in the output stream
+     */
     boolean write(StoCMessage msg);
 }

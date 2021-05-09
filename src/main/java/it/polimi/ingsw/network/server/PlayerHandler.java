@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.server;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import it.polimi.ingsw.controller.InitController;
 import it.polimi.ingsw.controller.MatchController;
 import it.polimi.ingsw.exceptions.RetryException;
 import it.polimi.ingsw.model.match.player.Player;
@@ -17,6 +18,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static it.polimi.ingsw.gsonUtilities.GsonHandler.*;
 import static it.polimi.ingsw.network.server.ServerUtilities.*;
@@ -37,6 +39,8 @@ public class PlayerHandler implements Runnable, ControlBase{
     private BufferedReader in;
     private PrintWriter out;
     private MatchController matchController;
+    private InitController initController;
+    private AtomicBoolean inMatch;
 
     /**
      * Generate a PlayerHandler
@@ -55,6 +59,7 @@ public class PlayerHandler implements Runnable, ControlBase{
 //        }
 
         this.socket = socket;
+        inMatch = new AtomicBoolean(false);
         try {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream())); //consider using TimeoutBufferReader
             out = new PrintWriter(socket.getOutputStream(), true);
@@ -68,16 +73,24 @@ public class PlayerHandler implements Runnable, ControlBase{
     public MatchController getMatchController() {
         return matchController;
     }
-
+    @Override
+    public InitController getInitController() {
+        return initController;
+    }
     @Override
     public Player getPlayer() {
         return player;
     }
-
     @Override
     public void setPlayer(Player player) {
         this.player = player;
     }
+
+    public void setMatchController(MatchController matchController) {
+        this.matchController = matchController;
+        inMatch.set(true);
+    }
+
 
     /**
      * Used for restoring connection with a disconnected player previously linked to this handler.
@@ -113,10 +126,9 @@ public class PlayerHandler implements Runnable, ControlBase{
 
             CtoSMessage inMsg;
             System.out.println("Player " + player + " enters the main cycle");
-            while (true) {
+            while (inMatch.get()) {
                 inMsg = read();
-                if(inMsg.computeMessage(this))
-                    break;
+                inMsg.computeMessage(this);
             }
 
             //close reader, writer and socket connection, this is the correct total disconnection of the player
@@ -137,33 +149,28 @@ public class PlayerHandler implements Runnable, ControlBase{
      */
     private void init() throws IOException {
         CtoSMessage inMsg;
-        out.println("Welcome to Masters of Renaissance!"); //todo: to delete
+      //  out.println("Welcome to Masters of Renaissance!"); //todo: to delete
+        initController = new InitController(this);
 
-        inMsg = receiveLoginMessage();
-        //TODO: controls on existing nickname and previous players disconnection are done inside the computeMessage
-        inMsg.computeMessage(this);
-        //add the player in the global register
-        addNewPlayer(this);
-
-        inMsg = receiveSelectionMessage();
-        boolean singlePlayer = inMsg.computeMessage(this);
-
-        //%%%%%%%%%% SINGLE PLAYER %%%%%%%%%%
-        if (singlePlayer) {
-            System.out.println("Player: " + player + " chose to play a single-player match");
-        //  new SingleMatchController(player);  //todo: change this part
-            return;
+        while(!inMatch.get()) {
+            inMsg = read();
+            if (inMsg.getType().getCode() == 0)
+                inMsg.computeMessage(this);
+            else
+                write(new RetryMessage(player == null ? null : player.getNickname(), "The match is not started yet, you cannot send messages like that"));
+            //controls on existing nickname and previous players disconnection are done inside the computeMessage
         }
 
         //%%%%%%%%%%%%%%% MULTIPLAYER %%%%%%%%%%%%%%%%%%%
-        System.out.println("Player: " + player + " chose to play a multiplayer match");
+    /*    System.out.println("Player: " + player + " chose to play a multiplayer match");
 
         if (isThereAPendentMatch()) {
             out.println("Participating to an existing match..."); //todo: delete
             participateToCurrentMatch(player);
         } else {
-
-            chooseNumPlayers();
+*/
+            chooseNumPlayers();  //TODO: continue from here  <---------------------------
+            /*
             List<Player> playersInMatch = matchParticipants();
             System.out.println("forming a new match for... " + playersInMatch);
 
@@ -179,27 +186,8 @@ public class PlayerHandler implements Runnable, ControlBase{
 
             }
             //TODO: MATCH IMPLEMENTATION.
-    }
 
-    private CtoSMessage receiveLoginMessage() throws IOException {
-        CtoSMessage inMsg;
-        do {
-            out.println("Enter your nickname: ");
-            inMsg = read();
-            System.out.println(inMsg);
-        }while(!inMsg.getType().equals(CtoSMessageType.LOGIN));
-
-        return inMsg;
-    }
-
-    private CtoSMessage receiveSelectionMessage() throws IOException {
-        CtoSMessage inMsg;
-        do {
-            out.println("Would you like to play a single match? [y/n]"); //todo: to delete
-            inMsg = read();
-        } while (!inMsg.getType().equals(CtoSMessageType.BINARY_SELECTION));
-
-        return inMsg;
+             */
     }
 
     private void chooseNumPlayers() throws IOException {

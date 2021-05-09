@@ -114,6 +114,12 @@ public class MatchController {
 
     }
 
+    public MatchController(Player player) {
+        acceptedMessagesMap = null;
+        cardMap = null;
+        //todo
+    }
+
     private List<CtoSMessageType> acceptedMessages(StateName sn){
         List<CtoSMessageType> accepted = new ArrayList<>();
         accepted.add(CtoSMessageType.SWITCH_SHELF);

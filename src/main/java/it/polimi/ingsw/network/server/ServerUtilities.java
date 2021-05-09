@@ -36,6 +36,10 @@ public class ServerUtilities {
         return activeClients.remove(removedClient.getPlayer().getNickname()) != null;
     }
 
+    public static ControlBase findControlBase(String nickname){
+        return activeClients.get(nickname);
+    }
+
     //%%%%%%%%%%%%%%% MULTIPLAYER PART %%%%%%%%%%%%%
 
     /**

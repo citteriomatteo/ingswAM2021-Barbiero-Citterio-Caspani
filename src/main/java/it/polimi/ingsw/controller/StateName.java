@@ -4,6 +4,12 @@ public enum StateName {
     //States used in LoginPhase
     LOGIN(0),
     RECONNECTION(0),
+    NEW_PLAYER(0),
+    NUMBER_OF_PLAYERS(0),
+    SP_CONFIGURATION_CHOOSE(0),
+    MP_CONFIGURATION_CHOOSE(0),
+    CONFIGURATION(0),
+    WAITING(0),
     //States used in StartingPhase
     WAITING_LEADERS (1),
     WAITING_RESOURCES (2),

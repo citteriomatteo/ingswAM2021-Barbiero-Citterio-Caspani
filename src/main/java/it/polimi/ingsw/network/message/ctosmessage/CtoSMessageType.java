@@ -5,10 +5,10 @@ import it.polimi.ingsw.network.message.MessageType;
 public enum CtoSMessageType implements MessageType
 {
     PING(0),
-    LOGIN(1),
-    NUM_PLAYERS(1),
+    LOGIN(0),
+    NUM_PLAYERS(0),
     BINARY_SELECTION(0),
-    CONFIGURATION(1),
+    CONFIGURE(0),
     LEADERS_CHOICE(2),
     STARTING_RESOURCES(2),
     SWITCH_SHELF(2),

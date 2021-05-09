@@ -12,9 +12,7 @@ public class LoginMessage extends CtoSMessage{
 
     @Override
     public boolean computeMessage(ControlBase controlBase) {
-        //TODO: check if exist a player with the same name
-        controlBase.setPlayer(new Player(getNickname()));
-        return true;
+        return controlBase.getInitController().login(getNickname());
     }
 
     @Override
