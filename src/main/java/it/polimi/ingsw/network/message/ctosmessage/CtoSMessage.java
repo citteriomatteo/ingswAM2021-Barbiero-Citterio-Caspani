@@ -14,8 +14,7 @@ public abstract class CtoSMessage extends Message {
     /**
      * Verifies if is the turn of the player who has sent the message and then executes
      * the command contained in the message on the controller
-     * @param controlBase the possible controllers which has to verify the usability of the message
-     *                     and in case execute him
+     * @param controlBase the PlayerHandler which has to execute the message
      * @return true if the execution succeeded
      */
     public abstract boolean computeMessage(ControlBase controlBase);

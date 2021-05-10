@@ -1,9 +1,11 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.exceptions.ReconnectionException;
 import it.polimi.ingsw.exceptions.RetryException;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
 import it.polimi.ingsw.network.message.stocmessage.NextStateMessage;
+import it.polimi.ingsw.network.message.stocmessage.RetryMessage;
 import it.polimi.ingsw.network.server.PlayerHandler;
 
 import java.util.List;
@@ -42,13 +44,23 @@ public class InitController {
     public boolean login(String nickname){
         if(!isAccepted(LOGIN))
             return false;
-        //todo: controls on existing nicknames
 
-        client.setPlayer(new Player(nickname));
-        playerNickname = nickname;
-        addNewPlayer(client);
-        changeState(StateName.NEW_PLAYER);
-        return true;
+        try {
+            if(!addNewPlayer(nickname, client)) {
+                client.write(new RetryMessage(null, "This name is used by another connected player, please choose a different one"));
+                client.write(new NextStateMessage(null, currentState));
+                return true;
+            }
+            client.setPlayer(new Player(nickname));
+            playerNickname = nickname;
+            changeState(StateName.NEW_PLAYER);
+            return true;
+
+        } catch (ReconnectionException e) {
+            changeState(StateName.RECONNECTION);
+            return true;
+        }
+
     }
 
     public boolean selection(boolean choice){
@@ -108,7 +120,7 @@ public class InitController {
                 return true;
 
             case RECONNECTION:
-                //todo
+                //todo reconnection
                 return true;
 
             default: //if the method enters here there is a problem

@@ -59,6 +59,17 @@ public class CardGridTest {
     }
 
     @Test
+    public void dispositionTest(){
+        DevelopmentCard[][] topGrid = grid.getTop();
+        for (int i = 0; i < 3; i++) {
+            for (CardColor color : CardColor.values()) {
+                if(!topGrid[i][color.ordinal()].getType().getColor().equals(color) || !(topGrid[i][color.ordinal()].getType().getLevel() == i+1))
+                    fail();
+            }
+        }
+    }
+
+    @Test
     public void isBuyableTest() throws NegativeQuantityException, InvalidCardRequestException, NoMoreCardsException, WrongSettingException {
         Player player = new Player("player1");
         Match match = new SingleMatch(player);

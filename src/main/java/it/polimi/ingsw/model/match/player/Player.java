@@ -299,6 +299,7 @@ public class Player extends ModelObservable implements Adder, Verificator
      */
     public boolean insertDevelopmentCard(int slot) throws LastRoundException, InvalidOperationException {
             personalBoard.getDevCardSlots().pushNewCard(slot, tempDevCard);
+            tempDevCard = null;
             if(personalBoard.getDevCardSlots().getCardsNumber()>= WINNING_CONDITION_CARDS)
                 throw new LastRoundException("The player " + this +
                         " has reached " + WINNING_CONDITION_CARDS + " cards in his DevCardSlots");

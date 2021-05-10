@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.exceptions.ReconnectionException;
 import it.polimi.ingsw.model.match.player.Player;
 
 import java.util.*;
@@ -17,12 +18,20 @@ public class ServerUtilities {
     /**
      * Adds a new player to the global list of active Players,
      * this list can be useful for searching existing nicknames or other things
-     * @param client the new client to add in the global list
+     * @param nickname the nickname of the player you want to add to the global list
+     * @param client the PlayerHandler related to the new client to add in the global list
      * @return true if there wasn't a previous player with the same nickname in this list
-     *         false if the previous player has been substituted by the new one
+     *         false if there is already a player with that name in the list and is connected
+     * @throws ReconnectionException if there is already a player with that name in the list but he is currently disconnected
      */
-    public static boolean addNewPlayer(PlayerHandler client){
-        return activeClients.put(client.getPlayer().getNickname(), client) != null;
+    public static boolean addNewPlayer(String nickname, PlayerHandler client) throws ReconnectionException {
+        if (activeClients.containsKey(nickname)) {
+            if(activeClients.get(nickname).getPlayer().isConnected())
+                return false;
+            throw new ReconnectionException("This nickname corresponds to a previously disconnected player");
+        }
+        activeClients.put(nickname, client);
+        return true;
     }
 
     /**
