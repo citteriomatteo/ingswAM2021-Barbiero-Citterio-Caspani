@@ -1,0 +1,2260 @@
+{
+  "allDevCards": [
+    {
+      "type": {
+        "color": "GREEN",
+        "level": 1,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "SHIELD",
+          "quantity": 2
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "COIN",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "faithPoint",
+            "quantity": 1
+          }
+        ]
+      },
+      "winPoints": 1
+    },
+    {
+      "type": {
+        "color": "GREEN",
+        "level": 1,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "COIN",
+          "quantity": 2
+        },
+        {
+          "type": "SHIELD",
+          "quantity": 2
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "STONE",
+            "quantity": 1
+          },
+          {
+            "type": "SERVANT",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "COIN",
+            "quantity": 2
+          },
+          {
+            "resource": "faithPoint",
+            "quantity": 1
+          }
+        ]
+      },
+      "winPoints": 4
+    },
+    {
+      "type": {
+        "color": "GREEN",
+        "level": 1,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "SHIELD",
+          "quantity": 1
+        },
+        {
+          "type": "SERVANT",
+          "quantity": 1
+        },
+        {
+          "type": "STONE",
+          "quantity": 1
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "STONE",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "SERVANT",
+            "quantity": 1
+          }
+        ]
+      },
+      "winPoints": 2
+    },
+    {
+      "type": {
+        "color": "GREEN",
+        "level": 1,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "SHIELD",
+          "quantity": 3
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "SERVANT",
+            "quantity": 2
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "COIN",
+            "quantity": 1
+          },
+          {
+            "resource": "physicalResource",
+            "type": "SHIELD",
+            "quantity": 1
+          },
+          {
+            "resource": "physicalResource",
+            "type": "STONE",
+            "quantity": 1
+          }
+        ]
+      },
+      "winPoints": 3
+    },
+    {
+      "type": {
+        "color": "BLUE",
+        "level": 1,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "COIN",
+          "quantity": 3
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "STONE",
+            "quantity": 2
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "SERVANT",
+            "quantity": 1
+          },
+          {
+            "resource": "physicalResource",
+            "type": "SHIELD",
+            "quantity": 1
+          },
+          {
+            "resource": "physicalResource",
+            "type": "COIN",
+            "quantity": 1
+          }
+        ]
+      },
+      "winPoints": 3
+    },
+    {
+      "type": {
+        "color": "BLUE",
+        "level": 1,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "COIN",
+          "quantity": 2
+        },
+        {
+          "type": "SERVANT",
+          "quantity": 2
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "STONE",
+            "quantity": 1
+          },
+          {
+            "type": "SHIELD",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "SERVANT",
+            "quantity": 2
+          },
+          {
+            "resource": "faithPoint",
+            "quantity": 1
+          }
+        ]
+      },
+      "winPoints": 4
+    },
+    {
+      "type": {
+        "color": "BLUE",
+        "level": 1,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "COIN",
+          "quantity": 2
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "SHIELD",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "faithPoint",
+            "quantity": 1
+          }
+        ]
+      },
+      "winPoints": 1
+    },
+    {
+      "type": {
+        "color": "BLUE",
+        "level": 1,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "COIN",
+          "quantity": 1
+        },
+        {
+          "type": "SERVANT",
+          "quantity": 1
+        },
+        {
+          "type": "STONE",
+          "quantity": 1
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "SERVANT",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "STONE",
+            "quantity": 1
+          }
+        ]
+      },
+      "winPoints": 2
+    },
+    {
+      "type": {
+        "color": "YELLOW",
+        "level": 1,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "STONE",
+          "quantity": 3
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "SHIELD",
+            "quantity": 2
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "SERVANT",
+            "quantity": 1
+          },
+          {
+            "resource": "physicalResource",
+            "type": "STONE",
+            "quantity": 1
+          },
+          {
+            "resource": "physicalResource",
+            "type": "COIN",
+            "quantity": 1
+          }
+        ]
+      },
+      "winPoints": 3
+    },
+    {
+      "type": {
+        "color": "YELLOW",
+        "level": 1,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "STONE",
+          "quantity": 2
+        },
+        {
+          "type": "SHIELD",
+          "quantity": 2
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "SERVANT",
+            "quantity": 1
+          },
+          {
+            "type": "COIN",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "SHIELD",
+            "quantity": 2
+          },
+          {
+            "resource": "faithPoint",
+            "quantity": 1
+          }
+        ]
+      },
+      "winPoints": 4
+    },
+    {
+      "type": {
+        "color": "YELLOW",
+        "level": 1,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "STONE",
+          "quantity": 2
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "SERVANT",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "faithPoint",
+            "quantity": 1
+          }
+        ]
+      },
+      "winPoints": 1
+    },
+    {
+      "type": {
+        "color": "YELLOW",
+        "level": 1,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "SHIELD",
+          "quantity": 1
+        },
+        {
+          "type": "STONE",
+          "quantity": 1
+        },
+        {
+          "type": "COIN",
+          "quantity": 1
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "SHIELD",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "COIN",
+            "quantity": 1
+          }
+        ]
+      },
+      "winPoints": 2
+    },
+    {
+      "type": {
+        "color": "PURPLE",
+        "level": 1,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "SERVANT",
+          "quantity": 3
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "COIN",
+            "quantity": 2
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "SERVANT",
+            "quantity": 1
+          },
+          {
+            "resource": "physicalResource",
+            "type": "SHIELD",
+            "quantity": 1
+          },
+          {
+            "resource": "physicalResource",
+            "type": "STONE",
+            "quantity": 1
+          }
+        ]
+      },
+      "winPoints": 3
+    },
+    {
+      "type": {
+        "color": "PURPLE",
+        "level": 1,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "SERVANT",
+          "quantity": 2
+        },
+        {
+          "type": "STONE",
+          "quantity": 2
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "SHIELD",
+            "quantity": 1
+          },
+          {
+            "type": "COIN",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "STONE",
+            "quantity": 2
+          },
+          {
+            "resource": "faithPoint",
+            "quantity": 1
+          }
+        ]
+      },
+      "winPoints": 4
+    },
+    {
+      "type": {
+        "color": "PURPLE",
+        "level": 1,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "SERVANT",
+          "quantity": 2
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "STONE",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "faithPoint",
+            "quantity": 1
+          }
+        ]
+      },
+      "winPoints": 1
+    },
+    {
+      "type": {
+        "color": "PURPLE",
+        "level": 1,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "SHIELD",
+          "quantity": 1
+        },
+        {
+          "type": "SERVANT",
+          "quantity": 1
+        },
+        {
+          "type": "COIN",
+          "quantity": 1
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "COIN",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "SHIELD",
+            "quantity": 1
+          }
+        ]
+      },
+      "winPoints": 2
+    },
+    {
+      "type": {
+        "color": "GREEN",
+        "level": 2,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "SHIELD",
+          "quantity": 4
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "STONE",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "faithPoint",
+            "quantity": 2
+          }
+        ]
+      },
+      "winPoints": 5
+    },
+    {
+      "type": {
+        "color": "GREEN",
+        "level": 2,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "SHIELD",
+          "quantity": 3
+        },
+        {
+          "type": "SERVANT",
+          "quantity": 2
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "SHIELD",
+            "quantity": 1
+          },
+          {
+            "type": "SERVANT",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "STONE",
+            "quantity": 3
+          }
+        ]
+      },
+      "winPoints": 6
+    },
+    {
+      "type": {
+        "color": "GREEN",
+        "level": 2,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "SHIELD",
+          "quantity": 5
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "COIN",
+            "quantity": 2
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "STONE",
+            "quantity": 2
+          },
+          {
+            "resource": "faithPoint",
+            "quantity": 2
+          }
+        ]
+      },
+      "winPoints": 7
+    },
+    {
+      "type": {
+        "color": "GREEN",
+        "level": 2,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "SHIELD",
+          "quantity": 3
+        },
+        {
+          "type": "COIN",
+          "quantity": 3
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "COIN",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "SHIELD",
+            "quantity": 2
+          },
+          {
+            "resource": "faithPoint",
+            "quantity": 1
+          }
+        ]
+      },
+      "winPoints": 8
+    },
+    {
+      "type": {
+        "color": "BLUE",
+        "level": 2,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "COIN",
+          "quantity": 4
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "SERVANT",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "faithPoint",
+            "quantity": 2
+          }
+        ]
+      },
+      "winPoints": 5
+    },
+    {
+      "type": {
+        "color": "BLUE",
+        "level": 2,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "COIN",
+          "quantity": 3
+        },
+        {
+          "type": "STONE",
+          "quantity": 2
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "STONE",
+            "quantity": 1
+          },
+          {
+            "type": "COIN",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "SERVANT",
+            "quantity": 3
+          }
+        ]
+      },
+      "winPoints": 6
+    },
+    {
+      "type": {
+        "color": "BLUE",
+        "level": 2,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "COIN",
+          "quantity": 5
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "SERVANT",
+            "quantity": 2
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "SHIELD",
+            "quantity": 2
+          },
+          {
+            "resource": "faithPoint",
+            "quantity": 2
+          }
+        ]
+      },
+      "winPoints": 7
+    },
+    {
+      "type": {
+        "color": "BLUE",
+        "level": 2,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "COIN",
+          "quantity": 3
+        },
+        {
+          "type": "STONE",
+          "quantity": 3
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "SERVANT",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "STONE",
+            "quantity": 2
+          },
+          {
+            "resource": "faithPoint",
+            "quantity": 1
+          }
+        ]
+      },
+      "winPoints": 8
+    },
+    {
+      "type": {
+        "color": "YELLOW",
+        "level": 2,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "STONE",
+          "quantity": 4
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "SHIELD",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "faithPoint",
+            "quantity": 2
+          }
+        ]
+      },
+      "winPoints": 5
+    },
+    {
+      "type": {
+        "color": "YELLOW",
+        "level": 2,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "STONE",
+          "quantity": 3
+        },
+        {
+          "type": "SHIELD",
+          "quantity": 2
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "STONE",
+            "quantity": 1
+          },
+          {
+            "type": "SHIELD",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "COIN",
+            "quantity": 3
+          }
+        ]
+      },
+      "winPoints": 6
+    },
+    {
+      "type": {
+        "color": "YELLOW",
+        "level": 2,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "STONE",
+          "quantity": 5
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "SHIELD",
+            "quantity": 2
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "SERVANT",
+            "quantity": 2
+          },
+          {
+            "resource": "faithPoint",
+            "quantity": 2
+          }
+        ]
+      },
+      "winPoints": 7
+    },
+    {
+      "type": {
+        "color": "YELLOW",
+        "level": 2,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "STONE",
+          "quantity": 3
+        },
+        {
+          "type": "SERVANT",
+          "quantity": 3
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "SHIELD",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "COIN",
+            "quantity": 2
+          },
+          {
+            "resource": "faithPoint",
+            "quantity": 1
+          }
+        ]
+      },
+      "winPoints": 8
+    },
+    {
+      "type": {
+        "color": "PURPLE",
+        "level": 2,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "SERVANT",
+          "quantity": 4
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "COIN",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "faithPoint",
+            "quantity": 2
+          }
+        ]
+      },
+      "winPoints": 5
+    },
+    {
+      "type": {
+        "color": "PURPLE",
+        "level": 2,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "SERVANT",
+          "quantity": 3
+        },
+        {
+          "type": "COIN",
+          "quantity": 2
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "SERVANT",
+            "quantity": 1
+          },
+          {
+            "type": "COIN",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "SHIELD",
+            "quantity": 3
+          }
+        ]
+      },
+      "winPoints": 6
+    },
+    {
+      "type": {
+        "color": "PURPLE",
+        "level": 2,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "SERVANT",
+          "quantity": 5
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "STONE",
+            "quantity": 2
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "COIN",
+            "quantity": 2
+          },
+          {
+            "resource": "faithPoint",
+            "quantity": 2
+          }
+        ]
+      },
+      "winPoints": 7
+    },
+    {
+      "type": {
+        "color": "PURPLE",
+        "level": 2,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "SERVANT",
+          "quantity": 3
+        },
+        {
+          "type": "SHIELD",
+          "quantity": 3
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "STONE",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "SERVANT",
+            "quantity": 2
+          },
+          {
+            "resource": "faithPoint",
+            "quantity": 1
+          }
+        ]
+      },
+      "winPoints": 8
+    },
+    {
+      "type": {
+        "color": "GREEN",
+        "level": 3,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "SHIELD",
+          "quantity": 6
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "COIN",
+            "quantity": 2
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "STONE",
+            "quantity": 3
+          },
+          {
+            "resource": "faithPoint",
+            "quantity": 2
+          }
+        ]
+      },
+      "winPoints": 9
+    },
+    {
+      "type": {
+        "color": "GREEN",
+        "level": 3,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "SHIELD",
+          "quantity": 5
+        },
+        {
+          "type": "SERVANT",
+          "quantity": 2
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "SERVANT",
+            "quantity": 1
+          },
+          {
+            "type": "COIN",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "SHIELD",
+            "quantity": 2
+          },
+          {
+            "resource": "physicalResource",
+            "type": "STONE",
+            "quantity": 2
+          },
+          {
+            "resource": "faithPoint",
+            "quantity": 1
+          }
+        ]
+      },
+      "winPoints": 10
+    },
+    {
+      "type": {
+        "color": "GREEN",
+        "level": 3,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "SHIELD",
+          "quantity": 7
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "SERVANT",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "COIN",
+            "quantity": 1
+          },
+          {
+            "resource": "faithPoint",
+            "quantity": 3
+          }
+        ]
+      },
+      "winPoints": 11
+    },
+    {
+      "type": {
+        "color": "GREEN",
+        "level": 3,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "SHIELD",
+          "quantity": 4
+        },
+        {
+          "type": "COIN",
+          "quantity": 4
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "STONE",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "COIN",
+            "quantity": 3
+          },
+          {
+            "resource": "physicalResource",
+            "type": "SHIELD",
+            "quantity": 1
+          }
+        ]
+      },
+      "winPoints": 12
+    },
+    {
+      "type": {
+        "color": "BLUE",
+        "level": 3,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "COIN",
+          "quantity": 6
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "SERVANT",
+            "quantity": 2
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "SHIELD",
+            "quantity": 3
+          },
+          {
+            "resource": "faithPoint",
+            "quantity": 2
+          }
+        ]
+      },
+      "winPoints": 9
+    },
+    {
+      "type": {
+        "color": "BLUE",
+        "level": 3,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "COIN",
+          "quantity": 5
+        },
+        {
+          "type": "STONE",
+          "quantity": 2
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "SHIELD",
+            "quantity": 1
+          },
+          {
+            "type": "COIN",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "SERVANT",
+            "quantity": 2
+          },
+          {
+            "resource": "physicalResource",
+            "type": "STONE",
+            "quantity": 2
+          },
+          {
+            "resource": "faithPoint",
+            "quantity": 1
+          }
+        ]
+      },
+      "winPoints": 10
+    },
+    {
+      "type": {
+        "color": "BLUE",
+        "level": 3,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "COIN",
+          "quantity": 7
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "STONE",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "SHIELD",
+            "quantity": 1
+          },
+          {
+            "resource": "faithPoint",
+            "quantity": 3
+          }
+        ]
+      },
+      "winPoints": 11
+    },
+    {
+      "type": {
+        "color": "BLUE",
+        "level": 3,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "COIN",
+          "quantity": 4
+        },
+        {
+          "type": "STONE",
+          "quantity": 4
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "SERVANT",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "COIN",
+            "quantity": 1
+          },
+          {
+            "resource": "physicalResource",
+            "type": "SHIELD",
+            "quantity": 3
+          }
+        ]
+      },
+      "winPoints": 12
+    },
+    {
+      "type": {
+        "color": "YELLOW",
+        "level": 3,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "STONE",
+          "quantity": 6
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "SHIELD",
+            "quantity": 2
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "SERVANT",
+            "quantity": 3
+          },
+          {
+            "resource": "faithPoint",
+            "quantity": 2
+          }
+        ]
+      },
+      "winPoints": 9
+    },
+    {
+      "type": {
+        "color": "YELLOW",
+        "level": 3,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "STONE",
+          "quantity": 5
+        },
+        {
+          "type": "SERVANT",
+          "quantity": 2
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "STONE",
+            "quantity": 1
+          },
+          {
+            "type": "SERVANT",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "COIN",
+            "quantity": 2
+          },
+          {
+            "resource": "physicalResource",
+            "type": "SHIELD",
+            "quantity": 2
+          },
+          {
+            "resource": "faithPoint",
+            "quantity": 1
+          }
+        ]
+      },
+      "winPoints": 10
+    },
+    {
+      "type": {
+        "color": "YELLOW",
+        "level": 3,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "STONE",
+          "quantity": 7
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "SHIELD",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "SERVANT",
+            "quantity": 1
+          },
+          {
+            "resource": "faithPoint",
+            "quantity": 3
+          }
+        ]
+      },
+      "winPoints": 11
+    },
+    {
+      "type": {
+        "color": "YELLOW",
+        "level": 3,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "STONE",
+          "quantity": 4
+        },
+        {
+          "type": "SERVANT",
+          "quantity": 4
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "SHIELD",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "STONE",
+            "quantity": 1
+          },
+          {
+            "resource": "physicalResource",
+            "type": "SERVANT",
+            "quantity": 3
+          }
+        ]
+      },
+      "winPoints": 12
+    },
+    {
+      "type": {
+        "color": "PURPLE",
+        "level": 3,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "SERVANT",
+          "quantity": 6
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "STONE",
+            "quantity": 2
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "COIN",
+            "quantity": 3
+          },
+          {
+            "resource": "faithPoint",
+            "quantity": 2
+          }
+        ]
+      },
+      "winPoints": 9
+    },
+    {
+      "type": {
+        "color": "PURPLE",
+        "level": 3,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "SERVANT",
+          "quantity": 5
+        },
+        {
+          "type": "COIN",
+          "quantity": 2
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "STONE",
+            "quantity": 1
+          },
+          {
+            "type": "SHIELD",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "COIN",
+            "quantity": 2
+          },
+          {
+            "resource": "physicalResource",
+            "type": "SERVANT",
+            "quantity": 2
+          },
+          {
+            "resource": "faithPoint",
+            "quantity": 1
+          }
+        ]
+      },
+      "winPoints": 10
+    },
+    {
+      "type": {
+        "color": "PURPLE",
+        "level": 3,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "SERVANT",
+          "quantity": 7
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "COIN",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "STONE",
+            "quantity": 1
+          },
+          {
+            "resource": "faithPoint",
+            "quantity": 3
+          }
+        ]
+      },
+      "winPoints": 11
+    },
+    {
+      "type": {
+        "color": "PURPLE",
+        "level": 3,
+        "quantity": 1
+      },
+      "price": [
+        {
+          "type": "SERVANT",
+          "quantity": 4
+        },
+        {
+          "type": "SHIELD",
+          "quantity": 4
+        }
+      ],
+      "production": {
+        "cost": [
+          {
+            "type": "COIN",
+            "quantity": 1
+          }
+        ],
+        "earnings": [
+          {
+            "resource": "physicalResource",
+            "type": "STONE",
+            "quantity": 3
+          },
+          {
+            "resource": "physicalResource",
+            "type": "SERVANT",
+            "quantity": 1
+          }
+        ]
+      },
+      "winPoints": 12
+    }
+  ],
+  "allLeaderCards": [
+    {
+      "requirements": [
+        {
+          "requirement": "cardType",
+          "color": "YELLOW",
+          "level": 0,
+          "quantity": 1
+        },
+        {
+          "requirement": "cardType",
+          "color": "GREEN",
+          "level": 0,
+          "quantity": 1
+        }
+      ],
+      "winPoints": 2,
+      "effect": {
+        "name": "discountEffect",
+        "discount": {
+          "type": "SERVANT",
+          "quantity": 1
+        }
+      }
+    },
+    {
+      "requirements": [
+        {
+          "requirement": "cardType",
+          "color": "BLUE",
+          "level": 0,
+          "quantity": 1
+        },
+        {
+          "requirement": "cardType",
+          "color": "PURPLE",
+          "level": 0,
+          "quantity": 1
+        }
+      ],
+      "winPoints": 2,
+      "effect": {
+        "name": "discountEffect",
+        "discount": {
+          "type": "SHIELD",
+          "quantity": 1
+        }
+      }
+    },
+    {
+      "requirements": [
+        {
+          "requirement": "cardType",
+          "color": "GREEN",
+          "level": 0,
+          "quantity": 1
+        },
+        {
+          "requirement": "cardType",
+          "color": "BLUE",
+          "level": 0,
+          "quantity": 1
+        }
+      ],
+      "winPoints": 2,
+      "effect": {
+        "name": "discountEffect",
+        "discount": {
+          "type": "STONE",
+          "quantity": 1
+        }
+      }
+    },
+    {
+      "requirements": [
+        {
+          "requirement": "cardType",
+          "color": "YELLOW",
+          "level": 0,
+          "quantity": 1
+        },
+        {
+          "requirement": "cardType",
+          "color": "PURPLE",
+          "level": 0,
+          "quantity": 1
+        }
+      ],
+      "winPoints": 2,
+      "effect": {
+        "name": "discountEffect",
+        "discount": {
+          "type": "COIN",
+          "quantity": 1
+        }
+      }
+    },
+    {
+      "requirements": [
+        {
+          "requirement": "physicalResource",
+          "type": "COIN",
+          "quantity": 5
+        }
+      ],
+      "winPoints": 3,
+      "effect": {
+        "name": "slotEffect",
+        "extraShelf": {
+          "type": "STONE",
+          "quantity": 2
+        }
+      }
+    },
+    {
+      "requirements": [
+        {
+          "requirement": "physicalResource",
+          "type": "STONE",
+          "quantity": 5
+        }
+      ],
+      "winPoints": 3,
+      "effect": {
+        "name": "slotEffect",
+        "extraShelf": {
+          "type": "SERVANT",
+          "quantity": 2
+        }
+      }
+    },
+    {
+      "requirements": [
+        {
+          "requirement": "physicalResource",
+          "type": "SERVANT",
+          "quantity": 5
+        }
+      ],
+      "winPoints": 3,
+      "effect": {
+        "name": "slotEffect",
+        "extraShelf": {
+          "type": "SHIELD",
+          "quantity": 2
+        }
+      }
+    },
+    {
+      "requirements": [
+        {
+          "requirement": "physicalResource",
+          "type": "SHIELD",
+          "quantity": 5
+        }
+      ],
+      "winPoints": 3,
+      "effect": {
+        "name": "slotEffect",
+        "extraShelf": {
+          "type": "COIN",
+          "quantity": 2
+        }
+      }
+    },
+    {
+      "requirements": [
+        {
+          "requirement": "cardType",
+          "color": "YELLOW",
+          "level": 0,
+          "quantity": 2
+        },
+        {
+          "requirement": "cardType",
+          "color": "BLUE",
+          "level": 0,
+          "quantity": 1
+        }
+      ],
+      "winPoints": 5,
+      "effect": {
+        "name": "whiteMarbleEffect",
+        "conversion": {
+          "type": "SERVANT",
+          "quantity": 1
+        }
+      }
+    },
+    {
+      "requirements": [
+        {
+          "requirement": "cardType",
+          "color": "GREEN",
+          "level": 0,
+          "quantity": 2
+        },
+        {
+          "requirement": "cardType",
+          "color": "PURPLE",
+          "level": 0,
+          "quantity": 1
+        }
+      ],
+      "winPoints": 5,
+      "effect": {
+        "name": "whiteMarbleEffect",
+        "conversion": {
+          "type": "SHIELD",
+          "quantity": 1
+        }
+      }
+    },
+    {
+      "requirements": [
+        {
+          "requirement": "cardType",
+          "color": "BLUE",
+          "level": 0,
+          "quantity": 2
+        },
+        {
+          "requirement": "cardType",
+          "color": "YELLOW",
+          "level": 0,
+          "quantity": 1
+        }
+      ],
+      "winPoints": 5,
+      "effect": {
+        "name": "whiteMarbleEffect",
+        "conversion": {
+          "type": "STONE",
+          "quantity": 1
+        }
+      }
+    },
+    {
+      "requirements": [
+        {
+          "requirement": "cardType",
+          "color": "BLUE",
+          "level": 0,
+          "quantity": 2
+        },
+        {
+          "requirement": "cardType",
+          "color": "GREEN",
+          "level": 0,
+          "quantity": 1
+        }
+      ],
+      "winPoints": 5,
+      "effect": {
+        "name": "whiteMarbleEffect",
+        "conversion": {
+          "type": "COIN",
+          "quantity": 1
+        }
+      }
+    },
+    {
+      "requirements": [
+        {
+          "requirement": "cardType",
+          "color": "YELLOW",
+          "level": 2,
+          "quantity": 1
+        }
+      ],
+      "winPoints": 4,
+      "effect": {
+        "name": "productionEffect",
+        "production": {
+          "cost": [
+            {
+              "type": "SHIELD",
+              "quantity": 1
+            }
+          ],
+          "earnings": [
+            {
+              "resource": "physicalResource",
+              "type": "UNKNOWN",
+              "quantity": 1
+            },
+            {
+              "resource": "faithPoint",
+              "quantity": 1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "requirements": [
+        {
+          "requirement": "cardType",
+          "color": "BLUE",
+          "level": 2,
+          "quantity": 1
+        }
+      ],
+      "winPoints": 4,
+      "effect": {
+        "name": "productionEffect",
+        "production": {
+          "cost": [
+            {
+              "type": "SERVANT",
+              "quantity": 1
+            }
+          ],
+          "earnings": [
+            {
+              "resource": "physicalResource",
+              "type": "UNKNOWN",
+              "quantity": 1
+            },
+            {
+              "resource": "faithPoint",
+              "quantity": 1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "requirements": [
+        {
+          "requirement": "cardType",
+          "color": "PURPLE",
+          "level": 2,
+          "quantity": 1
+        }
+      ],
+      "winPoints": 4,
+      "effect": {
+        "name": "productionEffect",
+        "production": {
+          "cost": [
+            {
+              "type": "STONE",
+              "quantity": 1
+            }
+          ],
+          "earnings": [
+            {
+              "resource": "physicalResource",
+              "type": "UNKNOWN",
+              "quantity": 1
+            },
+            {
+              "resource": "faithPoint",
+              "quantity": 1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "requirements": [
+        {
+          "requirement": "cardType",
+          "color": "GREEN",
+          "level": 2,
+          "quantity": 1
+        }
+      ],
+      "winPoints": 4,
+      "effect": {
+        "name": "productionEffect",
+        "production": {
+          "cost": [
+            {
+              "type": "COIN",
+              "quantity": 1
+            }
+          ],
+          "earnings": [
+            {
+              "resource": "physicalResource",
+              "type": "UNKNOWN",
+              "quantity": 1
+            },
+            {
+              "resource": "faithPoint",
+              "quantity": 1
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "customPath": [
+    {
+      "Cell": "cell",
+      "winPoints": 0,
+      "vaticanReportSection": 0
+    },
+    {
+      "Cell": "cell",
+      "winPoints": 0,
+      "vaticanReportSection": 0
+    },
+    {
+      "Cell": "cell",
+      "winPoints": 0,
+      "vaticanReportSection": 0
+    },
+    {
+      "Cell": "cell",
+      "winPoints": 1,
+      "vaticanReportSection": 0
+    },
+    {
+      "Cell": "cell",
+      "winPoints": 0,
+      "vaticanReportSection": 0
+    },
+    {
+      "Cell": "cell",
+      "winPoints": 0,
+      "vaticanReportSection": 1
+    },
+    {
+      "Cell": "cell",
+      "winPoints": 2,
+      "vaticanReportSection": 1
+    },
+    {
+      "Cell": "cell",
+      "winPoints": 0,
+      "vaticanReportSection": 1
+    },
+    {
+      "Cell": "vaticanReportCell",
+      "winPoints": 0,
+      "vaticanReportSection": 1
+    },
+    {
+      "Cell": "cell",
+      "winPoints": 4,
+      "vaticanReportSection": 0
+    },
+    {
+      "Cell": "cell",
+      "winPoints": 0,
+      "vaticanReportSection": 0
+    },
+    {
+      "Cell": "cell",
+      "winPoints": 0,
+      "vaticanReportSection": 0
+    },
+    {
+      "Cell": "cell",
+      "winPoints": 6,
+      "vaticanReportSection": 2
+    },
+    {
+      "Cell": "cell",
+      "winPoints": 0,
+      "vaticanReportSection": 2
+    },
+    {
+      "Cell": "cell",
+      "winPoints": 0,
+      "vaticanReportSection": 2
+    },
+    {
+      "Cell": "cell",
+      "winPoints": 9,
+      "vaticanReportSection": 2
+    },
+    {
+      "Cell": "vaticanReportCell",
+      "winPoints": 0,
+      "vaticanReportSection": 2
+    },
+    {
+      "Cell": "cell",
+      "winPoints": 0,
+      "vaticanReportSection": 0
+    },
+    {
+      "Cell": "cell",
+      "winPoints": 12,
+      "vaticanReportSection": 0
+    },
+    {
+      "Cell": "cell",
+      "winPoints": 0,
+      "vaticanReportSection": 3
+    },
+    {
+      "Cell": "cell",
+      "winPoints": 0,
+      "vaticanReportSection": 3
+    },
+    {
+      "Cell": "cell",
+      "winPoints": 16,
+      "vaticanReportSection": 3
+    },
+    {
+      "Cell": "cell",
+      "winPoints": 0,
+      "vaticanReportSection": 3
+    },
+    {
+      "Cell": "cell",
+      "winPoints": 0,
+      "vaticanReportSection": 3
+    },
+    {
+      "Cell": "vaticanReportCell",
+      "winPoints": 20,
+      "vaticanReportSection": 3
+    }
+  ],
+  "basicProduction": {
+    "cost": [
+      {
+        "type": "UNKNOWN",
+        "quantity": 2
+      }
+    ],
+    "earnings": [
+      {
+        "resource": "physicalResource",
+        "type": "UNKNOWN",
+        "quantity": 1
+      }
+    ]
+  }
+}

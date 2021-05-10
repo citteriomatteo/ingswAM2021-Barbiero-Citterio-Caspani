@@ -23,7 +23,10 @@ public class InitController {
                 entry(StateName.NUMBER_OF_PLAYERS, NUM_PLAYERS),
                 entry(StateName.SP_CONFIGURATION_CHOOSE, BINARY_SELECTION),
                 entry(StateName.MP_CONFIGURATION_CHOOSE, BINARY_SELECTION),
-                entry(StateName.CONFIGURATION, CONFIGURE)
+                entry(StateName.CONFIGURATION, CONFIGURE),
+                entry(StateName.WAITING, PING),
+                entry(StateName.START_GAME, PING)
+
         );
     }
     private StateName currentState;
@@ -33,6 +36,7 @@ public class InitController {
     public InitController(PlayerHandler client) {
         currentState = StateName.LOGIN;
         this.client = client;
+        client.write(new NextStateMessage(null, currentState));
     }
 
     public boolean login(String nickname){
@@ -43,8 +47,7 @@ public class InitController {
         client.setPlayer(new Player(nickname));
         playerNickname = nickname;
         addNewPlayer(client);
-        currentState = StateName.NEW_PLAYER;
-        (new NextStateMessage(playerNickname, currentState)).send(playerNickname);
+        changeState(StateName.NEW_PLAYER);
         return true;
     }
 
@@ -61,10 +64,18 @@ public class InitController {
                 else {
                     // multiplayer
                     System.out.println("Player: " + playerNickname + " chose to play a multiplayer match");
-                    if (isThereAPendentMatch()) {
+                    if (isThereAPendentMatch()) { //Found a pendent match, try to add the player to it
                         changeState(StateName.WAITING);
-                        participateToCurrentMatch(client.getPlayer());
+                        if(participateToCurrentMatch(client.getPlayer())) {//If the player is added to the game <-- exit from init
+                            changeState(StateName.START_GAME);
+                            return true;
+                        }
+                        //Failed adding the player, the player will have to make his own game
+                        changeState(StateName.NUMBER_OF_PLAYERS);
+                        return true;
+
                     }else
+                        //He is the first player of the game, he has to choose the number of players
                         changeState(StateName.NUMBER_OF_PLAYERS);
                 }
                 return true;
@@ -81,14 +92,20 @@ public class InitController {
                     List<Player> playersInMatch = matchParticipants();
                     System.out.println("forming a new match for... " + playersInMatch);
                     try {
-                        client.setMatchController(new MatchController(playersInMatch));  //<-- exit from init
+                        System.out.println("------------------------> enter the constructor of Match controller");
+                        MatchController controller = new MatchController(playersInMatch);
+                        System.out.println("------------------------> exit the constructor of match controller");
+                        setMatchController(controller, playersInMatch);  //<-- exit from init
                     } catch (RetryException e) {
-                        //TODO: wrong match choose
+                        //TODO: wrong configuration
                         e.printStackTrace();
                     }
+                    changeState(StateName.START_GAME);
                 }
-                else
+                else { //Choose custom configuration
                     changeState(StateName.CONFIGURATION);
+                }
+                return true;
 
             case RECONNECTION:
                 //todo
@@ -99,6 +116,15 @@ public class InitController {
         }
     }
 
+    public boolean setNumberOfPlayers(int num){
+        if(!isAccepted(NUM_PLAYERS))
+            return false;
+        searchingForPlayers(client.getPlayer(), num);
+        System.out.println(client.getPlayer() + " is searching for " + num + " players...");
+        changeState(StateName.MP_CONFIGURATION_CHOOSE);
+        return true;
+    }
+
     public boolean isAccepted(CtoSMessageType msg){
         return msg.equals(acceptedMessageMap.get(currentState));
     }
@@ -106,5 +132,12 @@ public class InitController {
     private void changeState(StateName nextState){
         currentState = nextState;
         (new NextStateMessage(playerNickname, currentState)).send(playerNickname);
+    }
+
+    private void setMatchController(MatchController controller, List<Player> playersInMatch){
+        for(Player player : playersInMatch) {
+            System.out.println("Try to set the controller for " + player);
+            findControlBase(player.getNickname()).setMatchController(controller);
+        }
     }
 }

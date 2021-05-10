@@ -10,6 +10,7 @@ public interface ControlBase {
     InitController getInitController();
     void setPlayer(Player player);
     Player getPlayer();
+    void setMatchController(MatchController controller);
 
     /**
      * Writes something at this player, the message has to be written in json in the correct format

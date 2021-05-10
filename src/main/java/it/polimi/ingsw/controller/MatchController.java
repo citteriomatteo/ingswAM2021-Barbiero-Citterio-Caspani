@@ -39,7 +39,7 @@ public class MatchController {
         for(StateName sn : StateName.values())
             acceptedMessagesMap.put(sn, acceptedMessages(sn));
 
-        MatchConfiguration configuration = assignConfiguration("src/test/resources/StandardConfiguration.json");
+        MatchConfiguration configuration = assignConfiguration("src/main/resources/StandardConfiguration.json");
         this.cardMap = new HashMap<>();
         for (int i=1; i<=configuration.getAllDevCards().size(); i++)
             cardMap.put("D"+i,configuration.getAllDevCards().get(i-1));

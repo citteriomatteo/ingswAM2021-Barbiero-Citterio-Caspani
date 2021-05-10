@@ -1,10 +1,8 @@
 package it.polimi.ingsw.network.message.ctosmessage;
 
-import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.network.message.stocmessage.RetryMessage;
 import it.polimi.ingsw.network.server.ControlBase;
 
-import static it.polimi.ingsw.network.server.ServerUtilities.searchingForPlayers;
 
 public class NumPlayersMessage extends CtoSMessage{
     private static final CtoSMessageType type = CtoSMessageType.NUM_PLAYERS;
@@ -25,13 +23,15 @@ public class NumPlayersMessage extends CtoSMessage{
 
     @Override
     public boolean computeMessage(ControlBase controlBase) {
-        Player submitter = controlBase.getPlayer();
         if (isValid()) {
-            searchingForPlayers(submitter, numPlayers);
-            System.out.println(submitter + " is searching for " + numPlayers + " players...");
-            return true;
+            if(controlBase.getInitController().setNumberOfPlayers(numPlayers))
+                return true;
+            controlBase.write(new RetryMessage(controlBase.getPlayer().getNickname(), "You can't send a " + type +
+                    " message in this moment"));
+            return false;
         }
-        controlBase.write(new RetryMessage(submitter.getNickname(), "Wrong number of players," +
+
+        controlBase.write(new RetryMessage(controlBase.getPlayer().getNickname(), "Wrong number of players," +
                 " you have to choose a number of players between 2 and 4 to organize a multiplayer match"));
         return false;
     }

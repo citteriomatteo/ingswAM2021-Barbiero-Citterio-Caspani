@@ -82,6 +82,7 @@ public class ServerUtilities {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();  // set interrupt flag
                 System.out.println("Something goes wrong while waiting for players joining the new match");
+                System.exit(1);
             }
         }
         //when the queue is full then copy the object on a temporary pointer
@@ -130,12 +131,14 @@ public class ServerUtilities {
                  } catch (InterruptedException e) {
                      Thread.currentThread().interrupt();  // set interrupt flag
                      System.out.println("Something goes wrong while waiting other players to start a new match");
+                     System.exit(1);
                  }
              }
              return true;
          }
          return false;
     }
+
 
 //    //!!!!!!!!!!!!!TODO: REMOVE ME!!!!!!!!!!!!!!!!!!!
 //    //only for test purpose

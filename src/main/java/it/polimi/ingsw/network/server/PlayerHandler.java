@@ -5,10 +5,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.controller.InitController;
 import it.polimi.ingsw.controller.MatchController;
-import it.polimi.ingsw.exceptions.RetryException;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessage;
-import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
 import it.polimi.ingsw.network.message.stocmessage.RetryMessage;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
 
@@ -17,7 +15,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static it.polimi.ingsw.gsonUtilities.GsonHandler.*;
@@ -40,7 +37,7 @@ public class PlayerHandler implements Runnable, ControlBase{
     private PrintWriter out;
     private MatchController matchController;
     private InitController initController;
-    private AtomicBoolean inMatch;
+    private final AtomicBoolean inMatch;
 
     /**
      * Generate a PlayerHandler
@@ -65,7 +62,7 @@ public class PlayerHandler implements Runnable, ControlBase{
             out = new PrintWriter(socket.getOutputStream(), true);
         }catch (IOException e) {
             terminateConnection(false);
-            System.out.println("A problem occur when trying to connect with a player");
+            System.out.println("A problem occurs when trying to connect with a player");
         }
     }
 
@@ -85,8 +82,9 @@ public class PlayerHandler implements Runnable, ControlBase{
     public void setPlayer(Player player) {
         this.player = player;
     }
-
+    @Override
     public void setMatchController(MatchController matchController) {
+        System.out.println("set the matchController for " + player);
         this.matchController = matchController;
         inMatch.set(true);
     }
@@ -121,11 +119,11 @@ public class PlayerHandler implements Runnable, ControlBase{
 
     public void run() {
         try {
-            //initialize the player and do the configuration
+            //initialize the player and do the configuration, exit from here when is assigned a MatchController
             init();
 
             CtoSMessage inMsg;
-            System.out.println("Player " + player + " enters the main cycle");
+            System.out.println("------------- Player " + player + " enters the main cycle");
             while (inMatch.get()) {
                 inMsg = read();
                 inMsg.computeMessage(this);
@@ -149,7 +147,6 @@ public class PlayerHandler implements Runnable, ControlBase{
      */
     private void init() throws IOException {
         CtoSMessage inMsg;
-      //  out.println("Welcome to Masters of Renaissance!"); //todo: to delete
         initController = new InitController(this);
 
         while(!inMatch.get()) {
@@ -160,42 +157,6 @@ public class PlayerHandler implements Runnable, ControlBase{
                 write(new RetryMessage(player == null ? null : player.getNickname(), "The match is not started yet, you cannot send messages like that"));
             //controls on existing nickname and previous players disconnection are done inside the computeMessage
         }
-
-        //%%%%%%%%%%%%%%% MULTIPLAYER %%%%%%%%%%%%%%%%%%%
-    /*    System.out.println("Player: " + player + " chose to play a multiplayer match");
-
-        if (isThereAPendentMatch()) {
-            out.println("Participating to an existing match..."); //todo: delete
-            participateToCurrentMatch(player);
-        } else {
-*/
-            chooseNumPlayers();  //TODO: continue from here  <---------------------------
-            /*
-            List<Player> playersInMatch = matchParticipants();
-            System.out.println("forming a new match for... " + playersInMatch);
-
-                try {
-                    //todo
-                    matchController = new MatchController(playersInMatch);
-
-                } catch (RetryException e) {
-                    //TODO: wrong match choose
-                    e.printStackTrace();
-                }
-
-
-            }
-            //TODO: MATCH IMPLEMENTATION.
-
-             */
-    }
-
-    private void chooseNumPlayers() throws IOException {
-        CtoSMessage inMsg;
-        do {
-            out.println("You are the first player, select how many player you want in your match [2/3/4]"); //todo: delete
-            inMsg = read();
-        } while (!inMsg.getType().equals(CtoSMessageType.NUM_PLAYERS) || !inMsg.computeMessage(this));
 
     }
 
@@ -223,7 +184,6 @@ public class PlayerHandler implements Runnable, ControlBase{
      * @throws IOException if something goes wrong while waiting for the message
      */
     private CtoSMessage read() throws IOException {
-        //out.println("Write a message object in json format"); //todo: this part will be deleted
         String readLine = null;
         CtoSMessage inMsg;
         while(true){
@@ -234,9 +194,7 @@ public class PlayerHandler implements Runnable, ControlBase{
                 return inMsg;
             } catch (Exception e) {
                 System.out.println("Arrived wrong message syntax from " + player + "\n--> message: " + readLine);
-                out.println("Please, Write a message object in json format");
-                if(player != null)
-                    this.write(new RetryMessage(player.getNickname(), "Wrong Json Syntax"));
+                this.write(new RetryMessage((player == null) ? null : player.getNickname(), "Wrong Json Syntax " + e.getMessage()));
             }
         }
     }
@@ -247,7 +205,6 @@ public class PlayerHandler implements Runnable, ControlBase{
      * @return true if the message has been sent, false if something goes wrong in the output stream
      */
     public synchronized boolean write(StoCMessage msg){
-        System.out.println("entered in write");
         try {
             String outMsg = parserStoC.toJson(msg, StoCMessage.class);
             out.println(outMsg);
