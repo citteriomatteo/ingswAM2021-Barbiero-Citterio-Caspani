@@ -6,12 +6,14 @@ import it.polimi.ingsw.model.essentials.*;
 import it.polimi.ingsw.model.essentials.leader.LeaderCard;
 import it.polimi.ingsw.model.match.player.personalBoard.DevCardSlots;
 import it.polimi.ingsw.model.match.player.personalBoard.DiscountMap;
+import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
 import it.polimi.ingsw.model.match.player.personalBoard.StrongBox;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -26,7 +28,7 @@ public class PlayerSummary
     private List<PhysicalResource> strongbox;
     private int faithMarker;
     private List<Integer> popeTiles;
-    private List<DevelopmentCard>[] devCardSlots;
+    private List<String>[] devCardSlots;
     private List<String> handLeaders;
     private List<String> activeLeaders;
     private List<PhysicalResource> whiteMarbleConversions;
@@ -42,7 +44,7 @@ public class PlayerSummary
      * It initializes its Summary basing on its actual (starting) situation.
      * (cardMap is passed only because here we need to use it!)
      */
-    public PlayerSummary(Player player, Map<Card, String> cardMap){
+    public PlayerSummary(Player player, Map<String, Card> cardMap){
         this.nickname = player.getNickname();
 
         //last used state init to the first state after the creation of the match
@@ -52,7 +54,6 @@ public class PlayerSummary
         updateWarehouse(player.getPersonalBoard().getWarehouse());
 
         //strongbox init
-        this.strongbox = new ArrayList<>();
         updateStrongbox(player.getPersonalBoard().getStrongBox());
 
         //player's faith marker init
@@ -62,7 +63,8 @@ public class PlayerSummary
         updatePopeTiles(player.getPersonalBoard().getFaithPath().getPopeTiles());
 
         //dev card slots init
-        updateDevCardSlots(player.getPersonalBoard().getDevCardSlots());
+        this.devCardSlots = new List[3];
+        updateDevCardSlots(player.getPersonalBoard().getDevCardSlots(), cardMap);
 
         //hand leaders init
         handLeaders = new ArrayList<>();
@@ -90,6 +92,7 @@ public class PlayerSummary
     }
 
     //UPDATE METHODS ( CALLED BY THE SUMMARY ) :
+
     /**
      * This method, when called, updates the warehouse in this player's summary.
      * @param warehouse
@@ -103,6 +106,7 @@ public class PlayerSummary
      * @param strongbox
      */
     public void updateStrongbox(StrongBox strongbox){
+        this.strongbox = new ArrayList<>();
         try {
             for (ResType type : ResType.values())
                 this.strongbox.add(new PhysicalResource(type, strongbox.getNumberOf(type)));
@@ -131,16 +135,18 @@ public class PlayerSummary
      * This method, when called, updates the dev card slots in this player's summary.
      * @param devCardSlots
      */
-    public void updateDevCardSlots(DevCardSlots devCardSlots){
-        this.devCardSlots = devCardSlots.getSlots();
+    public void updateDevCardSlots(DevCardSlots devCardSlots, Map<String, Card> cardMap){
+        for(int i = 0; i<devCardSlots.getSlots().length; i++)
+            this.devCardSlots[i] = new ArrayList<>(devCardSlots.getSlots()[i].stream().map((x)->getKeyByValue(cardMap,x)).collect(Collectors.toList()));
+
     }
 
     /**
      * This method, when called, updates the hand leaders in this player's summary.
      * @param handLeaders
      */
-    public void updateHandLeaders(List<LeaderCard> handLeaders, Map<Card, String> cardMap){
-        this.handLeaders = handLeaders.stream().map((x)-> cardMap.get(x)).collect(Collectors.toList());
+    public void updateHandLeaders(List<LeaderCard> handLeaders, Map<String, Card> cardMap){
+        this.handLeaders = new ArrayList<>(handLeaders.stream().map((x)-> getKeyByValue(cardMap, x)).collect(Collectors.toList()));
     }
 
     /**
@@ -148,9 +154,10 @@ public class PlayerSummary
      * It clears the list before re-inserting everything, to avoid duplicates.
      * @param activeLeaders
      */
-    public void updateActiveLeaders(List<LeaderCard> activeLeaders, Map<Card, String> cardMap){
-        this.activeLeaders.clear();
-        this.activeLeaders.addAll(activeLeaders.stream().map((x)-> cardMap.get(x)).collect(Collectors.toList()));
+    public void updateActiveLeaders(List<LeaderCard> activeLeaders, Map<String, Card> cardMap){
+        for(LeaderCard lc : activeLeaders)
+            if(!this.activeLeaders.contains(getKeyByValue(cardMap,lc)))
+                this.activeLeaders.add(getKeyByValue(cardMap,lc));
     }
 
     /**
@@ -192,7 +199,7 @@ public class PlayerSummary
     }
 
     /**
-     * This method, when called, updates the last used state in this player's summary, useful for disconnection
+     * This method, when called, updates the last used state in this player's summary, useful for disconnections
      * in the middle of a complex operation ( such as Dev card buy, production, etc. ).
      * @param lastUsedState
      */
@@ -204,7 +211,7 @@ public class PlayerSummary
     public List<PhysicalResource> getStrongbox() { return strongbox; }
     public int getFaithMarker() { return faithMarker; }
     public List<Integer> getPopeTiles() { return popeTiles; }
-    public List<DevelopmentCard>[] getDevCardSlots() { return devCardSlots; }
+    public List<String>[] getDevCardSlots() { return devCardSlots; }
     public List<String> getHandLeaders() { return handLeaders; }
     public List<String> getActiveLeaders() { return activeLeaders; }
     public List<PhysicalResource> getWhiteMarbleConversions() { return whiteMarbleConversions; }
@@ -212,4 +219,14 @@ public class PlayerSummary
     public DevelopmentCard getTempDevCard() { return tempDevCard; }
     public Production getTempProduction() { return tempProduction; }
     public StateName getLastUsedState() { return lastUsedState; }
+
+    //FUNCTIONAL METHODS:
+    public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
+        for (Map.Entry<T, E> entry : map.entrySet()) {
+            if (Objects.equals(value, entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
 }

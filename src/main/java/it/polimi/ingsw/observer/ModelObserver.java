@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.match.CardGrid;
 import it.polimi.ingsw.model.match.market.Market;
 import it.polimi.ingsw.model.match.player.personalBoard.DevCardSlots;
 import it.polimi.ingsw.model.match.player.personalBoard.DiscountMap;
+import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
 import it.polimi.ingsw.model.match.player.personalBoard.StrongBox;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 
@@ -19,6 +20,7 @@ public interface ModelObserver {
     public void updateMarket(Market market);
     public void updateCardGrid(CardGrid cardGrid);
     public void updateLorenzoMarker(int lorenzoMarker);
+
     public void updateWarehouse(String nickname, Warehouse warehouse);
     public void updateStrongbox(String nickname, StrongBox strongbox);
     public void updateFaithMarker(String nickname, int faithMarker);

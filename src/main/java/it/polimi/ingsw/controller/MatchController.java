@@ -6,14 +6,13 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.essentials.Card;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.Production;
-import it.polimi.ingsw.model.match.Match;
-import it.polimi.ingsw.model.match.MatchConfiguration;
-import it.polimi.ingsw.model.match.MultiMatch;
-import it.polimi.ingsw.model.match.SingleMatch;
+import it.polimi.ingsw.model.match.*;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
 import it.polimi.ingsw.network.message.stocmessage.EndGameResultsMessage;
 import it.polimi.ingsw.network.message.stocmessage.NextStateMessage;
+import it.polimi.ingsw.observer.ModelObservable;
+import it.polimi.ingsw.observer.ModelObserver;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -53,6 +52,7 @@ public class MatchController {
 
         try {
             this.match = new MultiMatch(playersInMatch, configuration);
+
         } catch (SingleMatchException e) {
             System.err.println("internal error");
             System.exit(1);

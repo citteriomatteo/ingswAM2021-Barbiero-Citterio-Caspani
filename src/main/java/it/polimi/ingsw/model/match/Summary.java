@@ -1,16 +1,14 @@
 package it.polimi.ingsw.model.match;
 
 import it.polimi.ingsw.controller.StateName;
-import it.polimi.ingsw.model.essentials.Card;
-import it.polimi.ingsw.model.essentials.DevelopmentCard;
-import it.polimi.ingsw.model.essentials.PhysicalResource;
-import it.polimi.ingsw.model.essentials.Production;
+import it.polimi.ingsw.model.essentials.*;
 import it.polimi.ingsw.model.essentials.leader.LeaderCard;
 import it.polimi.ingsw.model.match.market.Market;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.PlayerSummary;
 import it.polimi.ingsw.model.match.player.personalBoard.DevCardSlots;
 import it.polimi.ingsw.model.match.player.personalBoard.DiscountMap;
+import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
 import it.polimi.ingsw.model.match.player.personalBoard.StrongBox;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.SingleFaithPath;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
@@ -19,6 +17,7 @@ import it.polimi.ingsw.observer.ModelObserver;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * This class implements a summary of the match situation.
@@ -27,7 +26,7 @@ import java.util.Map;
  */
 public class Summary implements ModelObserver
 {
-    private Map<Card, String> cardMap;
+    private Map<String, Card> cardMap;
     private char[][] market;
     private char sideMarble;
     private List<String>[][] cardGrid;
@@ -42,14 +41,16 @@ public class Summary implements ModelObserver
      * @param match
      * @param cardMap
      */
-    public Summary(Match match, Map<Card, String> cardMap){
+    public Summary(Match match, Map<String, Card> cardMap){
         //cardMap init
         this.cardMap = cardMap;
 
         // market init
+        this.market = new char[3][4];
         updateMarket(match.getMarket());
 
         // cardGrid init
+        this.cardGrid = new ArrayList[CardGrid.MAX_LEVEL][CardColor.values().length];
         updateCardGrid(match.getCardGrid());
 
         //lorenzo's marker init: moved here in Summary because knowing if the match is single or multi is needed.
@@ -87,20 +88,21 @@ public class Summary implements ModelObserver
         sideMarble = Character.toLowerCase(market.getSlide().toString().charAt(0));
         for(int i = 0; i< market.getBoard().length; i++)
             for(int j = 0; j<market.getBoard()[i].length; j++)
-                this.market[i][j] = Character.toLowerCase(market.getSlide().toString().charAt(0));
+                this.market[i][j] = Character.toLowerCase(market.getBoard()[i][j].toString().charAt(0));
     }
 
     /**
      * This method, when called, updates the card grid in the summary.
      * It inserts into every slot the id of the top card and the depth of the
-     * stack (got from match.getCardGrid().getGrid()[i][j].size()).
+     * stack (got from cardGrid.getGrid()[i][j].size()).
      * @param cardGrid
      */
     @Override
     public void updateCardGrid(CardGrid cardGrid) {
         for(int i = 0; i<cardGrid.getTop().length; i++)
             for(int j = 0; j<cardGrid.getTop()[i].length; j++) {
-                this.cardGrid[i][j].add(cardMap.get(cardGrid.getTop()[i][j]));
+                this.cardGrid[i][j] = new ArrayList<>();
+                this.cardGrid[i][j].add(getKeyByValue(cardMap,cardGrid.getTop()[i][j]));
                 this.cardGrid[i][j].add("" + cardGrid.getGrid()[i][j].size());
             }
     }
@@ -161,7 +163,7 @@ public class Summary implements ModelObserver
      */
     @Override
     public void updateDevCardSlots(String nickname, DevCardSlots devCardSlots) {
-        getPlayerSummary(nickname).updateDevCardSlots(devCardSlots);
+        getPlayerSummary(nickname).updateDevCardSlots(devCardSlots, cardMap);
     }
 
     /**
@@ -232,5 +234,26 @@ public class Summary implements ModelObserver
     @Override
     public void updateLastUsedState(String nickname, StateName lastUsedState) {
         getPlayerSummary(nickname).updateLastUsedState(lastUsedState);
+    }
+
+
+    //GETTERS:
+
+
+    public Map<String, Card> getCardMap() { return cardMap; }
+    public char[][] getMarket() { return market; }
+    public char getSideMarble() { return sideMarble; }
+    public List<String>[][] getCardGrid() { return cardGrid; }
+    public int getLorenzoMarker() { return lorenzoMarker; }
+    public List<PlayerSummary> getPlayersSummary() { return playersSummary; }
+
+    //FUNCTIONAL METHODS:
+    public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
+        for (Map.Entry<T, E> entry : map.entrySet()) {
+            if (Objects.equals(value, entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 }

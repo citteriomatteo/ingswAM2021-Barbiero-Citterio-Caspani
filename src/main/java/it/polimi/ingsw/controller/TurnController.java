@@ -6,10 +6,12 @@ import it.polimi.ingsw.model.essentials.leader.LeaderCard;
 import it.polimi.ingsw.model.essentials.leader.ProductionEffect;
 import it.polimi.ingsw.exceptions.RetryException;
 import it.polimi.ingsw.model.match.Match;
+import it.polimi.ingsw.model.match.Summary;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.personalBoard.StrongBox;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.WarehouseDecorator;
+import it.polimi.ingsw.observer.ModelObserver;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -33,6 +35,11 @@ public class TurnController {
         this.match = match;
         this.cardMap = cardMap;
         this.whiteMarbleDrawn = 0;
+
+        //initializing the observer and setting it to every player's observable instance.
+        ModelObserver obs = new Summary(this.match, this.cardMap);
+        for(Player p : match.getPlayers())
+            p.setSummary(obs);
     }
 
     /**

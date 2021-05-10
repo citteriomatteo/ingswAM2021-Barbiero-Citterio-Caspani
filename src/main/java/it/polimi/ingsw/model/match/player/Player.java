@@ -47,7 +47,7 @@ public class Player extends ModelObservable implements Adder, Verificator
     public boolean setHandLeaders(List<LeaderCard> handLeaders)
     {
         this.handLeaders = handLeaders;
-
+        //update_call
         return true;
     }
 
@@ -88,6 +88,7 @@ public class Player extends ModelObservable implements Adder, Verificator
     public boolean setTempDevCard(DevelopmentCard tempDevCard){
         if(this.tempDevCard==null) {
             this.tempDevCard = tempDevCard;
+            //update_call
             return true;
         }
         return false;
@@ -130,6 +131,7 @@ public class Player extends ModelObservable implements Adder, Verificator
     @Override
     public boolean addFaithPoints(int quantity) throws LastRoundException {
         getPersonalBoard().getFaithPath().addFaithPoints(quantity, match);
+        //update_call
         return true;
     }
 
