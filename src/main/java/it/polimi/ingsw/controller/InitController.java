@@ -63,7 +63,7 @@ public class InitController {
 
     }
 
-    public boolean selection(boolean choice) throws RetryException {
+    public boolean selection(boolean choice) {
         if(!isAccepted(BINARY_SELECTION))
             return false;
         switch (currentState){
@@ -93,19 +93,20 @@ public class InitController {
                 return true;
 
             case SP_CONFIGURATION_CHOOSE:
-                if(choice) //choose the default config
+                if(choice) { //choose the default config
                     client.setMatchController(new MatchController(client.getPlayer()));  //<-- exit from init
+                    changeState(StateName.START_GAME);
+                }
                 else
                     changeState(StateName.CONFIGURATION);
                 return true;
 
             case MP_CONFIGURATION_CHOOSE:
                 if(choice) { //choose the default config, wait for players and then start the match
+                    changeState(StateName.WAITING);
                     List<Player> playersInMatch = matchParticipants();
                     System.out.println("forming a new match for... " + playersInMatch);
-                    System.out.println("------------------------> enter the constructor of Match controller");
                     MatchController controller = new MatchController(playersInMatch);
-                    System.out.println("------------------------> exit the constructor of match controller");
                     setMatchController(controller, playersInMatch);  //<-- exit from init
                     changeState(StateName.START_GAME);
                 }
@@ -143,7 +144,6 @@ public class InitController {
 
     private void setMatchController(MatchController controller, List<Player> playersInMatch){
         for(Player player : playersInMatch) {
-            System.out.println("Try to set the controller for " + player);
             findControlBase(player.getNickname()).setMatchController(controller);
         }
     }

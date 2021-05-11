@@ -22,12 +22,7 @@ public class BinarySelectionMessage extends CtoSMessage {
 
     @Override
     public boolean computeMessage(ControlBase controlBase) {
-        try {
-            return controlBase.getInitController().selection(selection);
-        } catch (RetryException e) {
-            e.printStackTrace();
-        }
-        return true;
+        return controlBase.getInitController().selection(selection);
     }
 
     /**

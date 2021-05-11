@@ -10,10 +10,7 @@ import it.polimi.ingsw.network.message.ctosmessage.CtoSMessage;
 import it.polimi.ingsw.network.message.stocmessage.RetryMessage;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -123,7 +120,7 @@ public class PlayerHandler implements Runnable, ControlBase{
             init();
 
             CtoSMessage inMsg;
-            System.out.println("------------- Player " + player + " enters the main cycle");
+          //  System.out.println("------------- Player " + player + " enters the main cycle");
             while (inMatch.get()) {
                 inMsg = read();
                 inMsg.computeMessage(this);
@@ -133,8 +130,7 @@ public class PlayerHandler implements Runnable, ControlBase{
             terminateConnection(true);
         } catch (IOException e) {
             System.err.println(e.getMessage());
-        }
-        finally {
+            System.out.println("Probably something goes wrong or the player closed the connection---> disconnection");
             if(player != null)
                 player.disconnect(); //todo: fix disconnection
             terminateConnection(false);
@@ -151,6 +147,10 @@ public class PlayerHandler implements Runnable, ControlBase{
 
         while(!inMatch.get()) {
             inMsg = read();
+            if (inMatch.get()) { //The player entered the next cycle but is actually in the match, so the message has to be computed before returning
+                inMsg.computeMessage(this);
+                return;
+            }
             if (inMsg.getType().getCode() == 0)
                 inMsg.computeMessage(this);
             else
@@ -184,12 +184,12 @@ public class PlayerHandler implements Runnable, ControlBase{
      * @throws IOException if something goes wrong while waiting for the message
      */
     private CtoSMessage read() throws IOException {
-        String readLine = null;
+        String readLine;
         CtoSMessage inMsg;
         while(true){
-            try {
                 readLine = in.readLine();
                 System.out.println("Client wrote: "+readLine);
+            try {
                 inMsg = parserCtoS.fromJson(readLine, CtoSMessage.class);
                 return inMsg;
             } catch (Exception e) {

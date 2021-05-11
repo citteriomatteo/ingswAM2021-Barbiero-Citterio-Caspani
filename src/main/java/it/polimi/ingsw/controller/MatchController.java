@@ -11,7 +11,6 @@ import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
 import it.polimi.ingsw.network.message.stocmessage.EndGameResultsMessage;
 import it.polimi.ingsw.network.message.stocmessage.NextStateMessage;
-import it.polimi.ingsw.observer.ModelObservable;
 import it.polimi.ingsw.observer.ModelObserver;
 
 import java.io.FileNotFoundException;
@@ -60,7 +59,7 @@ public class MatchController {
         for (int i=1; i<=configuration.getAllLeaderCards().size(); i++)
             cardMap.put("L"+i,configuration.getAllLeaderCards().get(i-1));
 
-        //setting the starting summary to eveyone
+        //setting the starting summary to everyone
         ModelObserver obs = new Summary(playersInMatch);
         for(Player p : playersInMatch)
             p.setSummary(obs);
@@ -87,7 +86,7 @@ public class MatchController {
         for (int i=1; i<=configuration.getAllLeaderCards().size(); i++)
             cardMap.put("L"+i,configuration.getAllLeaderCards().get(i-1));
 
-        //setting the starting summary to eveyone
+        //setting the starting summary to everyone
         ModelObserver obs = new Summary(playersInMatch);
         for(Player p : playersInMatch)
             p.setSummary(obs);
@@ -186,7 +185,7 @@ public class MatchController {
         if (turnController == null) {
             if(match.getPlayer(nickname) == null)
                 return false;
-        if (!acceptedMessagesMap.get(startingPhaseController.getPlayerState(nickname)).contains(type))
+            if (!acceptedMessagesMap.get(startingPhaseController.getPlayerState(nickname)).contains(type))
                 throw new RetryException("This message is not accepted in this phase");
         } else if (rematchPhaseController == null) {
             if (!nickname.equals(turnController.getCurrentPlayer().getNickname()))
