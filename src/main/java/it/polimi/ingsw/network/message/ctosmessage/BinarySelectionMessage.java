@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.message.ctosmessage;
 
+import it.polimi.ingsw.exceptions.RetryException;
 import it.polimi.ingsw.network.server.ControlBase;
 
 public class BinarySelectionMessage extends CtoSMessage {
@@ -21,7 +22,12 @@ public class BinarySelectionMessage extends CtoSMessage {
 
     @Override
     public boolean computeMessage(ControlBase controlBase) {
-        return controlBase.getInitController().selection(selection);
+        try {
+            return controlBase.getInitController().selection(selection);
+        } catch (RetryException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
     /**

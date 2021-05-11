@@ -63,7 +63,7 @@ public class InitController {
 
     }
 
-    public boolean selection(boolean choice){
+    public boolean selection(boolean choice) throws RetryException {
         if(!isAccepted(BINARY_SELECTION))
             return false;
         switch (currentState){

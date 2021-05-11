@@ -16,9 +16,9 @@ public class ConcreteWarehouse implements Warehouse
     {
         shelves = new ArrayList<>();
         try {
-            shelves.add(new PhysicalResource(ResType.UNKNOWN, 0));
-            shelves.add(new PhysicalResource(ResType.UNKNOWN, 0));
-            shelves.add(new PhysicalResource(ResType.UNKNOWN, 0));
+            shelves.add(new PhysicalResource(ResType.COIN, 0));
+            shelves.add(new PhysicalResource(ResType.SHIELD, 0));
+            shelves.add(new PhysicalResource(ResType.STONE, 0));
         }
         catch(NegativeQuantityException e) { e.printStackTrace(); System.err.println("Application shutdown due to an internal error."); System.exit(1);}
 

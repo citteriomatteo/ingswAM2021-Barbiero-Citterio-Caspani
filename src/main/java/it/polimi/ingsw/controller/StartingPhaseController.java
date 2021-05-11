@@ -78,6 +78,10 @@ public class StartingPhaseController {
         return playerStates.get(nickname);
     }
 
+    public void setState(String nickname, StateName state){
+        playerStates.replace(nickname,state);
+    }
+
     public boolean hasEnded(){
         for(StateName sn : playerStates.values()) {
             if(!sn.equals(StateName.STARTING_PHASE_DONE))

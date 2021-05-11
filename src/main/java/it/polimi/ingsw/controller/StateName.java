@@ -18,16 +18,15 @@ public enum StateName {
     //States used in TurnController
     STARTING_TURN (4),
     MARKET_ACTION (5),
-    INTERMEDIATE (6),
-    RESOURCES_PLACEMENT (7),
-    BUY_DEV_ACTION (8),
-    PLACE_DEV_CARD (9),
-    PRODUCTION_ACTION (10),
-    END_TURN (11),
-    END_MATCH (12),
-    REMATCH_OFFER (13),
-    NEW_MATCH (14),
-    END_GAME (15);
+    RESOURCES_PLACEMENT (6),
+    BUY_DEV_ACTION (7),
+    PLACE_DEV_CARD (8),
+    PRODUCTION_ACTION (9),
+    END_TURN (10),
+    END_MATCH (11),
+    REMATCH_OFFER (12),
+    NEW_MATCH (13),
+    END_GAME (14);
 
 
     private final int val;

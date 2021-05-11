@@ -6,13 +6,14 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.essentials.Card;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.Production;
-import it.polimi.ingsw.model.match.*;
+import it.polimi.ingsw.model.match.Match;
+import it.polimi.ingsw.model.match.MatchConfiguration;
+import it.polimi.ingsw.model.match.MultiMatch;
+import it.polimi.ingsw.model.match.SingleMatch;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
 import it.polimi.ingsw.network.message.stocmessage.EndGameResultsMessage;
 import it.polimi.ingsw.network.message.stocmessage.NextStateMessage;
-import it.polimi.ingsw.observer.ModelObservable;
-import it.polimi.ingsw.observer.ModelObserver;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -20,6 +21,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType.*;
+import static java.util.Map.entry;
 
 import static it.polimi.ingsw.gsonUtilities.GsonHandler.*;
 import static it.polimi.ingsw.gsonUtilities.GsonHandler.effectConfig;
@@ -29,54 +33,55 @@ public class MatchController {
     private TurnController turnController;
     private StartingPhaseController startingPhaseController;
     private RematchPhaseController rematchPhaseController;
-    private final Map<StateName, List<CtoSMessageType>> acceptedMessagesMap;
     private final Map<String, Card> cardMap;
+    private static final Map<StateName, List<CtoSMessageType>> acceptedMessagesMap;
+    static {
+        acceptedMessagesMap = Map.ofEntries(
+                entry(StateName.WAITING_LEADERS, List.of(LEADERS_CHOICE)),
+                entry(StateName.WAITING_RESOURCES, List.of(STARTING_RESOURCES)),
+                entry(StateName.STARTING_TURN, List.of(LEADER_ACTIVATION, LEADER_DISCARDING, SWITCH_SHELF,
+                        MARKET_DRAW, DEV_CARD_DRAW, PRODUCTION)),
+                entry(StateName.MARKET_ACTION, List.of(WHITE_MARBLE_CONVERSIONS, SWITCH_SHELF)),
+                entry(StateName.RESOURCES_PLACEMENT, List.of(WAREHOUSE_INSERTION, SWITCH_SHELF)),
+                entry(StateName.BUY_DEV_ACTION, List.of(SWITCH_SHELF, PAYMENTS)),
+                entry(StateName.PLACE_DEV_CARD, List.of(SWITCH_SHELF, DEV_CARD_PLACEMENT)),
+                entry(StateName.PRODUCTION_ACTION, List.of(SWITCH_SHELF, PAYMENTS)),
+                entry(StateName.END_TURN, List.of(SWITCH_SHELF, LEADER_ACTIVATION, LEADER_DISCARDING, END_TURN)),
+                entry(StateName.END_MATCH, List.of(REMATCH, DISCONNECTION)),
+                entry(StateName.REMATCH_OFFER, List.of(REMATCH))
+        );
+    }
 
 
     public MatchController(List<Player> playersInMatch) throws RetryException {
-        acceptedMessagesMap = new HashMap<>();
-        for(StateName sn : StateName.values())
-            acceptedMessagesMap.put(sn, acceptedMessages(sn));
-
-        MatchConfiguration configuration = assignConfiguration("src/main/resources/StandardConfiguration.json");
+        MatchConfiguration configuration = assignConfiguration("src/test/resources/StandardConfiguration.json");
         this.cardMap = new HashMap<>();
         for (int i=1; i<=configuration.getAllDevCards().size(); i++)
             cardMap.put("D"+i,configuration.getAllDevCards().get(i-1));
         for (int i=1; i<=configuration.getAllLeaderCards().size(); i++)
             cardMap.put("L"+i,configuration.getAllLeaderCards().get(i-1));
 
-
-        startingPhaseController = new StartingPhaseController(match, cardMap);
-        turnController = null;
-        rematchPhaseController = null;
-
         try {
             this.match = new MultiMatch(playersInMatch, configuration);
-
         } catch (SingleMatchException e) {
             System.err.println("internal error");
             System.exit(1);
         } catch (WrongSettingException e) {
             throw new RetryException("Wrong configuration");
         }
+
+        startingPhaseController = new StartingPhaseController(match, cardMap);
+        turnController = null;
+        rematchPhaseController = null;
 
     }
 
     public MatchController(List<Player> playersInMatch, MatchConfiguration configuration) throws RetryException {
-        acceptedMessagesMap = new HashMap<>();
-        for(StateName sn : StateName.values())
-            acceptedMessagesMap.put(sn, acceptedMessages(sn));
-
         this.cardMap = new HashMap<>();
         for (int i=1; i<=configuration.getAllDevCards().size(); i++)
             cardMap.put("D"+i,configuration.getAllDevCards().get(i-1));
         for (int i=1; i<=configuration.getAllLeaderCards().size(); i++)
             cardMap.put("L"+i,configuration.getAllLeaderCards().get(i-1));
-
-
-        startingPhaseController = new StartingPhaseController(match, cardMap);
-        turnController = null;
-        rematchPhaseController = null;
 
         try {
             this.match = new MultiMatch(playersInMatch, configuration);
@@ -87,38 +92,78 @@ public class MatchController {
             throw new RetryException("Wrong configuration");
         }
 
+        startingPhaseController = new StartingPhaseController(match, cardMap);
+        turnController = null;
+        rematchPhaseController = null;
+
     }
 
-    public MatchController(Player player, MatchConfiguration configuration) throws RetryException {
-        acceptedMessagesMap = new HashMap<>();
-        for(StateName sn : StateName.values())
-            acceptedMessagesMap.put(sn, acceptedMessages(sn));
-
+    public MatchController(Player player) throws RetryException {
+        MatchConfiguration configuration = assignConfiguration("src/test/resources/StandardConfiguration.json");
         this.cardMap = new HashMap<>();
         for (int i=1; i<=configuration.getAllDevCards().size(); i++)
             cardMap.put("D"+i,configuration.getAllDevCards().get(i-1));
         for (int i=1; i<=configuration.getAllLeaderCards().size(); i++)
             cardMap.put("L"+i,configuration.getAllLeaderCards().get(i-1));
-
-
-        startingPhaseController = new StartingPhaseController(match, cardMap);
-        turnController = null;
-        rematchPhaseController = null;
 
         try {
             this.match = new SingleMatch(player, configuration);
         } catch (WrongSettingException e) {
             throw new RetryException("Wrong configuration");
-
         }
 
+        startingPhaseController = new StartingPhaseController(match, cardMap);
+        turnController = null;
+        rematchPhaseController = null;
+
     }
 
-    public MatchController(Player player) {
-        acceptedMessagesMap = null;
-        cardMap = null;
-        //todo
+    public MatchController(Player player, MatchConfiguration configuration) throws RetryException {
+        this.cardMap = new HashMap<>();
+        for (int i=1; i<=configuration.getAllDevCards().size(); i++)
+            cardMap.put("D"+i,configuration.getAllDevCards().get(i-1));
+        for (int i=1; i<=configuration.getAllLeaderCards().size(); i++)
+            cardMap.put("L"+i,configuration.getAllLeaderCards().get(i-1));
+
+        try {
+            this.match = new SingleMatch(player, configuration);
+        } catch (WrongSettingException e) {
+            throw new RetryException("Wrong configuration");
+        }
+
+        startingPhaseController = new StartingPhaseController(match, cardMap);
+        turnController = null;
+        rematchPhaseController = null;
+
     }
+    //%%%%%%%%%%%%%%%%%% GETTER %%%%%%%%%%%%%%%%%%%
+    public Player getCurrentPlayer(){
+        return match.getCurrentPlayer();
+    }
+
+    public StateName getCurrentState(){ return turnController.getCurrentState(); }
+    public Map<String, Card> getCardMap(){
+        return cardMap;
+    }
+
+    public Match getMatch(){
+        return match;
+    }
+
+
+    //%%%%%%%%%%%%%%%%%% SETTER %%%%%%%%%%%%%%%%%%%
+
+    public void setState(String nickname, StateName state){
+        if(state.getVal()<4)
+            startingPhaseController.setState(nickname, state);
+        else if(state.getVal()<12){
+            if (turnController == null)
+                turnController = new TurnController(match, cardMap);
+            turnController.setCurrentState(state);
+        }
+    }
+
+    public void setWhiteMarblesDrawn(int num){ turnController.setWhiteMarbleDrawn(num);}
 
     private List<CtoSMessageType> acceptedMessages(StateName sn){
         List<CtoSMessageType> accepted = new ArrayList<>();
@@ -128,7 +173,7 @@ public class MatchController {
             //STARTING PHASE STATES
             case WAITING_LEADERS:
                 accepted.remove(CtoSMessageType.SWITCH_SHELF);
-                accepted.add(CtoSMessageType.LEADERS_CHOICE);
+                accepted.add(LEADERS_CHOICE);
                 break;
             case WAITING_RESOURCES:
                 accepted.remove(CtoSMessageType.SWITCH_SHELF);
@@ -195,7 +240,9 @@ public class MatchController {
 
     private boolean isComputable(String nickname, CtoSMessageType type) throws RetryException {
         if (turnController == null) {
-            if (!acceptedMessagesMap.get(startingPhaseController.getPlayerState(nickname)).contains(type))
+            if(match.getPlayer(nickname) == null)
+                return false;
+        if (!acceptedMessagesMap.get(startingPhaseController.getPlayerState(nickname)).contains(type))
                 throw new RetryException("This message is not accepted in this phase");
         } else if (rematchPhaseController == null) {
             if (!nickname.equals(turnController.getCurrentPlayer().getNickname()))
@@ -210,7 +257,7 @@ public class MatchController {
     }
 
     public synchronized boolean startingLeader(String nickname, List<String> leaders) throws RetryException {
-        boolean isComputable = isComputable(nickname, CtoSMessageType.LEADERS_CHOICE);
+        boolean isComputable = isComputable(nickname, LEADERS_CHOICE);
         if (!isComputable)
             return false;
 

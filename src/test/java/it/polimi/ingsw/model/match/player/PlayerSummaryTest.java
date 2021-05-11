@@ -62,7 +62,7 @@ public class PlayerSummaryTest
         Player player2 = new Player("player2");
         Player player3 = new Player("player3");
         Player player4 = new Player("player4");
-        Match match = new MultiMatch(new ArrayList<>(List.of(player1,player2,player3,player4)), assignConfiguration("src/test/resources/freeConfiguration.json"));
+        Match match = new MultiMatch(new ArrayList<>(List.of(player1,player2,player3,player4)), assignConfiguration("src/test/resources/TotalFreeConfiguration.json"));
         setCardMap(match.getMatchConfiguration());
         Summary summary = new Summary(match, cardMap);
         for(Player p : match.getPlayers())
@@ -91,7 +91,7 @@ public class PlayerSummaryTest
         Player player2 = new Player("player2");
         Player player3 = new Player("player3");
         Player player4 = new Player("player4");
-        Match match = new MultiMatch(new ArrayList<>(List.of(player1,player2,player3,player4)), assignConfiguration("src/test/resources/freeConfiguration.json"));
+        Match match = new MultiMatch(new ArrayList<>(List.of(player1,player2,player3,player4)), assignConfiguration("src/test/resources/TotalFreeConfiguration.json"));
         setCardMap(match.getMatchConfiguration());
         Summary summary = new Summary(match, cardMap);
         for(Player p : match.getPlayers())
@@ -119,7 +119,7 @@ public class PlayerSummaryTest
         Player player2 = new Player("player2");
         Player player3 = new Player("player3");
         Player player4 = new Player("player4");
-        Match match = new MultiMatch(new ArrayList<>(List.of(player1,player2,player3,player4)), assignConfiguration("src/test/resources/freeConfiguration.json"));
+        Match match = new MultiMatch(new ArrayList<>(List.of(player1,player2,player3,player4)), assignConfiguration("src/test/resources/TotalFreeConfiguration.json"));
         setCardMap(match.getMatchConfiguration());
         Summary summary = new Summary(match, cardMap);
         for(Player p : match.getPlayers())
@@ -156,7 +156,7 @@ public class PlayerSummaryTest
         Player player2 = new Player("player2");
         Player player3 = new Player("player3");
         Player player4 = new Player("player4");
-        Match match = new MultiMatch(new ArrayList<>(List.of(player1,player2,player3,player4)), assignConfiguration("src/test/resources/freeConfiguration.json"));
+        Match match = new MultiMatch(new ArrayList<>(List.of(player1,player2,player3,player4)), assignConfiguration("src/test/resources/TotalFreeConfiguration.json"));
         setCardMap(match.getMatchConfiguration());
         Summary summary = new Summary(match, cardMap);
         for(Player p : match.getPlayers())

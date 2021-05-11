@@ -196,7 +196,6 @@ public class TurnController {
             try {
                 currentPlayer.getPersonalBoard().getWarehouse().discardRemains();
             } catch (InvalidOperationException e) {
-                e.printStackTrace();
                 currentState = StateName.RESOURCES_PLACEMENT;
                 throw new RetryException ("You can still place other resources.");
             }
@@ -216,8 +215,7 @@ public class TurnController {
      */
     public StateName devCardDraw(int row, int column) throws RetryException {
         try {
-            if(!match.getCardGrid().isBuyable(currentPlayer,row,
-                    column)) {
+            if(!match.getCardGrid().isBuyable(currentPlayer,row, column)) {
                 throw new RetryException ("You can't buy this card.");
             }
 
@@ -227,7 +225,6 @@ public class TurnController {
             else {
                 currentPlayer.drawDevelopmentCard(row,column);
                 currentState = StateName.BUY_DEV_ACTION;
-
             }
         } catch (InvalidCardRequestException e) {
             throw new RetryException ("Invalid development card draw parameters.");
@@ -263,19 +260,35 @@ public class TurnController {
             payments.addAll(strongboxCosts);
             payments.addAll(warehouseCosts.values());
 
-            for(PhysicalResource r : payments)
-                for(PhysicalResource r1 : payments)
-                    if(r.equals(r1)) {
+            for(int i= 0; i< payments.size(); i++)
+                for(int j=i+1; j<payments.size(); j++)
+                    if(payments.get(i).equals(payments.get(j))) {
+                        PhysicalResource r = payments.get(i);
+                        PhysicalResource r1 = payments.get(j);
                         int quantity = r.getQuantity()+r1.getQuantity();
                         payments.remove(r); payments.remove(r1);
                         try {
                             payments.add(new PhysicalResource(r.getType(), quantity));
-                        } catch (NegativeQuantityException e) { e.printStackTrace(); System.exit(1); }
+                        } catch (NegativeQuantityException e) { System.exit(1); }
                     }
 
             //checking if the list of payments equals to the one chosen before (in tempProduction):
-            if(!(new HashSet<>(payments).equals(new HashSet<>(currentPlayer.getTempProduction().getCost())))) {
+            /*
+            if(!((new HashSet<>(payments)).equals(new HashSet<>(currentPlayer.getTempProduction().getCost())))) {
                 throw new RetryException ("Payments don't match the chosen production ones.");
+            }
+             */
+
+            if(payments.size() != currentPlayer.getTempProduction().getCost().size())
+                throw new RetryException("Payments don't match the chosen production ones.");
+            boolean found = false;
+            for (PhysicalResource p : payments) {
+                for (PhysicalResource p1 : currentPlayer.getTempProduction().getCost())
+                    if (p.equals(p1) && p.getQuantity()== p1.getQuantity())
+                        found = true;
+
+                if(!found)
+                    throw new RetryException("Payments don't match the chosen production ones.");
             }
         }
 
@@ -285,6 +298,7 @@ public class TurnController {
             } catch (NotEnoughResourcesException e) {
                 //Re-inserting resources in the Strongbox
                 currentPlayer.getPersonalBoard().setStrongBox(sbUndo);
+                throw new RetryException ("Not enough resources in the strongbox.");
             }
 
         for(PhysicalResource r : warehouseCosts.values()) {
@@ -347,10 +361,12 @@ public class TurnController {
         //checking if the player has all the cards that he wants to produce
         boolean basicProdFound=false;
         List<Boolean> cardsErrors = new ArrayList<>();
-        for(String id : cardIds)
-            if(!id.equals("BASICPROD"))
+        for(int i=0; i < cardIds.size(); i++)
+            if(!cardIds.get(i).equals("BASICPROD")) {
+                String id = cardIds.get(i);
                 cardsErrors.add(!(currentPlayer.getPersonalBoard().getDevCardSlots().getTop().contains(cardMap.get(id)) ||
                         currentPlayer.getPersonalBoard().getActiveProductionLeaders().contains(cardMap.get(id))));
+            }
             else {
                 basicProdFound = true;
                 cardIds.remove("BASICPROD");
@@ -368,11 +384,11 @@ public class TurnController {
         int uCosts=0, uEarnings=0;
         if(basicProdFound) {
 
-            uCosts += currentPlayer.getPersonalBoard().getBasicProduction().getCost().stream().filter((x)->x.getType().equals(ResType.UNKNOWN)).count();
+            uCosts += currentPlayer.getPersonalBoard().getBasicProduction().getCost().stream().filter((x)->x.getType().equals(ResType.UNKNOWN)).map((x)->x.getQuantity()).reduce(0, (x,y)->x+y);
             for(Resource r : currentPlayer.getPersonalBoard().getBasicProduction().getEarnings())
                 if(r.isPhysical()){
                     PhysicalResource usefulR = (PhysicalResource) r;
-                    uEarnings += (usefulR.getType().equals(ResType.UNKNOWN) ? 1 : 0);
+                    uEarnings += (usefulR.getType().equals(ResType.UNKNOWN) ? usefulR.getQuantity() : 0);
                 }
         }
         for(String id : cardIds){
@@ -381,16 +397,25 @@ public class TurnController {
                 prod = ((DevelopmentCard) cardMap.get(id)).getProduction();
             else
                 prod = ((ProductionEffect) ((LeaderCard)cardMap.get(id)).getEffect()).getProduction();
-            uCosts += prod.getCost().stream().filter((x)->x.getType().equals(ResType.UNKNOWN)).count();
+            uCosts += prod.getCost().stream().filter((x)->x.getType().equals(ResType.UNKNOWN)).map((x)->x.getQuantity()).reduce(0, (x,y)->x+y);
             for(Resource r : prod.getEarnings())
                 if(r.isPhysical()){
                     PhysicalResource usefulR = (PhysicalResource) r;
-                    uEarnings += (usefulR.getType().equals(ResType.UNKNOWN) ? 1 : 0);
+                    uEarnings += (usefulR.getType().equals(ResType.UNKNOWN) ? usefulR.getQuantity() : 0);
                 }
         }
 
-        if(uCosts != productionOfUnknown.getCost().size() ||
-                uEarnings != productionOfUnknown.getEarnings().size()) {
+        int numCosts=0;
+        for (PhysicalResource r : productionOfUnknown.getCost())
+            numCosts+=r.getQuantity();
+        int numEarnings=0;
+        for (Resource r : productionOfUnknown.getEarnings())
+            if(r.isPhysical()){
+                PhysicalResource usefulR = (PhysicalResource) r;
+                numEarnings += usefulR.getQuantity();
+            }
+
+        if(uCosts != numCosts || uEarnings != numEarnings) {
             throw new RetryException ("Invalid choices for unknown conversions.");
         }
 
@@ -408,7 +433,8 @@ public class TurnController {
             totalEarnings.addAll(prod.getEarnings());
         }
 
-        totalCosts.stream().filter((x)->!x.getType().equals(ResType.UNKNOWN)).collect(Collectors.toList());
+        totalCosts = totalCosts.stream().filter((x)->(!x.getType().equals(ResType.UNKNOWN))).collect(Collectors.toList());
+
         for(Resource r : totalEarnings)
             if(r.isPhysical()) {
                 PhysicalResource usefulR = (PhysicalResource) r;

@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.match.player.personalBoard;
 
 import java.util.*;
 
+import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.ResType;
 import it.polimi.ingsw.exceptions.NotEnoughResourcesException;
@@ -55,11 +56,17 @@ public class StrongBox
     public int getNumberOf(ResType type) { return resources.get(type); }
 
     public static StrongBox clone(StrongBox sb){
-        StrongBox clone = null;
+        StrongBox clone = new StrongBox();
         try {
-            clone = (StrongBox) sb.clone();
+
+            clone.put(new PhysicalResource(ResType.COIN, sb.getNumberOf(ResType.COIN)));
+            clone.put(new PhysicalResource(ResType.SERVANT, sb.getNumberOf(ResType.SERVANT)));
+            clone.put(new PhysicalResource(ResType.SHIELD, sb.getNumberOf(ResType.SHIELD)));
+            clone.put(new PhysicalResource(ResType.STONE, sb.getNumberOf(ResType.STONE)));
         }
-        catch(CloneNotSupportedException e){ e.printStackTrace(); }
+        catch (NegativeQuantityException e) {
+            System.exit(1);
+        }
         return clone;
     }
 

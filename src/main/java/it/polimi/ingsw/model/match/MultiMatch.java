@@ -56,6 +56,7 @@ public class MultiMatch extends Match {
         if(players.size() == 1)
             throw new SingleMatchException("This match has only one player");
 
+        Collections.shuffle(players);
         this.players = players;
         this.currentPlayer = players.get(0);
         this.cardGrid = new CardGrid(matchConfiguration.getAllDevCards());

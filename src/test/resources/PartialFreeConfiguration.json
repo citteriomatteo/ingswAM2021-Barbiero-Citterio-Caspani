@@ -9,7 +9,7 @@
       "price": [
         {
           "type": "SHIELD",
-          "quantity": 2
+          "quantity": 0
         }
       ],
       "production": {
@@ -37,7 +37,7 @@
       "price": [
         {
           "type": "COIN",
-          "quantity": 2
+          "quantity": 0
         },
         {
           "type": "SHIELD",
@@ -78,7 +78,7 @@
       "price": [
         {
           "type": "SHIELD",
-          "quantity": 1
+          "quantity": 0
         },
         {
           "type": "SERVANT",
@@ -115,7 +115,7 @@
       "price": [
         {
           "type": "SHIELD",
-          "quantity": 3
+          "quantity": 0
         }
       ],
       "production": {
@@ -154,7 +154,7 @@
       "price": [
         {
           "type": "COIN",
-          "quantity": 3
+          "quantity": 0
         }
       ],
       "production": {
@@ -193,7 +193,7 @@
       "price": [
         {
           "type": "COIN",
-          "quantity": 2
+          "quantity": 0
         },
         {
           "type": "SERVANT",
@@ -234,7 +234,7 @@
       "price": [
         {
           "type": "COIN",
-          "quantity": 2
+          "quantity": 0
         }
       ],
       "production": {
@@ -262,7 +262,7 @@
       "price": [
         {
           "type": "COIN",
-          "quantity": 1
+          "quantity": 0
         },
         {
           "type": "SERVANT",
@@ -299,7 +299,7 @@
       "price": [
         {
           "type": "STONE",
-          "quantity": 3
+          "quantity": 0
         }
       ],
       "production": {
@@ -338,7 +338,7 @@
       "price": [
         {
           "type": "STONE",
-          "quantity": 2
+          "quantity": 0
         },
         {
           "type": "SHIELD",
@@ -379,7 +379,7 @@
       "price": [
         {
           "type": "STONE",
-          "quantity": 2
+          "quantity": 0
         }
       ],
       "production": {
@@ -407,7 +407,7 @@
       "price": [
         {
           "type": "SHIELD",
-          "quantity": 1
+          "quantity": 0
         },
         {
           "type": "STONE",
@@ -444,7 +444,7 @@
       "price": [
         {
           "type": "SERVANT",
-          "quantity": 3
+          "quantity": 0
         }
       ],
       "production": {
@@ -483,7 +483,7 @@
       "price": [
         {
           "type": "SERVANT",
-          "quantity": 2
+          "quantity": 0
         },
         {
           "type": "STONE",
@@ -524,7 +524,7 @@
       "price": [
         {
           "type": "SERVANT",
-          "quantity": 2
+          "quantity": 0
         }
       ],
       "production": {
@@ -552,7 +552,7 @@
       "price": [
         {
           "type": "SHIELD",
-          "quantity": 1
+          "quantity": 0
         },
         {
           "type": "SERVANT",
@@ -560,7 +560,7 @@
         },
         {
           "type": "COIN",
-          "quantity": 1
+          "quantity": 0
         }
       ],
       "production": {
@@ -589,7 +589,7 @@
       "price": [
         {
           "type": "SHIELD",
-          "quantity": 4
+          "quantity": 0
         }
       ],
       "production": {
@@ -617,11 +617,11 @@
       "price": [
         {
           "type": "SHIELD",
-          "quantity": 3
+          "quantity": 0
         },
         {
           "type": "SERVANT",
-          "quantity": 2
+          "quantity": 0
         }
       ],
       "production": {
@@ -654,7 +654,7 @@
       "price": [
         {
           "type": "SHIELD",
-          "quantity": 5
+          "quantity": 0
         }
       ],
       "production": {
@@ -687,11 +687,11 @@
       "price": [
         {
           "type": "SHIELD",
-          "quantity": 3
+          "quantity": 0
         },
         {
           "type": "COIN",
-          "quantity": 3
+          "quantity": 0
         }
       ],
       "production": {
@@ -724,7 +724,7 @@
       "price": [
         {
           "type": "COIN",
-          "quantity": 4
+          "quantity": 0
         }
       ],
       "production": {
@@ -752,11 +752,11 @@
       "price": [
         {
           "type": "COIN",
-          "quantity": 3
+          "quantity": 0
         },
         {
           "type": "STONE",
-          "quantity": 2
+          "quantity": 0
         }
       ],
       "production": {
@@ -789,7 +789,7 @@
       "price": [
         {
           "type": "COIN",
-          "quantity": 5
+          "quantity": 0
         }
       ],
       "production": {
@@ -822,11 +822,11 @@
       "price": [
         {
           "type": "COIN",
-          "quantity": 3
+          "quantity": 0
         },
         {
           "type": "STONE",
-          "quantity": 3
+          "quantity": 0
         }
       ],
       "production": {
@@ -859,7 +859,7 @@
       "price": [
         {
           "type": "STONE",
-          "quantity": 4
+          "quantity": 0
         }
       ],
       "production": {
@@ -887,11 +887,11 @@
       "price": [
         {
           "type": "STONE",
-          "quantity": 3
+          "quantity": 0
         },
         {
           "type": "SHIELD",
-          "quantity": 2
+          "quantity": 0
         }
       ],
       "production": {
@@ -924,7 +924,7 @@
       "price": [
         {
           "type": "STONE",
-          "quantity": 5
+          "quantity": 0
         }
       ],
       "production": {
@@ -957,11 +957,11 @@
       "price": [
         {
           "type": "STONE",
-          "quantity": 3
+          "quantity": 0
         },
         {
           "type": "SERVANT",
-          "quantity": 3
+          "quantity": 0
         }
       ],
       "production": {
@@ -994,7 +994,7 @@
       "price": [
         {
           "type": "SERVANT",
-          "quantity": 4
+          "quantity": 0
         }
       ],
       "production": {
@@ -1022,11 +1022,11 @@
       "price": [
         {
           "type": "SERVANT",
-          "quantity": 3
+          "quantity": 0
         },
         {
           "type": "COIN",
-          "quantity": 2
+          "quantity": 0
         }
       ],
       "production": {
@@ -1059,7 +1059,7 @@
       "price": [
         {
           "type": "SERVANT",
-          "quantity": 5
+          "quantity": 0
         }
       ],
       "production": {
@@ -1092,11 +1092,11 @@
       "price": [
         {
           "type": "SERVANT",
-          "quantity": 3
+          "quantity": 0
         },
         {
           "type": "SHIELD",
-          "quantity": 3
+          "quantity": 0
         }
       ],
       "production": {
@@ -1129,7 +1129,7 @@
       "price": [
         {
           "type": "SHIELD",
-          "quantity": 6
+          "quantity": 0
         }
       ],
       "production": {
@@ -1162,11 +1162,11 @@
       "price": [
         {
           "type": "SHIELD",
-          "quantity": 5
+          "quantity": 0
         },
         {
           "type": "SERVANT",
-          "quantity": 2
+          "quantity": 0
         }
       ],
       "production": {
@@ -1208,7 +1208,7 @@
       "price": [
         {
           "type": "SHIELD",
-          "quantity": 7
+          "quantity": 0
         }
       ],
       "production": {
@@ -1241,11 +1241,11 @@
       "price": [
         {
           "type": "SHIELD",
-          "quantity": 4
+          "quantity": 0
         },
         {
           "type": "COIN",
-          "quantity": 4
+          "quantity": 0
         }
       ],
       "production": {
@@ -1279,7 +1279,7 @@
       "price": [
         {
           "type": "COIN",
-          "quantity": 6
+          "quantity": 0
         }
       ],
       "production": {
@@ -1312,11 +1312,11 @@
       "price": [
         {
           "type": "COIN",
-          "quantity": 5
+          "quantity": 0
         },
         {
           "type": "STONE",
-          "quantity": 2
+          "quantity": 0
         }
       ],
       "production": {
@@ -1358,7 +1358,7 @@
       "price": [
         {
           "type": "COIN",
-          "quantity": 7
+          "quantity": 0
         }
       ],
       "production": {
@@ -1391,11 +1391,11 @@
       "price": [
         {
           "type": "COIN",
-          "quantity": 4
+          "quantity": 0
         },
         {
           "type": "STONE",
-          "quantity": 4
+          "quantity": 0
         }
       ],
       "production": {
@@ -1429,7 +1429,7 @@
       "price": [
         {
           "type": "STONE",
-          "quantity": 6
+          "quantity": 0
         }
       ],
       "production": {
@@ -1462,11 +1462,11 @@
       "price": [
         {
           "type": "STONE",
-          "quantity": 5
+          "quantity": 0
         },
         {
           "type": "SERVANT",
-          "quantity": 2
+          "quantity": 0
         }
       ],
       "production": {
@@ -1508,7 +1508,7 @@
       "price": [
         {
           "type": "STONE",
-          "quantity": 7
+          "quantity": 0
         }
       ],
       "production": {
@@ -1541,11 +1541,11 @@
       "price": [
         {
           "type": "STONE",
-          "quantity": 4
+          "quantity": 0
         },
         {
           "type": "SERVANT",
-          "quantity": 4
+          "quantity": 0
         }
       ],
       "production": {
@@ -1579,7 +1579,7 @@
       "price": [
         {
           "type": "SERVANT",
-          "quantity": 6
+          "quantity": 0
         }
       ],
       "production": {
@@ -1612,11 +1612,11 @@
       "price": [
         {
           "type": "SERVANT",
-          "quantity": 5
+          "quantity": 0
         },
         {
           "type": "COIN",
-          "quantity": 2
+          "quantity": 0
         }
       ],
       "production": {
@@ -1658,7 +1658,7 @@
       "price": [
         {
           "type": "SERVANT",
-          "quantity": 7
+          "quantity": 0
         }
       ],
       "production": {
@@ -1691,11 +1691,11 @@
       "price": [
         {
           "type": "SERVANT",
-          "quantity": 4
+          "quantity": 0
         },
         {
           "type": "SHIELD",
-          "quantity": 4
+          "quantity": 0
         }
       ],
       "production": {
@@ -1912,7 +1912,12 @@
       "effect": {
         "name": "productionEffect",
         "production": {
-          "cost": [],
+          "cost": [
+            {
+              "type": "UNKNOWN",
+              "quantity": 1
+            }
+          ],
           "earnings": [
             {
               "resource": "physicalResource",
@@ -1937,7 +1942,38 @@
       "effect": {
         "name": "productionEffect",
         "production": {
-          "cost": [],
+          "cost": [
+            {
+              "type": "UNKNOWN",
+              "quantity": 1
+            }
+          ],
+          "earnings": [
+            {
+              "resource": "physicalResource",
+              "type": "COIN",
+              "quantity": 1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "requirements": [{
+        "requirement": "physicalResource",
+        "type": "STONE",
+        "quantity": 0
+      }],
+      "winPoints": 4,
+      "effect": {
+        "name": "productionEffect",
+        "production": {
+          "cost": [
+            {
+              "type": "STONE",
+              "quantity": 1
+            }
+          ],
           "earnings": [
             {
               "resource": "physicalResource",
@@ -1962,7 +1998,12 @@
       "effect": {
         "name": "productionEffect",
         "production": {
-          "cost": [],
+          "cost": [
+            {
+            "type": "COIN",
+            "quantity": 1
+          }
+          ],
           "earnings": [
             {
               "resource": "physicalResource",
@@ -1970,33 +2011,9 @@
               "quantity": 1
             },
             {
-              "resource": "faithPoint",
-              "quantity": 1
-            }
-          ]
-        }
-      }
-    },
-    {
-      "requirements": [{
-        "requirement": "physicalResource",
-        "type": "STONE",
-        "quantity": 0
-      }],
-      "winPoints": 4,
-      "effect": {
-        "name": "productionEffect",
-        "production": {
-          "cost": [],
-          "earnings": [
-            {
               "resource": "physicalResource",
-              "type": "UNKNOWN",
-              "quantity": 1
-            },
-            {
-              "resource": "faithPoint",
-              "quantity": 1
+              "type": "SHIELD",
+              "quantity": 3
             }
           ]
         }
