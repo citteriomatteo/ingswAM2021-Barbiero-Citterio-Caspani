@@ -103,15 +103,10 @@ public class InitController {
                 if(choice) { //choose the default config, wait for players and then start the match
                     List<Player> playersInMatch = matchParticipants();
                     System.out.println("forming a new match for... " + playersInMatch);
-                    try {
-                        System.out.println("------------------------> enter the constructor of Match controller");
-                        MatchController controller = new MatchController(playersInMatch);
-                        System.out.println("------------------------> exit the constructor of match controller");
-                        setMatchController(controller, playersInMatch);  //<-- exit from init
-                    } catch (RetryException e) {
-                        //TODO: wrong configuration
-                        e.printStackTrace();
-                    }
+                    System.out.println("------------------------> enter the constructor of Match controller");
+                    MatchController controller = new MatchController(playersInMatch);
+                    System.out.println("------------------------> exit the constructor of match controller");
+                    setMatchController(controller, playersInMatch);  //<-- exit from init
                     changeState(StateName.START_GAME);
                 }
                 else { //Choose custom configuration

@@ -52,7 +52,7 @@ public class MatchController {
     }
 
 
-    public MatchController(List<Player> playersInMatch) throws RetryException {
+    public MatchController(List<Player> playersInMatch) {
         MatchConfiguration configuration = assignConfiguration("src/test/resources/StandardConfiguration.json");
         this.cardMap = new HashMap<>();
         for (int i=1; i<=configuration.getAllDevCards().size(); i++)
@@ -71,7 +71,7 @@ public class MatchController {
             System.err.println("internal error");
             System.exit(1);
         } catch (WrongSettingException e) {
-            throw new RetryException("Wrong configuration");
+            System.exit(1);
         }
 
         startingPhaseController = new StartingPhaseController(match, cardMap);
@@ -107,7 +107,7 @@ public class MatchController {
 
     }
 
-    public MatchController(Player player) throws RetryException {
+    public MatchController(Player player) {
         MatchConfiguration configuration = assignConfiguration("src/test/resources/StandardConfiguration.json");
         this.cardMap = new HashMap<>();
         for (int i=1; i<=configuration.getAllDevCards().size(); i++)
@@ -122,7 +122,7 @@ public class MatchController {
         try {
             this.match = new SingleMatch(player, configuration);
         } catch (WrongSettingException e) {
-            throw new RetryException("Wrong configuration");
+            System.exit(1);
         }
 
         startingPhaseController = new StartingPhaseController(match, cardMap);
