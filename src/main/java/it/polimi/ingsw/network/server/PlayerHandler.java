@@ -154,7 +154,7 @@ public class PlayerHandler implements Runnable, ControlBase{
             if (inMsg.getType().getCode() == 0)
                 inMsg.computeMessage(this);
             else
-                write(new RetryMessage(player == null ? null : player.getNickname(), "The match is not started yet, you cannot send messages like that"));
+                write(new RetryMessage(player == null ? null : player.getNickname(),  "The match is not started yet, you cannot send messages like that"));
             //controls on existing nickname and previous players disconnection are done inside the computeMessage
         }
 

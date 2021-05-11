@@ -1,16 +1,12 @@
 package it.polimi.ingsw.model.match;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.model.match.market.Market;
 import it.polimi.ingsw.model.match.player.Player;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.List;
 
-import static it.polimi.ingsw.gsonUtilities.GsonHandler.*;
+import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
 
 public abstract class Match implements Communicator {
     private final Market market;
@@ -32,26 +28,6 @@ public abstract class Match implements Communicator {
         this.market = new Market();
         this.leaderStack = new LeaderStack(matchConfiguration.getAllLeaderCards());
     }
-
-
-    /**
-     * Internal function used to read the configuration from the json file at 'config' filePath
-     * @param config the file path of the configuration file
-     * @return the object read in the json
-     */
-    private MatchConfiguration assignConfiguration(String config){
-        Gson g = cellConfig(resourceConfig(requirableConfig(effectConfig(new GsonBuilder())))).setPrettyPrinting().create();
-        try {
-            FileReader reader = new FileReader(config);
-            return g.fromJson(reader, MatchConfiguration.class);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            System.err.println("Application shutdown due to an internal error in " + this.getClass().getSimpleName());
-            System.exit(1);
-            return null;
-        }
-    }
-
 
     /**
      * Getter

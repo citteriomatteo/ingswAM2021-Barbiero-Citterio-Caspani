@@ -1,7 +1,5 @@
 package it.polimi.ingsw.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.essentials.*;
 import it.polimi.ingsw.model.essentials.leader.LeaderCard;
@@ -19,12 +17,9 @@ import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.WarehouseDecorator;
 import org.junit.jupiter.api.Test;
 
-import static it.polimi.ingsw.gsonUtilities.GsonHandler.*;
-import static it.polimi.ingsw.gsonUtilities.GsonHandler.effectConfig;
 import static org.junit.jupiter.api.Assertions.*;
+import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.*;
 
 
@@ -43,7 +38,7 @@ public class MatchControllerTest extends CommonThingsTest {
         map = matchController.getCardMap();
     }
 
-    public void initializationCosts() throws RetryException {
+    public void initializationCosts() {
         List<Player> players = new ArrayList<>(List.of(new Player("player1"), new Player("player2"), new Player("player3"), new Player("player4")));
         setSummaries(players);
         matchController = new MatchController(players);
@@ -65,6 +60,7 @@ public class MatchControllerTest extends CommonThingsTest {
         initialization();
         Player player = matchController.getCurrentPlayer();
         assertFalse(matchController.devCardDraw("player5", 1, 1 ));
+        assertThrows(RetryException.class, ()->matchController.switchShelf(player.getNickname(), 1,2));
         assertThrows(RetryException.class, ()->matchController.switchShelf(player.getNickname(), 1,2));
         matchController.setState(player.getNickname(), StateName.MARKET_ACTION);
         MultiMatch match1 = (MultiMatch) matchController.getMatch();
@@ -193,7 +189,7 @@ public class MatchControllerTest extends CommonThingsTest {
         matchController.marketDraw(player.getNickname(), true, 2);
         assertTrue(player.getPersonalBoard().getWarehouse().getBuffer().size() > 0);
 
-        assertEquals(stateName, matchController.getCurrentState() );
+        assertEquals(stateName, matchController.getCurrentState(player.getNickname()) );
     }
 
     @Test
@@ -250,7 +246,7 @@ public class MatchControllerTest extends CommonThingsTest {
         assertEquals(resource,player.getPersonalBoard().getWarehouse().getWarehouseDisposition().get(1));
         assertEquals(resource.getQuantity(),player.getPersonalBoard().getWarehouse().getWarehouseDisposition().get(1).getQuantity());
         assertEquals(resource1,player.getPersonalBoard().getWarehouse().getWarehouseDisposition().get(0));
-        assertEquals(StateName.END_TURN,matchController.getCurrentState());
+        assertEquals(StateName.END_TURN,matchController.getCurrentState(player.getNickname()));
 
         player.payFromWarehouse(resource,2);
         player.payFromWarehouse(resource1,1);
@@ -261,7 +257,7 @@ public class MatchControllerTest extends CommonThingsTest {
         matchController.setState(player.getNickname(), StateName.RESOURCES_PLACEMENT);
         assertThrows(RetryException.class, ()->matchController.warehouseInsertion(player.getNickname(), new ArrayList<>(Arrays.asList(resource))));
 
-        assertEquals(StateName.RESOURCES_PLACEMENT,matchController.getCurrentState());
+        assertEquals(StateName.RESOURCES_PLACEMENT,matchController.getCurrentState(player.getNickname()));
     }
 
     @Test
@@ -287,7 +283,7 @@ public class MatchControllerTest extends CommonThingsTest {
             player.addToStrongBox(r);
 
         matchController.devCardDraw(player.getNickname(), 1, 1);
-        assertEquals(StateName.BUY_DEV_ACTION, matchController.getCurrentState());
+        assertEquals(StateName.BUY_DEV_ACTION, matchController.getCurrentState(player.getNickname()));
         assertEquals(card, player.getTempDevCard());
     }
 
@@ -356,7 +352,7 @@ public class MatchControllerTest extends CommonThingsTest {
         player.moveIntoWarehouse(warehouseCosts.get(3), 3);
 
         matchController.payments(player.getNickname(), strongboxCosts, warehouseCosts);
-        assertEquals(StateName.PLACE_DEV_CARD, matchController.getCurrentState());
+        assertEquals(StateName.PLACE_DEV_CARD, matchController.getCurrentState(player.getNickname()));
 
         initializationCosts();
         player = matchController.getCurrentPlayer();
@@ -437,24 +433,8 @@ public class MatchControllerTest extends CommonThingsTest {
         production = new Production(prodCosts, prodEarnings);
 
         assertEquals(production, player.getTempProduction());
-        assertEquals(StateName.PRODUCTION_ACTION, matchController.getCurrentState());
+        assertEquals(StateName.PRODUCTION_ACTION, matchController.getCurrentState(player.getNickname()));
 
-    }
-
-    // %%%%% UTILITY METHODS %%%%%
-
-    //Returns the configuration at the path "config".
-    private MatchConfiguration assignConfiguration(String config){
-        Gson g = cellConfig(resourceConfig(requirableConfig(effectConfig(new GsonBuilder())))).setPrettyPrinting().create();
-        try {
-            FileReader reader = new FileReader(config);
-            return g.fromJson(reader, MatchConfiguration.class);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            System.err.println("Application shutdown due to an internal error in " + this.getClass().getSimpleName());
-            System.exit(1);
-            return null;
-        }
     }
 
 }

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.essentials.Card;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
@@ -11,10 +9,9 @@ import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
 import it.polimi.ingsw.network.message.stocmessage.EndGameResultsMessage;
 import it.polimi.ingsw.network.message.stocmessage.NextStateMessage;
+import it.polimi.ingsw.network.server.ControlBase;
 import it.polimi.ingsw.observer.ModelObserver;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,9 +19,9 @@ import java.util.Map;
 
 import static it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType.*;
 import static java.util.Map.entry;
+import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
+import static it.polimi.ingsw.network.server.ServerUtilities.findControlBase;
 
-import static it.polimi.ingsw.gsonUtilities.GsonHandler.*;
-import static it.polimi.ingsw.gsonUtilities.GsonHandler.effectConfig;
 
 public class MatchController {
     private Match match;
@@ -52,12 +49,8 @@ public class MatchController {
 
 
     public MatchController(List<Player> playersInMatch) {
-        MatchConfiguration configuration = assignConfiguration("src/test/resources/StandardConfiguration.json");
-        this.cardMap = new HashMap<>();
-        for (int i=1; i<=configuration.getAllDevCards().size(); i++)
-            cardMap.put("D"+i,configuration.getAllDevCards().get(i-1));
-        for (int i=1; i<=configuration.getAllLeaderCards().size(); i++)
-            cardMap.put("L"+i,configuration.getAllLeaderCards().get(i-1));
+        MatchConfiguration configuration = assignConfiguration("src/main/resources/StandardConfiguration.json");
+        cardMap = initCardMap(configuration);
 
         //setting the starting summary to everyone
         ModelObserver obs = new Summary(playersInMatch);
@@ -80,11 +73,7 @@ public class MatchController {
     }
 
     public MatchController(List<Player> playersInMatch, MatchConfiguration configuration) throws RetryException {
-        this.cardMap = new HashMap<>();
-        for (int i=1; i<=configuration.getAllDevCards().size(); i++)
-            cardMap.put("D"+i,configuration.getAllDevCards().get(i-1));
-        for (int i=1; i<=configuration.getAllLeaderCards().size(); i++)
-            cardMap.put("L"+i,configuration.getAllLeaderCards().get(i-1));
+        cardMap = initCardMap(configuration);
 
         //setting the starting summary to everyone
         ModelObserver obs = new Summary(playersInMatch);
@@ -107,12 +96,8 @@ public class MatchController {
     }
 
     public MatchController(Player player) {
-        MatchConfiguration configuration = assignConfiguration("src/test/resources/StandardConfiguration.json");
-        this.cardMap = new HashMap<>();
-        for (int i=1; i<=configuration.getAllDevCards().size(); i++)
-            cardMap.put("D"+i,configuration.getAllDevCards().get(i-1));
-        for (int i=1; i<=configuration.getAllLeaderCards().size(); i++)
-            cardMap.put("L"+i,configuration.getAllLeaderCards().get(i-1));
+        MatchConfiguration configuration = MatchConfiguration.assignConfiguration("src/main/resources/StandardConfiguration.json");
+        cardMap = initCardMap(configuration);
 
         //setting the starting summary to the player
         ModelObserver obs = new Summary(new ArrayList<>(List.of(player)));
@@ -131,11 +116,7 @@ public class MatchController {
     }
 
     public MatchController(Player player, MatchConfiguration configuration) throws RetryException {
-        this.cardMap = new HashMap<>();
-        for (int i=1; i<=configuration.getAllDevCards().size(); i++)
-            cardMap.put("D"+i,configuration.getAllDevCards().get(i-1));
-        for (int i=1; i<=configuration.getAllLeaderCards().size(); i++)
-            cardMap.put("L"+i,configuration.getAllLeaderCards().get(i-1));
+        cardMap = initCardMap(configuration);
 
         //setting the starting summary to the player
         ModelObserver obs = new Summary(new ArrayList<>(List.of(player)));
@@ -157,7 +138,13 @@ public class MatchController {
         return match.getCurrentPlayer();
     }
 
-    public StateName getCurrentState(){ return turnController.getCurrentState(); }
+    public StateName getCurrentState(String nickname){
+        if(turnController == null)
+            return startingPhaseController.getPlayerState(nickname);
+        if(rematchPhaseController != null)
+            return StateName.REMATCH_OFFER;
+        else
+            return turnController.getCurrentState(); }
     public Map<String, Card> getCardMap(){
         return cardMap;
     }
@@ -181,11 +168,21 @@ public class MatchController {
 
     public void setWhiteMarblesDrawn(int num){ turnController.setWhiteMarbleDrawn(num);}
 
+    public Map<String, Card> initCardMap(MatchConfiguration configuration){
+        Map<String, Card> map = new HashMap<>();
+        for (int i=1; i<=configuration.getAllDevCards().size(); i++)
+            map.put("D"+i,configuration.getAllDevCards().get(i-1));
+        for (int i=1; i<=configuration.getAllLeaderCards().size(); i++)
+            map.put("L"+i,configuration.getAllLeaderCards().get(i-1));
+
+        return map;
+    }
+
     private boolean isComputable(String nickname, CtoSMessageType type) throws RetryException {
         if (turnController == null) {
             if(match.getPlayer(nickname) == null)
                 return false;
-            if (!acceptedMessagesMap.get(startingPhaseController.getPlayerState(nickname)).contains(type))
+        if (!acceptedMessagesMap.get(startingPhaseController.getPlayerState(nickname)).contains(type))
                 throw new RetryException("This message is not accepted in this phase");
         } else if (rematchPhaseController == null) {
             if (!nickname.equals(turnController.getCurrentPlayer().getNickname()))
@@ -205,7 +202,10 @@ public class MatchController {
             return false;
 
         NextStateMessage message = new NextStateMessage(nickname, startingPhaseController.leadersChoice(nickname, leaders));
-        //TODO: send it to the player
+        ControlBase playerHandler = findControlBase(nickname);
+        if(playerHandler != null)
+            playerHandler.write(message);
+
         if (startingPhaseController.hasEnded())
             turnController = new TurnController(match, cardMap);
         return true;
@@ -218,7 +218,10 @@ public class MatchController {
             return false;
 
         NextStateMessage message = new NextStateMessage(nickname, startingPhaseController.startingResources(nickname, resources));
-        //TODO: send it to the player
+        ControlBase playerHandler = findControlBase(nickname);
+        if(playerHandler != null)
+            playerHandler.write(message);
+
         if (startingPhaseController.hasEnded())
             turnController = new TurnController(match, cardMap);
         return true;
@@ -228,15 +231,20 @@ public class MatchController {
         boolean isComputable = isComputable(nickname, CtoSMessageType.END_TURN);
         if (!isComputable)
             return false;
+        ControlBase playerHandler = findControlBase(nickname);
 
         try {
             turnController.nextTurn();
             NextStateMessage message = new NextStateMessage(turnController.getCurrentPlayer().getNickname(), StateName.STARTING_TURN);
-            //TODO: send it in broadcast
+
+            if(playerHandler != null)
+                playerHandler.write(message);
         } catch (MatchEndedException e) {
             rematchPhaseController = new RematchPhaseController(match.getPlayers());
             EndGameResultsMessage message = new EndGameResultsMessage(nickname, e.getMsg(), e.getRanking());
-            //TODO: send it in broadcast
+
+            if(playerHandler != null)
+                playerHandler.write(message);
         }
 
         return true;
@@ -248,7 +256,10 @@ public class MatchController {
             return false;
 
         NextStateMessage message = new NextStateMessage(nickname, turnController.switchShelf(shelf1, shelf2));
-        //TODO: send it to the player
+        ControlBase playerHandler = findControlBase(nickname);
+        if(playerHandler != null)
+            playerHandler.write(message);
+
         return true;
 
     }
@@ -259,7 +270,9 @@ public class MatchController {
             return false;
 
         NextStateMessage message = new NextStateMessage(nickname, turnController.leaderActivation(leaderId));
-        //TODO: send it to the player
+        ControlBase playerHandler = findControlBase(nickname);
+        if(playerHandler != null)
+            playerHandler.write(message);
 
         return true;
     }
@@ -270,7 +283,9 @@ public class MatchController {
             return false;
 
         NextStateMessage message = new NextStateMessage(nickname, turnController.leaderDiscarding(leaderId));
-        //TODO: send it to the player
+        ControlBase playerHandler = findControlBase(nickname);
+        if(playerHandler != null)
+            playerHandler.write(message);
 
         return true;
     }
@@ -281,7 +296,9 @@ public class MatchController {
             return false;
 
         NextStateMessage message = new NextStateMessage(nickname, turnController.marketDraw(row, num));
-        //TODO: send it to the player
+        ControlBase playerHandler = findControlBase(nickname);
+        if(playerHandler != null)
+            playerHandler.write(message);
 
         return true;
     }
@@ -292,7 +309,9 @@ public class MatchController {
             return false;
 
         NextStateMessage message = new NextStateMessage(nickname, turnController.whiteMarblesConversion(resources));
-        //TODO: send it to the player
+        ControlBase playerHandler = findControlBase(nickname);
+        if(playerHandler != null)
+            playerHandler.write(message);
 
         return true;
     }
@@ -303,7 +322,9 @@ public class MatchController {
             return false;
 
         NextStateMessage message = new NextStateMessage(nickname, turnController.warehouseInsertion(resources));
-        //TODO: send it to the player
+        ControlBase playerHandler = findControlBase(nickname);
+        if(playerHandler != null)
+            playerHandler.write(message);
 
         return true;
     }
@@ -314,7 +335,9 @@ public class MatchController {
             return false;
 
         NextStateMessage message = new NextStateMessage(nickname, turnController.devCardDraw(row, column));
-        //TODO: send it to the player
+        ControlBase playerHandler = findControlBase(nickname);
+        if(playerHandler != null)
+            playerHandler.write(message);
 
         return true;
     }
@@ -325,7 +348,9 @@ public class MatchController {
             return false;
 
         NextStateMessage message = new NextStateMessage(nickname, turnController.payments(strongboxCosts, warehouseCosts));
-        //TODO: send it to the player
+        ControlBase playerHandler = findControlBase(nickname);
+        if(playerHandler != null)
+            playerHandler.write(message);
 
         return true;
     }
@@ -336,7 +361,9 @@ public class MatchController {
             return false;
 
         NextStateMessage message = new NextStateMessage(nickname, turnController.devCardPlacement(column));
-        //TODO: send it to the player
+        ControlBase playerHandler = findControlBase(nickname);
+        if(playerHandler != null)
+            playerHandler.write(message);
 
         return true;
     }
@@ -346,7 +373,10 @@ public class MatchController {
             return false;
 
         NextStateMessage message = new NextStateMessage(nickname, turnController.production(cardIds, productionOfUnknown));
-        //TODO: send it to the player
+        ControlBase playerHandler = findControlBase(nickname);
+        if(playerHandler != null)
+            playerHandler.write(message);
+
         return true;
     }
 
@@ -357,23 +387,4 @@ public class MatchController {
         rematchPhaseController.response(nickname, value);
         return true;
     }
-
-
-    // %%%%% UTILITY METHODS %%%%%
-
-    //Returns the configuration at the path "config".
-    private MatchConfiguration assignConfiguration(String config){
-        Gson g = cellConfig(resourceConfig(requirableConfig(effectConfig(new GsonBuilder())))).setPrettyPrinting().create();
-        try {
-            FileReader reader = new FileReader(config);
-            return g.fromJson(reader, MatchConfiguration.class);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            System.err.println("Application shutdown due to an internal error in " + this.getClass().getSimpleName());
-            System.exit(1);
-            return null;
-        }
-    }
-
-
 }

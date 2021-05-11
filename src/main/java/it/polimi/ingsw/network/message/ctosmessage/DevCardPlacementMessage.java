@@ -43,7 +43,7 @@ public class DevCardPlacementMessage extends CtoSMessage {
         try {
             return controlBase.getMatchController().devCardPlacement(getNickname(),column);
         } catch (RetryException e) {
-            controlBase.write(new RetryMessage(getNickname(),e.getError()));
+            controlBase.write(new RetryMessage(getNickname(), controlBase.getMatchController().getCurrentState(getNickname()), e.getError()));
             return false;
         }
         //TODO

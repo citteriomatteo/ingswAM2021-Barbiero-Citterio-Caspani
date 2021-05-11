@@ -1,11 +1,18 @@
 package it.polimi.ingsw.model.match;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.model.essentials.DevelopmentCard;
 import it.polimi.ingsw.model.essentials.Production;
 import it.polimi.ingsw.model.essentials.leader.LeaderCard;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.List;
+
+import static it.polimi.ingsw.gsonUtilities.GsonHandler.*;
+import static it.polimi.ingsw.gsonUtilities.GsonHandler.effectConfig;
 
 /**
  * A configuration of the match all contained in one object
@@ -79,5 +86,26 @@ public class MatchConfiguration
      */
     public void setBasicProduction(Production basicProduction) {
         this.basicProduction = basicProduction;
+    }
+
+    // %%%%% UTILITY METHODS %%%%%
+
+    //Returns the configuration at the path "config".
+    /**
+     * Function used to read the configuration from the json file at 'config' filePath
+     * @param config the file path of the configuration file
+     * @return the object read in the json
+     */
+    public static MatchConfiguration assignConfiguration(String config){
+        Gson g = cellConfig(resourceConfig(requirableConfig(effectConfig(new GsonBuilder())))).setPrettyPrinting().create();
+        try {
+            FileReader reader = new FileReader(config);
+            return g.fromJson(reader, MatchConfiguration.class);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.err.println("Application shutdown due to an internal error " );
+            System.exit(1);
+            return null;
+        }
     }
 }

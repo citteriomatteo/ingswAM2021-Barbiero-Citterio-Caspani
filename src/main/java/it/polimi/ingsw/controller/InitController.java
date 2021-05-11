@@ -47,7 +47,7 @@ public class InitController {
 
         try {
             if(!addNewPlayer(nickname, client)) {
-                client.write(new RetryMessage(null, "This name is used by another connected player, please choose a different one"));
+                client.write(new RetryMessage(null, currentState , "This name is used by another connected player, please choose a different one"));
                 client.write(new NextStateMessage(null, currentState));
                 return true;
             }

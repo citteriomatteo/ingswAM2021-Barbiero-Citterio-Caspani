@@ -41,7 +41,7 @@ public class SwitchShelfMessage extends CtoSMessage {
         try {
             return controlBase.getMatchController().switchShelf(getNickname(), shelf1, shelf2);
         } catch (RetryException e) {
-            controlBase.write(new RetryMessage(getNickname(),e.getError()));
+            controlBase.write(new RetryMessage(getNickname(), controlBase.getMatchController().getCurrentState(getNickname()), e.getError()));
             return false;
         }
     }

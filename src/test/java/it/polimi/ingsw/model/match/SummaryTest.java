@@ -1,20 +1,13 @@
 package it.polimi.ingsw.model.match;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.essentials.Card;
-import it.polimi.ingsw.model.essentials.PhysicalResource;
-import it.polimi.ingsw.model.essentials.ResType;
 import it.polimi.ingsw.model.match.player.Player;
 import org.junit.jupiter.api.Test;
 
-import static it.polimi.ingsw.gsonUtilities.GsonHandler.*;
-import static it.polimi.ingsw.gsonUtilities.GsonHandler.effectConfig;
 import static org.junit.jupiter.api.Assertions.*;
+import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.*;
 
 public class SummaryTest extends CommonThingsTest {
@@ -26,19 +19,6 @@ public class SummaryTest extends CommonThingsTest {
             cardMap.put("D" + i, configuration.getAllDevCards().get(i - 1));
         for (int i = 1; i <= configuration.getAllLeaderCards().size(); i++)
             cardMap.put("L" + i, configuration.getAllLeaderCards().get(i - 1));
-    }
-    //useful in order to use the free configuration in tests
-    private MatchConfiguration assignConfiguration(String config){
-        Gson g = cellConfig(resourceConfig(requirableConfig(effectConfig(new GsonBuilder())))).setPrettyPrinting().create();
-        try {
-            FileReader reader = new FileReader(config);
-            return g.fromJson(reader, MatchConfiguration.class);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            System.err.println("Application shutdown due to an internal error in " + this.getClass().getSimpleName());
-            System.exit(1);
-            return null;
-        }
     }
 
     @Test
