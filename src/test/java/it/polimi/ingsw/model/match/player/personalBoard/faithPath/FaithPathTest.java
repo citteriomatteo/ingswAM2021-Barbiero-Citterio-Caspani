@@ -4,6 +4,7 @@ import it.polimi.ingsw.exceptions.FaithPathCreationException;
 import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.SingleMatchException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
+import it.polimi.ingsw.model.match.CommonThingsTest;
 import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.MultiMatch;
 import it.polimi.ingsw.model.match.player.Player;
@@ -13,7 +14,7 @@ import java.io.FileNotFoundException;
 import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class FaithPathTest
+public class FaithPathTest extends CommonThingsTest
 {
     //Generates 25-steps path, same report sections as the default path.
     public static ArrayList<Cell> generatePath() throws FaithPathCreationException
@@ -34,7 +35,10 @@ public class FaithPathTest
     public void getWinPointsTest() throws LastRoundException, WrongSettingException, SingleMatchException {
         Player player = new Player("player1");
         Player player1 = new Player("player2");
-        Match match = new MultiMatch(new ArrayList<>(Arrays.asList(player,player1)));
+        List<Player> players = new ArrayList<>();
+        players.add(player); players.add(player1);
+        setSummaries(players);
+        Match match = new MultiMatch(players);
         FaithPath path = match.getCurrentPlayer().getPersonalBoard().getFaithPath();
 
         path.addFaithPoints(17,match);
@@ -47,7 +51,11 @@ public class FaithPathTest
     {
         Player player = new Player("player1");
         Player player1 = new Player("player2");
-        MultiMatch match = new MultiMatch(new ArrayList<>(Arrays.asList(player,player1)));
+        List<Player> players = new ArrayList<>();
+        players.add(player); players.add(player1);
+        setSummaries(players);
+        MultiMatch match = new MultiMatch(players);
+
         FaithPath path = match.getCurrentPlayer().getPersonalBoard().getFaithPath();
         path.addFaithPoints(9,match);
         assertEquals(path.getPosition(), 9);

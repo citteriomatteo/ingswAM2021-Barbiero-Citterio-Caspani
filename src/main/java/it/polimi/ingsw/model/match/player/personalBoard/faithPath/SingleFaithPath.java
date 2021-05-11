@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.match.player.personalBoard.faithPath;
 
 import it.polimi.ingsw.exceptions.FaithPathCreationException;
 import it.polimi.ingsw.exceptions.LastRoundException;
+import it.polimi.ingsw.model.match.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class SingleFaithPath extends FaithPath
      * @return              true
      * @throws LastRoundException          if Lorenzo ends the path journey
      */
-    public boolean addBlackPoints(int points) throws LastRoundException
+    public boolean addBlackPoints(Player player, int points) throws LastRoundException
     {
         //critical error: wrong tokens!
         if(points<0)
@@ -45,6 +46,9 @@ public class SingleFaithPath extends FaithPath
             blackCrossMarker++;
             if(blackVaticanReport())
                 cellCollapse(blackCrossMarker);
+
+            //update_call
+            player.updateLorenzoMarker(this.blackCrossMarker);
 
             if(blackCrossMarker==24)
                 throw new LastRoundException("Lorenzo has reached the end of the path.");

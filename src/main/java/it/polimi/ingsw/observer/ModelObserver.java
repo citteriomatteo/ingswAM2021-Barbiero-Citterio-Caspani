@@ -21,6 +21,8 @@ public interface ModelObserver {
     public void updateCardGrid(CardGrid cardGrid);
     public void updateLorenzoMarker(int lorenzoMarker);
 
+    public void updatePersonalBoard(String nickname, PersonalBoard personalBoard);
+    public void updateMarketBuffer(String nickname, Warehouse warehouse);
     public void updateWarehouse(String nickname, Warehouse warehouse);
     public void updateStrongbox(String nickname, StrongBox strongbox);
     public void updateFaithMarker(String nickname, int faithMarker);

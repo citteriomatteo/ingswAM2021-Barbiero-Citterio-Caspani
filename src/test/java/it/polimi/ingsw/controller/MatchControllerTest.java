@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.essentials.*;
 import it.polimi.ingsw.model.essentials.leader.LeaderCard;
 import it.polimi.ingsw.model.essentials.leader.ProductionEffect;
 import it.polimi.ingsw.model.essentials.leader.WhiteMarbleEffect;
+import it.polimi.ingsw.model.match.CommonThingsTest;
 import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.MatchConfiguration;
 import it.polimi.ingsw.model.match.MultiMatch;
@@ -27,7 +28,7 @@ import java.io.FileReader;
 import java.util.*;
 
 
-public class MatchControllerTest {
+public class MatchControllerTest extends CommonThingsTest {
     private static MatchController matchController;
     private Player player;
     private Map<String, Card> map;
@@ -35,6 +36,7 @@ public class MatchControllerTest {
 
     public void initialization() throws RetryException {
         List<Player> players = new ArrayList<>(List.of(new Player("player1"), new Player("player2"), new Player("player3"), new Player("player4")));
+        setSummaries(players);
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
         matchController = new MatchController(players, matchConfiguration);
         player = matchController.getCurrentPlayer();
@@ -43,6 +45,7 @@ public class MatchControllerTest {
 
     public void initializationCosts() throws RetryException {
         List<Player> players = new ArrayList<>(List.of(new Player("player1"), new Player("player2"), new Player("player3"), new Player("player4")));
+        setSummaries(players);
         matchController = new MatchController(players);
         player = matchController.getCurrentPlayer();
         map = matchController.getCardMap();

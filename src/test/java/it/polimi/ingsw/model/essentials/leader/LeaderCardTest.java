@@ -2,31 +2,27 @@ package it.polimi.ingsw.model.essentials.leader;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.model.essentials.CardColor;
-import it.polimi.ingsw.model.essentials.CardType;
-import it.polimi.ingsw.model.essentials.PhysicalResource;
-import it.polimi.ingsw.model.essentials.ResType;
+import it.polimi.ingsw.model.essentials.*;
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.model.match.Match;
-import it.polimi.ingsw.model.match.MultiMatch;
+import it.polimi.ingsw.model.match.*;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
+import it.polimi.ingsw.observer.ModelObserver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static it.polimi.ingsw.gsonUtilities.GsonHandler.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class LeaderCardTest {
+public class LeaderCardTest extends CommonThingsTest {
 
     private LeaderCard slotLeader;
+
 
     //Tests the constructor
     @Test
@@ -80,7 +76,9 @@ public class LeaderCardTest {
     public void leaderActivationTest() throws WrongSettingException, SingleMatchException {
         PhysicalResource effectResource;
 
-        Match match1 = new MultiMatch(Arrays.asList(new Player("Giorgio"), new Player("Luca")));
+        List<Player> players = new ArrayList<>(List.of(new Player("Giorgio"), new Player("Luca")));
+        setSummaries(players);
+        Match match1 = new MultiMatch(players);
         Player giorgio = match1.getCurrentPlayer();
         PersonalBoard personalBoard = giorgio.getPersonalBoard();
         List<LeaderCard> handLeaders = giorgio.getHandLeaders();
@@ -140,7 +138,9 @@ public class LeaderCardTest {
         LeaderCard freeLeader2 = new LeaderCard(new ArrayList<>(List.of(new PhysicalResource(ResType.SHIELD, 0))), 5,
                 new SlotEffect(new PhysicalResource(ResType.SHIELD, 2)));
 
-        Match match1 = new MultiMatch(Arrays.asList(new Player("Joe"), new Player("Sara")));
+        List<Player> players = new ArrayList<>(List.of(new Player("Joe"), new Player("sara")));
+        setSummaries(players);
+        Match match1 = new MultiMatch(players);
         Player joe = match1.getPlayer("Joe");
 
         assertTrue(freeLeader1.isActivable(joe));

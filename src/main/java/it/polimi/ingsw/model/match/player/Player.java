@@ -48,6 +48,7 @@ public class Player extends ModelObservable implements Adder, Verificator
     {
         this.handLeaders = handLeaders;
         //update_call
+        updateHandLeaders(this.nickname, handLeaders);
         return true;
     }
 
@@ -89,6 +90,7 @@ public class Player extends ModelObservable implements Adder, Verificator
         if(this.tempDevCard==null) {
             this.tempDevCard = tempDevCard;
             //update_call
+            updateTempDevCard(this.nickname, tempDevCard);
             return true;
         }
         return false;
@@ -100,6 +102,7 @@ public class Player extends ModelObservable implements Adder, Verificator
      */
     public void setTempProduction(Production tempProduction) {
         this.tempProduction = tempProduction;
+        updateTempProduction(this.nickname, tempProduction);
     }
 
     // ----- ALL GETTERS -----
@@ -132,6 +135,7 @@ public class Player extends ModelObservable implements Adder, Verificator
     public boolean addFaithPoints(int quantity) throws LastRoundException {
         getPersonalBoard().getFaithPath().addFaithPoints(quantity, match);
         //update_call
+        updateFaithMarker(this.nickname, getPersonalBoard().getFaithPath().getPosition());
         return true;
     }
 
@@ -142,7 +146,13 @@ public class Player extends ModelObservable implements Adder, Verificator
      * @see StrongBox
      */
     @Override
-    public boolean addToStrongBox(PhysicalResource resource) { return personalBoard.getStrongBox().put(resource); }
+    public boolean addToStrongBox(PhysicalResource resource) {
+        boolean res = personalBoard.getStrongBox().put(resource);
+        //update_call
+        updateStrongbox(this.nickname, getPersonalBoard().getStrongBox());
+
+        return res;
+    }
 
     /**
      * This method adds resources to the latest warehouse version.
@@ -152,7 +162,11 @@ public class Player extends ModelObservable implements Adder, Verificator
      */
     @Override
     public boolean addToWarehouse(PhysicalResource resource) {
-        return personalBoard.getWarehouse().marketDraw(resource);
+        boolean res = personalBoard.getWarehouse().marketDraw(resource);
+        //update_call
+        updateMarketBuffer(this.nickname, getPersonalBoard().getWarehouse());
+
+        return res;
     }
 
     //"VERIFICATOR" INTERFACE METHODS:
@@ -221,6 +235,10 @@ public class Player extends ModelObservable implements Adder, Verificator
             if(!handLeaders.contains(lc))
                 throw new InvalidOperationException ("A chosen leader is not available in your hand! Retry.");
         handLeaders = choseLeaders;
+
+        //update_call
+        updateHandLeaders(this.nickname, getHandLeaders());
+
         return true;
     }
 
@@ -236,6 +254,11 @@ public class Player extends ModelObservable implements Adder, Verificator
         {
             handLeaders.remove(leader);
             leader.activate(getPersonalBoard());
+
+            //update_call
+            updateActiveLeaders(this.nickname, getPersonalBoard().getActiveLeaders());
+            updateActiveLeaders(this.nickname, getPersonalBoard().getActiveProductionLeaders());
+
             return true;
         }
         return false;
@@ -260,6 +283,10 @@ public class Player extends ModelObservable implements Adder, Verificator
     public boolean discardUselessLeader(LeaderCard leader)
     {
         handLeaders.remove(leader);
+
+        //update_call
+        updateHandLeaders(this.nickname, getHandLeaders());
+
         return true;
     }
 
@@ -276,8 +303,12 @@ public class Player extends ModelObservable implements Adder, Verificator
             whiteMarbles = match.getMarket().selectRow(number, this);
         else
             //parameters errors are handled here.
-            try{ whiteMarbles = match.getMarket().selectColumn(number, this);}
-            catch ( InvalidOperationException e){ e.printStackTrace(); }
+            whiteMarbles = match.getMarket().selectColumn(number, this);
+
+        //update_call
+        updateMarketBuffer(this.nickname, getPersonalBoard().getWarehouse());
+        updateMarket(getMatch().getMarket());
+
         return whiteMarbles;
     }
 
@@ -289,6 +320,11 @@ public class Player extends ModelObservable implements Adder, Verificator
      */
     public boolean drawDevelopmentCard(int gridR, int gridC) throws NoMoreCardsException, InvalidCardRequestException, LastRoundException {
         setTempDevCard(match.getCardGrid().take(gridR, gridC));
+
+        //update_call
+        updateTempDevCard(this.nickname, this.tempDevCard);
+        updateCardGrid(getMatch().getCardGrid());
+
         return true;
     }
 
@@ -322,6 +358,11 @@ public class Player extends ModelObservable implements Adder, Verificator
         try
         {
             ret = personalBoard.getWarehouse().moveInShelf(resource, shelf);
+
+            //update_call
+            updateWarehouse(this.nickname, getPersonalBoard().getWarehouse());
+            updateMarketBuffer(this.nickname, getPersonalBoard().getWarehouse());
+
         } catch (InvalidQuantityException e)
         {System.err.println("Critical error: the resource is not present in the marketBuffer first.");
          System.exit(1);}
@@ -343,7 +384,13 @@ public class Player extends ModelObservable implements Adder, Verificator
         if(!res.getType().equals(wh.getWarehouseDisposition().get(shelf-1).getType()))
             throw new InvalidCardRequestException ("The resource 'res' is not present on the shelf! Operation failed.");
         //NotEnoughResourcesException handled here.
-        try { wh.take(shelf, res.getQuantity()); }
+        try {
+            wh.take(shelf, res.getQuantity());
+
+            //update_call
+            updateWarehouse(this.nickname, getPersonalBoard().getWarehouse());
+
+        }
         catch(NotEnoughResourcesException e){ e.printStackTrace(); }
         return true;
     }
@@ -355,9 +402,11 @@ public class Player extends ModelObservable implements Adder, Verificator
      * @return      true
      */
     public boolean payFromStrongbox(PhysicalResource res) throws NotEnoughResourcesException {
-        StrongBox sb = personalBoard.getStrongBox();
-        //NotEnoughResourcesException handled here.
-        sb.take(res);
+        personalBoard.getStrongBox().take(res);
+
+        //update_call
+        updateStrongbox(this.nickname, getPersonalBoard().getStrongBox());
+
         return true;
     }
 
@@ -369,6 +418,10 @@ public class Player extends ModelObservable implements Adder, Verificator
     public boolean produce() throws LastRoundException
     {
         tempProduction.produce(this);
+
+        //update_call
+        updateTempProduction(this.nickname, getTempProduction());
+
         return true;
     }
 

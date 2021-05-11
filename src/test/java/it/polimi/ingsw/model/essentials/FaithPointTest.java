@@ -7,14 +7,16 @@ import it.polimi.ingsw.exceptions.WrongSettingException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import it.polimi.ingsw.model.match.Match;
-import it.polimi.ingsw.model.match.SingleMatch;
+import it.polimi.ingsw.model.match.*;
 import it.polimi.ingsw.model.match.player.Player;
+import it.polimi.ingsw.observer.ModelObserver;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
 
-public class FaithPointTest {
+public class FaithPointTest extends CommonThingsTest {
     private Player player = new Player("player1");
 
     @Test
@@ -25,7 +27,9 @@ public class FaithPointTest {
 
     @Test
     public void testAdd() throws NegativeQuantityException, LastRoundException, WrongSettingException {
+        setSummary(player);
         Match match = new SingleMatch(player);
+
         FaithPoint faithPoint = new FaithPoint(2);
 
         assertTrue(faithPoint.add(player));

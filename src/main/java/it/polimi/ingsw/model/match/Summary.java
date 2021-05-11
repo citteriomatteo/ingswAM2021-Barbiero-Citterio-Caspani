@@ -14,10 +14,7 @@ import it.polimi.ingsw.model.match.player.personalBoard.faithPath.SingleFaithPat
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 import it.polimi.ingsw.observer.ModelObserver;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * This class implements a summary of the match situation.
@@ -34,6 +31,22 @@ public class Summary implements ModelObserver
     private int lorenzoMarker;  //stays "-1" in multi-player matches!
 
     private List<PlayerSummary> playersSummary;
+
+    public Summary(List<Player> playersInMatch){
+
+        //cardMap init
+        cardMap = new HashMap<>();
+        // market init
+        this.market = new char[3][4];
+        // cardGrid init
+        this.cardGrid = new ArrayList[CardGrid.MAX_LEVEL][CardColor.values().length];
+        //lorenzo's marker init: moved here in Summary because knowing if the match is single or multi is needed.
+        this.lorenzoMarker = -1;
+        //players summaries init
+        playersSummary = new ArrayList<>();
+        for(Player p : playersInMatch)
+            playersSummary.add(new PlayerSummary(p));
+    }
 
     /**
      * This constructor is called once at the beginning of the match.
@@ -114,6 +127,24 @@ public class Summary implements ModelObserver
     @Override
     public void updateLorenzoMarker(int lorenzoMarker) {
         this.lorenzoMarker = lorenzoMarker;
+    }
+
+    /**
+     * This method, when called, updates the personal board of the requested player in the summary.
+     * @param nickname  the requested player
+     * @param personalBoard
+     */
+    public void updatePersonalBoard(String nickname, PersonalBoard personalBoard){
+        getPlayerSummary(nickname).updatePersonalBoard(personalBoard, cardMap);
+    }
+
+    /**
+     * This method, when called, updates the market buffer of the requested player in the summary.
+     * @param nickname  the requested player
+     * @param warehouse
+     */
+    public void updateMarketBuffer(String nickname, Warehouse warehouse){
+        getPlayerSummary(nickname).updateMarketBuffer(warehouse);
     }
 
     /**

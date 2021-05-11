@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.match.player.personalBoard.warehouse;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.ResType;
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.model.match.CommonThingsTest;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

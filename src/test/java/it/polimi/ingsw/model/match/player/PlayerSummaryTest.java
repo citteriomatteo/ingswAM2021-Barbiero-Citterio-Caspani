@@ -7,10 +7,7 @@ import it.polimi.ingsw.model.essentials.Card;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.ResType;
 import it.polimi.ingsw.model.essentials.leader.LeaderCard;
-import it.polimi.ingsw.model.match.Match;
-import it.polimi.ingsw.model.match.MatchConfiguration;
-import it.polimi.ingsw.model.match.MultiMatch;
-import it.polimi.ingsw.model.match.Summary;
+import it.polimi.ingsw.model.match.*;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -22,7 +19,7 @@ import static it.polimi.ingsw.gsonUtilities.GsonHandler.*;
 import static it.polimi.ingsw.gsonUtilities.GsonHandler.effectConfig;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PlayerSummaryTest
+public class PlayerSummaryTest extends CommonThingsTest
 {
     public Map<String, Card> cardMap = new HashMap<>();
 
@@ -45,15 +42,6 @@ public class PlayerSummaryTest
             return null;
         }
     }
-    public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
-        for (Map.Entry<T, E> entry : map.entrySet()) {
-            if (Objects.equals(value, entry.getValue())) {
-                return entry.getKey();
-            }
-        }
-        return null;
-    }
-
 
     @Test
     public void updateWarehouseTest() throws WrongSettingException, SingleMatchException, NegativeQuantityException, ShelfInsertException {
@@ -62,7 +50,10 @@ public class PlayerSummaryTest
         Player player2 = new Player("player2");
         Player player3 = new Player("player3");
         Player player4 = new Player("player4");
-        Match match = new MultiMatch(new ArrayList<>(List.of(player1,player2,player3,player4)), assignConfiguration("src/test/resources/TotalFreeConfiguration.json"));
+        List<Player> players = new ArrayList<>(List.of(player1,player2,player3,player4));
+        setSummaries(players);
+        Match match = new MultiMatch(players, assignConfiguration("src/test/resources/TotalFreeConfiguration.json"));
+
         setCardMap(match.getMatchConfiguration());
         Summary summary = new Summary(match, cardMap);
         for(Player p : match.getPlayers())
@@ -91,7 +82,10 @@ public class PlayerSummaryTest
         Player player2 = new Player("player2");
         Player player3 = new Player("player3");
         Player player4 = new Player("player4");
-        Match match = new MultiMatch(new ArrayList<>(List.of(player1,player2,player3,player4)), assignConfiguration("src/test/resources/TotalFreeConfiguration.json"));
+        List<Player> players = new ArrayList<>(List.of(player1,player2,player3,player4));
+        setSummaries(players);
+        Match match = new MultiMatch(players, assignConfiguration("src/test/resources/TotalFreeConfiguration.json"));
+
         setCardMap(match.getMatchConfiguration());
         Summary summary = new Summary(match, cardMap);
         for(Player p : match.getPlayers())
@@ -119,7 +113,10 @@ public class PlayerSummaryTest
         Player player2 = new Player("player2");
         Player player3 = new Player("player3");
         Player player4 = new Player("player4");
-        Match match = new MultiMatch(new ArrayList<>(List.of(player1,player2,player3,player4)), assignConfiguration("src/test/resources/TotalFreeConfiguration.json"));
+        List<Player> players = new ArrayList<>(List.of(player1,player2,player3,player4));
+        setSummaries(players);
+        Match match = new MultiMatch(players, assignConfiguration("src/test/resources/TotalFreeConfiguration.json"));
+
         setCardMap(match.getMatchConfiguration());
         Summary summary = new Summary(match, cardMap);
         for(Player p : match.getPlayers())
@@ -156,7 +153,9 @@ public class PlayerSummaryTest
         Player player2 = new Player("player2");
         Player player3 = new Player("player3");
         Player player4 = new Player("player4");
-        Match match = new MultiMatch(new ArrayList<>(List.of(player1,player2,player3,player4)), assignConfiguration("src/test/resources/TotalFreeConfiguration.json"));
+        List<Player> players = new ArrayList<>(List.of(player1,player2,player3,player4));
+        setSummaries(players);
+        Match match = new MultiMatch(players, assignConfiguration("src/test/resources/TotalFreeConfiguration.json"));
         setCardMap(match.getMatchConfiguration());
         Summary summary = new Summary(match, cardMap);
         for(Player p : match.getPlayers())

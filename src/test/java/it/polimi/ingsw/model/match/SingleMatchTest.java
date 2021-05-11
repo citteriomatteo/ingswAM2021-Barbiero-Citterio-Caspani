@@ -10,14 +10,15 @@ import java.io.FileNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SingleMatchTest {
+public class SingleMatchTest extends CommonThingsTest {
     private SingleMatch match;
 
     @Test
     public void testNextTurn() throws WrongSettingException, LastRoundException {
         int dim;
-        match = new SingleMatch(new Player("player1"));
-
+        Player p = new Player("player1");
+        setSummary(p);
+        match = new SingleMatch(p);
 
         dim = match.getTokenStack().getStack().size();
 
@@ -36,6 +37,7 @@ public class SingleMatchTest {
     @Test
     public void testGetPlayer() throws WrongSettingException {
         Player player = new Player("player1");
+        setSummary(player);
         match = new SingleMatch(player);
 
         assertEquals(player,match.getPlayer("player1"));

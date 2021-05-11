@@ -6,16 +6,18 @@ import it.polimi.ingsw.exceptions.ShelfInsertException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
 
 import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
-import it.polimi.ingsw.model.match.Match;
-import it.polimi.ingsw.model.match.SingleMatch;
+import it.polimi.ingsw.model.match.*;
 import it.polimi.ingsw.model.match.player.Player;
+import it.polimi.ingsw.observer.ModelObserver;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PhysicalResourceTest {
+public class PhysicalResourceTest extends CommonThingsTest {
     private Player player = new Player("player1");
 
     @Test
@@ -43,6 +45,7 @@ public class PhysicalResourceTest {
     @Test
     public void testAdd() throws NegativeQuantityException, WrongSettingException {
         PhysicalResource resource1 = new PhysicalResource(ResType.SERVANT,3);
+        setSummary(player);
         Match match = new SingleMatch(player);
         assertTrue(resource1.add(player));
 
@@ -55,6 +58,7 @@ public class PhysicalResourceTest {
     @Test
     public void testVerify() throws WrongSettingException, InvalidQuantityException, ShelfInsertException {
         Player player = new Player("player1");
+        setSummary(player);
         Match match = new SingleMatch(player);
         PhysicalResource resource1 = new PhysicalResource(ResType.COIN,1);
         PhysicalResource resource2 = new PhysicalResource(ResType.STONE,2);

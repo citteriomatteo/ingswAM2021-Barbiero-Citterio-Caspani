@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.match.player.personalBoard.warehouse;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.ResType;
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.model.match.CommonThingsTest;
 import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.MultiMatch;
 import it.polimi.ingsw.model.match.player.Player;
@@ -13,7 +14,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ExtraShelfWarehouseTest
+public class ExtraShelfWarehouseTest extends CommonThingsTest
 {
     /*
     Tests if extra shelves' functionalities, in terms of correct moves, work well.
@@ -222,7 +223,10 @@ public class ExtraShelfWarehouseTest
     public void wrongBufferDiscardTest() throws SingleMatchException, WrongSettingException, NegativeQuantityException, InvalidQuantityException, InvalidOperationException {
         Player player = new Player("player1");
         Player player1 = new Player("player2");
-        Match match = new MultiMatch(Arrays.asList(player, player1));
+        List<Player> players = new ArrayList<>();
+        players.add(player); players.add(player1);
+        setSummaries(players);
+        Match match = new MultiMatch(players);
 
         player.getPersonalBoard().warehouseEvolution(new PhysicalResource(ResType.COIN,2));
         player.addToWarehouse(new PhysicalResource(ResType.COIN,5));

@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.match.player;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.ResType;
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.model.match.CommonThingsTest;
 import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.MultiMatch;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,7 @@ import java.io.FileNotFoundException;
 import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PlayerTest
+public class PlayerTest extends CommonThingsTest
 {
 
 
@@ -46,9 +47,10 @@ public class PlayerTest
     @Test
     public void totalWinPointsTest() throws NegativeQuantityException,
             SingleMatchException, WrongSettingException, InvalidOperationException, LastRoundException {
-        Player player = new Player("player1");
-        Player player1 = new Player("player2");
+        Player player = new Player("player1"); setSummary(player);
+        Player player1 = new Player("player2"); setSummary(player1);
         Match match = new MultiMatch(Arrays.asList(player, player1));
+
 
         addSequence(player, player1);
         paySequence(player, player1);
@@ -61,10 +63,4 @@ public class PlayerTest
         assertEquals(4,player1.totalWinPoints());
     }
 
-    public void boh() throws WrongSettingException, SingleMatchException {
-        Player player = new Player("player1");
-        Player player1 = new Player("player2");
-        Match match = new MultiMatch(Arrays.asList(player, player1));
-
-    }
 }

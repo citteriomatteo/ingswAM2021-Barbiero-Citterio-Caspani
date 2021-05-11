@@ -27,7 +27,11 @@ public class ModelObservable {
 
     private final List<ModelObserver> observers = new ArrayList<>();
 
-    public void setSummary(ModelObserver summary) { observers.add(summary); }
+    public void setSummary(ModelObserver summary) {
+        if(observers.size()>0)
+            observers.remove(0);
+        observers.add(summary);
+    }
     public void updateMarket(Market market){
         observers.get(0).updateMarket(market);
     }
@@ -38,6 +42,12 @@ public class ModelObservable {
         observers.get(0).updateLorenzoMarker(lorenzoMarker);
     }
 
+    public void updatePersonalBoard(String nickname, PersonalBoard personalBoard){
+        observers.get(0).updatePersonalBoard(nickname, personalBoard);
+    }
+    public void updateMarketBuffer(String nickname, Warehouse warehouse){
+        observers.get(0).updateMarketBuffer(nickname, warehouse);
+    }
     public void updateWarehouse(String nickname, Warehouse warehouse){
         observers.get(0).updateWarehouse(nickname, warehouse);
     }

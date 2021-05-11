@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MultiMatchTest {
+public class MultiMatchTest extends CommonThingsTest {
     private MultiMatch match;
 
     @Test
@@ -20,10 +20,12 @@ public class MultiMatchTest {
         Player player2 = new Player("player2");
         Player player3 = new Player("player3");
         Player player4 = new Player("player4");
+        List<Player> players = new ArrayList<>(List.of(player1,player2,player3,player4));
+        setSummaries(players);
 
         assertThrows(SingleMatchException.class,()->new MultiMatch(List.of(new Player("player1"))));
         try{
-            match = new MultiMatch(new ArrayList<>(List.of(player1,player2,player3,player4)));
+            match = new MultiMatch(players);
         }catch(UnsupportedOperationException e){e.printStackTrace();}
 
         assertTrue(match.getPlayers().contains(player1));
@@ -39,7 +41,7 @@ public class MultiMatchTest {
     @Test
     public void testNextTurn() throws WrongSettingException, SingleMatchException {
         List<Player> players = new ArrayList<>(List.of(new Player("player1"), new Player("player2"), new Player("player3")));
-
+        setSummaries(players);
         match = new MultiMatch(players);
 
         assertEquals(match.getCurrentPlayer(),players.get(0));
@@ -58,7 +60,7 @@ public class MultiMatchTest {
     @Test
     public void getNextPlayer() throws WrongSettingException, SingleMatchException {
         List<Player> players = new ArrayList<>(List.of(new Player("player1"), new Player("player2"), new Player("player3")));
-
+        setSummaries(players);
         match = new MultiMatch(players);
 
         assertEquals(match.getNextPlayer(),players.get(1));

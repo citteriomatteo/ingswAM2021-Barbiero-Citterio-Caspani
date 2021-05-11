@@ -16,6 +16,6 @@ public class PlusTwoToken extends Token{
     public boolean onDraw(SingleMatch match) throws LastRoundException {
         SingleFaithPath singleFaithPath;
         singleFaithPath = (SingleFaithPath) match.getCurrentPlayer().getPersonalBoard().getFaithPath();
-        return singleFaithPath.addBlackPoints(2);
+        return singleFaithPath.addBlackPoints(match.getCurrentPlayer(), 2);
     }
 }

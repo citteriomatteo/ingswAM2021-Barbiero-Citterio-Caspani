@@ -6,23 +6,21 @@ import it.polimi.ingsw.exceptions.InvalidQuantityException;
 import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.exceptions.SingleMatchException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
-import it.polimi.ingsw.model.match.Match;
-import it.polimi.ingsw.model.match.MultiMatch;
+import it.polimi.ingsw.model.match.*;
 import it.polimi.ingsw.model.match.player.Player;
+import it.polimi.ingsw.observer.ModelObserver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 //Test for DevelopmentCard class
-public class DevelopmentCardTest {
+public class DevelopmentCardTest extends CommonThingsTest {
     DevelopmentCard devCard;
 
     //Tests the constructor
@@ -62,7 +60,10 @@ public class DevelopmentCardTest {
 
     @Test
     public void isBuyableTest() throws WrongSettingException, SingleMatchException, NegativeQuantityException {
-        Match match1 = new MultiMatch(Arrays.asList(new Player("Joe"), new Player("Sara")));
+        List<Player> players = new ArrayList<>(List.of(new Player("Joe"), new Player("Sara")));
+        setSummaries(players);
+        Match match1 = new MultiMatch(players);
+
         Player joe = match1.getPlayer("Joe");
         assertFalse(devCard.isBuyable(joe));
         joe.addToStrongBox(new PhysicalResource(ResType.COIN, 2));

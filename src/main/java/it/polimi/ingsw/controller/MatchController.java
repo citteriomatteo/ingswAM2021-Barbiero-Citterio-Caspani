@@ -6,14 +6,13 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.essentials.Card;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.Production;
-import it.polimi.ingsw.model.match.Match;
-import it.polimi.ingsw.model.match.MatchConfiguration;
-import it.polimi.ingsw.model.match.MultiMatch;
-import it.polimi.ingsw.model.match.SingleMatch;
+import it.polimi.ingsw.model.match.*;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
 import it.polimi.ingsw.network.message.stocmessage.EndGameResultsMessage;
 import it.polimi.ingsw.network.message.stocmessage.NextStateMessage;
+import it.polimi.ingsw.observer.ModelObservable;
+import it.polimi.ingsw.observer.ModelObserver;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -61,6 +60,11 @@ public class MatchController {
         for (int i=1; i<=configuration.getAllLeaderCards().size(); i++)
             cardMap.put("L"+i,configuration.getAllLeaderCards().get(i-1));
 
+        //setting the starting summary to eveyone
+        ModelObserver obs = new Summary(playersInMatch);
+        for(Player p : playersInMatch)
+            p.setSummary(obs);
+
         try {
             this.match = new MultiMatch(playersInMatch, configuration);
         } catch (SingleMatchException e) {
@@ -82,6 +86,11 @@ public class MatchController {
             cardMap.put("D"+i,configuration.getAllDevCards().get(i-1));
         for (int i=1; i<=configuration.getAllLeaderCards().size(); i++)
             cardMap.put("L"+i,configuration.getAllLeaderCards().get(i-1));
+
+        //setting the starting summary to eveyone
+        ModelObserver obs = new Summary(playersInMatch);
+        for(Player p : playersInMatch)
+            p.setSummary(obs);
 
         try {
             this.match = new MultiMatch(playersInMatch, configuration);
@@ -106,6 +115,10 @@ public class MatchController {
         for (int i=1; i<=configuration.getAllLeaderCards().size(); i++)
             cardMap.put("L"+i,configuration.getAllLeaderCards().get(i-1));
 
+        //setting the starting summary to the player
+        ModelObserver obs = new Summary(new ArrayList<>(List.of(player)));
+        player.setSummary(obs);
+
         try {
             this.match = new SingleMatch(player, configuration);
         } catch (WrongSettingException e) {
@@ -124,6 +137,10 @@ public class MatchController {
             cardMap.put("D"+i,configuration.getAllDevCards().get(i-1));
         for (int i=1; i<=configuration.getAllLeaderCards().size(); i++)
             cardMap.put("L"+i,configuration.getAllLeaderCards().get(i-1));
+
+        //setting the starting summary to the player
+        ModelObserver obs = new Summary(new ArrayList<>(List.of(player)));
+        player.setSummary(obs);
 
         try {
             this.match = new SingleMatch(player, configuration);
@@ -164,79 +181,6 @@ public class MatchController {
     }
 
     public void setWhiteMarblesDrawn(int num){ turnController.setWhiteMarbleDrawn(num);}
-
-    private List<CtoSMessageType> acceptedMessages(StateName sn){
-        List<CtoSMessageType> accepted = new ArrayList<>();
-        accepted.add(CtoSMessageType.SWITCH_SHELF);
-        switch (sn)
-        {
-            //STARTING PHASE STATES
-            case WAITING_LEADERS:
-                accepted.remove(CtoSMessageType.SWITCH_SHELF);
-                accepted.add(LEADERS_CHOICE);
-                break;
-            case WAITING_RESOURCES:
-                accepted.remove(CtoSMessageType.SWITCH_SHELF);
-                accepted.add(CtoSMessageType.STARTING_RESOURCES);
-                break;
-            case STARTING_PHASE_DONE:
-                accepted.remove(CtoSMessageType.SWITCH_SHELF);
-                break;
-
-            //TURN STATES
-            case STARTING_TURN:
-                accepted.add(CtoSMessageType.LEADER_ACTIVATION);
-                accepted.add(CtoSMessageType.LEADER_DISCARDING);
-                accepted.add(CtoSMessageType.MARKET_DRAW);
-                accepted.add(CtoSMessageType.DEV_CARD_DRAW);
-                accepted.add(CtoSMessageType.PRODUCTION);
-                break;
-
-            case MARKET_ACTION:
-                accepted.add(CtoSMessageType.WHITE_MARBLE_CONVERSIONS);
-                break;
-
-            case RESOURCES_PLACEMENT:
-                accepted.add(CtoSMessageType.WAREHOUSE_INSERTION);
-                break;
-
-            case BUY_DEV_ACTION:
-                accepted.add(CtoSMessageType.PAYMENTS);
-                break;
-
-            case PLACE_DEV_CARD:
-                accepted.add(CtoSMessageType.DEV_CARD_PLACEMENT);
-                break;
-
-            case PRODUCTION_ACTION:
-                accepted.add(CtoSMessageType.PAYMENTS);
-                break;
-
-            case END_TURN:
-                accepted.add(CtoSMessageType.LEADER_ACTIVATION);
-                accepted.add(CtoSMessageType.LEADER_DISCARDING);
-                accepted.add(CtoSMessageType.END_TURN);
-                break;
-
-            case END_MATCH:
-                accepted.add(CtoSMessageType.REMATCH);
-                accepted.add(CtoSMessageType.DISCONNECTION);
-                accepted.remove(CtoSMessageType.SWITCH_SHELF);
-                break;
-
-            case REMATCH_OFFER:
-                accepted.add(CtoSMessageType.REMATCH);
-                accepted.remove(CtoSMessageType.SWITCH_SHELF);
-                break;
-
-            default:
-                accepted.remove(CtoSMessageType.SWITCH_SHELF);
-                break;
-
-        }
-        return accepted;
-    }
-
 
     private boolean isComputable(String nickname, CtoSMessageType type) throws RetryException {
         if (turnController == null) {

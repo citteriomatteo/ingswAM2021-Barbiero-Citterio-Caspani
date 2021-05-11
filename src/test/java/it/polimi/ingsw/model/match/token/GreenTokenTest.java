@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.essentials.CardType;
 import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
+import it.polimi.ingsw.model.match.CommonThingsTest;
 import it.polimi.ingsw.model.match.SingleMatch;
 import it.polimi.ingsw.model.match.player.Player;
 import org.junit.jupiter.api.Test;
@@ -13,13 +14,16 @@ import java.io.FileNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class GreenTokenTest {
+public class GreenTokenTest extends CommonThingsTest {
     private SingleMatch singleMatch;
     private GreenToken greenToken = new GreenToken();
 
     @Test
     public void testOnDraw() throws NegativeQuantityException, FileNotFoundException, WrongSettingException, LastRoundException {
-        singleMatch = new SingleMatch(new Player("player1"));
+        Player p = new Player("player1");
+        setSummary(p);
+        singleMatch = new SingleMatch(p);
+
         greenToken = new GreenToken();
 
         assertTrue(greenToken.onDraw(singleMatch));

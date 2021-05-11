@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.match.market;
 import it.polimi.ingsw.exceptions.InvalidOperationException;
 import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
+import it.polimi.ingsw.model.match.CommonThingsTest;
 import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.SingleMatch;
 import it.polimi.ingsw.model.match.player.Player;
@@ -14,7 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MarketTest {
+public class MarketTest extends CommonThingsTest {
     private Market market1 = new Market();
     private Marble[][] board;
     private Match match;
@@ -72,6 +73,7 @@ public class MarketTest {
     public void testSelectRow() throws LastRoundException, WrongSettingException, InvalidOperationException {
         Random gen = new Random();
         Player player = new Player("player1");
+        setSummary(player);
         match = new SingleMatch(player);
         int numRow = gen.nextInt(3);
         int countWhite = 0;
@@ -103,6 +105,7 @@ public class MarketTest {
     public void testSelectColumn() throws LastRoundException, WrongSettingException, InvalidOperationException {
         Random gen = new Random();
         Player player = new Player("player1");
+        setSummary(player);
         match = new SingleMatch(player);
         int numColumn = gen.nextInt(3);
         int countWhite = 0;

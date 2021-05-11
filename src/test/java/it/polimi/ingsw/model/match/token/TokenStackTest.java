@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.match.token;
 
 import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
+import it.polimi.ingsw.model.match.CommonThingsTest;
 import it.polimi.ingsw.model.match.SingleMatch;
 import it.polimi.ingsw.model.match.player.Player;
 import org.junit.jupiter.api.Test;
@@ -11,11 +12,13 @@ import java.util.Stack;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TokenStackTest {
+public class TokenStackTest extends CommonThingsTest {
     private SingleMatch match;
     @Test
     public void testDraw() throws WrongSettingException, LastRoundException {
-        match = new SingleMatch(new Player("player1"));
+        Player p = new Player("player1");
+        setSummary(p);
+        match = new SingleMatch(p);
 
         for(int i=0; i < 10; i++)
             assertTrue(match.getTokenStack().draw(match));
@@ -26,7 +29,9 @@ public class TokenStackTest {
 
     @Test
     public void testShuffle() throws WrongSettingException {
-        match = new SingleMatch(new Player("player1"));
+        Player p = new Player("player1");
+        setSummary(p);
+        match = new SingleMatch(p);
 
         Stack<Token> stack = match.getTokenStack().getStack();
 

@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.match.token;
 
 import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
+import it.polimi.ingsw.model.match.CommonThingsTest;
 import it.polimi.ingsw.model.match.SingleMatch;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.SingleFaithPath;
@@ -14,13 +15,15 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class PlusTwoTokenTest {
+public class PlusTwoTokenTest extends CommonThingsTest {
     private List<Player> players = new ArrayList<>();
     private SingleMatch singleMatch;
     private PlusTwoToken plusTwoToken = new PlusTwoToken();
     @Test
     public void testOnDraw() throws FileNotFoundException, WrongSettingException, LastRoundException {
-        singleMatch = new SingleMatch(new Player("player1"));
+        Player p = new Player("player1");
+        setSummary(p);
+        singleMatch = new SingleMatch(p);
 
         assertTrue(plusTwoToken.onDraw(singleMatch));
 

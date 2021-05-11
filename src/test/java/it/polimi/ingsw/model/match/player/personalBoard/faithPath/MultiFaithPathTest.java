@@ -4,25 +4,43 @@ import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.exceptions.SingleMatchException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
-import it.polimi.ingsw.model.match.Match;
-import it.polimi.ingsw.model.match.MultiMatch;
+import it.polimi.ingsw.model.essentials.Card;
+import it.polimi.ingsw.model.match.*;
 import it.polimi.ingsw.model.match.player.Player;
+import it.polimi.ingsw.observer.ModelObserver;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MultiFaithPathTest extends FaithPathTest
 {
 
+    public Map<String, Card> getCardMap(MatchConfiguration configuration) {
+        Map<String, Card> cardMap = new HashMap<>();
+        for (int i = 1; i <= configuration.getAllDevCards().size(); i++)
+            cardMap.put("D" + i, configuration.getAllDevCards().get(i - 1));
+        for (int i = 1; i <= configuration.getAllLeaderCards().size(); i++)
+            cardMap.put("L" + i, configuration.getAllLeaderCards().get(i - 1));
+        return cardMap;
+    }
+    public void setSummaries(Match match){
+        ModelObserver obs = new Summary(match, getCardMap(match.getMatchConfiguration()));
+        for(Player p : match.getPlayers())
+            p.setSummary(obs);
+    }
+
     @Test
     public void externalVaticanReportTest() throws SingleMatchException,
             WrongSettingException, LastRoundException {
         List<Player> players = new ArrayList<>(List.of(new Player("player1"),
                 new Player("player2"), new Player("player3")));
+        setSummaries(players);
         Match match = new MultiMatch(players);
 
         match.getCurrentPlayer().addFaithPoints(9);

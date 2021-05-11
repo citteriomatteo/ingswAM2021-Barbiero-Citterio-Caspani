@@ -4,21 +4,19 @@ import static org.junit.jupiter.api.Assertions.*;
 import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
-import it.polimi.ingsw.model.match.Match;
-import it.polimi.ingsw.model.match.SingleMatch;
+import it.polimi.ingsw.model.match.*;
 import it.polimi.ingsw.model.match.player.Player;
+import it.polimi.ingsw.observer.ModelObserver;
 import org.junit.jupiter.api.Test;
 
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /*
 Test for Production class
  */
-public class ProductionTest {
+public class ProductionTest extends CommonThingsTest {
 
     //test the constructor with random cost and earnings
     @Test
@@ -51,6 +49,7 @@ public class ProductionTest {
         earnings.add(new PhysicalResource(ResType.SHIELD, 1));
         Production prod = new Production(cost, earnings);
         Player player = new Player("player1");
+        setSummary(player);
         Match match = new SingleMatch(player);
 
         assertEquals(0, match.getCurrentPlayer().getPersonalBoard().getStrongBox().getNumberOf(ResType.SHIELD));
@@ -65,6 +64,7 @@ public class ProductionTest {
         cost.add(new PhysicalResource(ResType.SHIELD, 1));
         Production prod = new Production(cost, earnings);
         Player player = new Player("player1");
+        setSummary(player);
         Match match = new SingleMatch(player);
 
 

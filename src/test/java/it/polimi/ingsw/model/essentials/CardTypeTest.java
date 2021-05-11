@@ -4,18 +4,20 @@ package it.polimi.ingsw.model.essentials;
 import it.polimi.ingsw.exceptions.InvalidOperationException;
 import it.polimi.ingsw.exceptions.InvalidQuantityException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
-import it.polimi.ingsw.model.match.Match;
-import it.polimi.ingsw.model.match.SingleMatch;
+import it.polimi.ingsw.model.match.*;
 import it.polimi.ingsw.model.match.player.Player;
+import it.polimi.ingsw.observer.ModelObserver;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CardTypeTest {
+public class CardTypeTest extends CommonThingsTest {
     private Player player;
 
     @Test
@@ -50,6 +52,7 @@ public class CardTypeTest {
                         new ArrayList<>(List.of(new FaithPoint(1)))), 1);
 
         player = new Player("player1");
+        setSummary(player);
         Match match = new SingleMatch(player);
         player.getPersonalBoard().getDevCardSlots().pushNewCard(1,developmentCard);
 

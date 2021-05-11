@@ -25,6 +25,7 @@ public class PlayerSummary
     //player's general things
     private String nickname;
     private List<PhysicalResource> warehouse;
+    private List<PhysicalResource> marketBuffer;
     private List<PhysicalResource> strongbox;
     private int faithMarker;
     private List<Integer> popeTiles;
@@ -39,6 +40,43 @@ public class PlayerSummary
     private Production tempProduction;
     private StateName lastUsedState;
 
+
+    /**
+     * This constructor is called once for every player, at the beginning of the starting phase.
+     * It initializes its Summary in an "empty everything" state.
+     */
+    public PlayerSummary(Player player){
+        this.nickname = player.getNickname();
+
+        //last used state init to the first state after the creation of the match
+        updateLastUsedState(StateName.WAITING_LEADERS);
+        //warehouse init
+        warehouse = new ArrayList<>();
+        //strongbox init
+        strongbox = new ArrayList<>();
+        //player's faith marker init
+        faithMarker = -1;
+        //pope tiles init
+        popeTiles = new ArrayList<>();
+        //dev card slots init
+        this.devCardSlots = new List[3];
+        for(int i = 0; i<3; i++)
+            this.devCardSlots[i] = new ArrayList<>();
+        //hand leaders init
+        handLeaders = new ArrayList<>();
+        //active leaders init
+        activeLeaders = new ArrayList<>();
+        //white marble conversions init
+        this.whiteMarbleConversions = new ArrayList<>();
+        //discount map init
+        this.discountMap = new ArrayList<>();
+        //temp dev card init
+        tempDevCard = null;
+        //temp production init
+        tempProduction = null;
+    }
+
+
     /**
      * This constructor is called once for every player, at the beginning of the match.
      * It initializes its Summary basing on its actual (starting) situation.
@@ -47,51 +85,72 @@ public class PlayerSummary
     public PlayerSummary(Player player, Map<String, Card> cardMap){
         this.nickname = player.getNickname();
 
-        //last used state init to the first state after the creation of the match
-        updateLastUsedState(StateName.WAITING_LEADERS);
+        if(player.getPersonalBoard() != null){
 
-        //warehouse init
-        updateWarehouse(player.getPersonalBoard().getWarehouse());
+            //last used state init to the first state after the creation of the match
+            updateLastUsedState(StateName.WAITING_LEADERS);
 
-        //strongbox init
-        updateStrongbox(player.getPersonalBoard().getStrongBox());
+            //warehouse init
+            updateWarehouse(player.getPersonalBoard().getWarehouse());
 
-        //player's faith marker init
-        updateFaithMarker(player.getPersonalBoard().getFaithPath().getPosition());
+            //strongbox init
+            updateStrongbox(player.getPersonalBoard().getStrongBox());
 
-        //pope tiles init
-        updatePopeTiles(player.getPersonalBoard().getFaithPath().getPopeTiles());
+            //player's faith marker init
+            updateFaithMarker(player.getPersonalBoard().getFaithPath().getPosition());
 
-        //dev card slots init
-        this.devCardSlots = new List[3];
-        updateDevCardSlots(player.getPersonalBoard().getDevCardSlots(), cardMap);
+            //pope tiles init
+            updatePopeTiles(player.getPersonalBoard().getFaithPath().getPopeTiles());
 
-        //hand leaders init
-        handLeaders = new ArrayList<>();
-        updateHandLeaders(player.getHandLeaders(), cardMap);
+            //dev card slots init
+            this.devCardSlots = new List[3];
+            updateDevCardSlots(player.getPersonalBoard().getDevCardSlots(), cardMap);
 
-        //active leaders init
-        activeLeaders = new ArrayList<>();
-        updateActiveLeaders(player.getPersonalBoard().getActiveLeaders(), cardMap);
-        updateActiveLeaders(player.getPersonalBoard().getActiveProductionLeaders(), cardMap);
+            //hand leaders init
+            handLeaders = new ArrayList<>();
+            updateHandLeaders(player.getHandLeaders(), cardMap);
 
-        //white marble conversions init
-        this.whiteMarbleConversions = new ArrayList<>();
-        for(PhysicalResource conv : player.getWhiteMarbleConversions())
-            updateWhiteMarbleConversions(conv);
+            //active leaders init
+            activeLeaders = new ArrayList<>();
+            updateActiveLeaders(player.getPersonalBoard().getActiveLeaders(), cardMap);
+            updateActiveLeaders(player.getPersonalBoard().getActiveProductionLeaders(), cardMap);
 
-        //discount map init
-        this.discountMap = new ArrayList<>();
-        updateDiscountMap(player.getPersonalBoard().getDiscountMap());
+            //white marble conversions init
+            this.whiteMarbleConversions = new ArrayList<>();
+            for(PhysicalResource conv : player.getWhiteMarbleConversions())
+                updateWhiteMarbleConversions(conv);
 
-        //temp dev card init
-        updateTempDevCard(player.getTempDevCard());
+            //discount map init
+            this.discountMap = new ArrayList<>();
+            updateDiscountMap(player.getPersonalBoard().getDiscountMap());
 
-        //temp production init
-        updateTempProduction(player.getTempProduction());
+            //temp dev card init
+            updateTempDevCard(player.getTempDevCard());
+
+            //temp production init
+            updateTempProduction(player.getTempProduction());
+
+        }
     }
 
     //UPDATE METHODS ( CALLED BY THE SUMMARY ) :
+
+    /**
+     * This method, when called, updates the personal board in this player's summary.
+     * @param personalBoard
+     * @param cardMap
+     */
+    public void updatePersonalBoard(PersonalBoard personalBoard, Map<String, Card> cardMap){
+
+    }
+
+    /**
+     * This method, when called, updates the market buffer in this player's summary.
+     * @param warehouse
+     */
+    public void updateMarketBuffer(Warehouse warehouse){
+        this.marketBuffer = warehouse.getBuffer();
+    }
 
     /**
      * This method, when called, updates the warehouse in this player's summary.

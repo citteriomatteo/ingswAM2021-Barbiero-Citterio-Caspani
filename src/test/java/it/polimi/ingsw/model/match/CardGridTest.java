@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CardGridTest {
+public class CardGridTest extends CommonThingsTest {
 
     private CardGrid grid;
 
@@ -72,6 +72,7 @@ public class CardGridTest {
     @Test
     public void isBuyableTest() throws NegativeQuantityException, InvalidCardRequestException, NoMoreCardsException, WrongSettingException {
         Player player = new Player("player1");
+        setSummary(player);
         Match match = new SingleMatch(player);
 
         player.addToStrongBox(new PhysicalResource(ResType.SHIELD, 2));
