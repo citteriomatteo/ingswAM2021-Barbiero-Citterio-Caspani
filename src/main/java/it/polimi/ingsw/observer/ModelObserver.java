@@ -17,23 +17,24 @@ import java.util.List;
 
 public interface ModelObserver {
 
-    public void updateMarket(Market market);
-    public void updateCardGrid(CardGrid cardGrid);
-    public void updateLorenzoMarker(int lorenzoMarker);
+    void updateMarket(Market market);
+    void updateCardGrid(CardGrid cardGrid);
+    void updateLorenzoMarker(int lorenzoMarker);
 
-    public void updatePersonalBoard(String nickname, PersonalBoard personalBoard);
-    public void updateMarketBuffer(String nickname, Warehouse warehouse);
-    public void updateWarehouse(String nickname, Warehouse warehouse);
-    public void updateStrongbox(String nickname, StrongBox strongbox);
-    public void updateFaithMarker(String nickname, int faithMarker);
-    public void updatePopeTiles(String nickname, int tileNumber, List<Integer> popeTiles);
-    public void updateDevCardSlots(String nickname, DevCardSlots devCardSlots);
-    public void updateHandLeaders(String nickname, List<LeaderCard> handLeaders);
-    public void updateActiveLeaders(String nickname, LeaderCard activeLeader);
-    public void updateWhiteMarbleConversions(String nickname, PhysicalResource whiteMarbleConversion);
-    public void updateDiscountMap(String nickname, DiscountMap discountMap);
-    public void updateTempDevCard(String nickname, DevelopmentCard tempDevCard);
-    public void updateTempProduction(String nickname, Production tempProduction);
-    public void updateLastUsedState(String nickname, StateName lastUsedState);
+    void updatePersonalBoard(String nickname, PersonalBoard personalBoard);
+    void updateMarketBuffer(String nickname, Warehouse warehouse);
+    void updateWarehouse(String nickname, Warehouse warehouse);
+    void updateStrongbox(String nickname, StrongBox strongbox);
+    void updateFaithMarker(String nickname, int faithMarker);
+    void updatePopeTiles(String nickname, int tileNumber, List<Integer> popeTiles);
+    void updateDevCardSlots(String nickname, DevCardSlots devCardSlots);
+    void updateHandLeaders(String nickname, List<LeaderCard> handLeaders);
+    void updateHandLeadersDiscard(String nickname, LeaderCard handLeader);
+    void updateActiveLeaders(String nickname, LeaderCard activeLeader);
+    void updateWhiteMarbleConversions(String nickname, PhysicalResource whiteMarbleConversion);
+    void updateDiscountMap(String nickname, DiscountMap discountMap);
+    void updateTempDevCard(String nickname, DevelopmentCard tempDevCard);
+    void updateTempProduction(String nickname, Production tempProduction);
+    void updateLastUsedState(String nickname, StateName lastUsedState);
 
 }

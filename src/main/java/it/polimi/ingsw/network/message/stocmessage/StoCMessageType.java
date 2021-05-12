@@ -4,6 +4,7 @@ import it.polimi.ingsw.network.message.MessageType;
 
 public enum StoCMessageType implements MessageType {
 
+    SUMMARY,
     BINARY_SELECTION,
     MARKET_CHANGE,
     CARD_GRID_CHANGE,
@@ -13,6 +14,7 @@ public enum StoCMessageType implements MessageType {
     WAREHOUSE_CHANGE,
     BUFFER_CHANGE,
     STRONGBOX_CHANGE,
+    HAND_LEADERS_STATE,
     DISCARDED_LEADER,
     ACTIVATED_LEADER,
     NEW_WHITE_MARBLE_CONVERSION,

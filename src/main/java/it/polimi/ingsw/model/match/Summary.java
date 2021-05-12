@@ -113,7 +113,7 @@ public class Summary implements ModelObserver
             for(int j = 0; j<market.getBoard()[i].length; j++)
                 this.market[i][j] = Character.toLowerCase(market.getBoard()[i][j].toString().charAt(0));
         if(findControlBase(getPlayersSummary().get(0).getNickname()) != null)
-            new MarketChangeMessage("", this.sideMarble, this.market).sendBroadcast(playersSummary.stream().map((x)->x.getNickname()).collect(Collectors.toList()));
+            new MarketChangeMessage("", this.sideMarble, this.market).sendBroadcast(playersSummary.stream().map(PlayerSummary::getNickname).collect(Collectors.toList()));
     }
 
     /**
@@ -131,7 +131,7 @@ public class Summary implements ModelObserver
                 this.cardGrid[i][j].add("" + cardGrid.getGrid()[i][j].size());
             }
         if(findControlBase(getPlayersSummary().get(0).getNickname()) != null)
-            new CardGridChangeMessage("", this.cardGrid).sendBroadcast(playersSummary.stream().map((x)->x.getNickname()).collect(Collectors.toList()));
+            new CardGridChangeMessage("", this.cardGrid).sendBroadcast(playersSummary.stream().map(PlayerSummary::getNickname).collect(Collectors.toList()));
     }
 
     /**
@@ -160,7 +160,7 @@ public class Summary implements ModelObserver
     public void updateMarketBuffer(String nickname, Warehouse warehouse){
         getPlayerSummary(nickname).updateMarketBuffer(warehouse);
         if(findControlBase(nickname) != null)
-            new MarketBufferChange(nickname,getPlayerSummary(nickname).getMarketBuffer()).sendBroadcast(playersSummary.stream().map((x)->x.getNickname()).collect(Collectors.toList()));
+            new MarketBufferChange(nickname,getPlayerSummary(nickname).getMarketBuffer()).sendBroadcast(playersSummary.stream().map(PlayerSummary::getNickname).collect(Collectors.toList()));
     }
 
     /**
@@ -172,7 +172,7 @@ public class Summary implements ModelObserver
     public void updateWarehouse(String nickname, Warehouse warehouse) {
         getPlayerSummary(nickname).updateWarehouse(warehouse);
         if(findControlBase(nickname) != null)
-            new WarehouseChangeMessage(nickname, getPlayerSummary(nickname).getWarehouse()).sendBroadcast(playersSummary.stream().map((x)->x.getNickname()).collect(Collectors.toList()));
+            new WarehouseChangeMessage(nickname, getPlayerSummary(nickname).getWarehouse()).sendBroadcast(playersSummary.stream().map(PlayerSummary::getNickname).collect(Collectors.toList()));
     }
 
     /**
@@ -184,7 +184,7 @@ public class Summary implements ModelObserver
     public void updateStrongbox(String nickname, StrongBox strongbox) {
         getPlayerSummary(nickname).updateStrongbox(strongbox);
         if(findControlBase(nickname) != null)
-            new StrongboxChangeMessage(nickname, getPlayerSummary(nickname).getStrongbox()).sendBroadcast(playersSummary.stream().map((x)->x.getNickname()).collect(Collectors.toList()));
+            new StrongboxChangeMessage(nickname, getPlayerSummary(nickname).getStrongbox()).sendBroadcast(playersSummary.stream().map(PlayerSummary::getNickname).collect(Collectors.toList()));
     }
 
     /**
@@ -196,7 +196,7 @@ public class Summary implements ModelObserver
     public void updateFaithMarker(String nickname, int faithMarker) {
         getPlayerSummary(nickname).updateFaithMarker(faithMarker);
         if(findControlBase(nickname) != null)
-            new NewFaithPositionMessage(nickname, faithMarker).sendBroadcast(playersSummary.stream().map((x)->x.getNickname()).collect(Collectors.toList()));
+            new NewFaithPositionMessage(nickname, faithMarker).sendBroadcast(playersSummary.stream().map(PlayerSummary::getNickname).collect(Collectors.toList()));
     }
 
     /**
@@ -208,7 +208,7 @@ public class Summary implements ModelObserver
     public void updatePopeTiles(String nickname, int tileNumber, List<Integer> popeTiles) {
         getPlayerSummary(nickname).updatePopeTiles(popeTiles);
         if(findControlBase(nickname) != null)
-            new VaticanReportMessage(nickname, tileNumber, getPlayerSummary(nickname).getPopeTiles()).sendBroadcast(playersSummary.stream().map((x)->x.getNickname()).collect(Collectors.toList()));
+            new VaticanReportMessage(nickname, tileNumber, getPlayerSummary(nickname).getPopeTiles()).sendBroadcast(playersSummary.stream().map(PlayerSummary::getNickname).collect(Collectors.toList()));
     }
 
     /**
@@ -220,11 +220,12 @@ public class Summary implements ModelObserver
     public void updateDevCardSlots(String nickname, DevCardSlots devCardSlots) {
         getPlayerSummary(nickname).updateDevCardSlots(devCardSlots, cardMap);
         if(findControlBase(nickname) != null)
-            new DevCardSlotChangeMessage(nickname, getPlayerSummary(nickname).getDevCardSlots()).sendBroadcast(playersSummary.stream().map((x)->x.getNickname()).collect(Collectors.toList()));
+            new DevCardSlotChangeMessage(nickname, getPlayerSummary(nickname).getDevCardSlots()).sendBroadcast(playersSummary.stream().map(PlayerSummary::getNickname).collect(Collectors.toList()));
     }
 
     /**
      * This method, when called, updates the hand leaders' state of the requested player in the summary.
+     * Used for the starting choice of leaders (this will be sent ONLY to the interested player).
      * @param nickname  the requested player
      * @param handLeaders the hand leaders
      */
@@ -232,7 +233,19 @@ public class Summary implements ModelObserver
     public void updateHandLeaders(String nickname, List<LeaderCard> handLeaders) {
         getPlayerSummary(nickname).updateHandLeaders(handLeaders, cardMap);
         if(findControlBase(nickname) != null)
-            new DiscardedLeaderMessage(nickname).sendBroadcast(playersSummary.stream().map((x)->x.getNickname()).filter((x)-> !x.equals(nickname)).collect(Collectors.toList()));
+            new HandLeadersStateMessage(nickname, getPlayerSummary(nickname).getHandLeaders()).send(nickname);
+    }
+
+    /**
+     This method, when called, updates the hand leaders' state of the requested player in the summary.
+     @param nickname  the requested player
+     @param handLeader the hand leader discarded
+     */
+    @Override
+    public void updateHandLeadersDiscard(String nickname, LeaderCard handLeader) {
+        getPlayerSummary(nickname).updateHandLeadersDiscard(handLeader, cardMap);
+        if(findControlBase(nickname) != null)
+            new DiscardedLeaderMessage(nickname).sendBroadcast(playersSummary.stream().map(PlayerSummary::getNickname).collect(Collectors.toList()));
     }
 
     /**
@@ -244,7 +257,7 @@ public class Summary implements ModelObserver
     public void updateActiveLeaders(String nickname, LeaderCard activeLeader) {
         boolean ok = getPlayerSummary(nickname).updateActiveLeaders(activeLeader, cardMap);
         if(ok && findControlBase(nickname)!=null)
-            new ActivatedLeaderMessage(nickname, getKeyByValue(cardMap, activeLeader)).sendBroadcast(playersSummary.stream().map((x)->x.getNickname()).filter((x)-> x != nickname).collect(Collectors.toList()));
+            new ActivatedLeaderMessage(nickname, getKeyByValue(cardMap, activeLeader)).sendBroadcast(playersSummary.stream().map(PlayerSummary::getNickname).filter((x)-> !x.equals(nickname)).collect(Collectors.toList()));
     }
 
     /**
@@ -280,7 +293,7 @@ public class Summary implements ModelObserver
     public void updateTempDevCard(String nickname, DevelopmentCard tempDevCard) {
         getPlayerSummary(nickname).updateTempDevCard(tempDevCard, cardMap);
         if(findControlBase(nickname) != null)
-            new DevCardDrawnMessage(nickname, getPlayerSummary(nickname).getTempDevCard()).sendBroadcast(playersSummary.stream().map((x)->x.getNickname()).collect(Collectors.toList()));
+            new DevCardDrawnMessage(nickname, getPlayerSummary(nickname).getTempDevCard()).sendBroadcast(playersSummary.stream().map(PlayerSummary::getNickname).collect(Collectors.toList()));
     }
 
     /**

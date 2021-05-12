@@ -47,8 +47,10 @@ public class Player extends ModelObservable implements Adder, Verificator
     public boolean setHandLeaders(List<LeaderCard> handLeaders)
     {
         this.handLeaders = handLeaders;
+
         //update_call
         updateHandLeaders(this.nickname, handLeaders);
+
         return true;
     }
 
@@ -89,6 +91,7 @@ public class Player extends ModelObservable implements Adder, Verificator
     public boolean setTempDevCard(DevelopmentCard tempDevCard){
         if(this.tempDevCard==null) {
             this.tempDevCard = tempDevCard;
+
             //update_call
             updateTempDevCard(this.nickname, tempDevCard);
             return true;
@@ -102,7 +105,10 @@ public class Player extends ModelObservable implements Adder, Verificator
      */
     public void setTempProduction(Production tempProduction) {
         this.tempProduction = tempProduction;
+
+        //update_call
         updateTempProduction(this.nickname, tempProduction);
+
     }
 
     // ----- ALL GETTERS -----
@@ -236,8 +242,8 @@ public class Player extends ModelObservable implements Adder, Verificator
                 throw new InvalidOperationException ("A chosen leader is not available in your hand! Retry.");
         handLeaders = choseLeaders;
 
-        //update_call
-        updateHandLeaders(this.nickname, getHandLeaders());
+        //no update_call here!!!! at the start of turns, every player will be notified with a SummaryMessage.
+        //updateHandLeaders(this.nickname, getHandLeaders());
 
         return true;
     }
@@ -257,6 +263,7 @@ public class Player extends ModelObservable implements Adder, Verificator
 
             //update_call
             updateActiveLeaders(this.nickname, leader);
+
             return true;
         }
         return false;
@@ -283,7 +290,7 @@ public class Player extends ModelObservable implements Adder, Verificator
         handLeaders.remove(leader);
 
         //update_call
-        updateHandLeaders(this.nickname, getHandLeaders());
+        updateHandLeadersDiscard(this.nickname, leader);
 
         return true;
     }

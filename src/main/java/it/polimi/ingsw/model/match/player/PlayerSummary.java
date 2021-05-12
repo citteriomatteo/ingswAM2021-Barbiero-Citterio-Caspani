@@ -208,6 +208,14 @@ public class PlayerSummary
     }
 
     /**
+     * This method, when called, updates the hand leaders in this player's summary, discarding the passed one.
+     * @param handLeader the hand leader discarded
+     */
+    public void updateHandLeadersDiscard(LeaderCard handLeader, Map<String, Card> cardMap){
+        this.handLeaders.remove(getKeyByValue(cardMap,handLeader));
+    }
+
+    /**
      * This method, when called, updates the active leaders in this player's summary, adding them in the list.
      * It clears the list before re-inserting everything, to avoid duplicates.
      * @param activeLeader the activated leader

@@ -66,6 +66,9 @@ public class ModelObservable {
     public void updateHandLeaders(String nickname, List<LeaderCard> handLeaders){
         observers.get(0).updateHandLeaders(nickname, handLeaders);
     }
+    public void updateHandLeadersDiscard(String nickname, LeaderCard handLeader){
+        observers.get(0).updateHandLeadersDiscard(nickname, handLeader);
+    }
     public void updateActiveLeaders(String nickname, LeaderCard activeLeader){
         observers.get(0).updateActiveLeaders(nickname, activeLeader);
     }
