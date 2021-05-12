@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
+import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PlusOneShuffleTokenTest extends CommonThingsTest {
@@ -25,7 +26,7 @@ public class PlusOneShuffleTokenTest extends CommonThingsTest {
     @Test
     public void testOnDraw() throws NegativeQuantityException, FileNotFoundException, WrongSettingException, LastRoundException {
         Player p = new Player("player1");
-        setSummary(p);
+        setSummary(p, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
         singleMatch = new SingleMatch(p);
         Stack<Token> tokenStack = singleMatch.getTokenStack().getStack();
 

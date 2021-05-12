@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 
+import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PurpleTokenTest extends CommonThingsTest {
@@ -21,7 +22,7 @@ public class PurpleTokenTest extends CommonThingsTest {
     @Test
     public void testOnDraw() throws NegativeQuantityException, FileNotFoundException, WrongSettingException, LastRoundException {
         Player p = new Player("player1");
-        setSummary(p);
+        setSummary(p, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
         singleMatch = new SingleMatch(p);
 
         purpleToken = new PurpleToken();

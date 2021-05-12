@@ -12,13 +12,15 @@ import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 
+import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
+
 public class WhiteMarbleTest extends CommonThingsTest {
     private Player player = new Player("player1");
     private Match match;
 
     @Test
     public void testOnDraw() throws NegativeQuantityException, LastRoundException, FileNotFoundException, WrongSettingException {
-        setSummary(player);
+        setSummary(player, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
         match = new SingleMatch(player);
 
         Marble whiteMarble = new WhiteMarble();

@@ -16,6 +16,8 @@ import org.junit.jupiter.api.Test;
 import java.io.FileNotFoundException;
 import java.util.*;
 
+import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
+
 public class BlueMarbleTest extends CommonThingsTest {
     private Player player;
     private Match match;
@@ -25,7 +27,7 @@ public class BlueMarbleTest extends CommonThingsTest {
     @Test
     public void testOnDraw() throws NegativeQuantityException, LastRoundException, FileNotFoundException, WrongSettingException, SingleMatchException {
         List<Player> players = new ArrayList<>(List.of(new Player("player1"),new Player("player2")));
-        setSummaries(players);
+        setSummaries(players, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
         match = new MultiMatch(players);
 
         Marble blueMarble = new BlueMarble();

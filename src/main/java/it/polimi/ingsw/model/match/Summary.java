@@ -34,10 +34,10 @@ public class Summary implements ModelObserver
 
     private List<PlayerSummary> playersSummary;
 
-    public Summary(List<Player> playersInMatch){
+    public Summary(List<Player> playersInMatch, Map<String, Card> cardMap){
 
         //cardMap init
-        cardMap = new HashMap<>();
+        this.cardMap = cardMap;
         // market init
         this.market = new char[3][4];
         // cardGrid init
@@ -160,7 +160,7 @@ public class Summary implements ModelObserver
     public void updateMarketBuffer(String nickname, Warehouse warehouse){
         getPlayerSummary(nickname).updateMarketBuffer(warehouse);
         if(findControlBase(nickname) != null)
-            new MarketBufferChange(nickname,getPlayerSummary(nickname).getMarketBuffer()).sendBroadcast(playersSummary.stream().map(PlayerSummary::getNickname).collect(Collectors.toList()));
+            new MarketBufferChangeMessage(nickname,getPlayerSummary(nickname).getMarketBuffer()).sendBroadcast(playersSummary.stream().map(PlayerSummary::getNickname).collect(Collectors.toList()));
     }
 
     /**

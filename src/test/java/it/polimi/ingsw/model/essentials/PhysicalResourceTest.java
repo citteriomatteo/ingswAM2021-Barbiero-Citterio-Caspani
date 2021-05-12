@@ -15,6 +15,7 @@ import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.observer.ModelObserver;
 import org.junit.jupiter.api.Test;
 
+import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PhysicalResourceTest extends CommonThingsTest {
@@ -45,7 +46,7 @@ public class PhysicalResourceTest extends CommonThingsTest {
     @Test
     public void testAdd() throws NegativeQuantityException, WrongSettingException {
         PhysicalResource resource1 = new PhysicalResource(ResType.SERVANT,3);
-        setSummary(player);
+        setSummary(player, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
         Match match = new SingleMatch(player);
         assertTrue(resource1.add(player));
 
@@ -58,7 +59,7 @@ public class PhysicalResourceTest extends CommonThingsTest {
     @Test
     public void testVerify() throws WrongSettingException, InvalidQuantityException, ShelfInsertException {
         Player player = new Player("player1");
-        setSummary(player);
+        setSummary(player, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
         Match match = new SingleMatch(player);
         PhysicalResource resource1 = new PhysicalResource(ResType.COIN,1);
         PhysicalResource resource2 = new PhysicalResource(ResType.STONE,2);

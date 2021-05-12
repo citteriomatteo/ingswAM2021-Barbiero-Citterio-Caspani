@@ -214,6 +214,7 @@ public class PlayerHandler implements Runnable, ControlBase {
             System.exit(1);
             return false;
         } catch (Exception exception) {
+            exception.printStackTrace();
             System.out.println("error in write");
             return false;
         }

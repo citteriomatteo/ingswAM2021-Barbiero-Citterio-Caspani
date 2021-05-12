@@ -17,11 +17,12 @@ import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.gsonUtilities.GsonHandler.*;
 import static it.polimi.ingsw.gsonUtilities.GsonHandler.effectConfig;
+import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerSummaryTest extends CommonThingsTest
 {
-    public Map<String, Card> cardMap = new HashMap<>();
+    public Map<String, Card> cardMap = getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json"));
 
     public void setCardMap(MatchConfiguration configuration) {
         for (int i = 1; i <= configuration.getAllDevCards().size(); i++)
@@ -51,7 +52,7 @@ public class PlayerSummaryTest extends CommonThingsTest
         Player player3 = new Player("player3");
         Player player4 = new Player("player4");
         List<Player> players = new ArrayList<>(List.of(player1,player2,player3,player4));
-        setSummaries(players);
+        setSummaries(players, cardMap);
         Match match = new MultiMatch(players, assignConfiguration("src/test/resources/TotalFreeConfiguration.json"));
 
         setCardMap(match.getMatchConfiguration());
@@ -83,7 +84,7 @@ public class PlayerSummaryTest extends CommonThingsTest
         Player player3 = new Player("player3");
         Player player4 = new Player("player4");
         List<Player> players = new ArrayList<>(List.of(player1,player2,player3,player4));
-        setSummaries(players);
+        setSummaries(players, cardMap);
         Match match = new MultiMatch(players, assignConfiguration("src/test/resources/TotalFreeConfiguration.json"));
 
         setCardMap(match.getMatchConfiguration());
@@ -114,7 +115,7 @@ public class PlayerSummaryTest extends CommonThingsTest
         Player player3 = new Player("player3");
         Player player4 = new Player("player4");
         List<Player> players = new ArrayList<>(List.of(player1,player2,player3,player4));
-        setSummaries(players);
+        setSummaries(players, cardMap);
         Match match = new MultiMatch(players, assignConfiguration("src/test/resources/TotalFreeConfiguration.json"));
 
         setCardMap(match.getMatchConfiguration());
@@ -154,7 +155,7 @@ public class PlayerSummaryTest extends CommonThingsTest
         Player player3 = new Player("player3");
         Player player4 = new Player("player4");
         List<Player> players = new ArrayList<>(List.of(player1,player2,player3,player4));
-        setSummaries(players);
+        setSummaries(players, cardMap);
         Match match = new MultiMatch(players, assignConfiguration("src/test/resources/TotalFreeConfiguration.json"));
         setCardMap(match.getMatchConfiguration());
         Summary summary = new Summary(match, cardMap);

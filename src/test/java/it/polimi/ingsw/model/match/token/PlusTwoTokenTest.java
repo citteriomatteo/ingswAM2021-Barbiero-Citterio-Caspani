@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -22,7 +23,7 @@ public class PlusTwoTokenTest extends CommonThingsTest {
     @Test
     public void testOnDraw() throws FileNotFoundException, WrongSettingException, LastRoundException {
         Player p = new Player("player1");
-        setSummary(p);
+        setSummary(p, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
         singleMatch = new SingleMatch(p);
 
         assertTrue(plusTwoToken.onDraw(singleMatch));

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 
+import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SingleMatchTest extends CommonThingsTest {
@@ -17,7 +18,7 @@ public class SingleMatchTest extends CommonThingsTest {
     public void testNextTurn() throws WrongSettingException, LastRoundException {
         int dim;
         Player p = new Player("player1");
-        setSummary(p);
+        setSummary(p, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
         match = new SingleMatch(p);
 
         dim = match.getTokenStack().getStack().size();
@@ -37,7 +38,7 @@ public class SingleMatchTest extends CommonThingsTest {
     @Test
     public void testGetPlayer() throws WrongSettingException {
         Player player = new Player("player1");
-        setSummary(player);
+        setSummary(player, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
         match = new SingleMatch(player);
 
         assertEquals(player,match.getPlayer("player1"));

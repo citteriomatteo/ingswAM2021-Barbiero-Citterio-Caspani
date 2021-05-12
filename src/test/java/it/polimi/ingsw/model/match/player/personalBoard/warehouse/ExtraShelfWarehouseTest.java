@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
+import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ExtraShelfWarehouseTest extends CommonThingsTest
@@ -225,7 +226,7 @@ public class ExtraShelfWarehouseTest extends CommonThingsTest
         Player player1 = new Player("player2");
         List<Player> players = new ArrayList<>();
         players.add(player); players.add(player1);
-        setSummaries(players);
+        setSummaries(players, getCardMap(assignConfiguration("src/test/resources/StandardConfiguration.json")));
         Match match = new MultiMatch(players);
 
         player.getPersonalBoard().warehouseEvolution(new PhysicalResource(ResType.COIN,2));

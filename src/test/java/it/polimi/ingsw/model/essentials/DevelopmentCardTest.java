@@ -17,6 +17,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
+import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
 //Test for DevelopmentCard class
@@ -61,7 +62,7 @@ public class DevelopmentCardTest extends CommonThingsTest {
     @Test
     public void isBuyableTest() throws WrongSettingException, SingleMatchException, NegativeQuantityException {
         List<Player> players = new ArrayList<>(List.of(new Player("Joe"), new Player("Sara")));
-        setSummaries(players);
+        setSummaries(players, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
         Match match1 = new MultiMatch(players);
 
         Player joe = match1.getPlayer("Joe");

@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.io.FileNotFoundException;
 import java.util.Stack;
 
+import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TokenStackTest extends CommonThingsTest {
@@ -17,7 +18,7 @@ public class TokenStackTest extends CommonThingsTest {
     @Test
     public void testDraw() throws WrongSettingException, LastRoundException {
         Player p = new Player("player1");
-        setSummary(p);
+        setSummary(p, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
         match = new SingleMatch(p);
 
         for(int i=0; i < 10; i++)
@@ -30,7 +31,7 @@ public class TokenStackTest extends CommonThingsTest {
     @Test
     public void testShuffle() throws WrongSettingException {
         Player p = new Player("player1");
-        setSummary(p);
+        setSummary(p, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
         match = new SingleMatch(p);
 
         Stack<Token> stack = match.getTokenStack().getStack();

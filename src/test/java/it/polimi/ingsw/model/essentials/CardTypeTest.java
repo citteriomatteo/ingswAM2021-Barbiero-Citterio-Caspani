@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CardTypeTest extends CommonThingsTest {
@@ -52,7 +53,7 @@ public class CardTypeTest extends CommonThingsTest {
                         new ArrayList<>(List.of(new FaithPoint(1)))), 1);
 
         player = new Player("player1");
-        setSummary(player);
+        setSummary(player, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
         Match match = new SingleMatch(player);
         player.getPersonalBoard().getDevCardSlots().pushNewCard(1,developmentCard);
 

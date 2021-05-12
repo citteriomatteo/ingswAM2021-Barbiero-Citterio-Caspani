@@ -7,6 +7,8 @@ import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.SingleMatch;
 import it.polimi.ingsw.model.match.player.Player;
 import org.junit.jupiter.api.Test;
+
+import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.FileNotFoundException;
@@ -17,7 +19,7 @@ public class VaticanReportCellTest extends CommonThingsTest
     public void generalInstructionCoverageTest() throws WrongSettingException, LastRoundException
     {
         Player player = new Player("player1");
-        setSummary(player);
+        setSummary(player, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
         Match match = new SingleMatch(player);
 
         SingleFaithPath path = (SingleFaithPath) match.getCurrentPlayer().getPersonalBoard().getFaithPath();

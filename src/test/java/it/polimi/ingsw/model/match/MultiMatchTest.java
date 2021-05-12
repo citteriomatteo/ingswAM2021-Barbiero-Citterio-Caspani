@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MultiMatchTest extends CommonThingsTest {
@@ -21,7 +22,7 @@ public class MultiMatchTest extends CommonThingsTest {
         Player player3 = new Player("player3");
         Player player4 = new Player("player4");
         List<Player> players = new ArrayList<>(List.of(player1,player2,player3,player4));
-        setSummaries(players);
+        setSummaries(players, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
 
         assertThrows(SingleMatchException.class,()->new MultiMatch(List.of(new Player("player1"))));
         try{
@@ -41,7 +42,7 @@ public class MultiMatchTest extends CommonThingsTest {
     @Test
     public void testNextTurn() throws WrongSettingException, SingleMatchException {
         List<Player> players = new ArrayList<>(List.of(new Player("player1"), new Player("player2"), new Player("player3")));
-        setSummaries(players);
+        setSummaries(players, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
         match = new MultiMatch(players);
 
         assertEquals(match.getCurrentPlayer(),players.get(0));
@@ -60,7 +61,7 @@ public class MultiMatchTest extends CommonThingsTest {
     @Test
     public void getNextPlayer() throws WrongSettingException, SingleMatchException {
         List<Player> players = new ArrayList<>(List.of(new Player("player1"), new Player("player2"), new Player("player3")));
-        setSummaries(players);
+        setSummaries(players, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
         match = new MultiMatch(players);
 
         assertEquals(match.getNextPlayer(),players.get(1));

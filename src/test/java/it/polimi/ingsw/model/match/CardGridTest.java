@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CardGridTest extends CommonThingsTest {
@@ -72,7 +73,7 @@ public class CardGridTest extends CommonThingsTest {
     @Test
     public void isBuyableTest() throws NegativeQuantityException, InvalidCardRequestException, NoMoreCardsException, WrongSettingException {
         Player player = new Player("player1");
-        setSummary(player);
+        setSummary(player, getCardMap(assignConfiguration("src/test/resources/StandardConfiguration.json")));
         Match match = new SingleMatch(player);
 
         player.addToStrongBox(new PhysicalResource(ResType.SHIELD, 2));

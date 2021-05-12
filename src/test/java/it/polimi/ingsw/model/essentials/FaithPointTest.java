@@ -5,6 +5,7 @@ import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
 
+import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
 import it.polimi.ingsw.model.match.*;
@@ -27,7 +28,7 @@ public class FaithPointTest extends CommonThingsTest {
 
     @Test
     public void testAdd() throws NegativeQuantityException, LastRoundException, WrongSettingException {
-        setSummary(player);
+        setSummary(player, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
         Match match = new SingleMatch(player);
 
         FaithPoint faithPoint = new FaithPoint(2);

@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 import java.util.*;
+
+import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class FaithPathTest extends CommonThingsTest
@@ -37,7 +39,7 @@ public class FaithPathTest extends CommonThingsTest
         Player player1 = new Player("player2");
         List<Player> players = new ArrayList<>();
         players.add(player); players.add(player1);
-        setSummaries(players);
+        setSummaries(players, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
         Match match = new MultiMatch(players);
         FaithPath path = match.getCurrentPlayer().getPersonalBoard().getFaithPath();
 
@@ -53,7 +55,7 @@ public class FaithPathTest extends CommonThingsTest
         Player player1 = new Player("player2");
         List<Player> players = new ArrayList<>();
         players.add(player); players.add(player1);
-        setSummaries(players);
+        setSummaries(players, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
         MultiMatch match = new MultiMatch(players);
 
         FaithPath path = match.getCurrentPlayer().getPersonalBoard().getFaithPath();

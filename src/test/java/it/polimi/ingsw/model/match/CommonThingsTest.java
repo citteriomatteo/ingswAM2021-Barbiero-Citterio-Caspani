@@ -16,14 +16,14 @@ public class CommonThingsTest {
             cardMap.put("L" + i, configuration.getAllLeaderCards().get(i - 1));
         return cardMap;
     }
-    public void setSummaries(List<Player> players){
-        ModelObserver obs = new Summary(players);
+    public void setSummaries(List<Player> players, Map<String, Card> cardMap){
+        ModelObserver obs = new Summary(players, cardMap);
         for(Player p : players)
             p.setSummary(obs);
     }
 
-    public void setSummary(Player player){
-        ModelObserver obs = new Summary(new ArrayList<>(List.of(player)));
+    public void setSummary(Player player, Map<String, Card> cardMap){
+        ModelObserver obs = new Summary(new ArrayList<>(List.of(player)), cardMap);
         player.setSummary(obs);
 
     }

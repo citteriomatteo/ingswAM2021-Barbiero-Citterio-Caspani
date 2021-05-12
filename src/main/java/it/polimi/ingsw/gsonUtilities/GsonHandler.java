@@ -134,10 +134,15 @@ public class GsonHandler {
 
         GsonBuilder res = builder.registerTypeAdapterFactory(RuntimeTypeAdapterFactory
                         .of(StoCMessage.class, "Message")
-                        .registerSubtype(ActivatedLeaderMessage.class, "activatedLeader")
                         .registerSubtype(it.polimi.ingsw.network.message.stocmessage.BinarySelectionMessage.class, "binarySelection")
+                        .registerSubtype(SummaryMessage.class, "Summary")
                         .registerSubtype(CardGridChangeMessage.class, "cardGridChange")
                         .registerSubtype(DevCardSlotChangeMessage.class, "devCardSlotChange")
+                        .registerSubtype(DevCardDrawnMessage.class, "DevCardDrawn")
+                        .registerSubtype(HandLeadersStateMessage.class, "HandLeadersState")
+                        .registerSubtype(ActivatedLeaderMessage.class, "activatedLeader")
+                        .registerSubtype(UpdatedDiscountMapMessage.class, "updatedDiscountMap")
+                        .registerSubtype(WhiteMarbleConversionMessage.class, "newWhiteMarbleConversion")
                         .registerSubtype(DiscardedLeaderMessage.class, "discardedLeader")
                         .registerSubtype(EndGameResultsMessage.class, "endGameResults")
                         .registerSubtype(MarketChangeMessage.class, "marketChange")
@@ -148,7 +153,8 @@ public class GsonHandler {
                         .registerSubtype(StrongboxChangeMessage.class, "strongboxChange")
                         .registerSubtype(TokenDrawMessage.class, "tokenDraw")
                         .registerSubtype(VaticanReportMessage.class, "vaticanReport")
-                        .registerSubtype(WarehouseChangeMessage.class, "warehouseChange"));
+                        .registerSubtype(WarehouseChangeMessage.class, "warehouseChange")
+                        .registerSubtype(MarketBufferChangeMessage.class, "marketBufferChange"));
 
         return marbleConfig(res);
     }

@@ -13,6 +13,7 @@ import java.util.Random;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
+import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MarketTest extends CommonThingsTest {
@@ -73,7 +74,7 @@ public class MarketTest extends CommonThingsTest {
     public void testSelectRow() throws LastRoundException, WrongSettingException, InvalidOperationException {
         Random gen = new Random();
         Player player = new Player("player1");
-        setSummary(player);
+        setSummary(player, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
         match = new SingleMatch(player);
         int numRow = gen.nextInt(3);
         int countWhite = 0;
@@ -105,7 +106,7 @@ public class MarketTest extends CommonThingsTest {
     public void testSelectColumn() throws LastRoundException, WrongSettingException, InvalidOperationException {
         Random gen = new Random();
         Player player = new Player("player1");
-        setSummary(player);
+        setSummary(player, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
         match = new SingleMatch(player);
         int numColumn = gen.nextInt(3);
         int countWhite = 0;

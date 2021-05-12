@@ -26,12 +26,12 @@ import java.util.*;
 public class MatchControllerTest extends CommonThingsTest {
     private static MatchController matchController;
     private Player player;
-    private Map<String, Card> map;
+    private Map<String, Card> map = getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json"));
     private Match match;
 
     public void initialization() throws RetryException {
         List<Player> players = new ArrayList<>(List.of(new Player("player1"), new Player("player2"), new Player("player3"), new Player("player4")));
-        setSummaries(players);
+        setSummaries(players, map);
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
         matchController = new MatchController(players, matchConfiguration);
         player = matchController.getCurrentPlayer();
@@ -40,7 +40,7 @@ public class MatchControllerTest extends CommonThingsTest {
 
     public void initializationCosts() {
         List<Player> players = new ArrayList<>(List.of(new Player("player1"), new Player("player2"), new Player("player3"), new Player("player4")));
-        setSummaries(players);
+        setSummaries(players, map);
         matchController = new MatchController(players);
         player = matchController.getCurrentPlayer();
         map = matchController.getCardMap();

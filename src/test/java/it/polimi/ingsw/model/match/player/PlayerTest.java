@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 import java.util.*;
+
+import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerTest extends CommonThingsTest
@@ -47,8 +49,8 @@ public class PlayerTest extends CommonThingsTest
     @Test
     public void totalWinPointsTest() throws NegativeQuantityException,
             SingleMatchException, WrongSettingException, InvalidOperationException, LastRoundException {
-        Player player = new Player("player1"); setSummary(player);
-        Player player1 = new Player("player2"); setSummary(player1);
+        Player player = new Player("player1"); setSummary(player, getCardMap(assignConfiguration("src/test/resources/StandardConfiguration.json")));
+        Player player1 = new Player("player2"); setSummary(player1, getCardMap(assignConfiguration("src/test/resources/StandardConfiguration.json")));
         Match match = new MultiMatch(Arrays.asList(player, player1));
 
 

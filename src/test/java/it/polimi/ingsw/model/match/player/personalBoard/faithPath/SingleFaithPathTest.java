@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SingleFaithPathTest extends FaithPathTest
@@ -29,7 +30,7 @@ public class SingleFaithPathTest extends FaithPathTest
     public void blackPointAndBlackReportTest() throws LastRoundException, WrongSettingException
     {
         Player player = new Player("player1");
-        setSummary(player);
+        setSummary(player, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
         Match match = new SingleMatch(player);
 
         SingleFaithPath path = (SingleFaithPath) match.getCurrentPlayer().getPersonalBoard().getFaithPath();
@@ -44,7 +45,7 @@ public class SingleFaithPathTest extends FaithPathTest
     public void getBlackPositionTest() throws WrongSettingException
     {
         Player player = new Player("player1");
-        setSummary(player);
+        setSummary(player, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
         Match match = new SingleMatch(player);
 
         FaithPath path = match.getCurrentPlayer().getPersonalBoard().getFaithPath();

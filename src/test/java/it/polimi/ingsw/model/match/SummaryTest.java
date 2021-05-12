@@ -12,7 +12,7 @@ import java.util.*;
 
 public class SummaryTest extends CommonThingsTest {
 
-    public Map<String, Card> cardMap = new HashMap<>();
+    public Map<String, Card> cardMap = getCardMap(assignConfiguration("src/test/resources/TotalFreeConfiguration.json"));
 
     public void setCardMap(MatchConfiguration configuration) {
         for (int i = 1; i <= configuration.getAllDevCards().size(); i++)
@@ -29,7 +29,7 @@ public class SummaryTest extends CommonThingsTest {
         Player player3 = new Player("player3");
         Player player4 = new Player("player4");
         List<Player> players = new ArrayList<>(List.of(player1,player2,player3,player4));
-        Summary summary = new Summary(players);
+        Summary summary = new Summary(players, cardMap);
         for(Player p : players)
             p.setSummary(summary);
         Match match = new MultiMatch(players);
@@ -53,7 +53,7 @@ public class SummaryTest extends CommonThingsTest {
         Player player3 = new Player("player3");
         Player player4 = new Player("player4");
         List<Player> players = new ArrayList<>(List.of(player1,player2,player3,player4));
-        setSummaries(players);
+        setSummaries(players, cardMap);
         Match match = new MultiMatch(players, assignConfiguration("src/test/resources/TotalFreeConfiguration.json"));
         setCardMap(match.getMatchConfiguration());
         Summary summary = new Summary(match, cardMap);

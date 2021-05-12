@@ -29,18 +29,13 @@ public class MultiFaithPathTest extends FaithPathTest
             cardMap.put("L" + i, configuration.getAllLeaderCards().get(i - 1));
         return cardMap;
     }
-    public void setSummaries(Match match){
-        ModelObserver obs = new Summary(match, getCardMap(match.getMatchConfiguration()));
-        for(Player p : match.getPlayers())
-            p.setSummary(obs);
-    }
 
     @Test
     public void externalVaticanReportTest() throws SingleMatchException,
             WrongSettingException, LastRoundException {
         List<Player> players = new ArrayList<>(List.of(new Player("player1"),
                 new Player("player2"), new Player("player3")));
-        setSummaries(players);
+        setSummaries(players, getCardMap(MatchConfiguration.assignConfiguration("src/test/resources/TotalFreeConfiguration.json")));
         Match match = new MultiMatch(players);
 
         match.getCurrentPlayer().addFaithPoints(9);
