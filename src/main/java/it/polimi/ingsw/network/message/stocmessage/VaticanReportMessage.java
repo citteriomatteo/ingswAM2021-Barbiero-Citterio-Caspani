@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.message.stocmessage;
 import it.polimi.ingsw.network.message.Message;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,38 +17,16 @@ public class VaticanReportMessage extends StoCMessage {
 
     private static final StoCMessageType type = StoCMessageType.VATICAN_REPORT;
     private final int tileNumber;
-    private final Map<String, Integer> tilesState;
+    private final List<Integer> popeTiles;
 
-    public VaticanReportMessage(String nickname, int tileNumber, Map<String, Integer> tilesState){
+    public VaticanReportMessage(String nickname, int tileNumber, List<Integer> popeTiles){
         super(nickname);
         this.tileNumber = tileNumber;
-        this.tilesState = new HashMap<>(tilesState);
+        this.popeTiles = popeTiles;
     }
-
-    /**
-     * simple constructor: in case you want to add the state of the tile one player at a time.
-     * @param tileNumber
-     */
-    public VaticanReportMessage(String nickname, int tileNumber){
-        super(nickname);
-        this.tilesState = new HashMap<>();
-        this.tileNumber = tileNumber;
-    }
-
-    /**
-     * This method inserts on the message the tile state of a single player.
-     * @param nickname
-     * @param state
-     * @return true
-     */
-    public boolean insertTileState(String nickname, int state){
-        tilesState.put(nickname, state);
-        return true;
-    }
-
 
     public StoCMessageType getType(){ return type; }
     public int getTileNumber(){ return tileNumber; }
-    public Map<String,Integer> getTilesState(){ return tilesState; }
+    public List<Integer> getTilesState(){ return popeTiles; }
 
 }

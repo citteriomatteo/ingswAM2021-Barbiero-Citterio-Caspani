@@ -2,6 +2,8 @@ package it.polimi.ingsw.network.message.stocmessage;
 
 import it.polimi.ingsw.network.message.Message;
 
+import java.util.List;
+
 /**
  * This class implements the message that the server sends to every client on a card grid move.
  * Message structure: { nickname, num of row, num of column, ID of the new surfaced card }
@@ -10,23 +12,18 @@ import it.polimi.ingsw.network.message.Message;
 public class CardGridChangeMessage extends StoCMessage {
 
     private static final StoCMessageType type = StoCMessageType.CARD_GRID_CHANGE;
-    private final int row, column;
-    private final int cardID;
+    private final List<String>[][] newCardGrid;
 
-    public CardGridChangeMessage(String nickname, int row, int column, int cardID){
+    public CardGridChangeMessage(String nickname, List<String>[][] newCardGrid){
         super(nickname);
-        this.row = row;
-        this.column = column;
-        this.cardID = cardID;
+        this.newCardGrid = newCardGrid;
     }
 
     public StoCMessageType getType(){
         return type;
     }
-    public int getRow(){ return row; }
-    public int getColumn(){ return column; }
-    public int getCardID(){
-        return cardID;
-    }
 
+    public List<String>[][] getNewCardGrid() {
+        return newCardGrid;
+    }
 }

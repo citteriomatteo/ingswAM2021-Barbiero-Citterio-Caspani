@@ -234,8 +234,8 @@ public class MatchController {
         ControlBase playerHandler = findControlBase(nickname);
 
         try {
+            NextStateMessage message = new NextStateMessage(turnController.getCurrentPlayer().getNickname(), StateName.WAITING_FOR_TURN);
             turnController.nextTurn();
-            NextStateMessage message = new NextStateMessage(turnController.getCurrentPlayer().getNickname(), StateName.STARTING_TURN);
 
             if(playerHandler != null)
                 playerHandler.write(message);

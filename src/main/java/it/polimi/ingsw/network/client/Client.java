@@ -15,13 +15,13 @@ import java.net.Socket;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static it.polimi.ingsw.gsonUtilities.GsonHandler.cToSMessageConfig;
 import static it.polimi.ingsw.gsonUtilities.GsonHandler.sToCMessageConfig;
 
-public class Client
+public class Client implements Runnable
 {
-
     private final Socket socket;
     private final PrintWriter out;
     private final BufferedReader in;
@@ -41,30 +41,23 @@ public class Client
         readQueue = Executors.newSingleThreadExecutor();
 
     }
-    //%%%%%%%%%%%% LITTLE SEQUENCE OF DIALOGUE %%%%%%%%%%%%%
-    public void readPlainTextMessages() {
-            while(true)
-            {
-                try {
-                    String res = in.readLine();
-                    System.out.println(res);
-                    writeMessage(1);
-                    res = in.readLine();
-                    System.out.println(res);
-                    writeMessage(2);
-                } catch (IOException e) { e.printStackTrace(); }
-            }
-    }
 
-    public void readMessages() {
-        while(true)
-        {
+    public StoCMessage readMessage() {
+
+        while (true) {
             try {
                 String res = in.readLine();
+                System.out.println("Server wrote: "+res);
                 StoCMessage msg = parserStoC.fromJson(res, StoCMessage.class);
-                //writeMessage(1); //TODO: this message will compute itself
-            } catch (IOException e) { e.printStackTrace(); }
+
+                return msg;
+
+            } catch (Exception e) {
+                System.out.println("Exception boh! Messaggio strano.");
+                e.printStackTrace();
+            }
         }
+
     }
 
     //Real function that will be called, it will send the message to the server after parsing it.
@@ -84,50 +77,23 @@ public class Client
         }
     }
 
-    // %%%%%%%%%%%%%%%% stub controller of login phase (to try the communication) %%%%%%%%%%%%%%%%%%%
-    public synchronized boolean writeMessage(int opz){
-        try {
-            CtoSMessage msg;
-            String line=keyboard.nextLine();
-            switch(opz)
-            {
-                case 1:
-                    msg = new LoginMessage(line);
-                    break;
-                case 2:
-                    boolean value;
-                    if(line.equals("y"))
-                        value=true;
-                    else
-                        value=false;
-                    msg = new BinarySelectionMessage("" ,value, "");
-                    break;
-                default:
-                    msg=null;
-            }
-            String outMsg = parserCtoS.toJson(msg, CtoSMessage.class);
-            System.out.println("Hai scritto un "+msg.getType()+"\n:"+outMsg);
-            out.println(outMsg);
-            return true;
-        } catch (JsonSyntaxException e) {
-            System.out.println("System shutdown due to internal error in parsing a StoC message");
-            System.exit(1);
-            return false;
-        } catch (Exception exception) {
-            System.out.println("error in write");
-            return false;
+    public void run(){
+        StoCMessage sMsg;
+        while(true) {
+            sMsg = this.readMessage();
+
+            System.out.println("Ricevuto bene il messaggio: "+sMsg.toString());
+
         }
     }
-
-
 
 
 
     public static void main(String args[]) {
         try {
             Client c = new Client("127.0.0.1", 1337);
-            c.readPlainTextMessages();
-        } catch (IOException e) {
+            new Thread(c).start();
+        } catch (Exception e) {
             System.out.println("Not able to connect: server is down, retry later.");
             System.exit(1);
         }

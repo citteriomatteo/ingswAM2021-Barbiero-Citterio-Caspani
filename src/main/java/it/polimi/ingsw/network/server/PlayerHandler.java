@@ -21,7 +21,7 @@ import static it.polimi.ingsw.network.server.ServerUtilities.*;
  * This class manages the direct talk with the player, every exchanged message between client
  * and server has to pass from here
  */
-public class PlayerHandler implements Runnable, ControlBase{
+public class PlayerHandler implements Runnable, ControlBase {
 //    private static final int WAIT_FOR_READING = 60000; //1 minute
 
     //Build the parser for json input message

@@ -36,7 +36,7 @@ public class PlayerSummary
     private List<PhysicalResource> discountMap;
 
     //stuff for multiple states' operations
-    private DevelopmentCard tempDevCard;
+    private String tempDevCard;
     private Production tempProduction;
     private StateName lastUsedState;
 
@@ -49,7 +49,7 @@ public class PlayerSummary
         this.nickname = player.getNickname();
 
         //last used state init to the first state after the creation of the match
-        updateLastUsedState(StateName.WAITING_LEADERS);
+        this.lastUsedState = StateName.WAITING_LEADERS;
         //warehouse init
         warehouse = new ArrayList<>();
         //strongbox init
@@ -85,60 +85,59 @@ public class PlayerSummary
     public PlayerSummary(Player player, Map<String, Card> cardMap){
         this.nickname = player.getNickname();
 
-        if(player.getPersonalBoard() != null){
+        //last used state init to the first state after the creation of the match
+        this.lastUsedState = StateName.WAITING_FOR_TURN;
 
-            //last used state init to the first state after the creation of the match
-            updateLastUsedState(StateName.WAITING_LEADERS);
+        //warehouse init
+        this.warehouse = player.getPersonalBoard().getWarehouse().getWarehouseDisposition();
 
-            //warehouse init
-            updateWarehouse(player.getPersonalBoard().getWarehouse());
-
-            //strongbox init
-            updateStrongbox(player.getPersonalBoard().getStrongBox());
-
-            //player's faith marker init
-            updateFaithMarker(player.getPersonalBoard().getFaithPath().getPosition());
-
-            //pope tiles init
-            updatePopeTiles(player.getPersonalBoard().getFaithPath().getPopeTiles());
-
-            //dev card slots init
-            this.devCardSlots = new List[3];
-            updateDevCardSlots(player.getPersonalBoard().getDevCardSlots(), cardMap);
-
-            //hand leaders init
-            handLeaders = new ArrayList<>();
-            updateHandLeaders(player.getHandLeaders(), cardMap);
-
-            //active leaders init
-            activeLeaders = new ArrayList<>();
-            updateActiveLeaders(player.getPersonalBoard().getActiveLeaders(), cardMap);
-            updateActiveLeaders(player.getPersonalBoard().getActiveProductionLeaders(), cardMap);
-
-            //white marble conversions init
-            this.whiteMarbleConversions = new ArrayList<>();
-            for(PhysicalResource conv : player.getWhiteMarbleConversions())
-                updateWhiteMarbleConversions(conv);
-
-            //discount map init
-            this.discountMap = new ArrayList<>();
-            updateDiscountMap(player.getPersonalBoard().getDiscountMap());
-
-            //temp dev card init
-            updateTempDevCard(player.getTempDevCard());
-
-            //temp production init
-            updateTempProduction(player.getTempProduction());
-
+        //strongbox init
+        this.strongbox = new ArrayList<>();
+        try {
+            for (ResType type : ResType.values())
+                this.strongbox.add(new PhysicalResource(type, player.getPersonalBoard().getStrongBox().getNumberOf(type)));
         }
+        catch(NegativeQuantityException e){ System.exit(1); }
+
+        //player's faith marker init
+        this.faithMarker = player.getPersonalBoard().getFaithPath().getPosition();
+
+        //pope tiles init
+        this.popeTiles = player.getPersonalBoard().getFaithPath().getPopeTiles();
+
+        //dev card slots init
+        this.devCardSlots = new List[3];
+        for(int i = 0; i<player.getPersonalBoard().getDevCardSlots().getSlots().length; i++)
+            this.devCardSlots[i] = new ArrayList<>(player.getPersonalBoard().getDevCardSlots().getSlots()[i].stream().map((x)->getKeyByValue(cardMap,x)).collect(Collectors.toList()));
+
+        //hand leaders init
+        this.handLeaders = new ArrayList<>(player.getHandLeaders().stream().map((x)-> getKeyByValue(cardMap, x)).collect(Collectors.toList()));
+
+        //active leaders init
+        this.activeLeaders = new ArrayList<>();
+
+        //white marble conversions init
+        this.whiteMarbleConversions = new ArrayList<>();
+
+        //discount map init
+        this.discountMap = new ArrayList<>();
+
+        //temp dev card init
+        this.tempDevCard = null;
+
+        //temp production init
+        this.tempProduction = null;
+
+
+
     }
 
     //UPDATE METHODS ( CALLED BY THE SUMMARY ) :
 
     /**
      * This method, when called, updates the personal board in this player's summary.
-     * @param personalBoard
-     * @param cardMap
+     * @param personalBoard the personal board
+     * @param cardMap       the card map
      */
     public void updatePersonalBoard(PersonalBoard personalBoard, Map<String, Card> cardMap){
 
@@ -146,7 +145,7 @@ public class PlayerSummary
 
     /**
      * This method, when called, updates the market buffer in this player's summary.
-     * @param warehouse
+     * @param warehouse the warehouse
      */
     public void updateMarketBuffer(Warehouse warehouse){
         this.marketBuffer = warehouse.getBuffer();
@@ -154,7 +153,7 @@ public class PlayerSummary
 
     /**
      * This method, when called, updates the warehouse in this player's summary.
-     * @param warehouse
+     * @param warehouse the warehouse
      */
     public void updateWarehouse(Warehouse warehouse){
         this.warehouse = warehouse.getWarehouseDisposition();
@@ -162,7 +161,7 @@ public class PlayerSummary
 
     /**
      * This method, when called, updates the strongbox in this player's summary.
-     * @param strongbox
+     * @param strongbox the strong box
      */
     public void updateStrongbox(StrongBox strongbox){
         this.strongbox = new ArrayList<>();
@@ -176,7 +175,7 @@ public class PlayerSummary
 
     /**
      * This method, when called, updates the faith marker in this player's summary.
-     * @param faithMarker
+     * @param faithMarker the faith marker
      */
     public void updateFaithMarker(int faithMarker){
         this.faithMarker = faithMarker;
@@ -184,7 +183,7 @@ public class PlayerSummary
 
     /**
      * This method, when called, updates the pope tiles' state in this player's summary.
-     * @param popeTiles
+     * @param popeTiles the pope tiles' array
      */
     public void updatePopeTiles(List<Integer> popeTiles){
         this.popeTiles = popeTiles;
@@ -192,7 +191,7 @@ public class PlayerSummary
 
     /**
      * This method, when called, updates the dev card slots in this player's summary.
-     * @param devCardSlots
+     * @param devCardSlots the dev card slots
      */
     public void updateDevCardSlots(DevCardSlots devCardSlots, Map<String, Card> cardMap){
         for(int i = 0; i<devCardSlots.getSlots().length; i++)
@@ -202,7 +201,7 @@ public class PlayerSummary
 
     /**
      * This method, when called, updates the hand leaders in this player's summary.
-     * @param handLeaders
+     * @param handLeaders the hand leaders
      */
     public void updateHandLeaders(List<LeaderCard> handLeaders, Map<String, Card> cardMap){
         this.handLeaders = new ArrayList<>(handLeaders.stream().map((x)-> getKeyByValue(cardMap, x)).collect(Collectors.toList()));
@@ -211,17 +210,19 @@ public class PlayerSummary
     /**
      * This method, when called, updates the active leaders in this player's summary, adding them in the list.
      * It clears the list before re-inserting everything, to avoid duplicates.
-     * @param activeLeaders
+     * @param activeLeader the activated leader
      */
-    public void updateActiveLeaders(List<LeaderCard> activeLeaders, Map<String, Card> cardMap){
-        for(LeaderCard lc : activeLeaders)
-            if(!this.activeLeaders.contains(getKeyByValue(cardMap,lc)))
-                this.activeLeaders.add(getKeyByValue(cardMap,lc));
+    public boolean updateActiveLeaders(LeaderCard activeLeader, Map<String, Card> cardMap){
+        if(!this.activeLeaders.contains(getKeyByValue(cardMap,activeLeader))) {
+            this.activeLeaders.add(getKeyByValue(cardMap, activeLeader));
+            return true;
+        }
+        return false;
     }
 
     /**
      * This method, when called, updates the white marble conversions in this player's summary, adding the new one.
-     * @param whiteMarbleConversion
+     * @param whiteMarbleConversion the white marble conversions
      */
     public void updateWhiteMarbleConversions(PhysicalResource whiteMarbleConversion){
         this.whiteMarbleConversions.add(whiteMarbleConversion);
@@ -230,7 +231,7 @@ public class PlayerSummary
     /**
      * This method, when called, updates the discount map in this player's summary.
      * It clears the list before re-inserting everything, to avoid duplicates.
-     * @param discountMap
+     * @param discountMap the discount map
      */
     public void updateDiscountMap(DiscountMap discountMap){
         this.discountMap.clear();
@@ -243,15 +244,15 @@ public class PlayerSummary
 
     /**
      * This method, when called, updates the temporary development card in this player's summary.
-     * @param tempDevCard
+     * @param tempDevCard the temporary dev card
      */
-    public void updateTempDevCard(DevelopmentCard tempDevCard){
-        this.tempDevCard = tempDevCard;
+    public void updateTempDevCard(DevelopmentCard tempDevCard, Map<String, Card> cardMap){
+        this.tempDevCard = getKeyByValue(cardMap, tempDevCard);
     }
 
     /**
      * This method, when called, updates the temporary production in this player's summary.
-     * @param tempProduction
+     * @param tempProduction the temporary production
      */
     public void updateTempProduction(Production tempProduction){
         this.tempProduction = tempProduction;
@@ -260,13 +261,14 @@ public class PlayerSummary
     /**
      * This method, when called, updates the last used state in this player's summary, useful for disconnections
      * in the middle of a complex operation ( such as Dev card buy, production, etc. ).
-     * @param lastUsedState
+     * @param lastUsedState the last used state
      */
     public void updateLastUsedState(StateName lastUsedState) { this.lastUsedState = lastUsedState; }
 
     //ALL GETTERS:
     public String getNickname() { return nickname; }
     public List<PhysicalResource> getWarehouse() { return warehouse; }
+    public List<PhysicalResource> getMarketBuffer() { return marketBuffer; }
     public List<PhysicalResource> getStrongbox() { return strongbox; }
     public int getFaithMarker() { return faithMarker; }
     public List<Integer> getPopeTiles() { return popeTiles; }
@@ -275,9 +277,10 @@ public class PlayerSummary
     public List<String> getActiveLeaders() { return activeLeaders; }
     public List<PhysicalResource> getWhiteMarbleConversions() { return whiteMarbleConversions; }
     public List<PhysicalResource> getDiscountMap() { return discountMap; }
-    public DevelopmentCard getTempDevCard() { return tempDevCard; }
+    public String getTempDevCard() { return tempDevCard; }
     public Production getTempProduction() { return tempProduction; }
     public StateName getLastUsedState() { return lastUsedState; }
+
 
     //FUNCTIONAL METHODS:
     public static <T, E> T getKeyByValue(Map<T, E> map, E value) {

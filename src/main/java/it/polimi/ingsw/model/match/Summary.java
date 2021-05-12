@@ -10,11 +10,13 @@ import it.polimi.ingsw.model.match.player.personalBoard.DevCardSlots;
 import it.polimi.ingsw.model.match.player.personalBoard.DiscountMap;
 import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
 import it.polimi.ingsw.model.match.player.personalBoard.StrongBox;
-import it.polimi.ingsw.model.match.player.personalBoard.faithPath.SingleFaithPath;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
+import it.polimi.ingsw.network.message.stocmessage.*;
 import it.polimi.ingsw.observer.ModelObserver;
+import static it.polimi.ingsw.network.server.ServerUtilities.findControlBase;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * This class implements a summary of the match situation.
@@ -51,8 +53,8 @@ public class Summary implements ModelObserver
     /**
      * This constructor is called once at the beginning of the match.
      * It initializes the Summary basing on the actual (starting) situation.
-     * @param match
-     * @param cardMap
+     * @param match   the match
+     * @param cardMap the card map
      */
     public Summary(Match match, Map<String, Card> cardMap){
         //cardMap init
@@ -60,16 +62,24 @@ public class Summary implements ModelObserver
 
         // market init
         this.market = new char[3][4];
-        updateMarket(match.getMarket());
+        sideMarble = Character.toLowerCase(match.getMarket().getSlide().toString().charAt(0));
+        for(int i = 0; i< match.getMarket().getBoard().length; i++)
+            for(int j = 0; j<match.getMarket().getBoard()[i].length; j++)
+                this.market[i][j] = Character.toLowerCase(match.getMarket().getBoard()[i][j].toString().charAt(0));
 
         // cardGrid init
         this.cardGrid = new ArrayList[CardGrid.MAX_LEVEL][CardColor.values().length];
-        updateCardGrid(match.getCardGrid());
+        for(int i = 0; i<match.getCardGrid().getTop().length; i++)
+            for(int j = 0; j<match.getCardGrid().getTop()[i].length; j++) {
+                this.cardGrid[i][j] = new ArrayList<>();
+                this.cardGrid[i][j].add(getKeyByValue(cardMap,match.getCardGrid().getTop()[i][j]));
+                this.cardGrid[i][j].add("" + match.getCardGrid().getGrid()[i][j].size());
+            }
 
         //lorenzo's marker init: moved here in Summary because knowing if the match is single or multi is needed.
         this.lorenzoMarker = -1;
         if(match.getPlayers().size()==1)
-            updateLorenzoMarker(((SingleFaithPath) match.getPlayers().get(0).getPersonalBoard().getFaithPath()).getBlackPosition());
+            this.lorenzoMarker = 0;
 
         //players summaries init
         playersSummary = new ArrayList<>();
@@ -79,7 +89,7 @@ public class Summary implements ModelObserver
 
     /**
      * This method returns the PlayerSummary associated to the requested nickname.
-     * @param nickname
+     * @param nickname the nickname
      * @return the summary
      */
     public PlayerSummary getPlayerSummary(String nickname){
@@ -94,7 +104,7 @@ public class Summary implements ModelObserver
 
     /**
      * This method, when called, updates the market in the summary.
-     * @param market
+     * @param market the market
      */
     @Override
     public void updateMarket(Market market) {
@@ -102,13 +112,15 @@ public class Summary implements ModelObserver
         for(int i = 0; i< market.getBoard().length; i++)
             for(int j = 0; j<market.getBoard()[i].length; j++)
                 this.market[i][j] = Character.toLowerCase(market.getBoard()[i][j].toString().charAt(0));
+        if(findControlBase(getPlayersSummary().get(0).getNickname()) != null)
+            new MarketChangeMessage("", this.sideMarble, this.market).sendBroadcast(playersSummary.stream().map((x)->x.getNickname()).collect(Collectors.toList()));
     }
 
     /**
      * This method, when called, updates the card grid in the summary.
      * It inserts into every slot the id of the top card and the depth of the
      * stack (got from cardGrid.getGrid()[i][j].size()).
-     * @param cardGrid
+     * @param cardGrid the card grid
      */
     @Override
     public void updateCardGrid(CardGrid cardGrid) {
@@ -118,11 +130,13 @@ public class Summary implements ModelObserver
                 this.cardGrid[i][j].add(getKeyByValue(cardMap,cardGrid.getTop()[i][j]));
                 this.cardGrid[i][j].add("" + cardGrid.getGrid()[i][j].size());
             }
+        if(findControlBase(getPlayersSummary().get(0).getNickname()) != null)
+            new CardGridChangeMessage("", this.cardGrid).sendBroadcast(playersSummary.stream().map((x)->x.getNickname()).collect(Collectors.toList()));
     }
 
     /**
      * This method, when called, updates the lorenzo marker (if single-player) in the summary.
-     * @param lorenzoMarker
+     * @param lorenzoMarker the black marker
      */
     @Override
     public void updateLorenzoMarker(int lorenzoMarker) {
@@ -132,7 +146,7 @@ public class Summary implements ModelObserver
     /**
      * This method, when called, updates the personal board of the requested player in the summary.
      * @param nickname  the requested player
-     * @param personalBoard
+     * @param personalBoard the personal board
      */
     public void updatePersonalBoard(String nickname, PersonalBoard personalBoard){
         getPlayerSummary(nickname).updatePersonalBoard(personalBoard, cardMap);
@@ -141,80 +155,96 @@ public class Summary implements ModelObserver
     /**
      * This method, when called, updates the market buffer of the requested player in the summary.
      * @param nickname  the requested player
-     * @param warehouse
+     * @param warehouse the warehouse
      */
     public void updateMarketBuffer(String nickname, Warehouse warehouse){
         getPlayerSummary(nickname).updateMarketBuffer(warehouse);
+        if(findControlBase(nickname) != null)
+            new MarketBufferChange(nickname,getPlayerSummary(nickname).getMarketBuffer()).sendBroadcast(playersSummary.stream().map((x)->x.getNickname()).collect(Collectors.toList()));
     }
 
     /**
      * This method, when called, updates the warehouse of the requested player in the summary.
      * @param nickname  the requested player
-     * @param warehouse
+     * @param warehouse the warehouse
      */
     @Override
     public void updateWarehouse(String nickname, Warehouse warehouse) {
         getPlayerSummary(nickname).updateWarehouse(warehouse);
+        if(findControlBase(nickname) != null)
+            new WarehouseChangeMessage(nickname, getPlayerSummary(nickname).getWarehouse()).sendBroadcast(playersSummary.stream().map((x)->x.getNickname()).collect(Collectors.toList()));
     }
 
     /**
      * This method, when called, updates the strongbox of the requested player in the summary.
      * @param nickname  the requested player
-     * @param strongbox
+     * @param strongbox the strongbox
      */
     @Override
     public void updateStrongbox(String nickname, StrongBox strongbox) {
         getPlayerSummary(nickname).updateStrongbox(strongbox);
+        if(findControlBase(nickname) != null)
+            new StrongboxChangeMessage(nickname, getPlayerSummary(nickname).getStrongbox()).sendBroadcast(playersSummary.stream().map((x)->x.getNickname()).collect(Collectors.toList()));
     }
 
     /**
      * This method, when called, updates the faith marker of the requested player in the summary.
      * @param nickname  the requested player
-     * @param faithMarker
+     * @param faithMarker the faith marker
      */
     @Override
     public void updateFaithMarker(String nickname, int faithMarker) {
         getPlayerSummary(nickname).updateFaithMarker(faithMarker);
+        if(findControlBase(nickname) != null)
+            new NewFaithPositionMessage(nickname, faithMarker).sendBroadcast(playersSummary.stream().map((x)->x.getNickname()).collect(Collectors.toList()));
     }
 
     /**
      * This method, when called, updates the pope tiles' state of the requested player in the summary.
      * @param nickname  the requested player
-     * @param popeTiles
+     * @param popeTiles the pope tiles array
      */
     @Override
-    public void updatePopeTiles(String nickname, List<Integer> popeTiles) {
+    public void updatePopeTiles(String nickname, int tileNumber, List<Integer> popeTiles) {
         getPlayerSummary(nickname).updatePopeTiles(popeTiles);
+        if(findControlBase(nickname) != null)
+            new VaticanReportMessage(nickname, tileNumber, getPlayerSummary(nickname).getPopeTiles()).sendBroadcast(playersSummary.stream().map((x)->x.getNickname()).collect(Collectors.toList()));
     }
 
     /**
      * This method, when called, updates the dev card slots of the requested player in the summary.
      * @param nickname  the requested player
-     * @param devCardSlots
+     * @param devCardSlots the dev card slots array
      */
     @Override
     public void updateDevCardSlots(String nickname, DevCardSlots devCardSlots) {
         getPlayerSummary(nickname).updateDevCardSlots(devCardSlots, cardMap);
+        if(findControlBase(nickname) != null)
+            new DevCardSlotChangeMessage(nickname, getPlayerSummary(nickname).getDevCardSlots()).sendBroadcast(playersSummary.stream().map((x)->x.getNickname()).collect(Collectors.toList()));
     }
 
     /**
      * This method, when called, updates the hand leaders' state of the requested player in the summary.
      * @param nickname  the requested player
-     * @param handLeaders
+     * @param handLeaders the hand leaders
      */
     @Override
     public void updateHandLeaders(String nickname, List<LeaderCard> handLeaders) {
         getPlayerSummary(nickname).updateHandLeaders(handLeaders, cardMap);
+        if(findControlBase(nickname) != null)
+            new DiscardedLeaderMessage(nickname).sendBroadcast(playersSummary.stream().map((x)->x.getNickname()).filter((x)-> !x.equals(nickname)).collect(Collectors.toList()));
     }
 
     /**
      * This method, when called, updates the active leaders' state of the requested player in the summary.
      * @param nickname  the requested player
-     * @param activeLeaders
+     * @param activeLeader the activated leader
      */
     @Override
-    public void updateActiveLeaders(String nickname, List<LeaderCard> activeLeaders) {
-        getPlayerSummary(nickname).updateActiveLeaders(activeLeaders, cardMap);
+    public void updateActiveLeaders(String nickname, LeaderCard activeLeader) {
+        boolean ok = getPlayerSummary(nickname).updateActiveLeaders(activeLeader, cardMap);
+        if(ok && findControlBase(nickname)!=null)
+            new ActivatedLeaderMessage(nickname, getKeyByValue(cardMap, activeLeader)).sendBroadcast(playersSummary.stream().map((x)->x.getNickname()).filter((x)-> x != nickname).collect(Collectors.toList()));
     }
 
     /**
@@ -225,32 +255,38 @@ public class Summary implements ModelObserver
     @Override
     public void updateWhiteMarbleConversions(String nickname, PhysicalResource whiteMarbleConversion) {
         getPlayerSummary(nickname).updateWhiteMarbleConversions(whiteMarbleConversion);
+        if(findControlBase(nickname) != null)
+            new WhiteMarbleConversionMessage(nickname, whiteMarbleConversion).send(nickname);
     }
 
     /**
      * This method, when called, updates the discount map of the requested player in the summary.
      * @param nickname  the requested player
-     * @param discountMap
+     * @param discountMap the discount map
      */
     @Override
     public void updateDiscountMap(String nickname, DiscountMap discountMap) {
         getPlayerSummary(nickname).updateDiscountMap(discountMap);
+        if(findControlBase(nickname) != null)
+            new UpdatedDiscountMapMessage(nickname, getPlayerSummary(nickname).getDiscountMap()).send(nickname);
     }
 
     /**
      * This method, when called, updates the temporary dev card of the requested player in the summary.
      * @param nickname  the requested player
-     * @param tempDevCard
+     * @param tempDevCard the temporary dev card
      */
     @Override
     public void updateTempDevCard(String nickname, DevelopmentCard tempDevCard) {
-        getPlayerSummary(nickname).updateTempDevCard(tempDevCard);
+        getPlayerSummary(nickname).updateTempDevCard(tempDevCard, cardMap);
+        if(findControlBase(nickname) != null)
+            new DevCardDrawnMessage(nickname, getPlayerSummary(nickname).getTempDevCard()).sendBroadcast(playersSummary.stream().map((x)->x.getNickname()).collect(Collectors.toList()));
     }
 
     /**
      * This method, when called, updates the temporary production of the requested player in the summary.
      * @param nickname  the requested player
-     * @param tempProduction
+     * @param tempProduction the temporary production
      */
     @Override
     public void updateTempProduction(String nickname, Production tempProduction) {
@@ -260,7 +296,7 @@ public class Summary implements ModelObserver
     /**
      * This method, when called, updates the last used state in this player's summary, useful for disconnection
      * in the middle of a complex operation ( such as Dev card buy, production, etc. ).
-     * @param lastUsedState
+     * @param lastUsedState the last used state
      */
     @Override
     public void updateLastUsedState(String nickname, StateName lastUsedState) {
@@ -271,7 +307,6 @@ public class Summary implements ModelObserver
     //GETTERS:
 
 
-    public Map<String, Card> getCardMap() { return cardMap; }
     public char[][] getMarket() { return market; }
     public char getSideMarble() { return sideMarble; }
     public List<String>[][] getCardGrid() { return cardGrid; }

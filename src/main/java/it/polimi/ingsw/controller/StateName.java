@@ -12,6 +12,7 @@ public enum StateName {
     WAITING(0),
     START_GAME(0),
     //States used in StartingPhase
+    WAITING_FOR_TURN (-1),
     WAITING_LEADERS (1),
     WAITING_RESOURCES (2),
     STARTING_PHASE_DONE (3),

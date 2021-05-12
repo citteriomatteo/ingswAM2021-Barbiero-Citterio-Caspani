@@ -166,8 +166,6 @@ public class PlayerSummaryTest extends CommonThingsTest
         Player curr = match.getCurrentPlayer();
         for(int i = 0; i < curr.getHandLeaders().size(); i++){
             curr.activateLeader(curr.getHandLeaders().get(i));
-            curr.updateActiveLeaders(curr.getNickname(), curr.getPersonalBoard().getActiveLeaders());
-            curr.updateActiveLeaders(curr.getNickname(), curr.getPersonalBoard().getActiveProductionLeaders());
         }
 
         List<String> sortedSummaryAL = summary.getPlayerSummary(curr.getNickname()).getActiveLeaders().stream().sorted().collect(Collectors.toList());

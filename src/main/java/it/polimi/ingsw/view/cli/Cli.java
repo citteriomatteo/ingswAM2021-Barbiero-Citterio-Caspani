@@ -1,5 +1,13 @@
 package it.polimi.ingsw.view.cli;
 
+import it.polimi.ingsw.model.essentials.FaithPoint;
+import it.polimi.ingsw.model.essentials.PhysicalResource;
+import it.polimi.ingsw.model.essentials.ResType;
+import it.polimi.ingsw.model.essentials.Resource;
+
+import java.awt.*;
+
+
 public class Cli
 {
 
@@ -29,6 +37,14 @@ public class Cli
                 "                                                                                                          \n" +
                 "                                                                                                          ");
         System.out.println(str);
+    }
+
+    public void drawResource(PhysicalResource resource){
+        StringBuilder str = new StringBuilder();
+
+        if(resource.getType() == ResType.COIN);
+            //str.append(ColorCli.RED).append(Graphics2D.drawRect(10,10,10,10));
+
     }
 
 

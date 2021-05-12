@@ -26,10 +26,10 @@ public interface ModelObserver {
     public void updateWarehouse(String nickname, Warehouse warehouse);
     public void updateStrongbox(String nickname, StrongBox strongbox);
     public void updateFaithMarker(String nickname, int faithMarker);
-    public void updatePopeTiles(String nickname, List<Integer> popeTiles);
+    public void updatePopeTiles(String nickname, int tileNumber, List<Integer> popeTiles);
     public void updateDevCardSlots(String nickname, DevCardSlots devCardSlots);
     public void updateHandLeaders(String nickname, List<LeaderCard> handLeaders);
-    public void updateActiveLeaders(String nickname, List<LeaderCard> activeLeaders);
+    public void updateActiveLeaders(String nickname, LeaderCard activeLeader);
     public void updateWhiteMarbleConversions(String nickname, PhysicalResource whiteMarbleConversion);
     public void updateDiscountMap(String nickname, DiscountMap discountMap);
     public void updateTempDevCard(String nickname, DevelopmentCard tempDevCard);

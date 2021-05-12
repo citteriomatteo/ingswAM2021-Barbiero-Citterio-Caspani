@@ -16,23 +16,17 @@ public class MarketChangeMessage extends StoCMessage {
 
     private static final StoCMessageType type = StoCMessageType.MARKET_CHANGE;
     private final char sideMarble;
-    private final List<Character> changedSection;
-    private final boolean row;
-    private final int sectionIndex;
+    private final char[][] newMarket;
 
-    public MarketChangeMessage(String nickname, char sideMarble, List<Character> changedSection, boolean row, int sectionIndex)
+    public MarketChangeMessage(String nickname, char sideMarble, char[][] newMarket)
     {
         super(nickname);
         this.sideMarble = sideMarble;
-        this.changedSection = new ArrayList<>(changedSection);
-        this.row = row;
-        this.sectionIndex = sectionIndex;
+        this.newMarket = newMarket;
     }
 
     public StoCMessageType getType(){ return type; }
     public Character getSideMarble(){ return sideMarble; }
-    public List<Character> getChangedSection(){ return changedSection; }
-    public boolean isRow(){ return row; }
-    public int getSectionIndex(){ return sectionIndex; }
+    public char[][] getNewMarket(){ return newMarket; }
 
 }

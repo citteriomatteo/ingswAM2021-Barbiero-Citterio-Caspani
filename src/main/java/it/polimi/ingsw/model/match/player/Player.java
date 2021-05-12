@@ -256,9 +256,7 @@ public class Player extends ModelObservable implements Adder, Verificator
             leader.activate(getPersonalBoard());
 
             //update_call
-            updateActiveLeaders(this.nickname, getPersonalBoard().getActiveLeaders());
-            updateActiveLeaders(this.nickname, getPersonalBoard().getActiveProductionLeaders());
-
+            updateActiveLeaders(this.nickname, leader);
             return true;
         }
         return false;

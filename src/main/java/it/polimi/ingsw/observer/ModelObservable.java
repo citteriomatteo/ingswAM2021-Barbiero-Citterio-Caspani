@@ -57,8 +57,8 @@ public class ModelObservable {
     public void updateFaithMarker(String nickname, int faithMarker){
         observers.get(0).updateFaithMarker(nickname, faithMarker);
     }
-    public void updatePopeTiles(String nickname, List<Integer> popeTiles){
-        observers.get(0).updatePopeTiles(nickname, popeTiles);
+    public void updatePopeTiles(String nickname, int tileNumber, List<Integer> popeTiles){
+        observers.get(0).updatePopeTiles(nickname, tileNumber, popeTiles);
     }
     public void updateDevCardSlots(String nickname, DevCardSlots devCardSlots){
         observers.get(0).updateDevCardSlots(nickname, devCardSlots);
@@ -66,8 +66,8 @@ public class ModelObservable {
     public void updateHandLeaders(String nickname, List<LeaderCard> handLeaders){
         observers.get(0).updateHandLeaders(nickname, handLeaders);
     }
-    public void updateActiveLeaders(String nickname, List<LeaderCard> activeLeaders){
-        observers.get(0).updateActiveLeaders(nickname, activeLeaders);
+    public void updateActiveLeaders(String nickname, LeaderCard activeLeader){
+        observers.get(0).updateActiveLeaders(nickname, activeLeader);
     }
     public void updateWhiteMarbleConversions(String nickname, PhysicalResource whiteMarbleConversion){
         observers.get(0).updateWhiteMarbleConversions(nickname, whiteMarbleConversion);
