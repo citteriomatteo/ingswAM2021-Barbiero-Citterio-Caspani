@@ -138,13 +138,19 @@ public class MatchController {
         return match.getCurrentPlayer();
     }
 
-    public StateName getCurrentState(String nickname){
-        if(turnController == null)
+    public StateName getCurrentState(String nickname) {
+        if (turnController == null)
             return startingPhaseController.getPlayerState(nickname);
-        if(rematchPhaseController != null)
+        if (rematchPhaseController != null)
             return StateName.REMATCH_OFFER;
-        else
-            return turnController.getCurrentState(); }
+        else{
+            if (nickname.equals(turnController.getCurrentPlayer().getNickname()))
+                return turnController.getCurrentState();
+            else
+                return StateName.WAITING_FOR_TURN;
+        }
+    }
+
     public Map<String, Card> getCardMap(){
         return cardMap;
     }
@@ -167,6 +173,7 @@ public class MatchController {
     }
 
     public void setWhiteMarblesDrawn(int num){ turnController.setWhiteMarbleDrawn(num);}
+    public void setLastRound(boolean lastRound) { turnController.setLastRound(lastRound);}
 
     public Map<String, Card> initCardMap(MatchConfiguration configuration){
         Map<String, Card> map = new HashMap<>();

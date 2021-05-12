@@ -437,6 +437,40 @@ public class MatchControllerTest extends CommonThingsTest {
 
     }
 
-    //TODO: test method for NextTurn
+    @Test
+    public void testNextTurn() throws RetryException {
+        initialization();
+        player = matchController.getCurrentPlayer();
+
+        assertThrows(RetryException.class, ()->matchController.nextTurn(player.getNickname()));
+
+        matchController.setState(player.getNickname(), StateName.END_TURN);
+        matchController.nextTurn(player.getNickname());
+
+        assertEquals(StateName.WAITING_FOR_TURN, matchController.getCurrentState(player.getNickname()));
+        assertEquals(StateName.STARTING_TURN, matchController.getCurrentState(matchController.getCurrentPlayer().getNickname()));
+
+        initialization();
+        player = matchController.getCurrentPlayer();
+        matchController.setState(player.getNickname(), StateName.END_TURN);
+        matchController.nextTurn(player.getNickname());
+
+        player = matchController.getCurrentPlayer();
+        matchController.setState(player.getNickname(), StateName.END_TURN);
+        matchController.nextTurn(player.getNickname());
+
+        player = matchController.getCurrentPlayer();
+        matchController.setLastRound(true);
+        matchController.setState(player.getNickname(), StateName.END_TURN);
+        matchController.nextTurn(player.getNickname());
+
+        player = matchController.getCurrentPlayer();
+        matchController.setState(player.getNickname(), StateName.END_TURN);
+        matchController.nextTurn(player.getNickname());
+
+        assertEquals(StateName.REMATCH_OFFER, matchController.getCurrentState(player.getNickname()));
+
+
+    }
 
 }

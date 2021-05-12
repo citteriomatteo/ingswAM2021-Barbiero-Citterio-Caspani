@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.essentials.leader.LeaderCard;
 import it.polimi.ingsw.model.essentials.leader.ProductionEffect;
 import it.polimi.ingsw.exceptions.RetryException;
 import it.polimi.ingsw.model.match.Match;
+import it.polimi.ingsw.model.match.MultiMatch;
 import it.polimi.ingsw.model.match.Summary;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.personalBoard.StrongBox;
@@ -47,25 +48,27 @@ public class TurnController {
      * @return List<CtoSMessageType>
      */
     public StateName nextTurn() throws MatchEndedException {
-        if(currentState.equals(StateName.END_TURN) && !lastRound) {
-            try{
-                match.nextTurn();
-            }
-            catch(LastRoundException e){
-                Map<String, Integer> myScore = new HashMap<>();
-                myScore.put(currentPlayer.getNickname(), currentPlayer.totalWinPoints());
-                throw new MatchEndedException("You lost!", myScore);
-            }
-            currentPlayer = match.getCurrentPlayer();
-            currentState = StateName.STARTING_TURN;
-        }
         //If it's the last turn of the last player of the last round...
-        else if(currentPlayer.equals(firstPlayer) && currentState.equals(StateName.STARTING_TURN) && lastRound){
+        if(currentPlayer.equals(match.getPlayers().get(match.getPlayers().size()-1)) && currentState.equals(StateName.END_TURN) && lastRound){
             Map<String, Integer> ranking = new HashMap<>();
             for(Player p : match.getPlayers())
                 ranking.put(p.getNickname(), p.totalWinPoints());
             throw new MatchEndedException(bufferResult+"\nMatch Ranking:", ranking);
         }
+
+        else if(currentState.equals(StateName.END_TURN)) {
+                try{
+                    match.nextTurn();
+                }
+                catch(LastRoundException e){
+                    Map<String, Integer> myScore = new HashMap<>();
+                    myScore.put(currentPlayer.getNickname(), currentPlayer.totalWinPoints());
+                    throw new MatchEndedException("You lost!", myScore);
+                }
+                currentPlayer = match.getCurrentPlayer();
+                currentState = StateName.STARTING_TURN;
+            }
+
         return currentState;
     }
 
@@ -77,7 +80,7 @@ public class TurnController {
      * @param shelf1 the first shelf
      * @param shelf2 the second shelf
      * @return the new State of the controller and client
-     * @throws RetryException
+     * @throws RetryException when the parameters are wrong
      */
     public StateName switchShelf(int shelf1, int shelf2) throws RetryException {
         try {
@@ -92,7 +95,7 @@ public class TurnController {
      * This method does the discard of the chosen leader.
      * @param leaderId is the id of the leader card
      * @return the new State of the controller and client
-     * @throws RetryException
+     * @throws RetryException when the activation is not possible
      */
     public StateName leaderActivation(String leaderId) throws RetryException {
 
@@ -498,4 +501,5 @@ public class TurnController {
     public void setCurrentState(StateName currentState) { this.currentState = currentState; }
     public int getWhiteMarbleDrawn() { return whiteMarbleDrawn; }
     public void setWhiteMarbleDrawn(int whiteMarbleDrawn) { this.whiteMarbleDrawn = whiteMarbleDrawn; }
+    public void setLastRound(boolean lastRound){ this.lastRound = lastRound ;}
 }
