@@ -37,6 +37,11 @@ public class NumPlayersMessage extends CtoSMessage{
     }
 
     @Override
+    public boolean isSomethingNull() {
+        return getNickname() == null;
+    }
+
+    @Override
     public CtoSMessageType getType() {
         return type;
     }

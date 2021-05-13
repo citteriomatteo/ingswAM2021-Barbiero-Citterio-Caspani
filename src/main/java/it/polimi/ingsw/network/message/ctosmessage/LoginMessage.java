@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.message.ctosmessage;
 
-import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.network.server.ControlBase;
 
 public class LoginMessage extends CtoSMessage{
@@ -13,6 +12,11 @@ public class LoginMessage extends CtoSMessage{
     @Override
     public boolean computeMessage(ControlBase controlBase) {
         return controlBase.getInitController().login(getNickname());
+    }
+
+    @Override
+    public boolean isSomethingNull() {
+        return getNickname() == null;
     }
 
     @Override

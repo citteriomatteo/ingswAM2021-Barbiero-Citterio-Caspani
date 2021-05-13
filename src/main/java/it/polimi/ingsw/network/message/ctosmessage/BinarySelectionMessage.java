@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.message.ctosmessage;
 
+import it.polimi.ingsw.network.message.stocmessage.RetryMessage;
 import it.polimi.ingsw.network.server.ControlBase;
 
 public class BinarySelectionMessage extends CtoSMessage {
@@ -22,6 +23,10 @@ public class BinarySelectionMessage extends CtoSMessage {
     @Override
     public boolean computeMessage(ControlBase controlBase) {
         return controlBase.getInitController().selection(selection);
+    }
+    @Override
+    public boolean isSomethingNull(){
+        return getNickname() == null || comment == null;
     }
 
     /**

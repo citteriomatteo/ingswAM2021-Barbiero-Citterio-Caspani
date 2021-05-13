@@ -166,13 +166,16 @@ public class MatchControllerTest extends CommonThingsTest {
     }
 
     @Test
-    public void marketDrawTest() throws RetryException {
+    public void marketDrawTest() throws RetryException, NegativeQuantityException {
         initialization();
         player = matchController.getCurrentPlayer();
         match = matchController.getMatch();
         matchController.setState(player.getNickname(), StateName.STARTING_TURN);
         assertThrows(RetryException.class, ()->matchController.marketDraw(player.getNickname(), true, 18));
 
+        player.setHandLeaders(new ArrayList<>(List.of(new LeaderCard(List.of(new PhysicalResource(ResType.STONE, 0)), 5, new WhiteMarbleEffect(new PhysicalResource(ResType.STONE, 1))),
+                new LeaderCard(List.of(new PhysicalResource(ResType.STONE, 0)), 5, new WhiteMarbleEffect(new PhysicalResource(ResType.SHIELD, 1))))));
+        player.activateLeader(player.getHandLeaders().get(0));
         StateName stateName = StateName.RESOURCES_PLACEMENT;
         Marble[][] board = match.getMarket().getBoard();
         for (int i=0; i<4; i++)

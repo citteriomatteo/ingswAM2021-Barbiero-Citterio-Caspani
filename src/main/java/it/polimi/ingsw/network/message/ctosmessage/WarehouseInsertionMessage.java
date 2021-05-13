@@ -35,12 +35,19 @@ public class WarehouseInsertionMessage extends CtoSMessage {
 
     @Override
     public boolean computeMessage(ControlBase controlBase) {
+        if (isSomethingNull())
+            sendRetryMessage(getNickname(), controlBase, "You forgot some parameters");
         try {
             return controlBase.getMatchController().warehouseInsertion(getNickname(), resources);
         } catch (RetryException e) {
-            new RetryMessage(getNickname(),controlBase.getMatchController().getCurrentState(getNickname()), e.getError()).send(getNickname());
+            sendRetryMessage(getNickname(), controlBase, e.getError());
             return false;
         }
+    }
+
+    @Override
+    public boolean isSomethingNull() {
+        return getNickname() == null || resources == null;
     }
 
     /**

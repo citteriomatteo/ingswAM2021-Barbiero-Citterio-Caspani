@@ -128,7 +128,7 @@ public class TurnController {
     public StateName marketDraw(boolean row, int num) throws RetryException {
         try {
             whiteMarbleDrawn = currentPlayer.marketDeal(row, num);
-            if(whiteMarbleDrawn == 0)
+            if(whiteMarbleDrawn == 0 || currentPlayer.getWhiteMarbleConversions().size() == 0)
                 currentState = StateName.RESOURCES_PLACEMENT;
             else
                 currentState = StateName.MARKET_ACTION;
