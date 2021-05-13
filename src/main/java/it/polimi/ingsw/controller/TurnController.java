@@ -47,6 +47,8 @@ public class TurnController {
                 else
                     new NextStateMessage(p.getNickname(), StateName.WAITING_FOR_TURN).send(p.getNickname());
         }
+
+
     }
 
     /**
@@ -73,6 +75,7 @@ public class TurnController {
                 }
                 currentPlayer = match.getCurrentPlayer();
                 currentState = StateName.STARTING_TURN;
+                new NextStateMessage(currentPlayer.getNickname(), currentState).send(currentPlayer.getNickname());
             }
 
         return currentState;

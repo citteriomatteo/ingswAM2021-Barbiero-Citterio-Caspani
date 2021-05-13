@@ -239,6 +239,8 @@ public class MatchController {
 
             if(playerHandler != null)
                 playerHandler.write(message);
+
+
         } catch (MatchEndedException e) {
             rematchPhaseController = new RematchPhaseController(match.getPlayers());
             EndGameResultsMessage message = new EndGameResultsMessage(nickname, e.getMsg(), e.getRanking());
