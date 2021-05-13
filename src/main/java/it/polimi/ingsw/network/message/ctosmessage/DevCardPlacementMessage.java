@@ -13,21 +13,11 @@ import it.polimi.ingsw.network.server.ControlBase;
 
 public class DevCardPlacementMessage extends CtoSMessage {
     private static final CtoSMessageType type = CtoSMessageType.DEV_CARD_PLACEMENT;
-    private final String devCardId;
     private final int column;
 
-    public DevCardPlacementMessage(String nickname, String devCardId, int column) {
+    public DevCardPlacementMessage(String nickname, int column) {
         super(nickname);
-        this.devCardId = devCardId;
         this.column = column;
-    }
-
-    /**
-     * Getter
-     * @return the card's Id
-     */
-    public String getDevCardId() {
-        return devCardId;
     }
 
     /**

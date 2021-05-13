@@ -1,19 +1,57 @@
 [
   {
+    "Message": "login",
+    "nickname": "Ale"
+  },
+  {
+    "Message": "binarySelection",
+    "selection": true,
+    "nickname": "Ale"
+  },
+  {
+    "Message": "numPlayers",
+    "numPlayers": 3,
+    "nickname": "Ale"
+  },
+  {
+    "Message": "leadersChoice",
+    "leaderIds": [
+      "L1",
+      "L2"
+    ],
+    "nickname": "Ale"
+  },
+  {
+    "Message": "startingResource",
+    "resources": [
+      {
+        "type": "SHIELD",
+        "quantity": 1
+      }
+    ],
+    "nickname": "Ale"
+  },
+  {
     "Message": "switchShelf",
     "shelf1": 1,
     "shelf2": 2,
-    "nickname": "giorgio"
+    "nickname": "Ale"
+  },
+  {
+    "Message": "leaderActivation",
+    "leaderId": "L1",
+    "nickname": "Ale"
+  },
+  {
+    "Message": "leaderDiscarding",
+    "leaderId": "L1",
+    "nickname": "Ale"
   },
   {
     "Message": "marketDraw",
     "row": true,
     "num": 1,
-    "nickname": "carlo"
-  },
-  {
-    "Message": "login",
-    "nickname": "luca"
+    "nickname": "Ale"
   },
   {
     "Message": "whiteMarblesConversion",
@@ -36,8 +74,30 @@
     "nickname": "Ale"
   },
   {
-    "Message": "rematch",
-    "accepted": true,
+    "Message": "devCardDraw",
+    "row": 2,
+    "column": 1,
+    "nickname": "Ale"
+  },
+  {
+    "Message": "payments",
+    "strongboxCosts": [
+      {
+        "type": "STONE",
+        "quantity": 1
+      }
+    ],
+    "warehouseCosts": {
+      "1": {
+        "type": "STONE",
+        "quantity": 1
+      }
+    },
+    "nickname": "Ale"
+  },
+  {
+    "Message": "devCardPlacement",
+    "column": 1,
     "nickname": "Ale"
   },
   {
@@ -61,6 +121,15 @@
         }
       ]
     },
+    "nickname": "Ale"
+  },
+  {
+    "Message": "endTurn",
+    "nickname": "Ale"
+  },
+  {
+    "Message": "rematch",
+    "accepted": true,
     "nickname": "Ale"
   }
 ]
