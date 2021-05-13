@@ -110,7 +110,8 @@ public class TurnController {
 
         for(LeaderCard card : currentPlayer.getHandLeaders())
             if (card.equals(cardMap.get(leaderId))) {
-                currentPlayer.activateLeader(card);
+                if(!currentPlayer.activateLeader(card))
+                    break;
                 return currentState;
             }
         throw new RetryException ("Invalid leader activation attempt.");
@@ -419,7 +420,7 @@ public class TurnController {
                 prod = ((DevelopmentCard) cardMap.get(id)).getProduction();
             else
                 prod = ((ProductionEffect) ((LeaderCard)cardMap.get(id)).getEffect()).getProduction();
-            uCosts += prod.getCost().stream().filter((x)->x.getType().equals(ResType.UNKNOWN)).map((x)->x.getQuantity()).reduce(0, (x,y)->x+y);
+            uCosts += prod.getCost().stream().filter((x)->x.getType().equals(ResType.UNKNOWN)).map(PhysicalResource::getQuantity).reduce(0, Integer::sum);
             for(Resource r : prod.getEarnings())
                 if(r.isPhysical()){
                     PhysicalResource usefulR = (PhysicalResource) r;

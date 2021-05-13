@@ -24,7 +24,7 @@ public abstract class StoCMessage extends Message {
         ControlBase receiver;
         for(String player : players) {
             receiver = findControlBase(player);
-            if(!receiver.write(this))
+            if(receiver == null || !receiver.write(this))
                 return false;
         }
         return true;
@@ -39,7 +39,7 @@ public abstract class StoCMessage extends Message {
         ControlBase receiver;
         for(Player player : match.getPlayers()) {
             receiver = findControlBase(player.getNickname());
-            if(!receiver.write(this))
+            if(receiver == null || !receiver.write(this))
                 return false;
         }
         return true;
@@ -52,6 +52,8 @@ public abstract class StoCMessage extends Message {
      */
     public boolean send(String player){
         ControlBase receiver = findControlBase(player);
+        if(receiver == null)
+            return false;
         return !receiver.write(this);
     }
 
