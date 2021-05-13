@@ -6,13 +6,15 @@ import it.polimi.ingsw.model.essentials.leader.LeaderCard;
 import it.polimi.ingsw.model.essentials.leader.ProductionEffect;
 import it.polimi.ingsw.exceptions.RetryException;
 import it.polimi.ingsw.model.match.Match;
-import it.polimi.ingsw.model.match.Summary;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.personalBoard.StrongBox;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.WarehouseDecorator;
-import it.polimi.ingsw.observer.ModelObserver;
+import it.polimi.ingsw.network.message.stocmessage.NextStateMessage;
+
 import static it.polimi.ingsw.controller.MatchController.getKeyByValue;
+
+import static it.polimi.ingsw.network.server.ServerUtilities.findControlBase;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -36,6 +38,15 @@ public class TurnController {
         this.match = match;
         this.cardMap = cardMap;
         this.whiteMarbleDrawn = 0;
+
+        //sends NextStateMessage to every player
+        if(findControlBase(currentPlayer.getNickname()) != null){
+            for(Player p : match.getPlayers())
+                if(p.equals(currentPlayer))
+                    new NextStateMessage(currentPlayer.getNickname(), currentState).send(currentPlayer.getNickname());
+                else
+                    new NextStateMessage(p.getNickname(), StateName.WAITING_FOR_TURN).send(p.getNickname());
+        }
     }
 
     /**
