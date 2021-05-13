@@ -32,8 +32,10 @@ public class StartingResourcesMessage extends CtoSMessage {
 
     @Override
     public boolean computeMessage(ControlBase controlBase) {
-        if (isSomethingNull())
+        if (isSomethingNull()) {
             sendRetryMessage(getNickname(), controlBase, "You forgot some parameters");
+            return false;
+        }
         try {
             return controlBase.getMatchController().startingResources(getNickname(), resources);
         } catch (RetryException e) {

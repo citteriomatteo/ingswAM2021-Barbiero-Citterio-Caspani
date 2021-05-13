@@ -26,8 +26,10 @@ public class ConfigureMessage extends CtoSMessage {
 
     @Override
     public boolean computeMessage(ControlBase controlBase) {
-        if (isSomethingNull())
+        if (isSomethingNull()) {
             sendRetryMessage(getNickname(), controlBase, "You forgot some parameters");
+            return false;
+        }
         //TODO
         return false;
     }

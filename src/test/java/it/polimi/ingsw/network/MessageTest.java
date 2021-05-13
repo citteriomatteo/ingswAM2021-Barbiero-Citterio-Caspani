@@ -30,7 +30,7 @@ public class MessageTest {
 
         String nickname = "Ale";
         //Build the parser for json file
-        Gson g = cToSMessageConfig(new GsonBuilder()).setPrettyPrinting().create();
+        Gson g = cToSMessageConfig(new GsonBuilder()).create();
 
         CtoSMessage switchShelfMessage = new SwitchShelfMessage(nickname, 1,2);
         CtoSMessage marketDrawMessage = new MarketDrawMessage(nickname, true,1);

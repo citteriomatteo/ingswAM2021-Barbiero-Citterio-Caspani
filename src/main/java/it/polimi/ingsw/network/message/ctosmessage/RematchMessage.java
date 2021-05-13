@@ -18,8 +18,10 @@ public class RematchMessage extends CtoSMessage {
 
     @Override
     public boolean computeMessage(ControlBase controlBase) {
-        if (isSomethingNull())
+        if (isSomethingNull()){
             sendRetryMessage(getNickname(), controlBase, "You forgot some parameters");
+            return false;
+        }
         try {
             return controlBase.getMatchController().response(getNickname(), accepted);
         } catch (RetryException e) {

@@ -29,8 +29,10 @@ public class LeaderDiscardingMessage extends CtoSMessage {
 
     @Override
     public boolean computeMessage(ControlBase controlBase) {
-        if (isSomethingNull())
+        if (isSomethingNull()) {
             sendRetryMessage(getNickname(), controlBase, "You forgot some parameters");
+            return false;
+        }
         try {
             return controlBase.getMatchController().leaderDiscarding(getNickname(),leaderId);
         } catch (RetryException e) {

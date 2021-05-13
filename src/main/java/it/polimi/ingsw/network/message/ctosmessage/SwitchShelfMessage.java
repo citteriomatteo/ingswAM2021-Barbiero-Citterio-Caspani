@@ -38,8 +38,10 @@ public class SwitchShelfMessage extends CtoSMessage {
 
     @Override
     public boolean computeMessage(ControlBase controlBase) {
-        if (isSomethingNull())
+        if (isSomethingNull()) {
             sendRetryMessage(getNickname(), controlBase, "You forgot some parameters");
+            return false;
+        }
         try {
             return controlBase.getMatchController().switchShelf(getNickname(), shelf1, shelf2);
         } catch (RetryException e) {

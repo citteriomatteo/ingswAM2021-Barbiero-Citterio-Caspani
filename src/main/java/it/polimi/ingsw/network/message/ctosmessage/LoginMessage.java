@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.message.ctosmessage;
 
+import it.polimi.ingsw.model.match.player.Player;
+import it.polimi.ingsw.network.message.stocmessage.RetryMessage;
 import it.polimi.ingsw.network.server.ControlBase;
 
 public class LoginMessage extends CtoSMessage{
@@ -11,7 +13,10 @@ public class LoginMessage extends CtoSMessage{
 
     @Override
     public boolean computeMessage(ControlBase controlBase) {
-        return controlBase.getInitController().login(getNickname());
+        if(controlBase.getInitController().login(getNickname()))
+            return true;
+        controlBase.write(new RetryMessage("", "You can't send a " + type + " message in this moment"));
+        return false;
     }
 
     @Override

@@ -28,8 +28,10 @@ public class LeaderActivationMessage extends CtoSMessage {
 
     @Override
     public boolean computeMessage(ControlBase controlBase) {
-        if (isSomethingNull())
+        if (isSomethingNull()){
             sendRetryMessage(getNickname(), controlBase, "You forgot some parameters");
+            return false;
+        }
         try {
             return controlBase.getMatchController().leaderActivation(getNickname(),leaderId);
         } catch (RetryException e) {

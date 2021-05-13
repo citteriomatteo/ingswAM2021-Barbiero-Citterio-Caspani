@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.ReconnectionException;
-import it.polimi.ingsw.exceptions.RetryException;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
 import it.polimi.ingsw.network.message.stocmessage.NextStateMessage;
@@ -106,9 +105,9 @@ public class InitController {
                     changeState(StateName.WAITING);
                     List<Player> playersInMatch = matchParticipants();
                     System.out.println("forming a new match for... " + playersInMatch);
+                    changeState(StateName.START_GAME);
                     MatchController controller = new MatchController(playersInMatch);
                     setMatchController(controller, playersInMatch);  //<-- exit from init
-                    changeState(StateName.START_GAME);
                 }
                 else { //Choose custom configuration
                     changeState(StateName.CONFIGURATION);

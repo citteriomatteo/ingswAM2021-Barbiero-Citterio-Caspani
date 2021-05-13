@@ -30,8 +30,10 @@ public class LeadersChoiceMessage extends CtoSMessage {
 
     @Override
     public boolean computeMessage(ControlBase controlBase) {
-        if (isSomethingNull())
+        if (isSomethingNull()){
             sendRetryMessage(getNickname(), controlBase, "You forgot some parameters");
+            return false;
+        }
         try {
             return controlBase.getMatchController().startingLeader(getNickname(),leaderIds);
         } catch (RetryException e) {
