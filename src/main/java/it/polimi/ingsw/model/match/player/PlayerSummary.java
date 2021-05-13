@@ -9,11 +9,12 @@ import it.polimi.ingsw.model.match.player.personalBoard.DiscountMap;
 import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
 import it.polimi.ingsw.model.match.player.personalBoard.StrongBox;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
+import static it.polimi.ingsw.controller.MatchController.getKeyByValue;
+
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -288,15 +289,4 @@ public class PlayerSummary
     public String getTempDevCard() { return tempDevCard; }
     public Production getTempProduction() { return tempProduction; }
     public StateName getLastUsedState() { return lastUsedState; }
-
-
-    //FUNCTIONAL METHODS:
-    public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
-        for (Map.Entry<T, E> entry : map.entrySet()) {
-            if (Objects.equals(value, entry.getValue())) {
-                return entry.getKey();
-            }
-        }
-        return null;
-    }
 }

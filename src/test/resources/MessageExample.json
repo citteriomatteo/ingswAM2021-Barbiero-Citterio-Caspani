@@ -14,5 +14,53 @@
   {
     "Message": "login",
     "nickname": "luca"
+  },
+  {
+    "Message": "whiteMarblesConversion",
+    "resources": [
+      {
+        "type": "SHIELD",
+        "quantity": 1
+      }
+    ],
+    "nickname": "Ale"
+  },
+  {
+    "Message": "warehouseInsertion",
+    "resources": [
+      {
+        "type": "SHIELD",
+        "quantity": 1
+      }
+    ],
+    "nickname": "Ale"
+  },
+  {
+    "Message": "rematch",
+    "accepted": true,
+    "nickname": "Ale"
+  },
+  {
+    "Message": "production",
+    "cardIds": [
+      "L1",
+      "L2"
+    ],
+    "productionOfUnknown": {
+      "cost": [
+        {
+          "type": "COIN",
+          "quantity": 1
+        }
+      ],
+      "earnings": [
+        {
+          "resource": "physicalResource",
+          "type": "STONE",
+          "quantity": 1
+        }
+      ]
+    },
+    "nickname": "Ale"
   }
 ]

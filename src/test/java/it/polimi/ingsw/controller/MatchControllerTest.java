@@ -19,6 +19,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
+import static it.polimi.ingsw.controller.MatchController.getKeyByValue;
+
 
 import java.util.*;
 
@@ -44,15 +46,6 @@ public class MatchControllerTest extends CommonThingsTest {
         matchController = new MatchController(players);
         player = matchController.getCurrentPlayer();
         map = matchController.getCardMap();
-    }
-
-    public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
-        for (Map.Entry<T, E> entry : map.entrySet()) {
-            if (Objects.equals(value, entry.getValue())) {
-                return entry.getKey();
-            }
-        }
-        return null;
     }
 
     @Test

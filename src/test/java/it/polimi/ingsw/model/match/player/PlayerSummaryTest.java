@@ -6,7 +6,6 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.essentials.Card;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.ResType;
-import it.polimi.ingsw.model.essentials.leader.LeaderCard;
 import it.polimi.ingsw.model.match.*;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +16,7 @@ import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.gsonUtilities.GsonHandler.*;
 import static it.polimi.ingsw.gsonUtilities.GsonHandler.effectConfig;
-import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
+import static it.polimi.ingsw.controller.MatchController.getKeyByValue;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerSummaryTest extends CommonThingsTest

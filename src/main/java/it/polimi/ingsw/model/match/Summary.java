@@ -14,6 +14,8 @@ import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 import it.polimi.ingsw.network.message.stocmessage.*;
 import it.polimi.ingsw.observer.ModelObserver;
 import static it.polimi.ingsw.network.server.ServerUtilities.findControlBase;
+import static it.polimi.ingsw.controller.MatchController.getKeyByValue;
+
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -326,13 +328,4 @@ public class Summary implements ModelObserver
     public int getLorenzoMarker() { return lorenzoMarker; }
     public List<PlayerSummary> getPlayersSummary() { return playersSummary; }
 
-    //FUNCTIONAL METHODS:
-    public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
-        for (Map.Entry<T, E> entry : map.entrySet()) {
-            if (Objects.equals(value, entry.getValue())) {
-                return entry.getKey();
-            }
-        }
-        return null;
-    }
 }

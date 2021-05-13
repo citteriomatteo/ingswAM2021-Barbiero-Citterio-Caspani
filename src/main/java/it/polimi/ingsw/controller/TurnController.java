@@ -6,13 +6,13 @@ import it.polimi.ingsw.model.essentials.leader.LeaderCard;
 import it.polimi.ingsw.model.essentials.leader.ProductionEffect;
 import it.polimi.ingsw.exceptions.RetryException;
 import it.polimi.ingsw.model.match.Match;
-import it.polimi.ingsw.model.match.MultiMatch;
 import it.polimi.ingsw.model.match.Summary;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.personalBoard.StrongBox;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.WarehouseDecorator;
 import it.polimi.ingsw.observer.ModelObserver;
+import static it.polimi.ingsw.controller.MatchController.getKeyByValue;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -477,23 +477,6 @@ public class TurnController {
             e.printStackTrace();
             return true;
         }
-    }
-
-    /**
-     * This method gets the key that corresponds to a specific value in the map, if present.
-     * @param map   the map
-     * @param value the value
-     * @param <T>   the keys type
-     * @param <E>   the values type
-     * @return      true if ok, false elsewhere
-     */
-    public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
-        for (Map.Entry<T, E> entry : map.entrySet()) {
-            if (Objects.equals(value, entry.getValue())) {
-                return entry.getKey();
-            }
-        }
-        return null;
     }
 
     public Player getCurrentPlayer(){ return currentPlayer; }

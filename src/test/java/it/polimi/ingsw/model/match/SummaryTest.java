@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
+import static it.polimi.ingsw.controller.MatchController.getKeyByValue;
+
 
 import java.util.*;
 

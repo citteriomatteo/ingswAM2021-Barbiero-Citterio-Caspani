@@ -26,13 +26,13 @@ public class NumPlayersMessage extends CtoSMessage{
         if (isValid()) {
             if(controlBase.getInitController().setNumberOfPlayers(numPlayers))
                 return true;
-            controlBase.write(new RetryMessage(controlBase.getPlayer().getNickname(), controlBase.getMatchController().getCurrentState(getNickname()),
-                    "You can't send a " + type + " message in this moment"));
+            new RetryMessage(controlBase.getPlayer().getNickname(), controlBase.getMatchController().getCurrentState(getNickname()),
+                    "You can't send a " + type + " message in this moment").send(getNickname());
             return false;
         }
 
-        controlBase.write(new RetryMessage(controlBase.getPlayer().getNickname(), controlBase.getMatchController().getCurrentState(getNickname()),
-                "Wrong number of players," + " you have to choose a number of players between 2 and 4 to organize a multiplayer match"));
+        new RetryMessage(controlBase.getPlayer().getNickname(), controlBase.getMatchController().getCurrentState(getNickname()),
+                "Wrong number of players," + " you have to choose a number of players between 2 and 4 to organize a multiplayer match").send(getNickname());
         return false;
     }
 

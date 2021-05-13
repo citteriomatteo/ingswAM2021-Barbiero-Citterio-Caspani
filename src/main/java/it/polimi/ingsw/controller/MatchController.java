@@ -12,10 +12,7 @@ import it.polimi.ingsw.network.message.stocmessage.NextStateMessage;
 import it.polimi.ingsw.network.server.ControlBase;
 import it.polimi.ingsw.observer.ModelObserver;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType.*;
 import static java.util.Map.entry;
@@ -393,5 +390,22 @@ public class MatchController {
             return false;
         rematchPhaseController.response(nickname, value);
         return true;
+    }
+
+    /**
+     * This method gets the key that corresponds to a specific value in the map, if present.
+     * @param map   the map
+     * @param value the value
+     * @param <T>   the keys type
+     * @param <E>   the values type
+     * @return      true if ok, false elsewhere
+     */
+    public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
+        for (Map.Entry<T, E> entry : map.entrySet()) {
+            if (Objects.equals(value, entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 }

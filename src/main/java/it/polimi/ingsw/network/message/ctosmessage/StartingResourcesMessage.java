@@ -35,7 +35,7 @@ public class StartingResourcesMessage extends CtoSMessage {
         try {
             return controlBase.getMatchController().startingResources(getNickname(), resources);
         } catch (RetryException e) {
-            controlBase.write(new RetryMessage(getNickname(), controlBase.getMatchController().getCurrentState(getNickname()), e.getError()));
+            new RetryMessage(getNickname(),controlBase.getMatchController().getCurrentState(getNickname()), e.getError()).send(getNickname());
             return false;
         }
     }
