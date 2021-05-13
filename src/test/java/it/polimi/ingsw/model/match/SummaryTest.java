@@ -67,10 +67,11 @@ public class SummaryTest extends CommonThingsTest {
         curr.insertDevelopmentCard(1);
         curr.drawDevelopmentCard(2,1);
         curr.insertDevelopmentCard(1);
-        curr.updateDevCardSlots(curr.getNickname(), curr.getPersonalBoard().getDevCardSlots());
 
         //bought a card in the place 2-0: checking the equals on the inverse diagonal and on the size of the modified stack
-        assertEquals(getKeyByValue(cardMap, match.getCardGrid().getTop()[0][2]), summary.getCardGrid()[0][2].get(0));
+        assertEquals(getKeyByValue(cardMap, match.getCardGrid().getTop()[0][0]), summary.getCardGrid()[0][0].get(0));
+        assertEquals(getKeyByValue(cardMap, match.getCardGrid().getTop()[1][0]), summary.getCardGrid()[1][0].get(0));
+        assertEquals(getKeyByValue(cardMap, match.getCardGrid().getTop()[2][0]), summary.getCardGrid()[2][0].get(0));
        }
 
 }

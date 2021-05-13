@@ -73,10 +73,6 @@ public class MatchController {
         cardMap = initCardMap(configuration);
 
         //setting the starting summary to everyone
-        ModelObserver obs = new Summary(playersInMatch, cardMap);
-        for(Player p : playersInMatch)
-            p.setSummary(obs);
-
         try {
             this.match = new MultiMatch(playersInMatch, configuration);
         } catch (SingleMatchException e) {

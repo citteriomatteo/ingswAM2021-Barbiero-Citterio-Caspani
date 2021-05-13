@@ -87,4 +87,9 @@ public class ModelObservable {
     public void updateLastUsedState(String nickname, StateName lastUsedState){
         observers.get(0).updateLastUsedState(nickname, lastUsedState);
     }
+
+    //returns the observer
+    public ModelObserver getSummary() {
+        return observers.get(0);
+    }
 }

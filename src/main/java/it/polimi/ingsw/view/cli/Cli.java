@@ -35,15 +35,12 @@ public class Cli
                 "       | | \\ \\  | |____  | |\\  |  / ____ \\   _| |_   ____) |  ____) |  / ____ \\  | |\\  | | |____  | |____ \n" +
                 "       |_|  \\_\\ |______| |_| \\_| /_/    \\_\\ |_____| |_____/  |_____/  /_/    \\_\\ |_| \\_|  \\_____| |______|\n" +
                 "                                                                                                          \n" +
-                "                                                                                                          ");
+                "                                                                                                          ").append(ColorCli.CLEAR);
         System.out.println(str);
     }
 
     public void drawResource(PhysicalResource resource){
-        StringBuilder str = new StringBuilder();
-
-        if(resource.getType() == ResType.COIN);
-            //str.append(ColorCli.RED).append(Graphics2D.drawRect(10,10,10,10));
+        
 
     }
 

@@ -7,12 +7,18 @@ import it.polimi.ingsw.model.essentials.Card;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.leader.LeaderCard;
 import it.polimi.ingsw.model.match.Match;
+import it.polimi.ingsw.model.match.Summary;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.WarehouseDecorator;
+import it.polimi.ingsw.network.message.stocmessage.HandLeadersStateMessage;
+import it.polimi.ingsw.network.message.stocmessage.SummaryMessage;
+
+import static it.polimi.ingsw.network.server.ServerUtilities.findControlBase;
 
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class StartingPhaseController {
     private final Map<String, StateName> playerStates;
@@ -24,9 +30,18 @@ public class StartingPhaseController {
         this.match = match;
         this.cardMap = cardMap;
         playerStates = new HashMap<>();
-        for (Player p : match.getPlayers())
-            playerStates.put(p.getNickname(), StateName.WAITING_LEADERS);
 
+        //initializing the Summary and setting it to every player
+        Summary summary = new Summary(match, cardMap);
+
+        for (Player p : match.getPlayers()) {
+            playerStates.put(p.getNickname(), StateName.WAITING_LEADERS);
+            p.setSummary(summary);
+            if(findControlBase(p.getNickname()) != null) {
+                new SummaryMessage(p.getNickname(), summary).send(p.getNickname());
+                new HandLeadersStateMessage(p.getNickname(), p.getHandLeaders().stream().map((x) -> getKeyByValue(cardMap, x)).collect(Collectors.toList())).send(p.getNickname());
+            }
+        }
     }
 
     public StateName getPlayerState(String nickname) {
@@ -35,8 +50,8 @@ public class StartingPhaseController {
 
     public StateName leadersChoice(String nickname, List<String> leaders) throws RetryException {
         Player player = match.getPlayer(nickname);
-        if(leaders.size() != 2 ||
-                leaders.stream().filter((x)->!player.getHandLeaders().contains(cardMap.get(x))).count() != 0)
+        if(leaders.size() != 2 || //todo: aggiungere controllo "se sono leader"
+                leaders.stream().anyMatch((x) -> !player.getHandLeaders().contains(cardMap.get(x))))
             throw new RetryException("Not valid leaders");
         else
         {
@@ -88,5 +103,16 @@ public class StartingPhaseController {
                 return false;
         }
         return true;
+    }
+
+    //todo: remove
+
+    public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
+        for (Map.Entry<T, E> entry : map.entrySet()) {
+            if (Objects.equals(value, entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 }

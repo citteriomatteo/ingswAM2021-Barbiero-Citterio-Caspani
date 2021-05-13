@@ -71,11 +71,13 @@ public class Summary implements ModelObserver
 
         // cardGrid init
         this.cardGrid = new ArrayList[CardGrid.MAX_LEVEL][CardColor.values().length];
-        for(int i = 0; i<match.getCardGrid().getTop().length; i++)
-            for(int j = 0; j<match.getCardGrid().getTop()[i].length; j++) {
-                this.cardGrid[i][j] = new ArrayList<>();
-                this.cardGrid[i][j].add(getKeyByValue(cardMap,match.getCardGrid().getTop()[i][j]));
-                this.cardGrid[i][j].add("" + match.getCardGrid().getGrid()[i][j].size());
+        CardType[] remaining = match.getCardGrid().countRemaining();
+        for(int i = 0; i<CardGrid.MAX_LEVEL; i++)
+            for(int j = 0; j<CardColor.values().length; j++) {
+                this.cardGrid[i][j] = new ArrayList<>(2);
+                this.cardGrid[i][j].add(getKeyByValue(cardMap, match.getCardGrid().peek(i+1,j+1)));
+                this.cardGrid[i][j].add(""+remaining[i*CardGrid.MAX_LEVEL+j].getQuantity());
+
             }
 
         //lorenzo's marker init: moved here in Summary because knowing if the match is single or multi is needed.
@@ -234,8 +236,8 @@ public class Summary implements ModelObserver
     @Override
     public void updateHandLeaders(String nickname, List<LeaderCard> handLeaders) {
         getPlayerSummary(nickname).updateHandLeaders(handLeaders, cardMap);
-        if(findControlBase(nickname) != null)
-            new HandLeadersStateMessage(nickname, getPlayerSummary(nickname).getHandLeaders()).send(nickname);
+        //if(findControlBase(nickname) != null)
+          //  new HandLeadersStateMessage(nickname, getPlayerSummary(nickname).getHandLeaders()).send(nickname);
     }
 
     /**

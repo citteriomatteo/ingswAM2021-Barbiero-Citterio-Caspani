@@ -7,7 +7,6 @@ import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.Production;
 import it.polimi.ingsw.model.essentials.ResType;
-import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.ctosmessage.*;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +15,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static it.polimi.ingsw.gsonUtilities.GsonHandler.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,6 +35,9 @@ public class MessageTest {
         CtoSMessage msg = new SwitchShelfMessage("giorgio", 1,2);
         CtoSMessage msg2 = new MarketDrawMessage("carlo", true,1);
         CtoSMessage msg3 = new LoginMessage("luca");
+
+
+
         List<CtoSMessage> messages = new ArrayList<>();
         messages.add(msg);
         messages.add(msg2);
@@ -42,7 +46,14 @@ public class MessageTest {
         messages.add(new WarehouseInsertionMessage(nickname, List.of(new PhysicalResource(ResType.SHIELD, 1))));
         messages.add(new RematchMessage(nickname, true));
         messages.add(new ProductionMessage(nickname, List.of("L1", "L2"), new Production(List.of(new PhysicalResource(ResType.COIN, 1)), List.of(new PhysicalResource(ResType.STONE, 1)))));
-
+        messages.add(new EndTurnMessage(nickname));
+        messages.add(new LeaderDiscardingMessage(nickname, "L1"));
+        messages.add(new MarketDrawMessage(nickname, false, 1));
+        messages.add(new NumPlayersMessage(nickname, 3));
+        Map<Integer, PhysicalResource> whPayments = new HashMap<>();
+        whPayments.put(1, new PhysicalResource(ResType.STONE,1));
+        messages.add(new PaymentsMessage(nickname,
+                List.of(new PhysicalResource(ResType.STONE,1)), whPayments));
 
         //extrapolate the type of the collection
         Type collectionType = new TypeToken<ArrayList<CtoSMessage>>(){}.getType();

@@ -87,47 +87,42 @@ public class PlayerSummary
         this.nickname = player.getNickname();
 
         //last used state init to the first state after the creation of the match
-        this.lastUsedState = StateName.WAITING_FOR_TURN;
+        updateLastUsedState(StateName.WAITING_FOR_TURN);
 
         //warehouse init
-        this.warehouse = player.getPersonalBoard().getWarehouse().getWarehouseDisposition();
+        updateWarehouse(player.getPersonalBoard().getWarehouse());
 
         //strongbox init
-        this.strongbox = new ArrayList<>();
-        try {
-            for (ResType type : ResType.values())
-                this.strongbox.add(new PhysicalResource(type, player.getPersonalBoard().getStrongBox().getNumberOf(type)));
-        }
-        catch(NegativeQuantityException e){ System.exit(1); }
+        updateStrongbox(player.getPersonalBoard().getStrongBox());
 
         //player's faith marker init
-        this.faithMarker = player.getPersonalBoard().getFaithPath().getPosition();
+        updateFaithMarker(player.getPersonalBoard().getFaithPath().getPosition());
 
         //pope tiles init
-        this.popeTiles = player.getPersonalBoard().getFaithPath().getPopeTiles();
+        updatePopeTiles(player.getPersonalBoard().getFaithPath().getPopeTiles());
 
         //dev card slots init
         this.devCardSlots = new List[3];
-        for(int i = 0; i<player.getPersonalBoard().getDevCardSlots().getSlots().length; i++)
-            this.devCardSlots[i] = new ArrayList<>(player.getPersonalBoard().getDevCardSlots().getSlots()[i].stream().map((x)->getKeyByValue(cardMap,x)).collect(Collectors.toList()));
+        updateDevCardSlots(player.getPersonalBoard().getDevCardSlots(), cardMap);
 
         //hand leaders init
-        this.handLeaders = new ArrayList<>(player.getHandLeaders().stream().map((x)-> getKeyByValue(cardMap, x)).collect(Collectors.toList()));
+        this.handLeaders = player.getHandLeaders().stream().map((x) -> "-1").collect(Collectors.toList());
 
         //active leaders init
-        this.activeLeaders = new ArrayList<>();
+        this.activeLeaders = player.getPersonalBoard().getActiveLeaders().stream().map((x)->getKeyByValue(cardMap,x)).collect(Collectors.toList());
 
         //white marble conversions init
-        this.whiteMarbleConversions = new ArrayList<>();
+        this.whiteMarbleConversions = player.getWhiteMarbleConversions();
 
         //discount map init
-        this.discountMap = new ArrayList<>();
+        discountMap = new ArrayList<>();
+        updateDiscountMap(player.getPersonalBoard().getDiscountMap());
 
         //temp dev card init
-        this.tempDevCard = null;
+        updateTempDevCard(player.getTempDevCard(), cardMap);
 
         //temp production init
-        this.tempProduction = null;
+        updateTempProduction(player.getTempProduction());
 
 
 
@@ -196,7 +191,7 @@ public class PlayerSummary
      */
     public void updateDevCardSlots(DevCardSlots devCardSlots, Map<String, Card> cardMap){
         for(int i = 0; i<devCardSlots.getSlots().length; i++)
-            this.devCardSlots[i] = new ArrayList<>(devCardSlots.getSlots()[i].stream().map((x)->getKeyByValue(cardMap,x)).collect(Collectors.toList()));
+            this.devCardSlots[i] = devCardSlots.getSlots()[i].stream().map((x) -> getKeyByValue(cardMap, x)).collect(Collectors.toList());
 
     }
 
@@ -205,7 +200,7 @@ public class PlayerSummary
      * @param handLeaders the hand leaders
      */
     public void updateHandLeaders(List<LeaderCard> handLeaders, Map<String, Card> cardMap){
-        this.handLeaders = new ArrayList<>(handLeaders.stream().map((x)-> getKeyByValue(cardMap, x)).collect(Collectors.toList()));
+        this.handLeaders = handLeaders.stream().map((x) -> getKeyByValue(cardMap, x)).collect(Collectors.toList());
     }
 
     /**

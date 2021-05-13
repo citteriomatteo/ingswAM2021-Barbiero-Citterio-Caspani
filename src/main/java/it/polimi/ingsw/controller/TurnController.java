@@ -36,11 +36,6 @@ public class TurnController {
         this.match = match;
         this.cardMap = cardMap;
         this.whiteMarbleDrawn = 0;
-
-        //initializing the observer and setting it to every player's observable instance.
-        ModelObserver obs = new Summary(this.match, this.cardMap);
-        for(Player p : match.getPlayers())
-            p.setSummary(obs);
     }
 
     /**
