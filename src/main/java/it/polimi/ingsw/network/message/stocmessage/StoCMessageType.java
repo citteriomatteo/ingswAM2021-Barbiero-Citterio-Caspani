@@ -22,6 +22,7 @@ public enum StoCMessageType implements MessageType {
     DEV_CARD_DRAWN,
     TOKEN_DRAW,
     END_GAME_RESULTS,
+    GOODBYE,
     RETRY,
     YOUR_TURN,
     REMATCH_OFFERED,

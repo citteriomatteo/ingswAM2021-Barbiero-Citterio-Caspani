@@ -154,7 +154,8 @@ public class GsonHandler {
                         .registerSubtype(TokenDrawMessage.class, "tokenDraw")
                         .registerSubtype(VaticanReportMessage.class, "vaticanReport")
                         .registerSubtype(WarehouseChangeMessage.class, "warehouseChange")
-                        .registerSubtype(MarketBufferChangeMessage.class, "marketBufferChange"));
+                        .registerSubtype(MarketBufferChangeMessage.class, "marketBufferChange")
+                        .registerSubtype(GoodbyeMessage.class, "Goodbye"));
 
         return marbleConfig(res);
     }
