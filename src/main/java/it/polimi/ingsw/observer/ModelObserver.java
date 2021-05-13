@@ -14,6 +14,7 @@ import it.polimi.ingsw.model.match.player.personalBoard.StrongBox;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ModelObserver {
 
@@ -26,7 +27,7 @@ public interface ModelObserver {
     void updateWarehouse(String nickname, Warehouse warehouse);
     void updateStrongbox(String nickname, StrongBox strongbox);
     void updateFaithMarker(String nickname, int faithMarker);
-    void updatePopeTiles(String nickname, int tileNumber, List<Integer> popeTiles);
+    void updatePopeTiles(String nickname, Map<String, List<Integer>> popeTiles);
     void updateDevCardSlots(String nickname, DevCardSlots devCardSlots);
     void updateHandLeaders(String nickname, List<LeaderCard> handLeaders);
     void updateHandLeadersDiscard(String nickname, LeaderCard handLeader);

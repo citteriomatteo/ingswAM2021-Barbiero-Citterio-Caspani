@@ -16,17 +16,14 @@ import java.util.Map;
 public class VaticanReportMessage extends StoCMessage {
 
     private static final StoCMessageType type = StoCMessageType.VATICAN_REPORT;
-    private final int tileNumber;
-    private final List<Integer> popeTiles;
+    private final Map<String, List<Integer>> popeTiles;
 
-    public VaticanReportMessage(String nickname, int tileNumber, List<Integer> popeTiles){
+    public VaticanReportMessage(String nickname, Map<String, List<Integer>> popeTiles){
         super(nickname);
-        this.tileNumber = tileNumber;
         this.popeTiles = popeTiles;
     }
 
     public StoCMessageType getType(){ return type; }
-    public int getTileNumber(){ return tileNumber; }
-    public List<Integer> getTilesState(){ return popeTiles; }
+    public Map<String, List<Integer>> getTilesState(){ return popeTiles; }
 
 }

@@ -116,8 +116,8 @@ public class Summary implements ModelObserver
         for(int i = 0; i< market.getBoard().length; i++)
             for(int j = 0; j<market.getBoard()[i].length; j++)
                 this.market[i][j] = Character.toLowerCase(market.getBoard()[i][j].toString().charAt(0));
-        if(findControlBase(getPlayersSummary().get(0).getNickname()) != null)
-            new MarketChangeMessage("", this.sideMarble, this.market).sendBroadcast(playersSummary.stream().map(PlayerSummary::getNickname).collect(Collectors.toList()));
+        if(findControlBase(getPlayersNicknames().get(0)) != null)
+            new MarketChangeMessage("", this.sideMarble, this.market).sendBroadcast(getPlayersNicknames());
     }
 
     /**
@@ -134,8 +134,8 @@ public class Summary implements ModelObserver
                 this.cardGrid[i][j].add(getKeyByValue(cardMap,cardGrid.getTop()[i][j]));
                 this.cardGrid[i][j].add("" + cardGrid.getGrid()[i][j].size());
             }
-        if(findControlBase(getPlayersSummary().get(0).getNickname()) != null)
-            new CardGridChangeMessage("", this.cardGrid).sendBroadcast(playersSummary.stream().map(PlayerSummary::getNickname).collect(Collectors.toList()));
+        if(findControlBase(getPlayersNicknames().get(0)) != null)
+            new CardGridChangeMessage("", this.cardGrid).sendBroadcast(getPlayersNicknames());
     }
 
     /**
@@ -164,7 +164,7 @@ public class Summary implements ModelObserver
     public void updateMarketBuffer(String nickname, Warehouse warehouse){
         getPlayerSummary(nickname).updateMarketBuffer(warehouse);
         if(findControlBase(nickname) != null)
-            new MarketBufferChangeMessage(nickname,getPlayerSummary(nickname).getMarketBuffer()).sendBroadcast(playersSummary.stream().map(PlayerSummary::getNickname).collect(Collectors.toList()));
+            new MarketBufferChangeMessage(nickname,getPlayerSummary(nickname).getMarketBuffer()).sendBroadcast(getPlayersNicknames());
     }
 
     /**
@@ -176,7 +176,7 @@ public class Summary implements ModelObserver
     public void updateWarehouse(String nickname, Warehouse warehouse) {
         getPlayerSummary(nickname).updateWarehouse(warehouse);
         if(findControlBase(nickname) != null)
-            new WarehouseChangeMessage(nickname, getPlayerSummary(nickname).getWarehouse()).sendBroadcast(playersSummary.stream().map(PlayerSummary::getNickname).collect(Collectors.toList()));
+            new WarehouseChangeMessage(nickname, getPlayerSummary(nickname).getWarehouse()).sendBroadcast(getPlayersNicknames());
     }
 
     /**
@@ -188,7 +188,7 @@ public class Summary implements ModelObserver
     public void updateStrongbox(String nickname, StrongBox strongbox) {
         getPlayerSummary(nickname).updateStrongbox(strongbox);
         if(findControlBase(nickname) != null)
-            new StrongboxChangeMessage(nickname, getPlayerSummary(nickname).getStrongbox()).sendBroadcast(playersSummary.stream().map(PlayerSummary::getNickname).collect(Collectors.toList()));
+            new StrongboxChangeMessage(nickname, getPlayerSummary(nickname).getStrongbox()).sendBroadcast(getPlayersNicknames());
     }
 
     /**
@@ -200,7 +200,7 @@ public class Summary implements ModelObserver
     public void updateFaithMarker(String nickname, int faithMarker) {
         getPlayerSummary(nickname).updateFaithMarker(faithMarker);
         if(findControlBase(nickname) != null)
-            new NewFaithPositionMessage(nickname, faithMarker).sendBroadcast(playersSummary.stream().map(PlayerSummary::getNickname).collect(Collectors.toList()));
+            new NewFaithPositionMessage(nickname, faithMarker).sendBroadcast(getPlayersNicknames());
     }
 
     /**
@@ -209,10 +209,12 @@ public class Summary implements ModelObserver
      * @param popeTiles the pope tiles array
      */
     @Override
-    public void updatePopeTiles(String nickname, int tileNumber, List<Integer> popeTiles) {
-        getPlayerSummary(nickname).updatePopeTiles(popeTiles);
-        if(findControlBase(nickname) != null)
-            new VaticanReportMessage(nickname, tileNumber, getPlayerSummary(nickname).getPopeTiles()).sendBroadcast(playersSummary.stream().map(PlayerSummary::getNickname).collect(Collectors.toList()));
+    public void updatePopeTiles(String nickname, Map<String, List<Integer>> popeTiles) {
+        for(String nn : getPlayersNicknames())
+            getPlayerSummary(nn).updatePopeTiles(popeTiles.get(nn));
+        if(findControlBase(nickname) != null){
+            new VaticanReportMessage(nickname, popeTiles).sendBroadcast(getPlayersNicknames());
+        }
     }
 
     /**
@@ -224,7 +226,7 @@ public class Summary implements ModelObserver
     public void updateDevCardSlots(String nickname, DevCardSlots devCardSlots) {
         getPlayerSummary(nickname).updateDevCardSlots(devCardSlots, cardMap);
         if(findControlBase(nickname) != null)
-            new DevCardSlotChangeMessage(nickname, getPlayerSummary(nickname).getDevCardSlots()).sendBroadcast(playersSummary.stream().map(PlayerSummary::getNickname).collect(Collectors.toList()));
+            new DevCardSlotChangeMessage(nickname, getPlayerSummary(nickname).getDevCardSlots()).sendBroadcast(getPlayersNicknames());
     }
 
     /**
@@ -236,8 +238,6 @@ public class Summary implements ModelObserver
     @Override
     public void updateHandLeaders(String nickname, List<LeaderCard> handLeaders) {
         getPlayerSummary(nickname).updateHandLeaders(handLeaders, cardMap);
-        //if(findControlBase(nickname) != null)
-          //  new HandLeadersStateMessage(nickname, getPlayerSummary(nickname).getHandLeaders()).send(nickname);
     }
 
     /**
@@ -249,7 +249,7 @@ public class Summary implements ModelObserver
     public void updateHandLeadersDiscard(String nickname, LeaderCard handLeader) {
         getPlayerSummary(nickname).updateHandLeadersDiscard(handLeader, cardMap);
         if(findControlBase(nickname) != null)
-            new DiscardedLeaderMessage(nickname).sendBroadcast(playersSummary.stream().map(PlayerSummary::getNickname).collect(Collectors.toList()));
+            new DiscardedLeaderMessage(nickname).sendBroadcast(getPlayersNicknames());
     }
 
     /**
@@ -261,7 +261,7 @@ public class Summary implements ModelObserver
     public void updateActiveLeaders(String nickname, LeaderCard activeLeader) {
         boolean ok = getPlayerSummary(nickname).updateActiveLeaders(activeLeader, cardMap);
         if(ok && findControlBase(nickname)!=null)
-            new ActivatedLeaderMessage(nickname, getKeyByValue(cardMap, activeLeader)).sendBroadcast(playersSummary.stream().map(PlayerSummary::getNickname).filter((x)-> !x.equals(nickname)).collect(Collectors.toList()));
+            new ActivatedLeaderMessage(nickname, getKeyByValue(cardMap, activeLeader)).sendBroadcast(getPlayersNicknames());
     }
 
     /**
@@ -297,7 +297,7 @@ public class Summary implements ModelObserver
     public void updateTempDevCard(String nickname, DevelopmentCard tempDevCard) {
         getPlayerSummary(nickname).updateTempDevCard(tempDevCard, cardMap);
         if(findControlBase(nickname) != null)
-            new DevCardDrawnMessage(nickname, getPlayerSummary(nickname).getTempDevCard()).sendBroadcast(playersSummary.stream().map(PlayerSummary::getNickname).collect(Collectors.toList()));
+            new DevCardDrawnMessage(nickname, getPlayerSummary(nickname).getTempDevCard()).sendBroadcast(getPlayersNicknames());
     }
 
     /**
@@ -328,6 +328,6 @@ public class Summary implements ModelObserver
     public char getSideMarble() { return sideMarble; }
     public List<String>[][] getCardGrid() { return cardGrid; }
     public int getLorenzoMarker() { return lorenzoMarker; }
-    public List<PlayerSummary> getPlayersSummary() { return playersSummary; }
+    public List<String> getPlayersNicknames() { return playersSummary.stream().map(PlayerSummary::getNickname).collect(Collectors.toList()); }
 
 }

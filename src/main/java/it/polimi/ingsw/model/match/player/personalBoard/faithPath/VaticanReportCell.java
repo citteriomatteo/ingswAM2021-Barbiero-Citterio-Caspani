@@ -3,6 +3,12 @@ package it.polimi.ingsw.model.match.player.personalBoard.faithPath;
 import it.polimi.ingsw.exceptions.FaithPathCreationException;
 import it.polimi.ingsw.model.match.Communicator;
 import it.polimi.ingsw.model.match.player.Player;
+import it.polimi.ingsw.model.match.player.PlayerSummary;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class VaticanReportCell extends Cell
 {
@@ -30,12 +36,19 @@ public class VaticanReportCell extends Cell
             MultiFaithPath path = (MultiFaithPath) p.getPersonalBoard().getFaithPath();
             path.externalVaticanReport(getReportSection());
         }
+
+        //update_call
+        Map<String, List<Integer>> popeMap = new HashMap<>();
+        for(Player p : communicator.getPlayers())
+            popeMap.put(p.getNickname(), p.getPersonalBoard().getFaithPath().getPopeTiles());
+        communicator.getPlayers().get(0).updatePopeTiles(communicator.getPlayers().get(0).getNickname(), popeMap);
+
         return true;
     }
 
     /**
      * This method specifies, in a Singleplayer match, that this Cell is a VaticanReportCell.
-     * @return            true
+     * @return true
      * @see Cell
      */
     @Override

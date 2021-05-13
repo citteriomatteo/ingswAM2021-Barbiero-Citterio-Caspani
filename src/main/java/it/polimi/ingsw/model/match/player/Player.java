@@ -140,8 +140,10 @@ public class Player extends ModelObservable implements Adder, Verificator
     @Override
     public boolean addFaithPoints(int quantity) throws LastRoundException {
         getPersonalBoard().getFaithPath().addFaithPoints(quantity, match);
+
         //update_call
         updateFaithMarker(this.nickname, getPersonalBoard().getFaithPath().getPosition());
+
         return true;
     }
 
@@ -179,7 +181,7 @@ public class Player extends ModelObservable implements Adder, Verificator
     /**
      * This method verifies if the resource is present, as sum of the resources in the deposits.
      * @param physicalResource is the resource to look for
-     * @return                 true if it's presente, else false
+     * @return                 true if it's present, else false
      */
     @Override
     public boolean verifyResources(PhysicalResource physicalResource)

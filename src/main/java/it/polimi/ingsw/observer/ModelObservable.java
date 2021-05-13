@@ -15,6 +15,7 @@ import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class implements the Observer-side of the paradigm.
@@ -57,8 +58,8 @@ public class ModelObservable {
     public void updateFaithMarker(String nickname, int faithMarker){
         observers.get(0).updateFaithMarker(nickname, faithMarker);
     }
-    public void updatePopeTiles(String nickname, int tileNumber, List<Integer> popeTiles){
-        observers.get(0).updatePopeTiles(nickname, tileNumber, popeTiles);
+    public void updatePopeTiles(String nickname, Map<String, List<Integer>> popeTiles){
+        observers.get(0).updatePopeTiles(nickname, popeTiles);
     }
     public void updateDevCardSlots(String nickname, DevCardSlots devCardSlots){
         observers.get(0).updateDevCardSlots(nickname, devCardSlots);
