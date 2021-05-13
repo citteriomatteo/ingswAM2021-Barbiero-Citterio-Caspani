@@ -89,6 +89,10 @@ public class StartingPhaseController {
             }
 
         }
+
+        //update_call
+        player.updateMarketBuffer(nickname, player.getPersonalBoard().getWarehouse());
+
         playerStates.replace(nickname, StateName.STARTING_PHASE_DONE);
         return playerStates.get(nickname);
     }

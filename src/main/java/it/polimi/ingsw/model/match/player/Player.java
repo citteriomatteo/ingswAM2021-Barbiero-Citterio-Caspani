@@ -16,6 +16,8 @@ import it.polimi.ingsw.observer.ModelObservable;
 
 import java.util.*;
 
+import static it.polimi.ingsw.network.server.ServerUtilities.findControlBase;
+
 public class Player extends ModelObservable implements Adder, Verificator
 {
     private static final int WINNING_CONDITION_CARDS = 7;
@@ -148,6 +150,24 @@ public class Player extends ModelObservable implements Adder, Verificator
     }
 
     /**
+     * This method calls the same method inside the warehouse.
+     * Notifies every other player about the discarded resources (for faith points).
+     * @return true
+     * @throws InvalidOperationException
+     * @throws LastRoundException
+     */
+    public boolean discardRemains() throws InvalidOperationException, LastRoundException {
+        int remaining = getPersonalBoard().getWarehouse().discardRemains();
+
+        if(remaining>0)
+            for(Player p : match.getPlayers())
+                if(!p.equals(this))
+                    p.addFaithPoints(remaining);
+
+        return true;
+    }
+
+    /**
      * This method adds resources to the strongbox.
      * @param resource is the resource to insert
      * @return the confirmation of the operation
@@ -172,7 +192,7 @@ public class Player extends ModelObservable implements Adder, Verificator
     public boolean addToWarehouse(PhysicalResource resource) {
         boolean res = personalBoard.getWarehouse().marketDraw(resource);
         //update_call
-        updateMarketBuffer(this.nickname, getPersonalBoard().getWarehouse());
+        //updateMarketBuffer(this.nickname, getPersonalBoard().getWarehouse());
 
         return res;
     }
@@ -245,6 +265,7 @@ public class Player extends ModelObservable implements Adder, Verificator
         handLeaders = choseLeaders;
 
         //no update_call here!!!! at the start of turns, every player will be notified with a SummaryMessage.
+        //no update_call here!!!! at the start of turns, every player will be notified with a SummaryMessage.
         //updateHandLeaders(this.nickname, getHandLeaders());
 
         return true;
@@ -287,12 +308,22 @@ public class Player extends ModelObservable implements Adder, Verificator
      * @param leader the leader to discard
      * @return       true
      */
-    public boolean discardUselessLeader(LeaderCard leader)
-    {
+    public boolean discardUselessLeader(LeaderCard leader) throws LastRoundException {
         handLeaders.remove(leader);
+        addFaithPoints(1);
 
         //update_call
         updateHandLeadersDiscard(this.nickname, leader);
+
+        return true;
+    }
+
+    public boolean switchShelf(int shelf1, int shelf2) throws InvalidOperationException {
+        getPersonalBoard().getWarehouse().switchShelf(shelf1, shelf2);
+
+        //update_call
+        if(findControlBase(nickname) != null)
+            updateWarehouse(nickname, getPersonalBoard().getWarehouse());
 
         return true;
     }

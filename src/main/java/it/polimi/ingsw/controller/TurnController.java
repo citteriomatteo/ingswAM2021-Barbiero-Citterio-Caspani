@@ -93,7 +93,7 @@ public class TurnController {
      */
     public StateName switchShelf(int shelf1, int shelf2) throws RetryException {
         try {
-            currentPlayer.getPersonalBoard().getWarehouse().switchShelf(shelf1, shelf2);
+            currentPlayer.switchShelf(shelf1, shelf2);
         } catch (InvalidOperationException e) {
             throw new RetryException ("Invalid shelves switch.");
         }
@@ -125,7 +125,10 @@ public class TurnController {
     public StateName leaderDiscarding(String leaderId) throws RetryException {
         for(LeaderCard card : currentPlayer.getHandLeaders())
             if (card.equals(cardMap.get(leaderId))) {
-                currentPlayer.discardUselessLeader(card);
+                try {
+                    //todo: function setLastRound() (lastRound=true and notifies)
+                    currentPlayer.discardUselessLeader(card);
+                } catch (LastRoundException e) { lastRound = true; }
                 return currentState;
             }
         throw new RetryException ("Invalid leader discarding attempt.");
@@ -206,8 +209,15 @@ public class TurnController {
         }
         else {
             try {
-                currentPlayer.getPersonalBoard().getWarehouse().discardRemains();
-            } catch (InvalidOperationException e) {
+                currentPlayer.discardRemains();
+
+                //update_call
+                if(findControlBase(currentPlayer.getNickname()) != null)
+                    currentPlayer.updateMarketBuffer(currentPlayer.getNickname(), currentPlayer.getPersonalBoard().getWarehouse());
+
+            }
+            catch (LastRoundException e) { lastRound = true; }
+            catch (InvalidOperationException e) {
                 currentState = StateName.RESOURCES_PLACEMENT;
                 throw new RetryException ("You can still place other resources.");
             }
@@ -483,7 +493,6 @@ public class TurnController {
             System.exit(1);
             return true;
         } catch (InvalidOperationException e) {
-            e.printStackTrace();
             return true;
         }
     }
