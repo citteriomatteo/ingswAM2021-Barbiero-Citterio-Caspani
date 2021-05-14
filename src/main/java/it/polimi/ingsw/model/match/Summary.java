@@ -145,6 +145,8 @@ public class Summary implements ModelObserver
     @Override
     public void updateLorenzoMarker(int lorenzoMarker) {
         this.lorenzoMarker = lorenzoMarker;
+
+        new NewFaithPositionMessage("Lorenzo the Magnificent",lorenzoMarker).sendBroadcast(getPlayersNicknames());
     }
 
     /**
@@ -163,8 +165,8 @@ public class Summary implements ModelObserver
      */
     public void updateMarketBuffer(String nickname, Warehouse warehouse){
         getPlayerSummary(nickname).updateMarketBuffer(warehouse);
-        if(findControlBase(nickname) != null)
-            new MarketBufferChangeMessage(nickname,getPlayerSummary(nickname).getMarketBuffer()).sendBroadcast(getPlayersNicknames());
+
+        new MarketBufferChangeMessage(nickname,getPlayerSummary(nickname).getMarketBuffer()).sendBroadcast(getPlayersNicknames());
     }
 
     /**
@@ -175,8 +177,8 @@ public class Summary implements ModelObserver
     @Override
     public void updateWarehouse(String nickname, Warehouse warehouse) {
         getPlayerSummary(nickname).updateWarehouse(warehouse);
-        if(findControlBase(nickname) != null)
-            new WarehouseChangeMessage(nickname, getPlayerSummary(nickname).getWarehouse()).sendBroadcast(getPlayersNicknames());
+
+        new WarehouseChangeMessage(nickname, getPlayerSummary(nickname).getWarehouse()).sendBroadcast(getPlayersNicknames());
     }
 
     /**
@@ -187,8 +189,8 @@ public class Summary implements ModelObserver
     @Override
     public void updateStrongbox(String nickname, StrongBox strongbox) {
         getPlayerSummary(nickname).updateStrongbox(strongbox);
-        if(findControlBase(nickname) != null)
-            new StrongboxChangeMessage(nickname, getPlayerSummary(nickname).getStrongbox()).sendBroadcast(getPlayersNicknames());
+
+        new StrongboxChangeMessage(nickname, getPlayerSummary(nickname).getStrongbox()).sendBroadcast(getPlayersNicknames());
     }
 
     /**
@@ -199,8 +201,8 @@ public class Summary implements ModelObserver
     @Override
     public void updateFaithMarker(String nickname, int faithMarker) {
         getPlayerSummary(nickname).updateFaithMarker(faithMarker);
-        if(findControlBase(nickname) != null)
-            new NewFaithPositionMessage(nickname, faithMarker).sendBroadcast(getPlayersNicknames());
+
+        new NewFaithPositionMessage(nickname, faithMarker).sendBroadcast(getPlayersNicknames());
     }
 
     /**
@@ -212,9 +214,8 @@ public class Summary implements ModelObserver
     public void updatePopeTiles(String nickname, Map<String, List<Integer>> popeTiles) {
         for(String nn : getPlayersNicknames())
             getPlayerSummary(nn).updatePopeTiles(popeTiles.get(nn));
-        if(findControlBase(nickname) != null){
-            new VaticanReportMessage(nickname, popeTiles).sendBroadcast(getPlayersNicknames());
-        }
+
+        new VaticanReportMessage(nickname, popeTiles).sendBroadcast(getPlayersNicknames());
     }
 
     /**
@@ -225,8 +226,8 @@ public class Summary implements ModelObserver
     @Override
     public void updateDevCardSlots(String nickname, DevCardSlots devCardSlots) {
         getPlayerSummary(nickname).updateDevCardSlots(devCardSlots, cardMap);
-        if(findControlBase(nickname) != null)
-            new DevCardSlotChangeMessage(nickname, getPlayerSummary(nickname).getDevCardSlots()).sendBroadcast(getPlayersNicknames());
+
+        new DevCardSlotChangeMessage(nickname, getPlayerSummary(nickname).getDevCardSlots()).sendBroadcast(getPlayersNicknames());
     }
 
     /**
@@ -248,8 +249,8 @@ public class Summary implements ModelObserver
     @Override
     public void updateHandLeadersDiscard(String nickname, LeaderCard handLeader) {
         getPlayerSummary(nickname).updateHandLeadersDiscard(handLeader, cardMap);
-        if(findControlBase(nickname) != null)
-            new DiscardedLeaderMessage(nickname).sendBroadcast(getPlayersNicknames());
+
+        new DiscardedLeaderMessage(nickname).sendBroadcast(getPlayersNicknames());
     }
 
     /**
@@ -260,7 +261,7 @@ public class Summary implements ModelObserver
     @Override
     public void updateActiveLeaders(String nickname, LeaderCard activeLeader) {
         boolean ok = getPlayerSummary(nickname).updateActiveLeaders(activeLeader, cardMap);
-        if(ok && findControlBase(nickname)!=null)
+        if(ok)
             new ActivatedLeaderMessage(nickname, getKeyByValue(cardMap, activeLeader)).sendBroadcast(getPlayersNicknames());
     }
 
@@ -272,8 +273,8 @@ public class Summary implements ModelObserver
     @Override
     public void updateWhiteMarbleConversions(String nickname, PhysicalResource whiteMarbleConversion) {
         getPlayerSummary(nickname).updateWhiteMarbleConversions(whiteMarbleConversion);
-        if(findControlBase(nickname) != null)
-            new WhiteMarbleConversionMessage(nickname, whiteMarbleConversion).send(nickname);
+
+        new WhiteMarbleConversionMessage(nickname, whiteMarbleConversion).send(nickname);
     }
 
     /**
@@ -284,8 +285,8 @@ public class Summary implements ModelObserver
     @Override
     public void updateDiscountMap(String nickname, DiscountMap discountMap) {
         getPlayerSummary(nickname).updateDiscountMap(discountMap);
-        if(findControlBase(nickname) != null)
-            new UpdatedDiscountMapMessage(nickname, getPlayerSummary(nickname).getDiscountMap()).send(nickname);
+
+        new UpdatedDiscountMapMessage(nickname, getPlayerSummary(nickname).getDiscountMap()).send(nickname);
     }
 
     /**
@@ -296,8 +297,8 @@ public class Summary implements ModelObserver
     @Override
     public void updateTempDevCard(String nickname, DevelopmentCard tempDevCard) {
         getPlayerSummary(nickname).updateTempDevCard(tempDevCard, cardMap);
-        if(findControlBase(nickname) != null)
-            new DevCardDrawnMessage(nickname, getPlayerSummary(nickname).getTempDevCard()).sendBroadcast(getPlayersNicknames());
+
+        new DevCardDrawnMessage(nickname, getPlayerSummary(nickname).getTempDevCard()).sendBroadcast(getPlayersNicknames());
     }
 
     /**

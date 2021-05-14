@@ -16,9 +16,9 @@ public class ConcreteWarehouse implements Warehouse
     {
         shelves = new ArrayList<>();
         try {
-            shelves.add(new PhysicalResource(ResType.COIN, 0));
-            shelves.add(new PhysicalResource(ResType.SHIELD, 0));
-            shelves.add(new PhysicalResource(ResType.STONE, 0));
+            shelves.add(new PhysicalResource(ResType.UNKNOWN, 0));
+            shelves.add(new PhysicalResource(ResType.UNKNOWN, 0));
+            shelves.add(new PhysicalResource(ResType.UNKNOWN, 0));
         }
         catch(NegativeQuantityException e) { e.printStackTrace(); System.err.println("Application shutdown due to an internal error."); System.exit(1);}
 
@@ -40,8 +40,12 @@ public class ConcreteWarehouse implements Warehouse
             throw new NotEnoughResourcesException("Not enough resources in shelf "+shelf+"!");
         try
         {
-            PhysicalResource newshelf = new PhysicalResource(shelves.get(shelf).getType(), (available - numResources));
-            shelves.set(shelf, newshelf);
+            ResType newType = shelves.get(shelf).getType();
+            if((available - numResources)==0)
+                newType = ResType.UNKNOWN;
+
+            PhysicalResource newShelf = new PhysicalResource(newType, (available - numResources));
+            shelves.set(shelf, newShelf);
         }
         catch(NegativeQuantityException e)
         { e.printStackTrace(); System.err.println("Application shutdown due to an internal error.."); System.exit(1);}

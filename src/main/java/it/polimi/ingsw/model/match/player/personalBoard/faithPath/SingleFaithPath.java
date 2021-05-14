@@ -33,7 +33,7 @@ public class SingleFaithPath extends FaithPath
      * @return              true
      * @throws LastRoundException          if Lorenzo ends the path journey
      */
-    public boolean addBlackPoints(Player player, int points) throws LastRoundException
+    public boolean addBlackPoints(int points) throws LastRoundException
     {
         //critical error: wrong tokens!
         if(points<0)
@@ -46,9 +46,6 @@ public class SingleFaithPath extends FaithPath
             blackCrossMarker++;
             if(blackVaticanReport())
                 cellCollapse(blackCrossMarker);
-
-            //update_call
-            player.updateLorenzoMarker(this.blackCrossMarker);
 
             if(blackCrossMarker==24)
                 throw new LastRoundException("Lorenzo has reached the end of the path.");

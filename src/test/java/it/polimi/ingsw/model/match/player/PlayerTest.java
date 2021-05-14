@@ -24,7 +24,7 @@ public class PlayerTest extends CommonThingsTest
     }
 
 
-    public void addSequence(Player p1, Player p2) throws NegativeQuantityException, InvalidOperationException {
+    public void addSequence(Player p1, Player p2) throws InvalidQuantityException, InvalidOperationException, RetryException {
         p1.addToWarehouse(new PhysicalResource(ResType.SERVANT,3));
         p1.addToWarehouse(new PhysicalResource(ResType.COIN, 2));
         p1.addToWarehouse(new PhysicalResource(ResType.SHIELD,4));
@@ -47,8 +47,8 @@ public class PlayerTest extends CommonThingsTest
     }
 
     @Test
-    public void totalWinPointsTest() throws NegativeQuantityException,
-            SingleMatchException, WrongSettingException, InvalidOperationException, LastRoundException {
+    public void totalWinPointsTest() throws InvalidQuantityException,
+            SingleMatchException, WrongSettingException, InvalidOperationException, LastRoundException, RetryException {
         Player player = new Player("player1"); setSummary(player, getCardMap(assignConfiguration("src/test/resources/StandardConfiguration.json")));
         Player player1 = new Player("player2"); setSummary(player1, getCardMap(assignConfiguration("src/test/resources/StandardConfiguration.json")));
         Match match = new MultiMatch(Arrays.asList(player, player1));

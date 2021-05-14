@@ -97,15 +97,12 @@ public interface Warehouse
      * This method clones the current Warehouse.
      * @return the cloned version of the warehouse
      */
-    public static void clone(Warehouse wh, Warehouse clonedWh){
+    static void clone(Warehouse wh, Warehouse clonedWh){
         wh.getWarehouseDisposition().stream().forEach(clonedWh::marketDraw);
-        try {
-            clonedWh.moveInShelf(wh.getWarehouseDisposition().get(0), 1);
-            clonedWh.moveInShelf(wh.getWarehouseDisposition().get(1), 2);
-            clonedWh.moveInShelf(wh.getWarehouseDisposition().get(2), 3);
-        }
-        catch(InvalidQuantityException | ShelfInsertException e){
-            System.err.println(" basic: System shutdown due to an internal error."); System.exit(1);
-        }
+        List<PhysicalResource> disposition = wh.getWarehouseDisposition();
+        for(int i=0; i<3; i++)
+            try{ clonedWh.moveInShelf(disposition.get(i), i+1); }
+            catch(InvalidQuantityException | ShelfInsertException ignored){ }
+
     }
 }

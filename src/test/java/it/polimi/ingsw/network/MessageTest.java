@@ -58,6 +58,7 @@ public class MessageTest {
         messages.add(new DevCardDrawMessage(nickname, 2,1));
             Map<Integer, PhysicalResource> whPayments = new HashMap<>();
             whPayments.put(1, new PhysicalResource(ResType.STONE,1));
+            whPayments.put(2, new PhysicalResource(ResType.SHIELD,1));
         messages.add(new PaymentsMessage(nickname,
                 List.of(new PhysicalResource(ResType.STONE,1)), whPayments));
         messages.add(new DevCardPlacementMessage(nickname, 1));

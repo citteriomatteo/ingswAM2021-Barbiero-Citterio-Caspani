@@ -114,7 +114,7 @@ public class MatchControllerTest extends CommonThingsTest {
     }
 
     @Test
-    public void switchShelfTest() throws RetryException, NegativeQuantityException, ShelfInsertException {
+    public void switchShelfTest() throws RetryException, InvalidQuantityException, ShelfInsertException {
         initialization();
         PhysicalResource physicalResource = new PhysicalResource(ResType.SHIELD,1);
         PhysicalResource physicalResource1 = new PhysicalResource(ResType.COIN,1);
@@ -301,7 +301,7 @@ public class MatchControllerTest extends CommonThingsTest {
     }
 
     @Test
-    public void paymentsTest() throws RetryException, NegativeQuantityException, ShelfInsertException {
+    public void paymentsTest() throws RetryException, InvalidQuantityException, ShelfInsertException {
         initializationCosts();
         player = matchController.getCurrentPlayer();
         match = matchController.getMatch();

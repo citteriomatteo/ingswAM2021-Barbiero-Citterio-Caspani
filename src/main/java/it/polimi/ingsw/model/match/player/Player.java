@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.essentials.leader.LeaderCard;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.player.personalBoard.DevCardSlots;
+import it.polimi.ingsw.model.match.player.personalBoard.faithPath.SingleFaithPath;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
 import it.polimi.ingsw.model.match.player.personalBoard.StrongBox;
@@ -95,7 +96,7 @@ public class Player extends ModelObservable implements Adder, Verificator
             this.tempDevCard = tempDevCard;
 
             //update_call
-            updateTempDevCard(this.nickname, tempDevCard);
+            //updateTempDevCard(this.nickname, tempDevCard);
             return true;
         }
         return false;
@@ -149,6 +150,16 @@ public class Player extends ModelObservable implements Adder, Verificator
         return true;
     }
 
+
+    public boolean addBlackPoints(int quantity) throws LastRoundException {
+        ((SingleFaithPath) getPersonalBoard().getFaithPath()).addBlackPoints(quantity);
+        //update_call
+        updateLorenzoMarker(( (SingleFaithPath) this.getPersonalBoard().getFaithPath()).getBlackPosition());
+        System.out.println("Update lorenzo marker called.");
+
+        return true;
+    }
+
     /**
      * This method calls the same method inside the warehouse.
      * Notifies every other player about the discarded resources (for faith points).
@@ -159,10 +170,16 @@ public class Player extends ModelObservable implements Adder, Verificator
     public boolean discardRemains() throws InvalidOperationException, LastRoundException {
         int remaining = getPersonalBoard().getWarehouse().discardRemains();
 
-        if(remaining>0)
-            for(Player p : match.getPlayers())
-                if(!p.equals(this))
+        if(remaining>0) {
+            for (Player p : match.getPlayers())
+                if (!p.equals(this))
                     p.addFaithPoints(remaining);
+
+            //ADDED: if match is single, adds points also to Lorenzo
+            if(match.getPlayers().size()==1)
+                addBlackPoints(remaining);
+
+        }
 
         return true;
     }
@@ -175,11 +192,8 @@ public class Player extends ModelObservable implements Adder, Verificator
      */
     @Override
     public boolean addToStrongBox(PhysicalResource resource) {
-        boolean res = personalBoard.getStrongBox().put(resource);
-        //update_call
-        updateStrongbox(this.nickname, getPersonalBoard().getStrongBox());
+        return personalBoard.getStrongBox().put(resource);
 
-        return res;
     }
 
     /**
@@ -190,11 +204,7 @@ public class Player extends ModelObservable implements Adder, Verificator
      */
     @Override
     public boolean addToWarehouse(PhysicalResource resource) {
-        boolean res = personalBoard.getWarehouse().marketDraw(resource);
-        //update_call
-        //updateMarketBuffer(this.nickname, getPersonalBoard().getWarehouse());
-
-        return res;
+        return personalBoard.getWarehouse().marketDraw(resource);
     }
 
     //"VERIFICATOR" INTERFACE METHODS:
@@ -264,7 +274,6 @@ public class Player extends ModelObservable implements Adder, Verificator
                 throw new InvalidOperationException ("A chosen leader is not available in your hand! Retry.");
         handLeaders = choseLeaders;
 
-        //no update_call here!!!! at the start of turns, every player will be notified with a SummaryMessage.
         //no update_call here!!!! at the start of turns, every player will be notified with a SummaryMessage.
         //updateHandLeaders(this.nickname, getHandLeaders());
 
@@ -374,12 +383,14 @@ public class Player extends ModelObservable implements Adder, Verificator
      * @return      true
      */
     public boolean insertDevelopmentCard(int slot) throws LastRoundException, InvalidOperationException {
-            personalBoard.getDevCardSlots().pushNewCard(slot, tempDevCard);
-            tempDevCard = null;
-            if(personalBoard.getDevCardSlots().getCardsNumber()>= WINNING_CONDITION_CARDS)
-                throw new LastRoundException("The player " + this +
-                        " has reached " + WINNING_CONDITION_CARDS + " cards in his DevCardSlots");
+        personalBoard.getDevCardSlots().pushNewCard(slot, tempDevCard);
+        tempDevCard = null;
+        if(personalBoard.getDevCardSlots().getCardsNumber()>= WINNING_CONDITION_CARDS)
+            throw new LastRoundException("The player " + this +
+                    " has reached " + WINNING_CONDITION_CARDS + " cards in his DevCardSlots");
 
+        //update_call
+        updateDevCardSlots(nickname, getPersonalBoard().getDevCardSlots());
         return true;
     }
 
@@ -390,20 +401,16 @@ public class Player extends ModelObservable implements Adder, Verificator
      * @param shelf    is the chosen shelf
      * @return         true if operation ended successfully, else false
      */
-    public boolean moveIntoWarehouse(PhysicalResource resource, int shelf) throws ShelfInsertException
-    {
+    public boolean moveIntoWarehouse(PhysicalResource resource, int shelf) throws ShelfInsertException, InvalidQuantityException {
         boolean ret = false;
-        try
-        {
-            ret = personalBoard.getWarehouse().moveInShelf(resource, shelf);
 
-            //update_call
-            updateWarehouse(this.nickname, getPersonalBoard().getWarehouse());
-            updateMarketBuffer(this.nickname, getPersonalBoard().getWarehouse());
+        ret = personalBoard.getWarehouse().moveInShelf(resource, shelf);
 
-        } catch (InvalidQuantityException e)
-        {System.err.println("Critical error: the resource is not present in the marketBuffer first.");
-         System.exit(1);}
+        //update_call
+        //updateWarehouse(this.nickname, getPersonalBoard().getWarehouse());
+        //updateMarketBuffer(this.nickname, getPersonalBoard().getWarehouse());
+
+
         return ret;
     }
 
@@ -421,13 +428,8 @@ public class Player extends ModelObservable implements Adder, Verificator
         Warehouse wh = personalBoard.getWarehouse();
         if(!res.getType().equals(wh.getWarehouseDisposition().get(shelf-1).getType()))
             throw new InvalidCardRequestException ("The resource 'res' is not present on the shelf! Operation failed.");
-        //NotEnoughResourcesException handled here.
         try {
             wh.take(shelf, res.getQuantity());
-
-            //update_call
-            updateWarehouse(this.nickname, getPersonalBoard().getWarehouse());
-
         }
         catch(NotEnoughResourcesException e){ e.printStackTrace(); }
         return true;
@@ -441,10 +443,6 @@ public class Player extends ModelObservable implements Adder, Verificator
      */
     public boolean payFromStrongbox(PhysicalResource res) throws NotEnoughResourcesException {
         personalBoard.getStrongBox().take(res);
-
-        //update_call
-        updateStrongbox(this.nickname, getPersonalBoard().getStrongBox());
-
         return true;
     }
 

@@ -44,7 +44,7 @@ public class PlayerSummaryTest extends CommonThingsTest
     }
 
     @Test
-    public void updateWarehouseTest() throws WrongSettingException, SingleMatchException, NegativeQuantityException, ShelfInsertException {
+    public void updateWarehouseTest() throws WrongSettingException, SingleMatchException, InvalidQuantityException, ShelfInsertException, RetryException {
 
         Player player1 = new Player("player1");
         Player player2 = new Player("player2");

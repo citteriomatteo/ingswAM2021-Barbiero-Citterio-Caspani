@@ -17,6 +17,11 @@ public class PlusOneShuffleToken extends Token{
         SingleFaithPath singleFaithPath;
         singleFaithPath = (SingleFaithPath) match.getCurrentPlayer().getPersonalBoard().getFaithPath();
 
-        return (singleFaithPath.addBlackPoints(match.getCurrentPlayer(), 1) && match.getTokenStack().shuffle());
+        return (match.getCurrentPlayer().addBlackPoints(1) && match.getTokenStack().shuffle());
+    }
+
+    @Override
+    public String toString() {
+        return "PlusOneShuffleToken";
     }
 }

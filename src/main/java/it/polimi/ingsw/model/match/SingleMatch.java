@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
 import it.polimi.ingsw.model.match.token.TokenStack;
+import it.polimi.ingsw.network.message.stocmessage.TokenDrawMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,7 +102,14 @@ public class SingleMatch extends Match{
      */
     @Override
     public boolean nextTurn() throws LastRoundException {
-        return tokenStack.draw(this);
+
+        String drawnToken = tokenStack.getStack().peek().toString();
+
+        boolean res = tokenStack.draw(this);
+
+        new TokenDrawMessage("", drawnToken, tokenStack.getStack().size()).sendBroadcast(this);
+
+        return res;
     }
 
 

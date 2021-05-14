@@ -16,6 +16,15 @@ public class YellowToken extends Token{
     @Override
     public boolean onDraw(SingleMatch match) throws LastRoundException {
         SingleCardGrid singleCardGrid = (SingleCardGrid) match.getCardGrid();
-        return singleCardGrid.discard(CardColor.YELLOW);
+        boolean res = singleCardGrid.discard(CardColor.YELLOW);
+
+        updateCardGrid(match);
+
+        return res;
+    }
+
+    @Override
+    public String toString() {
+        return "YellowToken";
     }
 }

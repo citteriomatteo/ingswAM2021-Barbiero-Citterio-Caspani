@@ -135,6 +135,8 @@ public class PlayerHandler implements Runnable, ControlBase {
                 player.disconnect(); //todo: fix disconnection
             terminateConnection(false);
         }
+        catch(Exception e) {e.printStackTrace();
+            System.out.println("Unknown exception.");}
     }
 
     /**
@@ -189,13 +191,14 @@ public class PlayerHandler implements Runnable, ControlBase {
         while(true){
                 readLine = in.readLine();
                 System.out.println("Client wrote: "+readLine);
-            try {
-                inMsg = parserCtoS.fromJson(readLine, CtoSMessage.class);
-                return inMsg;
-            } catch (Exception e) {
-                System.out.println("Arrived wrong message syntax from " + player + "\n--> message: " + readLine);
-                this.write(new RetryMessage((player == null) ? null : player.getNickname(), "Wrong Json Syntax " + e.getMessage()));
-            }
+                if(readLine != null && !readLine.equals(""))
+                    try {
+                        inMsg = parserCtoS.fromJson(readLine, CtoSMessage.class);
+                        return inMsg;
+                    } catch (Exception e) {
+                        System.out.println("Arrived wrong message syntax from " + player + "\n--> message: " + readLine);
+                        this.write(new RetryMessage((player == null) ? null : player.getNickname(), "Wrong Json Syntax " + e.getMessage()));
+                    }
         }
     }
 

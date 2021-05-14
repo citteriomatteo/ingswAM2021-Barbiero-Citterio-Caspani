@@ -75,14 +75,15 @@ public class Market {
      * @param numRow the row's number
      * @param adder the player's interface
      * @return the number of white marbles drawn
-     * @throws InvalidOperationException if the numRow is less then 0 or more than 3
+     * @throws InvalidOperationException if the numRow is less than 0 or more than 3
      * @throws LastRoundException if the player reaches the end of his faithPath
      */
     public int selectRow(int numRow, Adder adder) throws InvalidOperationException, LastRoundException
     {
+        numRow--;
         int countWhite = 0;
 
-        if(numRow < 0 || numRow > 3)
+        if(numRow < 0 || numRow >= 3)
             throw new InvalidOperationException("The number of column is out of range");
 
         for(int i = 0; i < 4; ++i)
@@ -103,9 +104,10 @@ public class Market {
      */
     public int selectColumn(int numColumn, Adder adder) throws LastRoundException, InvalidOperationException
     {
+        numColumn--;
         int countWhite = 0;
 
-        if(numColumn < 0 || numColumn > 4)
+        if(numColumn < 0 || numColumn >= 4)
             throw new InvalidOperationException("The number of column is out of range");
 
         for(int i = 0; i < 3; ++i)

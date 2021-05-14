@@ -16,7 +16,8 @@ public class StrongBox
     {
         resources = new HashMap<>();
         for(ResType type: ResType.values())
-            resources.put(type, 0);
+            if(!type.equals(ResType.UNKNOWN))
+                resources.put(type, 0);
     }
 
     /** @return the Strongbox map */

@@ -16,6 +16,15 @@ public class PurpleToken extends Token{
     @Override
     public boolean onDraw(SingleMatch match) throws LastRoundException {
         SingleCardGrid singleCardGrid = (SingleCardGrid) match.getCardGrid();
-        return singleCardGrid.discard(CardColor.PURPLE);
+        boolean res = singleCardGrid.discard(CardColor.PURPLE);
+
+        updateCardGrid(match);
+
+        return res;
+    }
+
+    @Override
+    public String toString() {
+        return "PurpleToken";
     }
 }

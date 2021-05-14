@@ -36,7 +36,7 @@ public class SummaryTest extends CommonThingsTest {
             p.setSummary(summary);
         Match match = new MultiMatch(players);
 
-        match.getCurrentPlayer().marketDeal(true,0);
+        match.getCurrentPlayer().marketDeal(true,1);
         match.getCurrentPlayer().updateMarket(match.getMarket());
 
         //checking the equals on the slide marble and on the main diagonal:

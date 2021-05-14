@@ -162,7 +162,7 @@ public class PlayerSummary
     public void updateStrongbox(StrongBox strongbox){
         this.strongbox = new ArrayList<>();
         try {
-            for (ResType type : ResType.values())
+            for (ResType type : strongbox.getResources().keySet())
                 this.strongbox.add(new PhysicalResource(type, strongbox.getNumberOf(type)));
         }
         catch(NegativeQuantityException e){ System.exit(1); }

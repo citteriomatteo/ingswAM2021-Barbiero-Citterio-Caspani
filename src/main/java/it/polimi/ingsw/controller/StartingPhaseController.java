@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.exceptions.InvalidQuantityException;
 import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.exceptions.RetryException;
 import it.polimi.ingsw.exceptions.ShelfInsertException;
@@ -81,9 +82,9 @@ public class StartingPhaseController {
                 player.addToWarehouse(res);
                 try {
                     player.moveIntoWarehouse(res, r.getQuantity());
-                } catch (ShelfInsertException e) {
+                } catch (ShelfInsertException | InvalidQuantityException e) {
                     player.getPersonalBoard().setWarehouse(whBefore);
-                    throw new RetryException("Invalid shelves choice");
+                    throw new RetryException(e.getMessage());
                 }
 
             }
@@ -91,6 +92,7 @@ public class StartingPhaseController {
         }
 
         //update_call
+        player.updateWarehouse(nickname, player.getPersonalBoard().getWarehouse());
         player.updateMarketBuffer(nickname, player.getPersonalBoard().getWarehouse());
 
         playerStates.replace(nickname, StateName.STARTING_PHASE_DONE);

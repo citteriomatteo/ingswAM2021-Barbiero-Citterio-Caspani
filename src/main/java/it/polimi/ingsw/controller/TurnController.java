@@ -199,31 +199,32 @@ public class TurnController {
      */
     public StateName warehouseInsertion(List<PhysicalResource> resources) throws RetryException {
         List<Boolean> errors = new ArrayList<>();
+        StringBuilder errMessage = new StringBuilder();
         for(PhysicalResource resource : resources)
             errors.add(singleWarehouseMove(resource));
-        if(errors.contains(true)){
-            String errMessage = "";
-            for(boolean err : errors)
-                if(err)
-                    errMessage+="(invalid insert choice number "+errors.indexOf(err)+")\n";
-            throw new RetryException (errMessage);
-        }
-        else {
+        if(errors.contains(false)){
             try {
                 currentPlayer.discardRemains();
-
-                //update_call
-                if(findControlBase(currentPlayer.getNickname()) != null)
-                    currentPlayer.updateMarketBuffer(currentPlayer.getNickname(), currentPlayer.getPersonalBoard().getWarehouse());
-
             }
             catch (LastRoundException e) { lastRound = true; }
             catch (InvalidOperationException e) {
                 currentState = StateName.RESOURCES_PLACEMENT;
-                throw new RetryException ("You can still place other resources.");
+                throw new RetryException ("You can still place other resources." + errMessage);
             }
             currentState = StateName.END_TURN;
+            //update_call
+            currentPlayer.updateWarehouse(currentPlayer.getNickname(), currentPlayer.getPersonalBoard().getWarehouse());
+            currentPlayer.updateMarketBuffer(currentPlayer.getNickname(), currentPlayer.getPersonalBoard().getWarehouse());
+
         }
+
+        if(errors.contains(true)) {
+            for (int i = 0; i < errors.size(); i++)
+                if (errors.get(i))
+                    errMessage.append("(invalid insert choice number ").append(i + 1).append(")");
+            throw new RetryException (errMessage.toString());
+        }
+
 
         return currentState;
     }
@@ -241,7 +242,6 @@ public class TurnController {
             if(!match.getCardGrid().isBuyable(currentPlayer,row, column)) {
                 throw new RetryException ("You can't buy this card.");
             }
-
             else if(!currentPlayer.verifyPlaceability(row)) {
                 throw new RetryException ("You can't place this card.");
             }
@@ -295,13 +295,6 @@ public class TurnController {
                         } catch (NegativeQuantityException e) { System.exit(1); }
                     }
 
-            //checking if the list of payments equals to the one chosen before (in tempProduction):
-            /*
-            if(!((new HashSet<>(payments)).equals(new HashSet<>(currentPlayer.getTempProduction().getCost())))) {
-                throw new RetryException ("Payments don't match the chosen production ones.");
-            }
-             */
-
             if(payments.size() != currentPlayer.getTempProduction().getCost().size())
                 throw new RetryException("Payments don't match the chosen production ones.");
             boolean found = false;
@@ -336,6 +329,7 @@ public class TurnController {
 
         if(currentState.getVal() == StateName.BUY_DEV_ACTION.getVal())
             currentState = StateName.PLACE_DEV_CARD;
+
         else if(currentState.getVal() == StateName.PRODUCTION_ACTION.getVal()) {
             try {
                 currentPlayer.getTempProduction().produce(currentPlayer);
@@ -343,6 +337,11 @@ public class TurnController {
             } catch (LastRoundException e) { lastRound = true; }
             currentState = StateName.END_TURN;
         }
+
+        //update_call
+        currentPlayer.updateWarehouse(currentPlayer.getNickname(),currentPlayer.getPersonalBoard().getWarehouse());
+        currentPlayer.updateStrongbox(currentPlayer.getNickname(),currentPlayer.getPersonalBoard().getStrongBox());
+
         return currentState;
     }
 
@@ -484,7 +483,7 @@ public class TurnController {
      * @param resource the resource with quantity = shelf
      * @return true if it went well, false elsewhere.
      */
-    public boolean singleWarehouseMove(PhysicalResource resource){
+    public boolean singleWarehouseMove(PhysicalResource resource) {
         try {
             currentPlayer.moveIntoWarehouse(new PhysicalResource(resource.getType(),1), resource.getQuantity());
             return false;
@@ -493,7 +492,7 @@ public class TurnController {
             System.err.println("System shutdown due to an internal error.");
             System.exit(1);
             return true;
-        } catch (InvalidOperationException e) {
+        } catch (InvalidOperationException | InvalidQuantityException e) {
             return true;
         }
     }

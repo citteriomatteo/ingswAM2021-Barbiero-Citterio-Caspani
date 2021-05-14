@@ -221,7 +221,7 @@ public class ExtraShelfWarehouseTest extends CommonThingsTest
     }
 
     @Test
-    public void wrongBufferDiscardTest() throws SingleMatchException, WrongSettingException, NegativeQuantityException, InvalidQuantityException, InvalidOperationException {
+    public void wrongBufferDiscardTest() throws SingleMatchException, WrongSettingException, NegativeQuantityException, InvalidQuantityException, InvalidOperationException, RetryException {
         Player player = new Player("player1");
         Player player1 = new Player("player2");
         List<Player> players = new ArrayList<>();
