@@ -152,6 +152,7 @@ public class GsonHandler {
                         .registerSubtype(RetryMessage.class, "retry")
                         .registerSubtype(StrongboxChangeMessage.class, "strongboxChange")
                         .registerSubtype(TokenDrawMessage.class, "tokenDraw")
+                        .registerSubtype(LastRoundMessage.class, "LastRound")
                         .registerSubtype(VaticanReportMessage.class, "vaticanReport")
                         .registerSubtype(WarehouseChangeMessage.class, "warehouseChange")
                         .registerSubtype(MarketBufferChangeMessage.class, "marketBufferChange")

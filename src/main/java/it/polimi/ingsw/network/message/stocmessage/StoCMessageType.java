@@ -21,6 +21,7 @@ public enum StoCMessageType implements MessageType {
     UPDATED_DISCOUNT,
     DEV_CARD_DRAWN,
     TOKEN_DRAW,
+    LAST_ROUND,
     END_GAME_RESULTS,
     GOODBYE,
     RETRY,
