@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.network.message.ctosmessage.BinarySelectionMessage;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessage;
 import it.polimi.ingsw.network.message.ctosmessage.LoginMessage;
 
@@ -7,9 +8,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static java.util.Map.entry;
 
@@ -50,9 +51,29 @@ public class KeyboardReader extends Thread{
      * @return the message read
      */
     private CtoSMessage parseInMessage(String input){
-        String[] words = input.split("\\s+");
+        List<String> words = new ArrayList(Arrays.asList(input.split("\\s+")));
+        String command = words.get(0);
+        List<String> params = words.subList(1, words.size());
+        switch(command){
+            case "login":
+                return login(params);
 
-        return new LoginMessage("bau");
+            case "selection":
+                return selection(params);
+
+            default:
+                System.out.println("Wrong command, write \"help\" to print the possible commands");
+
+        }
+        return null;
+    }
+
+    private CtoSMessage login(List<String> params){
+        return new LoginMessage(params.get(0));
+    }
+
+    private CtoSMessage selection(List<String> params){
+        return new BinarySelectionMessage("nickname", params.get(0).equals("y"));
     }
 
     @Override
@@ -63,9 +84,17 @@ public class KeyboardReader extends Thread{
         while(play){
             try {
                 userInput = keyboard.readLine();
+                if(userInput == null)
+                    continue;
+                if(userInput.equals("help")) {
+                    printHelpMap();
+                    continue;
+                }
                 if(userInput.equals("exit"))
                     play = false;
                 messageToSend = parseInMessage(userInput);
+                if(messageToSend == null)
+                    continue;
                 client.writeMessage(messageToSend);
 
             } catch (IOException e) {
@@ -76,10 +105,10 @@ public class KeyboardReader extends Thread{
     }
 
 
-    public void printHelpMap(Map<String, String> map){
+    public void printHelpMap(){
 
-        List<String> helpKeys = new ArrayList<>(map.keySet());
-        List<String> helpValues = new ArrayList<>(map.values());
+        List<String> helpKeys = new ArrayList<>(helpMap.keySet());
+        List<String> helpValues = new ArrayList<>(helpMap.values());
 
         for(int i = 0; i < helpKeys.size(); i++)
             System.out.println(i + ".  "+helpKeys.get(i) + " - " + helpValues.get(i));
