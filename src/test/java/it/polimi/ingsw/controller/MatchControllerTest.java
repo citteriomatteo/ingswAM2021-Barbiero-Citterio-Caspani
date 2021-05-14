@@ -182,7 +182,7 @@ public class MatchControllerTest extends CommonThingsTest {
             if(board[2][i] instanceof WhiteMarble)
                 stateName = StateName.MARKET_ACTION;
 
-        matchController.marketDraw(player.getNickname(), true, 2);
+        matchController.marketDraw(player.getNickname(), true, 3);
         assertTrue(player.getPersonalBoard().getWarehouse().getBuffer().size() > 0);
 
         assertEquals(stateName, matchController.getCurrentState(player.getNickname()) );

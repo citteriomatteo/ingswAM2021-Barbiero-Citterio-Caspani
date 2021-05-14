@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.personalBoard.StrongBox;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.WarehouseDecorator;
+import it.polimi.ingsw.network.message.stocmessage.LastRoundMessage;
 import it.polimi.ingsw.network.message.stocmessage.NextStateMessage;
 
 import static it.polimi.ingsw.controller.MatchController.getKeyByValue;
@@ -127,9 +128,8 @@ public class TurnController {
         for(LeaderCard card : currentPlayer.getHandLeaders())
             if (card.equals(cardMap.get(leaderId))) {
                 try {
-                    //todo: function setLastRound() (lastRound=true and notifies)
                     currentPlayer.discardUselessLeader(card);
-                } catch (LastRoundException e) { lastRound = true; }
+                } catch (LastRoundException e) { isLastRound(); }
                 return currentState;
             }
         throw new RetryException ("Invalid leader discarding attempt.");
@@ -151,7 +151,7 @@ public class TurnController {
             else
                 currentState = StateName.MARKET_ACTION;
 
-        } catch (LastRoundException e) { lastRound = true; }
+        } catch (LastRoundException e) { isLastRound(); }
         catch (InvalidOperationException e) {
             throw new RetryException ("Invalid market parameters.");
         }
@@ -206,7 +206,7 @@ public class TurnController {
             try {
                 currentPlayer.discardRemains();
             }
-            catch (LastRoundException e) { lastRound = true; }
+            catch (LastRoundException e) { isLastRound(); }
             catch (InvalidOperationException e) {
                 currentState = StateName.RESOURCES_PLACEMENT;
                 throw new RetryException ("You can still place other resources." + errMessage);
@@ -255,7 +255,7 @@ public class TurnController {
             throw new RetryException ("The selected cell is empty.");
         }
         catch (LastRoundException e) {
-            lastRound = true;
+            isLastRound();
             bufferResult = "Last card of the column has been drawn. You lost!";
         }
 
@@ -334,7 +334,7 @@ public class TurnController {
             try {
                 currentPlayer.getTempProduction().produce(currentPlayer);
                 currentPlayer.setTempProduction(null);
-            } catch (LastRoundException e) { lastRound = true; }
+            } catch (LastRoundException e) { isLastRound(); }
             currentState = StateName.END_TURN;
         }
 
@@ -356,7 +356,7 @@ public class TurnController {
         try {
             currentPlayer.insertDevelopmentCard(column);
         } catch (LastRoundException e) {
-            lastRound = true;
+            isLastRound();
             if(match.getPlayers().size()==1)
                 bufferResult = "You bought the 7th card. You won!";
         }
@@ -495,6 +495,11 @@ public class TurnController {
         } catch (InvalidOperationException | InvalidQuantityException e) {
             return true;
         }
+    }
+
+    private void isLastRound(){
+        lastRound = true;
+        new LastRoundMessage("", "This is the last round").sendBroadcast(match);
     }
 
     public Player getCurrentPlayer(){ return currentPlayer; }

@@ -93,7 +93,7 @@ public class MarketTest extends CommonThingsTest {
         Marble marble3 = this.board[numRow][2];
         Marble marble4 = this.board[numRow][3];
         Marble marble5 = this.market1.getSlide();
-        int numWhite = this.market1.selectRow(numRow, player);
+        int numWhite = this.market1.selectRow(numRow+1, player);
         assertEquals(countWhite, numWhite);
         assertEquals(marble1, this.market1.getSlide());
         assertEquals(marble2, this.board[numRow][0]);
@@ -125,7 +125,7 @@ public class MarketTest extends CommonThingsTest {
         Marble marble2 = this.board[1][numColumn];
         Marble marble3 = this.board[2][numColumn];
         Marble marble4 = this.market1.getSlide();
-        int numWhite = this.market1.selectColumn(numColumn, player);
+        int numWhite = this.market1.selectColumn(numColumn+1, player);
         assertEquals(countWhite, numWhite);
         assertEquals(marble1, this.market1.getSlide());
         assertEquals(marble2, this.board[0][numColumn]);

@@ -235,10 +235,10 @@ public class MatchController {
 
         try {
             NextStateMessage message = new NextStateMessage(turnController.getCurrentPlayer().getNickname(), StateName.WAITING_FOR_TURN);
-            turnController.nextTurn();
-
             if(playerHandler != null)
                 playerHandler.write(message);
+
+            turnController.nextTurn();
 
 
         } catch (MatchEndedException e) {

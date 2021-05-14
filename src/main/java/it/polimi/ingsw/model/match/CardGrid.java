@@ -158,7 +158,8 @@ public class  CardGrid {
         DevelopmentCard[][] res = new DevelopmentCard[MAX_LEVEL][CardColor.values().length];
         for (int lv = 0; lv < MAX_LEVEL; lv++) {
             for (CardColor color : CardColor.values()) {
-                res[lv][color.ordinal()] = grid[lv][color.ordinal()].peek();
+                if (!grid[lv][color.ordinal()].empty())
+                    res[lv][color.ordinal()] = grid[lv][color.ordinal()].peek();
             }
         }
         return res;

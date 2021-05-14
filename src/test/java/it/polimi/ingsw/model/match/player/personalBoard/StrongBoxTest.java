@@ -26,6 +26,8 @@ public class StrongBoxTest
         for(int i=0; i<50; i++)
         {
             int rndtype=gen.nextInt(4);
+            if(rndtype == 0)
+                rndtype = 1;
             int rndquantity= gen.nextInt(50);
             int quantitybefore= sb.getResources().get(ResType.values()[rndtype]);
             PhysicalResource res = new PhysicalResource(ResType.values()[rndtype], rndquantity);
@@ -39,6 +41,8 @@ public class StrongBoxTest
         StrongBox sb = new StrongBox();
         Random gen = new Random();
         int rndtype=gen.nextInt(4);
+        if(rndtype == 0)
+            rndtype = 1;
 
         final PhysicalResource res = new PhysicalResource(ResType.values()[rndtype], 1);
         assertThrows(NotEnoughResourcesException.class, ()->sb.take(res));
