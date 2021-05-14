@@ -14,7 +14,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static it.polimi.ingsw.gsonUtilities.GsonHandler.*;
+import static it.polimi.ingsw.jsonUtilities.GsonHandler.*;
 import static it.polimi.ingsw.network.server.ServerUtilities.*;
 
 /**
@@ -25,9 +25,9 @@ public class PlayerHandler implements Runnable, ControlBase {
 //    private static final int WAIT_FOR_READING = 60000; //1 minute
 
     //Build the parser for json input message
-    private static final Gson parserCtoS = cToSMessageConfig(new GsonBuilder()).setPrettyPrinting().create();
+    private static final Gson parserCtoS = cToSMessageConfig(new GsonBuilder()).create();
     //Build the parser for json output message
-    private static final Gson parserStoC = sToCMessageConfig(new GsonBuilder()).setPrettyPrinting().create();
+    private static final Gson parserStoC = sToCMessageConfig(new GsonBuilder()).create();
     private Socket socket;
     private Player player;
     private BufferedReader in;
@@ -120,7 +120,6 @@ public class PlayerHandler implements Runnable, ControlBase {
             init();
 
             CtoSMessage inMsg;
-          //  System.out.println("------------- Player " + player + " enters the main cycle");
             while (inMatch.get()) {
                 inMsg = read();
                 inMsg.computeMessage(this);
@@ -159,7 +158,6 @@ public class PlayerHandler implements Runnable, ControlBase {
                 write(new RetryMessage(player == null ? null : player.getNickname(),  "The match is not started yet, you cannot send messages like that"));
             //controls on existing nickname and previous players disconnection are done inside the computeMessage
         }
-
     }
 
     /**

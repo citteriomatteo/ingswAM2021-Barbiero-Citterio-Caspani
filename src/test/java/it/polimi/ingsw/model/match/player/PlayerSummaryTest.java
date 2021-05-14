@@ -14,8 +14,8 @@ import java.io.FileReader;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static it.polimi.ingsw.gsonUtilities.GsonHandler.*;
-import static it.polimi.ingsw.gsonUtilities.GsonHandler.effectConfig;
+import static it.polimi.ingsw.jsonUtilities.GsonHandler.*;
+import static it.polimi.ingsw.jsonUtilities.GsonHandler.effectConfig;
 import static it.polimi.ingsw.controller.MatchController.getKeyByValue;
 import static org.junit.jupiter.api.Assertions.*;
 

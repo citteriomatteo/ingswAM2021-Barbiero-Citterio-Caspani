@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static it.polimi.ingsw.gsonUtilities.GsonHandler.*;
+import static it.polimi.ingsw.jsonUtilities.GsonHandler.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MessageTest {

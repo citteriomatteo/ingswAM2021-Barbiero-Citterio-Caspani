@@ -3,10 +3,10 @@ package it.polimi.ingsw.network.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import static it.polimi.ingsw.jsonUtilities.Preferences.ReadPortFromJSON;
 
 public class Server {
 //    private static final int TIME_FOR_PING = 10000; //10 seconds
@@ -60,11 +60,14 @@ public class Server {
 //    }
 
 
-
-
-
     public static void main(String[] args) {
-        Server echoServer = new Server(1337);
+        int portNumber;
+        if (args.length==1)
+            portNumber = Integer.parseInt(args[0]);
+        else{
+            portNumber = ReadPortFromJSON();
+        }
+        Server echoServer = new Server(portNumber);
         echoServer.startServer();
     }
 }

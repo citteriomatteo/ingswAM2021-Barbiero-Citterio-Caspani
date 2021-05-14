@@ -5,12 +5,11 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.essentials.*;
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.gsonUtilities.GsonHandler;
+import it.polimi.ingsw.jsonUtilities.GsonHandler;
 import it.polimi.ingsw.model.match.player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;

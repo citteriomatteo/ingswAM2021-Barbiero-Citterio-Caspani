@@ -1,18 +1,16 @@
 package it.polimi.ingsw.model.essentials;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.gsonUtilities.GsonHandler;
+import it.polimi.ingsw.jsonUtilities.GsonHandler;
 import it.polimi.ingsw.exceptions.InvalidQuantityException;
 import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.exceptions.SingleMatchException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.*;
 import it.polimi.ingsw.model.match.player.Player;
-import it.polimi.ingsw.observer.ModelObserver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;

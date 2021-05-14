@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.match;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.gsonUtilities.GsonHandler;
+import it.polimi.ingsw.jsonUtilities.GsonHandler;
 import it.polimi.ingsw.model.essentials.CardColor;
 import it.polimi.ingsw.model.essentials.CardType;
 import it.polimi.ingsw.model.essentials.DevelopmentCard;

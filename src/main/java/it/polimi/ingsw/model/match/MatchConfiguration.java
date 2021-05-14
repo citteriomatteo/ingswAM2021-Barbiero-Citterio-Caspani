@@ -11,8 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.List;
 
-import static it.polimi.ingsw.gsonUtilities.GsonHandler.*;
-import static it.polimi.ingsw.gsonUtilities.GsonHandler.effectConfig;
+import static it.polimi.ingsw.jsonUtilities.GsonHandler.*;
 
 /**
  * A configuration of the match all contained in one object
@@ -97,7 +96,7 @@ public class MatchConfiguration
      * @return the object read in the json
      */
     public static MatchConfiguration assignConfiguration(String config){
-        Gson g = cellConfig(resourceConfig(requirableConfig(effectConfig(new GsonBuilder())))).setPrettyPrinting().create();
+        Gson g = completeModelConfig(new GsonBuilder()).setPrettyPrinting().create();
         try {
             FileReader reader = new FileReader(config);
             return g.fromJson(reader, MatchConfiguration.class);

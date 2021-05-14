@@ -93,8 +93,8 @@ public class InitController {
 
             case SP_CONFIGURATION_CHOOSE:
                 if(choice) { //choose the default config
-                    client.setMatchController(new MatchController(client.getPlayer()));  //<-- exit from init
                     changeState(StateName.START_GAME);
+                    client.setMatchController(new MatchController(client.getPlayer()));  //<-- exit from init
                 }
                 else
                     changeState(StateName.CONFIGURATION);
