@@ -16,6 +16,10 @@ import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This interface implements the Observer-side of the paradigm.
+ * The class that implements it, has to redefine each method adding Summary-update procedures.
+ */
 public interface ModelObserver {
 
     void updateMarket(Market market);
