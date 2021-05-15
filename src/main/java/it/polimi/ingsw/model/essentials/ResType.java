@@ -5,5 +5,6 @@ public enum ResType {
     STONE,
     SHIELD,
     SERVANT,
-    COIN
+    COIN;
+
 }
