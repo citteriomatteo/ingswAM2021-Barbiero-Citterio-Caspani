@@ -276,8 +276,16 @@ public class TurnController {
     public StateName payments(List<PhysicalResource> strongboxCosts, Map<Integer, PhysicalResource> warehouseCosts) throws RetryException {
         StrongBox sbUndo = StrongBox.clone(currentPlayer.getPersonalBoard().getStrongBox());
         Warehouse whUndo = WarehouseDecorator.clone(currentPlayer.getPersonalBoard().getWarehouse());
+        PhysicalResource voidResource = null;
+        try {
+            voidResource = new PhysicalResource(ResType.UNKNOWN, 0);
+        } catch (NegativeQuantityException e) {
+            System.exit(1);
+        }
 
         if(currentState.getVal() == StateName.PRODUCTION_ACTION.getVal()){
+            strongboxCosts.remove(voidResource);
+            warehouseCosts.remove(voidResource);
 
             List<PhysicalResource> payments = new ArrayList<>();
             payments.addAll(strongboxCosts);
@@ -285,23 +293,29 @@ public class TurnController {
 
             for(int i= 0; i< payments.size(); i++)
                 for(int j=i+1; j<payments.size(); j++)
-                    if(payments.get(i).equals(payments.get(j))) {
+                    if (payments.get(i).equals(payments.get(j))) {
                         PhysicalResource r = payments.get(i);
                         PhysicalResource r1 = payments.get(j);
-                        int quantity = r.getQuantity()+r1.getQuantity();
-                        payments.remove(r); payments.remove(r1);
+                        int quantity = r.getQuantity() + r1.getQuantity();
+                        payments.remove(r);
+                        payments.remove(r1);
                         try {
                             payments.add(new PhysicalResource(r.getType(), quantity));
-                        } catch (NegativeQuantityException e) { System.exit(1); }
+                        } catch (NegativeQuantityException e) {
+                            System.exit(1);
+                        }
                     }
+
 
             if(payments.size() != currentPlayer.getTempProduction().getCost().size())
                 throw new RetryException("Payments don't match the chosen production ones.");
             boolean found = false;
             for (PhysicalResource p : payments) {
                 for (PhysicalResource p1 : currentPlayer.getTempProduction().getCost())
-                    if (p.equals(p1) && p.getQuantity()== p1.getQuantity())
+                    if (p.equals(p1) && p.getQuantity() == p1.getQuantity()) {
                         found = true;
+                        break;
+                    }
 
                 if(!found)
                     throw new RetryException("Payments don't match the chosen production ones.");

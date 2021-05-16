@@ -20,12 +20,6 @@ public class RetryMessage extends StoCMessage {
         this.errMessage = errMessage;
     }
 
-    public RetryMessage(String nickname, String errMessage){
-        super(nickname);
-        this.currentState = null;
-        this.errMessage = errMessage;
-    }
-
     public StoCMessageType getType(){ return type; }
     public String getErrorMessage(){ return errMessage; }
     public StateName getCurrentState(){ return currentState; }

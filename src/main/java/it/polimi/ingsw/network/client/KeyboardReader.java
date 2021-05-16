@@ -63,6 +63,11 @@ public class KeyboardReader extends Thread{
         List<String> words = new ArrayList(Arrays.asList(input.split("\\s+")));
         String command = words.get(0);
         List<String> params = words.subList(1, words.size());
+        if(params.size() == 0){
+            System.out.println("please insert a valid command");
+            return null;
+        }
+
         switch(command){
             case "login":
                 return login(params);
@@ -124,8 +129,7 @@ public class KeyboardReader extends Thread{
 
     private CtoSMessage login(List<String> params){
         if(params == null || params.size() > 1) {
-            //TODO: send it to the player
-            new RetryMessage(nickname, "The nickname can't contains spaces");
+            System.out.println("The nickname can't contains spaces. PLease insert a new nickname");
             return null;
         }
         nickname = params.get(0);
@@ -134,8 +138,7 @@ public class KeyboardReader extends Thread{
 
     private CtoSMessage selection(List<String> params){
         if(params == null || params.size() > 1){
-            //TODO: send it to the player
-            new RetryMessage(nickname, "please insert only y for yes or n for no");
+            System.out.println("please insert only y for yes or n for no");
             return null;
         }
         return new BinarySelectionMessage(nickname, params.get(0).equals("y"));
@@ -143,16 +146,14 @@ public class KeyboardReader extends Thread{
 
     private CtoSMessage numPlayers(List<String> params){
         if(params == null || params.size() > 1){
-            //TODO: send it to the player
-            new RetryMessage(nickname, "please insert only an integer");
+            System.out.println("please insert only an integer");
             return null;
         }
         int num = 1;
         try{
             num = Integer.parseInt(params.get(0));
         }catch (NumberFormatException e){
-            //TODO: send it to the player
-            new RetryMessage(nickname, "you have to insert an integer");
+            System.out.println("please insert only an integer");
             return null;
         }
         return new NumPlayersMessage(nickname, num);
@@ -160,8 +161,7 @@ public class KeyboardReader extends Thread{
 
     private CtoSMessage leadersChoice(List<String> params){
         if(params == null){
-            //TODO: send it to the player
-            new RetryMessage(nickname, "please insert a valid list of player");
+            System.out.println("please insert a valid list of player");
             return null;
         }
 
@@ -170,8 +170,7 @@ public class KeyboardReader extends Thread{
 
     private CtoSMessage startingResource(List<String> params){
         if(params == null){
-            //TODO: send it to the player
-            new RetryMessage(nickname, "please insert a valid list of resources");
+            System.out.println("please insert a valid list of resources");
             return null;
         }
         List<PhysicalResource> resources = new ArrayList<>();
@@ -185,8 +184,7 @@ public class KeyboardReader extends Thread{
 
     private CtoSMessage switchShelf(List<String> params){
         if(params == null || params.size() != 1){
-            //TODO: send it to the player
-            new RetryMessage(nickname, "please insert a valid choice for shelves");
+            System.out.println("please insert a valid choice for shelves");
             return null;
         }
         List<String> elements = List.of(params.get(0).split(","));
@@ -196,8 +194,7 @@ public class KeyboardReader extends Thread{
             shelf1 = Integer.parseInt(elements.get(0));
             shelf2 = Integer.parseInt(elements.get(1));
         }catch (NumberFormatException e){
-            //TODO: send it to the player
-            new RetryMessage(nickname, "you have to insert an integer");
+            System.out.println("please insert an integer");
             return null;
         }
 
@@ -206,8 +203,7 @@ public class KeyboardReader extends Thread{
 
     private CtoSMessage leaderActivation(List<String> params){
         if(params == null || params.size() > 1){
-            //TODO: send it to the player
-            new RetryMessage(nickname, "you have to chose only one leader");
+            System.out.println("you have to chose only one leader");
             return null;
         }
 
@@ -216,8 +212,7 @@ public class KeyboardReader extends Thread{
 
     private CtoSMessage leaderDiscarding(List<String> params){
         if(params == null || params.size() > 1){
-            //TODO: send it to the player
-            new RetryMessage(nickname, "you have to chose only one leader");
+            System.out.println("you have to chose only one leader");
             return null;
         }
         return new LeaderDiscardingMessage(nickname, params.get(0));
@@ -225,8 +220,7 @@ public class KeyboardReader extends Thread{
 
     private CtoSMessage marketDraw(List<String> params){
         if(params == null || params.size() != 1){
-            //TODO: send it to the player
-            new RetryMessage(nickname, "please select a valid choice of row/column");
+            System.out.println("please select a valid choice of row/column");
             return null;
         }
         List<String> elements = List.of(params.get(0).split(","));
@@ -239,8 +233,7 @@ public class KeyboardReader extends Thread{
 
     private CtoSMessage whiteMarblesConversion(List<String> params){
         if(params == null){
-            //TODO: send it to the player
-            new RetryMessage(nickname, "please select some resources");
+            System.out.println("please select some resources");
             return null;
         }
         List<PhysicalResource> resources = new ArrayList<>();
@@ -254,8 +247,7 @@ public class KeyboardReader extends Thread{
 
     private CtoSMessage warehouseInsertion(List<String> params){
         if(params == null){
-            //TODO: send it to the player
-            new RetryMessage(nickname, "please select some resource");
+            System.out.println("please select some resources");
             return null;
         }
         List<PhysicalResource> resources = new ArrayList<>();
@@ -269,8 +261,7 @@ public class KeyboardReader extends Thread{
 
     private CtoSMessage devCardDraw(List<String> params){
         if(params == null || params.size() != 2){
-            //TODO: send it to the player
-            new RetryMessage(nickname, "please select a row and a column");
+            System.out.println("please select a row and a column");
         }
         List<String> elements = List.of(params.get(0).split(","));
         if(elements.size() != 2)
@@ -281,8 +272,7 @@ public class KeyboardReader extends Thread{
 
     private CtoSMessage payments(List<String> params){
         if(params == null || params.size() < 2){
-            //TODO: send it to the player
-            new RetryMessage(nickname, "bho");
+            System.out.println("please insert a valid list of resources");
         }
         PhysicalResource voidResource = null;
         try {
@@ -302,13 +292,18 @@ public class KeyboardReader extends Thread{
                 PhysicalResource resource = parseInPhysicalResource(element);
                 strongboxCosts.add(resource);
                 i++;
-                if (i == params.size()-1)
+                if (i == params.size())
                     break;
                 element = params.get(i);
             }
         }
         else
             strongboxCosts.add(voidResource);
+
+        if(i == params.size()) {
+            warehouseCosts.put(0, voidResource);
+            return new PaymentsMessage(nickname, strongboxCosts, warehouseCosts);
+        }
 
         if(params.get(i).equals("warehouse")){
             for (int j=i+1; j<params.size(); j++){
@@ -325,14 +320,12 @@ public class KeyboardReader extends Thread{
 
     private CtoSMessage production(List<String> params){
         if(params == null || params.size() < 2){
-            //TODO: send it to the player
-            new RetryMessage(nickname, "bho");
+            System.out.println("please insert a valid production message");
             return null;
         }
 
         if(!params.get(0).equals("cardsId")){
-            //TODO: send it to the player
-            new RetryMessage(nickname, "bho");
+            System.out.println("please insert the cards you want to produce");
             return null;
         }
         List<PhysicalResource> uCosts = new ArrayList<>();
@@ -345,6 +338,7 @@ public class KeyboardReader extends Thread{
         } catch (NegativeQuantityException e) {
             System.exit(1);
         }
+
 
         PhysicalResource cost;
         Resource earning;
@@ -397,8 +391,7 @@ public class KeyboardReader extends Thread{
 
     private CtoSMessage devCardPlacement(List<String> params){
         if(params == null || params.size() != 1){
-            //TODO: send it to the player
-            new RetryMessage(nickname, "please select a column");
+            System.out.println("please select a valid column");
         }
         int num = 0;
         try {
@@ -413,8 +406,7 @@ public class KeyboardReader extends Thread{
 
     private CtoSMessage rematch(List<String> params){
         if(params == null || params.size() > 1){
-            //TODO: send it to the player
-            new RetryMessage(nickname, "please insert only y for yes or n for no");
+            System.out.println("please insert only y for yes or n for no");
         }
         return new RematchMessage(nickname, params.get(0).equals("y"));
     }
@@ -429,9 +421,7 @@ public class KeyboardReader extends Thread{
         try {
             quantity = Integer.parseInt(elements.get(1));
         }catch (NumberFormatException e){
-            //TODO: send it to the player
-            new RetryMessage(nickname, "you have to insert an integer");
-            System.out.println(1);
+            System.out.println("please insert an integer");
             return null;
         }
 
@@ -459,16 +449,14 @@ public class KeyboardReader extends Thread{
         }
 
         if(type.ordinal() == ResType.UNKNOWN.ordinal()) {
-            //TODO error message
-            System.out.println(2);
+            System.out.println("please insert a valid type");
             return null;
         }
 
         try {
             return new PhysicalResource(type, quantity);
         } catch (NegativeQuantityException e) {
-            //TODO error message
-            System.out.println(3);
+            System.out.println("please insert an integer");
             return null;
         }
     }
@@ -482,8 +470,7 @@ public class KeyboardReader extends Thread{
         try {
             shelf = Integer.parseInt(elements.get(0));
         }catch (NumberFormatException e) {
-            //TODO: send it to the player
-            new RetryMessage(nickname, "you have to insert an integer");
+            System.out.println("please insert an integer");
             return false;
         }
 
@@ -502,8 +489,14 @@ public class KeyboardReader extends Thread{
         while(play){
             try {
                 userInput = keyboard.readLine();
-                if(userInput == null)
+                if(userInput == null) {
+                    System.out.println("please insert a valid command");
                     continue;
+                }
+                if (!userInput.matches(".*\\w.*")) {
+                    System.out.println("please insert a valid command");
+                    continue;
+                }
                 if(userInput.equals("help")) {
                     printHelpMap();
                     continue;
