@@ -28,12 +28,12 @@ public class KeyboardReader extends Thread{
                 entry("login", "Nickname"),
                 entry("selection", "y/n"),
                 entry("numPlayers","numPlayers"),
-                entry("leadersChoice","LeaderID"),
+                entry("leadersChoice","LeadersID"),
                 entry("startingResource","ResourceType,Quantity"),
                 entry("switchShelf","firstShelf,secondShelf"),
                 entry("leaderActivation","LeaderID"),
                 entry("leaderDiscarding","LeaderID"),
-                entry("marketDraw","row(boolean),number"),
+                entry("marketDraw","row,number"),
                 entry("whiteMarblesConversion","ResourceType,Quantity"),
                 entry("warehouseInsertion","SingleResourceType,Shelf"),
                 entry("devCardDraw","RowNumber,ColumnNumber"),
@@ -149,7 +149,7 @@ public class KeyboardReader extends Thread{
             System.out.println("please insert only an integer");
             return null;
         }
-        int num = 1;
+        int num;
         try{
             num = Integer.parseInt(params.get(0));
         }catch (NumberFormatException e){
@@ -188,8 +188,8 @@ public class KeyboardReader extends Thread{
             return null;
         }
         List<String> elements = List.of(params.get(0).split(","));
-        int shelf1 = 0;
-        int shelf2 = 0;
+        int shelf1;
+        int shelf2;
         try{
             shelf1 = Integer.parseInt(elements.get(0));
             shelf2 = Integer.parseInt(elements.get(1));
@@ -346,7 +346,7 @@ public class KeyboardReader extends Thread{
         int i=1;
         String element;
         element = params.get(i);
-        while (!element.equals("uCosts")){
+        while (!element.equals("uCosts") && !element.equals("uEarnings")){
             IDs.add(element);
             i++;
             if (i == params.size())
@@ -361,29 +361,37 @@ public class KeyboardReader extends Thread{
             return new ProductionMessage(nickname, IDs, new Production(uCosts, uEarnings));
         }
 
-        i++;
-        element = params.get(i);
-        while (!element.equals("uEarnings")){
-            cost = parseInPhysicalResource(element);
-            uCosts.add(cost);
+        if(params.get(i).equals("uCosts")) {
             i++;
-            if (i == params.size())
-                break;
             element = params.get(i);
-        }
+            while (!element.equals("uEarnings")) {
+                cost = parseInPhysicalResource(element);
+                uCosts.add(cost);
+                i++;
+                if (i == params.size())
+                    break;
+                element = params.get(i);
+            }
 
-        if(i == params.size()){
+            if (i == params.size()) {
+                uEarnings.add(voidResource);
+                return new ProductionMessage(nickname, IDs, new Production(uCosts, uEarnings));
+            }
+        }
+        else
+            uCosts.add(voidResource);
+
+        if(params.get(i).equals("uEarnings")) {
+            i++;
+            do {
+                element = params.get(i);
+                earning = parseInPhysicalResource(element);
+                uEarnings.add(earning);
+                i++;
+            } while (i < params.size());
+        }
+        else
             uEarnings.add(voidResource);
-            return new ProductionMessage(nickname, IDs, new Production(uCosts, uEarnings));
-        }
-
-        i++;
-        do{
-            element = params.get(i);
-            earning = parseInPhysicalResource(element);
-            uEarnings.add(earning);
-            i++;
-        }while (i < params.size());
 
         return new ProductionMessage(nickname, IDs, new Production(uCosts, uEarnings));
 
@@ -393,7 +401,7 @@ public class KeyboardReader extends Thread{
         if(params == null || params.size() != 1){
             System.out.println("please select a valid column");
         }
-        int num = 0;
+        int num ;
         try {
             num = Integer.parseInt(params.get(0));
         }catch (NumberFormatException e){ return null;}
@@ -417,7 +425,7 @@ public class KeyboardReader extends Thread{
             return null;
 
         String stringType = elements.get(0);
-        int quantity = 0;
+        int quantity;
         try {
             quantity = Integer.parseInt(elements.get(1));
         }catch (NumberFormatException e){
@@ -521,7 +529,7 @@ public class KeyboardReader extends Thread{
         List<String> helpValues = new ArrayList<>(helpMap.values());
 
         for(int i = 0; i < helpKeys.size(); i++)
-            System.out.println(i + ".  "+helpKeys.get(i) + " - " + helpValues.get(i));
+            System.out.println(i + ".  "+helpKeys.get(i) + " : " + helpValues.get(i));
     }
 
 }

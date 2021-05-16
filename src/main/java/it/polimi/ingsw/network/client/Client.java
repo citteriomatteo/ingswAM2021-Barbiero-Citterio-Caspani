@@ -64,6 +64,7 @@ public class Client {
         try {
             String outMsg = parserCtoS.toJson(msg, CtoSMessage.class);
             System.out.println("You write a " + msg.getType() + ":\n" + outMsg);
+            //if(!controller.isAccepted(outMsg.getType()) {controller.updateCurrentState(controller.getCurrentState(),true); return false;}
             out.println(outMsg);
             return true;
         } catch (JsonSyntaxException e) {
