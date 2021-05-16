@@ -3,6 +3,9 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.controller.StateName;
 import it.polimi.ingsw.model.match.Summary;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
+import it.polimi.ingsw.network.message.stocmessage.NextStateMessage;
+import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
+import it.polimi.ingsw.network.message.stocmessage.StoCMessageType;
 import it.polimi.ingsw.view.lightmodel.LightMatch;
 
 import java.util.List;
@@ -50,15 +53,14 @@ public class ClientController
 
     //updato lo stato corrente e controllo: se si tratta dello stesso di prima, allora mi è arrivata un Retry,
     //      altrimenti sarà un NextState.
-    public void updateCurrentState(StateName newState){
-        if(newState.equals(currentState)) {
+    public void updateCurrentState(StoCMessage msg){
+        if(msg.getType().equals(StoCMessageType.RETRY)) {
             printRetry("Invalid message: Retry. Type 'help' to view the map of commands.");
-            printMoveLegend();
         }
-        else {
-            this.currentState = newState;
-            printMoveLegend();
+        else if(msg.getType().equals(StoCMessageType.NEXT_STATE)){
+            this.currentState = ((NextStateMessage) msg).getNewState();
         }
+        printMoveLegend(msg);
     }
 
     //quando si ha una retry (da parte del server o dalla keyboardReader) viene chiamata questa, che stampa l'errore.
@@ -76,17 +78,17 @@ public class ClientController
 
         switch(currentState){
             case LOGIN:
-                //view.drawTitle();
-                //view.drawLoginLayout();
+                view.printTitle();
+                view.drawLoginLayout();
                 break;
             case RECONNECTION:
-                //view.drawReconnectionLayout();
+                view.drawReconnectionLayout();
                 break;
             case NEW_PLAYER:
-                //view.drawNewPlayerLayout();
+                view.drawNewPlayerLayout();
                 break;
             case NUMBER_OF_PLAYERS:
-                //view.drawNumPlayersLayout();
+                view.drawNumPlayersLayout();
                 break;
             case SP_CONFIGURATION_CHOOSE:
                 //view.drawConfigurationChoice("Single");
@@ -102,9 +104,6 @@ public class ClientController
         }
 
     }
-
-
-
 
 
     public boolean isAccepted(CtoSMessageType type){

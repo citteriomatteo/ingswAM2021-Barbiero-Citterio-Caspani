@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.message.stocmessage;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
+import it.polimi.ingsw.network.client.Client;
 
 import java.util.List;
 

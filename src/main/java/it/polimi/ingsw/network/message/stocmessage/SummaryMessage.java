@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.message.stocmessage;
 
 import it.polimi.ingsw.model.match.Summary;
+import it.polimi.ingsw.network.client.Client;
 
 public class SummaryMessage extends StoCMessage {
 
@@ -10,6 +11,12 @@ public class SummaryMessage extends StoCMessage {
     public SummaryMessage(String nickname, Summary summary) {
         super(nickname);
         this.summary = summary;
+    }
+
+    @Override
+    public boolean compute(Client client){
+        client.getController().setLightMatch(summary);
+        return true;
     }
 
     @Override

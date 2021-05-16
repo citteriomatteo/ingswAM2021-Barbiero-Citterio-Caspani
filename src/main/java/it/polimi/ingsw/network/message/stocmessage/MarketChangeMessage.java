@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.message.stocmessage;
 
 import it.polimi.ingsw.model.match.market.Marble;
+import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.Message;
 
 import java.util.ArrayList;
@@ -25,6 +26,13 @@ public class MarketChangeMessage extends StoCMessage {
         this.newMarket = newMarket;
     }
 
+    @Override
+    public boolean compute(Client client){
+        client.getController().getMatch().setMarket(newMarket, sideMarble);
+        return true;
+    }
+
+    @Override
     public StoCMessageType getType(){ return type; }
     public Character getSideMarble(){ return sideMarble; }
     public char[][] getNewMarket(){ return newMarket; }

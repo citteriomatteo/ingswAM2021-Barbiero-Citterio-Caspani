@@ -2,8 +2,10 @@ package it.polimi.ingsw.network.message.stocmessage;
 
 import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.player.Player;
+import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.server.ControlBase;
+import it.polimi.ingsw.view.cli.Cli;
 
 import java.util.List;
 
@@ -59,4 +61,6 @@ public abstract class StoCMessage extends Message {
 
     @Override
     public abstract StoCMessageType getType();
+
+    public abstract boolean compute(Client client);
 }

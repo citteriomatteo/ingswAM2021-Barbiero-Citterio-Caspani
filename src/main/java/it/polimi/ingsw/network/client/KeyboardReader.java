@@ -1,21 +1,17 @@
 package it.polimi.ingsw.network.client;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.Production;
 import it.polimi.ingsw.model.essentials.ResType;
 import it.polimi.ingsw.model.essentials.Resource;
 import it.polimi.ingsw.network.message.ctosmessage.*;
-import it.polimi.ingsw.network.message.stocmessage.RetryMessage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-import static it.polimi.ingsw.jsonUtilities.GsonHandler.sToCMessageConfig;
 import static java.util.Map.entry;
 
 public class KeyboardReader extends Thread{

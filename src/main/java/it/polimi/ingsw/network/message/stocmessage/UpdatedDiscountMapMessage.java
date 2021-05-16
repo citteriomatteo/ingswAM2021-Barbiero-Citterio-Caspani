@@ -17,4 +17,10 @@ public class UpdatedDiscountMapMessage extends StoCMessage {
     @Override
     public StoCMessageType getType() { return type; }
     public List<PhysicalResource> getNewDiscountMap() { return newDiscountMap; }
+
+    @Override
+    public boolean compute(Client client){
+        client.getController().getMatch().setDiscountMap(getNickname(), newDiscountMap);
+        return true;
+    }
 }

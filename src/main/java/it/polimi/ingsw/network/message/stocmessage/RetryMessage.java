@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.message.stocmessage;
 
 import it.polimi.ingsw.controller.StateName;
+import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.Message;
 
 /**
@@ -20,6 +21,12 @@ public class RetryMessage extends StoCMessage {
         this.errMessage = errMessage;
     }
 
+    @Override
+    public boolean compute(Client client){
+        client.getController().printRetry(errMessage);
+        return true;
+    }
+    @Override
     public StoCMessageType getType(){ return type; }
     public String getErrorMessage(){ return errMessage; }
     public StateName getCurrentState(){ return currentState; }

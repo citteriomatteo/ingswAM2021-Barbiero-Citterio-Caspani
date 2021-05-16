@@ -158,7 +158,7 @@ public class LightMatch extends ViewObservable {
     /**
      * This method sets the player's active leaders.
      * Calls an update to the view.
-     * @param activeLeaders the player's active leaders
+     * @param activeLeader the player's active leader
      */
     public void setActiveLeaders(String nickname, List<String> activeLeaders) {
         getPlayerSummary(nickname).setActiveLeaders(activeLeaders);

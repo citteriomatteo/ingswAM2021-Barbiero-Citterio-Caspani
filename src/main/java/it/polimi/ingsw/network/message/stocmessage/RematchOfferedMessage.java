@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.message.stocmessage;
 
+import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.Message;
 
 public class RematchOfferedMessage extends StoCMessage {
@@ -12,6 +13,13 @@ public class RematchOfferedMessage extends StoCMessage {
         this.message = proposer+" offered a rematch.\nAccept? [y/n]";
     }
 
+    @Override
+    public boolean compute(Client client){
+        client.getController().printMoveLegend(this);
+        return true;
+    }
+
+    @Override
     public StoCMessageType getType() {
         return type;
     }

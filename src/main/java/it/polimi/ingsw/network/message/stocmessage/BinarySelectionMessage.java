@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.message.stocmessage;
 
+import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.server.ControlBase;
 
 public class BinarySelectionMessage extends StoCMessage {
@@ -17,6 +18,11 @@ public class BinarySelectionMessage extends StoCMessage {
         super(nickname);
         this.selection = selection;
         comment = null;
+    }
+
+    @Override
+    public boolean compute(Client client) {
+        return true;
     }
 
     /**
