@@ -15,9 +15,9 @@ import it.polimi.ingsw.observer.ModelObserver;
 import java.util.*;
 
 import static it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType.*;
+import static it.polimi.ingsw.network.server.ServerUtilities.serverCall;
 import static java.util.Map.entry;
 import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
-import static it.polimi.ingsw.network.server.ServerUtilities.findControlBase;
 
 
 public class MatchController {
@@ -202,7 +202,7 @@ public class MatchController {
             return false;
 
         NextStateMessage message = new NextStateMessage(nickname, startingPhaseController.leadersChoice(nickname, leaders));
-        ControlBase playerHandler = findControlBase(nickname);
+        ControlBase playerHandler = serverCall().findControlBase(nickname);
         if(playerHandler != null)
             playerHandler.write(message);
 
@@ -218,7 +218,7 @@ public class MatchController {
             return false;
 
         NextStateMessage message = new NextStateMessage(nickname, startingPhaseController.startingResources(nickname, resources));
-        ControlBase playerHandler = findControlBase(nickname);
+        ControlBase playerHandler = serverCall().findControlBase(nickname);
         if(playerHandler != null)
             playerHandler.write(message);
 
@@ -231,7 +231,7 @@ public class MatchController {
         boolean isComputable = isComputable(nickname, CtoSMessageType.END_TURN);
         if (!isComputable)
             return false;
-        ControlBase playerHandler = findControlBase(nickname);
+        ControlBase playerHandler = serverCall().findControlBase(nickname);
 
         try {
             NextStateMessage message = new NextStateMessage(turnController.getCurrentPlayer().getNickname(), StateName.WAITING_FOR_TURN);
@@ -258,7 +258,7 @@ public class MatchController {
             return false;
 
         NextStateMessage message = new NextStateMessage(nickname, turnController.switchShelf(shelf1, shelf2));
-        ControlBase playerHandler = findControlBase(nickname);
+        ControlBase playerHandler = serverCall().findControlBase(nickname);
         if(playerHandler != null)
             playerHandler.write(message);
 
@@ -272,7 +272,7 @@ public class MatchController {
             return false;
 
         NextStateMessage message = new NextStateMessage(nickname, turnController.leaderActivation(leaderId));
-        ControlBase playerHandler = findControlBase(nickname);
+        ControlBase playerHandler = serverCall().findControlBase(nickname);
         if(playerHandler != null)
             playerHandler.write(message);
 
@@ -285,7 +285,7 @@ public class MatchController {
             return false;
 
         NextStateMessage message = new NextStateMessage(nickname, turnController.leaderDiscarding(leaderId));
-        ControlBase playerHandler = findControlBase(nickname);
+        ControlBase playerHandler = serverCall().findControlBase(nickname);
         if(playerHandler != null)
             playerHandler.write(message);
 
@@ -298,7 +298,7 @@ public class MatchController {
             return false;
 
         NextStateMessage message = new NextStateMessage(nickname, turnController.marketDraw(row, num));
-        ControlBase playerHandler = findControlBase(nickname);
+        ControlBase playerHandler = serverCall().findControlBase(nickname);
         if(playerHandler != null)
             playerHandler.write(message);
 
@@ -311,7 +311,7 @@ public class MatchController {
             return false;
 
         NextStateMessage message = new NextStateMessage(nickname, turnController.whiteMarblesConversion(resources));
-        ControlBase playerHandler = findControlBase(nickname);
+        ControlBase playerHandler = serverCall().findControlBase(nickname);
         if(playerHandler != null)
             playerHandler.write(message);
 
@@ -324,7 +324,7 @@ public class MatchController {
             return false;
 
         NextStateMessage message = new NextStateMessage(nickname, turnController.warehouseInsertion(resources));
-        ControlBase playerHandler = findControlBase(nickname);
+        ControlBase playerHandler = serverCall().findControlBase(nickname);
         if(playerHandler != null)
             playerHandler.write(message);
 
@@ -337,7 +337,7 @@ public class MatchController {
             return false;
 
         NextStateMessage message = new NextStateMessage(nickname, turnController.devCardDraw(row, column));
-        ControlBase playerHandler = findControlBase(nickname);
+        ControlBase playerHandler = serverCall().findControlBase(nickname);
         if(playerHandler != null)
             playerHandler.write(message);
 
@@ -350,7 +350,7 @@ public class MatchController {
             return false;
 
         NextStateMessage message = new NextStateMessage(nickname, turnController.payments(strongboxCosts, warehouseCosts));
-        ControlBase playerHandler = findControlBase(nickname);
+        ControlBase playerHandler = serverCall().findControlBase(nickname);
         if(playerHandler != null)
             playerHandler.write(message);
 
@@ -363,7 +363,7 @@ public class MatchController {
             return false;
 
         NextStateMessage message = new NextStateMessage(nickname, turnController.devCardPlacement(column));
-        ControlBase playerHandler = findControlBase(nickname);
+        ControlBase playerHandler = serverCall().findControlBase(nickname);
         if(playerHandler != null)
             playerHandler.write(message);
 
@@ -375,7 +375,7 @@ public class MatchController {
             return false;
 
         NextStateMessage message = new NextStateMessage(nickname, turnController.production(cardIds, productionOfUnknown));
-        ControlBase playerHandler = findControlBase(nickname);
+        ControlBase playerHandler = serverCall().findControlBase(nickname);
         if(playerHandler != null)
             playerHandler.write(message);
 

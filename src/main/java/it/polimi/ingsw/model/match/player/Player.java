@@ -17,7 +17,7 @@ import it.polimi.ingsw.observer.ModelObservable;
 
 import java.util.*;
 
-import static it.polimi.ingsw.network.server.ServerUtilities.findControlBase;
+import static it.polimi.ingsw.network.server.ServerUtilities.serverCall;
 
 public class Player extends ModelObservable implements Adder, Verificator
 {
@@ -331,7 +331,7 @@ public class Player extends ModelObservable implements Adder, Verificator
         getPersonalBoard().getWarehouse().switchShelf(shelf1, shelf2);
 
         //update_call
-        if(findControlBase(nickname) != null)
+        if(serverCall().findControlBase(nickname) != null)
             updateWarehouse(nickname, getPersonalBoard().getWarehouse());
 
         return true;

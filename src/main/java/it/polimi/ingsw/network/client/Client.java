@@ -9,15 +9,12 @@ import it.polimi.ingsw.network.message.stocmessage.StoCMessageType;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Scanner;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static it.polimi.ingsw.jsonUtilities.GsonHandler.cToSMessageConfig;
 import static it.polimi.ingsw.jsonUtilities.GsonHandler.sToCMessageConfig;
 import static it.polimi.ingsw.jsonUtilities.Preferences.ReadHostFromJSON;
 import static it.polimi.ingsw.jsonUtilities.Preferences.ReadPortFromJSON;
-import static it.polimi.ingsw.network.server.ServerUtilities.removePlayer;
+
 
 public class Client {
     private Socket socket;
@@ -45,7 +42,6 @@ public class Client {
         boolean play = true;
         while (play){
             messageFromServer = readMessage();
-            System.out.println(messageFromServer);
             if(messageFromServer.getType().equals(StoCMessageType.GOODBYE))
                 play = false;
         }

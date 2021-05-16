@@ -85,11 +85,22 @@ public class GsonHandler {
 
     /**
      * @param builder a generic GsonBuilder
+     * @return a gson builder ready to parse an object that implements card interface
+     */
+    public static GsonBuilder cardConfig(GsonBuilder builder){
+        return builder.registerTypeAdapterFactory(RuntimeTypeAdapterFactory
+                .of(Card.class, "card")
+                .registerSubtype(LeaderCard.class, "Leader")
+                .registerSubtype(DevelopmentCard.class, "Development"));
+    }
+
+    /**
+     * @param builder a generic GsonBuilder
      * @return a gson builder ready to parse every object of the Model infrastructure of this game
      */
     public static GsonBuilder completeModelConfig(GsonBuilder builder){
 
-        return marbleConfig(cellConfig(resourceConfig(requirableConfig(effectConfig(builder)))));
+        return cardConfig(marbleConfig(cellConfig(resourceConfig(requirableConfig(effectConfig(builder))))));
     }
 
     /**
@@ -158,7 +169,7 @@ public class GsonHandler {
                         .registerSubtype(MarketBufferChangeMessage.class, "marketBufferChange")
                         .registerSubtype(GoodbyeMessage.class, "Goodbye"));
 
-        return marbleConfig(res);
+        return completeModelConfig(res);
     }
 
 }

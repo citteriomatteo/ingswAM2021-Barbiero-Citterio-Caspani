@@ -24,7 +24,7 @@ public class BinarySelectionMessage extends CtoSMessage {
     public boolean computeMessage(ControlBase controlBase) {
         if(controlBase.getInitController().selection(selection))
             return true;
-        controlBase.write(new RetryMessage("", "You can't send messages like that right now"));
+        controlBase.write(new RetryMessage(controlBase.getNickname(), controlBase.getCurrentState(), "You can't send a " + type + " message right now"));
         return false;
     }
     @Override

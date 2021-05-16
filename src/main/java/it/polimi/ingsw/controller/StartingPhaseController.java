@@ -15,7 +15,7 @@ import it.polimi.ingsw.model.match.player.personalBoard.warehouse.WarehouseDecor
 import it.polimi.ingsw.network.message.stocmessage.HandLeadersStateMessage;
 import it.polimi.ingsw.network.message.stocmessage.SummaryMessage;
 
-import static it.polimi.ingsw.network.server.ServerUtilities.findControlBase;
+import static it.polimi.ingsw.network.server.ServerUtilities.serverCall;
 
 
 import java.util.*;
@@ -38,7 +38,7 @@ public class StartingPhaseController {
         for (Player p : match.getPlayers()) {
             playerStates.put(p.getNickname(), StateName.WAITING_LEADERS);
             p.setSummary(summary);
-            if(findControlBase(p.getNickname()) != null) {
+            if(serverCall().findControlBase(p.getNickname()) != null) {
                 new SummaryMessage(p.getNickname(), summary).send(p.getNickname());
                 new HandLeadersStateMessage(p.getNickname(), p.getHandLeaders().stream().map((x) -> getKeyByValue(cardMap, x)).collect(Collectors.toList())).send(p.getNickname());
             }

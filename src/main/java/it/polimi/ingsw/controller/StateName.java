@@ -10,6 +10,7 @@ public enum StateName {
     MP_CONFIGURATION_CHOOSE(0),
     CONFIGURATION(0),
     WAITING(0),
+    WAITING_FOR_PLAYERS(0),
     START_GAME(0),
     //States used in StartingPhase
     WAITING_FOR_TURN (-1),

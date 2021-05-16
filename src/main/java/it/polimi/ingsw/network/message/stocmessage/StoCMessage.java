@@ -7,7 +7,7 @@ import it.polimi.ingsw.network.server.ControlBase;
 
 import java.util.List;
 
-import static it.polimi.ingsw.network.server.ServerUtilities.findControlBase;
+import static it.polimi.ingsw.network.server.ServerUtilities.serverCall;
 
 public abstract class StoCMessage extends Message {
 
@@ -23,7 +23,7 @@ public abstract class StoCMessage extends Message {
     public boolean sendBroadcast(List<String> players){
         ControlBase receiver;
         for(String player : players) {
-            receiver = findControlBase(player);
+            receiver = serverCall().findControlBase(player);
             if(receiver == null || !receiver.write(this))
                 return false;
         }
@@ -38,7 +38,7 @@ public abstract class StoCMessage extends Message {
     public boolean sendBroadcast(Match match){
         ControlBase receiver;
         for(Player player : match.getPlayers()) {
-            receiver = findControlBase(player.getNickname());
+            receiver = serverCall().findControlBase(player.getNickname());
             if(receiver == null || !receiver.write(this))
                 return false;
         }
@@ -51,7 +51,7 @@ public abstract class StoCMessage extends Message {
      * @return true if the message has been sent, false if something goes wrong
      */
     public boolean send(String player){
-        ControlBase receiver = findControlBase(player);
+        ControlBase receiver = serverCall().findControlBase(player);
         if(receiver == null)
             return false;
         return !receiver.write(this);

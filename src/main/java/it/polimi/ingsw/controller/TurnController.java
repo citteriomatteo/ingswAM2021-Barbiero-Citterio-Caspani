@@ -15,7 +15,7 @@ import it.polimi.ingsw.network.message.stocmessage.NextStateMessage;
 
 import static it.polimi.ingsw.controller.MatchController.getKeyByValue;
 
-import static it.polimi.ingsw.network.server.ServerUtilities.findControlBase;
+import static it.polimi.ingsw.network.server.ServerUtilities.serverCall;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -41,7 +41,7 @@ public class TurnController {
         this.whiteMarbleDrawn = 0;
 
         //sends NextStateMessage to every player
-        if(findControlBase(currentPlayer.getNickname()) != null){
+        if(serverCall().findControlBase(currentPlayer.getNickname()) != null){
             for(Player p : match.getPlayers())
                 if(p.equals(currentPlayer))
                     new NextStateMessage(currentPlayer.getNickname(), currentState).send(currentPlayer.getNickname());

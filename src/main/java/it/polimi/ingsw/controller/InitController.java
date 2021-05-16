@@ -33,11 +33,17 @@ public class InitController {
     private StateName currentState;
     private final PlayerHandler client;
     private String playerNickname;
+    private int desiredNumberOfPlayers;
 
     public InitController(PlayerHandler client) {
         currentState = StateName.LOGIN;
         this.client = client;
         client.write(new NextStateMessage(null, currentState));
+
+    }
+
+    public StateName getCurrentState() {
+        return currentState;
     }
 
     public boolean login(String nickname){
@@ -45,14 +51,14 @@ public class InitController {
             return false;
 
         try {
-            if(!addNewPlayer(nickname, client)) {
-                client.write(new RetryMessage(null, currentState , "This name is used by another connected player, please choose a different one"));
-                client.write(new NextStateMessage(null, currentState));
+            if(serverCall().addNewPlayer(nickname, client)) {
+                client.setPlayer(new Player(nickname));
+                playerNickname = nickname;
+                changeState(StateName.NEW_PLAYER);
                 return true;
             }
-            client.setPlayer(new Player(nickname));
-            playerNickname = nickname;
-            changeState(StateName.NEW_PLAYER);
+            client.write(new RetryMessage(null, currentState , "This name is used by another connected player, please choose a different one"));
+            client.write(new NextStateMessage(null, currentState));
             return true;
 
         } catch (ReconnectionException e) {
@@ -71,24 +77,19 @@ public class InitController {
                     //single player
                     System.out.println("Player: " + playerNickname + " chose to play a singlePlayer match");
                     changeState(StateName.SP_CONFIGURATION_CHOOSE);
+                    return true;
                 }
-                else {
-                    // multiplayer
-                    System.out.println("Player: " + playerNickname + " chose to play a multiplayer match");
-                    if (isThereAPendentMatch()) { //Found a pendent match, try to add the player to it
-                        changeState(StateName.WAITING);
-                        if(participateToCurrentMatch(client.getPlayer())) {//If the player is added to the game <-- exit from init
-                            changeState(StateName.START_GAME);
-                            return true;
-                        }
-                        //Failed adding the player, the player will have to make his own game
-                        changeState(StateName.NUMBER_OF_PLAYERS);
-                        return true;
 
-                    }else
-                        //He is the first player of the game, he has to choose the number of players
-                        changeState(StateName.NUMBER_OF_PLAYERS);
+                // multiplayer
+                System.out.println("Player: " + playerNickname + " chose to play a multiplayer match");
+
+                if (serverCall().canCreateMatch(client.getPlayer())) {
+                    //He is the first player of the game, he has to choose the number of players
+                    changeState(StateName.NUMBER_OF_PLAYERS);
+                    return true;
                 }
+                //Found a pendent match, and already added the player to it or to a waitingList for the next game
+                // wait until the waiting queue is full, the state will be updated automatically
                 return true;
 
             case SP_CONFIGURATION_CHOOSE:
@@ -101,13 +102,9 @@ public class InitController {
                 return true;
 
             case MP_CONFIGURATION_CHOOSE:
-                if(choice) { //choose the default config, wait for players and then start the match
-                    changeState(StateName.WAITING);
-                    List<Player> playersInMatch = matchParticipants();
-                    System.out.println("forming a new match for... " + playersInMatch);
-                    changeState(StateName.START_GAME);
-                    MatchController controller = new MatchController(playersInMatch);
-                    setMatchController(controller, playersInMatch);  //<-- exit from init
+                if(choice) { //choose the default config, wait for players or start directly the match
+                    changeState(StateName.WAITING_FOR_PLAYERS);
+                    serverCall().searchingForPlayers(client.getPlayer(), desiredNumberOfPlayers);
                 }
                 else { //Choose custom configuration
                     changeState(StateName.CONFIGURATION);
@@ -126,10 +123,44 @@ public class InitController {
     public boolean setNumberOfPlayers(int num){
         if(!isAccepted(NUM_PLAYERS))
             return false;
-        searchingForPlayers(client.getPlayer(), num);
         System.out.println(client.getPlayer() + " is searching for " + num + " players...");
+        //Save the desired number of players in a variable in order to use this information later
+        desiredNumberOfPlayers = num;
         changeState(StateName.MP_CONFIGURATION_CHOOSE);
         return true;
+    }
+
+    /**
+     * A player in waiting state receiving this command can now create his own match
+     */
+    public synchronized void createMatch(){
+        if(currentState != StateName.WAITING) {
+            System.err.println("Error inside initController -> " + playerNickname + " cannot create a match because he is currently in state: " + currentState);
+            System.exit(1);
+        }
+        changeState(StateName.NUMBER_OF_PLAYERS);
+    }
+
+    public boolean startGame(){
+        switch (currentState) {
+            case WAITING:
+                changeState(StateName.START_GAME);
+                return true;
+
+            case WAITING_FOR_PLAYERS:
+                List<Player> playersInMatch = serverCall().matchParticipants();
+                System.out.println("forming a new match for... " + playersInMatch);
+                changeState(StateName.START_GAME);
+                MatchController controller = new MatchController(playersInMatch);
+                setMatchController(controller, playersInMatch);  //<-- exit from init
+                return true;
+
+        }
+        return false;
+    }
+
+    public void setWaiting(){
+        changeState(StateName.WAITING);
     }
 
     public boolean isAccepted(CtoSMessageType msg){
@@ -143,7 +174,7 @@ public class InitController {
 
     private void setMatchController(MatchController controller, List<Player> playersInMatch){
         for(Player player : playersInMatch) {
-            findControlBase(player.getNickname()).setMatchController(controller);
+            serverCall().findControlBase(player.getNickname()).setMatchController(controller);
         }
     }
 }

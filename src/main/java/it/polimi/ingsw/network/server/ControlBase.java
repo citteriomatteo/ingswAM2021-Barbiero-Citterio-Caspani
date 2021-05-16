@@ -2,14 +2,17 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.InitController;
 import it.polimi.ingsw.controller.MatchController;
+import it.polimi.ingsw.controller.StateName;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
 
 public interface ControlBase {
+    StateName getCurrentState();
     MatchController getMatchController();
     InitController getInitController();
     void setPlayer(Player player);
     Player getPlayer();
+    String getNickname();
     void setMatchController(MatchController controller);
 
     /**

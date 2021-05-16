@@ -15,7 +15,7 @@ public class LoginMessage extends CtoSMessage{
     public boolean computeMessage(ControlBase controlBase) {
         if(controlBase.getInitController().login(getNickname()))
             return true;
-        controlBase.write(new RetryMessage("", "You can't send a " + type + " message in this moment"));
+        controlBase.write(new RetryMessage(controlBase.getNickname(), controlBase.getCurrentState(), "You can't send a " + type + " message in this moment"));
         return false;
     }
 

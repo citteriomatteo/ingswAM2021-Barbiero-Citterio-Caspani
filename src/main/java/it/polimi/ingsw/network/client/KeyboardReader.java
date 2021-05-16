@@ -50,6 +50,10 @@ public class KeyboardReader extends Thread{
         this.client = client;
     }
 
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     /**
      * Parse a message CtoS from this client
      * @param input the line read
@@ -518,7 +522,6 @@ public class KeyboardReader extends Thread{
         }
     }
 
-
     public void printHelpMap(){
 
         List<String> helpKeys = new ArrayList<>(helpMap.keySet());
@@ -528,13 +531,4 @@ public class KeyboardReader extends Thread{
             System.out.println(i + ".  "+helpKeys.get(i) + " - " + helpValues.get(i));
     }
 
-    public static void main(String args[]){
-        Gson parser = sToCMessageConfig(new GsonBuilder()).create();
-        Scanner scanner = new Scanner(System.in);
-        Client client = new Client("127.0.0.1", 1337);
-        KeyboardReader reader = new KeyboardReader(client);
-        while(true){
-            System.out.println(parser.toJson(reader.parseInMessage(scanner.nextLine())));
-        }
-    }
 }

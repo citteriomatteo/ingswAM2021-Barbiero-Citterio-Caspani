@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.controller.InitController;
 import it.polimi.ingsw.controller.MatchController;
+import it.polimi.ingsw.controller.StateName;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessage;
 import it.polimi.ingsw.network.message.stocmessage.RetryMessage;
@@ -64,6 +65,12 @@ public class PlayerHandler implements Runnable, ControlBase {
     }
 
     @Override
+    public StateName getCurrentState(){
+        if(inMatch.get())
+            return matchController.getCurrentState(player.getNickname());
+        return initController.getCurrentState();
+    }
+    @Override
     public MatchController getMatchController() {
         return matchController;
     }
@@ -74,6 +81,10 @@ public class PlayerHandler implements Runnable, ControlBase {
     @Override
     public Player getPlayer() {
         return player;
+    }
+    @Override
+    public String getNickname() {
+        return player == null ? null : player.getNickname();
     }
     @Override
     public void setPlayer(Player player) {
@@ -117,7 +128,7 @@ public class PlayerHandler implements Runnable, ControlBase {
     public void run() {
         try {
             //initialize the player and do the configuration, exit from here when is assigned a MatchController
-            init();
+            initializationAndSetting();
 
             CtoSMessage inMsg;
             while (inMatch.get()) {
@@ -142,7 +153,7 @@ public class PlayerHandler implements Runnable, ControlBase {
      * Initialization of the player, set writer and reader, talk with the client and set nickname and the correct match
      * @throws IOException if something goes wrong with the reading or writing with the player
      */
-    private void init() throws IOException {
+    private void initializationAndSetting() throws IOException {
         CtoSMessage inMsg;
         initController = new InitController(this);
 
@@ -155,7 +166,7 @@ public class PlayerHandler implements Runnable, ControlBase {
             if (inMsg.getType().getCode() == 0)
                 inMsg.computeMessage(this);
             else
-                write(new RetryMessage(player == null ? null : player.getNickname(),  "The match is not started yet, you cannot send messages like that"));
+                write(new RetryMessage(getNickname(), getCurrentState(),  "The match is not started yet, you cannot send messages like that"));
             //controls on existing nickname and previous players disconnection are done inside the computeMessage
         }
     }
@@ -174,7 +185,7 @@ public class PlayerHandler implements Runnable, ControlBase {
         }catch (IOException ignored) { /*this exception is thrown when trying to close an already closed stream */}
         if(removePlayer) {
             System.out.println("Closed connection with " + player);
-            removePlayer(this);
+            serverCall().removePlayer(this);
         }
     }
 
@@ -195,7 +206,7 @@ public class PlayerHandler implements Runnable, ControlBase {
                         return inMsg;
                     } catch (Exception e) {
                         System.out.println("Arrived wrong message syntax from " + player + "\n--> message: " + readLine);
-                        this.write(new RetryMessage((player == null) ? null : player.getNickname(), "Wrong Json Syntax " + e.getMessage()));
+                        this.write(new RetryMessage(getNickname(), getCurrentState(), "Wrong Json Syntax " + e.getMessage()));
                     }
         }
     }

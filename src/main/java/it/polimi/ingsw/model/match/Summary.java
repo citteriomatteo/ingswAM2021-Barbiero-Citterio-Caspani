@@ -13,8 +13,8 @@ import it.polimi.ingsw.model.match.player.personalBoard.StrongBox;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 import it.polimi.ingsw.network.message.stocmessage.*;
 import it.polimi.ingsw.observer.ModelObserver;
-import static it.polimi.ingsw.network.server.ServerUtilities.findControlBase;
 import static it.polimi.ingsw.controller.MatchController.getKeyByValue;
+import static it.polimi.ingsw.network.server.ServerUtilities.serverCall;
 
 
 import java.util.*;
@@ -116,7 +116,7 @@ public class Summary implements ModelObserver
         for(int i = 0; i< market.getBoard().length; i++)
             for(int j = 0; j<market.getBoard()[i].length; j++)
                 this.market[i][j] = Character.toLowerCase(market.getBoard()[i][j].toString().charAt(0));
-        if(findControlBase(getPlayersNicknames().get(0)) != null)
+        if(serverCall().findControlBase(getPlayersNicknames().get(0)) != null)
             new MarketChangeMessage("", this.sideMarble, this.market).sendBroadcast(getPlayersNicknames());
     }
 
@@ -134,7 +134,7 @@ public class Summary implements ModelObserver
                 this.cardGrid[i][j].add(getKeyByValue(cardMap,cardGrid.getTop()[i][j]));
                 this.cardGrid[i][j].add("" + cardGrid.getGrid()[i][j].size());
             }
-        if(findControlBase(getPlayersNicknames().get(0)) != null)
+        if(serverCall().findControlBase(getPlayersNicknames().get(0)) != null)
             new CardGridChangeMessage("", this.cardGrid).sendBroadcast(getPlayersNicknames());
     }
 

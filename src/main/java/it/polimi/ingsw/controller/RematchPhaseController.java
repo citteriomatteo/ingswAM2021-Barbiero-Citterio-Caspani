@@ -7,8 +7,6 @@ import it.polimi.ingsw.network.message.stocmessage.RematchOfferedMessage;
 
 import java.util.List;
 
-import static it.polimi.ingsw.network.server.ServerUtilities.findControlBase;
-
 public class RematchPhaseController
 {
     private int numResponses=0;
