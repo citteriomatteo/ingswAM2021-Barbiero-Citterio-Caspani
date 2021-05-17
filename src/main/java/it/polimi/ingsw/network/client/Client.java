@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessage;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
+import it.polimi.ingsw.network.message.ctosmessage.LeadersChoiceMessage;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessageType;
 import it.polimi.ingsw.view.ClientController;
@@ -63,7 +64,7 @@ public class Client {
         while (true) {
             try {
                 String res = in.readLine();
-                System.out.println("Server wrote: " + res);
+                //System.out.println("Server wrote: " + res);
                 return parserStoC.fromJson(res, StoCMessage.class);
             } catch (Exception e) {
                 System.out.println("Received Wrong json syntax " + e.getMessage());
@@ -75,11 +76,16 @@ public class Client {
     public synchronized boolean writeMessage(CtoSMessage msg) {
         try {
             String outMsg = parserCtoS.toJson(msg, CtoSMessage.class);
-            System.out.println("You write a " + msg.getType() + ":\n" + outMsg);
+            //System.out.println("You write a " + msg.getType() + ":\n" + outMsg);
             if(!isAccepted(msg.getType())) {
-                controller.printRetry("Operation not available: retry. Write 'help' for message tips.");
+                controller.printRetry("You're in "+controller.getCurrentState()+". Operation not available: retry. Write 'help' for message tips.");
                 return false;
             }
+
+            //local set of leaders choice
+            if(msg.getType().equals(CtoSMessageType.LEADERS_CHOICE))
+                controller.getMatch().setHandLeaders(msg.getNickname(),((LeadersChoiceMessage) msg).getLeaders());
+
             out.println(outMsg);
             return true;
         } catch (JsonSyntaxException e) {

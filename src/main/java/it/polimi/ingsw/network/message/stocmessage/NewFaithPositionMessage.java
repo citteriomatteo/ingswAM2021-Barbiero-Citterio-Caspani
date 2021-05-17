@@ -20,7 +20,10 @@ public class NewFaithPositionMessage extends StoCMessage {
 
     @Override
     public boolean compute(Client client){
-        client.getController().getMatch().setFaithMarker(getNickname(), newPosition);
+        if(!getNickname().equals("Lorenzo the Magnificent"))
+            client.getController().getMatch().setFaithMarker(getNickname(), newPosition);
+        else
+            client.getController().getMatch().setLorenzoMarker(newPosition);
         return true;
     }
 

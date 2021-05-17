@@ -8,6 +8,8 @@ import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessageType;
 import it.polimi.ingsw.view.lightmodel.LightMatch;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -31,8 +33,8 @@ public class ClientController
                 entry(StateName.MP_CONFIGURATION_CHOOSE, List.of(BINARY_SELECTION)),
                 entry(StateName.CONFIGURATION, List.of(CONFIGURE)),
                 entry(StateName.WAITING,List.of(PING)),
-                entry(StateName.START_GAME, List.of(PING)),
-                entry(StateName.WAITING_LEADERS, List.of(LEADERS_CHOICE)),
+                entry(StateName.START_GAME, List.of(PING,LEADERS_CHOICE)),
+                //entry(StateName.WAITING_LEADERS, List.of(LEADERS_CHOICE)),
                 entry(StateName.WAITING_RESOURCES, List.of(STARTING_RESOURCES)),
                 entry(StateName.WAITING_FOR_TURN, List.of(PING)),
                 entry(StateName.STARTING_TURN, List.of(LEADER_ACTIVATION, LEADER_DISCARDING, SWITCH_SHELF,
@@ -114,9 +116,10 @@ public class ClientController
                 view.drawWaitingLayout();
                 break;
             case START_GAME:
+                view.drawLeadersChoiceLayout();
                 break;
             case WAITING_LEADERS:
-                view.drawLeadersChoiceLayout();
+                //view.drawLeadersChoiceLayout();
                 break;
             case WAITING_RESOURCES:
                 view.drawResourcesChoiceLayout();
@@ -161,10 +164,36 @@ public class ClientController
     }
 
     public void setLightMatch(Summary summary){
-        LightMatch match = new LightMatch(summary);
-        match.setView(this.view);
+        match = new LightMatch(summary, this.view);
+    }
+
+    public boolean printCardInfo(String request){
+        List<String> splitRequest = new ArrayList(Arrays.asList(request.split("\\s+")));
+        splitRequest.remove(0);
+        if(splitRequest.size() != 1)
+            return false;
+        List<String> cards = new ArrayList(Arrays.asList(splitRequest.get(0).split(",")));
+        for(String id : cards)
+            view.drawCard(match.getCardMap().get(id), id);
+
+        return true;
+
+    }
+
+    public boolean viewEnemy(String request){
+        List<String> splitRequest = new ArrayList(Arrays.asList(request.split("\\s+")));
+        splitRequest.remove(0);
+        if(splitRequest.size() != 1)
+            return false;
+        List<String> nicknames = new ArrayList(Arrays.asList(splitRequest.get(0).split(",")));
+        for(String nickname : nicknames)
+            view.viewEnemy(nickname, match);
+
+        return true;
     }
 
     public LightMatch getMatch(){ return match; }
+
+    public StateName getCurrentState() { return currentState; }
 
 }

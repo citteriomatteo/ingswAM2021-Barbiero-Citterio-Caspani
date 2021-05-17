@@ -209,9 +209,16 @@ public class TurnController {
             catch (LastRoundException e) { isLastRound(); }
             catch (InvalidOperationException e) {
                 currentState = StateName.RESOURCES_PLACEMENT;
+
+                //update_call
+                currentPlayer.updateWarehouse(currentPlayer.getNickname(), currentPlayer.getPersonalBoard().getWarehouse());
+                currentPlayer.updateMarketBuffer(currentPlayer.getNickname(), currentPlayer.getPersonalBoard().getWarehouse());
+
+
                 throw new RetryException ("You can still place other resources." + errMessage);
             }
             currentState = StateName.END_TURN;
+
             //update_call
             currentPlayer.updateWarehouse(currentPlayer.getNickname(), currentPlayer.getPersonalBoard().getWarehouse());
             currentPlayer.updateMarketBuffer(currentPlayer.getNickname(), currentPlayer.getPersonalBoard().getWarehouse());

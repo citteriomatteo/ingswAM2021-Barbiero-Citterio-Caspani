@@ -146,7 +146,7 @@ public class Summary implements ModelObserver
     public void updateLorenzoMarker(int lorenzoMarker) {
         this.lorenzoMarker = lorenzoMarker;
 
-        new NewFaithPositionMessage("Lorenzo the Magnificent",lorenzoMarker).sendBroadcast(getPlayersNicknames());
+        new NewFaithPositionMessage("Lorenzo the Magnificent", lorenzoMarker).sendBroadcast(getPlayersNicknames());
     }
 
     /**

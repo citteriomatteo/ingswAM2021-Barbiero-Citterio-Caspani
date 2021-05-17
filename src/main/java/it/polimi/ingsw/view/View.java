@@ -1,12 +1,19 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.model.essentials.PhysicalResource;
+import it.polimi.ingsw.model.essentials.Card;
+import it.polimi.ingsw.network.message.ctosmessage.LeadersChoiceMessage;
+import it.polimi.ingsw.network.message.stocmessage.HandLeadersStateMessage;
+import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
+import it.polimi.ingsw.view.lightmodel.LightMatch;
 import it.polimi.ingsw.view.observer.ViewObserver;
 
 import java.util.Map;
 
 public interface View extends ViewObserver {
 
+
+    void drawCard(Card card, String id);
+    void viewEnemy(String nickname, LightMatch match);
 
     void printTitle();
     void drawLoginLayout();
@@ -31,10 +38,5 @@ public interface View extends ViewObserver {
     void printTokenDraw(String tokenName, int remainingTokens);
     void printLastRound();
     void printMatchResults(String message, Map<String, Integer> ranking);
-
     void printRetry(String errMessage);
-
-
-
-
 }

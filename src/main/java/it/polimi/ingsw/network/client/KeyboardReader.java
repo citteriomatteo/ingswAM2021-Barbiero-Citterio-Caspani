@@ -1,10 +1,7 @@
 package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.exceptions.NegativeQuantityException;
-import it.polimi.ingsw.model.essentials.PhysicalResource;
-import it.polimi.ingsw.model.essentials.Production;
-import it.polimi.ingsw.model.essentials.ResType;
-import it.polimi.ingsw.model.essentials.Resource;
+import it.polimi.ingsw.model.essentials.*;
 import it.polimi.ingsw.network.message.ctosmessage.*;
 
 import java.io.BufferedReader;
@@ -37,7 +34,9 @@ public class KeyboardReader extends Thread{
                 entry("devCardPlacement","Column"),
                 entry("production","cardsId cardID1,cardID2 uCosts ResourceType,Quantity uEarnings ResourceType,Quantity"),
                 entry("endTurn","end_turn"),
-                entry("rematch","y/n")
+                entry("rematch","y/n"),
+                entry("cardInfo", "cardIDs"),
+                entry("viewEnemy","Nicknames")
         );
     }
 
@@ -505,6 +504,14 @@ public class KeyboardReader extends Thread{
                     printHelpMap();
                     continue;
                 }
+                if(userInput.indexOf("viewEnemy") == 0){
+                    client.getController().viewEnemy(userInput);
+                    continue;
+                }
+                if(userInput.indexOf("cardInfo") == 0) {
+                    client.getController().printCardInfo(userInput);
+                    continue;
+                }
                 if(userInput.equals("exit"))
                     play = false;
                 messageToSend = parseInMessage(userInput);
@@ -525,7 +532,7 @@ public class KeyboardReader extends Thread{
         List<String> helpValues = new ArrayList<>(helpMap.values());
 
         for(int i = 0; i < helpKeys.size(); i++)
-            System.out.println(i + ".  "+helpKeys.get(i) + " : " + helpValues.get(i));
+            System.out.println(i + ".  "+helpKeys.get(i) + " : [" + helpValues.get(i) + "]");
     }
 
 }

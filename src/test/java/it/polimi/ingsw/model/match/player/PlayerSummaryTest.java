@@ -79,7 +79,7 @@ public class PlayerSummaryTest extends CommonThingsTest
     @Test
     public void updateStrongboxTest() throws WrongSettingException, SingleMatchException, NegativeQuantityException {
         //TODO
-        /*
+/*
         Player player1 = new Player("player1");
         Player player2 = new Player("player2");
         Player player3 = new Player("player3");
@@ -96,19 +96,23 @@ public class PlayerSummaryTest extends CommonThingsTest
         Player curr = match.getCurrentPlayer();
 
         curr.addToStrongBox(new PhysicalResource(ResType.STONE, 5));
-
         curr.updateStrongbox(curr.getNickname(), curr.getPersonalBoard().getStrongBox());
-        assertEquals(curr.getPersonalBoard().getStrongBox().getNumberOf(ResType.STONE), summary.getPlayerSummary(curr.getNickname()).getStrongbox().get(ResType.STONE.ordinal()).getQuantity());
+
+        assertEquals(curr.getPersonalBoard().getStrongBox().getNumberOf(ResType.STONE), summary.getPlayerSummary(curr.getNickname()).getStrongbox().get(1).getQuantity());
 
         curr.addToStrongBox(new PhysicalResource(ResType.COIN, 3));
         curr.addToStrongBox(new PhysicalResource(ResType.SERVANT, 7));
-
         curr.updateStrongbox(curr.getNickname(), curr.getPersonalBoard().getStrongBox());
-        assertEquals(curr.getPersonalBoard().getStrongBox().getNumberOf(ResType.STONE), summary.getPlayerSummary(curr.getNickname()).getStrongbox().get(ResType.STONE.ordinal()).getQuantity());
-        assertEquals(curr.getPersonalBoard().getStrongBox().getNumberOf(ResType.COIN), summary.getPlayerSummary(curr.getNickname()).getStrongbox().get(ResType.COIN.ordinal()).getQuantity());
-        assertEquals(curr.getPersonalBoard().getStrongBox().getNumberOf(ResType.SERVANT), summary.getPlayerSummary(curr.getNickname()).getStrongbox().get(ResType.SERVANT.ordinal()).getQuantity());
 
-         */
+
+        for(ResType type : curr.getPersonalBoard().getStrongBox().getResources().keySet())
+            System.out.println(type + " - " + curr.getPersonalBoard().getStrongBox().getNumberOf(type));
+
+        //fixed positions of the resources: unknown is not present in the strongbox -> ordinal doesn't work don't know how to solve
+        assertEquals(curr.getPersonalBoard().getStrongBox().getNumberOf(ResType.STONE), summary.getPlayerSummary(curr.getNickname()).getStrongbox().get(1).getQuantity());
+        assertEquals(curr.getPersonalBoard().getStrongBox().getNumberOf(ResType.COIN), summary.getPlayerSummary(curr.getNickname()).getStrongbox().get(3).getQuantity());
+        assertEquals(curr.getPersonalBoard().getStrongBox().getNumberOf(ResType.SERVANT), summary.getPlayerSummary(curr.getNickname()).getStrongbox().get(0).getQuantity());
+*/
     }
 
     @Test

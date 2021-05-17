@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.observer;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
+import it.polimi.ingsw.view.lightmodel.LightMatch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,101 +29,100 @@ public class ViewObservable {
 
     /**
      * This method calls an update on the Observer's class.
-     * @param market the market
-     * @param sideMarble the slide marble
+     * @param match the match to get the market into
      */
-    public void updateMarket(char[][] market, char sideMarble){
-        observers.get(0).updateMarket(market, sideMarble);
+    public void updateMarket(LightMatch match){
+        observers.get(0).updateMarket(match);
     }
     /**
      * This method calls an update on the Observer's class.
-     * @param cardGrid the card grid
+     * @param match the match to get the card grid into
      */
-    public void updateCardGrid(List<String>[][] cardGrid){
-        observers.get(0).updateCardGrid(cardGrid);
+    public void updateCardGrid(LightMatch match){
+        observers.get(0).updateCardGrid(match);
     }
     /**
      * This method calls an update on the Observer's class.
-     * @param lorenzoMarker the black marker
+     * @param match the match to get the black marker into
      */
-    public void updateLorenzoMarker(int lorenzoMarker){
-        observers.get(0).updateLorenzoMarker(lorenzoMarker);
+    public void updateLorenzoMarker(LightMatch match){
+        observers.get(0).updateLorenzoMarker(match);
     }
     /**
      * This method calls an update on the Observer's class.
-     * @param warehouse the warehouse
+     * @param match the match to get the player's warehouse into
      */
-    public void updateWarehouse(String nickname, List<PhysicalResource> warehouse){
-        observers.get(0).updateWarehouse(nickname, warehouse);
+    public void updateWarehouse(String nickname, LightMatch match){
+        observers.get(0).updateWarehouse(nickname, match);
     }
     /**
      * This method calls an update on the Observer's class.
-     * @param marketBuffer the market buffer
+     * @param match the match to get the player's market buffer into
      */
-    public void updateMarketBuffer(String nickname, List<PhysicalResource> marketBuffer){
-        observers.get(0).updateMarketBuffer(nickname, marketBuffer);
+    public void updateMarketBuffer(String nickname, LightMatch match){
+        observers.get(0).updateMarketBuffer(nickname, match);
     }
     /**
      * This method calls an update on the Observer's class.
-     * @param strongbox the strongbox
+     * @param match the match to get the player's strongbox into
      */
-    public void updateStrongbox(String nickname, List<PhysicalResource> strongbox){
-        observers.get(0).updateStrongbox(nickname, strongbox);
+    public void updateStrongbox(String nickname, LightMatch match){
+        observers.get(0).updateStrongbox(nickname, match);
     }
     /**
      * This method calls an update on the Observer's class.
-     * @param faithMarker the faith marker
+     * @param match the match to get the player's faith marker into
      */
-    public void updateFaithMarker(String nickname, int faithMarker){
-        observers.get(0).updateFaithMarker(nickname, faithMarker);
+    public void updateFaithMarker(String nickname, LightMatch match){
+        observers.get(0).updateFaithMarker(nickname, match);
     }
     /**
      * This method calls an update on the Observer's class.
-     * @param popeTiles the pope tiles
+     * @param match the match to get the player's pope tiles into
      */
-    public void updatePopeTiles(String nickname, List<Integer> popeTiles){
-        observers.get(0).updatePopeTiles(nickname, popeTiles);
+    public void updatePopeTiles(String nickname, LightMatch match){
+        observers.get(0).updatePopeTiles(nickname, match);
     }
     /**
      * This method calls an update on the Observer's class.
-     * @param devCardSlots the dev card slots
+     * @param match the match to get the player's dev card slots into
      */
-    public void updateDevCardSlots(String nickname, List<String>[] devCardSlots){
-        observers.get(0).updateDevCardSlots(nickname, devCardSlots);
+    public void updateDevCardSlots(String nickname, LightMatch match){
+        observers.get(0).updateDevCardSlots(nickname, match);
     }
     /**
      * This method calls an update on the Observer's class.
-     * @param handLeaders the han leaders
+     * @param match the match to get the player's hand leaders into
      */
-    public void updateHandLeaders(String nickname, List<String> handLeaders){
-        observers.get(0).updateHandLeaders(nickname, handLeaders);
+    public void updateHandLeaders(String nickname, LightMatch match){
+        observers.get(0).updateHandLeaders(nickname, match);
     }
     /**
      * This method calls an update on the Observer's class.
-     * @param activeLeaders the active leaders
+     * @param match the match to get the player's active leaders into
      */
-    public void updateActiveLeaders(String nickname, List<String> activeLeaders){
-        observers.get(0).updateActiveLeaders(nickname, activeLeaders);
+    public void updateActiveLeaders(String nickname, LightMatch match){
+        observers.get(0).updateActiveLeaders(nickname, match);
     }
     /**
      * This method calls an update on the Observer's class.
-     * @param whiteMarbleConversions the conversions
+     * @param match the match to get the player's white marble conversions into
      */
-    public void updateWhiteMarbleConversions(String nickname, List<PhysicalResource> whiteMarbleConversions){
-        observers.get(0).updateWhiteMarbleConversions(nickname, whiteMarbleConversions);
+    public void updateWhiteMarbleConversions(String nickname, LightMatch match){
+        observers.get(0).updateWhiteMarbleConversions(nickname, match);
     }
     /**
      * This method calls an update on the Observer's class.
-     * @param discountMap the discount map
+     * @param match the match to get the player's discount map into
      */
-    public void updateDiscountMap(String nickname, List<PhysicalResource> discountMap){
-        observers.get(0).updateDiscountMap(nickname, discountMap);
+    public void updateDiscountMap(String nickname, LightMatch match){
+        observers.get(0).updateDiscountMap(nickname, match);
     }
     /**
      * This method calls an update on the Observer's class.
-     * @param tempDevCard the temporary dev card
+     * @param match the match to get the player's temporary dev card into
      */
-    public void updateTempDevCard(String nickname, String tempDevCard){
-        observers.get(0).updateTempDevCard(nickname, tempDevCard);
+    public void updateTempDevCard(String nickname, LightMatch match){
+        observers.get(0).updateTempDevCard(nickname, match);
     }
 }

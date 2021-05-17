@@ -153,9 +153,9 @@ public class Player extends ModelObservable implements Adder, Verificator
 
     public boolean addBlackPoints(int quantity) throws LastRoundException {
         ((SingleFaithPath) getPersonalBoard().getFaithPath()).addBlackPoints(quantity);
+
         //update_call
         updateLorenzoMarker(( (SingleFaithPath) this.getPersonalBoard().getFaithPath()).getBlackPosition());
-        System.out.println("Update lorenzo marker called.");
 
         return true;
     }

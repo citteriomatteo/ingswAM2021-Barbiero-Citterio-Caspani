@@ -67,7 +67,10 @@ public class LightPlayer {
      * @param marketBuffer the buffer
      */
     public void setMarketBuffer(List<PhysicalResource> marketBuffer) {
+
         this.marketBuffer = marketBuffer;
+        if(this.marketBuffer == null)
+            this.marketBuffer = new ArrayList<>();
     }
 
     /**

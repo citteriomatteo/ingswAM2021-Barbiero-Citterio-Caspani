@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.observer;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
+import it.polimi.ingsw.view.lightmodel.LightMatch;
 
 import java.util.List;
 
@@ -10,21 +11,21 @@ import java.util.List;
  */
 public interface ViewObserver {
 
-    void updateMarket(char[][] market, char sideMarble);
-    void updateCardGrid(List<String>[][] cardGrid);
-    void updateLorenzoMarker(int lorenzoMarker);
+    void updateMarket(LightMatch match);
+    void updateCardGrid(LightMatch match);
+    void updateLorenzoMarker(LightMatch match);
 
-    void updateWarehouse(String nickname, List<PhysicalResource> warehouse);
-    void updateMarketBuffer(String nickname, List<PhysicalResource> marketBuffer);
-    void updateStrongbox(String nickname, List<PhysicalResource> strongbox);
-    void updateFaithMarker(String nickname, int faithMarker);
-    void updatePopeTiles(String nickname, List<Integer> popeTiles);
-    void updateDevCardSlots(String nickname, List<String>[] devCardSlots);
-    void updateHandLeaders(String nickname, List<String> handLeaders);
-    void updateActiveLeaders(String nickname, List<String> handLeaders);
-    void updateWhiteMarbleConversions(String nickname, List<PhysicalResource> whiteMarbleConversion);
-    void updateDiscountMap(String nickname, List<PhysicalResource> discountMap);
-    void updateTempDevCard(String nickname, String tempDevCard);
+    void updateWarehouse(String nickname, LightMatch match);
+    void updateMarketBuffer(String nickname, LightMatch match);
+    void updateStrongbox(String nickname, LightMatch match);
+    void updateFaithMarker(String nickname, LightMatch match);
+    void updatePopeTiles(String nickname, LightMatch match);
+    void updateDevCardSlots(String nickname, LightMatch match);
+    void updateHandLeaders(String nickname, LightMatch match);
+    void updateActiveLeaders(String nickname, LightMatch match);
+    void updateWhiteMarbleConversions(String nickname, LightMatch match);
+    void updateDiscountMap(String nickname, LightMatch match);
+    void updateTempDevCard(String nickname, LightMatch match);
 
 
 

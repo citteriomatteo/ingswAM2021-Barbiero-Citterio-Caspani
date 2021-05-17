@@ -14,8 +14,7 @@ public class PlusOneShuffleToken extends Token{
      */
     @Override
     public boolean onDraw(SingleMatch match) throws LastRoundException {
-        SingleFaithPath singleFaithPath;
-        singleFaithPath = (SingleFaithPath) match.getCurrentPlayer().getPersonalBoard().getFaithPath();
+        SingleFaithPath singleFaithPath = (SingleFaithPath) match.getCurrentPlayer().getPersonalBoard().getFaithPath();
 
         return (match.getCurrentPlayer().addBlackPoints(1) && match.getTokenStack().shuffle());
     }
