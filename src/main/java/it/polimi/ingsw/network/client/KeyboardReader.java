@@ -304,7 +304,7 @@ public class KeyboardReader extends Thread{
             for (int j=i+1; j<params.size(); j++){
                 element = params.get(j);
                 if(!addWarehouseCosts(element, warehouseCosts))
-                    warehouseCosts = null;
+                    warehouseCosts = new HashMap<>();
             }
         }
         else warehouseCosts.put(0, voidResource);

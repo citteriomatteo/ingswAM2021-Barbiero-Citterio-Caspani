@@ -108,9 +108,10 @@ public class MultiMatch extends Match {
      * @return the next player
      */
     public Player getNextPlayer(){
-        if(numPlayer < players.size()-1)
-            return players.get(numPlayer+1);
-        else return players.get(0);
+
+        int position = (numPlayer+1)%(players.size());
+        return players.get(position);
+
     }
 
     /**
@@ -119,11 +120,8 @@ public class MultiMatch extends Match {
      */
     @Override
     public boolean nextTurn(){
-        numPlayer++;
-        if(numPlayer < players.size())
-            currentPlayer = players.get(numPlayer);
-        else
-            currentPlayer = players.get(0);
+        numPlayer = (numPlayer+1)%(players.size());
+        currentPlayer = players.get(numPlayer);
 
         if(!currentPlayer.isConnected())
             this.nextTurn();
