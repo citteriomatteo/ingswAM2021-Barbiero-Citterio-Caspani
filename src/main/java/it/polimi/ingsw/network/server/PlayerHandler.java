@@ -6,8 +6,10 @@ import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.controller.InitController;
 import it.polimi.ingsw.controller.MatchController;
 import it.polimi.ingsw.controller.StateName;
+import it.polimi.ingsw.exceptions.DisconnectionException;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessage;
+import it.polimi.ingsw.network.message.stocmessage.GoodbyeMessage;
 import it.polimi.ingsw.network.message.stocmessage.RetryMessage;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
 
@@ -29,7 +31,8 @@ public class PlayerHandler implements Runnable, ControlBase {
     private static final Gson parserCtoS = cToSMessageConfig(new GsonBuilder()).create();
     //Build the parser for json output message
     private static final Gson parserStoC = sToCMessageConfig(new GsonBuilder()).create();
-    private Socket socket;
+
+    private final Socket socket;
     private Player player;
     private BufferedReader in;
     private PrintWriter out;
@@ -98,31 +101,6 @@ public class PlayerHandler implements Runnable, ControlBase {
     }
 
 
-    /**
-     * Used for restoring connection with a disconnected player previously linked to this handler.
-     * If the player wasn't previously disconnected the socket isn't substituted.
-     * @deprecated
-     * Can't reuse the same handler, is easier to create a new one and assign him the old information of the player
-     * @param socket the new socket created for the new connection with this player
-     * @return true if the socket has been correctly substituted,
-     *         false if the player is still connected before the call of this method
-     */
-    @Deprecated
-    public boolean setSocket(Socket socket) {
-        if (!player.isConnected()) {
-            this.socket = socket;
-            try {
-                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                out = new PrintWriter(socket.getOutputStream(), true);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            player.connect();
-            return true;
-        }
-        return false;
-    }
-
 //%%%%%%%%%%%%%%%% MAIN FUNCTION %%%%%%%%%%%%%%%%%%%%
 
     public void run() {
@@ -130,30 +108,29 @@ public class PlayerHandler implements Runnable, ControlBase {
             //initialize the player and do the configuration, exit from here when is assigned a MatchController
             initializationAndSetting();
 
-            CtoSMessage inMsg;
-            while (inMatch.get()) {
-                inMsg = read();
-                inMsg.computeMessage(this);
-            }
+            playTheGame();
 
-            //close reader, writer and socket connection, this is the correct total disconnection of the player
+            //if the game comes naturally to an end remove the player from the global list
             terminateConnection(true);
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-            System.out.println("Probably something goes wrong or the player closed the connection---> disconnection");
-            if(player != null)
-                player.disconnect(); //todo: fix disconnection
-            terminateConnection(false);
+
+        } catch (IOException | DisconnectionException e) {
+            disconnection();
         }
-        catch(Exception e) {e.printStackTrace();
-            System.out.println("Unknown exception.");}
+        catch(Exception e) {
+            e.printStackTrace();
+            System.err.println("Unknown exception for player " +getNickname()+". Inform the client if possible and close the connection");
+            if(!socket.isClosed())
+                write(new GoodbyeMessage(getNickname(), "I'm sorry the server is temporary offline, retry soon", true));
+            disconnection();
+        }
     }
 
     /**
      * Initialization of the player, set writer and reader, talk with the client and set nickname and the correct match
      * @throws IOException if something goes wrong with the reading or writing with the player
+     * @throws DisconnectionException if the client disconnects
      */
-    private void initializationAndSetting() throws IOException {
+    private void initializationAndSetting() throws IOException, DisconnectionException {
         CtoSMessage inMsg;
         initController = new InitController(this);
 
@@ -167,7 +144,15 @@ public class PlayerHandler implements Runnable, ControlBase {
                 inMsg.computeMessage(this);
             else
                 write(new RetryMessage(getNickname(), getCurrentState(),  "The match is not started yet, you cannot send messages like that"));
-            //controls on existing nickname and previous players disconnection are done inside the computeMessage
+        }
+    }
+
+
+    private void playTheGame() throws IOException, DisconnectionException {
+        CtoSMessage inMsg;
+        while (inMatch.get()) {
+            inMsg = read();
+            inMsg.computeMessage(this);
         }
     }
 
@@ -184,23 +169,27 @@ public class PlayerHandler implements Runnable, ControlBase {
             socket.close();
         }catch (IOException ignored) { /*this exception is thrown when trying to close an already closed stream */}
         if(removePlayer) {
-            System.out.println("Closed connection with " + player);
+            System.out.println("Closed connection with " + player + " and removed it from global list");
             serverCall().removePlayer(this);
         }
     }
 
     /**
-     * Reads a message CtoS from this client, if the message is not present, wait until a message is sent
+     * Reads a message CtoS from this client, if the message is not present, wait until a message is sent,
+     * if the player disconnects interrupt the reading and set the player disconnected then throw the DisconnectionException
      * @return the message read
      * @throws IOException if something goes wrong while waiting for the message
+     * @throws DisconnectionException if the player disconnects
      */
-    private CtoSMessage read() throws IOException {
+    private CtoSMessage read() throws IOException, DisconnectionException {
         String readLine;
         CtoSMessage inMsg;
         while(true){
                 readLine = in.readLine();
                 System.out.println("Client wrote: "+readLine);
-                if(readLine != null && !readLine.equals(""))
+                if(readLine == null)
+                    throw new DisconnectionException("player " + player + " disconnected");
+                if(!readLine.equals(""))
                     try {
                         inMsg = parserCtoS.fromJson(readLine, CtoSMessage.class);
                         return inMsg;
@@ -229,6 +218,25 @@ public class PlayerHandler implements Runnable, ControlBase {
             exception.printStackTrace();
             System.out.println("error in write");
             return false;
+        }
+    }
+
+    public synchronized void disconnection(){
+
+        System.err.println("Probably something goes wrong or the player "+getNickname()+" closed the connection --> disconnection");
+        if(inMatch.get()) {
+            terminateConnection(false);
+            if (!player.disconnect())
+                System.err.println("Tried to disconnect a previously disconnected player");
+            return;
+        }
+
+        if(player!=null) {
+            StateName currentState = initController.getCurrentState();
+            if (currentState == StateName.NUMBER_OF_PLAYERS || currentState == StateName.MP_CONFIGURATION_CHOOSE)
+                serverCall().rejectPriority(player);
+            //since the player is not yet in game -> remove totally his nickname from the server
+            terminateConnection(true);
         }
     }
 }

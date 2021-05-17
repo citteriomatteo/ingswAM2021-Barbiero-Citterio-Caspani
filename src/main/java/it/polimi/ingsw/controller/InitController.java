@@ -1,10 +1,12 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.ReconnectionException;
+import it.polimi.ingsw.model.match.Summary;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
 import it.polimi.ingsw.network.message.stocmessage.NextStateMessage;
 import it.polimi.ingsw.network.message.stocmessage.RetryMessage;
+import it.polimi.ingsw.network.message.stocmessage.SummaryMessage;
 import it.polimi.ingsw.network.server.PlayerHandler;
 
 import java.util.List;
@@ -62,7 +64,9 @@ public class InitController {
             return true;
 
         } catch (ReconnectionException e) {
-            changeState(StateName.RECONNECTION);
+            playerNickname = nickname;
+            currentState = StateName.RECONNECTION;
+            client.write(new NextStateMessage(null, currentState));
             return true;
         }
 
@@ -106,13 +110,20 @@ public class InitController {
                     changeState(StateName.WAITING_FOR_PLAYERS);
                     serverCall().searchingForPlayers(client.getPlayer(), desiredNumberOfPlayers);
                 }
-                else { //Choose custom configuration
+                else //Choose custom configuration
                     changeState(StateName.CONFIGURATION);
-                }
                 return true;
 
             case RECONNECTION:
-                //todo reconnection
+                if(choice && serverCall().reconnection(client, playerNickname)) {
+                    changeState(StateName.START_GAME);
+                    (new SummaryMessage(playerNickname, (Summary) client.getPlayer().getSummary())).send(playerNickname);
+                    //todo maybe add a nextState message
+                }
+                else{
+                    currentState = StateName.LOGIN;
+                    client.write(new NextStateMessage(null, currentState));
+                }
                 return true;
 
             default: //if the method enters here there is a problem

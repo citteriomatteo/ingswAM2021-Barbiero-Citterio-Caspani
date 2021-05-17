@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.exceptions.ReconnectionException;
-import it.polimi.ingsw.model.essentials.CardColor;
 import it.polimi.ingsw.model.match.player.Player;
 
 import java.util.*;
@@ -68,8 +67,43 @@ public class ServerUtilities {
         }
     }
 
+    /**
+     * Returns the controlBase of the required player, if the player is actually disconnected, returns null
+     * @param nickname the nickname of the player you want to know the relative controlBase
+     * @return the control base of the player required, or null if the player is disconnected,
+     *         if a player with that nickname is not present in the server returns null as well
+     */
     public ControlBase findControlBase(String nickname){
-        return activeClients.get(nickname);
+        synchronized (activeClients) {
+            ControlBase res = activeClients.get(nickname);
+            if (res.getPlayer().isConnected())
+                return res;
+            return null;
+        }
+    }
+
+    /**
+     * Associates the newClient with the nickname of the previously disconnected player, set the previous
+     * matchController and send to him the summary of the match
+     * @param newClient the client who wants to continue the match of the previously disconnected player
+     * @param nickname the nickname of the previously disconnected player
+     * @return true if the reconnection worked,
+     *         false if there isn't a player with that nickname in the server or the player is already connected
+     */
+    public boolean reconnection(PlayerHandler newClient, String nickname){
+        synchronized (activeClients){
+            System.out.println(nickname + " tries to reconnect");
+            PlayerHandler previousClient = activeClients.get(nickname);
+            if (previousClient==null || previousClient.getPlayer().isConnected())
+                return false;
+
+            newClient.setPlayer(previousClient.getPlayer());
+            newClient.setMatchController(previousClient.getMatchController());
+            activeClients.put(nickname,newClient);
+            newClient.getPlayer().connect();
+            System.out.println(nickname + " has been reconnected");
+            return true;
+        }
     }
 
     //%%%%%%%%%%%%%%% MULTIPLAYER PART %%%%%%%%%%%%%
@@ -94,6 +128,24 @@ public class ServerUtilities {
             System.out.println("The next match will be created by "+ host);
             this.host = host;
             formingMatch.set(true);
+            return true;
+        }
+    }
+
+    /**
+     * If the method is called by the previous host give the possibility to create the next match to the next player in list
+     * @param host the player who want to reject his priority
+     * @return true if the host had the priority before
+     */
+    public boolean rejectPriority(Player host){
+        synchronized ((formingMatch)){
+            if(this.host != host)
+                return false;
+            this.host = null;
+            formingMatch.set(false);
+
+            System.out.println(host + " rejected the possibility to make the next match");
+            nextHostFromWaitingList();
             return true;
         }
     }

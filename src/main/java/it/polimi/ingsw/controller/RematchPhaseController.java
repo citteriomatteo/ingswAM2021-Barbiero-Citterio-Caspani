@@ -18,7 +18,7 @@ public class RematchPhaseController
 
     public boolean response(String nickname, boolean value){
         if(!value){
-            new GoodbyeMessage(nickname, "One player declined the rematch offer. Thanks!").sendBroadcast(players.get(0).getMatch());
+            new GoodbyeMessage(nickname, "One player declined the rematch offer. Thanks!", false).sendBroadcast(players.get(0).getMatch());
             //TODO: close everything
             return false;
         }

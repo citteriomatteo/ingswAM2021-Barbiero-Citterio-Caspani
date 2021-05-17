@@ -120,7 +120,7 @@ public class Player extends ModelObservable implements Adder, Verificator
     /** @return nickname */
     public String getNickname() { return nickname; }
     /** @return the state of the player's connection */
-    public boolean isConnected() { return connected; }
+    public synchronized boolean isConnected() { return connected; }
     /** @return the hand leaders list */
     public List<LeaderCard> getHandLeaders() { return handLeaders; }
     /** @return personal Board */
@@ -254,12 +254,25 @@ public class Player extends ModelObservable implements Adder, Verificator
     }
 
     //OTHER METHODS:
-    /** * This method connects the player.
-     * @return true */
-    public boolean connect() {connected=true; return true;}
-    /** * This method disconnects the player.
-     * @return true */
-    public boolean disconnect() {connected=false; return true;}
+    /**
+     * Sets this player as connected, if this player was previously connected return false
+     * @return true if this player wasn't already connected*/
+    public synchronized boolean connect() {
+        if(connected)
+            return false;
+        connected=true;
+        return true;
+    }
+
+    /**
+     * Sets this player as disconnected, if this player is already disconnected return false
+     * @return true if this player wasn't already disconnected */
+    public synchronized boolean disconnect() {
+        if(!connected)
+            return false;
+        connected = false;
+        return true;
+    }
 
     /**
      * This method sets the in-hand leaders chosen by the player.
