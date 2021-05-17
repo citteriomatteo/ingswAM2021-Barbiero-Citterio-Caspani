@@ -125,6 +125,8 @@ public class MultiMatch extends Match {
         else
             currentPlayer = players.get(0);
 
+        if(!currentPlayer.isConnected())
+            this.nextTurn();
         return true;
     }
 
