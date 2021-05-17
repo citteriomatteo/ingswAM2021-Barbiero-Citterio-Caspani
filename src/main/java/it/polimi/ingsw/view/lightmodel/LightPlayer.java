@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.essentials.Production;
 import it.polimi.ingsw.model.match.player.PlayerSummary;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class LightPlayer {
 
@@ -41,8 +42,12 @@ public class LightPlayer {
         setPopeTiles(playerSummary.getPopeTiles());
         setDevCardSlots(playerSummary.getDevCardSlots());
         setHandLeaders(playerSummary.getHandLeaders());
-        setActiveLeaders(playerSummary.getActiveLeaders());
-        setWhiteMarbleConversions(playerSummary.getWhiteMarbleConversions());
+        activeLeaders = new ArrayList<>();
+        for(String l : playerSummary.getActiveLeaders())
+            setActiveLeader(l);
+        whiteMarbleConversions = new ArrayList<>();
+        for(PhysicalResource conv : playerSummary.getWhiteMarbleConversions())
+            setWhiteMarbleConversions(conv);
         setDiscountMap(playerSummary.getDiscountMap());
         setTempDevCard(playerSummary.getTempDevCard());
         setTempProduction(playerSummary.getTempProduction());
@@ -106,19 +111,24 @@ public class LightPlayer {
     }
 
     /**
-     * This method sets the active leaders.
-     * @param activeLeaders the active leaders
+     * This method discards an hand leader.
      */
-    public void setActiveLeaders(List<String> activeLeaders) {
-        this.activeLeaders = activeLeaders;
+    public void leaderDiscard() { handLeaders.remove(0); }
+
+    /**
+     * This method sets the active leaders.
+     * @param activeLeader the active leader
+     */
+    public void setActiveLeader(String activeLeader) {
+        this.activeLeaders.add(activeLeader);
     }
 
     /**
      * This method sets the white marble conversions.
-     * @param whiteMarbleConversions the conversions
+     * @param whiteMarbleConversion the conversions
      */
-    public void setWhiteMarbleConversions(List<PhysicalResource> whiteMarbleConversions) {
-        this.whiteMarbleConversions = whiteMarbleConversions;
+    public void setWhiteMarbleConversions(PhysicalResource whiteMarbleConversion) {
+        this.whiteMarbleConversions.add(whiteMarbleConversion);
     }
 
     /**

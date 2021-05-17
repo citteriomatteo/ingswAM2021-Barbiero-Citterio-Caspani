@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.message.stocmessage;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 
 import java.util.List;
+import it.polimi.ingsw.network.client.Client;
 
 public class UpdatedDiscountMapMessage extends StoCMessage {
 

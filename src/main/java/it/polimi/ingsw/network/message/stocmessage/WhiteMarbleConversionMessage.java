@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.message.stocmessage;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
+import it.polimi.ingsw.network.client.Client;
 
 public class WhiteMarbleConversionMessage extends StoCMessage {
 
@@ -15,5 +16,11 @@ public class WhiteMarbleConversionMessage extends StoCMessage {
     public PhysicalResource getNewConversion() { return newConversion; }
     @Override
     public StoCMessageType getType() { return type; }
+
+    @Override
+    public boolean compute(Client client) {
+        client.getController().getMatch().setWhiteMarbleConversions(getNickname(), this.newConversion);
+        return true;
+    }
 
 }

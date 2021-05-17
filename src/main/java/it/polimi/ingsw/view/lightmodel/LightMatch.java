@@ -66,6 +66,16 @@ public class LightMatch extends ViewObservable {
     }
 
     /**
+     * This method discardsa player's leader.
+     * Calls an update to the view.
+     * @param nickname the player who discards
+     */
+    public void leaderDiscard(String nickname){
+        getPlayerSummary(nickname).leaderDiscard();
+        updateHandLeaders(nickname, getPlayerSummary(nickname).getHandLeaders());
+    }
+
+    /**
      * This method sets the card grid.
      * Calls an update to the view.
      * @param cardGrid the grid
@@ -160,19 +170,19 @@ public class LightMatch extends ViewObservable {
      * Calls an update to the view.
      * @param activeLeader the player's active leader
      */
-    public void setActiveLeaders(String nickname, List<String> activeLeaders) {
-        getPlayerSummary(nickname).setActiveLeaders(activeLeaders);
-        updateActiveLeaders(nickname, activeLeaders);
+    public void activateLeader(String nickname, String activeLeader) {
+        getPlayerSummary(nickname).setActiveLeader(activeLeader);
+        updateActiveLeaders(nickname, getPlayerSummary(nickname).getActiveLeaders());
     }
 
     /**
      * This method sets the player's white marble conversions.
      * Calls an update to the view.
-     * @param whiteMarbleConversions the player's conversions
+     * @param whiteMarbleConversion the player's conversions
      */
-    public void setWhiteMarbleConversions(String nickname, List<PhysicalResource> whiteMarbleConversions) {
-        getPlayerSummary(nickname).setWhiteMarbleConversions(whiteMarbleConversions);
-        updateWhiteMarbleConversions(nickname, whiteMarbleConversions);
+    public void setWhiteMarbleConversions(String nickname, PhysicalResource whiteMarbleConversion) {
+        getPlayerSummary(nickname).setWhiteMarbleConversions(whiteMarbleConversion);
+        updateWhiteMarbleConversions(nickname, getPlayerSummary(nickname).getWhiteMarbleConversions());
     }
 
     /**

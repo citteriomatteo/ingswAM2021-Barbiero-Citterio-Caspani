@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.message.stocmessage;
 
-import it.polimi.ingsw.network.message.Message;
+import it.polimi.ingsw.network.client.Client;
 
 /**
  * This class implements a message that notifies every player about the extracted token.
@@ -22,5 +22,11 @@ public class TokenDrawMessage extends StoCMessage {
     public StoCMessageType getType(){ return type; }
     public int getRemainingTokens(){ return remainingTokens; }
     public String tokenName(){ return tokenName; }
+
+    @Override
+    public boolean compute(Client client){
+        client.getController().printTokenDraw(tokenName, remainingTokens);
+        return true;
+    }
 
 }

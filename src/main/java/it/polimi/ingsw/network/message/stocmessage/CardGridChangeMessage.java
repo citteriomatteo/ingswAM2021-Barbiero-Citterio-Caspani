@@ -20,6 +20,12 @@ public class CardGridChangeMessage extends StoCMessage {
         this.newCardGrid = newCardGrid;
     }
 
+    @Override
+    public boolean compute(Client client) {
+        client.getController().getMatch().setCardGrid(newCardGrid);
+        return true;
+    }
+
     public StoCMessageType getType(){
         return type;
     }

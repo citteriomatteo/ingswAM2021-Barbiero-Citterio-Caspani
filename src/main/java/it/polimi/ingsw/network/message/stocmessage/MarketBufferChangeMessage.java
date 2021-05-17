@@ -15,11 +15,18 @@ public class MarketBufferChangeMessage extends StoCMessage{
         this.newBuffer = newBuffer;
     }
 
-    public List<PhysicalResource> getNewBuffer() {
-        return newBuffer;
+    @Override
+    public boolean compute(Client client){
+        client.getController().getMatch().setMarketBuffer(getNickname(), newBuffer);
+        return true;
     }
+
     @Override
     public StoCMessageType getType() {
         return type;
+    }
+
+    public List<PhysicalResource> getNewBuffer() {
+        return newBuffer;
     }
 }

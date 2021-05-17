@@ -22,6 +22,12 @@ public class DevCardSlotChangeMessage extends StoCMessage {
         this.newDevSlots = newDevSlots;
     }
 
+    @Override
+    public boolean compute(Client client){
+        client.getController().getMatch().setDevCardSlots(getNickname(),newDevSlots);
+        return true;
+    }
+
     public StoCMessageType getType(){
         return type;
     }

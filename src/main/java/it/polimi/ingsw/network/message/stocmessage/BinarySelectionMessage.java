@@ -40,4 +40,5 @@ public class BinarySelectionMessage extends StoCMessage {
     public String getComment() {
         return comment;
     }
+
 }

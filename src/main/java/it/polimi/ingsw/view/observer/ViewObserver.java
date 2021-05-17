@@ -22,7 +22,7 @@ public interface ViewObserver {
     void updateDevCardSlots(String nickname, List<String>[] devCardSlots);
     void updateHandLeaders(String nickname, List<String> handLeaders);
     void updateActiveLeaders(String nickname, List<String> handLeaders);
-    void updateWhiteMarbleConversions(String nickname, List<PhysicalResource> whiteMarbleConversions);
+    void updateWhiteMarbleConversions(String nickname, List<PhysicalResource> whiteMarbleConversion);
     void updateDiscountMap(String nickname, List<PhysicalResource> discountMap);
     void updateTempDevCard(String nickname, String tempDevCard);
 

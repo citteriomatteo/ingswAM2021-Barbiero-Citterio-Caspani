@@ -4,8 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessage;
+import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessageType;
+import it.polimi.ingsw.view.ClientController;
+import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.view.cli.Cli;
 
 import java.io.*;
 import java.net.Socket;
@@ -20,6 +24,9 @@ public class Client {
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
+
+    private final ClientController controller;
+
     //Build the parser for json input message
     private static final Gson parserCtoS = cToSMessageConfig(new GsonBuilder()).create();
     //Build the parser for json output message
@@ -35,6 +42,9 @@ public class Client {
             System.exit(1);
         }
 
+        View cli = new Cli();
+        controller = new ClientController(cli);
+
     }
 
     private void startClient(){
@@ -42,9 +52,11 @@ public class Client {
         boolean play = true;
         while (play){
             messageFromServer = readMessage();
+            messageFromServer.compute(this);
+
             if(messageFromServer.getType().equals(StoCMessageType.GOODBYE))
                 play = false;
-        }
+            }
     }
 
     private StoCMessage readMessage() {
@@ -64,7 +76,10 @@ public class Client {
         try {
             String outMsg = parserCtoS.toJson(msg, CtoSMessage.class);
             System.out.println("You write a " + msg.getType() + ":\n" + outMsg);
-            //if(!controller.isAccepted(outMsg.getType()) {controller.updateCurrentState(controller.getCurrentState(),true); return false;}
+            if(!isAccepted(msg.getType())) {
+                controller.printRetry("Operation not available: retry. Write 'help' for message tips.");
+                return false;
+            }
             out.println(outMsg);
             return true;
         } catch (JsonSyntaxException e) {
@@ -90,6 +105,11 @@ public class Client {
         }catch (IOException ignored) { /*this exception is thrown when trying to close an already closed stream */}
     }
 
+    public boolean isAccepted(CtoSMessageType type){ return controller.isAccepted(type); }
+
+    public ClientController getController() {
+        return controller;
+    }
 
     public static void main(String[] args) {
         String hostName;
@@ -101,7 +121,7 @@ public class Client {
             hostName = ReadHostFromJSON();
             portNumber = ReadPortFromJSON();
         }
-        Client client = new Client(hostName, portNumber);
+        Client client = new Client(hostName, portNumber); //cli/gui choice param will be passed here
         new KeyboardReader(client).start();
 
         client.startClient();

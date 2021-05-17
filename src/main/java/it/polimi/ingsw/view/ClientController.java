@@ -34,6 +34,7 @@ public class ClientController
                 entry(StateName.START_GAME, List.of(PING)),
                 entry(StateName.WAITING_LEADERS, List.of(LEADERS_CHOICE)),
                 entry(StateName.WAITING_RESOURCES, List.of(STARTING_RESOURCES)),
+                entry(StateName.WAITING_FOR_TURN, List.of(PING)),
                 entry(StateName.STARTING_TURN, List.of(LEADER_ACTIVATION, LEADER_DISCARDING, SWITCH_SHELF,
                         MARKET_DRAW, DEV_CARD_DRAW, PRODUCTION)),
                 entry(StateName.MARKET_ACTION, List.of(WHITE_MARBLE_CONVERSIONS, SWITCH_SHELF)),
@@ -65,7 +66,19 @@ public class ClientController
 
     //quando si ha una retry (da parte del server o dalla keyboardReader) viene chiamata questa, che stampa l'errore.
     public void printRetry(String errMessage){
-        System.out.println(errMessage);
+        view.printRetry(errMessage);
+    }
+
+    public void printMatchResults(String message, Map<String, Integer> ranking){
+        view.printMatchResults(message, ranking);
+    }
+
+    public void printLastRound(){
+        view.printLastRound();
+    }
+
+    public void printTokenDraw(String tokenName, int remainingTokens){
+        view.printTokenDraw(tokenName, remainingTokens);
     }
 
     /*
@@ -74,7 +87,7 @@ public class ClientController
      Pensare se ha più senso che questa funzione sia scritta qui o singolarmente sulle due View.
      Eventualmente, tutte le funzioni draw...() saranno chiamate sulla View (gui o cli che sia).
      */
-    public void printMoveLegend(){
+    public void printMoveLegend(StoCMessage msg){
 
         switch(currentState){
             case LOGIN:
@@ -91,16 +104,53 @@ public class ClientController
                 view.drawNumPlayersLayout();
                 break;
             case SP_CONFIGURATION_CHOOSE:
-                //view.drawConfigurationChoice("Single");
-                break;
             case MP_CONFIGURATION_CHOOSE:
-                //view.drawConfigurationChoice("Multi");
+                view.drawConfigurationChoice();
                 break;
             case CONFIGURATION:
-                //view.drawConfigurationLayout(int configPiece);
+                view.drawConfigurationLayout();
                 break;
-
-           //TODO: finish cases
+            case WAITING:
+                view.drawWaitingLayout();
+                break;
+            case START_GAME:
+                break;
+            case WAITING_LEADERS:
+                view.drawLeadersChoiceLayout();
+                break;
+            case WAITING_RESOURCES:
+                view.drawResourcesChoiceLayout();
+                break;
+            case WAITING_FOR_TURN:
+                view.drawYourTurnLayout(false);
+                break;
+            case STARTING_TURN:
+                view.drawYourTurnLayout(true);
+                break;
+            case MARKET_ACTION:
+                view.drawWhiteMarbleConversionsLayout();
+                break;
+            case RESOURCES_PLACEMENT:
+                view.drawResPlacementLayout();
+                break;
+            case BUY_DEV_ACTION:
+                view.drawBuyDevCardLayout();
+                break;
+            case PLACE_DEV_CARD:
+                view.drawPlaceDevCardLayout();
+                break;
+            case PRODUCTION_ACTION:
+                view.drawProductionLayout();
+                break;
+            case END_TURN:
+                view.drawEndTurnLayout();
+                break;
+            case END_MATCH:
+                view.drawEndMatchLayout();
+                break;
+            case REMATCH_OFFER:
+                view.drawRematchOfferLayout(msg.getNickname());
+                break;
         }
 
     }
@@ -114,5 +164,7 @@ public class ClientController
         LightMatch match = new LightMatch(summary);
         match.setView(this.view);
     }
+
+    public LightMatch getMatch(){ return match; }
 
 }

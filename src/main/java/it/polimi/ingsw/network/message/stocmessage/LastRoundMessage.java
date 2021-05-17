@@ -8,7 +8,12 @@ public class LastRoundMessage extends StoCMessage {
 
     public LastRoundMessage(String nickname, String msg) {
         super(nickname);
-        this.msg = msg;
+    }
+
+    @Override
+    public boolean compute(Client client){
+        client.getController().printLastRound();
+        return true;
     }
 
     @Override

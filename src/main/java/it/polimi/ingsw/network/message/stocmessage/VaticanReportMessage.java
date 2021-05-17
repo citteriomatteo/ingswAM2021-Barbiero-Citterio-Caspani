@@ -1,10 +1,10 @@
 package it.polimi.ingsw.network.message.stocmessage;
 
-import it.polimi.ingsw.network.message.Message;
-
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import it.polimi.ingsw.network.client.Client;
+import it.polimi.ingsw.view.lightmodel.LightPlayer;
 
 /**
  * This class implements a message that contains the new state of a certain tile and implies a VIEW change of every player
@@ -25,5 +25,13 @@ public class VaticanReportMessage extends StoCMessage {
 
     public StoCMessageType getType(){ return type; }
     public Map<String, List<Integer>> getTilesState(){ return popeTiles; }
+
+    @Override
+    public boolean compute(Client client){
+        //updates every player's tiles
+        for(LightPlayer lp : client.getController().getMatch().getPlayersSummary())
+            client.getController().getMatch().setPopeTiles(getNickname(), popeTiles.get(lp.getNickname()));
+        return true;
+    }
 
 }

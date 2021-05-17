@@ -1,21 +1,20 @@
 package it.polimi.ingsw.view.cli;
 
-import it.polimi.ingsw.model.essentials.FaithPoint;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
-import it.polimi.ingsw.model.essentials.ResType;
-import it.polimi.ingsw.model.essentials.Resource;
+import it.polimi.ingsw.view.View;
 
 import java.util.List;
 import java.util.Map;
 
-public class Cli
+public class Cli implements View
 {
 
     public Cli(){
-        drawTitle();
+        printTitle();
     }
 
-    public void drawTitle(){
+    @Override
+    public void printTitle(){
         StringBuilder str = new StringBuilder();
 
         str.append(ColorCli.YELLOW_BOLD).append("                        __  __               _____   _______   ______   _____     _____                   \n" +
@@ -38,6 +37,110 @@ public class Cli
                 "                                                                                                          ").append(ColorCli.CLEAR);
         System.out.println(str);
     }
+
+    @Override
+    public void drawLoginLayout() {
+
+        System.out.println("sei nel login");
+
+    }
+
+    @Override
+    public void drawReconnectionLayout() {
+        System.out.println("sei nel login");
+    }
+
+    @Override
+    public void drawNewPlayerLayout() {
+        System.out.println("single o multi?");
+    }
+
+    @Override
+    public void drawNumPlayersLayout() {
+        System.out.println("scegli il numero di player");
+    }
+
+    @Override
+    public void drawConfigurationChoice() {
+        System.out.println("config default?");
+    }
+
+    @Override
+    public void drawConfigurationLayout() {
+
+    }
+
+    @Override
+    public void drawWaitingLayout() {
+        System.out.println("aspetta che si connettano altri...");
+    }
+
+    @Override
+    public void drawLeadersChoiceLayout() {
+
+    }
+
+    @Override
+    public void drawResourcesChoiceLayout() {
+
+    }
+
+    @Override
+    public void drawYourTurnLayout(boolean yourTurn) {
+
+    }
+
+    @Override
+    public void drawWhiteMarbleConversionsLayout() {
+
+    }
+
+    @Override
+    public void drawResPlacementLayout() {
+
+    }
+
+    @Override
+    public void drawBuyDevCardLayout() {
+
+    }
+
+    @Override
+    public void drawPlaceDevCardLayout() {
+
+    }
+
+    @Override
+    public void drawProductionLayout() {
+
+    }
+
+    @Override
+    public void drawEndTurnLayout() {
+
+    }
+
+    @Override
+    public void printLastRound(){
+
+    }
+
+
+    @Override
+    public void drawEndMatchLayout() {
+
+    }
+
+    @Override
+    public void drawRematchOfferLayout(String nickname) {
+
+    }
+
+    @Override
+    public void printRetry(String errMessage) {
+        System.out.println(errMessage);
+    }
+
 
     private void drawResource(PhysicalResource resource){
         
