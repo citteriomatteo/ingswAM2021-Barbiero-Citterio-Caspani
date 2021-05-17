@@ -76,7 +76,7 @@ public class ServerUtilities {
     public ControlBase findControlBase(String nickname){
         synchronized (activeClients) {
             ControlBase res = activeClients.get(nickname);
-            if (res.getPlayer().isConnected())
+            if (res != null && res.getPlayer().isConnected())
                 return res;
             return null;
         }
