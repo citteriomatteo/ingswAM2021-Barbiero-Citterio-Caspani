@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.controller.StateName;
 import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.essentials.*;
 import it.polimi.ingsw.network.message.ctosmessage.*;
@@ -9,34 +10,38 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
+import static it.polimi.ingsw.controller.StateName.*;
 import static java.util.Map.entry;
 
 public class KeyboardReader extends Thread{
     private final BufferedReader keyboard;
     private final Client client;
     private String nickname;
-    private static final Map<String, String> helpMap;
-    static{
+    private static final Map<StateName, List<String>> helpMap;
+    static {
         helpMap = Map.ofEntries(
-                entry("login", "Nickname"),
-                entry("selection", "y/n"),
-                entry("numPlayers","numPlayers"),
-                entry("leadersChoice","LeadersID"),
-                entry("startingResource","ResourceType,Shelf"),
-                entry("switchShelf","firstShelf,secondShelf"),
-                entry("leaderActivation","LeaderID"),
-                entry("leaderDiscarding","LeaderID"),
-                entry("marketDraw","r/c(row/column),number"),
-                entry("whiteMarblesConversion","ResourceType,Quantity"),
-                entry("warehouseInsertion","SingleResourceType,Shelf"),
-                entry("devCardDraw","RowNumber,ColumnNumber"),
-                entry("payments","strongbox ResourceType,Quantity warehouse Shelf,ResourceType,Quantity"),
-                entry("devCardPlacement","Column"),
-                entry("production","cardsId cardID1,cardID2 uCosts ResourceType,Quantity uEarnings ResourceType,Quantity"),
-                entry("endTurn", ""),
-                entry("rematch","y/n"),
-                entry("cardInfo", "cardIDs"),
-                entry("viewEnemy","Nicknames")
+                entry(LOGIN, List.of("login [nickname]")),
+                entry(RECONNECTION, List.of("selection [y/n]")),
+                entry(NEW_PLAYER, List.of("selection [y/n]")),
+                entry(NUMBER_OF_PLAYERS, List.of("numPlayers [numPlayers]")),
+                entry(SP_CONFIGURATION_CHOOSE, List.of("selection [y/n]")),
+                entry(MP_CONFIGURATION_CHOOSE, List.of("selection [y/n]")),
+                entry(WAITING, List.of("It's not your turn.... please wait")),
+                entry(START_GAME, List.of("leadersChoice [LeadersID]\n" + "cardInfo [cardIDs]")),
+                entry(WAITING_LEADERS, List.of("leadersChoice [LeadersID]\n" + "cardInfo [cardIDs]")),
+                entry(WAITING_RESOURCES, List.of("startingResource [ResourceType,Shelf]\n" + "cardInfo [cardIDs]")),
+                entry(WAITING_FOR_TURN, List.of("It's not your turn.... please wait")),
+                entry(STARTING_TURN, List.of("leaderActivation [LeaderID]\n" + "leaderDiscarding [LeaderId]\n" + "switchShelf [firstShelf,secondShelf]\n" +
+                        "marketDraw [r/c(row/column),number]\n" + "devCardDraw [RowNumber,ColumnNumber]\n" + "production [\"cardsId\" cardID1,cardID2 \"uCosts\" ResourceType,Quantity \"uEarnings\" ResourceType,Quantity]\n" +
+                        "cardInfo [cardIDs]")),
+                entry(MARKET_ACTION, List.of("whiteMarblesConversion [ResourceType,Quantity]\n" + "switchShelf [firstShelf,secondShelf]\n" + "cardInfo [cardIDs]")),
+                entry(RESOURCES_PLACEMENT, List.of("warehouseInsertion [SingleResourceType,Shelf]\n" + "switchShelf [firstShelf,secondShelf]\n" + "cardInfo [cardIDs]")),
+                entry(BUY_DEV_ACTION, List.of("payments [\"strongbox\" ResourceType,Quantity \"warehouse\" Shelf,ResourceType,Quantity]\n" + "switchShelf [firstShelf,secondShelf]\n" + "cardInfo [cardIDs]")),
+                entry(PLACE_DEV_CARD, List.of("devCardPlacement [Column]\n" + "cardInfo [cardIDs]")),
+                entry(PRODUCTION_ACTION, List.of("payments [\"strongbox\" ResourceType,Quantity \"warehouse\" Shelf,ResourceType,Quantity]\n" + "switchShelf [firstShelf,secondShelf]\n" + "cardInfo [cardIDs]")),
+                entry(END_TURN, List.of("leaderActivation [LeaderID]\n" + "leaderDiscarding [LeaderId]\n" + "switchShelf [firstShelf,secondShelf]\n" + "endTurn\n" + "cardInfo [cardIDs]")),
+                entry(END_MATCH, List.of("rematch [y/n]")),
+                entry(REMATCH_OFFER, List.of("rematch [y/n]"))
         );
     }
 
@@ -58,9 +63,17 @@ public class KeyboardReader extends Thread{
         List<String> words = new ArrayList(Arrays.asList(input.toLowerCase().split("\\s+")));
         String command = words.get(0);
         List<String> params = words.subList(1, words.size());
-        if(params.size() == 0 && !command.equals("endturn")){
-            System.out.println("please insert a valid command");
-            return null;
+        if(params.size() == 0){
+            if(command.equals("endturn"))
+                endTurn();
+            else{
+                CtoSMessage message = selection(command);
+                if(message == null) {
+                    System.out.println("please insert a valid command");
+                    return null;
+                }
+                else return message;
+            }
         }
 
         switch(command){
@@ -68,7 +81,7 @@ public class KeyboardReader extends Thread{
                 return login(params);
 
             case "selection":
-                return selection(params);
+                return selection(params.get(0));
 
             case "numplayers":
                 return numPlayers(params);
@@ -131,18 +144,26 @@ public class KeyboardReader extends Thread{
         return new LoginMessage(params.get(0));
     }
 
-    private CtoSMessage selection(List<String> params){
-        if(params == null || params.size() > 1){
-            System.out.println("please insert only y for yes or n for no");
-            return null;
-        }
-        String input = params.get(0);
-        if(!input.equals("y") && !input.equals("n")) {
-            System.out.println("please insert only y for yes or n for no");
-            return null;
+    private CtoSMessage selection(String input){
+
+        boolean choice;
+        switch (input) {
+            case "y":
+            case "yes":
+            case "single":
+                choice = true;
+                break;
+            case "n":
+            case "no":
+            case "multi":
+                choice = false;
+                break;
+            default:
+                System.out.println("invalid command");
+                return null;
         }
 
-        return new BinarySelectionMessage(nickname, input.equals("y"));
+        return new BinarySelectionMessage(nickname, choice);
     }
 
     private CtoSMessage numPlayers(List<String> params){
@@ -239,7 +260,7 @@ public class KeyboardReader extends Thread{
             return null;
         }
 
-        int num = 0;
+        int num;
         try {
             num = Integer.parseInt(elements.get(1));
         }catch (NumberFormatException e){
@@ -286,7 +307,7 @@ public class KeyboardReader extends Thread{
         List<String> elements = List.of(params.get(0).split(","));
         if(elements.size() != 2)
             return null;
-        int row = 0;
+        int row;
         int column = 0;
         try {
             row = Integer.parseInt(elements.get(0));
@@ -561,15 +582,16 @@ public class KeyboardReader extends Thread{
     }
 
     public void printHelpMap() {
+        StateName currentState = client.getController().getCurrentState();
 
-
-        List<String> helpKeys = new ArrayList<>(helpMap.keySet());
-        List<String> helpValues = new ArrayList<>(helpMap.values());
-
-
-        for (int i = 0; i < helpKeys.size(); i++) {
-
-            System.out.println(i + ".  " + helpKeys.get(i) + " : [" + helpValues.get(i) + "]");
+        for (StateName state : helpMap.keySet()) {
+            if(state.equals(currentState)) {
+                System.out.println("This are your possible moves:");
+                System.out.println(helpMap.get(currentState));
+            }
         }
+
+
     }
+
 }

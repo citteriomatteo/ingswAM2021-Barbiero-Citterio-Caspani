@@ -34,7 +34,7 @@ public class ClientController
                 entry(StateName.CONFIGURATION, List.of(CONFIGURE)),
                 entry(StateName.WAITING,List.of(PING)),
                 entry(StateName.START_GAME, List.of(PING,LEADERS_CHOICE)),
-                entry(StateName.WAITING_LEADERS, List.of(PING,LEADERS_CHOICE)),
+                entry(StateName.WAITING_LEADERS, List.of(LEADERS_CHOICE)),
                 entry(StateName.WAITING_RESOURCES, List.of(STARTING_RESOURCES)),
                 entry(StateName.WAITING_FOR_TURN, List.of(PING)),
                 entry(StateName.STARTING_TURN, List.of(LEADER_ACTIVATION, LEADER_DISCARDING, SWITCH_SHELF,
