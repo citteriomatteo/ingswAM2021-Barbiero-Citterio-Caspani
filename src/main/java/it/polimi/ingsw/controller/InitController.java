@@ -117,8 +117,9 @@ public class InitController {
             case RECONNECTION:
                 if(choice && serverCall().reconnection(client, playerNickname)) {
                     changeState(StateName.START_GAME);
-                    (new SummaryMessage(playerNickname, (Summary) client.getPlayer().getSummary())).send(playerNickname);
-                    //todo maybe add a nextState message
+                    Summary summary = (Summary) client.getPlayer().getSummary();
+                    (new SummaryMessage(playerNickname, summary)).send(playerNickname);
+                    (new NextStateMessage(playerNickname, summary.getPlayerSummary(playerNickname).getLastUsedState())).send(playerNickname);
                 }
                 else{
                     currentState = StateName.LOGIN;
