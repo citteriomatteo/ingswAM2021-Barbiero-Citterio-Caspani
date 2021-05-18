@@ -10,4 +10,10 @@ public interface Requirable {
      * @return true if this Requirable is present on the verificator's PlayerBoard
      */
     boolean verify(Verificator verificator);
+
+    /**
+     * This method returns true if the Requirable object is a resource, else false.
+     * @return boolean
+     */
+    boolean isAResource();
 }

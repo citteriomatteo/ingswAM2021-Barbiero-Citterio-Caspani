@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.match.token;
 import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.CommonThingsTest;
+import it.polimi.ingsw.model.match.MatchConfiguration;
 import it.polimi.ingsw.model.match.SingleMatch;
 import it.polimi.ingsw.model.match.player.Player;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,8 @@ public class TokenStackTest extends CommonThingsTest {
     @Test
     public void testDraw() throws WrongSettingException, LastRoundException {
         Player p = new Player("player1");
-        setSummary(p, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
+        MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/StandardConfiguration.json");
+        setSummary(p, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
         match = new SingleMatch(p);
 
         for(int i=0; i < 10; i++)
@@ -31,7 +33,8 @@ public class TokenStackTest extends CommonThingsTest {
     @Test
     public void testShuffle() throws WrongSettingException {
         Player p = new Player("player1");
-        setSummary(p, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
+        MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/StandardConfiguration.json");
+        setSummary(p, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
         match = new SingleMatch(p);
 
         Stack<Token> stack = match.getTokenStack().getStack();

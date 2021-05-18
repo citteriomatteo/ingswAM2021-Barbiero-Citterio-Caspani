@@ -47,6 +47,9 @@ public class LightMatch extends ViewObservable {
         for(PlayerSummary ps : summary.getPlayersSummary())
             playersSummary.add(new LightPlayer(ps));
 
+        //starting update_call
+        updateMatch(this);
+
 
     }
 

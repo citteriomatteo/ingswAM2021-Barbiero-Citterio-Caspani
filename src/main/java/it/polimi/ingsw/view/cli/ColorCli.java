@@ -18,7 +18,7 @@ public enum ColorCli
 
     // Bold
     YELLOW_BOLD("\033[1;33m"), // YELLOW
-    GREY_BOLD("\033[1;90m");    // GREY
+    GREY_BOLD("\033[1;90m");    // CYAN
 
 
     private final String code;
@@ -30,6 +30,16 @@ public enum ColorCli
     @Override
     public String toString() {
         return code;
+    }
+
+    public String toRegexString(){
+        StringBuilder regex = new StringBuilder();
+        for(char c : code.toCharArray()){
+            if(c == '[' || c == ']')
+                regex.append("\\");
+            regex.append(c);
+        }
+        return regex.toString();
     }
 
 }

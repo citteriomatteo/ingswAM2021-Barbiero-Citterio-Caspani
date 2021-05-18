@@ -5,6 +5,7 @@ import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.CommonThingsTest;
 import it.polimi.ingsw.model.match.Match;
+import it.polimi.ingsw.model.match.MatchConfiguration;
 import it.polimi.ingsw.model.match.SingleMatch;
 import it.polimi.ingsw.model.match.player.Player;
 
@@ -74,7 +75,8 @@ public class MarketTest extends CommonThingsTest {
     public void testSelectRow() throws LastRoundException, WrongSettingException, InvalidOperationException {
         Random gen = new Random();
         Player player = new Player("player1");
-        setSummary(player, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
+        MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
+        setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
         match = new SingleMatch(player);
         int numRow = gen.nextInt(3);
         int countWhite = 0;
@@ -106,7 +108,8 @@ public class MarketTest extends CommonThingsTest {
     public void testSelectColumn() throws LastRoundException, WrongSettingException, InvalidOperationException {
         Random gen = new Random();
         Player player = new Player("player1");
-        setSummary(player, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
+        MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
+        setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
         match = new SingleMatch(player);
         int numColumn = gen.nextInt(3);
         int countWhite = 0;

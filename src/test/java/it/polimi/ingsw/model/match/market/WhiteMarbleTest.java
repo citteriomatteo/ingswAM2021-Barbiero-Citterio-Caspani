@@ -5,6 +5,7 @@ import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.CommonThingsTest;
 import it.polimi.ingsw.model.match.Match;
+import it.polimi.ingsw.model.match.MatchConfiguration;
 import it.polimi.ingsw.model.match.SingleMatch;
 import it.polimi.ingsw.model.match.player.Player;
 import org.junit.jupiter.api.Assertions;
@@ -20,7 +21,8 @@ public class WhiteMarbleTest extends CommonThingsTest {
 
     @Test
     public void testOnDraw() throws NegativeQuantityException, LastRoundException, FileNotFoundException, WrongSettingException {
-        setSummary(player, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
+        MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
+        setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
         match = new SingleMatch(player);
 
         Marble whiteMarble = new WhiteMarble();

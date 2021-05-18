@@ -46,6 +46,16 @@ public class DiscountEffect implements Effect{
     }
 
     @Override
+    public String toCLIString() {
+
+        StringBuilder discount = new StringBuilder();
+        discount.append("Discount effect: ").append(this.discount.getType()).append(", ").append(this.discount.getQuantity());
+        discount.append("\n");
+
+        return discount.toString();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

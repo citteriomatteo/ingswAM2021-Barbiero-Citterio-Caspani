@@ -1,9 +1,11 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.ReconnectionException;
+import it.polimi.ingsw.model.match.MatchConfiguration;
 import it.polimi.ingsw.model.match.Summary;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
+import it.polimi.ingsw.network.message.stocmessage.HandLeadersStateMessage;
 import it.polimi.ingsw.network.message.stocmessage.NextStateMessage;
 import it.polimi.ingsw.network.message.stocmessage.RetryMessage;
 import it.polimi.ingsw.network.message.stocmessage.SummaryMessage;
@@ -11,6 +13,7 @@ import it.polimi.ingsw.network.server.PlayerHandler;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType.*;
 import static it.polimi.ingsw.network.server.ServerUtilities.*;
@@ -119,6 +122,10 @@ public class InitController {
                     changeState(StateName.START_GAME);
                     Summary summary = (Summary) client.getPlayer().getSummary();
                     (new SummaryMessage(playerNickname, summary)).send(playerNickname);
+                    (new HandLeadersStateMessage(playerNickname, client.getPlayer().getHandLeaders().stream()
+                            .map((x)->MatchController.getKeyByValue(summary.getCardMap(),x))
+                            .collect(Collectors.toList())))
+                            .send(playerNickname);
                     (new NextStateMessage(playerNickname, summary.getPlayerSummary(playerNickname).getLastUsedState())).send(playerNickname);
                 }
                 else{

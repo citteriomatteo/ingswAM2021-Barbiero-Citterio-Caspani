@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MultiFaithPathTest extends FaithPathTest
@@ -35,7 +36,8 @@ public class MultiFaithPathTest extends FaithPathTest
             WrongSettingException, LastRoundException {
         List<Player> players = new ArrayList<>(List.of(new Player("player1"),
                 new Player("player2"), new Player("player3")));
-        setSummaries(players, getCardMap(MatchConfiguration.assignConfiguration("src/test/resources/TotalFreeConfiguration.json")));
+        MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/TotalFreeConfiguration.json");
+        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
         Match match = new MultiMatch(players);
 
         match.getCurrentPlayer().addFaithPoints(9);

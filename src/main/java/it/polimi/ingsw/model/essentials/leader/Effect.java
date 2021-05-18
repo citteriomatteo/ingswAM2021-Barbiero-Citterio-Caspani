@@ -13,4 +13,10 @@ public interface Effect {
      * @return true if the LeaderCard have to be added to ProductionActiveLeader list after the activation
      */
     boolean activate(Effector effector);
+
+    /**
+     * This method returns the CLI-printable graphic of the leader's effect.
+     * @return string
+     */
+    String toCLIString();
 }

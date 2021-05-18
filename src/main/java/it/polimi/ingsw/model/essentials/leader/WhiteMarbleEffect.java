@@ -45,6 +45,16 @@ public class WhiteMarbleEffect implements Effect{
     }
 
     @Override
+    public String toCLIString() {
+
+        StringBuilder str = new StringBuilder();
+        str.append("White Marble conversion: ").append(conversion.getType()).append(", ").append(conversion.getQuantity());
+        str.append("\n");
+
+        return str.toString();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

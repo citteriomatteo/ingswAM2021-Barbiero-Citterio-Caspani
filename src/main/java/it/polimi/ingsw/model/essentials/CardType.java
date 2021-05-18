@@ -97,9 +97,15 @@ public class CardType implements Requirable{
 
     @Override
     public boolean verify(Verificator verificator) {
-
         return verificator.verifyCard(this);
     }
+
+    /**
+     * This method returns true if the Requirable object is a resource, else false.
+     * @return false
+     */
+    @Override
+    public boolean isAResource() { return false; }
 
     @Override
     public String toString() {

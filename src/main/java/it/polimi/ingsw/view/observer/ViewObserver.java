@@ -11,6 +11,8 @@ import java.util.List;
  */
 public interface ViewObserver {
 
+    void updateMatch(LightMatch match);
+
     void updateMarket(LightMatch match);
     void updateCardGrid(LightMatch match);
     void updateLorenzoMarker(LightMatch match);

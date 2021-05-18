@@ -22,7 +22,8 @@ public class MultiMatchTest extends CommonThingsTest {
         Player player3 = new Player("player3");
         Player player4 = new Player("player4");
         List<Player> players = new ArrayList<>(List.of(player1,player2,player3,player4));
-        setSummaries(players, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
+        MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
+        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
 
         assertThrows(SingleMatchException.class,()->new MultiMatch(List.of(new Player("player1"))));
         try{
@@ -42,7 +43,8 @@ public class MultiMatchTest extends CommonThingsTest {
     @Test
     public void testNextTurn() throws WrongSettingException, SingleMatchException {
         List<Player> players = new ArrayList<>(List.of(new Player("player1"), new Player("player2"), new Player("player3")));
-        setSummaries(players, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
+        MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
+        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
         match = new MultiMatch(players);
 
         assertEquals(match.getCurrentPlayer(),players.get(0));
@@ -61,7 +63,8 @@ public class MultiMatchTest extends CommonThingsTest {
     @Test
     public void getNextPlayer() throws WrongSettingException, SingleMatchException {
         List<Player> players = new ArrayList<>(List.of(new Player("player1"), new Player("player2"), new Player("player3")));
-        setSummaries(players, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
+        MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
+        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
         match = new MultiMatch(players);
 
         assertEquals(match.getNextPlayer(),players.get(1));

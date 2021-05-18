@@ -30,7 +30,8 @@ public class SingleFaithPathTest extends FaithPathTest
     public void blackPointAndBlackReportTest() throws LastRoundException, WrongSettingException
     {
         Player player = new Player("player1");
-        setSummary(player, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
+        MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
+        setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
         Match match = new SingleMatch(player);
 
         SingleFaithPath path = (SingleFaithPath) match.getCurrentPlayer().getPersonalBoard().getFaithPath();
@@ -45,7 +46,8 @@ public class SingleFaithPathTest extends FaithPathTest
     public void getBlackPositionTest() throws WrongSettingException
     {
         Player player = new Player("player1");
-        setSummary(player, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
+        MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
+        setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
         Match match = new SingleMatch(player);
 
         FaithPath path = match.getCurrentPlayer().getPersonalBoard().getFaithPath();

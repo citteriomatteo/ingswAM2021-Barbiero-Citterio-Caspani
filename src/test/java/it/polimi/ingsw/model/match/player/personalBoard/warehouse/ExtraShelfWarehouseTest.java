@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.essentials.ResType;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.match.CommonThingsTest;
 import it.polimi.ingsw.model.match.Match;
+import it.polimi.ingsw.model.match.MatchConfiguration;
 import it.polimi.ingsw.model.match.MultiMatch;
 import it.polimi.ingsw.model.match.player.Player;
 import org.junit.jupiter.api.Assertions;
@@ -226,7 +227,8 @@ public class ExtraShelfWarehouseTest extends CommonThingsTest
         Player player1 = new Player("player2");
         List<Player> players = new ArrayList<>();
         players.add(player); players.add(player1);
-        setSummaries(players, getCardMap(assignConfiguration("src/test/resources/StandardConfiguration.json")));
+        MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/StandardConfiguration.json");
+        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
         Match match = new MultiMatch(players);
 
         player.getPersonalBoard().warehouseEvolution(new PhysicalResource(ResType.COIN,2));

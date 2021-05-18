@@ -28,7 +28,8 @@ public class FaithPointTest extends CommonThingsTest {
 
     @Test
     public void testAdd() throws NegativeQuantityException, LastRoundException, WrongSettingException {
-        setSummary(player, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
+        MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
+        setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
         Match match = new SingleMatch(player);
 
         FaithPoint faithPoint = new FaithPoint(2);

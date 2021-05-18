@@ -50,7 +50,7 @@ public class MatchController {
         cardMap = initCardMap(configuration);
 
         //setting the starting summary to everyone
-        ModelObserver obs = new Summary(playersInMatch, cardMap);
+        ModelObserver obs = new Summary(playersInMatch, cardMap, configuration.getCustomPath());
         for(Player p : playersInMatch)
             p.setSummary(obs);
 
@@ -93,7 +93,7 @@ public class MatchController {
         cardMap = initCardMap(configuration);
 
         //setting the starting summary to the player
-        ModelObserver obs = new Summary(new ArrayList<>(List.of(player)), cardMap);
+        ModelObserver obs = new Summary(new ArrayList<>(List.of(player)), cardMap, configuration.getCustomPath());
         player.setSummary(obs);
 
         try {
@@ -112,7 +112,7 @@ public class MatchController {
         cardMap = initCardMap(configuration);
 
         //setting the starting summary to the player
-        ModelObserver obs = new Summary(new ArrayList<>(List.of(player)), cardMap);
+        ModelObserver obs = new Summary(new ArrayList<>(List.of(player)), cardMap, match.getCurrentPlayer().getPersonalBoard().getFaithPath().getFaithPath());
         player.setSummary(obs);
 
         try {

@@ -31,7 +31,7 @@ public class SummaryTest extends CommonThingsTest {
         Player player3 = new Player("player3");
         Player player4 = new Player("player4");
         List<Player> players = new ArrayList<>(List.of(player1,player2,player3,player4));
-        Summary summary = new Summary(players, cardMap);
+        Summary summary = new Summary(players, cardMap, assignConfiguration("src/test/resources/TotalFreeConfiguration.json").getCustomPath());
         for(Player p : players)
             p.setSummary(summary);
         Match match = new MultiMatch(players);
@@ -55,8 +55,9 @@ public class SummaryTest extends CommonThingsTest {
         Player player3 = new Player("player3");
         Player player4 = new Player("player4");
         List<Player> players = new ArrayList<>(List.of(player1,player2,player3,player4));
-        setSummaries(players, cardMap);
-        Match match = new MultiMatch(players, assignConfiguration("src/test/resources/TotalFreeConfiguration.json"));
+        MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
+        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
+        Match match = new MultiMatch(players, matchConfiguration);
         setCardMap(match.getMatchConfiguration());
         Summary summary = new Summary(match, cardMap);
         for(Player p : match.getPlayers())

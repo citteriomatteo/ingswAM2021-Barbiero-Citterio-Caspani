@@ -6,6 +6,7 @@ import it.polimi.ingsw.exceptions.SingleMatchException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.CommonThingsTest;
 import it.polimi.ingsw.model.match.Match;
+import it.polimi.ingsw.model.match.MatchConfiguration;
 import it.polimi.ingsw.model.match.MultiMatch;
 import it.polimi.ingsw.model.match.player.Player;
 import org.junit.jupiter.api.Test;
@@ -39,7 +40,8 @@ public class FaithPathTest extends CommonThingsTest
         Player player1 = new Player("player2");
         List<Player> players = new ArrayList<>();
         players.add(player); players.add(player1);
-        setSummaries(players, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
+        MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
+        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
         Match match = new MultiMatch(players);
         FaithPath path = match.getCurrentPlayer().getPersonalBoard().getFaithPath();
 
@@ -55,7 +57,8 @@ public class FaithPathTest extends CommonThingsTest
         Player player1 = new Player("player2");
         List<Player> players = new ArrayList<>();
         players.add(player); players.add(player1);
-        setSummaries(players, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
+        MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
+        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
         MultiMatch match = new MultiMatch(players);
 
         FaithPath path = match.getCurrentPlayer().getPersonalBoard().getFaithPath();

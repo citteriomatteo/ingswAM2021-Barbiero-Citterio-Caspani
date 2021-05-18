@@ -46,6 +46,16 @@ public class SlotEffect implements Effect{
     }
 
     @Override
+    public String toCLIString() {
+
+        StringBuilder str = new StringBuilder();
+        str.append("Extra shelf: ").append(extraShelf.getType()).append(", ").append(extraShelf.getQuantity());
+        str.append("\n");
+
+        return str.toString();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

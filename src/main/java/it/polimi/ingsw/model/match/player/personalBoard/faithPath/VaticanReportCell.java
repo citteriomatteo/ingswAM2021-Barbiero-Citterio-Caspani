@@ -53,4 +53,8 @@ public class VaticanReportCell extends Cell
      */
     @Override
     public boolean singleVaticanReport() {return true;}
+
+    /** @return true if it's a vatican report cell, else false */
+    @Override
+    public boolean isVatican() { return true; }
 }

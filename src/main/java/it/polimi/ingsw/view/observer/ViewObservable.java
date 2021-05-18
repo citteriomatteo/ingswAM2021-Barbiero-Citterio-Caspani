@@ -28,6 +28,12 @@ public class ViewObservable {
     }
 
     /**
+     * This method calls a total update on the Observer's class.
+     * @param match the match to show
+     */
+    public void updateMatch(LightMatch match) { observers.get(0).updateMatch(match); }
+
+    /**
      * This method calls an update on the Observer's class.
      * @param match the match to get the market into
      */

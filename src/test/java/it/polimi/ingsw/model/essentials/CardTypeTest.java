@@ -53,7 +53,8 @@ public class CardTypeTest extends CommonThingsTest {
                         new ArrayList<>(List.of(new FaithPoint(1)))), 1);
 
         player = new Player("player1");
-        setSummary(player, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
+        MatchConfiguration configuration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
+        setSummary(player, getCardMap(configuration), configuration.getCustomPath());
         Match match = new SingleMatch(player);
         player.getPersonalBoard().getDevCardSlots().pushNewCard(1,developmentCard);
 

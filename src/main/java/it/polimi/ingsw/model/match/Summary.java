@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.match.player.personalBoard.DevCardSlots;
 import it.polimi.ingsw.model.match.player.personalBoard.DiscountMap;
 import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
 import it.polimi.ingsw.model.match.player.personalBoard.StrongBox;
+import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 import it.polimi.ingsw.network.message.stocmessage.*;
 import it.polimi.ingsw.observer.ModelObserver;
@@ -31,12 +32,13 @@ public class Summary implements ModelObserver
     private char[][] market;
     private char sideMarble;
     private List<String>[][] cardGrid;
+    private List<String> faithPath;
 
     private int lorenzoMarker;  //stays "-1" in multi-player matches!
 
     private List<PlayerSummary> playersSummary;
 
-    public Summary(List<Player> playersInMatch, Map<String, Card> cardMap){
+    public Summary(List<Player> playersInMatch, Map<String, Card> cardMap, List<Cell> faithPath){
 
         //cardMap init
         this.cardMap = cardMap;
@@ -46,6 +48,15 @@ public class Summary implements ModelObserver
         this.cardGrid = new ArrayList[CardGrid.MAX_LEVEL][CardColor.values().length];
         //lorenzo's marker init: moved here in Summary because knowing if the match is single or multi is needed.
         this.lorenzoMarker = -1;
+        //faith path init
+        this.faithPath = new ArrayList<>();
+        for(Cell c : faithPath){
+            StringBuilder cell = new StringBuilder();
+            cell.append(c.getWinPoints()).append("-");
+            cell.append(c.getReportSection()).append("-");
+            cell.append(c.isVatican());
+            this.faithPath.add(cell.toString());
+        }
         //players summaries init
         playersSummary = new ArrayList<>();
         for(Player p : playersInMatch)

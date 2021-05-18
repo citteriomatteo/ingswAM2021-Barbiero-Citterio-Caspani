@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.essentials.ResType;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.match.CommonThingsTest;
 import it.polimi.ingsw.model.match.Match;
+import it.polimi.ingsw.model.match.MatchConfiguration;
 import it.polimi.ingsw.model.match.MultiMatch;
 import org.junit.jupiter.api.Test;
 
@@ -49,8 +50,11 @@ public class PlayerTest extends CommonThingsTest
     @Test
     public void totalWinPointsTest() throws InvalidQuantityException,
             SingleMatchException, WrongSettingException, InvalidOperationException, LastRoundException, RetryException {
-        Player player = new Player("player1"); setSummary(player, getCardMap(assignConfiguration("src/test/resources/StandardConfiguration.json")));
-        Player player1 = new Player("player2"); setSummary(player1, getCardMap(assignConfiguration("src/test/resources/StandardConfiguration.json")));
+        Player player = new Player("player1");
+        MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/StandardConfiguration.json");
+        setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
+        Player player1 = new Player("player2");
+        setSummary(player1, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
         Match match = new MultiMatch(Arrays.asList(player, player1));
 
 

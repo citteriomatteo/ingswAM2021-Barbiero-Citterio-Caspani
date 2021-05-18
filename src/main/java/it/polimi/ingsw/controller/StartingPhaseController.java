@@ -15,6 +15,7 @@ import it.polimi.ingsw.model.match.player.personalBoard.warehouse.WarehouseDecor
 import it.polimi.ingsw.network.message.stocmessage.HandLeadersStateMessage;
 import it.polimi.ingsw.network.message.stocmessage.SummaryMessage;
 
+import static it.polimi.ingsw.controller.MatchController.getKeyByValue;
 import static it.polimi.ingsw.network.server.ServerUtilities.serverCall;
 
 
@@ -40,7 +41,10 @@ public class StartingPhaseController {
             p.setSummary(summary);
             if(serverCall().findControlBase(p.getNickname()) != null) {
                 new SummaryMessage(p.getNickname(), summary).send(p.getNickname());
+                //for the interested player
                 new HandLeadersStateMessage(p.getNickname(), p.getHandLeaders().stream().map((x) -> getKeyByValue(cardMap, x)).collect(Collectors.toList())).send(p.getNickname());
+                //masked, for the other players
+                //new HandLeadersStateMessage(p.getNickname(), p.getHandLeaders().stream().map((x) -> "-1").collect(Collectors.toList())).sendBroadcast(this.match);
             }
         }
     }
@@ -60,6 +64,10 @@ public class StartingPhaseController {
             for(String Id : leaders)
                 chosenLeaders.add((LeaderCard) cardMap.get(Id));
             player.setHandLeaders(chosenLeaders);
+
+            new HandLeadersStateMessage(nickname, chosenLeaders.stream().map((x)->getKeyByValue(cardMap,x)).collect(Collectors.toList())).send(nickname);
+            new HandLeadersStateMessage(nickname, chosenLeaders.stream().map((x)->"-1").collect(Collectors.toList())).sendBroadcast(match.getPlayers().stream().map(Player::getNickname).filter((x)->!x.equals(nickname)).collect(Collectors.toList()));
+
 
             playerStates.replace(nickname,(match.getPlayers().indexOf(match.getPlayer(nickname))==0 ? StateName.STARTING_PHASE_DONE : StateName.WAITING_RESOURCES));
         }

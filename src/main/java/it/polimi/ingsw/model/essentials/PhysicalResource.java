@@ -84,7 +84,14 @@ public class PhysicalResource implements Resource, Requirable
         return this.type.equals(physicalResource.type);
 
     }
-    
+
+    /**
+     * This method returns true if the Requirable object is a resource, else false.
+     * @return true
+     */
+    @Override
+    public boolean isAResource() { return true; }
+
     @Override
     public String toString() {
         return "PhysicalResource{" +

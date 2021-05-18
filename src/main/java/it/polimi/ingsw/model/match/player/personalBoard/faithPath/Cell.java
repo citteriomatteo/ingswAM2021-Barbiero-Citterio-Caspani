@@ -42,4 +42,7 @@ public class Cell
 
     /** @return the winPoints value of the Cell */
     public int getWinPoints() { return winPoints; }
+
+    /** @return true if it's a vatican report cell, else false */
+    public boolean isVatican() { return false; };
 }

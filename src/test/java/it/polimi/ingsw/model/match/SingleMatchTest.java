@@ -18,7 +18,8 @@ public class SingleMatchTest extends CommonThingsTest {
     public void testNextTurn() throws WrongSettingException, LastRoundException {
         int dim;
         Player p = new Player("player1");
-        setSummary(p, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
+        MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
+        setSummary(p, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
         match = new SingleMatch(p);
 
         dim = match.getTokenStack().getStack().size();
@@ -38,7 +39,8 @@ public class SingleMatchTest extends CommonThingsTest {
     @Test
     public void testGetPlayer() throws WrongSettingException {
         Player player = new Player("player1");
-        setSummary(player, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
+        MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
+        setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
         match = new SingleMatch(player);
 
         assertEquals(player,match.getPlayer("player1"));

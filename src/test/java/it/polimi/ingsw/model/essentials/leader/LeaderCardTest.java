@@ -77,7 +77,8 @@ public class LeaderCardTest extends CommonThingsTest {
         PhysicalResource effectResource;
 
         List<Player> players = new ArrayList<>(List.of(new Player("Giorgio"), new Player("Luca")));
-        setSummaries(players, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
+        MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
+        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
         Match match1 = new MultiMatch(players);
         Player giorgio = match1.getCurrentPlayer();
         PersonalBoard personalBoard = giorgio.getPersonalBoard();
@@ -139,7 +140,8 @@ public class LeaderCardTest extends CommonThingsTest {
                 new SlotEffect(new PhysicalResource(ResType.SHIELD, 2)));
 
         List<Player> players = new ArrayList<>(List.of(new Player("Joe"), new Player("sara")));
-        setSummaries(players, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
+        MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
+        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
         Match match1 = new MultiMatch(players);
         Player joe = match1.getPlayer("Joe");
 

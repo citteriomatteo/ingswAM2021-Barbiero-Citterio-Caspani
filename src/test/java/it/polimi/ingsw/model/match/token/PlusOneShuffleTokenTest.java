@@ -4,6 +4,7 @@ import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.CommonThingsTest;
+import it.polimi.ingsw.model.match.MatchConfiguration;
 import it.polimi.ingsw.model.match.SingleMatch;
 import it.polimi.ingsw.model.match.Summary;
 import it.polimi.ingsw.model.match.player.Player;
@@ -26,7 +27,8 @@ public class PlusOneShuffleTokenTest extends CommonThingsTest {
     @Test
     public void testOnDraw() throws NegativeQuantityException, FileNotFoundException, WrongSettingException, LastRoundException {
         Player p = new Player("player1");
-        setSummary(p, getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json")));
+        MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
+        setSummary(p, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
         singleMatch = new SingleMatch(p);
         Stack<Token> tokenStack = singleMatch.getTokenStack().getStack();
 

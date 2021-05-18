@@ -22,7 +22,7 @@ public class KeyboardReader extends Thread{
                 entry("selection", "y/n"),
                 entry("numPlayers","numPlayers"),
                 entry("leadersChoice","LeadersID"),
-                entry("startingResource","ResourceType,Quantity"),
+                entry("startingResource","ResourceType,Shelf"),
                 entry("switchShelf","firstShelf,secondShelf"),
                 entry("leaderActivation","LeaderID"),
                 entry("leaderDiscarding","LeaderID"),
