@@ -7,7 +7,6 @@ import it.polimi.ingsw.view.lightmodel.LightMatch;
 import it.polimi.ingsw.view.lightmodel.LightPlayer;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -67,45 +66,46 @@ public class Cli implements View
 
     @Override
     public void drawLeadersChoiceLayout() {
-        System.out.println("Choose two Leaders.");
+        System.out.println("Choose two Leaders by writing leadersChoice [LeadersID]");
     }
 
     @Override
     public void drawResourcesChoiceLayout() {
-        System.out.println("Choose your resources.");
+        System.out.println("Choose your resources by writing startingResource [ResourceType,shelf]");
     }
 
     @Override
     public void drawYourTurnLayout(boolean yourTurn) {
         if(yourTurn)
-            System.out.println("It's your turn. Make a move!");
+            System.out.println("It's your turn. Make a move!\nSelect: leaderActivation [LeaderID], leaderDiscarding [LeaderID], switchShelf [firstShelf,secondShelf], marketDraw [r/c,num]," +
+                    "devCardDraw [RowNumber,ColumnNumber]\n or production [\"cardsId\" cardID1 \"uCosts\" ResourceType,Quantity \"uEarnings\" ResourceType,Quantity]");
         else
             System.out.println("Your turn is finished. Wait.");
     }
 
     @Override
     public void drawWhiteMarbleConversionsLayout() {
-        System.out.println("Choose how to convert the white marbles.");
+        System.out.println("Choose how to convert the white marbles by writing whiteMarblesConversion [ResourceType,Quantity]");
     }
 
     @Override
     public void drawResPlacementLayout() {
-        System.out.println("Place the resources you've got.");
+        System.out.println("Place the resources you've got by writing warehouseInsertion [SingleResourceType,Shelf]");
     }
 
     @Override
     public void drawBuyDevCardLayout() {
-        System.out.println("Pay the card you've chosen.");
+        System.out.println("Pay the card you've chosen by writing payments [\"strongbox\" ResourceType,Quantity \"warehouse\" Shelf,ResourceType,Quantity]");
     }
 
     @Override
     public void drawPlaceDevCardLayout() {
-        System.out.println("Place the card you've chosen.");
+        System.out.println("Place the card you've chosen by writing devCardPlacement [Column]");
     }
 
     @Override
     public void drawProductionLayout() {
-        System.out.println("Produce.");
+        System.out.println("Produce the production you have chosen by writing payments [\"strongbox\" ResourceType,Quantity \"warehouse\" Shelf,ResourceType,Quantity]");
     }
 
     @Override
@@ -212,7 +212,7 @@ public class Cli implements View
 
     @Override
     public void printTokenDraw(String tokenName, int remainingTokens){
-        System.out.println("The "+tokenName+" has been drawn: "+remainingTokens+" remaining.");
+        System.out.println("The "+tokenName+" has been drawn: "+remainingTokens+" remaining.\n");
     }
 
 
@@ -425,7 +425,7 @@ public class Cli implements View
             System.out.println("|| -  Costs ->");
             for(PhysicalResource r : ((DevelopmentCard) card).getProduction().getCost())
                 System.out.println("|| - " + r.toString() + " ||");
-            System.out.println("|| -  Costs ->");
+            System.out.println("|| -  Earnings ->");
             for(Resource r : ((DevelopmentCard) card).getProduction().getEarnings())
                 System.out.println("|| - " + r.toString() + " ||");
             System.out.println("|| Win Points -> " + ((DevelopmentCard) card).getWinPoints() + " ||");
@@ -451,7 +451,7 @@ public class Cli implements View
                 str.append(ColorCli.BLUE).append(resource.getType()).append(ColorCli.CLEAR);
                 break;
             case SERVANT:
-                str.append(ColorCli.GREEN).append(resource.getType()).append(ColorCli.CLEAR);
+                str.append(ColorCli.PURPLE).append(resource.getType()).append(ColorCli.CLEAR);
                 break;
         }
     }
@@ -465,7 +465,7 @@ public class Cli implements View
                 str.append(ColorCli.YELLOW).append("\u2022").append(ColorCli.CLEAR);
                 break;
             case 'g':
-                str.append(ColorCli.CYAN).append("\u2022").append(ColorCli.CLEAR);
+                str.append(ColorCli.GREY_BOLD).append("\u2022").append(ColorCli.CLEAR);
                 break;
             case 'b':
                 str.append(ColorCli.BLUE).append("\u2022").append(ColorCli.CLEAR);

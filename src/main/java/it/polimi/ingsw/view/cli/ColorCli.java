@@ -12,13 +12,13 @@ public enum ColorCli
     BLUE("\033[0;34m"),     // BLUE
     YELLOW("\u001B[33m"),
     PURPLE("\u001B[35m"),
-    CYAN("\u001B[36m"),
+    GREY("\u001B[36m"),
     WHITE("\u001B[37m"),
 
 
     // Bold
     YELLOW_BOLD("\033[1;33m"), // YELLOW
-    CYAN_BOLD("\033[1;36m");    // CYAN
+    GREY_BOLD("\033[1;90m");    // GREY
 
 
     private final String code;

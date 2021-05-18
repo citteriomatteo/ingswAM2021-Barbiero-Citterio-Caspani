@@ -26,14 +26,14 @@ public class KeyboardReader extends Thread{
                 entry("switchShelf","firstShelf,secondShelf"),
                 entry("leaderActivation","LeaderID"),
                 entry("leaderDiscarding","LeaderID"),
-                entry("marketDraw","row,number"),
+                entry("marketDraw","r/c(row/column),number"),
                 entry("whiteMarblesConversion","ResourceType,Quantity"),
                 entry("warehouseInsertion","SingleResourceType,Shelf"),
                 entry("devCardDraw","RowNumber,ColumnNumber"),
                 entry("payments","strongbox ResourceType,Quantity warehouse Shelf,ResourceType,Quantity"),
                 entry("devCardPlacement","Column"),
                 entry("production","cardsId cardID1,cardID2 uCosts ResourceType,Quantity uEarnings ResourceType,Quantity"),
-                entry("endTurn","end_turn"),
+                entry("endTurn", ""),
                 entry("rematch","y/n"),
                 entry("cardInfo", "cardIDs"),
                 entry("viewEnemy","Nicknames")
@@ -55,10 +55,10 @@ public class KeyboardReader extends Thread{
      * @return the message read
      */
     private CtoSMessage parseInMessage(String input){
-        List<String> words = new ArrayList(Arrays.asList(input.split("\\s+")));
+        List<String> words = new ArrayList(Arrays.asList(input.toLowerCase().split("\\s+")));
         String command = words.get(0);
         List<String> params = words.subList(1, words.size());
-        if(params.size() == 0){
+        if(params.size() == 0 && !command.equals("endturn")){
             System.out.println("please insert a valid command");
             return null;
         }
@@ -70,46 +70,46 @@ public class KeyboardReader extends Thread{
             case "selection":
                 return selection(params);
 
-            case "numPlayers":
+            case "numplayers":
                 return numPlayers(params);
 
-            case "leadersChoice":
+            case "leaderschoice":
                 return leadersChoice(params);
 
-            case "startingResource":
+            case "startingresource":
                 return startingResource(params);
 
-            case "switchShelf":
+            case "switchshelf":
                 return switchShelf(params);
 
-            case "leaderActivation":
+            case "leaderactivation":
                 return leaderActivation(params);
 
-            case "leaderDiscarding":
+            case "leaderdiscarding":
                 return leaderDiscarding(params);
 
-            case "marketDraw":
+            case "marketdraw":
                 return marketDraw(params);
 
-            case "whiteMarblesConversion":
+            case "whitemarblesconversion":
                 return whiteMarblesConversion(params);
 
-            case "warehouseInsertion":
+            case "warehouseinsertion":
                 return warehouseInsertion(params);
 
-            case "devCardDraw":
+            case "devcarddraw":
                 return devCardDraw(params);
 
             case "payments":
                 return payments(params);
 
-            case "devCardPlacement":
+            case "devcardplacement":
                 return devCardPlacement(params);
 
             case "production":
                 return production(params);
 
-            case "endTurn":
+            case "endturn":
                 return endTurn();
 
             case "rematch":
@@ -136,7 +136,13 @@ public class KeyboardReader extends Thread{
             System.out.println("please insert only y for yes or n for no");
             return null;
         }
-        return new BinarySelectionMessage(nickname, params.get(0).equals("y"));
+        String input = params.get(0);
+        if(!input.equals("y") && !input.equals("n")) {
+            System.out.println("please insert only y for yes or n for no");
+            return null;
+        }
+
+        return new BinarySelectionMessage(nickname, input.equals("y"));
     }
 
     private CtoSMessage numPlayers(List<String> params){
@@ -160,7 +166,7 @@ public class KeyboardReader extends Thread{
             return null;
         }
 
-        return new LeadersChoiceMessage(nickname, new ArrayList<>(List.of(params.get(0).split(","))));
+        return new LeadersChoiceMessage(nickname, new ArrayList<>(List.of(params.get(0).toUpperCase().split(","))));
     }
 
     private CtoSMessage startingResource(List<String> params){
@@ -202,7 +208,7 @@ public class KeyboardReader extends Thread{
             return null;
         }
 
-        return new LeaderActivationMessage(nickname, params.get(0));
+        return new LeaderActivationMessage(nickname, params.get(0).toUpperCase());
     }
 
     private CtoSMessage leaderDiscarding(List<String> params){
@@ -210,7 +216,7 @@ public class KeyboardReader extends Thread{
             System.out.println("you have to chose only one leader");
             return null;
         }
-        return new LeaderDiscardingMessage(nickname, params.get(0));
+        return new LeaderDiscardingMessage(nickname, params.get(0).toUpperCase());
     }
 
     private CtoSMessage marketDraw(List<String> params){
@@ -222,7 +228,26 @@ public class KeyboardReader extends Thread{
         if(elements.size() != 2)
             return null;
 
-        return new MarketDrawMessage(nickname, elements.get(0).equals("true"), Integer.parseInt(elements.get(1)));
+        String input = elements.get(0);
+        boolean choice;
+        if(input.equals("row") || input.equals("r"))
+            choice = true;
+        else if(input.equals("column") || input.equals("c"))
+            choice = false;
+        else{
+            System.out.println("please insert r/row or c/column");
+            return null;
+        }
+
+        int num = 0;
+        try {
+            num = Integer.parseInt(elements.get(1));
+        }catch (NumberFormatException e){
+            System.out.println("please insert an integer");
+            return null;
+        }
+
+        return new MarketDrawMessage(nickname, choice, num);
 
     }
 
@@ -261,8 +286,17 @@ public class KeyboardReader extends Thread{
         List<String> elements = List.of(params.get(0).split(","));
         if(elements.size() != 2)
             return null;
+        int row = 0;
+        int column = 0;
+        try {
+            row = Integer.parseInt(elements.get(0));
+            column = Integer.parseInt(elements.get(1));
+        }catch (NumberFormatException e){
+            System.out.println("please insert an integer");
+            return null;
+        }
 
-        return new DevCardDrawMessage(nickname, Integer.parseInt(elements.get(0)), Integer.parseInt(elements.get(1)));
+        return new DevCardDrawMessage(nickname, row, column);
     }
 
     private CtoSMessage payments(List<String> params){
@@ -319,7 +353,7 @@ public class KeyboardReader extends Thread{
             return null;
         }
 
-        if(!params.get(0).equals("cardsId")){
+        if(!params.get(0).equals("cardsid")){
             System.out.println("please insert the cards you want to produce");
             return null;
         }
@@ -341,8 +375,8 @@ public class KeyboardReader extends Thread{
         int i=1;
         String element;
         element = params.get(i);
-        while (!element.equals("uCosts") && !element.equals("uEarnings")){
-            IDs.add(element);
+        while (!element.equals("ucosts") && !element.equals("uearnings")){
+            IDs.add(element.toUpperCase());
             i++;
             if (i == params.size())
                 break;
@@ -356,10 +390,10 @@ public class KeyboardReader extends Thread{
             return new ProductionMessage(nickname, IDs, new Production(uCosts, uEarnings));
         }
 
-        if(params.get(i).equals("uCosts")) {
+        if(params.get(i).equals("ucosts")) {
             i++;
             element = params.get(i);
-            while (!element.equals("uEarnings")) {
+            while (!element.equals("uearnings")) {
                 cost = parseInPhysicalResource(element);
                 uCosts.add(cost);
                 i++;
@@ -376,7 +410,7 @@ public class KeyboardReader extends Thread{
         else
             uCosts.add(voidResource);
 
-        if(params.get(i).equals("uEarnings")) {
+        if(params.get(i).equals("uearnings")) {
             i++;
             do {
                 element = params.get(i);
@@ -526,13 +560,16 @@ public class KeyboardReader extends Thread{
         }
     }
 
-    public void printHelpMap(){
+    public void printHelpMap() {
+
 
         List<String> helpKeys = new ArrayList<>(helpMap.keySet());
         List<String> helpValues = new ArrayList<>(helpMap.values());
 
-        for(int i = 0; i < helpKeys.size(); i++)
-            System.out.println(i + ".  "+helpKeys.get(i) + " : [" + helpValues.get(i) + "]");
-    }
 
+        for (int i = 0; i < helpKeys.size(); i++) {
+
+            System.out.println(i + ".  " + helpKeys.get(i) + " : [" + helpValues.get(i) + "]");
+        }
+    }
 }
