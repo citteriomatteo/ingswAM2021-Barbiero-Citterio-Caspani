@@ -65,11 +65,11 @@ public class TurnController {
             throw new MatchEndedException(bufferResult+"\nMatch Ranking:", ranking);
         }
 
-        else if(currentState.equals(StateName.END_TURN)) {
+        else if(currentState.equals(StateName.END_TURN) || !currentPlayer.isConnected()) {
                 try{
                     match.nextTurn();
                 }
-                catch(LastRoundException e){
+                catch(LastRoundException e){ //Enter here only for singlePlayer
                     Map<String, Integer> myScore = new HashMap<>();
                     myScore.put(currentPlayer.getNickname(), currentPlayer.totalWinPoints());
                     throw new MatchEndedException("You lost!", myScore);

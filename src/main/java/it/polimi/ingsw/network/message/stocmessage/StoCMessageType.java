@@ -6,6 +6,7 @@ public enum StoCMessageType implements MessageType {
 
     SUMMARY,
     BINARY_SELECTION,
+    PLAYER_DISCONNECTED,
     MARKET_CHANGE,
     CARD_GRID_CHANGE,
     DEV_CARD_SLOT_CHANGE,

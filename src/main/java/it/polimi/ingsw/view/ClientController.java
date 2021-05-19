@@ -34,6 +34,7 @@ public class ClientController
                 entry(StateName.MP_CONFIGURATION_CHOOSE, List.of(BINARY_SELECTION)),
                 entry(StateName.CONFIGURATION, List.of(CONFIGURE)),
                 entry(StateName.WAITING,List.of(PING)),
+                entry(StateName.WAITING_FOR_PLAYERS, List.of(PING)),
                 entry(StateName.START_GAME, List.of(PING,LEADERS_CHOICE)),
                 entry(StateName.WAITING_LEADERS, List.of(LEADERS_CHOICE)),
                 entry(StateName.WAITING_RESOURCES, List.of(STARTING_RESOURCES)),

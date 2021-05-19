@@ -17,31 +17,32 @@ public class KeyboardReader extends Thread{
     private final BufferedReader keyboard;
     private final Client client;
     private String nickname;
-    private static final Map<StateName, List<String>> helpMap;
+    private static final Map<StateName,String> helpMap;
     static {
         helpMap = Map.ofEntries(
-                entry(LOGIN, List.of("login [nickname]")),
-                entry(RECONNECTION, List.of("selection [y/n]")),
-                entry(NEW_PLAYER, List.of("selection [y/n]")),
-                entry(NUMBER_OF_PLAYERS, List.of("numPlayers [numPlayers]")),
-                entry(SP_CONFIGURATION_CHOOSE, List.of("selection [y/n]")),
-                entry(MP_CONFIGURATION_CHOOSE, List.of("selection [y/n]")),
-                entry(WAITING, List.of("It's not your turn.... please wait")),
-                entry(START_GAME, List.of("leadersChoice [LeadersID]\n" + "cardInfo [cardIDs]")),
-                entry(WAITING_LEADERS, List.of("leadersChoice [LeadersID]\n" + "cardInfo [cardIDs]")),
-                entry(WAITING_RESOURCES, List.of("startingResource [ResourceType,Shelf]\n" + "cardInfo [cardIDs]")),
-                entry(WAITING_FOR_TURN, List.of("It's not your turn.... please wait")),
-                entry(STARTING_TURN, List.of("leaderActivation [LeaderID]\n" + "leaderDiscarding [LeaderId]\n" + "switchShelf [firstShelf,secondShelf]\n" +
-                        "marketDraw [r/c(row/column),number]\n" + "devCardDraw [RowNumber,ColumnNumber]\n" + "production [\"cardsId\" cardID1,cardID2 \"uCosts\" ResourceType,Quantity \"uEarnings\" ResourceType,Quantity]\n" +
-                        "cardInfo [cardIDs]")),
-                entry(MARKET_ACTION, List.of("whiteMarblesConversion [ResourceType,Quantity]\n" + "switchShelf [firstShelf,secondShelf]\n" + "cardInfo [cardIDs]")),
-                entry(RESOURCES_PLACEMENT, List.of("warehouseInsertion [SingleResourceType,Shelf]\n" + "switchShelf [firstShelf,secondShelf]\n" + "cardInfo [cardIDs]")),
-                entry(BUY_DEV_ACTION, List.of("payments [\"strongbox\" ResourceType,Quantity \"warehouse\" Shelf,ResourceType,Quantity]\n" + "switchShelf [firstShelf,secondShelf]\n" + "cardInfo [cardIDs]")),
-                entry(PLACE_DEV_CARD, List.of("devCardPlacement [Column]\n" + "cardInfo [cardIDs]")),
-                entry(PRODUCTION_ACTION, List.of("payments [\"strongbox\" ResourceType,Quantity \"warehouse\" Shelf,ResourceType,Quantity]\n" + "switchShelf [firstShelf,secondShelf]\n" + "cardInfo [cardIDs]")),
-                entry(END_TURN, List.of("leaderActivation [LeaderID]\n" + "leaderDiscarding [LeaderId]\n" + "switchShelf [firstShelf,secondShelf]\n" + "endTurn\n" + "cardInfo [cardIDs]")),
-                entry(END_MATCH, List.of("rematch [y/n]")),
-                entry(REMATCH_OFFER, List.of("rematch [y/n]"))
+                entry(LOGIN, "\u2022 login [nickname]"),
+                entry(RECONNECTION, "\u2022 selection [y/n]"),
+                entry(NEW_PLAYER, "\u2022 selection [y/n]"),
+                entry(NUMBER_OF_PLAYERS, "\u2022 numPlayers [numPlayers]"),
+                entry(SP_CONFIGURATION_CHOOSE, "\u2022 selection [y/n]"),
+                entry(MP_CONFIGURATION_CHOOSE, "\u2022 selection [y/n]"),
+                entry(WAITING, "Waiting...."),
+                entry(WAITING_FOR_PLAYERS, "Please wait.... other players are connecting to your match"),
+                entry(START_GAME, "\u2022 leadersChoice [LeadersID]\n" + "\u2022 cardInfo [cardIDs]"),
+                entry(WAITING_LEADERS, "\u2022 leadersChoice [LeadersID]\n" + "\u2022 cardInfo [cardIDs]"),
+                entry(WAITING_RESOURCES, "\u2022 startingResource [ResourceType,Shelf]\n" + "\u2022 cardInfo [cardIDs]"),
+                entry(WAITING_FOR_TURN, "It's not your turn.... please wait"),
+                entry(STARTING_TURN, "\u2022 leaderActivation [LeaderID]\n" + "\u2022 leaderDiscarding [LeaderId]\n" + "\u2022 switchShelf [firstShelf,secondShelf]\n" +
+                        "\u2022 marketDraw [r/c(row/column),number]\n" + "\u2022 devCardDraw [RowNumber,ColumnNumber]\n" + "\u2022 production [-cardsId cardID1,cardID2] [-uCosts ResourceType,Quantity] [-uEarnings ResourceType,Quantity]\n" +
+                        "\u2022 cardInfo [cardIDs]"),
+                entry(MARKET_ACTION, "\u2022 whiteMarblesConversion [ResourceType,Quantity]\n" + "\u2022 switchShelf [firstShelf,secondShelf]\n" + "\u2022 cardInfo [cardIDs]"),
+                entry(RESOURCES_PLACEMENT, "\u2022 warehouseInsertion [SingleResourceType,Shelf]\n" + "\u2022 switchShelf [firstShelf,secondShelf]\n" + "\u2022 cardInfo [cardIDs]"),
+                entry(BUY_DEV_ACTION, "\u2022 payments [-strongbox ResourceType,Quantity] [-warehouse Shelf,ResourceType,Quantity]\n" + "\u2022 switchShelf [firstShelf,secondShelf]\n" + "\u2022 cardInfo [cardIDs]"),
+                entry(PLACE_DEV_CARD, "\u2022 devCardPlacement [Column]\n" + "\u2022 cardInfo [cardIDs]"),
+                entry(PRODUCTION_ACTION, "\u2022 payments [-strongbox ResourceType,Quantity] [-warehouse Shelf,ResourceType,Quantity]\n" + "\u2022 switchShelf [firstShelf,secondShelf]\n" + "\u2022 cardInfo [cardIDs]"),
+                entry(END_TURN, "\u2022 leaderActivation [LeaderID]\n" + "\u2022 leaderDiscarding [LeaderId]\n" + "\u2022 switchShelf [firstShelf,secondShelf]\n" + "\u2022 endTurn\n" + "\u2022 cardInfo [cardIDs]"),
+                entry(END_MATCH, "\u2022 rematch [y/n]"),
+                entry(REMATCH_OFFER, "\u2022 rematch [y/n]")
         );
     }
 
@@ -582,9 +583,8 @@ public class KeyboardReader extends Thread{
 
         for (StateName state : helpMap.keySet()) {
             if(state.equals(currentState)) {
-                System.out.println("This are your possible moves:");
-                for(String s : helpMap.get(currentState))
-                    System.out.println(s);
+                System.out.println("These are your possible moves:");
+                System.out.println(helpMap.get(currentState));
             }
         }
 

@@ -227,6 +227,19 @@ public class MatchController {
         return true;
     }
 
+    public synchronized  boolean disconnection(Player player){
+        if(player.equals(match.getCurrentPlayer())){
+            try {
+                turnController.nextTurn();
+            } catch (MatchEndedException e) {
+                matchEndingProcedure(e);
+            }
+        }
+
+
+        return true;
+    }
+
     public synchronized boolean nextTurn(String nickname) throws RetryException {
         boolean isComputable = isComputable(nickname, CtoSMessageType.END_TURN);
         if (!isComputable)
@@ -242,11 +255,7 @@ public class MatchController {
 
 
         } catch (MatchEndedException e) {
-            rematchPhaseController = new RematchPhaseController(match.getPlayers());
-            EndGameResultsMessage message = new EndGameResultsMessage(nickname, e.getMsg(), e.getRanking());
-
-            if(playerHandler != null)
-                playerHandler.write(message);
+            matchEndingProcedure(e);
         }
 
         return true;
@@ -388,6 +397,13 @@ public class MatchController {
             return false;
         rematchPhaseController.response(nickname, value);
         return true;
+    }
+
+    private void matchEndingProcedure(MatchEndedException e){
+        rematchPhaseController = new RematchPhaseController(match.getPlayers());
+        EndGameResultsMessage message = new EndGameResultsMessage("", e.getMsg(), e.getRanking());
+
+        message.sendBroadcast(match);
     }
 
     /**
