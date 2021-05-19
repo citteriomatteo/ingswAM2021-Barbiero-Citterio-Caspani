@@ -21,28 +21,28 @@ public class KeyboardReader extends Thread{
     static {
         helpMap = Map.ofEntries(
                 entry(LOGIN, "\u2022 login [nickname]"),
-                entry(RECONNECTION, "\u2022 selection [y/n]"),
-                entry(NEW_PLAYER, "\u2022 selection [y/n]"),
-                entry(NUMBER_OF_PLAYERS, "\u2022 numPlayers [numPlayers]"),
-                entry(SP_CONFIGURATION_CHOOSE, "\u2022 selection [y/n]"),
-                entry(MP_CONFIGURATION_CHOOSE, "\u2022 selection [y/n]"),
+                entry(RECONNECTION, "\u2022 [y/n]"),
+                entry(NEW_PLAYER, "\u2022 [single/multi]"),
+                entry(NUMBER_OF_PLAYERS, "\u2022 numPlayers|(np) [numPlayers]"),
+                entry(SP_CONFIGURATION_CHOOSE, "\u2022 [y/n]"),
+                entry(MP_CONFIGURATION_CHOOSE, "\u2022 [y/n]"),
                 entry(WAITING, "Waiting...."),
                 entry(WAITING_FOR_PLAYERS, "Please wait.... other players are connecting to your match"),
-                entry(START_GAME, "\u2022 leadersChoice [LeadersID]\n" + "\u2022 cardInfo [cardIDs]"),
-                entry(WAITING_LEADERS, "\u2022 leadersChoice [LeadersID]\n" + "\u2022 cardInfo [cardIDs]"),
-                entry(WAITING_RESOURCES, "\u2022 startingResource [ResourceType,Shelf]\n" + "\u2022 cardInfo [cardIDs]"),
+                entry(START_GAME, "\u2022 leadersChoice|(lc) [LeadersID]\n" + "\u2022 cardInfo [cardIDs]"),
+                entry(WAITING_LEADERS, "\u2022 leadersChoice|(lc) [LeadersID]\n" + "\u2022 cardInfo [cardIDs]"),
+                entry(WAITING_RESOURCES, "\u2022 startingResource|(sr) [ResourceType,Shelf]\n" + "\u2022 cardInfo [cardIDs]"),
                 entry(WAITING_FOR_TURN, "It's not your turn.... please wait"),
-                entry(STARTING_TURN, "\u2022 leaderActivation [LeaderID]\n" + "\u2022 leaderDiscarding [LeaderId]\n" + "\u2022 switchShelf [firstShelf,secondShelf]\n" +
-                        "\u2022 marketDraw [r/c(row/column),number]\n" + "\u2022 devCardDraw [RowNumber,ColumnNumber]\n" + "\u2022 production [-cardsId cardID1,cardID2] [-uCosts ResourceType,Quantity] [-uEarnings ResourceType,Quantity]\n" +
+                entry(STARTING_TURN, "\u2022 leaderActivation|(la) [LeaderID]\n" + "\u2022 leaderDiscarding|(ld) [LeaderId]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" +
+                        "\u2022 marketDraw|(md) [r/c(row/column),number]\n" + "\u2022 devCardDraw(dd) [RowNumber,ColumnNumber]\n" + "\u2022 production|(prod) [-cardsId cardID1,cardID2] [-uCosts ResourceType,Quantity] [-uEarnings ResourceType,Quantity]\n" +
                         "\u2022 cardInfo [cardIDs]"),
-                entry(MARKET_ACTION, "\u2022 whiteMarblesConversion [ResourceType,Quantity]\n" + "\u2022 switchShelf [firstShelf,secondShelf]\n" + "\u2022 cardInfo [cardIDs]"),
-                entry(RESOURCES_PLACEMENT, "\u2022 warehouseInsertion [SingleResourceType,Shelf]\n" + "\u2022 switchShelf [firstShelf,secondShelf]\n" + "\u2022 cardInfo [cardIDs]"),
-                entry(BUY_DEV_ACTION, "\u2022 payments [-strongbox ResourceType,Quantity] [-warehouse Shelf,ResourceType,Quantity]\n" + "\u2022 switchShelf [firstShelf,secondShelf]\n" + "\u2022 cardInfo [cardIDs]"),
-                entry(PLACE_DEV_CARD, "\u2022 devCardPlacement [Column]\n" + "\u2022 cardInfo [cardIDs]"),
-                entry(PRODUCTION_ACTION, "\u2022 payments [-strongbox ResourceType,Quantity] [-warehouse Shelf,ResourceType,Quantity]\n" + "\u2022 switchShelf [firstShelf,secondShelf]\n" + "\u2022 cardInfo [cardIDs]"),
-                entry(END_TURN, "\u2022 leaderActivation [LeaderID]\n" + "\u2022 leaderDiscarding [LeaderId]\n" + "\u2022 switchShelf [firstShelf,secondShelf]\n" + "\u2022 endTurn\n" + "\u2022 cardInfo [cardIDs]"),
-                entry(END_MATCH, "\u2022 rematch [y/n]"),
-                entry(REMATCH_OFFER, "\u2022 rematch [y/n]")
+                entry(MARKET_ACTION, "\u2022 whiteMarblesConversion|(wmc) [ResourceType,Quantity]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 cardInfo [cardIDs]"),
+                entry(RESOURCES_PLACEMENT, "\u2022 warehouseInsertion|(wi) [SingleResourceType,Shelf]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 cardInfo [cardIDs]"),
+                entry(BUY_DEV_ACTION, "\u2022 payments|(pay) [-strongbox ResourceType,Quantity] [-warehouse Shelf,ResourceType,Quantity]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 cardInfo [cardIDs]"),
+                entry(PLACE_DEV_CARD, "\u2022 devCardPlacement|(dp) [Column]\n" + "\u2022 cardInfo [cardIDs]"),
+                entry(PRODUCTION_ACTION, "\u2022 payments|(pay) [-strongbox ResourceType,Quantity] [-warehouse Shelf,ResourceType,Quantity]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 cardInfo [cardIDs]"),
+                entry(END_TURN, "\u2022 leaderActivation|(la) [LeaderID]\n" + "\u2022 leaderDiscarding|(ld) [LeaderId]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 endTurn\n" + "\u2022 cardInfo [cardIDs]"),
+                entry(END_MATCH, "\u2022 rematch|(rm) [y/n]"),
+                entry(REMATCH_OFFER, "\u2022 rematch|(rm) [y/n]")
         );
     }
 
@@ -84,48 +84,63 @@ public class KeyboardReader extends Thread{
             case "selection":
                 return selection(params.get(0));
 
+            case "np":
             case "numplayers":
                 return numPlayers(params);
 
+            case "lc":
             case "leaderschoice":
                 return leadersChoice(params);
 
+            case "sr":
             case "startingresource":
                 return startingResource(params);
 
+            case "ss":
             case "switchshelf":
                 return switchShelf(params);
 
+            case "la":
             case "leaderactivation":
                 return leaderActivation(params);
 
+            case "ld":
             case "leaderdiscarding":
                 return leaderDiscarding(params);
 
+            case "md":
             case "marketdraw":
                 return marketDraw(params);
 
+            case "wmc":
             case "whitemarblesconversion":
                 return whiteMarblesConversion(params);
 
+            case "wi":
             case "warehouseinsertion":
                 return warehouseInsertion(params);
 
+            case "dd":
             case "devcarddraw":
                 return devCardDraw(params);
 
+            case "pay":
             case "payments":
                 return payments(params);
 
+            case "dp":
             case "devcardplacement":
                 return devCardPlacement(params);
 
+            case "prod":
             case "production":
                 return production(params);
 
+            case "et":
             case "endturn":
                 return endTurn();
 
+            case "rm":
             case "rematch":
                 return rematch(params);
 
@@ -552,6 +567,7 @@ public class KeyboardReader extends Thread{
                     System.out.println("please insert a valid command");
                     continue;
                 }
+                userInput = userInput.toLowerCase();
                 if (!userInput.matches(".*\\w.*")) {
                     System.out.println("please insert a valid command");
                     continue;
@@ -560,7 +576,7 @@ public class KeyboardReader extends Thread{
                     printHelpMap();
                     continue;
                 }
-                if(userInput.indexOf("cardInfo") == 0) {
+                if(userInput.indexOf("cardinfo") == 0) {
                     client.getController().printCardInfo(userInput);
                     continue;
                 }
