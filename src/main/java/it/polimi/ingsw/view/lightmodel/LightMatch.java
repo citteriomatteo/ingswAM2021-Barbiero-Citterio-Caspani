@@ -110,9 +110,9 @@ public class LightMatch extends ViewObservable {
         getPlayerSummary(nickname).setConnected(connected);
         updateMatch(this);
         if(connected)
-            System.out.println("Player" +nickname+ "is back in the game.");
+            System.out.println("Player " +nickname+ " is back in the game.");
         else
-            System.out.println("Player" +nickname+ "has left the match.");
+            System.out.println("Player " +nickname+ " has left the match.");
     }
 
     /**

@@ -238,7 +238,7 @@ public class MatchController {
             }
         }
 
-        PlayerConnectionStateMessage message = new PlayerConnectionStateMessage("", false);
+        PlayerConnectionStateMessage message = new PlayerConnectionStateMessage(player.getNickname(), false);
         message.sendBroadcast(match);
 
         return true;
