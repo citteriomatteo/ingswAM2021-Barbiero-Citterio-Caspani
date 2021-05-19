@@ -2,11 +2,11 @@ package it.polimi.ingsw.network.message.stocmessage;
 
 import it.polimi.ingsw.network.client.Client;
 
-public class PlayerConnectionState extends StoCMessage{
+public class PlayerConnectionStateMessage extends StoCMessage{
     private static final StoCMessageType type = StoCMessageType.PLAYER_DISCONNECTED;
     private boolean connected;
 
-    public PlayerConnectionState(String nickname, boolean connected) {
+    public PlayerConnectionStateMessage(String nickname, boolean connected) {
         super(nickname);
         this.connected = connected;
     }

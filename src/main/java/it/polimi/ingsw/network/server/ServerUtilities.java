@@ -2,12 +2,14 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.exceptions.ReconnectionException;
 import it.polimi.ingsw.model.match.player.Player;
+import it.polimi.ingsw.network.message.stocmessage.PlayerConnectionStateMessage;
 
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 /**
  * Eager singleton class fundamental for synchronizing the threads that control the clients communication and the game logic
@@ -97,11 +99,18 @@ public class ServerUtilities {
             if (previousClient==null || previousClient.getPlayer().isConnected())
                 return false;
 
-            newClient.setPlayer(previousClient.getPlayer());
+            Player player = previousClient.getPlayer();
+
+            newClient.setPlayer(player);
             newClient.setMatchController(previousClient.getMatchController());
             activeClients.put(nickname,newClient);
-            newClient.getPlayer().connect();
+            player.connect();
             System.out.println(nickname + " has been reconnected");
+            (new PlayerConnectionStateMessage(nickname, true)).sendBroadcast(player.getMatch().getPlayers().
+                                        stream().
+                                        filter((x)-> x != player).
+                                        map(Player::getNickname).
+                                        collect(Collectors.toList()));
             return true;
         }
     }

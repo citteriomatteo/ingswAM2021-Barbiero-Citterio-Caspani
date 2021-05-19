@@ -228,6 +228,8 @@ public class PlayerHandler implements Runnable, ControlBase {
             terminateConnection(false);
             if (!player.disconnect())
                 System.err.println("Tried to disconnect a previously disconnected player");
+
+            matchController.disconnection(player); //notify other players here
             return;
         }
 

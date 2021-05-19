@@ -159,6 +159,7 @@ public class GsonHandler {
                         .registerSubtype(MarketChangeMessage.class, "marketChange")
                         .registerSubtype(NewFaithPositionMessage.class, "newFaithPosition")
                         .registerSubtype(NextStateMessage.class, "nextState")
+                        .registerSubtype(PlayerConnectionStateMessage.class, "playerConnectionState")
                         .registerSubtype(RematchOfferedMessage.class, "rematchOffered")
                         .registerSubtype(RetryMessage.class, "retry")
                         .registerSubtype(StrongboxChangeMessage.class, "strongboxChange")
