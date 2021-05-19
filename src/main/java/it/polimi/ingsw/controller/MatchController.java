@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
 import it.polimi.ingsw.network.message.stocmessage.EndGameResultsMessage;
 import it.polimi.ingsw.network.message.stocmessage.NextStateMessage;
+import it.polimi.ingsw.network.message.stocmessage.PlayerConnectionStateMessage;
 import it.polimi.ingsw.network.server.ControlBase;
 import it.polimi.ingsw.observer.ModelObserver;
 
@@ -25,6 +26,7 @@ public class MatchController {
     private TurnController turnController;
     private StartingPhaseController startingPhaseController;
     private RematchPhaseController rematchPhaseController;
+    private StateName lastUsedState;
     private final Map<String, Card> cardMap;
     private static final Map<StateName, List<CtoSMessageType>> acceptedMessagesMap;
     static {
@@ -201,10 +203,10 @@ public class MatchController {
         if (!isComputable)
             return false;
 
-        NextStateMessage message = new NextStateMessage(nickname, startingPhaseController.leadersChoice(nickname, leaders));
-        ControlBase playerHandler = serverCall().findControlBase(nickname);
-        if(playerHandler != null)
-            playerHandler.write(message);
+        lastUsedState = startingPhaseController.leadersChoice(nickname, leaders);
+        updateLastUsedState(nickname, lastUsedState);
+        NextStateMessage message = new NextStateMessage(nickname, lastUsedState);
+        message.send(nickname);
 
         if (startingPhaseController.hasEnded())
             turnController = new TurnController(match, cardMap);
@@ -217,10 +219,10 @@ public class MatchController {
         if (!isComputable)
             return false;
 
-        NextStateMessage message = new NextStateMessage(nickname, startingPhaseController.startingResources(nickname, resources));
-        ControlBase playerHandler = serverCall().findControlBase(nickname);
-        if(playerHandler != null)
-            playerHandler.write(message);
+        lastUsedState = startingPhaseController.startingResources(nickname, resources);
+        updateLastUsedState(nickname, lastUsedState);
+        NextStateMessage message = new NextStateMessage(nickname, lastUsedState);
+        message.send(nickname);
 
         if (startingPhaseController.hasEnded())
             turnController = new TurnController(match, cardMap);
@@ -236,6 +238,8 @@ public class MatchController {
             }
         }
 
+        PlayerConnectionStateMessage message = new PlayerConnectionStateMessage(player.getNickname(), false);
+        message.sendBroadcast(match);
 
         return true;
     }
@@ -267,9 +271,7 @@ public class MatchController {
             return false;
 
         NextStateMessage message = new NextStateMessage(nickname, turnController.switchShelf(shelf1, shelf2));
-        ControlBase playerHandler = serverCall().findControlBase(nickname);
-        if(playerHandler != null)
-            playerHandler.write(message);
+        message.send(nickname);
 
         return true;
 
@@ -281,9 +283,7 @@ public class MatchController {
             return false;
 
         NextStateMessage message = new NextStateMessage(nickname, turnController.leaderActivation(leaderId));
-        ControlBase playerHandler = serverCall().findControlBase(nickname);
-        if(playerHandler != null)
-            playerHandler.write(message);
+        message.send(nickname);
 
         return true;
     }
@@ -294,9 +294,7 @@ public class MatchController {
             return false;
 
         NextStateMessage message = new NextStateMessage(nickname, turnController.leaderDiscarding(leaderId));
-        ControlBase playerHandler = serverCall().findControlBase(nickname);
-        if(playerHandler != null)
-            playerHandler.write(message);
+        message.send(nickname);
 
         return true;
     }
@@ -306,10 +304,10 @@ public class MatchController {
         if (!isComputable)
             return false;
 
-        NextStateMessage message = new NextStateMessage(nickname, turnController.marketDraw(row, num));
-        ControlBase playerHandler = serverCall().findControlBase(nickname);
-        if(playerHandler != null)
-            playerHandler.write(message);
+        lastUsedState = turnController.marketDraw(row, num);
+        updateLastUsedState(nickname, lastUsedState);
+        NextStateMessage message = new NextStateMessage(nickname, lastUsedState);
+        message.send(nickname);
 
         return true;
     }
@@ -319,10 +317,10 @@ public class MatchController {
         if (!isComputable)
             return false;
 
-        NextStateMessage message = new NextStateMessage(nickname, turnController.whiteMarblesConversion(resources));
-        ControlBase playerHandler = serverCall().findControlBase(nickname);
-        if(playerHandler != null)
-            playerHandler.write(message);
+        lastUsedState = turnController.whiteMarblesConversion(resources);
+        updateLastUsedState(nickname, lastUsedState);
+        NextStateMessage message = new NextStateMessage(nickname, lastUsedState);
+        message.send(nickname);
 
         return true;
     }
@@ -332,10 +330,10 @@ public class MatchController {
         if (!isComputable)
             return false;
 
-        NextStateMessage message = new NextStateMessage(nickname, turnController.warehouseInsertion(resources));
-        ControlBase playerHandler = serverCall().findControlBase(nickname);
-        if(playerHandler != null)
-            playerHandler.write(message);
+        lastUsedState = turnController.warehouseInsertion(resources);
+        updateLastUsedState(nickname, lastUsedState);
+        NextStateMessage message = new NextStateMessage(nickname, lastUsedState);
+        message.send(nickname);
 
         return true;
     }
@@ -345,10 +343,10 @@ public class MatchController {
         if (!isComputable)
             return false;
 
-        NextStateMessage message = new NextStateMessage(nickname, turnController.devCardDraw(row, column));
-        ControlBase playerHandler = serverCall().findControlBase(nickname);
-        if(playerHandler != null)
-            playerHandler.write(message);
+        lastUsedState = turnController.devCardDraw(row, column);
+        updateLastUsedState(nickname, lastUsedState);
+        NextStateMessage message = new NextStateMessage(nickname, lastUsedState);
+        message.send(nickname);
 
         return true;
     }
@@ -358,10 +356,10 @@ public class MatchController {
         if (!isComputable)
             return false;
 
-        NextStateMessage message = new NextStateMessage(nickname, turnController.payments(strongboxCosts, warehouseCosts));
-        ControlBase playerHandler = serverCall().findControlBase(nickname);
-        if(playerHandler != null)
-            playerHandler.write(message);
+        lastUsedState = turnController.payments(strongboxCosts, warehouseCosts);
+        updateLastUsedState(nickname, lastUsedState);
+        NextStateMessage message = new NextStateMessage(nickname, lastUsedState);
+        message.send(nickname);
 
         return true;
     }
@@ -371,10 +369,10 @@ public class MatchController {
         if (!isComputable)
             return false;
 
-        NextStateMessage message = new NextStateMessage(nickname, turnController.devCardPlacement(column));
-        ControlBase playerHandler = serverCall().findControlBase(nickname);
-        if(playerHandler != null)
-            playerHandler.write(message);
+        lastUsedState = turnController.devCardPlacement(column);
+        updateLastUsedState(nickname, lastUsedState);
+        NextStateMessage message = new NextStateMessage(nickname, lastUsedState);
+        message.send(nickname);
 
         return true;
     }
@@ -383,10 +381,10 @@ public class MatchController {
         if (!isComputable)
             return false;
 
-        NextStateMessage message = new NextStateMessage(nickname, turnController.production(cardIds, productionOfUnknown));
-        ControlBase playerHandler = serverCall().findControlBase(nickname);
-        if(playerHandler != null)
-            playerHandler.write(message);
+        lastUsedState = turnController.production(cardIds, productionOfUnknown);
+        updateLastUsedState(nickname, lastUsedState);
+        NextStateMessage message = new NextStateMessage(nickname, lastUsedState);
+        message.send(nickname);
 
         return true;
     }
@@ -395,6 +393,7 @@ public class MatchController {
         boolean isComputable = isComputable(nickname, CtoSMessageType.PRODUCTION);
         if (!isComputable)
             return false;
+
         rematchPhaseController.response(nickname, value);
         return true;
     }
@@ -404,6 +403,10 @@ public class MatchController {
         EndGameResultsMessage message = new EndGameResultsMessage("", e.getMsg(), e.getRanking());
 
         message.sendBroadcast(match);
+    }
+
+    private void updateLastUsedState(String nickname, StateName lastUsedState){
+        match.getPlayer(nickname).updateLastUsedState(nickname, lastUsedState);
     }
 
     /**

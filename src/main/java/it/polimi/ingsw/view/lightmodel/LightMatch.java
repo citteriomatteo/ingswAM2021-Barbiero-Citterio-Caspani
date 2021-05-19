@@ -110,9 +110,9 @@ public class LightMatch extends ViewObservable {
         getPlayerSummary(nickname).setConnected(connected);
         updateMatch(this);
         if(connected)
-            System.out.println("Player" +nickname+ "is back in the game.");
+            System.out.println("Player " +nickname+ " is back in the game.");
         else
-            System.out.println("Player" +nickname+ "has left the match.");
+            System.out.println("Player " +nickname+ " has left the match.");
     }
 
     /**
@@ -233,13 +233,7 @@ public class LightMatch extends ViewObservable {
         getPlayerSummary(nickname).setTempProduction(tempProduction);
     }
 
-    /**
-     * This method sets the player's last used state.
-     * @param lastUsedState the player's last used state
-     */
-    public void setLastUsedState(String nickname, StateName lastUsedState) {
-        getPlayerSummary(nickname).setLastUsedState(lastUsedState);
-    }
+
 
     //GETTERS:
 

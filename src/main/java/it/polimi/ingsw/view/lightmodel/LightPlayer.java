@@ -28,7 +28,6 @@ public class LightPlayer {
     //stuff for multiple states' operations
     private String tempDevCard;
     private Production tempProduction;
-    private StateName lastUsedState;
 
     /**
      * Constructor: takes a PlayerSummary (contained in the Summary received by message)
@@ -56,7 +55,7 @@ public class LightPlayer {
         setDiscountMap(playerSummary.getDiscountMap());
         setTempDevCard(playerSummary.getTempDevCard());
         setTempProduction(playerSummary.getTempProduction());
-        setLastUsedState(playerSummary.getLastUsedState());
+
     }
 
     /**
@@ -163,13 +162,6 @@ public class LightPlayer {
         this.tempProduction = tempProduction;
     }
 
-    /**
-     * This method sets the player's last used state.
-     * @param lastUsedState the last used state
-     */
-    public void setLastUsedState(StateName lastUsedState) {
-        this.lastUsedState = lastUsedState;
-    }
 
     /**
      * This method sets the player's connection status.
@@ -193,6 +185,5 @@ public class LightPlayer {
     public List<PhysicalResource> getDiscountMap() { return discountMap; }
     public String getTempDevCard() { return tempDevCard; }
     public Production getTempProduction() { return tempProduction; }
-    public StateName getLastUsedState() { return lastUsedState; }
     public boolean isConnected() { return connected; }
 }

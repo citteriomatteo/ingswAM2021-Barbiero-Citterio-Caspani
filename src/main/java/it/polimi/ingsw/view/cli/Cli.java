@@ -6,7 +6,6 @@ import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.lightmodel.LightMatch;
 import it.polimi.ingsw.view.lightmodel.LightPlayer;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +15,7 @@ public class Cli implements View
 {
 
     private String lastLayout;
-    private static final Integer DEFAULT_SHIFT = 5, ZERO_SHIFT = 0;
+    private static final Integer DEFAULT_SHIFT = 10, ZERO_SHIFT = 0;
 
     public Cli(){ }
 
@@ -77,7 +76,7 @@ public class Cli implements View
     @Override
     public void drawLeadersChoiceLayout() {
         lastLayout = "Choose two Leaders.";
-        System.out.println("%%%%"+lastLayout+"%%%%");
+        System.out.println(lastLayout);
     }
 
     @Override
@@ -273,6 +272,7 @@ public class Cli implements View
         System.out.println(allBoardsLined + "\n");
 
         System.out.println(div);
+
     }
 
     private void showCommonThings(LightMatch match){
@@ -371,11 +371,11 @@ public class Cli implements View
             for (j = 0; j < currRes.getQuantity(); j++) {
                 addColouredResource(currRes, wh);
                 putSomeDistance(wh, 7 - currRes.getType().toString().length());
-                wh.append(" |");
+                wh.append(" | ");
 
             }
             for(int k = j; k < i+1; k++) {
-                wh.append(ColorCli.RED).append(" ------ ").append(ColorCli.CLEAR);
+                wh.append(ColorCli.RED).append("------ ").append(ColorCli.CLEAR);
                 wh.append(" |");
             }
             wh.append("\n");
@@ -651,12 +651,6 @@ public class Cli implements View
             return str1;
 
         String[] rows1 = str1.toString().split("\n");
-        //int maxCols = 0;
-        for(String row1 : rows1) {
-            int partialMax = noANSIOccurrencesSize(row1);
-            if (partialMax > maxCols)
-                maxCols = partialMax;
-        }
 
         String[] rows2 = str2.toString().split("\n");
         for(String row2 : rows2) {
@@ -677,7 +671,7 @@ public class Cli implements View
                 putSomeDistance(mergedOne, maxCols + SHIFT);
             else {
                 mergedOne.append(rows2[i]);
-                putSomeDistance(mergedOne, maxCols - noANSIOccurrencesSize(rows1[i]) + SHIFT);
+                putSomeDistance(mergedOne, maxCols - noANSIOccurrencesSize(rows2[i]) + SHIFT);
             }
             mergedOne.append("\n");
         }
