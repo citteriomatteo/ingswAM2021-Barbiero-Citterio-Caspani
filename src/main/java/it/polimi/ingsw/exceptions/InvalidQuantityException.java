@@ -1,6 +1,6 @@
 package it.polimi.ingsw.exceptions;
 
-public class InvalidQuantityException extends Exception {
+public class InvalidQuantityException extends RuntimeException {
     private String error;
 
     public InvalidQuantityException(String error) {
