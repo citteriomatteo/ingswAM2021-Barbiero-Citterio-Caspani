@@ -233,13 +233,7 @@ public class LightMatch extends ViewObservable {
         getPlayerSummary(nickname).setTempProduction(tempProduction);
     }
 
-    /**
-     * This method sets the player's last used state.
-     * @param lastUsedState the player's last used state
-     */
-    public void setLastUsedState(String nickname, StateName lastUsedState) {
-        getPlayerSummary(nickname).setLastUsedState(lastUsedState);
-    }
+
 
     //GETTERS:
 

@@ -28,19 +28,19 @@ public class KeyboardReader extends Thread{
                 entry(MP_CONFIGURATION_CHOOSE, "\u2022 [y/n]"),
                 entry(WAITING, "Waiting...."),
                 entry(WAITING_FOR_PLAYERS, "Please wait.... other players are connecting to your match"),
-                entry(START_GAME, "\u2022 leadersChoice|(lc) [LeadersID]\n" + "\u2022 cardInfo [cardIDs]"),
-                entry(WAITING_LEADERS, "\u2022 leadersChoice|(lc) [LeadersID]\n" + "\u2022 cardInfo [cardIDs]"),
-                entry(WAITING_RESOURCES, "\u2022 startingResource|(sr) [ResourceType,Shelf]\n" + "\u2022 cardInfo [cardIDs]"),
+                entry(START_GAME, "\u2022 leadersChoice|(lc) [LeadersID]\n" + "\u2022 cardInfo|(ci) [cardIDs]"),
+                entry(WAITING_LEADERS, "\u2022 leadersChoice|(lc) [LeadersID]\n" + "\u2022 cardInfo|(ci) [cardIDs]"),
+                entry(WAITING_RESOURCES, "\u2022 startingResource|(sr) [ResourceType,Shelf]\n" + "\u2022 cardInfo|(ci) [cardIDs]"),
                 entry(WAITING_FOR_TURN, "It's not your turn.... please wait"),
                 entry(STARTING_TURN, "\u2022 leaderActivation|(la) [LeaderID]\n" + "\u2022 leaderDiscarding|(ld) [LeaderId]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" +
                         "\u2022 marketDraw|(md) [r/c(row/column),number]\n" + "\u2022 devCardDraw(dd) [RowNumber,ColumnNumber]\n" + "\u2022 production|(prod) [-cardsId cardID1,cardID2] [-uCosts ResourceType,Quantity] [-uEarnings ResourceType,Quantity]\n" +
-                        "\u2022 cardInfo [cardIDs]"),
-                entry(MARKET_ACTION, "\u2022 whiteMarblesConversion|(wmc) [ResourceType,Quantity]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 cardInfo [cardIDs]"),
-                entry(RESOURCES_PLACEMENT, "\u2022 warehouseInsertion|(wi) [SingleResourceType,Shelf]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 cardInfo [cardIDs]"),
-                entry(BUY_DEV_ACTION, "\u2022 payments|(pay) [-strongbox ResourceType,Quantity] [-warehouse Shelf,ResourceType,Quantity]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 cardInfo [cardIDs]"),
-                entry(PLACE_DEV_CARD, "\u2022 devCardPlacement|(dp) [Column]\n" + "\u2022 cardInfo [cardIDs]"),
-                entry(PRODUCTION_ACTION, "\u2022 payments|(pay) [-strongbox ResourceType,Quantity] [-warehouse Shelf,ResourceType,Quantity]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 cardInfo [cardIDs]"),
-                entry(END_TURN, "\u2022 leaderActivation|(la) [LeaderID]\n" + "\u2022 leaderDiscarding|(ld) [LeaderId]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 endTurn\n" + "\u2022 cardInfo [cardIDs]"),
+                        "\u2022 cardInfo|(ci) [cardIDs]"),
+                entry(MARKET_ACTION, "\u2022 whiteMarblesConversion|(wmc) [ResourceType,Quantity]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 cardInfo|(ci) [cardIDs]"),
+                entry(RESOURCES_PLACEMENT, "\u2022 warehouseInsertion|(wi) [SingleResourceType,Shelf]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 cardInfo|(ci) [cardIDs]"),
+                entry(BUY_DEV_ACTION, "\u2022 payments|(pay) [-strongbox ResourceType,Quantity] [-warehouse Shelf,ResourceType,Quantity]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 cardInfo|(ci) [cardIDs]"),
+                entry(PLACE_DEV_CARD, "\u2022 devCardPlacement|(dp) [Column]\n" + "\u2022 cardInfo|(ci) [cardIDs]"),
+                entry(PRODUCTION_ACTION, "\u2022 payments|(pay) [-strongbox ResourceType,Quantity] [-warehouse Shelf,ResourceType,Quantity]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 cardInfo|(ci) [cardIDs]"),
+                entry(END_TURN, "\u2022 leaderActivation|(la) [LeaderID]\n" + "\u2022 leaderDiscarding|(ld) [LeaderId]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 endTurn|(et)\n" + "\u2022 cardInfo|(ci) [cardIDs]"),
                 entry(END_MATCH, "\u2022 rematch|(rm) [y/n]"),
                 entry(REMATCH_OFFER, "\u2022 rematch|(rm) [y/n]")
         );
@@ -65,8 +65,12 @@ public class KeyboardReader extends Thread{
         String command = words.get(0);
         List<String> params = words.subList(1, words.size());
         if(params.size() == 0){
-            if(command.equals("endturn"))
+            if(command.equals("endturn") || command.equals("et"))
                 endTurn();
+            else if(command.equals("cardinfo") || command.equals("ci")){
+
+
+            }
             else{
                 CtoSMessage message = selection(command);
                 if(message == null) {
@@ -572,11 +576,11 @@ public class KeyboardReader extends Thread{
                     System.out.println("please insert a valid command");
                     continue;
                 }
-                if(userInput.equals("help")) {
+                if(userInput.equals("help") || userInput.equals("h")) {
                     printHelpMap();
                     continue;
                 }
-                if(userInput.indexOf("cardinfo") == 0) {
+                if(userInput.indexOf("cardinfo") == 0 || userInput.indexOf("ci") == 0) {
                     client.getController().printCardInfo(userInput);
                     continue;
                 }

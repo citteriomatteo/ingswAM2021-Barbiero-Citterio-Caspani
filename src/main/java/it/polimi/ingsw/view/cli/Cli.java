@@ -6,7 +6,6 @@ import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.lightmodel.LightMatch;
 import it.polimi.ingsw.view.lightmodel.LightPlayer;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -77,7 +76,7 @@ public class Cli implements View
     @Override
     public void drawLeadersChoiceLayout() {
         lastLayout = "Choose two Leaders.";
-        System.out.println("%%%%"+lastLayout+"%%%%");
+        System.out.println(lastLayout);
     }
 
     @Override
@@ -273,6 +272,7 @@ public class Cli implements View
         System.out.println(allBoardsLined + "\n");
 
         System.out.println(div);
+
     }
 
     private void showCommonThings(LightMatch match){
