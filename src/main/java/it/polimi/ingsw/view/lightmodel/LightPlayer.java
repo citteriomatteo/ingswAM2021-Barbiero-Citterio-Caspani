@@ -12,6 +12,8 @@ public class LightPlayer {
 
     //player's general things
     private final String nickname;
+    private final String color;
+    private boolean connected;
     private List<PhysicalResource> warehouse;
     private List<PhysicalResource> marketBuffer;
     private List<PhysicalResource> strongbox;
@@ -32,8 +34,11 @@ public class LightPlayer {
      * Constructor: takes a PlayerSummary (contained in the Summary received by message)
      * and overwrites every parameter here.
      * @param playerSummary the summary of the player
+     * @param color his representing color on the match
      */
-    public LightPlayer(PlayerSummary playerSummary) {
+    public LightPlayer(PlayerSummary playerSummary, String color) {
+        this.connected = true;
+        this.color = color;
         this.nickname = playerSummary.getNickname();
         setWarehouse(playerSummary.getWarehouse());
         setMarketBuffer(playerSummary.getMarketBuffer());
@@ -166,8 +171,15 @@ public class LightPlayer {
         this.lastUsedState = lastUsedState;
     }
 
+    /**
+     * This method sets the player's connection status.
+     * @param connected the new status
+     */
+    public void setConnected(boolean connected) { this.connected = connected; }
+
     //GETTERS:
 
+    public String getColor() { return color; }
     public String getNickname() { return nickname; }
     public List<PhysicalResource> getWarehouse() { return warehouse; }
     public List<PhysicalResource> getMarketBuffer() { return marketBuffer; }
@@ -182,4 +194,5 @@ public class LightPlayer {
     public String getTempDevCard() { return tempDevCard; }
     public Production getTempProduction() { return tempProduction; }
     public StateName getLastUsedState() { return lastUsedState; }
+    public boolean isConnected() { return connected; }
 }

@@ -69,7 +69,7 @@ public class Summary implements ModelObserver
      * @param match   the match
      * @param cardMap the card map
      */
-    public Summary(Match match, Map<String, Card> cardMap){
+    public Summary(Match match, Map<String, Card> cardMap, List<Cell> faithPath){
         //cardMap init
         this.cardMap = cardMap;
 
@@ -95,6 +95,17 @@ public class Summary implements ModelObserver
         this.lorenzoMarker = -1;
         if(match.getPlayers().size()==1)
             this.lorenzoMarker = 0;
+
+        //faith path init
+        this.faithPath = new ArrayList<>();
+        for(Cell c : faithPath){
+            StringBuilder cell = new StringBuilder();
+            cell.append(c.getWinPoints()).append("-");
+            cell.append(c.getReportSection()).append("-");
+            cell.append(c.isVatican());
+            this.faithPath.add(cell.toString());
+        }
+
 
         //players summaries init
         playersSummary = new ArrayList<>();
@@ -156,9 +167,24 @@ public class Summary implements ModelObserver
     @Override
     public void updateLorenzoMarker(int lorenzoMarker) {
         this.lorenzoMarker = lorenzoMarker;
-
         new NewFaithPositionMessage("Lorenzo the Magnificent", lorenzoMarker).sendBroadcast(getPlayersNicknames());
     }
+    /**
+     * This method, when called, updates the faith path in the summary.
+     * @param faithPath the faith path
+     */
+    @Override
+    public void updateFaithPath(List<Cell> faithPath) {
+        this.faithPath = new ArrayList<>();
+        for(Cell c : faithPath){
+            StringBuilder cell = new StringBuilder();
+            cell.append(c.getWinPoints()).append("-");
+            cell.append(c.getReportSection()).append("-");
+            cell.append(c.isVatican());
+            this.faithPath.add(cell.toString());
+        }
+}
+
 
     /**
      * This method, when called, updates the personal board of the requested player in the summary.
@@ -339,6 +365,7 @@ public class Summary implements ModelObserver
     public char[][] getMarket() { return market; }
     public char getSideMarble() { return sideMarble; }
     public List<String>[][] getCardGrid() { return cardGrid; }
+    public List<String> getFaithPath() { return faithPath; }
     public int getLorenzoMarker() { return lorenzoMarker; }
     public Map<String, Card> getCardMap() { return cardMap; }
     public List<PlayerSummary> getPlayersSummary() { return playersSummary; }

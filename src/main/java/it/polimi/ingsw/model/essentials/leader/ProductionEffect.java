@@ -4,6 +4,8 @@ import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.Production;
 import it.polimi.ingsw.model.essentials.Resource;
 import it.polimi.ingsw.model.match.player.personalBoard.Effector;
+import it.polimi.ingsw.view.cli.Cli;
+import it.polimi.ingsw.view.cli.ColorCli;
 
 import java.util.Objects;
 /**
@@ -48,15 +50,26 @@ public class ProductionEffect implements Effect{
 
     @Override
     public String toCLIString() {
-        StringBuilder str = new StringBuilder();
-        str.append("Production effect -> Costs: ");
-        for(PhysicalResource r : production.getCost())
-            str.append("[").append(r.getType()).append(", ").append(r.getQuantity()).append("]");
-        str.append("\n").append("Earnings: ");
-        for(Resource r : production.getEarnings())
-            if(r.isPhysical())
-                str.append("[").append(((PhysicalResource) r).getType()).append(", ").append(((PhysicalResource) r).getQuantity()).append("]");
+        String symbol = ColorCli.RED + "¤ " + ColorCli.CLEAR;
 
+        StringBuilder str = new StringBuilder();
+        str.append(symbol).append("Production effect \nCosts: ");
+        for(PhysicalResource r : production.getCost()) {
+            str.append("  [");
+            Cli.addColouredResource(r, str);
+            str.append(", ").append(r.getQuantity()).append("]");
+        }
+        str.append("\nEarnings: ");
+        for(Resource r : production.getEarnings()) {
+            if (r.isPhysical()) {
+                str.append("  [");
+                Cli.addColouredResource(((PhysicalResource) r), str);
+                str.append(", ").append(((PhysicalResource) r).getQuantity()).append("]");
+            }
+            else
+                str.append("[" + ColorCli.RED + " ┼ " + ColorCli.CLEAR + "]");
+        }
+        str.append("\n");
         return str.toString();
     }
 

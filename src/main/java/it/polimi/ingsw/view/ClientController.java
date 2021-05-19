@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.StateName;
+import it.polimi.ingsw.model.essentials.Card;
 import it.polimi.ingsw.model.match.Summary;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
 import it.polimi.ingsw.network.message.stocmessage.NextStateMessage;
@@ -173,25 +174,15 @@ public class ClientController
         if(splitRequest.size() != 1)
             return false;
         List<String> cards = new ArrayList(Arrays.asList(splitRequest.get(0).split(",")));
-        for(String id : cards)
-            view.drawCard(match.getCardMap().get(id), id);
+        for(String id : cards) {
+            Card chosen = match.getCardMap().get(id);
+            if(chosen != null)
+                view.drawCard(chosen, id);
+        }
 
         return true;
 
     }
-
-    public boolean viewEnemy(String request){
-        List<String> splitRequest = new ArrayList(Arrays.asList(request.split("\\s+")));
-        splitRequest.remove(0);
-        if(splitRequest.size() != 1)
-            return false;
-        List<String> nicknames = new ArrayList(Arrays.asList(splitRequest.get(0).split(",")));
-        for(String nickname : nicknames)
-            view.viewEnemy(nickname, match);
-
-        return true;
-    }
-
     public LightMatch getMatch(){ return match; }
 
     public StateName getCurrentState() { return currentState; }

@@ -34,7 +34,7 @@ public class StartingPhaseController {
         playerStates = new HashMap<>();
 
         //initializing the Summary and setting it to every player
-        Summary summary = new Summary(match, cardMap);
+        Summary summary = new Summary(match, cardMap, match.getMatchConfiguration().getCustomPath());
 
         for (Player p : match.getPlayers()) {
             playerStates.put(p.getNickname(), StateName.WAITING_LEADERS);

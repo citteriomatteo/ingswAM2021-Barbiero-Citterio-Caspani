@@ -559,10 +559,6 @@ public class KeyboardReader extends Thread{
                     printHelpMap();
                     continue;
                 }
-                if(userInput.indexOf("viewEnemy") == 0){
-                    client.getController().viewEnemy(userInput);
-                    continue;
-                }
                 if(userInput.indexOf("cardInfo") == 0) {
                     client.getController().printCardInfo(userInput);
                     continue;
@@ -587,7 +583,8 @@ public class KeyboardReader extends Thread{
         for (StateName state : helpMap.keySet()) {
             if(state.equals(currentState)) {
                 System.out.println("This are your possible moves:");
-                System.out.println(helpMap.get(currentState));
+                for(String s : helpMap.get(currentState))
+                    System.out.println(s);
             }
         }
 

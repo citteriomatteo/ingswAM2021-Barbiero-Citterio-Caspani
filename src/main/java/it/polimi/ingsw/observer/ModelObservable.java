@@ -11,6 +11,7 @@ import it.polimi.ingsw.model.match.player.personalBoard.DevCardSlots;
 import it.polimi.ingsw.model.match.player.personalBoard.DiscountMap;
 import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
 import it.polimi.ingsw.model.match.player.personalBoard.StrongBox;
+import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 
 import java.util.ArrayList;
@@ -92,6 +93,13 @@ public class ModelObservable {
      */
     public void updateFaithMarker(String nickname, int faithMarker){
         observers.get(0).updateFaithMarker(nickname, faithMarker);
+    }
+    /**
+     * This method calls an update on the Observer's class.
+     * @param path the faith path
+     */
+    public void updateFaithPath(List<Cell> path){
+        observers.get(0).updateFaithPath(path);
     }
     /**
      * This method calls an update on the Observer's class.

@@ -6,6 +6,7 @@ import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.lightmodel.LightMatch;
 import it.polimi.ingsw.view.lightmodel.LightPlayer;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ public class Cli implements View
 {
 
     private String lastLayout;
+    private static final Integer DEFAULT_SHIFT = 5, ZERO_SHIFT = 0;
 
     public Cli(){ }
 
@@ -244,7 +246,19 @@ public class Cli implements View
     //CLI PRINT METHODS OF COMMON THINGS:
 
     private void showAll(List<String> playersToPrint, LightMatch match){
+        clearScreen();
+
+        StringBuilder div = new StringBuilder();
+        for(int i = 0; i < 400; i++)
+            div.append("═");
+        div.append("\n");
+
+        System.out.println(div);
+
         showCommonThings(match);
+
+        System.out.println(div);
+
         List<StringBuilder> boards = new ArrayList<>();
         for(String nickname : playersToPrint) {
             StringBuilder board = new StringBuilder();
@@ -254,22 +268,31 @@ public class Cli implements View
         StringBuilder allBoardsLined = new StringBuilder();
         Integer max = 0;
         for(StringBuilder sb : boards)
-            allBoardsLined = new StringBuilder(mergePrintingObjects(allBoardsLined, sb, max));
+            allBoardsLined = new StringBuilder(mergePrintingObjects(allBoardsLined, sb, max, DEFAULT_SHIFT));
 
-        //for printing the layout of the player's phase after every update (NOT USABLE)
-        //appendLastLayout(allBoardsLined);
+        System.out.println(allBoardsLined + "\n");
 
-        System.out.println(allBoardsLined);
+        System.out.println(div);
     }
 
     private void showCommonThings(LightMatch match){
         StringBuilder marketGraphic = new StringBuilder();
-        StringBuilder gridGraphic = new StringBuilder();
-
         showMarket(match.getMarket(), match.getSideMarble(), marketGraphic);
+
+        StringBuilder gridGraphic = new StringBuilder();
         showCardGrid(match.getCardGrid(), gridGraphic);
 
-        System.out.println(mergePrintingObjects(marketGraphic, gridGraphic, 0));
+        System.out.println(mergePrintingObjects(marketGraphic, gridGraphic, 0, DEFAULT_SHIFT));
+
+        StringBuilder pathGraphic = new StringBuilder();
+        showFaithPath(match, pathGraphic);
+
+        for(LightPlayer p : match.getPlayersSummary()) {
+            StringBuilder tilesGraphic = new StringBuilder();
+            showPopeTiles(p, tilesGraphic);
+            System.out.println(tilesGraphic);
+        }
+
     }
 
     private void showMarket(char[][] market, char sideMarble, StringBuilder marketGraphic){
@@ -282,7 +305,7 @@ public class Cli implements View
                 str.append(" ]");
             }
             if (i == 0) {
-                str.append("      [ ");
+                str.append("   [ ");
                 addColouredMarble(sideMarble, str);
                 str.append(" ]");
             }
@@ -314,13 +337,20 @@ public class Cli implements View
         gridGraphic.append(grid);
     }
 
-
+    private void showFaithPath(LightMatch match, StringBuilder pathGraphic){
+        System.out.println("\nFAITH PATH:\n");
+        for(int i = 0; i < match.getFaithPath().size(); i++)
+            pathGraphic = mergePrintingObjects(pathGraphic, getPrintedCell(match, i, match.getFaithPath().get(i)), 0, ZERO_SHIFT);
+        System.out.println(pathGraphic);
+    }
 
     //CLI PRINT METHODS OF PLAYER'S THINGS:
 
     private void showBoard(String nickname, LightMatch match, StringBuilder board){
-        board.append("\n----- PERSONAL BOARD OF "+ nickname + " ----- \n");
-        showFaithPath(nickname, match, board);
+        board.append("\n----- PERSONAL BOARD OF ").append(match.getPlayerSummary(nickname).getColor()).append(nickname).append(ColorCli.CLEAR);
+        if(!match.getPlayerSummary(nickname).isConnected())
+            board.append(ColorCli.RED).append(" (OFFLINE) ").append(ColorCli.CLEAR);
+        board.append(" ----- \n");
         showDevCardSlots(match.getPlayerSummary(nickname), board);
         showWarehouse(match.getPlayerSummary(nickname), board);
         showStrongbox(match.getPlayerSummary(nickname),board);
@@ -355,7 +385,7 @@ public class Cli implements View
         wh = new StringBuilder();
         wh.append("\nMARKET BUFFER: ");
         if(player.getMarketBuffer().size() == 0)
-            wh.append("[").append(ColorCli.RED).append("EMPTY").append(ColorCli.CLEAR).append("]");
+            wh.append("[").append(ColorCli.RED).append("EMPTY").append(ColorCli.CLEAR).append("]\n");
         else
             wh.append("\n");
 
@@ -370,7 +400,7 @@ public class Cli implements View
 
     private void showStrongbox(LightPlayer player, StringBuilder board){
         StringBuilder sb = new StringBuilder();
-        sb.append("\nSTRONGBOX:\n");
+        sb.append(" STRONGBOX:\n");
 
         //for spaces indentation
         int maxLength = 0;
@@ -393,7 +423,7 @@ public class Cli implements View
 
             sb.append(" |\n");
         }
-        board.append(sb);
+        board.append(putInColoredFrame(sb,ColorCli.CLEAR.toString()));
     }
 
     private void showDevCardSlots(LightPlayer player, StringBuilder board){
@@ -426,19 +456,34 @@ public class Cli implements View
 
     }
 
-    //TODO: fare bene
-    private void showFaithPath(String nickname, LightMatch match, StringBuilder board){
-        board.append("\nFAITH PATH:\n");
-        board.append("Your position: ").append(match.getPlayerSummary(nickname).getFaithMarker()).append("\n");
-        if(match.getLorenzoMarker() != -1)
-            board.append("Lorenzo's position: ").append(match.getLorenzoMarker()).append("\n");
+    private void showPopeTiles(LightPlayer player, StringBuilder board){
+
+        board.append(player.getColor()).append(player.getNickname()).append(ColorCli.CLEAR).append("'s pope tiles: ");
+
+        for(int i = 0; i < player.getPopeTiles().size(); i++){
+            board.append("[ ").append(i+2).append(" ");
+            switch(player.getPopeTiles().get(i)){
+                case 0: //not reached tile
+                    board.append(" - ");
+                    break;
+                case 1: //upside tile
+                    board.append(ColorCli.GREEN).append(" ✪ ").append(ColorCli.CLEAR);
+                    break;
+                case 2: //discarded tail
+                    board.append(ColorCli.RED).append(" X ").append(ColorCli.CLEAR);
+                    break;
+            }
+            board.append("]");
+        }
+        board.append("\n");
+
     }
 
     private void showHandLeaders(LightPlayer player, StringBuilder board){
         StringBuilder hl = new StringBuilder();
-        hl.append("\nHAND LEADERS: [");
+        hl.append("\nHAND LEADERS: [ ");
         if(player.getHandLeaders().size() == 0)
-            hl.append("[").append(ColorCli.RED).append("EMPTY").append(ColorCli.CLEAR).append("]");
+            hl.append(ColorCli.RED).append("EMPTY").append(ColorCli.CLEAR).append("]");
 
         else{
             int i;
@@ -473,33 +518,33 @@ public class Cli implements View
         board.append("\n");
     }
 
-
     @Override
     public void drawCard(Card card, String id) {
         StringBuilder cardStr = new StringBuilder();
         if(card.isLeader()){
             cardStr.append(" (LEADER CARD ").append(id).append(")\n");
-            cardStr.append("Requirements -> \n");
+            cardStr.append("Requirements \n");
             for(Requirable r : ((LeaderCard) card).getRequirements()) {
                 if(r.isAResource()){
                     PhysicalResource req = (PhysicalResource) r;
-                    cardStr.append((char) 186 + " Resource: ");
+                    cardStr.append((char)186 + " Resource: ");
                     addColouredResource(req, cardStr);
                     cardStr.append(", ").append(req.getQuantity()).append("\n");
                 }
                 else{
                     CardType type = (CardType) r;
-                    cardStr.append((char) 186 + " Card Type: ");
-                    cardStr.append(type.getColor().toString()).append(", Level-").append(type.getLevel()).append(", Quantity-").append(type.getQuantity());
+                    cardStr.append((char)186 + " Card Type: ");
+                    cardStr.append("█ ".repeat(Math.max(0, type.getQuantity())));
+                    cardStr.append(type.getColor().toString());
+                    if(type.getLevel() > 0)
+                        cardStr.append(", Lv.").append(type.getLevel());
                     cardStr.append("\n");
                 }
-
-
             }
-            cardStr.append(((LeaderCard) card).getEffect().toCLIString()).append("\n");
-            cardStr.append((char) 186).append(" Win Points -> ").append(((LeaderCard) card).getWinPoints());
+            cardStr.append(((LeaderCard) card).getEffect().toCLIString());
+            cardStr.append((char) 186).append(" Win Points ").append(((LeaderCard) card).getWinPoints());
         }
-        else {
+        else { //TODO: finish!
             System.out.println(" (DEVELOPMENT CARD " + id + ")");
             System.out.println("|| Price ->");
             for(PhysicalResource r : ((DevelopmentCard) card).getPrice())
@@ -513,23 +558,57 @@ public class Cli implements View
                 System.out.println("|| - " + r.toString() + " ||");
             System.out.println("|| Win Points -> " + ((DevelopmentCard) card).getWinPoints() + " ||");
         }
-        System.out.println(cardStr);
-    }
-
-    @Override
-    public void viewEnemy(String nickname, LightMatch match){
-        //showBoard(nickname, match, );
+        System.out.println(putInColoredFrame(cardStr, ColorCli.CLEAR.toString()));
     }
 
     //STYLING METHODS:
 
-    private void addColouredResource(PhysicalResource resource, StringBuilder str) {
+    public StringBuilder getPrintedCell(LightMatch match, int pos, String cell){
+        StringBuilder str = new StringBuilder();
+        String[] elements = cell.split("-");
+
+        //color choice for the cell
+        String color = ColorCli.WHITE.toString();
+        if(Integer.parseInt(elements[1]) > 0)
+            color = ColorCli.YELLOW.toString();
+        if(Boolean.parseBoolean(elements[2]))
+            color = ColorCli.RED.toString();
+
+        //"win points" row
+        str.append(elements[0]);
+        putSomeDistance(str, 6-String.valueOf(elements[0]).length());
+        str.append("\n");
+
+        //"crosses" row
+        int crosses = 0;
+        for(LightPlayer p : match.getPlayersSummary())
+            if(p.getFaithMarker() == pos) {
+                str.append(p.getColor()).append("┼");
+                crosses++;
+            }
+        if(match.getLorenzoMarker() == pos) {
+            str.append(ColorCli.GREY_BOLD).append("┼");
+            crosses++;
+        }
+        putSomeDistance(str, 5-crosses);
+        str.append("\n");
+
+        //"position of cell" row
+        putSomeDistance(str, 6-String.valueOf(pos).length());
+        str.append(pos);
+        str.append("\n");
+
+
+        return putInColoredFrame(str,color);
+    }
+
+    public static void addColouredResource(PhysicalResource resource, StringBuilder str) {
         switch(resource.getType()){
             case COIN:
                 str.append(ColorCli.YELLOW).append(resource.getType()).append(ColorCli.CLEAR);
                 break;
             case STONE:
-                str.append(ColorCli.WHITE).append(resource.getType()).append(ColorCli.CLEAR);
+                str.append(ColorCli.GREY_BOLD).append(resource.getType()).append(ColorCli.CLEAR);
                 break;
             case SHIELD:
                 str.append(ColorCli.BLUE).append(resource.getType()).append(ColorCli.CLEAR);
@@ -540,8 +619,8 @@ public class Cli implements View
         }
     }
 
-    private void addColouredMarble(char marble, StringBuilder str){
-        String marblePoint = "@";
+    public static void addColouredMarble(char marble, StringBuilder str){
+        String marblePoint = "●";
         switch(marble){
             case 'w':
                 str.append(ColorCli.WHITE).append(marblePoint).append(ColorCli.CLEAR);
@@ -564,14 +643,12 @@ public class Cli implements View
         }
     }
 
-    private StringBuilder mergePrintingObjects(StringBuilder str1, StringBuilder str2, Integer maxCols){
+    private StringBuilder mergePrintingObjects(StringBuilder str1, StringBuilder str2, Integer maxCols, int SHIFT){
 
         if(str1.length() == 0)
             return str2;
         if(str2.length() == 0)
             return str1;
-
-        int SHIFT = 5;
 
         String[] rows1 = str1.toString().split("\n");
         //int maxCols = 0;
@@ -620,6 +697,43 @@ public class Cli implements View
 
     private void appendLastLayout(StringBuilder str){
         str.append("\n").append(lastLayout).append("\n");
+    }
+
+    private StringBuilder putInColoredFrame(StringBuilder str, String color){
+        StringBuilder finalStr = new StringBuilder();
+
+        int maxCols = 0;
+        String[] rows = str.toString().split("\n");
+        for(String row : rows)
+            if(noANSIOccurrencesSize(row) > maxCols)
+                maxCols = noANSIOccurrencesSize(row);
+
+        //first row
+        finalStr.append(color).append("╔");
+        for(int i = 0; i < maxCols+2; i++)
+            finalStr.append("═");
+        finalStr.append("╗\n").append(ColorCli.CLEAR);
+
+        //stringBuilder rows processing
+        for(String row : rows){
+            finalStr.append(color).append("║ ").append(ColorCli.CLEAR);
+            finalStr.append(row);
+            putSomeDistance(finalStr, maxCols-noANSIOccurrencesSize(row));
+            finalStr.append(color).append(" ║\n").append(ColorCli.CLEAR);
+        }
+
+        //last row
+        finalStr.append(color).append("╚");
+        for(int i = 0; i < maxCols+2; i++)
+            finalStr.append("═");
+        finalStr.append("╝\n").append(ColorCli.CLEAR);
+
+        return finalStr;
+    }
+
+    private void clearScreen(){
+        for(int i = 0; i < 50; i++)
+            System.out.println();
     }
 
 }

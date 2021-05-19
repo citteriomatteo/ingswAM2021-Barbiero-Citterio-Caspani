@@ -112,7 +112,7 @@ public class MatchController {
         cardMap = initCardMap(configuration);
 
         //setting the starting summary to the player
-        ModelObserver obs = new Summary(new ArrayList<>(List.of(player)), cardMap, match.getCurrentPlayer().getPersonalBoard().getFaithPath().getFaithPath());
+        ModelObserver obs = new Summary(new ArrayList<>(List.of(player)), cardMap, configuration.getCustomPath());
         player.setSummary(obs);
 
         try {

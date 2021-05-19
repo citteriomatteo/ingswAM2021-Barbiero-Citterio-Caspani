@@ -13,7 +13,6 @@ public interface View extends ViewObserver {
 
 
     void drawCard(Card card, String id);
-    void viewEnemy(String nickname, LightMatch match);
 
     void printTitle();
     void drawLoginLayout();

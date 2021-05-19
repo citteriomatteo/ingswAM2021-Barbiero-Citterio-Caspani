@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.essentials.Production;
 import it.polimi.ingsw.model.match.Summary;
 import it.polimi.ingsw.model.match.player.PlayerSummary;
 import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.view.cli.ColorCli;
 import it.polimi.ingsw.view.observer.ViewObservable;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class LightMatch extends ViewObservable {
     private char[][] market;
     private char sideMarble;
     private List<String>[][] cardGrid;
+    private List<String> faithPath;
     private int lorenzoMarker;  //stays "-1" in multi-player matches!
 
     private List<LightPlayer> playersSummary;
@@ -41,11 +43,12 @@ public class LightMatch extends ViewObservable {
         this.market = summary.getMarket();
         this.sideMarble = summary.getSideMarble();
         this.cardGrid = summary.getCardGrid();
+        this.faithPath = summary.getFaithPath();
         this.lorenzoMarker = summary.getLorenzoMarker();
 
         playersSummary = new ArrayList<>();
-        for(PlayerSummary ps : summary.getPlayersSummary())
-            playersSummary.add(new LightPlayer(ps));
+        for(int i = 0; i < summary.getPlayersSummary().size(); i++)
+            playersSummary.add(new LightPlayer(summary.getPlayersSummary().get(i), ColorCli.values()[i+3].toString()));
 
         //starting update_call
         updateMatch(this);
@@ -101,6 +104,15 @@ public class LightMatch extends ViewObservable {
     public void setLorenzoMarker(int lorenzoMarker) {
         this.lorenzoMarker = lorenzoMarker;
         updateLorenzoMarker(this);
+    }
+
+    public void setConnected(String nickname, boolean connected) {
+        getPlayerSummary(nickname).setConnected(connected);
+        updateMatch(this);
+        if(connected)
+            System.out.println("Player" +nickname+ "is back in the game.");
+        else
+            System.out.println("Player" +nickname+ "has left the match.");
     }
 
     /**
@@ -235,6 +247,7 @@ public class LightMatch extends ViewObservable {
     public char[][] getMarket() { return market; }
     public char getSideMarble() { return sideMarble; }
     public List<String>[][] getCardGrid() { return cardGrid; }
+    public List<String> getFaithPath() { return faithPath; }
     public int getLorenzoMarker() { return lorenzoMarker; }
     public List<LightPlayer> getPlayersSummary() { return playersSummary; }
     public LightPlayer getPlayerSummary(String nickname){

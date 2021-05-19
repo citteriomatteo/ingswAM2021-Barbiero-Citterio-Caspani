@@ -57,7 +57,7 @@ public class PlayerSummaryTest extends CommonThingsTest
         Match match = new MultiMatch(players, matchConfiguration);
 
         setCardMap(match.getMatchConfiguration());
-        Summary summary = new Summary(match, cardMap);
+        Summary summary = new Summary(match, cardMap, matchConfiguration.getCustomPath());
         for(Player p : match.getPlayers())
             p.setSummary(summary);
 
@@ -129,7 +129,7 @@ public class PlayerSummaryTest extends CommonThingsTest
         Match match = new MultiMatch(players, matchConfiguration);
 
         setCardMap(match.getMatchConfiguration());
-        Summary summary = new Summary(match, cardMap);
+        Summary summary = new Summary(match, cardMap, matchConfiguration.getCustomPath());
         for(Player p : match.getPlayers())
             p.setSummary(summary);
 
@@ -169,7 +169,7 @@ public class PlayerSummaryTest extends CommonThingsTest
         setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
         Match match = new MultiMatch(players, matchConfiguration);
         setCardMap(match.getMatchConfiguration());
-        Summary summary = new Summary(match, cardMap);
+        Summary summary = new Summary(match, cardMap, matchConfiguration.getCustomPath());
         for(Player p : match.getPlayers())
             p.setSummary(summary);
 

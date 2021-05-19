@@ -13,7 +13,7 @@ public enum ColorCli
     YELLOW("\u001B[33m"),
     PURPLE("\u001B[35m"),
     GREY("\u001B[36m"),
-    WHITE("\u001B[37m"),
+    WHITE("\u001B[97m"),
 
 
     // Bold

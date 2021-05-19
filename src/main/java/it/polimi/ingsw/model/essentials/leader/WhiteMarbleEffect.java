@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.essentials.leader;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.match.player.personalBoard.Effector;
+import it.polimi.ingsw.view.cli.ColorCli;
 
 import java.util.Objects;
 /**
@@ -46,9 +47,10 @@ public class WhiteMarbleEffect implements Effect{
 
     @Override
     public String toCLIString() {
+        String symbol = ColorCli.WHITE + "\u2022 " + ColorCli.CLEAR;
 
         StringBuilder str = new StringBuilder();
-        str.append("White Marble conversion: ").append(conversion.getType()).append(", ").append(conversion.getQuantity());
+        str.append(symbol).append("White Marble conversion: ").append(conversion.getType()).append(", ").append(conversion.getQuantity());
         str.append("\n");
 
         return str.toString();

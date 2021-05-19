@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.essentials.leader;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.match.player.personalBoard.Effector;
+import it.polimi.ingsw.view.cli.ColorCli;
 
 import java.util.Objects;
 /**
@@ -47,9 +48,10 @@ public class DiscountEffect implements Effect{
 
     @Override
     public String toCLIString() {
+        String symbol = ColorCli.GREEN + "½ " + ColorCli.CLEAR;
 
         StringBuilder discount = new StringBuilder();
-        discount.append("Discount effect: ").append(this.discount.getType()).append(", ").append(this.discount.getQuantity());
+        discount.append(symbol).append("Discount effect: ").append(this.discount.getType()).append(", ").append(this.discount.getQuantity());
         discount.append("\n");
 
         return discount.toString();

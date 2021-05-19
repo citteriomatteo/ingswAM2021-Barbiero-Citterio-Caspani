@@ -11,6 +11,7 @@ import it.polimi.ingsw.model.match.player.personalBoard.DevCardSlots;
 import it.polimi.ingsw.model.match.player.personalBoard.DiscountMap;
 import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
 import it.polimi.ingsw.model.match.player.personalBoard.StrongBox;
+import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public interface ModelObserver {
     void updateMarket(Market market);
     void updateCardGrid(CardGrid cardGrid);
     void updateLorenzoMarker(int lorenzoMarker);
+    void updateFaithPath(List<Cell> path);
 
     void updatePersonalBoard(String nickname, PersonalBoard personalBoard);
     void updateMarketBuffer(String nickname, Warehouse warehouse);
