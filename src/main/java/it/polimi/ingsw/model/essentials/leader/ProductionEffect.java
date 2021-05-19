@@ -67,7 +67,7 @@ public class ProductionEffect implements Effect{
                 str.append(", ").append(((PhysicalResource) r).getQuantity()).append("]");
             }
             else
-                str.append("[" + ColorCli.RED + " ┼ " + ColorCli.CLEAR + "]");
+                str.append("[").append(ColorCli.RED).append(" ┼ ").append(ColorCli.CLEAR).append("]");
         }
         str.append("\n");
         return str.toString();

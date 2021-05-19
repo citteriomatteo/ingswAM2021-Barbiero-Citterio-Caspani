@@ -320,16 +320,19 @@ public class Cli implements View
 
         //double for to get the max length of ids (for indentation!)
         int spacesToLeave = -1;
-        for(int i = 0; i<cardGrid.length; i++)
-            for (int j = 0; j < cardGrid[i].length; j++)
-                if(cardGrid[i][j].get(0).length() > spacesToLeave)
-                    spacesToLeave = cardGrid[i][j].get(0).length();
+        String topCardCode;
+        for (List<String>[] column : cardGrid)
+            for (List<String> element : column) {
+                topCardCode = element.get(0);
+                if (topCardCode != null && topCardCode.length() > spacesToLeave)
+                    spacesToLeave = topCardCode.length();
+            }
 
 
         for (List<String>[] lists : cardGrid) {
             for (int j = 0; j < lists.length; j++) {
-                grid.append("[ " + lists[j].get(0));
-                grid.append(" ".repeat(Math.max(0, spacesToLeave - lists[j].get(0).length())));
+                grid.append("[ ").append(lists[j].get(0) == null ? ColorCli.RED.paint("X") : lists[j].get(0));
+                grid.append(" ".repeat(Math.max(0, spacesToLeave - noANSIOccurrencesSize((lists[j].get(0) == null ? ColorCli.RED.paint("X") : lists[j].get(0))))));
                 grid.append(",").append(lists[j].get(1)).append(" ]");
             }
             grid.append("\n");
