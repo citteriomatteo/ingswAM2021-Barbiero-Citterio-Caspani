@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.Production;
 import it.polimi.ingsw.model.essentials.leader.LeaderCard;
 import it.polimi.ingsw.model.match.CardGrid;
+import it.polimi.ingsw.model.match.Summary;
 import it.polimi.ingsw.model.match.market.Market;
 import it.polimi.ingsw.model.match.player.personalBoard.DevCardSlots;
 import it.polimi.ingsw.model.match.player.personalBoard.DiscountMap;
@@ -173,7 +174,7 @@ public class ModelObservable {
     }
 
     //returns the observer
-    public ModelObserver getSummary() {
-        return observers.get(0);
+    public Summary getSummary() {
+        return (Summary) observers.get(0);
     }
 }

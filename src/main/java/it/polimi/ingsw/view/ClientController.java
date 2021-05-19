@@ -56,11 +56,23 @@ public class ClientController
     //updato lo stato corrente e controllo: se si tratta dello stesso di prima, allora mi è arrivata un Retry,
     //      altrimenti sarà un NextState.
     public void updateCurrentState(StoCMessage msg){
+        System.out.println("new state: " + msg.getType());
         if(msg.getType().equals(StoCMessageType.RETRY)) {
             printRetry("Invalid message: Retry. Type 'help' to view the map of commands.");
         }
         else if(msg.getType().equals(StoCMessageType.NEXT_STATE)){
             this.currentState = ((NextStateMessage) msg).getNewState();
+            if(match != null)
+                match.getPlayerSummary(msg.getNickname()).setLastUsedState(currentState);
+            /*if(match != null) {
+                if (!currentState.equals(StateName.WAITING_FOR_TURN)) {
+                    if (currentState.equals(StateName.STARTING_TURN)
+                            && !List.of(StateName.WAITING_FOR_TURN, StateName.END_TURN).contains(match.getPlayerSummary(msg.getNickname()).getLastUsedState()))
+                        currentState = match.getPlayerSummary(msg.getNickname()).getLastUsedState();
+                } else
+                    match.getPlayerSummary(msg.getNickname()).setLastUsedState(currentState);
+                System.out.println("" + currentState);
+            }*/
         }
         printMoveLegend(msg);
     }

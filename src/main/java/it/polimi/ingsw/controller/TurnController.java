@@ -36,6 +36,9 @@ public class TurnController {
         this.currentPlayer = match.getCurrentPlayer();
         this.firstPlayer = match.getCurrentPlayer();
         this.currentState = StateName.STARTING_TURN;
+        for(Player p : match.getPlayers())
+            if(!p.equals(currentPlayer))
+                p.updateLastUsedState(p.getNickname(), StateName.WAITING_FOR_TURN);
         this.match = match;
         this.cardMap = cardMap;
         this.whiteMarbleDrawn = 0;
@@ -74,8 +77,13 @@ public class TurnController {
                     myScore.put(currentPlayer.getNickname(), currentPlayer.totalWinPoints());
                     throw new MatchEndedException("You lost!", myScore);
                 }
+                System.out.println("State before modify: "+currentState);
                 currentPlayer = match.getCurrentPlayer();
-                currentState = StateName.STARTING_TURN;
+                currentState = currentPlayer.getSummary().getPlayerSummary(currentPlayer.getNickname()).getLastUsedState();
+                if(currentState == StateName.END_TURN ) {
+                    currentState = StateName.STARTING_TURN;
+                }
+            System.out.println("State after modify: "+currentState);
                 new NextStateMessage(currentPlayer.getNickname(), currentState).send(currentPlayer.getNickname());
             }
 

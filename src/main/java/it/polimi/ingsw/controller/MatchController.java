@@ -10,13 +10,11 @@ import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
 import it.polimi.ingsw.network.message.stocmessage.EndGameResultsMessage;
 import it.polimi.ingsw.network.message.stocmessage.NextStateMessage;
 import it.polimi.ingsw.network.message.stocmessage.PlayerConnectionStateMessage;
-import it.polimi.ingsw.network.server.ControlBase;
 import it.polimi.ingsw.observer.ModelObserver;
 
 import java.util.*;
 
 import static it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType.*;
-import static it.polimi.ingsw.network.server.ServerUtilities.serverCall;
 import static java.util.Map.entry;
 import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
 
@@ -237,7 +235,6 @@ public class MatchController {
                 matchEndingProcedure(e);
             }
         }
-
         PlayerConnectionStateMessage message = new PlayerConnectionStateMessage(player.getNickname(), false);
         message.sendBroadcast(match);
 
@@ -248,12 +245,10 @@ public class MatchController {
         boolean isComputable = isComputable(nickname, CtoSMessageType.END_TURN);
         if (!isComputable)
             return false;
-        ControlBase playerHandler = serverCall().findControlBase(nickname);
 
         try {
             NextStateMessage message = new NextStateMessage(turnController.getCurrentPlayer().getNickname(), StateName.WAITING_FOR_TURN);
-            if(playerHandler != null)
-                playerHandler.write(message);
+            message.send(nickname);
 
             turnController.nextTurn();
 
