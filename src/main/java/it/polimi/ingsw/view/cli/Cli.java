@@ -534,10 +534,7 @@ public class Cli implements View
                 else{
                     CardType type = (CardType) r;
                     cardStr.append((char)186 + " Card Type: ");
-                    cardStr.append("█ ".repeat(Math.max(0, type.getQuantity())));
-                    cardStr.append(type.getColor().toString());
-                    if(type.getLevel() > 0)
-                        cardStr.append(", Lv.").append(type.getLevel());
+                    appendColoredCardType(type, cardStr);
                     cardStr.append("\n");
                 }
             }
@@ -602,19 +599,46 @@ public class Cli implements View
         return putInColoredFrame(str,color);
     }
 
+    private String coloredCardColor(CardColor color){
+        String sign = "█ ";
+        switch (color){
+            case BLUE:
+                return ColorCli.BLUE.paint(sign);
+            case GREEN:
+                return ColorCli.GREEN.paint(sign);
+            case PURPLE:
+                return ColorCli.PURPLE.paint(sign);
+            case YELLOW:
+                return ColorCli.YELLOW.paint(sign);
+            default:
+                return sign;
+        }
+    }
+
+    private void appendColoredCardType(CardType type, StringBuilder str){
+        str.append(coloredCardColor(type.getColor()).repeat(Math.max(0, type.getQuantity())));
+        str.append(type.getColor().toString());
+        if(type.getLevel() > 0)
+            str.append(", Lv.").append(type.getLevel());
+    }
+
     public static void addColouredResource(PhysicalResource resource, StringBuilder str) {
-        switch(resource.getType()){
+        ResType type = resource.getType();
+        switch(type){
             case COIN:
-                str.append(ColorCli.YELLOW).append(resource.getType()).append(ColorCli.CLEAR);
+                str.append(ColorCli.YELLOW).append(type).append(ColorCli.CLEAR);
                 break;
             case STONE:
-                str.append(ColorCli.GREY_BOLD).append(resource.getType()).append(ColorCli.CLEAR);
+                str.append(ColorCli.GREY_BOLD).append(type).append(ColorCli.CLEAR);
                 break;
             case SHIELD:
-                str.append(ColorCli.BLUE).append(resource.getType()).append(ColorCli.CLEAR);
+                str.append(ColorCli.BLUE).append(type).append(ColorCli.CLEAR);
                 break;
             case SERVANT:
-                str.append(ColorCli.GREEN).append(resource.getType()).append(ColorCli.CLEAR);
+                str.append(ColorCli.GREEN).append(type).append(ColorCli.CLEAR);
+                break;
+            case UNKNOWN:
+                str.append(ColorCli.WHITE).append("?").append(ColorCli.CLEAR);
                 break;
         }
     }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.essentials.leader;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.match.player.personalBoard.Effector;
+import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.ColorCli;
 
 import java.util.Objects;
@@ -51,7 +52,9 @@ public class SlotEffect implements Effect{
         String symbol = ColorCli.RED + "≡ " + ColorCli.CLEAR;
 
         StringBuilder str = new StringBuilder();
-        str.append(symbol).append("Extra shelf: ").append(extraShelf.getType()).append(", ").append(extraShelf.getQuantity());
+        str.append(symbol).append("Extra shelf: ");
+        Cli.addColouredResource(extraShelf, str);
+        str.append(", ").append(extraShelf.getQuantity());
         str.append("\n");
 
         return str.toString();

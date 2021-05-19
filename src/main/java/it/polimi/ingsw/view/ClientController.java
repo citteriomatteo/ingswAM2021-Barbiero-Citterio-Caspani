@@ -56,7 +56,7 @@ public class ClientController
     //updato lo stato corrente e controllo: se si tratta dello stesso di prima, allora mi è arrivata un Retry,
     //      altrimenti sarà un NextState.
     public void updateCurrentState(StoCMessage msg){
-        System.out.println("new state: " + msg.getType());
+      //  System.out.println("new state: " + msg.getType());
         if(msg.getType().equals(StoCMessageType.RETRY)) {
             printRetry("Invalid message: Retry. Type 'help' to view the map of commands.");
         }

@@ -42,4 +42,10 @@ public enum ColorCli
         return regex.toString();
     }
 
+    public String paint(String str){
+        StringBuilder builder = new StringBuilder(this.code);
+        builder.append(str).append(CLEAR.code);
+        return builder.toString();
+    }
+
 }

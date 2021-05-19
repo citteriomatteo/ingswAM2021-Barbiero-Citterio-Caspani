@@ -53,7 +53,7 @@ public class ProductionEffect implements Effect{
         String symbol = ColorCli.RED + "¤ " + ColorCli.CLEAR;
 
         StringBuilder str = new StringBuilder();
-        str.append(symbol).append("Production effect \nCosts: ");
+        str.append(symbol).append("Production effect \nCosts:    ");
         for(PhysicalResource r : production.getCost()) {
             str.append("  [");
             Cli.addColouredResource(r, str);

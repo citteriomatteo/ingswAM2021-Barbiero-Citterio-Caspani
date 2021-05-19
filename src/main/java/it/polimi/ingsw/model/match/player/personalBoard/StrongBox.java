@@ -40,8 +40,10 @@ public class StrongBox
      * @return    the same "res" resource, taken from the strongbox
      * @throws NotEnoughResourcesException if the chosen resources are not present in the strongbox
      */
-    public PhysicalResource take(PhysicalResource res) throws NotEnoughResourcesException
-    {
+    public PhysicalResource take(PhysicalResource res) throws NotEnoughResourcesException{
+        if(res.getType().equals(ResType.UNKNOWN))
+            return res;
+
         if(resources.get(res.getType()) < res.getQuantity())
             throw new NotEnoughResourcesException("Not enough "+res.getType().toString()+" in the StrongBox!");
         else
