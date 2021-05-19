@@ -33,14 +33,14 @@ public class KeyboardReader extends Thread{
                 entry(WAITING_RESOURCES, "\u2022 startingResource|(sr) [ResourceType,Shelf]\n" + "\u2022 cardInfo|(ci) [cardIDs]"),
                 entry(WAITING_FOR_TURN, "It's not your turn.... please wait"),
                 entry(STARTING_TURN, "\u2022 leaderActivation|(la) [LeaderID]\n" + "\u2022 leaderDiscarding|(ld) [LeaderId]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" +
-                        "\u2022 marketDraw|(md) [r/c(row/column),number]\n" + "\u2022 devCardDraw(dd) [RowNumber,ColumnNumber]\n" + "\u2022 production|(prod) [-cardsId cardID1,cardID2] [-uCosts ResourceType,Quantity] [-uEarnings ResourceType,Quantity]\n" +
-                        "\u2022 cardInfo|(ci) [cardIDs]"),
-                entry(MARKET_ACTION, "\u2022 whiteMarblesConversion|(wmc) [ResourceType,Quantity]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 cardInfo|(ci) [cardIDs]"),
-                entry(RESOURCES_PLACEMENT, "\u2022 warehouseInsertion|(wi) [SingleResourceType,Shelf]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 cardInfo|(ci) [cardIDs]"),
-                entry(BUY_DEV_ACTION, "\u2022 payments|(pay) [-strongbox ResourceType,Quantity] [-warehouse Shelf,ResourceType,Quantity]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 cardInfo|(ci) [cardIDs]"),
-                entry(PLACE_DEV_CARD, "\u2022 devCardPlacement|(dp) [Column]\n" + "\u2022 cardInfo|(ci) [cardIDs]"),
-                entry(PRODUCTION_ACTION, "\u2022 payments|(pay) [-strongbox ResourceType,Quantity] [-warehouse Shelf,ResourceType,Quantity]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 cardInfo|(ci) [cardIDs]"),
-                entry(END_TURN, "\u2022 leaderActivation|(la) [LeaderID]\n" + "\u2022 leaderDiscarding|(ld) [LeaderId]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 endTurn|(et)\n" + "\u2022 cardInfo|(ci) [cardIDs]"),
+                        "\u2022 marketDraw|(md) [r/c(row/column),number]\n" + "\u2022 devCardDraw(dd) [RowNumber,ColumnNumber]\n" + "\u2022 production|(prod) [-cardsId|(-cid) cardID1,cardID2] [-uCosts|(-uc) ResourceType,Quantity] [-uEarnings|(-ue) ResourceType,Quantity]\n" +
+                        "\u2022 cardInfo [cardIDs]"),
+                entry(MARKET_ACTION, "\u2022 whiteMarblesConversion|(wmc) [ResourceType,Quantity]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 cardInfo [cardIDs]"),
+                entry(RESOURCES_PLACEMENT, "\u2022 warehouseInsertion|(wi) [SingleResourceType,Shelf]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 cardInfo [cardIDs]"),
+                entry(BUY_DEV_ACTION, "\u2022 payments|(pay) [-strongbox ResourceType,Quantity] [-warehouse Shelf,ResourceType,Quantity]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 cardInfo [cardIDs]"),
+                entry(PLACE_DEV_CARD, "\u2022 devCardPlacement|(dp) [Column]\n" + "\u2022 cardInfo [cardIDs]"),
+                entry(PRODUCTION_ACTION, "\u2022 payments|(pay) [-strongbox ResourceType,Quantity] [-warehouse Shelf,ResourceType,Quantity]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 cardInfo [cardIDs]"),
+                entry(END_TURN, "\u2022 leaderActivation|(la) [LeaderID]\n" + "\u2022 leaderDiscarding|(ld) [LeaderId]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 endTurn\n" + "\u2022 cardInfo [cardIDs]"),
                 entry(END_MATCH, "\u2022 rematch|(rm) [y/n]"),
                 entry(REMATCH_OFFER, "\u2022 rematch|(rm) [y/n]")
         );
@@ -293,20 +293,14 @@ public class KeyboardReader extends Thread{
     }
 
     private CtoSMessage whiteMarblesConversion(List<String> params){
-        if(params == null){
-            System.out.println("please select some resources");
+        List<PhysicalResource> resources = parseInPhysicalResourcesList(params);
+        if(resources == null)
             return null;
-        }
-        List<PhysicalResource> resources = new ArrayList<>();
-        for (String param : params) {
-            PhysicalResource resource = parseInPhysicalResource(param);
-            resources.add(resource);
-        }
 
         return new WhiteMarblesConversionMessage(nickname, resources);
     }
 
-    private CtoSMessage warehouseInsertion(List<String> params){
+    private List<PhysicalResource> parseInPhysicalResourcesList(List<String> params){
         if(params == null){
             System.out.println("please select some resources");
             return null;
@@ -314,8 +308,17 @@ public class KeyboardReader extends Thread{
         List<PhysicalResource> resources = new ArrayList<>();
         for (String param : params) {
             PhysicalResource resource = parseInPhysicalResource(param);
+            if (resource == null)
+                return resources;
             resources.add(resource);
         }
+        return resources;
+    }
+
+    private CtoSMessage warehouseInsertion(List<String> params){
+        List<PhysicalResource> resources = parseInPhysicalResourcesList(params);
+        if(resources == null)
+            return null;
 
         return new WarehouseInsertionMessage(nickname, resources);
     }
@@ -341,130 +344,103 @@ public class KeyboardReader extends Thread{
     }
 
     private CtoSMessage payments(List<String> params){
-        if(params == null || params.size() < 2){
+        int numParams = params.size();
+        if( numParams < 2){
             System.out.println("please insert a valid list of resources");
+            return null;
         }
-        PhysicalResource voidResource = null;
-        try {
-            voidResource = new PhysicalResource(ResType.UNKNOWN, 0);
-        } catch (NegativeQuantityException e) {
-            System.exit(1);
-        }
+        PhysicalResource voidResource = new PhysicalResource(ResType.UNKNOWN, 0);
+
         List<PhysicalResource> strongboxCosts = new ArrayList<>();
         Map<Integer,PhysicalResource> warehouseCosts = new HashMap<>();
 
-        int i=0;
-        String element;
-        if(params.get(i).equals("strongbox")){
-            i++;
-            element = params.get(i);
-            while (!element.equals("warehouse")) {
-                PhysicalResource resource = parseInPhysicalResource(element);
-                strongboxCosts.add(resource);
-                i++;
-                if (i == params.size())
-                    break;
-                element = params.get(i);
-            }
+        if(params.contains("-strongbox") || params.contains("-sb")) {
+            List<PhysicalResource> temp = parseInPhysicalResourcesList(params
+                    .subList(Math.max(params.indexOf("-strongbox"), params.indexOf("-sb")) + 1, numParams));
+            if (!(temp == null || temp.size() == 0))
+                strongboxCosts.addAll(temp);
         }
-        else
+
+        if(strongboxCosts.size()==0)
             strongboxCosts.add(voidResource);
 
-        if(i == params.size()) {
-            warehouseCosts.put(0, voidResource);
-            return new PaymentsMessage(nickname, strongboxCosts, warehouseCosts);
-        }
-
-        if(params.get(i).equals("warehouse")){
-            for (int j=i+1; j<params.size(); j++){
+        String element;
+        if(params.contains("-warehouse") || params.contains("-wh")) {
+            int index = Math.max(params.indexOf("-warehouse"), params.indexOf("-wh")) + 1;
+            for (int j=index; j<numParams; j++){
                 element = params.get(j);
+
                 if(!addWarehouseCosts(element, warehouseCosts))
-                    warehouseCosts = new HashMap<>();
+                    return null;
             }
         }
         else warehouseCosts.put(0, voidResource);
 
-
         return new PaymentsMessage(nickname, strongboxCosts, warehouseCosts);
     }
 
+    private boolean isValidCardID(String element){
+        return(((element.startsWith("l")||element.startsWith("d")) && element.substring(1).matches("\\d+")) || element.equals("basicprod") || element.equals("bp"));
+    }
+
     private CtoSMessage production(List<String> params){
-        if(params == null || params.size() < 2){
+        int numParams = params.size();
+        if(numParams < 2){
             System.out.println("please insert a valid production message");
             return null;
         }
 
-        if(!params.get(0).equals("cardsid")){
+        if(!(params.contains("-cardsid")|| params.contains("-cid"))){
             System.out.println("please insert the cards you want to produce");
             return null;
         }
+
         List<PhysicalResource> uCosts = new ArrayList<>();
         List<Resource> uEarnings = new ArrayList<>();
         List<String> IDs = new ArrayList<>();
 
-        PhysicalResource voidResource = null;
-        try {
-            voidResource = new PhysicalResource(ResType.UNKNOWN, 0);
-        } catch (NegativeQuantityException e) {
-            System.exit(1);
-        }
+        PhysicalResource voidResource = new PhysicalResource(ResType.UNKNOWN, 0);
 
+        int index = (Math.max(params.indexOf("-cardsid"), params.indexOf("-cid"))+1);
+        String element = params.get(index);
+        for (int i=index; i < numParams && element != null && !element.startsWith("-");) {
 
-        PhysicalResource cost;
-        Resource earning;
-
-        int i=1;
-        String element;
-        element = params.get(i);
-        while (!element.equals("ucosts") && !element.equals("uearnings")){
-            IDs.add(element.toUpperCase());
-            i++;
-            if (i == params.size())
-                break;
-            element = params.get(i);
-        }
-
-        if(i == params.size()) {
-            uCosts.add(voidResource);
-            uEarnings.add(voidResource);
-
-            return new ProductionMessage(nickname, IDs, new Production(uCosts, uEarnings));
-        }
-
-        if(params.get(i).equals("ucosts")) {
-            i++;
-            element = params.get(i);
-            while (!element.equals("uearnings")) {
-                cost = parseInPhysicalResource(element);
-                uCosts.add(cost);
-                i++;
-                if (i == params.size())
-                    break;
-                element = params.get(i);
+            if(!isValidCardID(element)){
+                System.out.println("Please insert only valid CardID type");
+                return null;
             }
+            if(element.equals("bp"))
+                IDs.add("BASICPROD");
+            else
+                IDs.add(element.toUpperCase());
 
-            if (i == params.size()) {
-                uEarnings.add(voidResource);
-                return new ProductionMessage(nickname, IDs, new Production(uCosts, uEarnings));
+            try {
+                element = params.get(++i);
+            }catch (IndexOutOfBoundsException e){
+                element = null;
             }
         }
-        else
+
+        if(params.contains("-ucosts")||params.contains("-uc")) {
+            List<PhysicalResource> temp = parseInPhysicalResourcesList(params
+                    .subList(Math.max(params.indexOf("-ucosts"), params.indexOf("-uc")) + 1, numParams));
+            if (!(temp == null || temp.size() == 0))
+                uCosts.addAll(temp);
+        }
+        if(params.contains("-uearnings")||params.contains("-ue")) {
+            List<PhysicalResource> temp = parseInPhysicalResourcesList(params
+                    .subList(Math.max(params.indexOf("-uearnings"), params.indexOf("-ue")) + 1, numParams));
+            if (!(temp == null || temp.size() == 0))
+                uEarnings.addAll(temp);
+        }
+
+        if(uCosts.size()==0)
             uCosts.add(voidResource);
 
-        if(params.get(i).equals("uearnings")) {
-            i++;
-            do {
-                element = params.get(i);
-                earning = parseInPhysicalResource(element);
-                uEarnings.add(earning);
-                i++;
-            } while (i < params.size());
-        }
-        else
+        if(uEarnings.size()==0)
             uEarnings.add(voidResource);
 
         return new ProductionMessage(nickname, IDs, new Production(uCosts, uEarnings));
-
     }
 
     private CtoSMessage devCardPlacement(List<String> params){
@@ -543,12 +519,14 @@ public class KeyboardReader extends Thread{
         int shelf;
         PhysicalResource resource;
         List<String> elements = new ArrayList<>(Arrays.asList(param.split(",")));
-        if(elements.size() != 3)
+        if(elements.size() != 3) {
+            System.out.println("Wrong writing of parameters");
             return false;
+        }
         try {
             shelf = Integer.parseInt(elements.get(0));
         }catch (NumberFormatException e) {
-            System.out.println("please insert an integer");
+            System.out.println("please insert an integer as shelf");
             return false;
         }
 
