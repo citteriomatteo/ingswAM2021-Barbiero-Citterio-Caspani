@@ -68,5 +68,14 @@ public class DiscountEffect implements Effect{
         return Objects.equals(discount, that.discount);
     }
 
+    /**
+     * This method returns the effect type.
+     * @return the symbol
+     */
+    @Override
+    public String getEffectSymbol(){
+        return ColorCli.GREEN.paint("½ ");
+    }
+
 
 }

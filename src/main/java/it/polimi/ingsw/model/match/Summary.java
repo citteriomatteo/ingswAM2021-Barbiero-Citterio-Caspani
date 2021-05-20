@@ -369,7 +369,6 @@ public class Summary implements ModelObserver
     public int getLorenzoMarker() { return lorenzoMarker; }
     public Map<String, Card> getCardMap() { return cardMap; }
     public List<PlayerSummary> getPlayersSummary() { return playersSummary; }
-
     public List<String> getPlayersNicknames() { return playersSummary.stream().map(PlayerSummary::getNickname).collect(Collectors.toList()); }
 
 }

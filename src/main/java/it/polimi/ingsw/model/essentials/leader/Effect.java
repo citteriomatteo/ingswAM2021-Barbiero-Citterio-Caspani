@@ -19,4 +19,9 @@ public interface Effect {
      * @return string
      */
     String toCLIString();
+
+    /**
+     * This method returns the effect type.
+     */
+    String getEffectSymbol();
 }

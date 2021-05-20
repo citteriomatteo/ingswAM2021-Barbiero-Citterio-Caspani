@@ -39,19 +39,17 @@ public class TurnController {
         for(Player p : match.getPlayers())
             if(!p.equals(currentPlayer))
                 p.updateLastUsedState(p.getNickname(), StateName.WAITING_FOR_TURN);
+            else
+                p.updateLastUsedState(p.getNickname(), currentState);
+
         this.match = match;
         this.cardMap = cardMap;
         this.whiteMarbleDrawn = 0;
 
         //sends NextStateMessage to every player
-        if(serverCall().findControlBase(currentPlayer.getNickname()) != null){
+        if(serverCall().findControlBase(currentPlayer.getNickname()) != null)
             for(Player p : match.getPlayers())
-                if(p.equals(currentPlayer))
-                    new NextStateMessage(currentPlayer.getNickname(), currentState).send(currentPlayer.getNickname());
-                else
-                    new NextStateMessage(p.getNickname(), StateName.WAITING_FOR_TURN).send(p.getNickname());
-        }
-
+                new NextStateMessage(p.getNickname(), p.getSummary().getPlayerSummary(p.getNickname()).getLastUsedState()).send(p.getNickname());
 
     }
 
@@ -77,13 +75,11 @@ public class TurnController {
                     myScore.put(currentPlayer.getNickname(), currentPlayer.totalWinPoints());
                     throw new MatchEndedException("You lost!", myScore);
                 }
-                System.out.println("State before modify: "+currentState);
                 currentPlayer = match.getCurrentPlayer();
                 currentState = currentPlayer.getSummary().getPlayerSummary(currentPlayer.getNickname()).getLastUsedState();
                 if(currentState == StateName.END_TURN ) {
                     currentState = StateName.STARTING_TURN;
                 }
-            System.out.println("State after modify: "+currentState);
                 new NextStateMessage(currentPlayer.getNickname(), currentState).send(currentPlayer.getNickname());
             }
 
@@ -228,6 +224,7 @@ public class TurnController {
             currentState = StateName.END_TURN;
 
             //update_call
+
             currentPlayer.updateWarehouse(currentPlayer.getNickname(), currentPlayer.getPersonalBoard().getWarehouse());
             currentPlayer.updateMarketBuffer(currentPlayer.getNickname(), currentPlayer.getPersonalBoard().getWarehouse());
 

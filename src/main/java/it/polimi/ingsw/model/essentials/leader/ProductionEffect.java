@@ -81,4 +81,13 @@ public class ProductionEffect implements Effect{
         return Objects.equals(getProduction(), that.getProduction());
     }
 
+    /**
+     * This method returns the effect type.
+     * @return the symbol
+     */
+    @Override
+    public String getEffectSymbol(){
+        return ColorCli.RED + "¤ " + ColorCli.CLEAR;
+    }
+
 }

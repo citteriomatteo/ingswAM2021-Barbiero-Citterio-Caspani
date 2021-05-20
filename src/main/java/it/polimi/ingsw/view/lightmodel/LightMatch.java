@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public class LightMatch extends ViewObservable {
 
-    private Map<String, Card> cardMap;
+    private static Map<String, Card> cardMap;
     private char[][] market;
     private char sideMarble;
     private List<String>[][] cardGrid;
@@ -236,7 +236,7 @@ public class LightMatch extends ViewObservable {
 
     //GETTERS:
 
-    public Map<String, Card> getCardMap() { return cardMap; }
+    public static Map<String, Card> getCardMap() { return cardMap; }
     public char[][] getMarket() { return market; }
     public char getSideMarble() { return sideMarble; }
     public List<String>[][] getCardGrid() { return cardGrid; }

@@ -68,4 +68,14 @@ public class SlotEffect implements Effect{
         return Objects.equals(extraShelf, that.extraShelf);
     }
 
+    /**
+     * This method returns the effect type.
+     * @return the symbol
+     */
+    @Override
+    public String getEffectSymbol(){
+        return ColorCli.RED + "≡ " + ColorCli.CLEAR;
+    }
+
+
 }

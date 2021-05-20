@@ -133,10 +133,10 @@ public class ClientController
                 view.drawWaitingLayout();
                 break;
             case START_GAME:
-                view.drawLeadersChoiceLayout();
+                //view.drawLeadersChoiceLayout();
                 break;
             case WAITING_LEADERS:
-                //view.drawLeadersChoiceLayout();
+                view.drawLeadersChoiceLayout();
                 break;
             case WAITING_RESOURCES:
                 view.drawResourcesChoiceLayout();
@@ -199,6 +199,16 @@ public class ClientController
         return true;
 
     }
+
+    public boolean printDiscountMap(String nickname){
+        view.printDiscountMap(match.getPlayerSummary(nickname));
+        return true;
+    }
+    public boolean printWhiteMarbleConversions(String nickname){
+        view.printWhiteMarbleConversions(match.getPlayerSummary(nickname));
+        return true;
+    }
+
     public LightMatch getMatch(){ return match; }
 
     public StateName getCurrentState() { return currentState; }

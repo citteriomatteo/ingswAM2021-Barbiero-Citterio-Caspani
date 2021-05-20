@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static it.polimi.ingsw.view.lightmodel.LightMatch.getCardMap;
+
 public class Cli implements View
 {
 
@@ -367,7 +369,7 @@ public class Cli implements View
     private void showWarehouse(LightPlayer player, StringBuilder board){
         StringBuilder wh = new StringBuilder();
         wh.append("\nWAREHOUSE:\n");
-        for(int i = 0; i < player.getWarehouse().size(); i++) {
+        for(int i = 0; i < player.getWarehouse().size() && i < 3; i++) {
             PhysicalResource currRes = player.getWarehouse().get(i);
             wh.append("| ");
             int j;
@@ -384,6 +386,28 @@ public class Cli implements View
             wh.append("\n");
         }
         board.append(wh);
+
+        if(player.getWarehouse().size() > 3){
+            wh.append("\nEXTRA SHELVES:\n");
+            for(int i = 3; i < player.getWarehouse().size(); i++) {
+                PhysicalResource currRes = player.getWarehouse().get(i);
+                addColouredResource(currRes, wh);
+                wh.append(": |");
+                int j;
+                for (j = 0; j < currRes.getQuantity(); j++) {
+                    addColouredResource(currRes, wh);
+                    putSomeDistance(wh, 7 - currRes.getType().toString().length());
+                    wh.append(" | ");
+
+                }
+                for(int k = j; k < i+1; k++) {
+                    wh.append(ColorCli.RED).append("------ ").append(ColorCli.CLEAR);
+                    wh.append(" |");
+                }
+                wh.append("\n");
+                }
+
+        }
 
         wh = new StringBuilder();
         wh.append("\nMARKET BUFFER: ");
@@ -490,9 +514,12 @@ public class Cli implements View
 
         else{
             int i;
-            for(i = 0; i < player.getHandLeaders().size()-1; i++)
-                hl.append(player.getHandLeaders().get(i)).append(" , ");
-            hl.append(player.getHandLeaders().get(i)).append(" ]\n");
+            for(i = 0; i < player.getHandLeaders().size()-1; i++) {
+                addLeaderSymbol(player.getHandLeaders().get(i), hl);
+                hl.append(" , ");
+            }
+            addLeaderSymbol(player.getHandLeaders().get(i),hl);
+            hl.append(" ]\n");
         }
 
         board.append(hl);
@@ -507,9 +534,12 @@ public class Cli implements View
 
         else{
             int i;
-            for(i = 0; i < player.getActiveLeaders().size()-1; i++)
-                al.append(player.getActiveLeaders().get(i)).append(" , ");
-            al.append(player.getActiveLeaders().get(i)).append(" ]\n");
+            for(i = 0; i < player.getActiveLeaders().size()-1; i++) {
+                addLeaderSymbol(player.getActiveLeaders().get(i), al);
+                al.append(" , ");
+            }
+            addLeaderSymbol(player.getActiveLeaders().get(i),al);
+            al.append(" ]\n");
         }
 
         board.append(al);
@@ -559,6 +589,46 @@ public class Cli implements View
             System.out.println("|| Win Points -> " + ((DevelopmentCard) card).getWinPoints() + " ||");
         }
         System.out.println(putInColoredFrame(cardStr, ColorCli.CLEAR.toString()));
+    }
+
+    @Override
+    public void printDiscountMap(LightPlayer player){
+
+        StringBuilder dm = new StringBuilder(" Discount Map: \n");
+        boolean foundOne = false;
+
+        for(PhysicalResource r : player.getDiscountMap()){
+            if(r.getQuantity() > 0) {
+                foundOne = true;
+                addColouredResource(r, dm);
+                dm.append(": ");
+                putSomeDistance(dm, 7-r.getType().toString().length());
+                dm.append(",").append(r.getQuantity());
+            }
+        }
+        if(!foundOne)
+            dm.append(ColorCli.RED).append("\n   NO DISCOUNTS YET").append(ColorCli.CLEAR);
+        System.out.println(putInColoredFrame(dm, ColorCli.CLEAR.toString()));
+
+    }
+
+    @Override
+    public void printWhiteMarbleConversions(LightPlayer player) {
+        StringBuilder dm = new StringBuilder(" White marble conversions: \n");
+        boolean foundOne = false;
+
+        for(PhysicalResource r : player.getWhiteMarbleConversions()){
+            if(r.getQuantity() > 0) {
+                dm.append(ColorCli.WHITE).append("●").append(ColorCli.CLEAR).append("  →  ");
+                foundOne = true;
+                addColouredResource(r, dm);
+                dm.append(",").append(r.getQuantity());
+            }
+        }
+        if(!foundOne)
+            dm.append(ColorCli.RED).append("\n  NO CONVERSIONS YET").append(ColorCli.CLEAR);
+        System.out.println(putInColoredFrame(dm, ColorCli.CLEAR.toString()));
+
     }
 
     //STYLING METHODS:
@@ -623,6 +693,13 @@ public class Cli implements View
         str.append(type.getColor().toString());
         if(type.getLevel() > 0)
             str.append(", Lv.").append(type.getLevel());
+    }
+
+    private void addLeaderSymbol(String cardId, StringBuilder str){
+        String symbol = "";
+        if(!cardId.equals("-1"))
+            symbol = ((LeaderCard) getCardMap().get(cardId.toUpperCase())).getEffect().getEffectSymbol();
+        str.append(symbol).append(cardId).append(symbol);
     }
 
     public static void addColouredResource(PhysicalResource resource, StringBuilder str) {

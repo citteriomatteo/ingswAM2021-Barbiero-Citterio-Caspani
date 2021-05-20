@@ -558,6 +558,14 @@ public class KeyboardReader extends Thread{
                     printHelpMap();
                     continue;
                 }
+                if(userInput.equals("discountmap") || userInput.equals("dm")) {
+                    client.getController().printDiscountMap(nickname);
+                    continue;
+                }
+                if(userInput.equals("whitemarbleconversions") || userInput.equals("wmc")) {
+                    client.getController().printWhiteMarbleConversions(nickname);
+                    continue;
+                }
                 if(userInput.indexOf("cardinfo") == 0 || userInput.indexOf("ci") == 0) {
                     client.getController().printCardInfo(userInput);
                     continue;
@@ -579,14 +587,11 @@ public class KeyboardReader extends Thread{
     public void printHelpMap() {
         StateName currentState = client.getController().getCurrentState();
 
-        for (StateName state : helpMap.keySet()) {
+        for (StateName state : helpMap.keySet())
             if(state.equals(currentState)) {
                 System.out.println("These are your possible moves:");
                 System.out.println(helpMap.get(currentState));
             }
-        }
-
-
     }
 
 }

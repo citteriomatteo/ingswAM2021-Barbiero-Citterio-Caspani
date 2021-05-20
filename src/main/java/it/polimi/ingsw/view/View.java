@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.message.ctosmessage.LeadersChoiceMessage;
 import it.polimi.ingsw.network.message.stocmessage.HandLeadersStateMessage;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
 import it.polimi.ingsw.view.lightmodel.LightMatch;
+import it.polimi.ingsw.view.lightmodel.LightPlayer;
 import it.polimi.ingsw.view.observer.ViewObserver;
 
 import java.util.Map;
@@ -38,4 +39,6 @@ public interface View extends ViewObserver {
     void printLastRound();
     void printMatchResults(String message, Map<String, Integer> ranking);
     void printRetry(String errMessage);
+    void printDiscountMap(LightPlayer player);
+    void printWhiteMarbleConversions(LightPlayer player);
 }

@@ -203,6 +203,7 @@ public class MatchController {
 
         lastUsedState = startingPhaseController.leadersChoice(nickname, leaders);
         updateLastUsedState(nickname, lastUsedState);
+
         NextStateMessage message = new NextStateMessage(nickname, lastUsedState);
         message.send(nickname);
 
@@ -219,6 +220,7 @@ public class MatchController {
 
         lastUsedState = startingPhaseController.startingResources(nickname, resources);
         updateLastUsedState(nickname, lastUsedState);
+
         NextStateMessage message = new NextStateMessage(nickname, lastUsedState);
         message.send(nickname);
 
@@ -236,6 +238,7 @@ public class MatchController {
             }
         }
         PlayerConnectionStateMessage message = new PlayerConnectionStateMessage(player.getNickname(), false);
+        System.out.println("Created disconnection message for "+player.getNickname());
         message.sendBroadcast(match);
 
         return true;
@@ -314,6 +317,7 @@ public class MatchController {
 
         lastUsedState = turnController.whiteMarblesConversion(resources);
         updateLastUsedState(nickname, lastUsedState);
+
         NextStateMessage message = new NextStateMessage(nickname, lastUsedState);
         message.send(nickname);
 
@@ -327,6 +331,7 @@ public class MatchController {
 
         lastUsedState = turnController.warehouseInsertion(resources);
         updateLastUsedState(nickname, lastUsedState);
+
         NextStateMessage message = new NextStateMessage(nickname, lastUsedState);
         message.send(nickname);
 
@@ -340,6 +345,7 @@ public class MatchController {
 
         lastUsedState = turnController.devCardDraw(row, column);
         updateLastUsedState(nickname, lastUsedState);
+
         NextStateMessage message = new NextStateMessage(nickname, lastUsedState);
         message.send(nickname);
 
@@ -353,6 +359,7 @@ public class MatchController {
 
         lastUsedState = turnController.payments(strongboxCosts, warehouseCosts);
         updateLastUsedState(nickname, lastUsedState);
+
         NextStateMessage message = new NextStateMessage(nickname, lastUsedState);
         message.send(nickname);
 
@@ -366,6 +373,7 @@ public class MatchController {
 
         lastUsedState = turnController.devCardPlacement(column);
         updateLastUsedState(nickname, lastUsedState);
+
         NextStateMessage message = new NextStateMessage(nickname, lastUsedState);
         message.send(nickname);
 
@@ -378,6 +386,7 @@ public class MatchController {
 
         lastUsedState = turnController.production(cardIds, productionOfUnknown);
         updateLastUsedState(nickname, lastUsedState);
+
         NextStateMessage message = new NextStateMessage(nickname, lastUsedState);
         message.send(nickname);
 

@@ -67,4 +67,13 @@ public class WhiteMarbleEffect implements Effect{
         return Objects.equals(conversion, that.conversion);
     }
 
+    /**
+     * This method returns the effect type.
+     * @return the symbol
+     */
+    @Override
+    public String getEffectSymbol(){
+        return ColorCli.WHITE + "\u2022 " + ColorCli.CLEAR;
+    }
+
 }

@@ -82,10 +82,6 @@ public class Client {
                 return false;
             }
 
-            //local set of leaders choice
-            if(msg.getType().equals(CtoSMessageType.LEADERS_CHOICE))
-                controller.getMatch().setHandLeaders(msg.getNickname(),((LeadersChoiceMessage) msg).getLeaders());
-
             out.println(outMsg);
             return true;
         } catch (JsonSyntaxException e) {

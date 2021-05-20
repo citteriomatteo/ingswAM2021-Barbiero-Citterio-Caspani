@@ -46,6 +46,7 @@ public class StartingPhaseController {
                 new HandLeadersStateMessage(p.getNickname(), p.getHandLeaders().stream().map((x) -> getKeyByValue(cardMap, x)).collect(Collectors.toList())).send(p.getNickname());
                 //masked, for the other players
                 //new HandLeadersStateMessage(p.getNickname(), p.getHandLeaders().stream().map((x) -> "-1").collect(Collectors.toList())).sendBroadcast(this.match);
+                new NextStateMessage(p.getNickname(), StateName.WAITING_LEADERS).send(p.getNickname());
             }
         }
     }
