@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.match;
 
+import it.polimi.ingsw.controller.StateName;
 import it.polimi.ingsw.exceptions.SingleMatchException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
@@ -39,13 +40,13 @@ public class MultiMatch extends Match {
         for (int i = 0; i < 2; i++) {
             players.get(i).setPersonalBoard(new PersonalBoard((ArrayList<Cell>) matchConfiguration.getCustomPath(), 0, matchConfiguration.getBasicProduction(), players.get(i)));
             players.get(i).setMatch(this);
-            players.get(i).setHandLeaders(getLeaderStack().draw(4));
+            players.get(i).setInitialHandLeaders(getLeaderStack().draw(4));
             }
         if (players.size() > 2) {
             for (int j = 2; j < players.size(); j++) {
                 players.get(j).setPersonalBoard(new PersonalBoard((ArrayList<Cell>) matchConfiguration.getCustomPath(), 1, matchConfiguration.getBasicProduction(), players.get(j)));
                 players.get(j).setMatch(this);
-                players.get(j).setHandLeaders(getLeaderStack().draw(4));
+                players.get(j).setInitialHandLeaders(getLeaderStack().draw(4));
 
             }
         }
@@ -64,13 +65,13 @@ public class MultiMatch extends Match {
             players.get(i).setPersonalBoard(new PersonalBoard((ArrayList<Cell>) matchConfiguration.getCustomPath(), 0, matchConfiguration.getBasicProduction(), players.get(i)));
             players.get(i).setMatch(this);
 
-            players.get(i).setHandLeaders(getLeaderStack().draw(4));
+            players.get(i).setInitialHandLeaders(getLeaderStack().draw(4));
         }
         if (players.size() > 2) {
             for (int j = 2; j < players.size(); j++) {
                 players.get(j).setPersonalBoard(new PersonalBoard((ArrayList<Cell>) matchConfiguration.getCustomPath(), 1, matchConfiguration.getBasicProduction(), players.get(j)));
                 players.get(j).setMatch(this);
-                players.get(j).setHandLeaders(getLeaderStack().draw(4));
+                players.get(j).setInitialHandLeaders(getLeaderStack().draw(4));
 
             }
         }
@@ -120,11 +121,23 @@ public class MultiMatch extends Match {
      */
     @Override
     public boolean nextTurn(){
+
+        if(currentPlayer.isConnected())
+            currentPlayer.updateLastUsedState(currentPlayer.getNickname(), StateName.WAITING_FOR_TURN);
+
         numPlayer = (numPlayer+1)%(players.size());
         currentPlayer = players.get(numPlayer);
 
         if(!currentPlayer.isConnected())
             this.nextTurn();
+        else{
+            StateName prevState = currentPlayer.getSummary().getPlayerSummary(currentPlayer.getNickname()).getLastUsedState();
+            if (prevState == StateName.END_TURN || prevState == StateName.WAITING_FOR_TURN)
+                currentPlayer.updateLastUsedState(currentPlayer.getNickname(), StateName.STARTING_TURN);
+            else
+                currentPlayer.updateLastUsedState(currentPlayer.getNickname(), prevState);
+        }
+
         return true;
     }
 

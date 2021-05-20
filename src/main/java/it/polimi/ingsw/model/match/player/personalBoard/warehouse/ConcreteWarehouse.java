@@ -183,16 +183,8 @@ public class ConcreteWarehouse implements Warehouse
     @Override
     public int discardRemains() throws InvalidOperationException
     {
-        //CHECKS IF THERE IS A PLACE FOR AT LEAST A RESOURCE IN THE BUFFER. IF SO, THROWS A "RETRY" EXCEPTION
-        for(PhysicalResource r : getBuffer())
-            if(getWarehouseDisposition().stream().anyMatch((x) -> (x.getType().equals(r.getType())
-                    && r.getQuantity() + x.getQuantity() <= (getWarehouseDisposition().indexOf(x) + 1))) ||
-                    ( getWarehouseDisposition().stream()
-                            .noneMatch((x)->x.getType().equals(r.getType()) && x.getQuantity()>0) &&
-                            getWarehouseDisposition().stream().anyMatch((x) -> x.getQuantity() == 0))
-            )
-                throw new InvalidOperationException("There's a space in warehouse for atleast a buffer resource! Retry to select.");
-
+        if(!isPlaceable(getBuffer()))
+            throw new InvalidOperationException("There's a space in warehouse for atleast a buffer resource! Retry to select.");
         int remainingSize= marketBuffer.size();
         marketBuffer.clear();
         return remainingSize;
@@ -221,5 +213,22 @@ public class ConcreteWarehouse implements Warehouse
     public int getShelfSize(int shelf)
     {
         return shelf;
+    }
+
+    /**
+     *
+     */
+    public boolean isPlaceable(List<PhysicalResource> resources){
+        //CHECKS IF THERE IS A PLACE FOR AT LEAST A RESOURCE IN THE BUFFER. IF SO, THROWS A "RETRY" EXCEPTION
+        for(PhysicalResource r : resources)
+            if(getWarehouseDisposition().stream().anyMatch((x) -> (x.getType().equals(r.getType())
+                    && r.getQuantity() + x.getQuantity() <= (getWarehouseDisposition().indexOf(x) + 1))) ||
+                    ( getWarehouseDisposition().stream()
+                            .noneMatch((x)->x.getType().equals(r.getType()) && x.getQuantity()>0) &&
+                            getWarehouseDisposition().stream().anyMatch((x) -> x.getQuantity() == 0))
+            )
+            return false;
+
+        return true;
     }
 }

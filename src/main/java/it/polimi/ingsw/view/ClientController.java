@@ -36,6 +36,7 @@ public class ClientController
                 entry(StateName.START_GAME, List.of(PING,LEADERS_CHOICE)),
                 entry(StateName.WAITING_LEADERS, List.of(LEADERS_CHOICE)),
                 entry(StateName.WAITING_RESOURCES, List.of(STARTING_RESOURCES)),
+                entry(StateName.STARTING_PHASE_DONE,List.of(PING)),
                 entry(StateName.WAITING_FOR_TURN, List.of(PING)),
                 entry(StateName.STARTING_TURN, List.of(LEADER_ACTIVATION, LEADER_DISCARDING, SWITCH_SHELF,
                         MARKET_DRAW, DEV_CARD_DRAW, PRODUCTION)),
@@ -57,28 +58,22 @@ public class ClientController
     //updato lo stato corrente e controllo: se si tratta dello stesso di prima, allora mi è arrivata un Retry,
     //      altrimenti sarà un NextState.
     public void updateCurrentState(StoCMessage msg){
+
         if(msg.getType().equals(StoCMessageType.RETRY)) {
-            this.currentState = ((RetryMessage) msg).getCurrentState();
+            printMoveLegend(msg);
+            view.showAll(match);
             printRetry("Invalid message: Retry. Type 'help' to view the map of commands.");
 
         }
 
         else if(msg.getType().equals(StoCMessageType.NEXT_STATE)){
             this.currentState = ((NextStateMessage) msg).getNewState();
-            if(match != null)
+            printMoveLegend(msg);
+            if(match != null) {
                 match.getPlayerSummary(msg.getNickname()).setLastUsedState(currentState);
-            /*if(match != null) {
-                if (!currentState.equals(StateName.WAITING_FOR_TURN)) {
-                    if (currentState.equals(StateName.STARTING_TURN)
-                            && !List.of(StateName.WAITING_FOR_TURN, StateName.END_TURN).contains(match.getPlayerSummary(msg.getNickname()).getLastUsedState()))
-                        currentState = match.getPlayerSummary(msg.getNickname()).getLastUsedState();
-                } else
-                    match.getPlayerSummary(msg.getNickname()).setLastUsedState(currentState);
-                System.out.println("" + currentState);
-            }*/
+                view.showAll(match);
+            }
         }
-
-        printMoveLegend(msg);
 
     }
 
@@ -128,6 +123,8 @@ public class ClientController
             case CONFIGURATION:
                 view.drawConfigurationLayout();
                 break;
+            case STARTING_PHASE_DONE:
+            case WAITING_FOR_PLAYERS:
             case WAITING:
                 view.drawWaitingLayout();
                 break;

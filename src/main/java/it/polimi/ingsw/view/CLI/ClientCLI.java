@@ -17,7 +17,7 @@ public class ClientCLI implements View
 {
 
     private String lastLayout;
-    private static final Integer DEFAULT_SHIFT = 10, ZERO_SHIFT = 0;
+    private static final Integer DEFAULT_SHIFT = 15, ZERO_SHIFT = 0;
 
     public ClientCLI(){ }
 
@@ -123,114 +123,114 @@ public class ClientCLI implements View
     @Override
     public void drawProductionLayout() {
         lastLayout = "Produce.";
-        System.out.println(lastLayout);
+        //System.out.println(lastLayout);
     }
 
     @Override
     public void drawEndTurnLayout() {
         lastLayout = "Discard/activate a leader, switch some shelves or finish your turn.";
-        System.out.println(lastLayout);
+        //System.out.println(lastLayout);
     }
 
     @Override
     public void printLastRound(){
         lastLayout = "It's the last round. Hurry up!";
-        System.out.println(lastLayout);
+        //System.out.println(lastLayout);
     }
 
 
     @Override
     public void drawEndMatchLayout() {
         lastLayout = "Match has ended.";
-        System.out.println(lastLayout);
+        //System.out.println(lastLayout);
     }
 
     @Override
     public void drawRematchOfferLayout(String nickname) {
         lastLayout = nickname + " has offered a rematch. Accept?";
-        System.out.println(lastLayout);
+        //System.out.println(lastLayout);
     }
 
     @Override
     public void printRetry(String errMessage) {
         lastLayout = errMessage;
-        System.out.println(lastLayout);
+        //System.out.println(lastLayout);
     }
 
 
     @Override
     public void updateMatch(LightMatch match) {
-        showAll(match.getPlayersSummary().stream().map(LightPlayer::getNickname).collect(Collectors.toList()), match);
+        showAll(match);
     }
 
     @Override
     public void updateMarket(LightMatch match) {
-        showAll(match.getPlayersSummary().stream().map(LightPlayer::getNickname).collect(Collectors.toList()), match);
+        showAll(match);
     }
 
     @Override
     public void updateCardGrid(LightMatch match) {
-        showAll(match.getPlayersSummary().stream().map(LightPlayer::getNickname).collect(Collectors.toList()), match);
+        showAll(match);
     }
 
     @Override
     public void updateLorenzoMarker(LightMatch match) {
-        showAll(match.getPlayersSummary().stream().map(LightPlayer::getNickname).collect(Collectors.toList()), match);
+        showAll(match);
     }
 
     @Override
     public void updateWarehouse(String nickname, LightMatch match) {
-        showAll(match.getPlayersSummary().stream().map(LightPlayer::getNickname).collect(Collectors.toList()), match);
+        showAll(match);
     }
 
     @Override
     public void updateMarketBuffer(String nickname, LightMatch match) {
-        showAll(match.getPlayersSummary().stream().map(LightPlayer::getNickname).collect(Collectors.toList()), match);
+        showAll(match);
     }
 
     @Override
     public void updateStrongbox(String nickname, LightMatch match) {
-        showAll(match.getPlayersSummary().stream().map(LightPlayer::getNickname).collect(Collectors.toList()), match);
+        showAll(match);
     }
 
     @Override
     public void updateFaithMarker(String nickname, LightMatch match) {
-        showAll(match.getPlayersSummary().stream().map(LightPlayer::getNickname).collect(Collectors.toList()), match);
+        showAll(match);
     }
 
     @Override
     public void updatePopeTiles(String nickname, LightMatch match) {
-        showAll(match.getPlayersSummary().stream().map(LightPlayer::getNickname).collect(Collectors.toList()), match);
+        showAll(match);
     }
 
     @Override
     public void updateDevCardSlots(String nickname, LightMatch match) {
-        showAll(match.getPlayersSummary().stream().map(LightPlayer::getNickname).collect(Collectors.toList()), match);
+        showAll(match);
     }
 
     @Override
     public void updateHandLeaders(String nickname, LightMatch match) {
-        showAll(match.getPlayersSummary().stream().map(LightPlayer::getNickname).collect(Collectors.toList()), match);
+        showAll(match);
     }
 
     @Override
     public void updateActiveLeaders(String nickname, LightMatch match) {
-        showAll(match.getPlayersSummary().stream().map(LightPlayer::getNickname).collect(Collectors.toList()), match);
+        showAll(match);
     }
 
     @Override
     public void updateWhiteMarbleConversions(String nickname, LightMatch match) {
-        showAll(match.getPlayersSummary().stream().map(LightPlayer::getNickname).collect(Collectors.toList()), match);
+        showAll(match);
     }
 
     @Override
     public void updateDiscountMap(String nickname, LightMatch match) {
-        showAll(match.getPlayersSummary().stream().map(LightPlayer::getNickname).collect(Collectors.toList()), match);
+        showAll(match);
     }
 
     @Override
     public void updateTempDevCard(String nickname, LightMatch match) {
-        showAll(match.getPlayersSummary().stream().map(LightPlayer::getNickname).collect(Collectors.toList()), match);
+        showAll(match);
     }
 
     @Override
@@ -246,7 +246,10 @@ public class ClientCLI implements View
 
     //CLI PRINT METHODS OF COMMON THINGS:
 
-    private void showAll(List<String> playersToPrint, LightMatch match){
+    @Override
+    public void showAll(LightMatch match){
+
+        List<String> playersToPrint = match.getPlayersSummary().stream().map(LightPlayer::getNickname).collect(Collectors.toList());
         clearScreen();
 
         StringBuilder div = new StringBuilder();
@@ -274,6 +277,8 @@ public class ClientCLI implements View
         System.out.println(allBoardsLined + "\n");
 
         System.out.println(div);
+
+        System.out.println(lastLayout);
 
     }
 
@@ -333,6 +338,8 @@ public class ClientCLI implements View
 
         for (List<String>[] lists : cardGrid) {
             for (int j = 0; j < lists.length; j++) {
+                StringBuilder points = new StringBuilder();
+                DevelopmentCard card = (DevelopmentCard) getCardMap().get(lists[j].get(0));
                 grid.append("[ ").append(lists[j].get(0) == null ? ColorCli.RED.paint("X") : lists[j].get(0));
                 grid.append(" ".repeat(Math.max(0, spacesToLeave - noANSIOccurrencesSize((lists[j].get(0) == null ? ColorCli.RED.paint("X") : lists[j].get(0))))));
                 grid.append(",").append(lists[j].get(1)).append(" ]");
@@ -516,7 +523,7 @@ public class ClientCLI implements View
             int i;
             for(i = 0; i < player.getHandLeaders().size()-1; i++) {
                 addLeaderSymbol(player.getHandLeaders().get(i), hl);
-                hl.append(" , ");
+                hl.append(", ");
             }
             addLeaderSymbol(player.getHandLeaders().get(i),hl);
             hl.append(" ]\n");
@@ -536,7 +543,7 @@ public class ClientCLI implements View
             int i;
             for(i = 0; i < player.getActiveLeaders().size()-1; i++) {
                 addLeaderSymbol(player.getActiveLeaders().get(i), al);
-                al.append(" , ");
+                al.append(", ");
             }
             addLeaderSymbol(player.getActiveLeaders().get(i),al);
             al.append(" ]\n");
@@ -699,7 +706,7 @@ public class ClientCLI implements View
         String symbol = "";
         if(!cardId.equals("-1"))
             symbol = ((LeaderCard) getCardMap().get(cardId.toUpperCase())).getEffect().getEffectSymbol();
-        str.append(symbol).append(cardId).append(symbol);
+        str.append(cardId).append(symbol);
     }
 
     public static void addColouredResource(PhysicalResource resource, StringBuilder str) {

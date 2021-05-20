@@ -76,11 +76,6 @@ public class TurnController {
                     throw new MatchEndedException("You lost!", myScore);
                 }
                 currentPlayer = match.getCurrentPlayer();
-                currentState = currentPlayer.getSummary().getPlayerSummary(currentPlayer.getNickname()).getLastUsedState();
-                if(currentState == StateName.END_TURN ) {
-                    currentState = StateName.STARTING_TURN;
-                }
-                new NextStateMessage(currentPlayer.getNickname(), currentState).send(currentPlayer.getNickname());
             }
 
         return currentState;
@@ -152,9 +147,9 @@ public class TurnController {
             whiteMarbleDrawn = currentPlayer.marketDeal(row, num);
             if((whiteMarbleDrawn == 0 || currentPlayer.getWhiteMarbleConversions().size() == 0)
                     && currentPlayer.getPersonalBoard().getWarehouse().getBuffer().size() != 0)
-                currentState = StateName.RESOURCES_PLACEMENT;
+                changeState(StateName.RESOURCES_PLACEMENT);
             else
-                currentState = StateName.MARKET_ACTION;
+                changeState(StateName.MARKET_ACTION);
 
         } catch (LastRoundException e) { isLastRound(); }
         catch (InvalidOperationException e) {
@@ -176,18 +171,23 @@ public class TurnController {
         }
         for(PhysicalResource resource : resources) {
             boolean found=false;
-            for(PhysicalResource resource1 : currentPlayer.getWhiteMarbleConversions())
-                if(resource1.equals(resource) && !found) {
-                    currentPlayer.addToWarehouse(resource);
+            for(PhysicalResource possibleConversion : currentPlayer.getWhiteMarbleConversions())
+                if(possibleConversion.equals(sentConversion) && !found) {
+                    currentPlayer.addToWarehouse(sentConversion);
                     found=true;
                     whiteMarbleDrawn--;
                 }
             if(!found)
                 throw new RetryException ("Invalid conversions.");
-
         }
+
+        //update_call outside of the match to avoid multiple buffer updates
+        currentPlayer.updateMarketBuffer(currentPlayer.getNickname(), currentPlayer.getPersonalBoard().getWarehouse());
+
         if(whiteMarbleDrawn==0)
-            currentState = StateName.RESOURCES_PLACEMENT;
+            changeState(StateName.RESOURCES_PLACEMENT);
+        else
+            throw new RetryException("You can still convert "+ whiteMarbleDrawn +" white marbles.");
 
         return currentState;
     }
@@ -208,12 +208,11 @@ public class TurnController {
         if(resources.size() == 1 && resources.get(0).getType().equals(ResType.UNKNOWN)) {
             try {
                 currentPlayer.discardRemains();
-            } catch (InvalidOperationException e) {
-                currentState = StateName.RESOURCES_PLACEMENT;
-                throw new RetryException ("You can still place other resources." + errMessage);
-            } catch (LastRoundException e) {
-                isLastRound();
             }
+            catch (InvalidOperationException e) {
+                throw new RetryException ("You can still place other resources." + errMessage);
+            }
+            catch (LastRoundException e) { isLastRound(); }
         }
         for(PhysicalResource resource : resources)
             errors.add(singleWarehouseMove(resource));
@@ -223,21 +222,9 @@ public class TurnController {
             }
             catch (LastRoundException e) { isLastRound(); }
             catch (InvalidOperationException e) {
-                currentState = StateName.RESOURCES_PLACEMENT;
-
-                //update_call
-                currentPlayer.updateWarehouse(currentPlayer.getNickname(), currentPlayer.getPersonalBoard().getWarehouse());
-                currentPlayer.updateMarketBuffer(currentPlayer.getNickname(), currentPlayer.getPersonalBoard().getWarehouse());
-
-
                 throw new RetryException ("You can still place other resources." + errMessage);
             }
-            currentState = StateName.END_TURN;
-
-            //update_call
-
-            currentPlayer.updateWarehouse(currentPlayer.getNickname(), currentPlayer.getPersonalBoard().getWarehouse());
-            currentPlayer.updateMarketBuffer(currentPlayer.getNickname(), currentPlayer.getPersonalBoard().getWarehouse());
+            changeState(StateName.END_TURN);
 
         }
 
@@ -247,7 +234,6 @@ public class TurnController {
                     errMessage.append("(invalid insert choice number ").append(i + 1).append(")");
             throw new RetryException (errMessage.toString());
         }
-
 
         return currentState;
     }
@@ -270,7 +256,7 @@ public class TurnController {
             }
             else {
                 currentPlayer.drawDevelopmentCard(row,column);
-                currentState = StateName.BUY_DEV_ACTION;
+                changeState(StateName.BUY_DEV_ACTION);
             }
         } catch (InvalidCardRequestException e) {
             throw new RetryException ("Invalid development card draw parameters.");
@@ -299,12 +285,8 @@ public class TurnController {
     public StateName payments(List<PhysicalResource> strongboxCosts, Map<Integer, PhysicalResource> warehouseCosts) throws RetryException {
         StrongBox sbUndo = StrongBox.clone(currentPlayer.getPersonalBoard().getStrongBox());
         Warehouse whUndo = WarehouseDecorator.clone(currentPlayer.getPersonalBoard().getWarehouse());
-        PhysicalResource voidResource = null;
-        try {
-            voidResource = new PhysicalResource(ResType.UNKNOWN, 0);
-        } catch (NegativeQuantityException e) {
-            System.exit(1);
-        }
+
+        PhysicalResource voidResource = new PhysicalResource(ResType.UNKNOWN, 0);
 
         if(currentState.getVal() == StateName.PRODUCTION_ACTION.getVal()){
             strongboxCosts.remove(voidResource);
@@ -339,7 +321,6 @@ public class TurnController {
                         found = true;
                         break;
                     }
-
                 if(!found)
                     throw new RetryException("Payments don't match the chosen production ones.");
             }
@@ -365,17 +346,17 @@ public class TurnController {
         }
 
         if(currentState.getVal() == StateName.BUY_DEV_ACTION.getVal())
-            currentState = StateName.PLACE_DEV_CARD;
+            changeState(StateName.PLACE_DEV_CARD);
 
         else if(currentState.getVal() == StateName.PRODUCTION_ACTION.getVal()) {
             try {
                 currentPlayer.getTempProduction().produce(currentPlayer);
-                currentPlayer.setTempProduction(null);
-            } catch (LastRoundException e) { isLastRound(); }
-            currentState = StateName.END_TURN;
+            }
+            catch (LastRoundException e) { isLastRound(); }
+            changeState(StateName.END_TURN);
         }
 
-        //update_call
+        //global update_call at the end to avoid messages flooding
         currentPlayer.updateWarehouse(currentPlayer.getNickname(),currentPlayer.getPersonalBoard().getWarehouse());
         currentPlayer.updateStrongbox(currentPlayer.getNickname(),currentPlayer.getPersonalBoard().getStrongBox());
 
@@ -398,10 +379,9 @@ public class TurnController {
                 bufferResult = "You bought the 7th card. You won!";
         }
         catch (InvalidOperationException e) {
-            currentPlayer.setTempDevCard(null);
             throw new RetryException ("Invalid placement parameters.");
         }
-        currentState = StateName.END_TURN;
+        changeState(StateName.END_TURN);
         return currentState;
     }
 
@@ -432,17 +412,17 @@ public class TurnController {
             }
 
         if(cardsErrors.contains(true)) {
-            String errMessage = "";
+            StringBuilder errMessage = new StringBuilder("Invalid insert choices: ");
             for (boolean err : cardsErrors)
                 if (err)
-                    errMessage = errMessage + "(invalid insert choice number " + cardsErrors.indexOf(err) + ")\n";
-            throw new RetryException (errMessage);
+                    errMessage.append(cardsErrors.indexOf(err)).append(" ");
+                errMessage.append("\n");
+            throw new RetryException (errMessage.toString());
         }
 
         //checks if the number of unknown costs and earnings corresponds to the chosen cards unknown quantities
         int uCosts=0, uEarnings=0;
         if(basicProdFound) {
-
             uCosts += currentPlayer.getPersonalBoard().getBasicProduction().getCost().stream().filter((x)->x.getType().equals(ResType.UNKNOWN)).map((x)->x.getQuantity()).reduce(0, (x,y)->x+y);
             for(Resource r : currentPlayer.getPersonalBoard().getBasicProduction().getEarnings())
                 if(r.isPhysical()){
@@ -456,7 +436,9 @@ public class TurnController {
                 prod = ((DevelopmentCard) cardMap.get(id)).getProduction();
             else
                 prod = ((ProductionEffect) ((LeaderCard)cardMap.get(id)).getEffect()).getProduction();
-            uCosts += prod.getCost().stream().filter((x)->x.getType().equals(ResType.UNKNOWN)).map(PhysicalResource::getQuantity).reduce(0, Integer::sum);
+            uCosts += prod.getCost().stream()
+                    .filter((x)->x.getType().equals(ResType.UNKNOWN))
+                    .map(PhysicalResource::getQuantity).reduce(0, Integer::sum);
             for(Resource r : prod.getEarnings())
                 if(r.isPhysical()){
                     PhysicalResource usefulR = (PhysicalResource) r;
@@ -494,9 +476,9 @@ public class TurnController {
 
         totalCosts = totalCosts.stream().filter((x)->(!x.getType().equals(ResType.UNKNOWN))).collect(Collectors.toList());
 
-        for(Resource r : totalEarnings)
-            if(r.isPhysical()) {
-                PhysicalResource usefulR = (PhysicalResource) r;
+        for(int i=0; i<totalEarnings.size(); i++)
+            if(totalEarnings.get(i).isPhysical()) {
+                PhysicalResource usefulR = (PhysicalResource) totalEarnings.get(i);
                 if (usefulR.getType().equals(ResType.UNKNOWN))
                     totalEarnings.remove(usefulR);
             }
@@ -508,7 +490,7 @@ public class TurnController {
 
         currentPlayer.setTempProduction(totalProduction);
 
-        currentState = StateName.PRODUCTION_ACTION;
+        changeState(StateName.PRODUCTION_ACTION);
 
         return currentState;
     }
@@ -520,7 +502,7 @@ public class TurnController {
      * @param resource the resource with quantity = shelf
      * @return true if it went well, false elsewhere.
      */
-    public boolean singleWarehouseMove(PhysicalResource resource) {
+    private boolean singleWarehouseMove(PhysicalResource resource) {
         try {
             currentPlayer.moveIntoWarehouse(new PhysicalResource(resource.getType(),1), resource.getQuantity());
             return false;
@@ -537,6 +519,11 @@ public class TurnController {
     private void isLastRound(){
         lastRound = true;
         new LastRoundMessage("", "This is the last round").sendBroadcast(match);
+    }
+
+    private void changeState(StateName newState){
+        currentState = newState;
+        currentPlayer.getSummary().updateLastUsedState(currentPlayer.getNickname(), newState);
     }
 
     public Player getCurrentPlayer(){ return currentPlayer; }

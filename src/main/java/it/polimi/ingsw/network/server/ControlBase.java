@@ -14,6 +14,7 @@ public interface ControlBase {
     Player getPlayer();
     String getNickname();
     void setMatchController(MatchController controller);
+    void endGame();
 
     /**
      * Writes something at this player, the message has to be written in json in the correct format

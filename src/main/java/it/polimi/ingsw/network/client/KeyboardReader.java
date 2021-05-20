@@ -37,7 +37,7 @@ public class KeyboardReader extends Thread{
                         "\u2022 cardInfo [cardIDs]"),
                 entry(MARKET_ACTION, "\u2022 whiteMarblesConversion|(wmc) [ResourceType,Quantity]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 cardInfo [cardIDs]"),
                 entry(RESOURCES_PLACEMENT, "\u2022 warehouseInsertion|(wi) [SingleResourceType,Shelf]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 cardInfo [cardIDs]"),
-                entry(BUY_DEV_ACTION, "\u2022 payments|(pay) [-strongbox ResourceType,Quantity] [-warehouse Shelf,ResourceType,Quantity]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 cardInfo [cardIDs]"),
+                entry(BUY_DEV_ACTION, "\u2022 payments|(pay) [-strongbox|(-sb) ResourceType,Quantity] [-warehouse|(-wh) Shelf,ResourceType,Quantity]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 cardInfo [cardIDs]"),
                 entry(PLACE_DEV_CARD, "\u2022 devCardPlacement|(dp) [Column]\n" + "\u2022 cardInfo [cardIDs]"),
                 entry(PRODUCTION_ACTION, "\u2022 payments|(pay) [-strongbox ResourceType,Quantity] [-warehouse Shelf,ResourceType,Quantity]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 cardInfo [cardIDs]"),
                 entry(END_TURN, "\u2022 leaderActivation|(la) [LeaderID]\n" + "\u2022 leaderDiscarding|(ld) [LeaderId]\n" + "\u2022 switchShelf|(ss) [firstShelf,secondShelf]\n" + "\u2022 endTurn\n" + "\u2022 cardInfo [cardIDs]"),

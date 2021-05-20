@@ -202,10 +202,6 @@ public class MatchController {
             return false;
 
         lastUsedState = startingPhaseController.leadersChoice(nickname, leaders);
-        updateLastUsedState(nickname, lastUsedState);
-
-        NextStateMessage message = new NextStateMessage(nickname, lastUsedState);
-        message.send(nickname);
 
         if (startingPhaseController.hasEnded())
             turnController = new TurnController(match, cardMap);
@@ -219,10 +215,6 @@ public class MatchController {
             return false;
 
         lastUsedState = startingPhaseController.startingResources(nickname, resources);
-        updateLastUsedState(nickname, lastUsedState);
-
-        NextStateMessage message = new NextStateMessage(nickname, lastUsedState);
-        message.send(nickname);
 
         if (startingPhaseController.hasEnded())
             turnController = new TurnController(match, cardMap);
@@ -248,15 +240,10 @@ public class MatchController {
         boolean isComputable = isComputable(nickname, CtoSMessageType.END_TURN);
         if (!isComputable)
             return false;
-
         try {
-            NextStateMessage message = new NextStateMessage(turnController.getCurrentPlayer().getNickname(), StateName.WAITING_FOR_TURN);
-            message.send(nickname);
-
             turnController.nextTurn();
-
-
-        } catch (MatchEndedException e) {
+        }
+        catch (MatchEndedException e) {
             matchEndingProcedure(e);
         }
 
@@ -268,8 +255,7 @@ public class MatchController {
         if (!isComputable)
             return false;
 
-        NextStateMessage message = new NextStateMessage(nickname, turnController.switchShelf(shelf1, shelf2));
-        message.send(nickname);
+        turnController.switchShelf(shelf1, shelf2);
 
         return true;
 
@@ -280,8 +266,7 @@ public class MatchController {
         if (!isComputable)
             return false;
 
-        NextStateMessage message = new NextStateMessage(nickname, turnController.leaderActivation(leaderId));
-        message.send(nickname);
+        turnController.leaderActivation(leaderId);
 
         return true;
     }
@@ -291,8 +276,7 @@ public class MatchController {
         if (!isComputable)
             return false;
 
-        NextStateMessage message = new NextStateMessage(nickname, turnController.leaderDiscarding(leaderId));
-        message.send(nickname);
+        turnController.leaderDiscarding(leaderId);
 
         return true;
     }
@@ -303,9 +287,6 @@ public class MatchController {
             return false;
 
         lastUsedState = turnController.marketDraw(row, num);
-        updateLastUsedState(nickname, lastUsedState);
-        NextStateMessage message = new NextStateMessage(nickname, lastUsedState);
-        message.send(nickname);
 
         return true;
     }
@@ -316,10 +297,6 @@ public class MatchController {
             return false;
 
         lastUsedState = turnController.whiteMarblesConversion(resources);
-        updateLastUsedState(nickname, lastUsedState);
-
-        NextStateMessage message = new NextStateMessage(nickname, lastUsedState);
-        message.send(nickname);
 
         return true;
     }
@@ -330,10 +307,6 @@ public class MatchController {
             return false;
 
         lastUsedState = turnController.warehouseInsertion(resources);
-        updateLastUsedState(nickname, lastUsedState);
-
-        NextStateMessage message = new NextStateMessage(nickname, lastUsedState);
-        message.send(nickname);
 
         return true;
     }
@@ -344,10 +317,6 @@ public class MatchController {
             return false;
 
         lastUsedState = turnController.devCardDraw(row, column);
-        updateLastUsedState(nickname, lastUsedState);
-
-        NextStateMessage message = new NextStateMessage(nickname, lastUsedState);
-        message.send(nickname);
 
         return true;
     }
@@ -358,10 +327,6 @@ public class MatchController {
             return false;
 
         lastUsedState = turnController.payments(strongboxCosts, warehouseCosts);
-        updateLastUsedState(nickname, lastUsedState);
-
-        NextStateMessage message = new NextStateMessage(nickname, lastUsedState);
-        message.send(nickname);
 
         return true;
     }
@@ -372,25 +337,25 @@ public class MatchController {
             return false;
 
         lastUsedState = turnController.devCardPlacement(column);
-        updateLastUsedState(nickname, lastUsedState);
-
-        NextStateMessage message = new NextStateMessage(nickname, lastUsedState);
-        message.send(nickname);
 
         return true;
     }
+
     public synchronized boolean production(String nickname, List<String> cardIds, Production productionOfUnknown) throws RetryException {
         boolean isComputable = isComputable(nickname, CtoSMessageType.PRODUCTION);
         if (!isComputable)
             return false;
 
         lastUsedState = turnController.production(cardIds, productionOfUnknown);
-        updateLastUsedState(nickname, lastUsedState);
-
-        NextStateMessage message = new NextStateMessage(nickname, lastUsedState);
-        message.send(nickname);
 
         return true;
+    }
+
+    private void matchEndingProcedure(MatchEndedException e){
+        rematchPhaseController = new RematchPhaseController(match.getPlayers());
+
+        EndGameResultsMessage message = new EndGameResultsMessage("", e.getMsg(), e.getRanking());
+        message.sendBroadcast(match);
     }
 
     public synchronized boolean response(String nickname, boolean value) throws RetryException {
@@ -400,17 +365,6 @@ public class MatchController {
 
         rematchPhaseController.response(nickname, value);
         return true;
-    }
-
-    private void matchEndingProcedure(MatchEndedException e){
-        rematchPhaseController = new RematchPhaseController(match.getPlayers());
-        EndGameResultsMessage message = new EndGameResultsMessage("", e.getMsg(), e.getRanking());
-
-        message.sendBroadcast(match);
-    }
-
-    private void updateLastUsedState(String nickname, StateName lastUsedState){
-        match.getPlayer(nickname).updateLastUsedState(nickname, lastUsedState);
     }
 
     /**

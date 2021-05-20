@@ -39,15 +39,16 @@ public class StartingPhaseController {
 
         for (Player p : match.getPlayers()) {
             playerStates.put(p.getNickname(), StateName.WAITING_LEADERS);
+
             p.setSummary(summary);
-            if(serverCall().findControlBase(p.getNickname()) != null) {
-                new SummaryMessage(p.getNickname(), summary).send(p.getNickname());
-                //for the interested player
-                new HandLeadersStateMessage(p.getNickname(), p.getHandLeaders().stream().map((x) -> getKeyByValue(cardMap, x)).collect(Collectors.toList())).send(p.getNickname());
-                //masked, for the other players
-                //new HandLeadersStateMessage(p.getNickname(), p.getHandLeaders().stream().map((x) -> "-1").collect(Collectors.toList())).sendBroadcast(this.match);
-                new NextStateMessage(p.getNickname(), StateName.WAITING_LEADERS).send(p.getNickname());
-            }
+
+            new SummaryMessage(p.getNickname(), summary).send(p.getNickname());
+            //for the interested player
+            new HandLeadersStateMessage(p.getNickname(), p.getHandLeaders().stream().map((x) -> getKeyByValue(cardMap, x)).collect(Collectors.toList())).send(p.getNickname());
+            //masked, for the other players
+            //new HandLeadersStateMessage(p.getNickname(), p.getHandLeaders().stream().map((x) -> "-1").collect(Collectors.toList())).sendBroadcast(this.match);
+            changeState(p.getNickname(), StateName.WAITING_LEADERS);
+
         }
     }
 
@@ -67,11 +68,10 @@ public class StartingPhaseController {
                 chosenLeaders.add((LeaderCard) cardMap.get(Id));
             player.setHandLeaders(chosenLeaders);
 
-            new HandLeadersStateMessage(nickname, chosenLeaders.stream().map((x)->getKeyByValue(cardMap,x)).collect(Collectors.toList())).send(nickname);
-            new HandLeadersStateMessage(nickname, chosenLeaders.stream().map((x)->"-1").collect(Collectors.toList())).sendBroadcast(match.getPlayers().stream().map(Player::getNickname).filter((x)->!x.equals(nickname)).collect(Collectors.toList()));
-
-
-            playerStates.replace(nickname,(match.getPlayers().indexOf(match.getPlayer(nickname))==0 ? StateName.STARTING_PHASE_DONE : StateName.WAITING_RESOURCES));
+            if(match.getPlayers().indexOf(match.getPlayer(nickname))==0)
+                changeState(nickname, StateName.STARTING_PHASE_DONE);
+            else
+                changeState(nickname, StateName.WAITING_RESOURCES);
         }
         return playerStates.get(nickname);
     }
@@ -105,7 +105,8 @@ public class StartingPhaseController {
         player.updateWarehouse(nickname, player.getPersonalBoard().getWarehouse());
         player.updateMarketBuffer(nickname, player.getPersonalBoard().getWarehouse());
 
-        playerStates.replace(nickname, StateName.STARTING_PHASE_DONE);
+        changeState(nickname,StateName.STARTING_PHASE_DONE);
+
         return playerStates.get(nickname);
     }
 
@@ -119,6 +120,11 @@ public class StartingPhaseController {
                 return false;
         }
         return true;
+    }
+
+    private void changeState(String nickname, StateName newState){
+        this.playerStates.replace(nickname, newState);
+        match.getCurrentPlayer().getSummary().updateLastUsedState(nickname, newState);
     }
 
 }

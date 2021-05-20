@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.match.player;
 
+import it.polimi.ingsw.controller.StateName;
 import it.polimi.ingsw.model.essentials.CardType;
 import it.polimi.ingsw.model.essentials.DevelopmentCard;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
@@ -42,6 +43,16 @@ public class Player extends ModelObservable implements Adder, Verificator
     }
 
     //ALL SETTERS:
+    /**
+     * This method sets the initial configuration of the player's leaders.
+     * @param handLeaders is the Leaders list
+     * @return false
+     */
+    public boolean setInitialHandLeaders(List<LeaderCard> handLeaders)
+    {
+        this.handLeaders = handLeaders;
+        return true;
+    }
     /**
      * This method sets the initial configuration of the player's leaders.
      * @param handLeaders is the Leaders list
@@ -180,6 +191,10 @@ public class Player extends ModelObservable implements Adder, Verificator
                 addBlackPoints(remaining);
 
         }
+
+        //update_call
+        this.updateWarehouse(nickname, personalBoard.getWarehouse());
+        this.updateMarketBuffer(nickname, personalBoard.getWarehouse());
 
         return true;
     }
@@ -345,8 +360,7 @@ public class Player extends ModelObservable implements Adder, Verificator
         getPersonalBoard().getWarehouse().switchShelf(shelf1, shelf2);
 
         //update_call
-        if(serverCall().findControlBase(nickname) != null)
-            updateWarehouse(nickname, getPersonalBoard().getWarehouse());
+        updateWarehouse(nickname, getPersonalBoard().getWarehouse());
 
         return true;
     }
@@ -405,28 +419,20 @@ public class Player extends ModelObservable implements Adder, Verificator
 
         //update_call
         updateDevCardSlots(nickname, getPersonalBoard().getDevCardSlots());
-        updateTempDevCard(nickname, null);
+        updateTempDevCard(nickname, tempDevCard);
         return true;
     }
 
     /**
      * This method tries to insert the resource into the warehouse.
      * Catches here the exceptions relative to moveInShelf procedure.
+     * It does not notify the player in order to avoid messages flooding.
      * @param resource is the resource to insert
      * @param shelf    is the chosen shelf
      * @return         true if operation ended successfully, else false
      */
     public boolean moveIntoWarehouse(PhysicalResource resource, int shelf) throws ShelfInsertException, InvalidQuantityException {
-        boolean ret = false;
-
-        ret = personalBoard.getWarehouse().moveInShelf(resource, shelf);
-
-        //update_call
-        //updateWarehouse(this.nickname, getPersonalBoard().getWarehouse());
-        //updateMarketBuffer(this.nickname, getPersonalBoard().getWarehouse());
-
-
-        return ret;
+        return personalBoard.getWarehouse().moveInShelf(resource, shelf);
     }
 
     /**

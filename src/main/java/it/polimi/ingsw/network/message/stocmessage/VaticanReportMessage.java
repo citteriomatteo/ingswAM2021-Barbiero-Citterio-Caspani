@@ -28,9 +28,10 @@ public class VaticanReportMessage extends StoCMessage {
 
     @Override
     public boolean compute(Client client){
+
         //updates every player's tiles
         for(LightPlayer lp : client.getController().getMatch().getPlayersSummary())
-            client.getController().getMatch().setPopeTiles(getNickname(), popeTiles.get(lp.getNickname()));
+            client.getController().getMatch().setPopeTiles(lp.getNickname(), popeTiles.get(lp.getNickname()));
         return true;
     }
 

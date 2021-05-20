@@ -276,6 +276,8 @@ public class Summary implements ModelObserver
     @Override
     public void updateHandLeaders(String nickname, List<LeaderCard> handLeaders) {
         getPlayerSummary(nickname).updateHandLeaders(handLeaders, cardMap);
+        new HandLeadersStateMessage(nickname, handLeaders.stream().map((x)->getKeyByValue(cardMap,x)).collect(Collectors.toList())).send(nickname);
+        new HandLeadersStateMessage(nickname, handLeaders.stream().map((x)->"-1").collect(Collectors.toList())).sendBroadcast(playersSummary.stream().map(PlayerSummary::getNickname).filter((x)->!x.equals(nickname)).collect(Collectors.toList()));
     }
 
     /**
@@ -356,6 +358,7 @@ public class Summary implements ModelObserver
     @Override
     public void updateLastUsedState(String nickname, StateName lastUsedState) {
         getPlayerSummary(nickname).updateLastUsedState(lastUsedState);
+        new NextStateMessage(nickname, lastUsedState).send(nickname);
     }
 
 

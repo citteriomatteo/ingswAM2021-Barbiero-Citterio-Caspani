@@ -99,6 +99,10 @@ public class PlayerHandler implements Runnable, ControlBase {
         this.matchController = matchController;
         inMatch.set(true);
     }
+    @Override
+    public void endGame(){
+        inMatch.set(false);
+    }
 
 
 //%%%%%%%%%%%%%%%% MAIN FUNCTION %%%%%%%%%%%%%%%%%%%%
@@ -208,6 +212,7 @@ public class PlayerHandler implements Runnable, ControlBase {
     public synchronized boolean write(StoCMessage msg){
         try {
             String outMsg = parserStoC.toJson(msg, StoCMessage.class);
+            System.out.println("out: "+outMsg);
             out.println(outMsg);
             return true;
         } catch (JsonSyntaxException e) {

@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 public enum StateName {
     //States used in LoginPhase
+    CLIENT_START(0),
     LOGIN(0),
     RECONNECTION(0),
     NEW_PLAYER(0),

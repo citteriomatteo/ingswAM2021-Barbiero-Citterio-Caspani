@@ -12,7 +12,7 @@ import java.util.Map;
 
 public interface View extends ViewObserver {
 
-
+    void showAll(LightMatch match);
     void drawCard(Card card, String id);
 
     void printTitle();

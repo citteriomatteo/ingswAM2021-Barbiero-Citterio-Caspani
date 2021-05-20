@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.match;
 
+import it.polimi.ingsw.controller.StateName;
 import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
 import it.polimi.ingsw.model.match.player.Player;
@@ -33,7 +34,7 @@ public class SingleMatch extends Match{
         this.tokenStack = new TokenStack();
         currentPlayer.setPersonalBoard(new PersonalBoard((ArrayList<Cell>) matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction(), currentPlayer));
         currentPlayer.setMatch(this);
-        currentPlayer.setHandLeaders(getLeaderStack().draw(4));
+        currentPlayer.setInitialHandLeaders(getLeaderStack().draw(4));
 
     }
 
@@ -44,7 +45,7 @@ public class SingleMatch extends Match{
         this.tokenStack = new TokenStack();
         currentPlayer.setPersonalBoard(new PersonalBoard((ArrayList<Cell>) config.getCustomPath(), config.getBasicProduction(), currentPlayer));
         currentPlayer.setMatch(this);
-        currentPlayer.setHandLeaders(getLeaderStack().draw(4));
+        currentPlayer.setInitialHandLeaders(getLeaderStack().draw(4));
     }
 
     /**
@@ -103,11 +104,15 @@ public class SingleMatch extends Match{
     @Override
     public boolean nextTurn() throws LastRoundException {
 
+        currentPlayer.updateLastUsedState(currentPlayer.getNickname(), StateName.WAITING_FOR_TURN);
+
         String drawnToken = tokenStack.getStack().peek().toString();
 
         boolean res = tokenStack.draw(this);
 
         new TokenDrawMessage("", drawnToken, tokenStack.getStack().size()).sendBroadcast(this);
+
+        currentPlayer.updateLastUsedState(currentPlayer.getNickname(), StateName.STARTING_TURN);
 
         return res;
     }
