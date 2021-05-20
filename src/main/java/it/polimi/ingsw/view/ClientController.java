@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.essentials.Card;
 import it.polimi.ingsw.model.match.Summary;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
 import it.polimi.ingsw.network.message.stocmessage.NextStateMessage;
+import it.polimi.ingsw.network.message.stocmessage.RetryMessage;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessageType;
 import it.polimi.ingsw.view.lightmodel.LightMatch;
@@ -56,10 +57,13 @@ public class ClientController
     //updato lo stato corrente e controllo: se si tratta dello stesso di prima, allora mi è arrivata un Retry,
     //      altrimenti sarà un NextState.
     public void updateCurrentState(StoCMessage msg){
-      //  System.out.println("new state: " + msg.getType());
+        System.out.println("new state: " + msg.getType());
         if(msg.getType().equals(StoCMessageType.RETRY)) {
+            this.currentState = ((RetryMessage) msg).getCurrentState();
             printRetry("Invalid message: Retry. Type 'help' to view the map of commands.");
+
         }
+
         else if(msg.getType().equals(StoCMessageType.NEXT_STATE)){
             this.currentState = ((NextStateMessage) msg).getNewState();
             if(match != null)
@@ -74,7 +78,9 @@ public class ClientController
                 System.out.println("" + currentState);
             }*/
         }
+
         printMoveLegend(msg);
+
     }
 
     //quando si ha una retry (da parte del server o dalla keyboardReader) viene chiamata questa, che stampa l'errore.

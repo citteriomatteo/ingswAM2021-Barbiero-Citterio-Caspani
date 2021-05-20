@@ -101,8 +101,8 @@ public class InitController {
 
             case SP_CONFIGURATION_CHOOSE:
                 if(choice) { //choose the default config
-                    changeState(StateName.START_GAME);
                     client.setMatchController(new MatchController(client.getPlayer()));  //<-- exit from init
+                    changeState(StateName.START_GAME);
                 }
                 else
                     changeState(StateName.CONFIGURATION);
@@ -110,8 +110,8 @@ public class InitController {
 
             case MP_CONFIGURATION_CHOOSE:
                 if(choice) { //choose the default config, wait for players or start directly the match
-                    changeState(StateName.WAITING_FOR_PLAYERS);
                     serverCall().searchingForPlayers(client.getPlayer(), desiredNumberOfPlayers);
+                    changeState(StateName.WAITING_FOR_PLAYERS);
                 }
                 else //Choose custom configuration
                     changeState(StateName.CONFIGURATION);
@@ -127,6 +127,7 @@ public class InitController {
                             .collect(Collectors.toList())))
                             .send(playerNickname);
                     (new NextStateMessage(playerNickname, summary.getPlayerSummary(playerNickname).getLastUsedState())).send(playerNickname);
+
                 }
                 else{
                     currentState = StateName.LOGIN;
@@ -169,9 +170,10 @@ public class InitController {
             case WAITING_FOR_PLAYERS:
                 List<Player> playersInMatch = serverCall().matchParticipants();
                 System.out.println("forming a new match for... " + playersInMatch);
-                changeState(StateName.START_GAME);
                 MatchController controller = new MatchController(playersInMatch);
                 setMatchController(controller, playersInMatch);  //<-- exit from init
+                changeState(StateName.START_GAME);
+
                 return true;
 
         }
