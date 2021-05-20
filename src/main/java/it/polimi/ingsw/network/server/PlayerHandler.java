@@ -221,6 +221,12 @@ public class PlayerHandler implements Runnable, ControlBase {
         }
     }
 
+    /**
+     * Disconnects the player associated with this player handler
+     * -> if the player was previously in game, set the player disconnected and notify the other players,
+     *    if it was his turn switch to the next player, if he will try to reconnect he could restart from where he left
+     * -> otherwise remove globally the nickname associated with the player
+     */
     public synchronized void disconnection(){
 
         System.err.println("Probably something goes wrong or the player "+getNickname()+" closed the connection --> disconnection");

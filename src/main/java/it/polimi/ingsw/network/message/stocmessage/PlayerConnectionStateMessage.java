@@ -4,7 +4,7 @@ import it.polimi.ingsw.network.client.Client;
 
 public class PlayerConnectionStateMessage extends StoCMessage{
     private static final StoCMessageType type = StoCMessageType.PLAYER_DISCONNECTED;
-    private boolean connected;
+    private final boolean connected;
 
     public PlayerConnectionStateMessage(String nickname, boolean connected) {
         super(nickname);
