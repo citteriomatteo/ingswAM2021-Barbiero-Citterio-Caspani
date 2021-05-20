@@ -715,7 +715,7 @@ public class Cli implements View
                 str.append(ColorCli.BLUE).append(type).append(ColorCli.CLEAR);
                 break;
             case SERVANT:
-                str.append(ColorCli.GREEN).append(type).append(ColorCli.CLEAR);
+                str.append(ColorCli.PURPLE).append(type).append(ColorCli.CLEAR);
                 break;
             case UNKNOWN:
                 str.append(ColorCli.WHITE).append("?").append(ColorCli.CLEAR);

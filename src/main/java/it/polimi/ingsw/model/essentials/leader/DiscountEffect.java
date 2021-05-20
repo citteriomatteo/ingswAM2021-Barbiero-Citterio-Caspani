@@ -74,7 +74,7 @@ public class DiscountEffect implements Effect{
      */
     @Override
     public String getEffectSymbol(){
-        return ColorCli.GREEN.paint("½ ");
+        return ColorCli.GREEN.paint("½");
     }
 
 

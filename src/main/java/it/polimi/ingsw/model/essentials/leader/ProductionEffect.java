@@ -87,7 +87,7 @@ public class ProductionEffect implements Effect{
      */
     @Override
     public String getEffectSymbol(){
-        return ColorCli.RED + "¤ " + ColorCli.CLEAR;
+        return ColorCli.RED + "¤" + ColorCli.CLEAR;
     }
 
 }

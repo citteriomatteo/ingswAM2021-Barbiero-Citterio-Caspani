@@ -404,6 +404,7 @@ public class Player extends ModelObservable implements Adder, Verificator
 
         //update_call
         updateDevCardSlots(nickname, getPersonalBoard().getDevCardSlots());
+        updateTempDevCard(nickname, null);
         return true;
     }
 

@@ -150,7 +150,8 @@ public class TurnController {
     public StateName marketDraw(boolean row, int num) throws RetryException {
         try {
             whiteMarbleDrawn = currentPlayer.marketDeal(row, num);
-            if(whiteMarbleDrawn == 0 || currentPlayer.getWhiteMarbleConversions().size() == 0)
+            if((whiteMarbleDrawn == 0 || currentPlayer.getWhiteMarbleConversions().size() == 0)
+                    && currentPlayer.getPersonalBoard().getWarehouse().getBuffer().size() != 0)
                 currentState = StateName.RESOURCES_PLACEMENT;
             else
                 currentState = StateName.MARKET_ACTION;
@@ -204,6 +205,16 @@ public class TurnController {
     public StateName warehouseInsertion(List<PhysicalResource> resources) throws RetryException {
         List<Boolean> errors = new ArrayList<>();
         StringBuilder errMessage = new StringBuilder();
+        if(resources.size() == 1 && resources.get(0).getType().equals(ResType.UNKNOWN)) {
+            try {
+                currentPlayer.discardRemains();
+            } catch (InvalidOperationException e) {
+                currentState = StateName.RESOURCES_PLACEMENT;
+                throw new RetryException ("You can still place other resources." + errMessage);
+            } catch (LastRoundException e) {
+                isLastRound();
+            }
+        }
         for(PhysicalResource resource : resources)
             errors.add(singleWarehouseMove(resource));
         if(errors.contains(false)){

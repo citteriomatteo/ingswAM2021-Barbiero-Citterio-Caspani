@@ -67,9 +67,8 @@ public class KeyboardReader extends Thread{
         if(params.size() == 0){
             if(command.equals("endturn") || command.equals("et"))
                 endTurn();
-            else if(command.equals("cardinfo") || command.equals("ci")){
-
-
+            else if(command.equals("warehouseinsertion") || command.equals("wi")){
+                return new WarehouseInsertionMessage(nickname, new ArrayList<>(List.of(new PhysicalResource(ResType.UNKNOWN,0))));
             }
             else{
                 CtoSMessage message = selection(command);

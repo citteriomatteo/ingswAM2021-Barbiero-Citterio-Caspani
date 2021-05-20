@@ -73,7 +73,7 @@ public class WhiteMarbleEffect implements Effect{
      */
     @Override
     public String getEffectSymbol(){
-        return ColorCli.WHITE + "\u2022 " + ColorCli.CLEAR;
+        return ColorCli.WHITE + "\u2022" + ColorCli.CLEAR;
     }
 
 }
