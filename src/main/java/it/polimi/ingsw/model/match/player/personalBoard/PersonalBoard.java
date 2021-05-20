@@ -92,6 +92,7 @@ public class PersonalBoard implements Effector
     public boolean warehouseEvolution(PhysicalResource extraShelf)
     {
         warehouse = new ExtraShelfWarehouse(getWarehouse(), extraShelf);
+        player.updateWarehouse(player.getNickname(), warehouse);
         return true;
     }
 
@@ -100,7 +101,10 @@ public class PersonalBoard implements Effector
      * @param conversion is the new conversion to insert
      * @return           the operation on-finish flag
      */
-    public boolean addNewConversion(PhysicalResource conversion) { return getWhiteMarbleConversions().add(conversion); }
+    public boolean addNewConversion(PhysicalResource conversion) {
+        player.updateWhiteMarbleConversions(player.getNickname(), conversion);
+        return getWhiteMarbleConversions().add(conversion);
+    }
 
     /**
      * This method inserts a new discount (the Resource defines it) in the discountMap.
@@ -108,7 +112,9 @@ public class PersonalBoard implements Effector
      * @return         true
      */
     public boolean setDiscount(PhysicalResource discount) {
-        return discountMap.setDiscount(discount);
+        boolean ret = discountMap.setDiscount(discount);
+        player.updateDiscountMap(player.getNickname(), discountMap);
+        return ret;
 
     }
 
