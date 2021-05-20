@@ -308,6 +308,7 @@ public class Player extends ModelObservable implements Adder, Verificator
 
             //update_call
             updateActiveLeaders(this.nickname, leader);
+            updateHandLeaders(this.nickname, handLeaders);
 
             return true;
         }

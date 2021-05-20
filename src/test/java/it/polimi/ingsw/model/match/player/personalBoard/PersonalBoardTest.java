@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.Production;
 import it.polimi.ingsw.model.essentials.ResType;
 import it.polimi.ingsw.model.essentials.leader.*;
+import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.FaithPathTest;
 
 import it.polimi.ingsw.exceptions.FaithPathCreationException;
@@ -27,7 +28,7 @@ public class PersonalBoardTest extends FaithPathTest
         bearnings.add(new PhysicalResource(ResType.COIN,1));
 
         Production bp = new Production(bcost, bearnings);
-        PersonalBoard personalBoard = new PersonalBoard(FaithPathTest.generatePath(), 0, bp);
+        PersonalBoard personalBoard = new PersonalBoard(FaithPathTest.generatePath(), 0, bp, new Player("player1"));
 
         LeaderCard l1 = new LeaderCard(bearnings, 1, new ProductionEffect(bp));
         LeaderCard l2 = new LeaderCard(bearnings, 2, new ProductionEffect(bp));

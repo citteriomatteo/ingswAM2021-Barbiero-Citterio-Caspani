@@ -445,7 +445,7 @@ public class MatchControllerTest extends CommonThingsTest {
         matchController.nextTurn(player.getNickname());
 
         assertEquals(StateName.WAITING_FOR_TURN, matchController.getCurrentState(player.getNickname()));
-        assertEquals(StateName.STARTING_TURN, matchController.getCurrentState(matchController.getCurrentPlayer().getNickname()));
+        assertEquals(StateName.WAITING_FOR_TURN, matchController.getCurrentState(matchController.getCurrentPlayer().getNickname()));
 
         initialization();
         player = matchController.getCurrentPlayer();
