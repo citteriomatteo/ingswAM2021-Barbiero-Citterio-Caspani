@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.Production;
 import it.polimi.ingsw.model.essentials.leader.LeaderCard;
 import it.polimi.ingsw.exceptions.FaithPathCreationException;
+import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.FaithPath;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.MultiFaithPath;
@@ -16,6 +17,7 @@ import java.util.*;
 
 public class PersonalBoard implements Effector
 {
+    private final Player player;
     private final List<LeaderCard> activeLeaders;
     private final List<LeaderCard> activeProductionLeaders;
     private final List<PhysicalResource> whiteMarbleConversions;
@@ -33,8 +35,9 @@ public class PersonalBoard implements Effector
      * @param basicProduction is the basic Production
      */
 
-    public PersonalBoard(ArrayList<Cell> path, int startingPos, Production basicProduction)
+    public PersonalBoard(ArrayList<Cell> path, int startingPos, Production basicProduction, Player player)
     {
+        this.player = player;
         activeLeaders = new ArrayList<>();
         activeProductionLeaders = new ArrayList<>();
         whiteMarbleConversions = new ArrayList<>();
@@ -51,8 +54,9 @@ public class PersonalBoard implements Effector
      * @param path            is the Cell-made path useful for the faithPath initialization
      * @param basicProduction is the basic Production
      */
-    public PersonalBoard(ArrayList<Cell> path, Production basicProduction) throws FaithPathCreationException
+    public PersonalBoard(ArrayList<Cell> path, Production basicProduction, Player player) throws FaithPathCreationException
     {
+        this.player = player;
         activeLeaders = new ArrayList<>();
         activeProductionLeaders = new ArrayList<>();
         whiteMarbleConversions = new ArrayList<>();
@@ -103,7 +107,10 @@ public class PersonalBoard implements Effector
      * @param discount defines the new discount
      * @return         true
      */
-    public boolean setDiscount(PhysicalResource discount) { return discountMap.setDiscount(discount); }
+    public boolean setDiscount(PhysicalResource discount) {
+        return discountMap.setDiscount(discount);
+
+    }
 
     //ALL GETTERS:
     /** @return activeLeaders list */

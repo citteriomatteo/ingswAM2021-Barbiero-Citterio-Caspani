@@ -37,13 +37,13 @@ public class MultiMatch extends Match {
         this.currentPlayer = players.get(0);
         this.cardGrid = new CardGrid(matchConfiguration.getAllDevCards());
         for (int i = 0; i < 2; i++) {
-            players.get(i).setPersonalBoard(new PersonalBoard((ArrayList<Cell>) matchConfiguration.getCustomPath(), 0, matchConfiguration.getBasicProduction()));
+            players.get(i).setPersonalBoard(new PersonalBoard((ArrayList<Cell>) matchConfiguration.getCustomPath(), 0, matchConfiguration.getBasicProduction(), players.get(i)));
             players.get(i).setMatch(this);
             players.get(i).setHandLeaders(getLeaderStack().draw(4));
             }
         if (players.size() > 2) {
             for (int j = 2; j < players.size(); j++) {
-                players.get(j).setPersonalBoard(new PersonalBoard((ArrayList<Cell>) matchConfiguration.getCustomPath(), 1, matchConfiguration.getBasicProduction()));
+                players.get(j).setPersonalBoard(new PersonalBoard((ArrayList<Cell>) matchConfiguration.getCustomPath(), 1, matchConfiguration.getBasicProduction(), players.get(j)));
                 players.get(j).setMatch(this);
                 players.get(j).setHandLeaders(getLeaderStack().draw(4));
 
@@ -61,14 +61,14 @@ public class MultiMatch extends Match {
         this.currentPlayer = players.get(0);
         this.cardGrid = new CardGrid(matchConfiguration.getAllDevCards());
         for (int i = 0; i < 2; i++) {
-            players.get(i).setPersonalBoard(new PersonalBoard((ArrayList<Cell>) matchConfiguration.getCustomPath(), 0, matchConfiguration.getBasicProduction()));
+            players.get(i).setPersonalBoard(new PersonalBoard((ArrayList<Cell>) matchConfiguration.getCustomPath(), 0, matchConfiguration.getBasicProduction(), players.get(i)));
             players.get(i).setMatch(this);
 
             players.get(i).setHandLeaders(getLeaderStack().draw(4));
         }
         if (players.size() > 2) {
             for (int j = 2; j < players.size(); j++) {
-                players.get(j).setPersonalBoard(new PersonalBoard((ArrayList<Cell>) matchConfiguration.getCustomPath(), 1, matchConfiguration.getBasicProduction()));
+                players.get(j).setPersonalBoard(new PersonalBoard((ArrayList<Cell>) matchConfiguration.getCustomPath(), 1, matchConfiguration.getBasicProduction(), players.get(j)));
                 players.get(j).setMatch(this);
                 players.get(j).setHandLeaders(getLeaderStack().draw(4));
 

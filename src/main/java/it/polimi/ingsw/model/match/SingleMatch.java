@@ -31,7 +31,7 @@ public class SingleMatch extends Match{
         MatchConfiguration matchConfiguration = super.getMatchConfiguration();
         this.singleCardGrid = new SingleCardGrid(matchConfiguration.getAllDevCards());
         this.tokenStack = new TokenStack();
-        currentPlayer.setPersonalBoard(new PersonalBoard((ArrayList<Cell>) matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction()));
+        currentPlayer.setPersonalBoard(new PersonalBoard((ArrayList<Cell>) matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction(), currentPlayer));
         currentPlayer.setMatch(this);
         currentPlayer.setHandLeaders(getLeaderStack().draw(4));
 
@@ -42,7 +42,7 @@ public class SingleMatch extends Match{
         this.currentPlayer = player;
         this.singleCardGrid = new SingleCardGrid(config.getAllDevCards());
         this.tokenStack = new TokenStack();
-        currentPlayer.setPersonalBoard(new PersonalBoard((ArrayList<Cell>) config.getCustomPath(), config.getBasicProduction()));
+        currentPlayer.setPersonalBoard(new PersonalBoard((ArrayList<Cell>) config.getCustomPath(), config.getBasicProduction(), currentPlayer));
         currentPlayer.setMatch(this);
         currentPlayer.setHandLeaders(getLeaderStack().draw(4));
     }
