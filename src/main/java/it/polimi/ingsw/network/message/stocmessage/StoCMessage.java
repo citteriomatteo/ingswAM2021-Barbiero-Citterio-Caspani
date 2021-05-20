@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.server.ControlBase;
-import it.polimi.ingsw.view.cli.Cli;
 
 import java.util.List;
 

@@ -5,12 +5,11 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessage;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
-import it.polimi.ingsw.network.message.ctosmessage.LeadersChoiceMessage;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessageType;
 import it.polimi.ingsw.view.ClientController;
 import it.polimi.ingsw.view.View;
-import it.polimi.ingsw.view.cli.Cli;
+import it.polimi.ingsw.view.CLI.ClientCLI;
 
 import java.io.*;
 import java.net.Socket;
@@ -43,7 +42,7 @@ public class Client {
             System.exit(1);
         }
 
-        View cli = new Cli();
+        View cli = new ClientCLI();
         controller = new ClientController(cli);
 
     }
@@ -123,7 +122,7 @@ public class Client {
             hostName = ReadHostFromJSON();
             portNumber = ReadPortFromJSON();
         }
-        Client client = new Client(hostName, portNumber); //cli/gui choice param will be passed here
+        Client client = new Client(hostName, portNumber); //CLI/gui choice param will be passed here
         new KeyboardReader(client).start();
 
         client.startClient();

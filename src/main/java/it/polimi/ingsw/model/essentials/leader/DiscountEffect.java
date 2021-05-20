@@ -2,8 +2,8 @@ package it.polimi.ingsw.model.essentials.leader;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.match.player.personalBoard.Effector;
-import it.polimi.ingsw.view.cli.Cli;
-import it.polimi.ingsw.view.cli.ColorCli;
+import it.polimi.ingsw.view.CLI.ClientCLI;
+import it.polimi.ingsw.view.CLI.ColorCli;
 
 import java.util.Objects;
 /**
@@ -53,7 +53,7 @@ public class DiscountEffect implements Effect{
 
         StringBuilder res = new StringBuilder();
         res.append(symbol).append("Discount effect: ");
-        Cli.addColouredResource(this.discount, res);
+        ClientCLI.addColouredResource(this.discount, res);
         res.append(", ").append(this.discount.getQuantity());
         res.append("\n");
 

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.message.stocmessage;
 
 import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.view.cli.Cli;
 
 import java.util.List;
 

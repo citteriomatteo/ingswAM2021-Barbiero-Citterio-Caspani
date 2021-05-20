@@ -2,8 +2,8 @@ package it.polimi.ingsw.model.essentials.leader;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.match.player.personalBoard.Effector;
-import it.polimi.ingsw.view.cli.Cli;
-import it.polimi.ingsw.view.cli.ColorCli;
+import it.polimi.ingsw.view.CLI.ClientCLI;
+import it.polimi.ingsw.view.CLI.ColorCli;
 
 import java.util.Objects;
 /**
@@ -52,7 +52,7 @@ public class WhiteMarbleEffect implements Effect{
 
         StringBuilder str = new StringBuilder();
         str.append(symbol).append("White Marble conversion: ");
-        Cli.addColouredResource(conversion, str);
+        ClientCLI.addColouredResource(conversion, str);
         str.append(", ").append(conversion.getQuantity());
         str.append("\n");
 

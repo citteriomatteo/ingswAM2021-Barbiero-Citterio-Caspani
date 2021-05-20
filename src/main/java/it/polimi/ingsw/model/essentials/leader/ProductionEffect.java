@@ -4,8 +4,8 @@ import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.Production;
 import it.polimi.ingsw.model.essentials.Resource;
 import it.polimi.ingsw.model.match.player.personalBoard.Effector;
-import it.polimi.ingsw.view.cli.Cli;
-import it.polimi.ingsw.view.cli.ColorCli;
+import it.polimi.ingsw.view.CLI.ClientCLI;
+import it.polimi.ingsw.view.CLI.ColorCli;
 
 import java.util.Objects;
 /**
@@ -56,14 +56,14 @@ public class ProductionEffect implements Effect{
         str.append(symbol).append("Production effect \nCosts:    ");
         for(PhysicalResource r : production.getCost()) {
             str.append("  [");
-            Cli.addColouredResource(r, str);
+            ClientCLI.addColouredResource(r, str);
             str.append(", ").append(r.getQuantity()).append("]");
         }
         str.append("\nEarnings: ");
         for(Resource r : production.getEarnings()) {
             if (r.isPhysical()) {
                 str.append("  [");
-                Cli.addColouredResource(((PhysicalResource) r), str);
+                ClientCLI.addColouredResource(((PhysicalResource) r), str);
                 str.append(", ").append(((PhysicalResource) r).getQuantity()).append("]");
             }
             else

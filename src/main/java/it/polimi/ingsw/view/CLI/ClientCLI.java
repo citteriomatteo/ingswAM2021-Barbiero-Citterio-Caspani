@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.cli;
+package it.polimi.ingsw.view.CLI;
 
 import it.polimi.ingsw.model.essentials.*;
 import it.polimi.ingsw.model.essentials.leader.LeaderCard;
@@ -13,13 +13,13 @@ import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.view.lightmodel.LightMatch.getCardMap;
 
-public class Cli implements View
+public class ClientCLI implements View
 {
 
     private String lastLayout;
     private static final Integer DEFAULT_SHIFT = 10, ZERO_SHIFT = 0;
 
-    public Cli(){ }
+    public ClientCLI(){ }
 
     @Override
     public void printTitle(){

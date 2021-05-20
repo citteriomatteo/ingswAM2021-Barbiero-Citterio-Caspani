@@ -103,7 +103,7 @@ public class ClientController
     Quando si ha un NextStateMessage dal server, si chiama questa funzione che printa l'introduzione allo stato in cui si è
      (cosa e come può scrivere, frasi del tipo "Scegli una mossa per il tuo turno:", ....)
      Pensare se ha più senso che questa funzione sia scritta qui o singolarmente sulle due View.
-     Eventualmente, tutte le funzioni draw...() saranno chiamate sulla View (gui o cli che sia).
+     Eventualmente, tutte le funzioni draw...() saranno chiamate sulla View (gui o CLI che sia).
      */
     public void printMoveLegend(StoCMessage msg){
 

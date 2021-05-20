@@ -1,13 +1,11 @@
 package it.polimi.ingsw.view.lightmodel;
 
-import it.polimi.ingsw.controller.StateName;
 import it.polimi.ingsw.model.essentials.Card;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.Production;
 import it.polimi.ingsw.model.match.Summary;
-import it.polimi.ingsw.model.match.player.PlayerSummary;
 import it.polimi.ingsw.view.View;
-import it.polimi.ingsw.view.cli.ColorCli;
+import it.polimi.ingsw.view.CLI.ColorCli;
 import it.polimi.ingsw.view.observer.ViewObservable;
 
 import java.util.ArrayList;
