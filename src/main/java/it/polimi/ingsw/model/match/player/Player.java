@@ -163,7 +163,7 @@ public class Player extends ModelObservable implements Adder, Verificator
 
 
     public boolean addBlackPoints(int quantity) throws LastRoundException {
-        ((SingleFaithPath) getPersonalBoard().getFaithPath()).addBlackPoints(quantity);
+        ((SingleFaithPath) getPersonalBoard().getFaithPath()).addBlackPoints(quantity, this); //, this
 
         //update_call
         updateLorenzoMarker(( (SingleFaithPath) this.getPersonalBoard().getFaithPath()).getBlackPosition());
@@ -318,11 +318,13 @@ public class Player extends ModelObservable implements Adder, Verificator
     {
         if(leader.isActivable(this))
         {
+            //update_call
+            updateActiveLeaders(this.nickname, leader);
+
             handLeaders.remove(leader);
             leader.activate(getPersonalBoard());
 
             //update_call
-            updateActiveLeaders(this.nickname, leader);
             updateHandLeaders(this.nickname, handLeaders);
 
             return true;

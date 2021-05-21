@@ -107,8 +107,7 @@ public class ConcreteWarehouse implements Warehouse
     public boolean cleanMarketBuffer(PhysicalResource res)
     {
         for(int i=res.getQuantity(); i>0; i--)
-            try { marketBuffer.remove(new PhysicalResource(res.getType(), 1));}
-            catch(NegativeQuantityException e) { e.printStackTrace(); System.err.println("Application shutdown due to an internal error in "+this.getClass().getSimpleName()+"."); }
+            marketBuffer.remove(new PhysicalResource(res.getType(), 1));
         return true;
     }
 

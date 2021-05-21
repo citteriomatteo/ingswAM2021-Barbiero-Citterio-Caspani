@@ -2,6 +2,8 @@ package it.polimi.ingsw.view.CLI;
 
 import it.polimi.ingsw.model.essentials.*;
 import it.polimi.ingsw.model.essentials.leader.LeaderCard;
+import it.polimi.ingsw.model.essentials.leader.ProductionEffect;
+import it.polimi.ingsw.model.essentials.leader.SlotEffect;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.lightmodel.LightMatch;
 import it.polimi.ingsw.view.lightmodel.LightPlayer;
@@ -342,6 +344,7 @@ public class ClientCLI implements View
             for (int j = 0; j < lists.length; j++) {
                 StringBuilder points = new StringBuilder();
                 DevelopmentCard card = (DevelopmentCard) getCardMap().get(lists[j].get(0));
+
                 grid.append(columnColors[j]);
 
                 grid.append("[ ");
@@ -392,7 +395,6 @@ public class ClientCLI implements View
                 addColouredResource(currRes, wh);
                 putSomeDistance(wh, 8 - currRes.getType().toString().length());
                 wh.append(" | ");
-
             }
             for(int k = j; k < i+1; k++) {
                 wh.append(ColorCli.RED).append(" ------ ").append(ColorCli.CLEAR);
@@ -400,9 +402,15 @@ public class ClientCLI implements View
             }
             wh.append("\n");
         }
+        wh.append("\n");
         board.append(wh);
 
+
         if(player.getWarehouse().size() > 3){
+
+            int leaderInvolvedPos = 0;
+
+            wh= new StringBuilder();
             wh.append("\nEXTRA SHELVES:\n");
             for(int i = 3; i < player.getWarehouse().size(); i++) {
                 PhysicalResource currRes = player.getWarehouse().get(i);
@@ -411,18 +419,34 @@ public class ClientCLI implements View
                 int j;
                 for (j = 0; j < currRes.getQuantity(); j++) {
                     addColouredResource(currRes, wh);
-                    putSomeDistance(wh, 7 - currRes.getType().toString().length());
+                    putSomeDistance(wh, 8 - currRes.getType().toString().length());
                     wh.append(" | ");
-
                 }
-                for(int k = j; k < i+1; k++) {
+
+                //this is the procedure to find the leader involved with the current extra shelf
+                boolean found=false;
+                LeaderCard actualLeader = null;
+                for(int m = leaderInvolvedPos; m < getCardMap().keySet().size() && leaderInvolvedPos < player.getActiveLeaders().size() && !found; m++) {
+                    if(getCardMap().get(new ArrayList<>(getCardMap().keySet()).get(m)).isLeader()) {
+                        actualLeader = (LeaderCard) getCardMap().get(new ArrayList<>(getCardMap().keySet()).get(m));
+                        if (actualLeader.getEffect().getEffectSymbol().equals(ColorCli.RED + "≡" + ColorCli.CLEAR)) {
+                            leaderInvolvedPos ++;
+                            found = true;
+                        }
+                    }
+                }
+
+                //prints a number of empty blocks that is the same as the involved slotLeader's offered spaces.
+                for(int k = j; k < ((SlotEffect) actualLeader.getEffect()).getExtraShelf().getQuantity(); k++) {
                     wh.append(ColorCli.RED).append(" ------ ").append(ColorCli.CLEAR);
                     wh.append(" |");
                 }
                 wh.append("\n");
                 }
-
+            board.append(wh);
         }
+
+
 
         wh = new StringBuilder();
         wh.append("\nMARKET BUFFER: ");
@@ -436,6 +460,7 @@ public class ClientCLI implements View
             addColouredResource(rb, wh);
             wh.append(" |\n");
         }
+        wh.append("\n");
         board.append(wh);
 
     }
@@ -470,7 +495,7 @@ public class ClientCLI implements View
 
     private void showDevCardSlots(LightPlayer player, StringBuilder board){
         StringBuilder dvs = new StringBuilder();
-        dvs.append("\nDEVELOPMENT CARD SLOTS:\n");
+        board.append("\nDEVELOPMENT CARD SLOTS:\n");
         List<String>[] slots = player.getDevCardSlots();
 
         //double for to get the max length of ids (for indentation!)
@@ -480,21 +505,20 @@ public class ClientCLI implements View
                 if(slots[i].get(j).length() > spacesToLeave)
                     spacesToLeave = slots[i].get(j).length();
 
-
-        for(int i = 0; i < 3; i++){
+        for(int i = 2; i >= 0; i--){
             for(int j = 0; j < 3; j++){
                 dvs.append(" | ");
                 if(i >= slots[j].size())
                     dvs.append("-".repeat(spacesToLeave));
                 else{
                     dvs.append(slots[j].get(i));
-                    putSomeDistance(dvs,spacesToLeave);
+                    putSomeDistance(dvs,spacesToLeave-slots[j].get(i).length());
                 }
                 dvs.append(" | ");
             }
             dvs.append("\n");
         }
-        board.append(dvs);
+        board.append(putInColoredFrame(dvs, ColorCli.CLEAR.toString()));
 
     }
 
@@ -530,10 +554,19 @@ public class ClientCLI implements View
         else{
             int i;
             for(i = 0; i < player.getHandLeaders().size()-1; i++) {
-                addLeaderSymbol(player.getHandLeaders().get(i), hl);
+
+                if(player.getHandLeaders().get(i).equals("-1"))
+                    hl.append("?");
+                else
+                    addLeaderSymbol(player.getHandLeaders().get(i), hl);
                 hl.append(", ");
+
             }
-            addLeaderSymbol(player.getHandLeaders().get(i),hl);
+
+            if(player.getHandLeaders().get(i).equals("-1"))
+                hl.append("?");
+            else
+                addLeaderSymbol(player.getHandLeaders().get(i), hl);
             hl.append(" ]\n");
         }
 

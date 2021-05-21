@@ -24,7 +24,7 @@ public class SlotEffect implements Effect{
      * getter for testing
      * @return the PhysicalResource indicating the extra shelf
      */
-    PhysicalResource getExtraShelf() {
+    public PhysicalResource getExtraShelf() {
         return extraShelf;
     }
 

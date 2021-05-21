@@ -2,10 +2,13 @@ package it.polimi.ingsw.model.match.player.personalBoard.faithPath;
 
 import it.polimi.ingsw.exceptions.FaithPathCreationException;
 import it.polimi.ingsw.exceptions.LastRoundException;
+import it.polimi.ingsw.model.match.Communicator;
 import it.polimi.ingsw.model.match.player.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SingleFaithPath extends FaithPath
 {
@@ -33,7 +36,7 @@ public class SingleFaithPath extends FaithPath
      * @return              true
      * @throws LastRoundException          if Lorenzo ends the path journey
      */
-    public boolean addBlackPoints(int points) throws LastRoundException
+    public boolean addBlackPoints(int points, Player player) throws LastRoundException
     {
         //critical error: wrong tokens!
         if(points<0)
@@ -44,7 +47,7 @@ public class SingleFaithPath extends FaithPath
         for(; points>0; points--)
         {
             blackCrossMarker++;
-            if(blackVaticanReport())
+            if(blackVaticanReport(player))
                 cellCollapse(blackCrossMarker);
 
             if(blackCrossMarker==24)
@@ -57,7 +60,7 @@ public class SingleFaithPath extends FaithPath
      * This method checks, if Lorenzo is in a report cell, how to turn the player's pope tile depending on its position.
      * @return true (for Cell collapse), else false.
      */
-    public boolean blackVaticanReport()
+    public boolean blackVaticanReport(Player player)
     {
         if(getFaithPath().get(blackCrossMarker).singleVaticanReport())
         {
@@ -67,6 +70,10 @@ public class SingleFaithPath extends FaithPath
                 setPopeTile(fp.get(blackCrossMarker).getReportSection()-1, 2);
             else
                 setPopeTile(fp.get(blackCrossMarker).getReportSection()-1, 1);
+            Map<String, List<Integer>> singlePopeMap = new HashMap<>();
+            singlePopeMap.put(player.getNickname(), player.getPersonalBoard().getFaithPath().getPopeTiles());
+            player.getSummary().updatePopeTiles(player.getNickname(), singlePopeMap);
+
             return true;
         }
         return false;

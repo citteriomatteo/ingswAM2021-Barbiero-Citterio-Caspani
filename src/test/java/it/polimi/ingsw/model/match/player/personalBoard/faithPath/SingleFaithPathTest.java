@@ -35,7 +35,7 @@ public class SingleFaithPathTest extends FaithPathTest
         Match match = new SingleMatch(player);
 
         SingleFaithPath path = (SingleFaithPath) match.getCurrentPlayer().getPersonalBoard().getFaithPath();
-        path.addBlackPoints(10);
+        path.addBlackPoints(10, player);
         assertEquals(10, path.getBlackPosition()); assertEquals(0, path.getPosition());
         assertEquals(2, path.getPopeTiles().get(0));
         assertFalse(path.getFaithPath().get(9).singleVaticanReport());
