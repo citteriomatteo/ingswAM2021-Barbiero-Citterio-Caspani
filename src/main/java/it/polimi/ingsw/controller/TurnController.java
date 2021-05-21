@@ -291,7 +291,7 @@ public class TurnController {
 
         PhysicalResource voidResource = new PhysicalResource(ResType.UNKNOWN, 0);
 
-        if(currentState.getVal() == StateName.PRODUCTION_ACTION.getVal()){
+        if(currentState == StateName.PRODUCTION_ACTION){
             strongboxCosts.remove(voidResource);
             warehouseCosts.remove(0);
 
@@ -313,7 +313,6 @@ public class TurnController {
                             System.exit(1);
                         }
                     }
-
 
             if(payments.size() != currentPlayer.getTempProduction().getCost().size())
                 throw new RetryException("Payments don't match the chosen production ones.");

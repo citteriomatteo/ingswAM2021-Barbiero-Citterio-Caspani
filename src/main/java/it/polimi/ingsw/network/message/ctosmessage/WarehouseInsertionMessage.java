@@ -18,7 +18,6 @@ public class WarehouseInsertionMessage extends CtoSMessage {
     private final List<PhysicalResource> resources;
 
 
-
     public WarehouseInsertionMessage(String nickname, List<PhysicalResource> resources) {
         super(nickname);
         this.resources = resources;

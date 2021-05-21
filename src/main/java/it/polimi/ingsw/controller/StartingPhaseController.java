@@ -23,7 +23,7 @@ import static it.polimi.ingsw.network.server.ServerUtilities.serverCall;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class StartingPhaseController {
+public class  StartingPhaseController {
     private final Map<String, StateName> playerStates;
     private final Match match;
     private final Map<String, Card> cardMap;
@@ -85,6 +85,8 @@ public class StartingPhaseController {
         else{
             Warehouse whBefore = WarehouseDecorator.clone(player.getPersonalBoard().getWarehouse());
             for (PhysicalResource r : resources) {
+                if(r == null)
+                    throw new RetryException("Invalid resource asked");
                 PhysicalResource res = null;
                 try {
                     res = new PhysicalResource(r.getType(),1);
