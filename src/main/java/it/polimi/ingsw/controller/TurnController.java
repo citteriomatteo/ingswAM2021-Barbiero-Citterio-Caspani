@@ -234,11 +234,9 @@ public class TurnController {
             for (int i = 0; i < errors.size(); i++)
                 if (errors.get(i))
                     errMessage.append("(invalid insert choice number ").append(i + 1).append(")");
-            throw new RetryException (errMessage.toString());
         }
 
-        changeState(StateName.END_TURN);
-        return currentState;
+        throw new RetryException (errMessage.toString());
     }
 
     /**
@@ -401,24 +399,35 @@ public class TurnController {
     public StateName production(List<String> cardIds, Production productionOfUnknown) throws RetryException {
         //checking if the player has all the cards that he wants to produce
         boolean basicProdFound=false;
+        List<String> cardsFound = new ArrayList<>();
         List<Boolean> cardsErrors = new ArrayList<>();
         for(int i=0; i < cardIds.size(); i++)
             if(!cardIds.get(i).equals("BASICPROD")) {
                 String id = cardIds.get(i);
-                cardsErrors.add(!(currentPlayer.getPersonalBoard().getDevCardSlots().getTop().contains(cardMap.get(id)) ||
-                        currentPlayer.getPersonalBoard().getActiveProductionLeaders().contains(cardMap.get(id))));
+                Card card = cardMap.get(id);
+                if(!(currentPlayer.getPersonalBoard().getDevCardSlots().getTop().contains(card) ||
+                        currentPlayer.getPersonalBoard().getActiveProductionLeaders().contains(card)) ||
+                            cardsFound.contains(id)) {
+                    cardsErrors.add(true);
+                }
+                else{
+                    cardsErrors.add(false);
+                    cardsFound.add(id);
+                }
             }
             else {
+                //adds an error if the basic prod was previously found otherwise adds a false
+                cardsErrors.add(basicProdFound);
                 basicProdFound = true;
-                cardIds.remove("BASICPROD");
             }
 
         if(cardsErrors.contains(true)) {
             StringBuilder errMessage = new StringBuilder("Invalid insert choices: ");
-            for (boolean err : cardsErrors)
-                if (err)
-                    errMessage.append(cardsErrors.indexOf(err)).append(" ");
-                errMessage.append("\n");
+            for (int i = 0; i < cardsErrors.size(); i++)
+                if (cardsErrors.get(i))
+                    errMessage.append(i).append(" ");
+
+            errMessage.append("\n");
             throw new RetryException (errMessage.toString());
         }
 
@@ -432,7 +441,7 @@ public class TurnController {
                     uEarnings += (usefulR.getType().equals(ResType.UNKNOWN) ? usefulR.getQuantity() : 0);
                 }
         }
-        for(String id : cardIds){
+        for(String id : cardsFound){
             Production prod;
             if(!cardMap.get(id).isLeader())
                 prod = ((DevelopmentCard) cardMap.get(id)).getProduction();
