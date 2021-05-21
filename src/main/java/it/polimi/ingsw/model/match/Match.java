@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.match;
 
+import it.polimi.ingsw.controller.StateName;
 import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.model.match.market.Market;
 import it.polimi.ingsw.model.match.player.Player;
@@ -76,7 +77,7 @@ public abstract class Match implements Communicator {
      * @return true if it worked
      * @throws LastRoundException if the number of a certain type of developmentCards became 0 in single player
      */
-    public abstract boolean nextTurn() throws LastRoundException;
+    public abstract StateName nextTurn() throws LastRoundException;
 
     /**
      * This method returns the player with the searched nickname if it is in the players list

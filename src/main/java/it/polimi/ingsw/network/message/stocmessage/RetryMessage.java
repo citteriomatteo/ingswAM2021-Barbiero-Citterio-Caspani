@@ -24,6 +24,7 @@ public class RetryMessage extends StoCMessage {
     @Override
     public boolean compute(Client client){
         client.getController().printRetry(errMessage);
+        client.getController().updateCurrentState(this);
         return true;
     }
     @Override

@@ -68,7 +68,7 @@ public class TurnController {
 
         else if(currentState.equals(StateName.END_TURN) || !currentPlayer.isConnected()) {
                 try{
-                    match.nextTurn();
+                    currentState = match.nextTurn();
                 }
                 catch(LastRoundException e){ //Enter here only for singlePlayer
                     Map<String, Integer> myScore = new HashMap<>();
@@ -169,7 +169,7 @@ public class TurnController {
         if(resources.size() != whiteMarbleDrawn) {
             throw new RetryException ("Invalid conversions.");
         }
-        for(PhysicalResource resource : resources) {
+        for(PhysicalResource sentConversion : resources) {
             boolean found=false;
             for(PhysicalResource possibleConversion : currentPlayer.getWhiteMarbleConversions())
                 if(possibleConversion.equals(sentConversion) && !found) {

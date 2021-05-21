@@ -102,19 +102,19 @@ public class SingleMatch extends Match{
      * @throws LastRoundException if the number of a certain type of developmentCards became 0
      */
     @Override
-    public boolean nextTurn() throws LastRoundException {
+    public StateName nextTurn() throws LastRoundException {
 
         currentPlayer.updateLastUsedState(currentPlayer.getNickname(), StateName.WAITING_FOR_TURN);
 
         String drawnToken = tokenStack.getStack().peek().toString();
 
-        boolean res = tokenStack.draw(this);
+        tokenStack.draw(this);
 
         new TokenDrawMessage("", drawnToken, tokenStack.getStack().size()).sendBroadcast(this);
 
         currentPlayer.updateLastUsedState(currentPlayer.getNickname(), StateName.STARTING_TURN);
 
-        return res;
+        return StateName.STARTING_TURN;
     }
 
 

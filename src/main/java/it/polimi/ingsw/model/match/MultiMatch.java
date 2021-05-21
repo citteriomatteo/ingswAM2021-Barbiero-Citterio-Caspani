@@ -120,8 +120,9 @@ public class MultiMatch extends Match {
      * @return true if it worked
      */
     @Override
-    public boolean nextTurn(){
+    public StateName nextTurn(){
 
+        StateName state;
         if(currentPlayer.isConnected())
             currentPlayer.updateLastUsedState(currentPlayer.getNickname(), StateName.WAITING_FOR_TURN);
 
@@ -129,16 +130,20 @@ public class MultiMatch extends Match {
         currentPlayer = players.get(numPlayer);
 
         if(!currentPlayer.isConnected())
-            this.nextTurn();
+            state = this.nextTurn();
         else{
             StateName prevState = currentPlayer.getSummary().getPlayerSummary(currentPlayer.getNickname()).getLastUsedState();
-            if (prevState == StateName.END_TURN || prevState == StateName.WAITING_FOR_TURN)
+            if (prevState == StateName.END_TURN || prevState == StateName.WAITING_FOR_TURN) {
                 currentPlayer.updateLastUsedState(currentPlayer.getNickname(), StateName.STARTING_TURN);
-            else
+                return StateName.STARTING_TURN;
+            }
+            else {
                 currentPlayer.updateLastUsedState(currentPlayer.getNickname(), prevState);
+                return prevState;
+            }
         }
 
-        return true;
+        return state;
     }
 
     /**

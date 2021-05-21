@@ -186,7 +186,7 @@ public class MatchController {
                 throw new RetryException("This message is not accepted in this phase");
         } else if (rematchPhaseController == null) {
             if (!nickname.equals(turnController.getCurrentPlayer().getNickname()))
-                return false;
+                throw new RetryException("It's not your turn, please wait");
             else if (!acceptedMessagesMap.get(turnController.getCurrentState()).contains(type))
                 throw new RetryException("This message is not accepted in this phase");
         } else if (!type.equals(CtoSMessageType.REMATCH))
