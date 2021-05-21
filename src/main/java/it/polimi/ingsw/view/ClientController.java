@@ -53,19 +53,20 @@ public class ClientController
 
     public ClientController(View view){
         this.view = view;
+        view.printTitle();
     }
 
-    //updato lo stato corrente e controllo: se si tratta dello stesso di prima, allora mi è arrivata un Retry,
-    //      altrimenti sarà un NextState.
+
     public void updateCurrentState(StoCMessage msg){
 
         if(msg.getType().equals(StoCMessageType.RETRY)) {
             RetryMessage rMsg= (RetryMessage)msg;
             this.currentState = rMsg.getCurrentState();
-            printMoveLegend(msg);
-            view.showAll(match);
-            printRetry("Invalid message: Retry. Type 'help' to view the map of commands.\nMessage from server: "+ rMsg.getErrorMessage());
-
+            if(match!= null){
+                printMoveLegend(msg);
+                view.showAll(match);
+            }
+            System.out.println("Message from server: "+ rMsg.getErrorMessage());
         }
 
         else if(msg.getType().equals(StoCMessageType.NEXT_STATE)){
@@ -106,7 +107,7 @@ public class ClientController
 
         switch(currentState){
             case LOGIN:
-                view.printTitle();
+
                 view.drawLoginLayout();
                 break;
             case RECONNECTION:
