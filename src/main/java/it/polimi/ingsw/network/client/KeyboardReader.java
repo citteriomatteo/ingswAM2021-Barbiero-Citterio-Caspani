@@ -358,9 +358,10 @@ public class KeyboardReader extends Thread{
                     .subList(Math.max(params.indexOf("-strongbox"), params.indexOf("-sb")) + 1, numParams));
             if (!(temp == null || temp.size() == 0))
                 strongboxCosts.addAll(temp);
+            else
+                strongboxCosts.add(voidResource);
         }
-
-        if(strongboxCosts.size()==0)
+        else
             strongboxCosts.add(voidResource);
 
         String element;

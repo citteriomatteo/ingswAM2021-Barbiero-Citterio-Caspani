@@ -207,24 +207,27 @@ public class TurnController {
         if(resources.size() == 1 && resources.get(0).getType().equals(ResType.UNKNOWN)) {
             try {
                 currentPlayer.discardRemains();
+                changeState(StateName.END_TURN);
+                return currentState;
             }
             catch (InvalidOperationException e) {
                 throw new RetryException ("You can still place other resources." + errMessage);
             }
             catch (LastRoundException e) { isLastRound(); }
         }
+
         for(PhysicalResource resource : resources)
             errors.add(singleWarehouseMove(resource));
         if(errors.contains(false)){
             try {
                 currentPlayer.discardRemains();
+                changeState(StateName.END_TURN);
+                return currentState;
             }
             catch (LastRoundException e) { isLastRound(); }
             catch (InvalidOperationException e) {
-                throw new RetryException ("You can still place other resources." + errMessage);
+                errMessage.append("You can still place other resources.\n");
             }
-            changeState(StateName.END_TURN);
-
         }
 
         if(errors.contains(true)) {
@@ -234,6 +237,7 @@ public class TurnController {
             throw new RetryException (errMessage.toString());
         }
 
+        changeState(StateName.END_TURN);
         return currentState;
     }
 
@@ -289,7 +293,7 @@ public class TurnController {
 
         if(currentState.getVal() == StateName.PRODUCTION_ACTION.getVal()){
             strongboxCosts.remove(voidResource);
-            warehouseCosts.remove(voidResource);
+            warehouseCosts.remove(0);
 
             List<PhysicalResource> payments = new ArrayList<>();
             payments.addAll(strongboxCosts);

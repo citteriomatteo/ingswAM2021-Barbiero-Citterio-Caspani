@@ -80,7 +80,7 @@ public class ClientController
 
     }
 
-    //quando si ha una retry (da parte del server o dalla keyboardReader) viene chiamata questa, che stampa l'errore.
+    //quando si ha una retry (da parte del server o dalla keyboardReader) viene chiamata questa, che aggiorna la lastLayout.
     public void printRetry(String errMessage){
         view.printRetry(errMessage);
     }
