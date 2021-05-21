@@ -71,6 +71,8 @@ public class ConcreteWarehouse implements Warehouse
     @Override
     public boolean moveInShelf(PhysicalResource res, int shelf) throws ShelfInsertException, InvalidQuantityException
     {
+        if(shelf > 3)
+            throw new ShelfInsertException("The shelf you have chosen is not available. Retry.");
         shelf--;
         //first of all, check for "res" presence in the marketBuffer.
         long numBufferEl = getBuffer().stream().filter((t)->t.getType().equals(res.getType())).count();

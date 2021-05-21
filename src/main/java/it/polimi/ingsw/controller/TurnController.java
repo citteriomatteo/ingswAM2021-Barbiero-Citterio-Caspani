@@ -76,8 +76,7 @@ public class TurnController {
                     throw new MatchEndedException("You lost!", myScore);
                 }
                 currentPlayer = match.getCurrentPlayer();
-            }
-
+        }
         return currentState;
     }
 

@@ -335,15 +335,23 @@ public class ClientCLI implements View
                     spacesToLeave = topCardCode.length();
             }
 
+        ColorCli[] columnColors = {ColorCli.GREEN, ColorCli.BLUE, ColorCli.YELLOW, ColorCli.PURPLE};
 
-        for (List<String>[] lists : cardGrid) {
+        for (int i = cardGrid.length-1; i >= 0; i--) {
+            List<String>[] lists = cardGrid[i];
             for (int j = 0; j < lists.length; j++) {
                 StringBuilder points = new StringBuilder();
                 DevelopmentCard card = (DevelopmentCard) getCardMap().get(lists[j].get(0));
-                grid.append("[ ").append(lists[j].get(0) == null ? ColorCli.RED.paint("X") : lists[j].get(0));
+                grid.append(columnColors[j]);
+
+                grid.append("[ ");
+                grid.append(lists[j].get(0) == null ? ColorCli.RED.paint("X") : lists[j].get(0));
                 grid.append(" ".repeat(Math.max(0, spacesToLeave - noANSIOccurrencesSize((lists[j].get(0) == null ? ColorCli.RED.paint("X") : lists[j].get(0))))));
-                grid.append(",").append(lists[j].get(1)).append(" ]");
+                grid.append(" (").append(lists[j].get(1)).append(") ] ");
+                grid.append(ColorCli.CLEAR);
             }
+            for(int k = 0; k <= i; k++)
+                grid.append("○");
             grid.append("\n");
         }
         gridGraphic.append(grid);
@@ -382,12 +390,12 @@ public class ClientCLI implements View
             int j;
             for (j = 0; j < currRes.getQuantity(); j++) {
                 addColouredResource(currRes, wh);
-                putSomeDistance(wh, 7 - currRes.getType().toString().length());
+                putSomeDistance(wh, 8 - currRes.getType().toString().length());
                 wh.append(" | ");
 
             }
             for(int k = j; k < i+1; k++) {
-                wh.append(ColorCli.RED).append("------ ").append(ColorCli.CLEAR);
+                wh.append(ColorCli.RED).append(" ------ ").append(ColorCli.CLEAR);
                 wh.append(" |");
             }
             wh.append("\n");
@@ -408,7 +416,7 @@ public class ClientCLI implements View
 
                 }
                 for(int k = j; k < i+1; k++) {
-                    wh.append(ColorCli.RED).append("------ ").append(ColorCli.CLEAR);
+                    wh.append(ColorCli.RED).append(" ------ ").append(ColorCli.CLEAR);
                     wh.append(" |");
                 }
                 wh.append("\n");
