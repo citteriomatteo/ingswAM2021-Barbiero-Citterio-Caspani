@@ -228,7 +228,7 @@ public class ExtraShelfWarehouseTest extends CommonThingsTest
         List<Player> players = new ArrayList<>();
         players.add(player); players.add(player1);
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/StandardConfiguration.json");
-        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
+        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         Match match = new MultiMatch(players);
 
         player.getPersonalBoard().warehouseEvolution(new PhysicalResource(ResType.COIN,2));

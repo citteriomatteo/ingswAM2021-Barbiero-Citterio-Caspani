@@ -52,9 +52,9 @@ public class PlayerTest extends CommonThingsTest
             SingleMatchException, WrongSettingException, InvalidOperationException, LastRoundException, RetryException {
         Player player = new Player("player1");
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/StandardConfiguration.json");
-        setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
+        setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         Player player1 = new Player("player2");
-        setSummary(player1, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
+        setSummary(player1, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         Match match = new MultiMatch(Arrays.asList(player, player1));
 
 

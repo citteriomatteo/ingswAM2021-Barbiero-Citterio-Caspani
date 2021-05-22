@@ -20,7 +20,7 @@ public class TokenStackTest extends CommonThingsTest {
     public void testDraw() throws WrongSettingException, LastRoundException {
         Player p = new Player("player1");
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/StandardConfiguration.json");
-        setSummary(p, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
+        setSummary(p, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         match = new SingleMatch(p);
 
         for(int i=0; i < 10; i++)
@@ -34,7 +34,7 @@ public class TokenStackTest extends CommonThingsTest {
     public void testShuffle() throws WrongSettingException {
         Player p = new Player("player1");
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/StandardConfiguration.json");
-        setSummary(p, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
+        setSummary(p, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         match = new SingleMatch(p);
 
         Stack<Token> stack = match.getTokenStack().getStack();

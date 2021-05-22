@@ -41,7 +41,7 @@ public class FaithPathTest extends CommonThingsTest
         List<Player> players = new ArrayList<>();
         players.add(player); players.add(player1);
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
-        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
+        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         Match match = new MultiMatch(players);
         FaithPath path = match.getCurrentPlayer().getPersonalBoard().getFaithPath();
 
@@ -58,7 +58,7 @@ public class FaithPathTest extends CommonThingsTest
         List<Player> players = new ArrayList<>();
         players.add(player); players.add(player1);
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
-        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
+        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         MultiMatch match = new MultiMatch(players);
 
         FaithPath path = match.getCurrentPlayer().getPersonalBoard().getFaithPath();

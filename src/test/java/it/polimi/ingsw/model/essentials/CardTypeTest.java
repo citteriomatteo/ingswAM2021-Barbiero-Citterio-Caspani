@@ -54,7 +54,7 @@ public class CardTypeTest extends CommonThingsTest {
 
         player = new Player("player1");
         MatchConfiguration configuration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
-        setSummary(player, getCardMap(configuration), configuration.getCustomPath());
+        setSummary(player, getCardMap(configuration), configuration.getCustomPath(), configuration.getBasicProduction());
         Match match = new SingleMatch(player);
         player.getPersonalBoard().getDevCardSlots().pushNewCard(1,developmentCard);
 

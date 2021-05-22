@@ -24,7 +24,7 @@ public class BlueTokenTest extends CommonThingsTest {
     public void testOnDraw() throws NegativeQuantityException, LastRoundException, FileNotFoundException, WrongSettingException {
         Player p = new Player("player1");
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/StandardConfiguration.json");
-        setSummary(p, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
+        setSummary(p, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         singleMatch = new SingleMatch(p);
 
         blueToken = new BlueToken();

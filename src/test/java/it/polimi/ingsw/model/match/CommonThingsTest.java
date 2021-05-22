@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.match;
 
 import it.polimi.ingsw.model.essentials.Card;
+import it.polimi.ingsw.model.essentials.Production;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.FaithPath;
@@ -18,14 +19,14 @@ public class CommonThingsTest {
             cardMap.put("L" + i, configuration.getAllLeaderCards().get(i - 1));
         return cardMap;
     }
-    public void setSummaries(List<Player> players, Map<String, Card> cardMap, List<Cell> faithPath){
-        ModelObserver obs = new Summary(players, cardMap, faithPath);
+    public void setSummaries(List<Player> players, Map<String, Card> cardMap, List<Cell> faithPath, Production basicProd){
+        ModelObserver obs = new Summary(players, cardMap, faithPath, basicProd);
         for(Player p : players)
             p.setSummary(obs);
     }
 
-    public void setSummary(Player player, Map<String, Card> cardMap, List<Cell> faithPath){
-        ModelObserver obs = new Summary(new ArrayList<>(List.of(player)), cardMap, faithPath);
+    public void setSummary(Player player, Map<String, Card> cardMap, List<Cell> faithPath, Production basicProd){
+        ModelObserver obs = new Summary(new ArrayList<>(List.of(player)), cardMap, faithPath, basicProd);
         player.setSummary(obs);
 
     }

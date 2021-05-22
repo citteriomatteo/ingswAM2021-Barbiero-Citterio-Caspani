@@ -53,11 +53,11 @@ public class PlayerSummaryTest extends CommonThingsTest
         Player player4 = new Player("player4");
         List<Player> players = new ArrayList<>(List.of(player1,player2,player3,player4));
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/TotalFreeConfiguration.json");
-        setSummaries(players, cardMap, matchConfiguration.getCustomPath());
+        setSummaries(players, cardMap, matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         Match match = new MultiMatch(players, matchConfiguration);
 
         setCardMap(match.getMatchConfiguration());
-        Summary summary = new Summary(match, cardMap, matchConfiguration.getCustomPath());
+        Summary summary = new Summary(match, cardMap, matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         for(Player p : match.getPlayers())
             p.setSummary(summary);
 
@@ -125,11 +125,11 @@ public class PlayerSummaryTest extends CommonThingsTest
         Player player4 = new Player("player4");
         List<Player> players = new ArrayList<>(List.of(player1,player2,player3,player4));
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/TotalFreeConfiguration.json");
-        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
+        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         Match match = new MultiMatch(players, matchConfiguration);
 
         setCardMap(match.getMatchConfiguration());
-        Summary summary = new Summary(match, cardMap, matchConfiguration.getCustomPath());
+        Summary summary = new Summary(match, cardMap, matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         for(Player p : match.getPlayers())
             p.setSummary(summary);
 
@@ -166,10 +166,10 @@ public class PlayerSummaryTest extends CommonThingsTest
         Player player4 = new Player("player4");
         List<Player> players = new ArrayList<>(List.of(player1,player2,player3,player4));
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/TotalFreeConfiguration.json");
-        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
+        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         Match match = new MultiMatch(players, matchConfiguration);
         setCardMap(match.getMatchConfiguration());
-        Summary summary = new Summary(match, cardMap, matchConfiguration.getCustomPath());
+        Summary summary = new Summary(match, cardMap, matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         for(Player p : match.getPlayers())
             p.setSummary(summary);
 

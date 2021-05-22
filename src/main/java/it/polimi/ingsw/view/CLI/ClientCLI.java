@@ -17,7 +17,7 @@ import static it.polimi.ingsw.view.lightmodel.LightMatch.getCardMap;
 public class ClientCLI implements View
 {
     private String lastLayout;
-    private static final Integer DEFAULT_SHIFT = 15, ZERO_SHIFT = 0;
+    private static final Integer DEFAULT_SHIFT = 12, ZERO_SHIFT = 0;
 
     public ClientCLI(){
     }
@@ -294,7 +294,12 @@ public class ClientCLI implements View
         StringBuilder gridGraphic = new StringBuilder();
         showCardGrid(match.getCardGrid(), gridGraphic);
 
-        System.out.println(mergePrintingObjects(marketGraphic, gridGraphic, 0, DEFAULT_SHIFT));
+        StringBuilder commonThings = mergePrintingObjects(marketGraphic, gridGraphic, 0, DEFAULT_SHIFT);
+
+        StringBuilder basicProdGraphic = new StringBuilder();
+        showBasicProduction(match.getBasicProd(), basicProdGraphic);
+
+        System.out.println(mergePrintingObjects(commonThings, basicProdGraphic, 0, DEFAULT_SHIFT));
 
         StringBuilder pathGraphic = new StringBuilder();
         showFaithPath(match, pathGraphic);
@@ -362,6 +367,30 @@ public class ClientCLI implements View
         }
         gridGraphic.append(grid);
     }
+
+    private void showBasicProduction(Production basicProd, StringBuilder basicProdGraphic){
+        basicProdGraphic.append("\nBASIC PRODUCTION:\n");
+        for(Resource r : basicProd.getCost())
+            for (int i = 0; i < r.getQuantity(); i++) {
+                basicProdGraphic.append("[");
+                addColouredResource(r, basicProdGraphic);
+                basicProdGraphic.append("] ");
+            }
+        basicProdGraphic.append("\n");
+
+        int numberOfSpaces = (noANSIOccurrencesSize(basicProdGraphic.toString()) - 19 - 2)/2;
+        putSomeDistance(basicProdGraphic, numberOfSpaces);
+        basicProdGraphic.append("↓\n");
+
+        for(Resource r : basicProd.getEarnings())
+            for (int i = 0; i < r.getQuantity(); i++) {
+                basicProdGraphic.append("[");
+                addColouredResource(r, basicProdGraphic);
+                basicProdGraphic.append("] ");
+            }
+        basicProdGraphic.append("\n");
+    }
+
 
     private void showFaithPath(LightMatch match, StringBuilder pathGraphic){
         System.out.println("\nFAITH PATH:\n");
@@ -603,43 +632,74 @@ public class ClientCLI implements View
     }
 
     @Override
-    public void drawCard(Card card, String id) {
+    public void drawCards(List<String> ids) {
+        StringBuilder cards = new StringBuilder();
+        for(String id : ids) {
+            Card card = getCardMap().get(id);
+            if (card.isLeader())
+                cards = mergePrintingObjects(cards, drawLeaderCard((LeaderCard) card, id), 0, ZERO_SHIFT+1);
+            else
+                cards = mergePrintingObjects(cards, drawDevCard((DevelopmentCard) card, id), 0, ZERO_SHIFT+1);
+        }
+        System.out.println(cards);
+    }
+    private StringBuilder drawLeaderCard(LeaderCard card, String id){
         StringBuilder cardStr = new StringBuilder();
-        if(card.isLeader()){
-            cardStr.append(" (LEADER CARD ").append(id).append(")\n");
-            cardStr.append("Requirements \n");
-            for(Requirable r : ((LeaderCard) card).getRequirements()) {
-                if(r.isAResource()){
-                    PhysicalResource req = (PhysicalResource) r;
-                    cardStr.append((char)186 + " Resource: ");
-                    addColouredResource(req, cardStr);
-                    cardStr.append(", ").append(req.getQuantity()).append("\n");
-                }
-                else{
-                    CardType type = (CardType) r;
-                    cardStr.append((char)186 + " Card Type: ");
-                    appendColoredCardType(type, cardStr);
-                    cardStr.append("\n");
-                }
+        cardStr.append(" (LEADER CARD ").append(id).append(")\n");
+        cardStr.append("Requirements \n");
+        for(Requirable r : card.getRequirements()) {
+            if(r.isAResource()){
+                PhysicalResource req = (PhysicalResource) r;
+                cardStr.append((char)186 + " Resource: ");
+                addColouredResource(req, cardStr);
+                cardStr.append(", ").append(req.getQuantity()).append("\n");
             }
-            cardStr.append(((LeaderCard) card).getEffect().toCLIString());
-            cardStr.append((char) 186).append(" Win Points ").append(((LeaderCard) card).getWinPoints());
+            else{
+                CardType type = (CardType) r;
+                cardStr.append((char)186 + " Card Type: ");
+                appendColoredCardType(type, cardStr);
+                cardStr.append("\n");
+            }
         }
-        else { //TODO: finish!
-            System.out.println(" (DEVELOPMENT CARD " + id + ")");
-            System.out.println("|| Price ->");
-            for(PhysicalResource r : ((DevelopmentCard) card).getPrice())
-                System.out.println("|| - " + r.toString() + " ||");
-            System.out.println("|| Production ->");
-            System.out.println("|| -  Costs ->");
-            for(PhysicalResource r : ((DevelopmentCard) card).getProduction().getCost())
-                System.out.println("|| - " + r.toString() + " ||");
-            System.out.println("|| -  Earnings ->");
-            for(Resource r : ((DevelopmentCard) card).getProduction().getEarnings())
-                System.out.println("|| - " + r.toString() + " ||");
-            System.out.println("|| Win Points -> " + ((DevelopmentCard) card).getWinPoints() + " ||");
+        cardStr.append(card.getEffect().toCLIString());
+        cardStr.append((char) 186).append(" Win Points ").append(card.getWinPoints());
+
+        //System.out.println(putInColoredFrame(cardStr, ColorCli.CLEAR.toString()));
+        return putInColoredFrame(cardStr, ColorCli.CLEAR.toString());
+    }
+    private StringBuilder drawDevCard(DevelopmentCard card, String id){
+        StringBuilder cardStr = new StringBuilder();
+
+        cardStr.append(" (DEVELOPMENT CARD ").append(id).append(")\n");
+        cardStr.append("Price \n");
+        for(PhysicalResource r : card.getPrice()){
+            cardStr.append((char)186).append(" ");
+            addColouredResource(r, cardStr);
+            cardStr.append(",").append(r.getQuantity());
+            cardStr.append("\n");
         }
-        System.out.println(putInColoredFrame(cardStr, ColorCli.CLEAR.toString()));
+        cardStr.append("Production \n");
+        cardStr.append((char)186+"Costs: ");
+        putSomeDistance(cardStr, 3);
+        for(PhysicalResource r : card.getProduction().getCost()){
+            cardStr.append("[");
+            addColouredResource(r, cardStr);
+            cardStr.append(",").append(r.getQuantity());
+            cardStr.append("]");
+        }
+        cardStr.append("\n"+(char)186+"Earnings: ");
+        for(Resource r : card.getProduction().getEarnings()){
+            cardStr.append("[");
+            addColouredResource(r, cardStr);
+            cardStr.append(",").append(r.getQuantity());
+            cardStr.append("]");
+        }
+
+        cardStr.append("\n"+(char)186).append("Win Points: ");
+        cardStr.append(card.getWinPoints()).append("\n");
+
+        //System.out.println(putInColoredFrame(cardStr, ColorCli.CLEAR.toString()));
+        return putInColoredFrame(cardStr, ColorCli.CLEAR.toString());
     }
 
     @Override
@@ -753,25 +813,30 @@ public class ClientCLI implements View
         str.append(cardId).append(symbol);
     }
 
-    public static void addColouredResource(PhysicalResource resource, StringBuilder str) {
-        ResType type = resource.getType();
-        switch(type){
-            case COIN:
-                str.append(ColorCli.YELLOW).append(type).append(ColorCli.CLEAR);
-                break;
-            case STONE:
-                str.append(ColorCli.GREY_BOLD).append(type).append(ColorCli.CLEAR);
-                break;
-            case SHIELD:
-                str.append(ColorCli.BLUE).append(type).append(ColorCli.CLEAR);
-                break;
-            case SERVANT:
-                str.append(ColorCli.PURPLE).append(type).append(ColorCli.CLEAR);
-                break;
-            case UNKNOWN:
-                str.append(ColorCli.WHITE).append("?").append(ColorCli.CLEAR);
-                break;
+    public static void addColouredResource(Resource resource, StringBuilder str) {
+        if(resource.isPhysical()) {
+            ResType type = ((PhysicalResource) resource).getType();
+            switch (type) {
+                case COIN:
+                    str.append(ColorCli.YELLOW).append(type).append(ColorCli.CLEAR);
+                    break;
+                case STONE:
+                    str.append(ColorCli.GREY_BOLD).append(type).append(ColorCli.CLEAR);
+                    break;
+                case SHIELD:
+                    str.append(ColorCli.BLUE).append(type).append(ColorCli.CLEAR);
+                    break;
+                case SERVANT:
+                    str.append(ColorCli.PURPLE).append(type).append(ColorCli.CLEAR);
+                    break;
+                case UNKNOWN:
+                    str.append(ColorCli.WHITE).append("?").append(ColorCli.CLEAR);
+                    break;
+            }
         }
+        else
+            str.append(ColorCli.RED).append("┼").append(ColorCli.CLEAR);
+
     }
 
     public static void addColouredMarble(char marble, StringBuilder str){

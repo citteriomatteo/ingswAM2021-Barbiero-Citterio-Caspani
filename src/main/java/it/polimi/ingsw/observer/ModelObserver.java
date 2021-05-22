@@ -28,6 +28,7 @@ public interface ModelObserver {
     void updateLorenzoMarker(int lorenzoMarker);
     void updateFaithPath(List<Cell> path);
 
+    void updateConnectionState(String nickname, boolean connected);
     void updatePersonalBoard(String nickname, PersonalBoard personalBoard);
     void updateMarketBuffer(String nickname, Warehouse warehouse);
     void updateWarehouse(String nickname, Warehouse warehouse);

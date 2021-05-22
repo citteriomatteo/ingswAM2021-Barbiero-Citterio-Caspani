@@ -20,6 +20,7 @@ import java.util.Map;
 public class LightMatch extends ViewObservable {
 
     private static Map<String, Card> cardMap;
+    private Production basicProd;
     private char[][] market;
     private char sideMarble;
     private List<String>[][] cardGrid;
@@ -35,9 +36,8 @@ public class LightMatch extends ViewObservable {
      * @param summary the Summary to copy
      */
     public LightMatch(Summary summary, View view){
-
         setView(view);
-
+        this.basicProd = summary.getBasicProd();
         setCardMap(summary.getCardMap());
         this.market = summary.getMarket();
         this.sideMarble = summary.getSideMarble();
@@ -250,6 +250,7 @@ public class LightMatch extends ViewObservable {
     //GETTERS:
 
     public static Map<String, Card> getCardMap() { return cardMap; }
+    public Production getBasicProd() { return basicProd; }
     public char[][] getMarket() { return market; }
     public char getSideMarble() { return sideMarble; }
     public List<String>[][] getCardGrid() { return cardGrid; }

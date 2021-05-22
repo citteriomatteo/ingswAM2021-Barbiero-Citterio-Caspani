@@ -50,7 +50,7 @@ public class MatchController {
         cardMap = initCardMap(configuration);
 
         //setting the starting summary to everyone
-        ModelObserver obs = new Summary(playersInMatch, cardMap, configuration.getCustomPath());
+        ModelObserver obs = new Summary(playersInMatch, cardMap, configuration.getCustomPath(), configuration.getBasicProduction());
         for(Player p : playersInMatch)
             p.setSummary(obs);
 
@@ -93,7 +93,7 @@ public class MatchController {
         cardMap = initCardMap(configuration);
 
         //setting the starting summary to the player
-        ModelObserver obs = new Summary(new ArrayList<>(List.of(player)), cardMap, configuration.getCustomPath());
+        ModelObserver obs = new Summary(new ArrayList<>(List.of(player)), cardMap, configuration.getCustomPath(), configuration.getBasicProduction());
         player.setSummary(obs);
 
         try {
@@ -112,7 +112,7 @@ public class MatchController {
         cardMap = initCardMap(configuration);
 
         //setting the starting summary to the player
-        ModelObserver obs = new Summary(new ArrayList<>(List.of(player)), cardMap, configuration.getCustomPath());
+        ModelObserver obs = new Summary(new ArrayList<>(List.of(player)), cardMap, configuration.getCustomPath(), configuration.getBasicProduction());
         player.setSummary(obs);
 
         try {
@@ -229,6 +229,10 @@ public class MatchController {
                 matchEndingProcedure(e);
             }
         }
+
+        //update_call (useful information for light match)
+        player.getSummary().updateConnectionState(player.getNickname(), false);
+
         PlayerConnectionStateMessage message = new PlayerConnectionStateMessage(player.getNickname(), false);
         System.out.println("Created disconnection message for "+player.getNickname());
         message.sendBroadcast(match);

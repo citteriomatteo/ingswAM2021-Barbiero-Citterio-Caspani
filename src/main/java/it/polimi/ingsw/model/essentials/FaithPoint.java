@@ -40,6 +40,13 @@ public class FaithPoint implements Resource{
     }
 
     /**
+     * The override of the "getQuantity" method.
+     * @return the quantity of faith points that compose this resource's instance.
+     */
+    @Override
+    public int getQuantity(){ return quantity; }
+
+    /**
      * The override of the equals method
      * @param o the other FaithPoint object to be compared
      * @return true if this and o have the same quantity

@@ -24,7 +24,7 @@ public class YellowMarbleTest extends CommonThingsTest {
     @Test
     public void testOnDraw() throws NegativeQuantityException, LastRoundException, FileNotFoundException, WrongSettingException {
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
-        setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
+        setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(),matchConfiguration.getBasicProduction());
         match = new SingleMatch(player);
 
         Marble yellowMarble = new YellowMarble();

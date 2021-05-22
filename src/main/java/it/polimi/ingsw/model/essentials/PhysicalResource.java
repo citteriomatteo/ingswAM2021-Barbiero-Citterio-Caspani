@@ -36,6 +36,7 @@ public class PhysicalResource implements Resource, Requirable
      * getter
      * @return the number of ResType that are contained
      */
+    @Override
     public int getQuantity() {
         return quantity;
     }

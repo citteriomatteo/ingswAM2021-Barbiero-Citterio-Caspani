@@ -8,12 +8,13 @@ import it.polimi.ingsw.view.lightmodel.LightMatch;
 import it.polimi.ingsw.view.lightmodel.LightPlayer;
 import it.polimi.ingsw.view.observer.ViewObserver;
 
+import java.util.List;
 import java.util.Map;
 
 public interface View extends ViewObserver {
 
     void showAll(LightMatch match);
-    void drawCard(Card card, String id);
+    void drawCards(List<String> id);
 
     void printTitle();
     void drawLoginLayout();

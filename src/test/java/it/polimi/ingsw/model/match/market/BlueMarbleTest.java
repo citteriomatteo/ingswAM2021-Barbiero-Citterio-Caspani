@@ -29,7 +29,7 @@ public class BlueMarbleTest extends CommonThingsTest {
     public void testOnDraw() throws NegativeQuantityException, LastRoundException, FileNotFoundException, WrongSettingException, SingleMatchException {
         List<Player> players = new ArrayList<>(List.of(new Player("player1"),new Player("player2")));
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
-        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
+        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         match = new MultiMatch(players);
 
         Marble blueMarble = new BlueMarble();

@@ -69,6 +69,13 @@ public class ModelObservable {
     }
     /**
      * This method calls an update on the Observer's class.
+     * @param connected the new connection state of the player
+     */
+    public void updateConnectionState(String nickname, boolean connected){
+        observers.get(0).updateConnectionState(nickname, connected);
+    }
+    /**
+     * This method calls an update on the Observer's class.
      * @param warehouse the warehouse
      */
     public void updateMarketBuffer(String nickname, Warehouse warehouse){

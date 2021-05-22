@@ -37,7 +37,7 @@ public class MultiFaithPathTest extends FaithPathTest
         List<Player> players = new ArrayList<>(List.of(new Player("player1"),
                 new Player("player2"), new Player("player3")));
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/TotalFreeConfiguration.json");
-        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
+        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         Match match = new MultiMatch(players);
 
         match.getCurrentPlayer().addFaithPoints(9);

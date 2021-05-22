@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 public class PlayerSummary
 {
     //player's general things
+    private boolean connected;
     private String nickname;
     private List<PhysicalResource> warehouse;
     private List<PhysicalResource> marketBuffer;
@@ -47,6 +48,7 @@ public class PlayerSummary
      * It initializes its Summary in an "empty everything" state.
      */
     public PlayerSummary(Player player){
+        this.connected = true;
         this.nickname = player.getNickname();
 
         //last used state init to the first state after the creation of the match
@@ -129,6 +131,14 @@ public class PlayerSummary
     }
 
     //UPDATE METHODS ( CALLED BY THE SUMMARY ) :
+
+    /**
+     * This method, when called, updates the connections state of this player.
+     * @param connected the new state
+     */
+    public void updateConnectionState(boolean connected){
+        this.connected = connected;
+    }
 
     /**
      * This method, when called, updates the personal board in this player's summary.
@@ -270,6 +280,8 @@ public class PlayerSummary
     public void updateLastUsedState(StateName lastUsedState) { this.lastUsedState = lastUsedState; }
 
     //ALL GETTERS:
+
+    public boolean isConnected() { return connected; }
     public String getNickname() { return nickname; }
     public List<PhysicalResource> getWarehouse() { return warehouse; }
     public List<PhysicalResource> getMarketBuffer() { return marketBuffer; }

@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 public class Summary implements ModelObserver
 {
     private Map<String, Card> cardMap;
+    private Production basicProd;
     private char[][] market;
     private char sideMarble;
     private List<String>[][] cardGrid;
@@ -38,10 +39,11 @@ public class Summary implements ModelObserver
 
     private List<PlayerSummary> playersSummary;
 
-    public Summary(List<Player> playersInMatch, Map<String, Card> cardMap, List<Cell> faithPath){
-
+    public Summary(List<Player> playersInMatch, Map<String, Card> cardMap, List<Cell> faithPath, Production basicProd){
         //cardMap init
         this.cardMap = cardMap;
+        //basic production init
+        this.basicProd = basicProd;
         // market init
         this.market = new char[3][4];
         // cardGrid init
@@ -69,9 +71,12 @@ public class Summary implements ModelObserver
      * @param match   the match
      * @param cardMap the card map
      */
-    public Summary(Match match, Map<String, Card> cardMap, List<Cell> faithPath){
+    public Summary(Match match, Map<String, Card> cardMap, List<Cell> faithPath, Production basicProd){
         //cardMap init
         this.cardMap = cardMap;
+
+        //basic production init
+        this.basicProd = basicProd;
 
         // market init
         this.market = new char[3][4];
@@ -183,7 +188,16 @@ public class Summary implements ModelObserver
             cell.append(c.isVatican());
             this.faithPath.add(cell.toString());
         }
-}
+    }
+
+    /**
+     * This method, when called, updates the personal board of the requested player in the summary.
+     * @param nickname  the requested player
+     * @param connected the new state
+     */
+    public void updateConnectionState(String nickname, boolean connected){
+        getPlayerSummary(nickname).updateConnectionState(connected);
+    }
 
 
     /**
@@ -364,14 +378,13 @@ public class Summary implements ModelObserver
 
     //GETTERS:
 
-
     public char[][] getMarket() { return market; }
     public char getSideMarble() { return sideMarble; }
     public List<String>[][] getCardGrid() { return cardGrid; }
     public List<String> getFaithPath() { return faithPath; }
     public int getLorenzoMarker() { return lorenzoMarker; }
     public Map<String, Card> getCardMap() { return cardMap; }
+    public Production getBasicProd() { return basicProd; }
     public List<PlayerSummary> getPlayersSummary() { return playersSummary; }
     public List<String> getPlayersNicknames() { return playersSummary.stream().map(PlayerSummary::getNickname).collect(Collectors.toList()); }
-
 }

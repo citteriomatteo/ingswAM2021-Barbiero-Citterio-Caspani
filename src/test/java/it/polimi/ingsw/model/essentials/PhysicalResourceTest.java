@@ -47,7 +47,7 @@ public class PhysicalResourceTest extends CommonThingsTest {
     public void testAdd() throws NegativeQuantityException, WrongSettingException {
         PhysicalResource resource1 = new PhysicalResource(ResType.SERVANT,3);
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
-        setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
+        setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(),matchConfiguration.getBasicProduction());
         Match match = new SingleMatch(player);
         assertTrue(resource1.add(player));
 
@@ -61,7 +61,7 @@ public class PhysicalResourceTest extends CommonThingsTest {
     public void testVerify() throws WrongSettingException, InvalidQuantityException, ShelfInsertException {
         Player player = new Player("player1");
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
-        setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
+        setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         Match match = new SingleMatch(player);
         PhysicalResource resource1 = new PhysicalResource(ResType.COIN,1);
         PhysicalResource resource2 = new PhysicalResource(ResType.STONE,2);

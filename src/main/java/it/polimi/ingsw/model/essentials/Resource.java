@@ -15,4 +15,6 @@ public interface Resource {
     boolean add(Adder adder) throws LastRoundException;
 
     boolean isPhysical();
+
+    int getQuantity();
 }

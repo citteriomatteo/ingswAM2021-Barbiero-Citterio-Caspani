@@ -51,7 +51,7 @@ public class ProductionTest extends CommonThingsTest {
         Production prod = new Production(cost, earnings);
         Player player = new Player("player1");
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
-        setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
+        setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         Match match = new SingleMatch(player);
 
         assertEquals(0, match.getCurrentPlayer().getPersonalBoard().getStrongBox().getNumberOf(ResType.SHIELD));
@@ -67,7 +67,7 @@ public class ProductionTest extends CommonThingsTest {
         Production prod = new Production(cost, earnings);
         Player player = new Player("player1");
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
-        setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
+        setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         Match match = new SingleMatch(player);
 
 

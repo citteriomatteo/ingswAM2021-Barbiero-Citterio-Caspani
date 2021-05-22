@@ -105,6 +105,10 @@ public class ServerUtilities {
             newClient.setMatchController(previousClient.getMatchController());
             activeClients.put(nickname,newClient);
             player.connect();
+
+            //update_call, useful for light match
+            player.getSummary().updateConnectionState(nickname, true);
+
             System.out.println(nickname + " has been reconnected");
             (new PlayerConnectionStateMessage(nickname, true)).sendBroadcast(player.getMatch().getPlayers().
                                         stream().

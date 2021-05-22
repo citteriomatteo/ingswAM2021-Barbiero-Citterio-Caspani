@@ -24,7 +24,7 @@ public class YellowTokenTest extends CommonThingsTest {
     public void testOnDraw() throws NegativeQuantityException, FileNotFoundException, WrongSettingException, LastRoundException {
         Player p = new Player("player1");
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/StandardConfiguration.json");
-        setSummary(p, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
+        setSummary(p, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         singleMatch = new SingleMatch(p);
 
         yellowToken = new YellowToken();

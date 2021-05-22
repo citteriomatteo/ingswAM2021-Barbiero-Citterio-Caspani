@@ -76,7 +76,7 @@ public class MarketTest extends CommonThingsTest {
         Random gen = new Random();
         Player player = new Player("player1");
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
-        setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
+        setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(),matchConfiguration.getBasicProduction());
         match = new SingleMatch(player);
         int numRow = gen.nextInt(3);
         int countWhite = 0;
@@ -109,7 +109,7 @@ public class MarketTest extends CommonThingsTest {
         Random gen = new Random();
         Player player = new Player("player1");
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
-        setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
+        setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(),matchConfiguration.getBasicProduction());
         match = new SingleMatch(player);
         int numColumn = gen.nextInt(3);
         int countWhite = 0;

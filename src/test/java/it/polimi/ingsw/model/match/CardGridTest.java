@@ -73,7 +73,7 @@ public class CardGridTest extends CommonThingsTest {
     public void isBuyableTest() throws NegativeQuantityException, InvalidCardRequestException, NoMoreCardsException, WrongSettingException {
         Player player = new Player("player1");
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/StandardConfiguration.json");
-        setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
+        setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         Match match = new SingleMatch(player);
 
         player.addToStrongBox(new PhysicalResource(ResType.SHIELD, 2));

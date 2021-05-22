@@ -78,7 +78,7 @@ public class LeaderCardTest extends CommonThingsTest {
 
         List<Player> players = new ArrayList<>(List.of(new Player("Giorgio"), new Player("Luca")));
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
-        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
+        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(),matchConfiguration.getBasicProduction());
         Match match1 = new MultiMatch(players);
         Player giorgio = match1.getCurrentPlayer();
         PersonalBoard personalBoard = giorgio.getPersonalBoard();
@@ -141,7 +141,7 @@ public class LeaderCardTest extends CommonThingsTest {
 
         List<Player> players = new ArrayList<>(List.of(new Player("Joe"), new Player("sara")));
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
-        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
+        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(),matchConfiguration.getBasicProduction());
         Match match1 = new MultiMatch(players);
         Player joe = match1.getPlayer("Joe");
 

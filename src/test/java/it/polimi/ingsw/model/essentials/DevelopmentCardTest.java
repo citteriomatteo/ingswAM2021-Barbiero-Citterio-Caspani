@@ -61,7 +61,7 @@ public class DevelopmentCardTest extends CommonThingsTest {
     public void isBuyableTest() throws WrongSettingException, SingleMatchException, NegativeQuantityException {
         List<Player> players = new ArrayList<>(List.of(new Player("Joe"), new Player("Sara")));
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
-        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath());
+        setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         Match match1 = new MultiMatch(players);
 
         Player joe = match1.getPlayer("Joe");

@@ -35,7 +35,7 @@ public class MatchControllerTest extends CommonThingsTest {
         List<Player> players = new ArrayList<>(List.of(new Player("player1"), new Player("player2"), new Player("player3"), new Player("player4")));
 
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
-        setSummaries(players, map, matchConfiguration.getCustomPath());
+        setSummaries(players, map, matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         matchController = new MatchController(players, matchConfiguration);
         player = matchController.getCurrentPlayer();
         map = matchController.getCardMap();
@@ -43,7 +43,8 @@ public class MatchControllerTest extends CommonThingsTest {
 
     public void initializationCosts() {
         List<Player> players = new ArrayList<>(List.of(new Player("player1"), new Player("player2"), new Player("player3"), new Player("player4")));
-        setSummaries(players, map, assignConfiguration("src/test/resources/StandardConfiguration.json").getCustomPath());
+        MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/StandardConfiguration.json");
+        setSummaries(players, map, matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         matchController = new MatchController(players);
         player = matchController.getCurrentPlayer();
         map = matchController.getCardMap();

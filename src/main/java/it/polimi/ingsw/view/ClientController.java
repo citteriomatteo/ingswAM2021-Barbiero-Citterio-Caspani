@@ -11,6 +11,7 @@ import it.polimi.ingsw.network.message.stocmessage.StoCMessageType;
 import it.polimi.ingsw.view.lightmodel.LightMatch;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType.*;
 import static java.util.Map.entry;
@@ -98,12 +99,7 @@ public class ClientController
         view.printTokenDraw(tokenName, remainingTokens);
     }
 
-    /*
-    Quando si ha un NextStateMessage dal server, si chiama questa funzione che printa l'introduzione allo stato in cui si è
-     (cosa e come può scrivere, frasi del tipo "Scegli una mossa per il tuo turno:", ....)
-     Pensare se ha più senso che questa funzione sia scritta qui o singolarmente sulle due View.
-     Eventualmente, tutte le funzioni draw...() saranno chiamate sulla View (gui o CLI che sia).
-     */
+
     public void printMoveLegend(StoCMessage msg){
 
         switch(currentState){
@@ -191,9 +187,12 @@ public class ClientController
         List<String> cards = new ArrayList(Arrays.asList(splitRequest.get(0).split(",")));
         for(String id : cards) {
             Card chosen = match.getCardMap().get(id.toUpperCase());
-            if(chosen != null)
-                view.drawCard(chosen, id);
+            if(chosen == null){
+                System.out.println("Card " + id.toUpperCase() + " does not exist.");
+                cards.remove(id);
+            }
         }
+        view.drawCards(cards.stream().map((x)->x.toUpperCase()).collect(Collectors.toList()));
 
         return true;
 
