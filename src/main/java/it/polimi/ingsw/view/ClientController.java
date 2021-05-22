@@ -185,11 +185,11 @@ public class ClientController
         if(splitRequest.size() != 1)
             return false;
         List<String> cards = new ArrayList(Arrays.asList(splitRequest.get(0).split(",")));
-        for(String id : cards) {
-            Card chosen = match.getCardMap().get(id.toUpperCase());
+        for(int i = 0; i < cards.size(); i++) {
+            Card chosen = match.getCardMap().get(cards.get(i).toUpperCase());
             if(chosen == null){
-                System.out.println("Card " + id.toUpperCase() + " does not exist.");
-                cards.remove(id);
+                System.out.println("Card " + cards.get(i).toUpperCase() + " does not exist.");
+                cards.remove(cards.get(i));
             }
         }
         view.drawCards(cards.stream().map((x)->x.toUpperCase()).collect(Collectors.toList()));
