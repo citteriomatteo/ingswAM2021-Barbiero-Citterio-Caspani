@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.client;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import it.polimi.ingsw.exceptions.DisconnectionException;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessage;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
@@ -51,7 +52,14 @@ public class Client {
         StoCMessage messageFromServer;
         boolean play = true;
         while (play){
-            messageFromServer = readMessage();
+
+            try {
+                messageFromServer = readMessage();
+            } catch (DisconnectionException e) {
+                System.err.println(e.getMessage());
+                return;
+            }
+
             messageFromServer.compute(this);
 
             if(messageFromServer.getType().equals(StoCMessageType.GOODBYE))
@@ -59,16 +67,24 @@ public class Client {
             }
     }
 
-    private StoCMessage readMessage() {
-        while (true) {
+    private StoCMessage readMessage() throws DisconnectionException{
+            String received;
             try {
-                String res = in.readLine();
-                //System.out.println("Server wrote: " + res);
-                return parserStoC.fromJson(res, StoCMessage.class);
-            } catch (Exception e) {
-                System.out.println("Received Wrong json syntax " + e.getMessage());
+                received = in.readLine();
+            } catch (IOException e) {
+                throw new DisconnectionException("Cannot reach the server -> try to relaunch the program and connect later");
             }
-        }
+
+            if(received == null)
+                    throw new DisconnectionException("Cannot reach the server -> try to relaunch the program and connect later");
+
+            try{
+                return parserStoC.fromJson(received, StoCMessage.class);
+            } catch (Exception e) {
+                System.out.println("Received Wrong json syntax from server" + e.getMessage());
+                throw new DisconnectionException("The server is sending wrong messages, probably something has gone wrong, try to reconnect later");
+            }
+
     }
 
     //Send the message to the server after parsing it.
@@ -84,11 +100,11 @@ public class Client {
             out.println(outMsg);
             return true;
         } catch (JsonSyntaxException e) {
-            System.out.println("System shutdown due to internal error in parsing a StoC message");
+            System.out.println("System shutdown -> Error in parsing a CtoS message");
             System.exit(1);
             return false;
         } catch (Exception exception) {
-            System.out.println("error in write");
+            System.out.println("Error in write");
             return false;
         }
     }

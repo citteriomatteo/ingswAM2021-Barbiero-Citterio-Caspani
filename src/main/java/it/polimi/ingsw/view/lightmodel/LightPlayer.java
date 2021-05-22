@@ -177,6 +177,7 @@ public class LightPlayer {
      */
     public void setConnected(boolean connected) { this.connected = connected; }
 
+
     //GETTERS:
 
     public String getColor() { return color; }

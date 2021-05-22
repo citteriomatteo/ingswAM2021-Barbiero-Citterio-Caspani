@@ -19,8 +19,9 @@ import static java.util.Map.entry;
 public class ClientController
 {
     private LightMatch match;
-    private View view;      //LightMatch is observable by the View -> it has a View reference on its superclass -> MAYBE no need to put this also here!
+    private final View view;      //LightMatch is observable by the View -> it has a View reference on its superclass -> MAYBE no need to put this also here!
     private StateName currentState;
+    private String nickname;
     private static final Map<StateName, List<CtoSMessageType>> acceptedMessagesMap;
     static {
         acceptedMessagesMap = Map.ofEntries(
@@ -107,7 +108,6 @@ public class ClientController
 
         switch(currentState){
             case LOGIN:
-
                 view.drawLoginLayout();
                 break;
             case RECONNECTION:
@@ -138,7 +138,7 @@ public class ClientController
                 view.drawLeadersChoiceLayout();
                 break;
             case WAITING_RESOURCES:
-                view.drawResourcesChoiceLayout();
+                view.drawResourcesChoiceLayout(match.positionOf(nickname));
                 break;
             case WAITING_FOR_TURN:
                 view.drawYourTurnLayout(false);
@@ -212,4 +212,11 @@ public class ClientController
 
     public StateName getCurrentState() { return currentState; }
 
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 }

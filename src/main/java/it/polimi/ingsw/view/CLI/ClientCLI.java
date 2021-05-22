@@ -2,7 +2,6 @@ package it.polimi.ingsw.view.CLI;
 
 import it.polimi.ingsw.model.essentials.*;
 import it.polimi.ingsw.model.essentials.leader.LeaderCard;
-import it.polimi.ingsw.model.essentials.leader.ProductionEffect;
 import it.polimi.ingsw.model.essentials.leader.SlotEffect;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.lightmodel.LightMatch;
@@ -17,29 +16,31 @@ import static it.polimi.ingsw.view.lightmodel.LightMatch.getCardMap;
 
 public class ClientCLI implements View
 {
-
     private String lastLayout;
     private static final Integer DEFAULT_SHIFT = 15, ZERO_SHIFT = 0;
 
-    public ClientCLI(){ }
+    public ClientCLI(){
+    }
 
     @Override
     public void printTitle(){
         StringBuilder str = new StringBuilder();
 
-        str.append(ColorCli.YELLOW_BOLD).append("███╗   ███╗ █████╗ ███████╗████████╗███████╗██████╗ ███████╗     ██████╗ ███████╗    ██████╗ ███████╗███╗   ██╗ █████╗ ██╗███████╗███████╗ █████╗ ███╗   ██╗ ██████╗███████╗\n" +
+        str.append(ColorCli.YELLOW_BOLD).append(
+                "███╗   ███╗ █████╗ ███████╗████████╗███████╗██████╗ ███████╗     ██████╗ ███████╗    ██████╗ ███████╗███╗   ██╗ █████╗ ██╗███████╗███████╗ █████╗ ███╗   ██╗ ██████╗███████╗\n" +
                 "████╗ ████║██╔══██╗██╔════╝╚══██╔══╝██╔════╝██╔══██╗██╔════╝    ██╔═══██╗██╔════╝    ██╔══██╗██╔════╝████╗  ██║██╔══██╗██║██╔════╝██╔════╝██╔══██╗████╗  ██║██╔════╝██╔════╝\n" +
                 "██╔████╔██║███████║███████╗   ██║   █████╗  ██████╔╝███████╗    ██║   ██║█████╗      ██████╔╝█████╗  ██╔██╗ ██║███████║██║███████╗███████╗███████║██╔██╗ ██║██║     █████╗  \n" +
                 "██║╚██╔╝██║██╔══██║╚════██║   ██║   ██╔══╝  ██╔══██╗╚════██║    ██║   ██║██╔══╝      ██╔══██╗██╔══╝  ██║╚██╗██║██╔══██║██║╚════██║╚════██║██╔══██║██║╚██╗██║██║     ██╔══╝  \n" +
                 "██║ ╚═╝ ██║██║  ██║███████║   ██║   ███████╗██║  ██║███████║    ╚██████╔╝██║         ██║  ██║███████╗██║ ╚████║██║  ██║██║███████║███████║██║  ██║██║ ╚████║╚██████╗███████╗\n" +
                 "╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚══════╝     ╚═════╝ ╚═╝         ╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝╚══════╝\n" +
-                "                                                                                                                                                                            \n").append(ColorCli.CLEAR);
+                "                                                                                                                                                                            \n" +
+                "Welcome!\n").append(ColorCli.CLEAR);
         System.out.println(str);
     }
 
     @Override
     public void drawLoginLayout() {
-        lastLayout = "Welcome! Login first.";
+        lastLayout = "Insert the command \"login\" followed by your nickname";
         System.out.println(lastLayout);
     }
 
@@ -51,19 +52,20 @@ public class ClientCLI implements View
 
     @Override
     public void drawNewPlayerLayout() {
-        lastLayout = "Want to play single or multi?";
+        lastLayout = "Write \"single\" or \"yes|(y)\" if you want to play a single player match, \"multi\" or \"no|(n)\" if you prefer to play in multiplayer mode";
         System.out.println(lastLayout);
     }
 
     @Override
     public void drawNumPlayersLayout() {
-        lastLayout = "Choose the number of players you want to play with.";
+        lastLayout = "Choose the number of players you want to play with.\n" +
+                "Write \"numplayers|(np)\" followed by the number of players that will form the match you want to make";
         System.out.println(lastLayout);
     }
 
     @Override
     public void drawConfigurationChoice() {
-        lastLayout = "Want to play with the default configuration?";
+        lastLayout = "Do you want to play with the default configuration?";
         System.out.println(lastLayout);
     }
 
@@ -74,18 +76,19 @@ public class ClientCLI implements View
 
     @Override
     public void drawWaitingLayout() {
-        lastLayout = "Wait for other players ...";
+        lastLayout = "Waiting...";
     }
 
     @Override
     public void drawLeadersChoiceLayout() {
-        lastLayout = "Choose two Leaders.";
+        lastLayout = "Choose two Leaders";
         System.out.println(lastLayout);
     }
 
     @Override
-    public void drawResourcesChoiceLayout() {
-        lastLayout = "Choose your resources.";
+    public void drawResourcesChoiceLayout(int yourPosition) {
+        int numResources = yourPosition/2;
+        lastLayout = "You are the "+yourPosition+"° player, you have the right to choose "+numResources+" resource" + (numResources>1 ? "s" : "");
         System.out.println(lastLayout);
     }
 
@@ -94,43 +97,43 @@ public class ClientCLI implements View
         if(yourTurn)
             lastLayout = "It's your turn. Make a move!";
         else
-            lastLayout = "Your turn is finished. Wait.";
+            lastLayout = "Your turn is finished. Wait";
         System.out.println(lastLayout);
     }
 
     @Override
     public void drawWhiteMarbleConversionsLayout() {
-        lastLayout = "Choose how to convert the white marbles.";
+        lastLayout = "Choose how to convert the white marbles";
         System.out.println(lastLayout);
     }
 
     @Override
     public void drawResPlacementLayout() {
-        lastLayout = "Place the resources you've got.";
+        lastLayout = "Place the resources you've got";
         System.out.println(lastLayout);
     }
 
     @Override
     public void drawBuyDevCardLayout() {
-        lastLayout = "Pay the card you've chosen.";
+        lastLayout = "Pay the card you've chosen";
         System.out.println(lastLayout);
     }
 
     @Override
     public void drawPlaceDevCardLayout() {
-        lastLayout = "Place the card you've chosen.";
+        lastLayout = "Place the card you've chosen";
         System.out.println(lastLayout);
     }
 
     @Override
     public void drawProductionLayout() {
-        lastLayout = "Produce.";
+        lastLayout = "Choose where to pay the resources from for your production";
         //System.out.println(lastLayout);
     }
 
     @Override
     public void drawEndTurnLayout() {
-        lastLayout = "Discard/activate a leader, switch some shelves or finish your turn.";
+        lastLayout = "Discard/activate a leader, switch some shelves or finish your turn";
         //System.out.println(lastLayout);
     }
 
@@ -143,7 +146,7 @@ public class ClientCLI implements View
 
     @Override
     public void drawEndMatchLayout() {
-        lastLayout = "Match has ended.";
+        lastLayout = "Match has ended";
         //System.out.println(lastLayout);
     }
 

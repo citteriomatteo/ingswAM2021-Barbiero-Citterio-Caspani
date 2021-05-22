@@ -27,6 +27,7 @@ public class LightMatch extends ViewObservable {
     private int lorenzoMarker;  //stays "-1" in multi-player matches!
 
     private List<LightPlayer> playersSummary;
+    private int myPosition;
 
     /**
      * Constructor: initialize a LightMatch as a pseudo-Summary.
@@ -230,6 +231,20 @@ public class LightMatch extends ViewObservable {
         getPlayerSummary(nickname).setTempProduction(tempProduction);
     }
 
+    /**
+     * Returns the position of the player inside the match
+     * @param nickname nickname of the player you want to know the position
+     * @return the position of the player in the match or -1 if there isn't a player with such a nickname inside the match
+     */
+    public int positionOf(String nickname){
+        int i= 0;
+        for(LightPlayer player : playersSummary){
+            i++;
+            if(player.getNickname().equals(nickname))
+                return i;
+        }
+        return -1;
+    }
 
 
     //GETTERS:
