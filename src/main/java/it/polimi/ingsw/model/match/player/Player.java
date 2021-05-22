@@ -179,7 +179,14 @@ public class Player extends ModelObservable implements Adder, Verificator
      * @throws LastRoundException
      */
     public boolean discardRemains() throws InvalidOperationException, LastRoundException {
-        int remaining = getPersonalBoard().getWarehouse().discardRemains();
+        int remaining;
+        try {
+            remaining = getPersonalBoard().getWarehouse().discardRemains();
+        }catch (InvalidOperationException e){
+            this.updateWarehouse(nickname, personalBoard.getWarehouse());
+            this.updateMarketBuffer(nickname, personalBoard.getWarehouse());
+            throw e;
+        }
 
         if(remaining>0) {
             for (Player p : match.getPlayers())
