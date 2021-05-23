@@ -169,7 +169,7 @@ public class TurnController {
 
         } catch (LastRoundException e) { isLastRound(); }
         catch (InvalidOperationException e) {
-            throw new RetryException ("Invalid market parameters.");
+            throw new RetryException (e.getError());
         }
         return currentState;
     }
@@ -370,7 +370,7 @@ public class TurnController {
             } catch (NotEnoughResourcesException e) {
                 //Re-inserting resources in the Strongbox
                 currentPlayer.getPersonalBoard().setStrongBox(sbUndo);
-                throw new RetryException ("Not enough resources in the strongbox.");
+                throw new RetryException (e.getError());
             }
 
         for(PhysicalResource r : warehouseCosts.values()) {
@@ -379,7 +379,7 @@ public class TurnController {
             } catch (InvalidOperationException e) {
                 currentPlayer.getPersonalBoard().setWarehouse(whUndo);
                 currentPlayer.getPersonalBoard().setStrongBox(sbUndo);
-                throw new RetryException ("Invalid shelves choice.");
+                throw new RetryException (e.getError());
             }
         }
 
@@ -417,7 +417,7 @@ public class TurnController {
                 bufferResult = "You bought the 7th card. You won!";
         }
         catch (InvalidOperationException e) {
-            throw new RetryException ("Invalid placement parameters.");
+            throw new RetryException (e.getError());
         }
         changeState(StateName.END_TURN);
         return currentState;

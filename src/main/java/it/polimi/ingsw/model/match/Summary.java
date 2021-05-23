@@ -387,4 +387,12 @@ public class Summary implements ModelObserver
     public Production getBasicProd() { return basicProd; }
     public List<PlayerSummary> getPlayersSummary() { return playersSummary; }
     public List<String> getPlayersNicknames() { return playersSummary.stream().map(PlayerSummary::getNickname).collect(Collectors.toList()); }
+
+    //TODO
+    //CLONE METHOD:
+    public Summary personalizedSummary(String nickname){
+
+        return null;
+    }
+
 }

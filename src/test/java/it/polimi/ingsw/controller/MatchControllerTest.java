@@ -229,7 +229,7 @@ public class MatchControllerTest extends CommonThingsTest {
     }
 
     @Test
-    public void testWareHouseInsertion() throws RetryException, NegativeQuantityException, InvalidCardRequestException {
+    public void testWareHouseInsertion() throws RetryException, NegativeQuantityException, InvalidCardRequestException, NotEnoughResourcesException {
         initialization();
         player = matchController.getCurrentPlayer();
         match = matchController.getMatch();

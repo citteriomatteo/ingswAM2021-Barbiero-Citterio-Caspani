@@ -80,6 +80,7 @@ public class Market {
      */
     public int selectRow(int numRow, Adder adder) throws InvalidOperationException, LastRoundException
     {
+        LastRoundException exc = null;
         numRow--;
         int countWhite = 0;
 
@@ -87,8 +88,14 @@ public class Market {
             throw new InvalidOperationException("The number of column is out of range");
 
         for(int i = 0; i < 4; ++i)
-            if (this.board[numRow][i].onDraw(adder))
-                ++countWhite;
+            try {
+                if (this.board[numRow][i].onDraw(adder))
+                    ++countWhite;
+            }
+            catch(LastRoundException e){ exc = e; }
+
+        if(exc != null)
+            throw exc;
 
         this.rearrange(true, numRow);
         return countWhite;
@@ -104,6 +111,7 @@ public class Market {
      */
     public int selectColumn(int numColumn, Adder adder) throws LastRoundException, InvalidOperationException
     {
+        LastRoundException exc = null;
         numColumn--;
         int countWhite = 0;
 
@@ -111,8 +119,14 @@ public class Market {
             throw new InvalidOperationException("The number of column is out of range");
 
         for(int i = 0; i < 3; ++i)
-            if (this.board[i][numColumn].onDraw(adder))
-                ++countWhite;
+            try {
+                if (this.board[i][numColumn].onDraw(adder))
+                    ++countWhite;
+            }
+            catch(LastRoundException e){ exc = e; }
+
+        if(exc != null)
+            throw exc;
 
         this.rearrange(false, numColumn);
         return countWhite;

@@ -17,6 +17,7 @@ import static it.polimi.ingsw.view.lightmodel.LightMatch.getCardMap;
 public class ClientCLI implements View
 {
     private String lastLayout;
+    private boolean lastRound = false;
     private static final Integer DEFAULT_SHIFT = 12, ZERO_SHIFT = 0;
 
     public ClientCLI(){
@@ -140,8 +141,9 @@ public class ClientCLI implements View
 
     @Override
     public void printLastRound(){
-        lastLayout = "It's the last round. Hurry up!";
+        //lastLayout = "It's the last round. Hurry up!";
         //System.out.println(lastLayout);
+        lastRound = true;
     }
 
 
@@ -280,7 +282,10 @@ public class ClientCLI implements View
         for(StringBuilder sb : boards)
             allBoardsLined = new StringBuilder(mergePrintingObjects(allBoardsLined, sb, max, DEFAULT_SHIFT));
 
-        System.out.println(allBoardsLined + "\n");
+        if(lastRound)
+            System.out.println(putInColoredFrame(allBoardsLined, ColorCli.RED.toString()) + "\n");
+        else
+            System.out.println(allBoardsLined + "\n");
 
         System.out.println(div);
 

@@ -65,9 +65,15 @@ public class Production {
      * @throws LastRoundException if this production make the player reach the end of his FaithPath
      */
     public boolean produce(Adder adder) throws LastRoundException {
+        LastRoundException exc = null;
         for (Resource resource : earnings){
-            resource.add(adder);
+            try {
+                resource.add(adder);
+            }
+            catch (LastRoundException e) { exc = e; }
         }
+        if(exc != null)
+            throw exc;
 
         return true;
     }

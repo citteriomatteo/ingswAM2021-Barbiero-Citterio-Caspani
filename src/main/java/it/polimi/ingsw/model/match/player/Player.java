@@ -153,20 +153,20 @@ public class Player extends ModelObservable implements Adder, Verificator
      */
     @Override
     public boolean addFaithPoints(int quantity) throws LastRoundException {
-        getPersonalBoard().getFaithPath().addFaithPoints(quantity, match);
-
         //update_call
         updateFaithMarker(this.nickname, getPersonalBoard().getFaithPath().getPosition());
+
+        getPersonalBoard().getFaithPath().addFaithPoints(quantity, match);
 
         return true;
     }
 
 
     public boolean addBlackPoints(int quantity) throws LastRoundException {
-        ((SingleFaithPath) getPersonalBoard().getFaithPath()).addBlackPoints(quantity, this); //, this
-
         //update_call
         updateLorenzoMarker(( (SingleFaithPath) this.getPersonalBoard().getFaithPath()).getBlackPosition());
+
+        ((SingleFaithPath) getPersonalBoard().getFaithPath()).addBlackPoints(quantity, this);
 
         return true;
     }
@@ -183,20 +183,28 @@ public class Player extends ModelObservable implements Adder, Verificator
         try {
             remaining = getPersonalBoard().getWarehouse().discardRemains();
         }catch (InvalidOperationException e){
+            //update_call
             this.updateWarehouse(nickname, personalBoard.getWarehouse());
             this.updateMarketBuffer(nickname, personalBoard.getWarehouse());
             throw e;
         }
 
         if(remaining>0) {
-            for (Player p : match.getPlayers())
-                if (!p.equals(this))
-                    p.addFaithPoints(remaining);
+            try {
+                for (Player p : match.getPlayers())
+                    if (!p.equals(this))
+                        p.addFaithPoints(remaining);
 
-            //ADDED: if match is single, adds points also to Lorenzo
-            if(match.getPlayers().size()==1)
-                addBlackPoints(remaining);
-
+                //ADDED: if match is single, adds points also to Lorenzo
+                if (match.getPlayers().size() == 1)
+                    addBlackPoints(remaining);
+            }
+            catch(LastRoundException e){
+                //update_call
+                this.updateWarehouse(nickname, personalBoard.getWarehouse());
+                this.updateMarketBuffer(nickname, personalBoard.getWarehouse());
+                throw e;
+            }
         }
 
         //update_call
@@ -359,10 +367,11 @@ public class Player extends ModelObservable implements Adder, Verificator
      */
     public boolean discardUselessLeader(LeaderCard leader) throws LastRoundException {
         handLeaders.remove(leader);
-        addFaithPoints(1);
 
         //update_call
         updateHandLeadersDiscard(this.nickname, leader);
+
+        addFaithPoints(1);
 
         return true;
     }
@@ -385,11 +394,19 @@ public class Player extends ModelObservable implements Adder, Verificator
     public int marketDeal(boolean row, int number) throws InvalidOperationException, LastRoundException
     {
         int whiteMarbles=0;
-        if(row)
-            whiteMarbles = match.getMarket().selectRow(number, this);
-        else
-            //parameters errors are handled here.
-            whiteMarbles = match.getMarket().selectColumn(number, this);
+        try {
+            if (row)
+                whiteMarbles = match.getMarket().selectRow(number, this);
+            else
+                //parameters errors are handled here.
+                whiteMarbles = match.getMarket().selectColumn(number, this);
+        }
+        catch(LastRoundException e){
+            //update_call
+            updateMarketBuffer(this.nickname, getPersonalBoard().getWarehouse());
+            updateMarket(getMatch().getMarket());
+            throw e;
+        }
 
         //update_call
         updateMarketBuffer(this.nickname, getPersonalBoard().getWarehouse());
@@ -414,7 +431,15 @@ public class Player extends ModelObservable implements Adder, Verificator
      * @return      true
      */
     public boolean drawDevelopmentCard(int gridR, int gridC) throws NoMoreCardsException, InvalidCardRequestException, LastRoundException {
-        setTempDevCard(match.getCardGrid().take(gridR, gridC));
+        try {
+            setTempDevCard(match.getCardGrid().take(gridR, gridC));
+        }
+        catch(LastRoundException e){
+            //update_call
+            updateTempDevCard(this.nickname, this.tempDevCard);
+            updateCardGrid(getMatch().getCardGrid());
+            throw e;
+        }
 
         //update_call
         updateTempDevCard(this.nickname, this.tempDevCard);
@@ -433,13 +458,15 @@ public class Player extends ModelObservable implements Adder, Verificator
     public boolean insertDevelopmentCard(int slot) throws LastRoundException, InvalidOperationException {
         personalBoard.getDevCardSlots().pushNewCard(slot, tempDevCard);
         tempDevCard = null;
-        if(personalBoard.getDevCardSlots().getCardsNumber()>= WINNING_CONDITION_CARDS)
-            throw new LastRoundException("The player " + this +
-                    " has reached " + WINNING_CONDITION_CARDS + " cards in his DevCardSlots");
 
         //update_call
         updateDevCardSlots(nickname, getPersonalBoard().getDevCardSlots());
         updateTempDevCard(nickname, tempDevCard);
+
+        if(personalBoard.getDevCardSlots().getCardsNumber()>= WINNING_CONDITION_CARDS)
+            throw new LastRoundException("The player " + this +
+                    " has reached " + WINNING_CONDITION_CARDS + " cards in his DevCardSlots");
+
         return true;
     }
 
@@ -464,15 +491,13 @@ public class Player extends ModelObservable implements Adder, Verificator
      * @throws InvalidCardRequestException relative to the problem about the incompatibility
      *                                     between the requested resource and the one in the shelf
      */
-    public boolean payFromWarehouse(PhysicalResource res, int shelf) throws InvalidCardRequestException
-    {
+    public boolean payFromWarehouse(PhysicalResource res, int shelf) throws InvalidCardRequestException, NotEnoughResourcesException {
         Warehouse wh = personalBoard.getWarehouse();
         if(!res.getType().equals(wh.getWarehouseDisposition().get(shelf-1).getType()))
             throw new InvalidCardRequestException ("The resource 'res' is not present on the shelf! Operation failed.");
-        try {
-            wh.take(shelf, res.getQuantity());
-        }
-        catch(NotEnoughResourcesException e){ e.printStackTrace(); }
+
+        wh.take(shelf, res.getQuantity());
+
         return true;
     }
 
@@ -494,7 +519,14 @@ public class Player extends ModelObservable implements Adder, Verificator
      */
     public boolean produce() throws LastRoundException
     {
-        tempProduction.produce(this);
+        try {
+            tempProduction.produce(this);
+        }
+        catch(LastRoundException e){
+            //update_call
+            updateTempProduction(this.nickname, getTempProduction());
+            throw e;
+        }
 
         //update_call
         updateTempProduction(this.nickname, getTempProduction());
