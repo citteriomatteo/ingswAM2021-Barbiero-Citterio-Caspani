@@ -109,6 +109,7 @@ public class ClientCLI implements View
 
     @Override
     public void drawResPlacementLayout() {
+
         lastLayout = "Place the resources you've got";
         System.out.println(lastLayout);
     }

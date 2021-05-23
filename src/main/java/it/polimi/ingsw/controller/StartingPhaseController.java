@@ -41,8 +41,10 @@ public class  StartingPhaseController {
             playerStates.put(p.getNickname(), StateName.WAITING_LEADERS);
 
             p.setSummary(summary);
-
-            new SummaryMessage(p.getNickname(), summary).send(p.getNickname());
+            System.out.println("player "+p.getNickname()+" connection states before send: "+p.isConnected());
+            SummaryMessage msg = new SummaryMessage(p.getNickname(), summary);
+            System.out.println("player "+msg.getNickname()+" connections state after msg creation: "+msg.getSummary().getPlayerSummary(msg.getNickname()).isConnected());
+            msg.send(p.getNickname());
             //for the interested player
             new HandLeadersStateMessage(p.getNickname(), p.getHandLeaders().stream().map((x) -> getKeyByValue(cardMap, x)).collect(Collectors.toList())).send(p.getNickname());
             //masked, for the other players

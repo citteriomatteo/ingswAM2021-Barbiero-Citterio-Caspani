@@ -60,7 +60,6 @@ public class ClientController
 
 
     public void updateCurrentState(StoCMessage msg){
-
         if(msg.getType().equals(StoCMessageType.RETRY)) {
             RetryMessage rMsg= (RetryMessage)msg;
             this.currentState = rMsg.getCurrentState();

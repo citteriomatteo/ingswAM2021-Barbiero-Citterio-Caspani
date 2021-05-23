@@ -48,7 +48,8 @@ public class PlayerSummary
      * It initializes its Summary in an "empty everything" state.
      */
     public PlayerSummary(Player player){
-        this.connected = true;
+        this.connected = player.isConnected();
+        System.out.println("player "+player.getNickname()+" set to "+player.isConnected()+" in summary");
         this.nickname = player.getNickname();
 
         //last used state init to the first state after the creation of the match
@@ -87,6 +88,7 @@ public class PlayerSummary
      */
     public PlayerSummary(Player player, Map<String, Card> cardMap){
         this.nickname = player.getNickname();
+        this.connected = player.isConnected();
 
         //last used state init to the first state after the creation of the match
         updateLastUsedState(StateName.WAITING_FOR_TURN);

@@ -47,7 +47,7 @@ public class LightMatch extends ViewObservable {
 
         playersSummary = new ArrayList<>();
         for(int i = 0; i < summary.getPlayersSummary().size(); i++)
-            playersSummary.add(new LightPlayer(summary.getPlayersSummary().get(i), ColorCli.values()[i+3].toString()));
+            playersSummary.add(new LightPlayer(summary.getPlayersSummary().get(i), ColorCli.values()[i + 3].toString()));
 
         //starting update_call
         updateMatch(this);

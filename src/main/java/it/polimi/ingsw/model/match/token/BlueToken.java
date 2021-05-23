@@ -22,7 +22,6 @@ public class BlueToken extends Token{
         updateCardGrid(match);
 
         return res;
-
     }
 
     @Override
