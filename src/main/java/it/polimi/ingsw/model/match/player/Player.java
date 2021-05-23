@@ -226,7 +226,9 @@ public class Player extends ModelObservable implements Adder, Verificator
      */
     @Override
     public boolean addToWarehouse(PhysicalResource resource) {
-        return personalBoard.getWarehouse().marketDraw(resource);
+        boolean res = personalBoard.getWarehouse().marketDraw(resource);
+        updateMarketBuffer(nickname, getPersonalBoard().getWarehouse());
+        return res;
     }
 
     //"VERIFICATOR" INTERFACE METHODS:
@@ -394,6 +396,15 @@ public class Player extends ModelObservable implements Adder, Verificator
         updateMarket(getMatch().getMarket());
 
         return whiteMarbles;
+    }
+
+    public boolean whiteMarbleInsertion(int numWhite){
+        if (getWhiteMarbleConversions().size() != 1)
+            return false;
+        PhysicalResource conversion = getWhiteMarbleConversions().get(0);
+        for (int i=0; i<numWhite; i++)
+            addToWarehouse(conversion);
+        return true;
     }
 
     /**

@@ -144,11 +144,28 @@ public class TurnController {
     public StateName marketDraw(boolean row, int num) throws RetryException {
         try {
             whiteMarbleDrawn = currentPlayer.marketDeal(row, num);
-            if((whiteMarbleDrawn == 0 || currentPlayer.getWhiteMarbleConversions().size() == 0)
-                    && currentPlayer.getPersonalBoard().getWarehouse().getBuffer().size() != 0)
-                changeState(StateName.RESOURCES_PLACEMENT);
-            else
-                changeState(StateName.MARKET_ACTION);
+            if(whiteMarbleDrawn == 0 || currentPlayer.getWhiteMarbleConversions().size() == 0) {
+                System.out.println("entro in 0 biglie o 0 conversioni");
+                if (currentPlayer.getPersonalBoard().getWarehouse().getBuffer().size() == 0) {
+                    System.out.println("entro in 0 nel buffer");
+                    changeState(StateName.END_TURN);
+                }
+                else {
+                    changeState(StateName.RESOURCES_PLACEMENT);
+                    System.out.println("entro in res place");
+                }
+            }
+            else {
+                System.out.println("entro in biglie e conversioni "+ currentPlayer.getWhiteMarbleConversions().toString());
+                if(currentPlayer.whiteMarbleInsertion(whiteMarbleDrawn)) {
+                    System.out.println("ho inserto in automatico");
+                    changeState(StateName.RESOURCES_PLACEMENT);
+                }
+                else {
+                    System.out.println("scegli le conversioni");
+                    changeState(StateName.MARKET_ACTION);
+                }
+            }
 
         } catch (LastRoundException e) { isLastRound(); }
         catch (InvalidOperationException e) {
@@ -174,7 +191,7 @@ public class TurnController {
                 if(possibleConversion.equals(sentConversion) && !found) {
                     currentPlayer.addToWarehouse(sentConversion);
                     found=true;
-                    whiteMarbleDrawn--;
+                    whiteMarbleDrawn -= possibleConversion.getQuantity();
                 }
             if(!found)
                 throw new RetryException ("Invalid conversions.");
@@ -289,34 +306,55 @@ public class TurnController {
 
         PhysicalResource voidResource = new PhysicalResource(ResType.UNKNOWN, 0);
 
-        if(currentState == StateName.PRODUCTION_ACTION){
-            strongboxCosts.remove(voidResource);
-            warehouseCosts.remove(0);
+        strongboxCosts.remove(voidResource);
+        warehouseCosts.remove(0);
 
-            List<PhysicalResource> payments = new ArrayList<>();
-            payments.addAll(strongboxCosts);
-            payments.addAll(warehouseCosts.values());
+        List<PhysicalResource> payments = new ArrayList<>();
+        payments.addAll(strongboxCosts);
+        payments.addAll(warehouseCosts.values());
 
-            for(int i= 0; i< payments.size(); i++)
-                for(int j=i+1; j<payments.size(); j++)
-                    if (payments.get(i).equals(payments.get(j))) {
-                        PhysicalResource r = payments.get(i);
-                        PhysicalResource r1 = payments.get(j);
-                        int quantity = r.getQuantity() + r1.getQuantity();
-                        payments.remove(r);
-                        payments.remove(r1);
-                        try {
-                            payments.add(new PhysicalResource(r.getType(), quantity));
-                        } catch (NegativeQuantityException e) {
-                            System.exit(1);
-                        }
+        for(int i= 0; i< payments.size(); i++)
+            for(int j=i+1; j<payments.size(); j++)
+                if (payments.get(i).equals(payments.get(j))) {
+                    PhysicalResource r = payments.get(i);
+                    PhysicalResource r1 = payments.get(j);
+                    int quantity = r.getQuantity() + r1.getQuantity();
+                    payments.remove(r);
+                    payments.remove(r1);
+                    try {
+                        payments.add(new PhysicalResource(r.getType(), quantity));
+                    } catch (NegativeQuantityException e) {
+                        System.exit(1);
                     }
+                }
+
+        Map<ResType, Integer> discounts = currentPlayer.getPersonalBoard().getDiscountMap().getDiscountMap();
+
+        if(currentState == StateName.PRODUCTION_ACTION){
+
+            removeDiscounts(discounts, currentPlayer.getTempProduction().getCost());
 
             if(payments.size() != currentPlayer.getTempProduction().getCost().size())
                 throw new RetryException("Payments don't match the chosen production ones.");
             boolean found = false;
             for (PhysicalResource p : payments) {
                 for (PhysicalResource p1 : currentPlayer.getTempProduction().getCost())
+                    if (p.equals(p1) && p.getQuantity() == p1.getQuantity()) {
+                        found = true;
+                        break;
+                    }
+                if(!found)
+                    throw new RetryException("Payments don't match the chosen production ones.");
+            }
+        }
+        else{
+            removeDiscounts(discounts, currentPlayer.getTempDevCard().getPrice());
+
+            if(payments.size() != currentPlayer.getTempDevCard().getPrice().size())
+                throw new RetryException("Payments don't match the chosen production ones.");
+            boolean found = false;
+            for (PhysicalResource p : payments) {
+                for (PhysicalResource p1 : currentPlayer.getTempDevCard().getPrice())
                     if (p.equals(p1) && p.getQuantity() == p1.getQuantity()) {
                         found = true;
                         break;
@@ -475,7 +513,7 @@ public class TurnController {
         List<PhysicalResource> totalCosts = new ArrayList<>(productionOfUnknown.getCost());
         List<Resource> totalEarnings = new ArrayList<>(productionOfUnknown.getEarnings());
 
-        for(String id : cardIds) {
+        for(String id : cardsFound) {
             Production prod;
             if(!cardMap.get(id).isLeader())
                 prod = ((DevelopmentCard) cardMap.get(id)).getProduction();
@@ -525,6 +563,23 @@ public class TurnController {
         } catch (InvalidOperationException | InvalidQuantityException e) {
             return true;
         }
+    }
+
+    private void removeDiscounts(Map<ResType, Integer> discounts, List<PhysicalResource> cost){
+        for (ResType discount : discounts.keySet()) {
+            int index = cost.indexOf(new PhysicalResource(discount, discounts.get(discount)));
+            if(index != -1) {
+                if (cost.get(index).getQuantity() > discounts.get(discount)) {
+                    PhysicalResource element = cost.remove(index);
+                    cost.add(new PhysicalResource(discount, element.getQuantity() - discounts.get(discount)));
+                }
+                else {
+                    cost.remove(index);
+                }
+            }
+
+        }
+
     }
 
     private void isLastRound(){
