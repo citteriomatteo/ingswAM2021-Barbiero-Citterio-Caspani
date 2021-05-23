@@ -244,6 +244,8 @@ public class ClientCLI implements View
     @Override
     public void printMatchResults(String nickname, Map<String, Integer> ranking){
 
+
+
     }
 
     @Override

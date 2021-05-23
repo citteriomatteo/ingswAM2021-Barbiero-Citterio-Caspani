@@ -48,7 +48,7 @@ public abstract class FaithPath
      */
     public boolean addFaithPoints(int steps, Communicator communicator) throws LastRoundException
     {
-        for(; steps>0 && faithMarker<faithPath.size(); steps--)
+        for(; steps>0 && faithMarker<faithPath.size()-1; steps--)
         {
             faithMarker++;
             if(communicator.getPlayers().size()==1 && faithPath.get(faithMarker).singleVaticanReport())
@@ -57,7 +57,7 @@ public abstract class FaithPath
                 if(communicator.getPlayers().size()>1 && faithPath.get(faithMarker).vaticanReport(communicator))
                     cellCollapse(faithMarker);
 
-            if(faithMarker==faithPath.size())
+            if(faithMarker==faithPath.size()-1)
                 throw new LastRoundException("A player reached the end of the path.");
         }
         return true;

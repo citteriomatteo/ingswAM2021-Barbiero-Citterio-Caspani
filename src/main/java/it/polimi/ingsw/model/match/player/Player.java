@@ -153,20 +153,34 @@ public class Player extends ModelObservable implements Adder, Verificator
      */
     @Override
     public boolean addFaithPoints(int quantity) throws LastRoundException {
+        try {
+            getPersonalBoard().getFaithPath().addFaithPoints(quantity, match);
+        }
+        catch(LastRoundException e){
+            //update_call
+            updateFaithMarker(this.nickname, getPersonalBoard().getFaithPath().getPosition());
+            throw e;
+        }
+
         //update_call
         updateFaithMarker(this.nickname, getPersonalBoard().getFaithPath().getPosition());
-
-        getPersonalBoard().getFaithPath().addFaithPoints(quantity, match);
 
         return true;
     }
 
 
     public boolean addBlackPoints(int quantity) throws LastRoundException {
+        try{
+            ((SingleFaithPath) getPersonalBoard().getFaithPath()).addBlackPoints(quantity, this);
+        }
+        catch(LastRoundException e){
+            //update_call
+            updateFaithMarker(this.nickname, getPersonalBoard().getFaithPath().getPosition());
+            throw e;
+        }
+
         //update_call
         updateLorenzoMarker(( (SingleFaithPath) this.getPersonalBoard().getFaithPath()).getBlackPosition());
-
-        ((SingleFaithPath) getPersonalBoard().getFaithPath()).addBlackPoints(quantity, this);
 
         return true;
     }
