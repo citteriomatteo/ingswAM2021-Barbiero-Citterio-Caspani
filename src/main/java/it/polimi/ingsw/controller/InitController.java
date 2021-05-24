@@ -120,13 +120,17 @@ public class InitController {
             case RECONNECTION:
                 if(choice && serverCall().reconnection(client, playerNickname)) {
                     changeState(StateName.START_GAME);
+
                     Summary summary = (Summary) client.getPlayer().getSummary();
-                    (new SummaryMessage(playerNickname, summary)).send(playerNickname);
-                    (new HandLeadersStateMessage(playerNickname, client.getPlayer().getHandLeaders().stream()
-                            .map((x)->MatchController.getKeyByValue(summary.getCardMap(),x))
-                            .collect(Collectors.toList())))
-                            .send(playerNickname);
-                    (new NextStateMessage(playerNickname, summary.getPlayerSummary(playerNickname).getLastUsedState())).send(playerNickname);
+                    StateName currentState = client.getCurrentState();
+
+                    (new SummaryMessage(playerNickname, summary.personalizedSummary(playerNickname))).send(playerNickname);
+                    if(currentState.equals(StateName.WAITING_LEADERS))
+                        (new HandLeadersStateMessage(playerNickname, client.getPlayer().getHandLeaders().stream()
+                                .map((x)->MatchController.getKeyByValue(summary.getCardMap(),x))
+                                .collect(Collectors.toList())))
+                                .send(playerNickname);
+                    (new NextStateMessage(playerNickname, currentState)).send(playerNickname);
 
                 }
                 else{

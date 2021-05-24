@@ -47,9 +47,8 @@ public class TurnController {
         this.whiteMarbleDrawn = 0;
 
         //sends NextStateMessage to every player
-        if(serverCall().findControlBase(currentPlayer.getNickname()) != null)
-            for(Player p : match.getPlayers())
-                new NextStateMessage(p.getNickname(), p.getSummary().getPlayerSummary(p.getNickname()).getLastUsedState()).send(p.getNickname());
+        for(Player p : match.getPlayers())
+            new NextStateMessage(p.getNickname(), p.getSummary().getPlayerSummary(p.getNickname()).getLastUsedState()).send(p.getNickname());
 
     }
 
@@ -587,7 +586,7 @@ public class TurnController {
         new LastRoundMessage("", "This is the last round").sendBroadcast(match);
     }
 
-    private void changeState(StateName newState){
+    public void changeState(StateName newState){
         currentState = newState;
         currentPlayer.getSummary().updateLastUsedState(currentPlayer.getNickname(), newState);
     }

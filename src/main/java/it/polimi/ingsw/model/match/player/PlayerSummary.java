@@ -80,6 +80,33 @@ public class PlayerSummary
         tempProduction = null;
     }
 
+    /**
+     * Copy constructor, returns a shallow copy of the PlayerSummary passed, if obscured is set to true replaces the hand leader with a set of -1
+     * @param toCopy the player summary you want to copy
+     * @param obscured if true hide the hand leaders
+     */
+    public PlayerSummary(PlayerSummary toCopy, boolean obscured) {
+        this.connected = toCopy.connected;
+        this.nickname = toCopy.nickname;
+        this.warehouse = toCopy.warehouse;
+        this.marketBuffer = toCopy.marketBuffer;
+        this.strongbox = toCopy.strongbox;
+        this.faithMarker = toCopy.faithMarker;
+        this.popeTiles = toCopy.popeTiles;
+        this.devCardSlots = toCopy.devCardSlots;
+
+        if(obscured)
+            this.handLeaders = toCopy.handLeaders.stream().map((x)->"-1").collect(Collectors.toList());
+        else
+            this.handLeaders = toCopy.handLeaders;
+
+        this.activeLeaders = toCopy.activeLeaders;
+        this.whiteMarbleConversions = toCopy.whiteMarbleConversions;
+        this.discountMap = toCopy.discountMap;
+        this.tempDevCard = toCopy.tempDevCard;
+        this.tempProduction = toCopy.tempProduction;
+        this.lastUsedState = toCopy.lastUsedState;
+    }
 
     /**
      * This constructor is called once for every player, at the beginning of the match.

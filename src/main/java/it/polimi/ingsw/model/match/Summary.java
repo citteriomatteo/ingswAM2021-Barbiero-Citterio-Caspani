@@ -26,8 +26,8 @@ import java.util.stream.Collectors;
  * It contains whatever the client is able and needs to see in its view,
  * and it's particularly useful for making easier user reconnections.
  */
-public class Summary implements ModelObserver
-{
+public class Summary implements ModelObserver {
+
     private Map<String, Card> cardMap;
     private Production basicProd;
     private char[][] market;
@@ -117,6 +117,22 @@ public class Summary implements ModelObserver
         for(Player p : match.getPlayers())
             playersSummary.add(new PlayerSummary(p, cardMap));
     }
+
+    /**
+     * Copy constructor, returns a shallow copy of the Summary passed
+     * @param toCopy the summary you want to copy
+     */
+    public Summary(Summary toCopy){
+        this.cardMap = toCopy.cardMap;
+        this.basicProd = toCopy.basicProd;
+        this.market = toCopy.market;
+        this.sideMarble = toCopy.sideMarble;
+        this.cardGrid = toCopy.cardGrid;
+        this.faithPath = toCopy.faithPath;
+        this.lorenzoMarker = toCopy.lorenzoMarker;
+        this.playersSummary = toCopy.playersSummary;
+    }
+
 
     /**
      * This method returns the PlayerSummary associated to the requested nickname.
@@ -388,11 +404,32 @@ public class Summary implements ModelObserver
     public List<PlayerSummary> getPlayersSummary() { return playersSummary; }
     public List<String> getPlayersNicknames() { return playersSummary.stream().map(PlayerSummary::getNickname).collect(Collectors.toList()); }
 
-    //TODO
-    //CLONE METHOD:
-    public Summary personalizedSummary(String nickname){
 
-        return null;
+    //CLONE METHOD:
+
+    /**
+     * Returns a personalized summary based on this for the player whom nickname is passed, his hand leaders will be explicit,
+     * whereas the rival's leaders will be hidden
+     * @param nickname the player you want to personalize the summary for
+     * @return a personalized summary if the player passed is actually in this match,
+     *          this summary unmodified if there isn't such a player in this summary
+     */
+    public Summary personalizedSummary(String nickname){
+        if(!getPlayersNicknames().contains(nickname))
+            return this;
+        Summary res = new Summary(this);
+        List<PlayerSummary> personalizedPSs = new ArrayList<>();
+
+        for(PlayerSummary ps : playersSummary) {
+            if (!ps.getNickname().equals(nickname))
+                personalizedPSs.add(new PlayerSummary(ps, true));
+            else
+                personalizedPSs.add(ps);
+        }
+
+        res.playersSummary=personalizedPSs;
+
+        return res;
     }
 
 }

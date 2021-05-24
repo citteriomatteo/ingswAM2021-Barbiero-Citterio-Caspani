@@ -22,8 +22,7 @@ public class Production {
      * @param sentCost the costs due to pay to activate this production
      * @param earnings the earnings derived by the production of this. The list can contain PhysicalResources and FaithPoints
      */
-    public Production(List<PhysicalResource> sentCost, List<Resource> earnings)
-    {
+    public Production(List<PhysicalResource> sentCost, List<Resource> earnings) {
         this.cost = new ArrayList<>();
         int count;
         for(ResType type : ResType.values()){
@@ -39,6 +38,15 @@ public class Production {
 
         }
         this.earnings = earnings;
+    }
+
+    /**
+     * Copy constructor, generates an identical production to the one passed
+     * @param toCopy the production to copy
+     */
+    public Production(Production toCopy){
+        cost = new ArrayList<>(toCopy.cost);
+        earnings = new ArrayList<>(toCopy.earnings);
     }
 
     /**
@@ -91,6 +99,14 @@ public class Production {
 
         return true;
 
+    }
+
+    /**
+     * Clone this Production, same as {@link Production#Production(Production)}
+     * @return a new identical production
+     */
+    public Production clone(){
+        return new Production(this);
     }
 
     @Override

@@ -88,6 +88,7 @@ public class ClientController
 
     public void printMatchResults(String message, Map<String, Integer> ranking){
         view.printMatchResults(message, ranking);
+
     }
 
     public void printLastRound(){
@@ -127,7 +128,6 @@ public class ClientController
                 view.drawWaitingLayout();
                 break;
             case START_GAME:
-                //view.drawLeadersChoiceLayout();
                 break;
             case WAITING_LEADERS:
                 view.drawLeadersChoiceLayout();
@@ -187,13 +187,13 @@ public class ClientController
             return false;
         List<String> cards = new ArrayList(Arrays.asList(splitRequest.get(0).split(",")));
         for(int i = 0; i < cards.size(); i++) {
-            Card chosen = match.getCardMap().get(cards.get(i).toUpperCase());
+            Card chosen = LightMatch.getCardMap().get(cards.get(i).toUpperCase());
             if(chosen == null){
                 System.out.println("Card " + cards.get(i).toUpperCase() + " does not exist.");
                 cards.remove(cards.get(i));
             }
         }
-        view.drawCards(cards.stream().map((x)->x.toUpperCase()).collect(Collectors.toList()));
+        view.drawCards(cards.stream().map(String::toUpperCase).collect(Collectors.toList()));
 
         return true;
 

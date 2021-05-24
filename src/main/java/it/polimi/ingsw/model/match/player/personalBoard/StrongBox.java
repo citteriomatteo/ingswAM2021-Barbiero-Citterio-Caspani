@@ -7,8 +7,8 @@ import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.ResType;
 import it.polimi.ingsw.exceptions.NotEnoughResourcesException;
 
-public class StrongBox
-{
+public class StrongBox {
+
     private Map<ResType, Integer> resources;
 
     /** The constructor initialize the empty map, with all the available Resource types put at 0 quantity. */
@@ -60,16 +60,12 @@ public class StrongBox
 
     public static StrongBox clone(StrongBox sb){
         StrongBox clone = new StrongBox();
-        try {
 
             clone.put(new PhysicalResource(ResType.COIN, sb.getNumberOf(ResType.COIN)));
             clone.put(new PhysicalResource(ResType.SERVANT, sb.getNumberOf(ResType.SERVANT)));
             clone.put(new PhysicalResource(ResType.SHIELD, sb.getNumberOf(ResType.SHIELD)));
             clone.put(new PhysicalResource(ResType.STONE, sb.getNumberOf(ResType.STONE)));
-        }
-        catch (NegativeQuantityException e) {
-            System.exit(1);
-        }
+
         return clone;
     }
 

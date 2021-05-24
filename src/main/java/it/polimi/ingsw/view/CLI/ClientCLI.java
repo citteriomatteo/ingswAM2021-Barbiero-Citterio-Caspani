@@ -688,6 +688,7 @@ public class ClientCLI implements View
         }
         System.out.println(cards);
     }
+
     private StringBuilder drawLeaderCard(LeaderCard card, String id){
         StringBuilder cardStr = new StringBuilder();
         cardStr.append(" (LEADER CARD ").append(id).append(")\n");
