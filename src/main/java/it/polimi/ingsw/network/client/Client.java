@@ -6,6 +6,7 @@ import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.exceptions.DisconnectionException;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessage;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
+import it.polimi.ingsw.network.message.ctosmessage.DisconnectionMessage;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessageType;
 import it.polimi.ingsw.view.ClientController;
@@ -14,6 +15,7 @@ import it.polimi.ingsw.view.CLI.ClientCLI;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static it.polimi.ingsw.jsonUtilities.GsonHandler.cToSMessageConfig;
 import static it.polimi.ingsw.jsonUtilities.GsonHandler.sToCMessageConfig;
@@ -25,6 +27,7 @@ public class Client {
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
+    private AtomicBoolean play;
 
     private final ClientController controller;
 
@@ -45,13 +48,13 @@ public class Client {
 
         View cli = new ClientCLI();
         controller = new ClientController(cli);
+        play = new AtomicBoolean(true);
 
     }
 
     private void startClient(){
         StoCMessage messageFromServer;
-        boolean play = true;
-        while (play){
+        while (play.get()){
 
             try {
                 messageFromServer = readMessage();
@@ -63,8 +66,14 @@ public class Client {
             messageFromServer.compute(this);
 
             if(messageFromServer.getType().equals(StoCMessageType.GOODBYE))
-                play = false;
+                play.set(false);
             }
+    }
+
+    public void exit(){
+        System.out.println("...Exiting from game");
+        play.set(false);
+        writeMessage(new DisconnectionMessage(getNickname()));
     }
 
     private StoCMessage readMessage() throws DisconnectionException{
@@ -113,7 +122,7 @@ public class Client {
     /**
      * Closes streams and socket
      */
-    private void terminateConnection(){
+    public void terminateConnection(){
         try {
             System.out.println("Connection closed");
             in.close();
@@ -128,6 +137,10 @@ public class Client {
         return controller;
     }
 
+    public String getNickname(){
+        return controller == null ? null : controller.getNickname();
+    }
+
     public static void main(String[] args) {
         String hostName;
         int portNumber;
@@ -138,7 +151,7 @@ public class Client {
             hostName = ReadHostFromJSON();
             portNumber = ReadPortFromJSON();
         }
-        Client client = new Client(hostName, portNumber); //CLI/gui choice param will be passed here
+        Client client = new Client(hostName, portNumber); //CLI/GUI choice param will be passed here
         new KeyboardReader(client).start();
 
         client.startClient();

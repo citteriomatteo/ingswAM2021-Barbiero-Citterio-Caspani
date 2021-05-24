@@ -117,7 +117,9 @@ public class PlayerHandler implements Runnable, ControlBase {
             //if the game comes naturally to an end remove the player from the global list
             terminateConnection(true);
 
-        } catch (IOException | DisconnectionException e) {
+        } catch (DisconnectionException e) {
+            if(e.isVoluntary())
+                write(new GoodbyeMessage(getNickname(), "Hope to see you again", false));
             disconnection();
         }
         catch(Exception e) {
@@ -212,7 +214,7 @@ public class PlayerHandler implements Runnable, ControlBase {
     public synchronized boolean write(StoCMessage msg){
         try {
             String outMsg = parserStoC.toJson(msg, StoCMessage.class);
-            System.out.println("out: "+outMsg);
+            System.out.println("out: "+outMsg+" to "+player);
             out.println(outMsg);
             return true;
         } catch (JsonSyntaxException e) {

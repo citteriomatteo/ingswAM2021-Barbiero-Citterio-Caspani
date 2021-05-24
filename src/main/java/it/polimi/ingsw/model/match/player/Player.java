@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.match.player;
 
-import it.polimi.ingsw.controller.StateName;
 import it.polimi.ingsw.model.essentials.CardType;
 import it.polimi.ingsw.model.essentials.DevelopmentCard;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
@@ -18,7 +17,6 @@ import it.polimi.ingsw.observer.ModelObservable;
 
 import java.util.*;
 
-import static it.polimi.ingsw.network.server.ServerUtilities.serverCall;
 
 public class Player extends ModelObservable implements Adder, Verificator
 {
@@ -535,8 +533,10 @@ public class Player extends ModelObservable implements Adder, Verificator
     {
         try {
             tempProduction.produce(this);
+            tempProduction = null;
         }
         catch(LastRoundException e){
+            tempProduction = null;
             //update_call
             updateTempProduction(this.nickname, getTempProduction());
             throw e;

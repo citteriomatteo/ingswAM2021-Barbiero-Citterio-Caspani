@@ -23,19 +23,56 @@ public class ClientCLI implements View
     public ClientCLI(){
     }
 
+    /**
+     * Print the string builder doing a sort of animation and changing color
+     * @param strBuilder the StringBuilder you want to animate
+     */
+    private void animation (StringBuilder strBuilder){
+        StringBuilder temp = new StringBuilder();
+        String[] rows = strBuilder.toString().split("\n");
+
+        int maxLength = 0;
+        for(String row : rows)
+            maxLength = Math.max(maxLength, row.length());
+
+        for (int i = 1; i < maxLength/2; i++) {
+            for (String row : rows) {
+                temp.append(row, 0, i).append(" ".repeat(Math.max(0,row.length()-2*i))).append(row, row.length()-i, row.length()).append("\n");
+            }
+            clearScreen();
+            temp.insert(0, ColorCli.values()[i%ColorCli.values().length]).append(ColorCli.CLEAR);
+            System.out.println(temp);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            temp = new StringBuilder();
+        }
+
+        clearScreen();
+
+    }
+
     @Override
     public void printTitle(){
         StringBuilder str = new StringBuilder();
 
-        str.append(ColorCli.YELLOW_BOLD).append(
+        str.append(
                 "███╗   ███╗ █████╗ ███████╗████████╗███████╗██████╗ ███████╗     ██████╗ ███████╗    ██████╗ ███████╗███╗   ██╗ █████╗ ██╗███████╗███████╗ █████╗ ███╗   ██╗ ██████╗███████╗\n" +
                 "████╗ ████║██╔══██╗██╔════╝╚══██╔══╝██╔════╝██╔══██╗██╔════╝    ██╔═══██╗██╔════╝    ██╔══██╗██╔════╝████╗  ██║██╔══██╗██║██╔════╝██╔════╝██╔══██╗████╗  ██║██╔════╝██╔════╝\n" +
                 "██╔████╔██║███████║███████╗   ██║   █████╗  ██████╔╝███████╗    ██║   ██║█████╗      ██████╔╝█████╗  ██╔██╗ ██║███████║██║███████╗███████╗███████║██╔██╗ ██║██║     █████╗  \n" +
                 "██║╚██╔╝██║██╔══██║╚════██║   ██║   ██╔══╝  ██╔══██╗╚════██║    ██║   ██║██╔══╝      ██╔══██╗██╔══╝  ██║╚██╗██║██╔══██║██║╚════██║╚════██║██╔══██║██║╚██╗██║██║     ██╔══╝  \n" +
                 "██║ ╚═╝ ██║██║  ██║███████║   ██║   ███████╗██║  ██║███████║    ╚██████╔╝██║         ██║  ██║███████╗██║ ╚████║██║  ██║██║███████║███████║██║  ██║██║ ╚████║╚██████╗███████╗\n" +
                 "╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚══════╝     ╚═════╝ ╚═╝         ╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝╚══════╝\n" +
-                "                                                                                                                                                                            \n" +
-                "Welcome!\n").append(ColorCli.CLEAR);
+                "                                                                                                                                                                            \n")
+                ;
+
+        // attempt for animation, remove comment to see
+        // animation(str);
+
+        str.insert(0, ColorCli.YELLOW_BOLD).append(ColorCli.CLEAR);
+        str.append("Welcome!\n");
         System.out.println(str);
     }
 

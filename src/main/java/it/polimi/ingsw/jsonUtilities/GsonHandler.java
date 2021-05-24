@@ -118,6 +118,7 @@ public class GsonHandler {
                         .registerSubtype(ConfigureMessage.class, "configuration")
                         .registerSubtype(DevCardDrawMessage.class, "devCardDraw")
                         .registerSubtype(DevCardPlacementMessage.class, "devCardPlacement")
+                        .registerSubtype(DisconnectionMessage.class, "disconnection")
                         .registerSubtype(EndTurnMessage.class, "endTurn")
                         .registerSubtype(LeaderActivationMessage.class, "leaderActivation")
                         .registerSubtype(LeaderDiscardingMessage.class, "leaderDiscarding")

@@ -67,6 +67,7 @@ public class KeyboardReader extends Thread{
     }
 
     public KeyboardReader(Client client) {
+        setDaemon(true);
         keyboard = new BufferedReader(new InputStreamReader(System.in));
         this.client = client;
     }
@@ -562,8 +563,7 @@ public class KeyboardReader extends Thread{
     public void run() {
         CtoSMessage messageToSend;
         String userInput;
-        boolean play = true;
-        while(play){
+        while(true){
             try {
                 userInput = keyboard.readLine();
                 if(userInput == null) {
@@ -592,7 +592,7 @@ public class KeyboardReader extends Thread{
                     continue;
                 }
                 if(userInput.equals("exit"))
-                    play = false;
+                    break;
                 messageToSend = parseInMessage(userInput);
                 if(messageToSend == null)
                     continue;
@@ -603,6 +603,7 @@ public class KeyboardReader extends Thread{
                 e.printStackTrace();
             }
         }
+        client.exit();
     }
 
     public void printHelpMap() {

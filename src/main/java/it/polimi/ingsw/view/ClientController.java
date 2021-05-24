@@ -171,6 +171,8 @@ public class ClientController
 
 
     public boolean isAccepted(CtoSMessageType type){
+        if (type == DISCONNECTION)
+            return true;
         return acceptedMessagesMap.get(currentState).contains(type);
     }
 
