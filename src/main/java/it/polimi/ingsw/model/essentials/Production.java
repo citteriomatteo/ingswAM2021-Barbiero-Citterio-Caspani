@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.match.player.Verificator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -92,7 +93,9 @@ public class Production {
      * @return true if you have the resource to activate this production
      */
     public boolean isPlayable(Verificator verificator){
-        for (PhysicalResource resource: cost){
+        List<PhysicalResource> discountedCosts = verificator.getDiscountedCosts(cost);
+
+        for (PhysicalResource resource: discountedCosts){
           if(!resource.verify(verificator))
               return false;
         }

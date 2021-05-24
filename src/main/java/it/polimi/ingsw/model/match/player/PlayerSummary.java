@@ -143,7 +143,7 @@ public class PlayerSummary
         this.activeLeaders = player.getPersonalBoard().getActiveLeaders().stream().map((x)->getKeyByValue(cardMap,x)).collect(Collectors.toList());
 
         //white marble conversions init
-        this.whiteMarbleConversions = player.getWhiteMarbleConversions();
+        this.whiteMarbleConversions = new ArrayList<>(player.getWhiteMarbleConversions());
 
         //discount map init
         discountMap = new ArrayList<>();

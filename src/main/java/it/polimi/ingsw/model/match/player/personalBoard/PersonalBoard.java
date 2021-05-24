@@ -102,6 +102,7 @@ public class PersonalBoard implements Effector
      * @return           the operation on-finish flag
      */
     public boolean addNewConversion(PhysicalResource conversion) {
+        whiteMarbleConversions.add(conversion);
         player.updateWhiteMarbleConversions(player.getNickname(), conversion);
         return true;
     }

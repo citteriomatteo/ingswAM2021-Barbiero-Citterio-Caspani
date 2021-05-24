@@ -59,7 +59,7 @@ public class Market {
      * @return the market's board
      */
     public Marble[][] getBoard() {
-        return this.board.clone();
+        return this.board;
     }
 
     /**

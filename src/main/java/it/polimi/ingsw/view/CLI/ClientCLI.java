@@ -300,8 +300,7 @@ public class ClientCLI implements View
         clearScreen();
 
         StringBuilder div = new StringBuilder();
-        for(int i = 0; i < 400; i++)
-            div.append("═");
+        div.append("═".repeat(400));
         div.append("\n");
 
         System.out.println(div);

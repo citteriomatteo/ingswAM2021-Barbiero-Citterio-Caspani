@@ -178,16 +178,35 @@ public class MatchControllerTest extends CommonThingsTest {
         player.setHandLeaders(new ArrayList<>(List.of(new LeaderCard(List.of(new PhysicalResource(ResType.STONE, 0)), 5, new WhiteMarbleEffect(new PhysicalResource(ResType.STONE, 1))),
                 new LeaderCard(List.of(new PhysicalResource(ResType.STONE, 0)), 5, new WhiteMarbleEffect(new PhysicalResource(ResType.SHIELD, 1))))));
         player.activateLeader(player.getHandLeaders().get(0));
-        StateName stateName = StateName.RESOURCES_PLACEMENT;
-        Marble[][] board = match.getMarket().getBoard();
-        for (int i=0; i<4; i++)
-            if(board[2][i] instanceof WhiteMarble)
-                stateName = StateName.MARKET_ACTION;
 
-        matchController.marketDraw(player.getNickname(), true, 3);
+        matchController.marketDraw(player.getNickname(), true, 2);
         assertTrue(player.getPersonalBoard().getWarehouse().getBuffer().size() > 0);
 
-        assertEquals(stateName, matchController.getCurrentState(player.getNickname()) );
+        assertEquals(StateName.RESOURCES_PLACEMENT, matchController.getCurrentState(player.getNickname()) );
+
+        initialization();
+        player = matchController.getCurrentPlayer();
+        match = matchController.getMatch();
+        matchController.setState(player.getNickname(), StateName.STARTING_TURN);
+
+        player.setHandLeaders(new ArrayList<>(List.of(new LeaderCard(List.of(new PhysicalResource(ResType.STONE, 0)), 5, new WhiteMarbleEffect(new PhysicalResource(ResType.STONE, 1))),
+                new LeaderCard(List.of(new PhysicalResource(ResType.STONE, 0)), 5, new WhiteMarbleEffect(new PhysicalResource(ResType.SHIELD, 1))))));
+        player.activateLeader(player.getHandLeaders().get(0));
+        player.activateLeader(player.getHandLeaders().get(0));
+
+        boolean found = false;
+        Marble[][] board = match.getMarket().getBoard();
+        for (int i=0; i<4; i++)
+            if (board[2][i] instanceof WhiteMarble) {
+                found = true;
+                break;
+            }
+
+        matchController.marketDraw(player.getNickname(), true, 3);
+        if (found)
+            assertEquals(StateName.MARKET_ACTION, matchController.getCurrentState(player.getNickname()) );
+        else
+            assertEquals(StateName.RESOURCES_PLACEMENT, matchController.getCurrentState(player.getNickname()) );
     }
 
     @Test
@@ -320,7 +339,9 @@ public class MatchControllerTest extends CommonThingsTest {
         oldWarehouse = player.getPersonalBoard().getWarehouse().getWarehouseDisposition();
         oldStrongbox = player.getPersonalBoard().getStrongBox().getResources();
 
-        assertThrows(RetryException.class, ()-> matchController.payments(player.getNickname(), card.getPrice(), null));
+        warehouseCosts.put(0, new PhysicalResource(ResType.UNKNOWN, 0));
+
+        assertThrows(RetryException.class, ()-> matchController.payments(player.getNickname(), card.getPrice(), warehouseCosts));
         assertEquals(oldWarehouse, player.getPersonalBoard().getWarehouse().getWarehouseDisposition());
         assertEquals(oldStrongbox, player.getPersonalBoard().getStrongBox().getResources());
 
@@ -417,10 +438,8 @@ public class MatchControllerTest extends CommonThingsTest {
 
         prodEarnings.remove(0);
 
-        cardIds.add("BASICPROD");
         assertThrows(RetryException.class, ()-> matchController.production(player.getNickname(), cardIds, new Production(prodCosts, prodEarnings)));
 
-        cardIds.add("BASICPROD");
         player.addToStrongBox(new PhysicalResource(ResType.COIN, 1));
         player.addToStrongBox(new PhysicalResource(ResType.SHIELD, 2));
 
@@ -467,8 +486,6 @@ public class MatchControllerTest extends CommonThingsTest {
         matchController.nextTurn(player.getNickname());
 
         assertEquals(StateName.REMATCH_OFFER, matchController.getCurrentState(player.getNickname()));
-
-
     }
 
 }

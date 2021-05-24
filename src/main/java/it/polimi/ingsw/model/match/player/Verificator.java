@@ -2,6 +2,10 @@ package it.polimi.ingsw.model.match.player;
 
 import it.polimi.ingsw.model.essentials.CardType;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
+import it.polimi.ingsw.model.essentials.ResType;
+
+import java.util.List;
+import java.util.Map;
 
 public interface Verificator
 {
@@ -25,4 +29,6 @@ public interface Verificator
      * @return          true if it's placeable, else false
      */
     boolean verifyPlaceability(int cardLevel);
+
+    List<PhysicalResource> getDiscountedCosts(List<PhysicalResource> initialCosts);
 }

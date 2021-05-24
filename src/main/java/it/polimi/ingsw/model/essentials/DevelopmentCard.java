@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.essentials;
 import it.polimi.ingsw.model.match.player.Verificator;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class DevelopmentCard implements Card{
@@ -71,7 +72,9 @@ public class DevelopmentCard implements Card{
      * @return true if the player have the required resources in his strongBox or Warehouse
      */
     public boolean isBuyable(Verificator verificator){
-        for (PhysicalResource res : price){
+        List<PhysicalResource> discountedPrice = verificator.getDiscountedCosts(price);
+
+        for (PhysicalResource res : discountedPrice){
             if(!verificator.verifyResources(res))
                 return false;
         }

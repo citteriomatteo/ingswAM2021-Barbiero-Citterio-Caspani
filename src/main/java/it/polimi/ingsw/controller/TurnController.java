@@ -144,26 +144,16 @@ public class TurnController {
         try {
             whiteMarbleDrawn = currentPlayer.marketDeal(row, num);
             if(whiteMarbleDrawn == 0 || currentPlayer.getWhiteMarbleConversions().size() == 0) {
-                System.out.println("entro in 0 biglie o 0 conversioni");
-                if (currentPlayer.getPersonalBoard().getWarehouse().getBuffer().size() == 0) {
-                    System.out.println("entro in 0 nel buffer");
+                if (currentPlayer.getPersonalBoard().getWarehouse().getBuffer().size() == 0)
                     changeState(StateName.END_TURN);
-                }
-                else {
+                else
                     changeState(StateName.RESOURCES_PLACEMENT);
-                    System.out.println("entro in res place");
-                }
             }
             else {
-                System.out.println("entro in biglie e conversioni "+ currentPlayer.getWhiteMarbleConversions().toString());
-                if(currentPlayer.whiteMarbleInsertion(whiteMarbleDrawn)) {
-                    System.out.println("ho inserto in automatico");
+                if(currentPlayer.whiteMarbleInsertion(whiteMarbleDrawn))
                     changeState(StateName.RESOURCES_PLACEMENT);
-                }
-                else {
-                    System.out.println("scegli le conversioni");
+                else
                     changeState(StateName.MARKET_ACTION);
-                }
             }
 
         } catch (LastRoundException e) { isLastRound(); }
@@ -305,6 +295,8 @@ public class TurnController {
 
         PhysicalResource voidResource = new PhysicalResource(ResType.UNKNOWN, 0);
 
+        if(strongboxCosts == null || warehouseCosts == null)
+            throw new RetryException("StrongboxCosts or WarehouseCosts are null");
         strongboxCosts.remove(voidResource);
         warehouseCosts.remove(0);
 
@@ -471,7 +463,7 @@ public class TurnController {
         //checks if the number of unknown costs and earnings corresponds to the chosen cards unknown quantities
         int uCosts=0, uEarnings=0;
         if(basicProdFound) {
-            uCosts += currentPlayer.getPersonalBoard().getBasicProduction().getCost().stream().filter((x)->x.getType().equals(ResType.UNKNOWN)).map((x)->x.getQuantity()).reduce(0, (x,y)->x+y);
+            uCosts += currentPlayer.getPersonalBoard().getBasicProduction().getCost().stream().filter((x)->x.getType().equals(ResType.UNKNOWN)).map(PhysicalResource::getQuantity).reduce(0, Integer::sum);
             for(Resource r : currentPlayer.getPersonalBoard().getBasicProduction().getEarnings())
                 if(r.isPhysical()){
                     PhysicalResource usefulR = (PhysicalResource) r;
@@ -564,7 +556,7 @@ public class TurnController {
         }
     }
 
-    private void removeDiscounts(Map<ResType, Integer> discounts, List<PhysicalResource> cost){
+    private static void removeDiscounts(Map<ResType, Integer> discounts, List<PhysicalResource> cost){
         for (ResType discount : discounts.keySet()) {
             int index = cost.indexOf(new PhysicalResource(discount, discounts.get(discount)));
             if(index != -1) {

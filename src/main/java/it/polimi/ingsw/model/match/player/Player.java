@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model.match.player;
 
-import it.polimi.ingsw.model.essentials.CardType;
-import it.polimi.ingsw.model.essentials.DevelopmentCard;
-import it.polimi.ingsw.model.essentials.PhysicalResource;
-import it.polimi.ingsw.model.essentials.Production;
+import it.polimi.ingsw.model.essentials.*;
 import it.polimi.ingsw.model.essentials.leader.LeaderCard;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.match.Match;
@@ -134,6 +131,7 @@ public class Player extends ModelObservable implements Adder, Verificator
     public List<LeaderCard> getHandLeaders() { return handLeaders; }
     /** @return personal Board */
     public PersonalBoard getPersonalBoard() { return personalBoard; }
+
     /** @return the possible white marble conversions */
     public List<PhysicalResource> getWhiteMarbleConversions() { return getPersonalBoard().getWhiteMarbleConversions(); }
     /** @return the temporary dev card to insert */
@@ -295,6 +293,28 @@ public class Player extends ModelObservable implements Adder, Verificator
     public boolean verifyPlaceability(int cardLevel)
     {
         return personalBoard.getDevCardSlots().isPlaceable(cardLevel);
+    }
+
+    @Override
+    public List<PhysicalResource> getDiscountedCosts(List<PhysicalResource> initialCosts){
+        Map<ResType, Integer> discountMap = personalBoard.getDiscountMap().getDiscountMap();
+        List<PhysicalResource> discountedCosts = new ArrayList<>(initialCosts);
+
+        for (ResType discount : discountMap.keySet()) {
+            int index = discountedCosts.indexOf(new PhysicalResource(discount, discountMap.get(discount)));
+            if(index != -1) {
+                if (discountedCosts.get(index).getQuantity() > discountMap.get(discount)) {
+                    PhysicalResource element = discountedCosts.remove(index);
+                    discountedCosts.add(new PhysicalResource(discount, element.getQuantity() - discountMap.get(discount)));
+                }
+                else {
+                    discountedCosts.remove(index);
+                }
+            }
+
+        }
+
+        return discountedCosts;
     }
 
     //OTHER METHODS:
@@ -533,10 +553,8 @@ public class Player extends ModelObservable implements Adder, Verificator
     {
         try {
             tempProduction.produce(this);
-            tempProduction = null;
         }
         catch(LastRoundException e){
-            tempProduction = null;
             //update_call
             updateTempProduction(this.nickname, getTempProduction());
             throw e;
