@@ -100,7 +100,9 @@ public abstract class FaithPath
     public int getWinPoints()
     {
         int points = 0;
-        points = getFaithPath().stream().filter((x)->faithPath.indexOf(x)<=faithMarker).map(Cell::getWinPoints).reduce(points, Integer::sum);
+        for(int i = faithMarker-1; i>=0 && points==0; i--)
+            points = faithPath.get(i).getWinPoints();
+
         for (int i=0; i<3; i++)
                 points += (i + 2) * ((popeTiles.get(i) == 1) ? 1 : 0);
         return points;
