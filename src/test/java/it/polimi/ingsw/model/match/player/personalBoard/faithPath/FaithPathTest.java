@@ -47,7 +47,7 @@ public class FaithPathTest extends CommonThingsTest
 
         path.addFaithPoints(17,match);
         assertEquals(Arrays.asList(1,1,0),path.getPopeTiles());
-        assertEquals(27, path.getWinPoints());
+        assertEquals(14, path.getWinPoints());
     }
 
     @Test
