@@ -222,7 +222,7 @@ public class MatchController {
     }
 
     public synchronized  boolean disconnection(Player player){
-        if(player.equals(match.getCurrentPlayer())){
+        if(turnController!=null && player.equals(match.getCurrentPlayer())){
             try {
                 turnController.nextTurn();
             } catch (MatchEndedException e) {
@@ -362,7 +362,7 @@ public class MatchController {
         for(Player p : match.getPlayers())
             new NextStateMessage(p.getNickname(), lastUsedState).send(p.getNickname());
 
-        EndGameResultsMessage message = new EndGameResultsMessage("", e.getMsg(), e.getRanking());
+        EndGameResultsMessage message = new EndGameResultsMessage("", e.getMessage(), e.getRanking());
         message.sendBroadcast(match);
     }
 

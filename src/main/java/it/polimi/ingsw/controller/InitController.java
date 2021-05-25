@@ -19,6 +19,9 @@ import static it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType.*;
 import static it.polimi.ingsw.network.server.ServerUtilities.*;
 import static java.util.Map.entry;
 
+/**
+ * Controller used for regulating the login, reconnection and match forming phases
+ */
 public class InitController {
     private static final Map<StateName, CtoSMessageType> acceptedMessageMap;
     static {
@@ -40,17 +43,34 @@ public class InitController {
     private String playerNickname;
     private int desiredNumberOfPlayers;
 
+    /**
+     * Creates a new initController for the PlayerHandler passed, the current state is set to LOGIN
+     * and the client is notified
+     * @param client the playerHandler who is handling the relative client
+     */
     public InitController(PlayerHandler client) {
         currentState = StateName.LOGIN;
         this.client = client;
         client.write(new NextStateMessage(null, currentState));
-
     }
 
+    /**
+     * @return the current state of this
+     */
     public StateName getCurrentState() {
         return currentState;
     }
 
+    /**
+     * Execute the login action with the given nickname, the controller can evolve in 3 states
+     * - LOGIN if the nickname already exists and the related player is connected
+     * - RECONNECTION if the nickname already exists but the related player is disconnected
+     * - NEW_PLAYER if the nickname isn't saved in the server as currently used
+     * After changing state the client is notified.
+     * @param nickname the nickname you want to login with
+     * @return true if a login message is accepted in this phase,
+     *         false otherwise, in that case this method doesn't make any change
+     */
     public boolean login(String nickname){
         if(!isAccepted(LOGIN))
             return false;
@@ -63,7 +83,6 @@ public class InitController {
                 return true;
             }
             client.write(new RetryMessage(null, currentState , "This name is used by another connected player, please choose a different one"));
-            client.write(new NextStateMessage(null, currentState));
             return true;
 
         } catch (ReconnectionException e) {
@@ -81,22 +100,10 @@ public class InitController {
         switch (currentState){
             case NEW_PLAYER:
                 if(choice) {
-                    //single player
-                    System.out.println("Player: " + playerNickname + " chose to play a singlePlayer match");
-                    changeState(StateName.SP_CONFIGURATION_CHOOSE);
+                    singlePlayerChoice();
                     return true;
                 }
-
-                // multiplayer
-                System.out.println("Player: " + playerNickname + " chose to play a multiplayer match");
-
-                if (serverCall().canCreateMatch(client.getPlayer())) {
-                    //He is the first player of the game, he has to choose the number of players
-                    changeState(StateName.NUMBER_OF_PLAYERS);
-                    return true;
-                }
-                //Found a pendent match, and already added the player to it or to a waitingList for the next game
-                // wait until the waiting queue is full, the state will be updated automatically
+                multiPlayerChoice();
                 return true;
 
             case SP_CONFIGURATION_CHOOSE:
@@ -110,8 +117,9 @@ public class InitController {
 
             case MP_CONFIGURATION_CHOOSE:
                 if(choice) { //choose the default config, wait for players or start directly the match
-                    serverCall().searchingForPlayers(client.getPlayer(), desiredNumberOfPlayers);
                     changeState(StateName.WAITING_FOR_PLAYERS);
+                    serverCall().searchingForPlayers(client.getPlayer(), desiredNumberOfPlayers);
+
                 }
                 else //Choose custom configuration
                     changeState(StateName.CONFIGURATION);
@@ -143,6 +151,24 @@ public class InitController {
                 return false;
         }
     }
+
+    private void singlePlayerChoice(){
+        System.out.println("Player: " + playerNickname + " chose to play a singlePlayer match");
+        changeState(StateName.SP_CONFIGURATION_CHOOSE);
+    }
+
+
+    private void multiPlayerChoice(){
+        System.out.println("Player: " + playerNickname + " chose to play a multiplayer match");
+
+        if (serverCall().canCreateMatch(client.getPlayer())) {
+            //He is the first player of the game, he has to choose the number of players
+            changeState(StateName.NUMBER_OF_PLAYERS);
+        }
+        //Found a pendent match, and already added the player to it or to a waitingList for the next game
+        // wait until the waiting queue is full, the state will be updated automatically
+    }
+
 
     public boolean setNumberOfPlayers(int num){
         if(!isAccepted(NUM_PLAYERS))

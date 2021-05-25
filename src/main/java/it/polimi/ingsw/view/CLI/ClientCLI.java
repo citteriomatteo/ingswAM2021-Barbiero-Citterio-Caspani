@@ -113,6 +113,7 @@ public class ClientCLI implements View
     @Override
     public void drawWaitingLayout() {
         lastLayout = "Waiting...";
+        System.out.println(lastLayout);
     }
 
     @Override

@@ -41,7 +41,7 @@ public class WarehouseInsertionMessage extends CtoSMessage {
         try {
             return controlBase.getMatchController().warehouseInsertion(getNickname(), resources);
         } catch (RetryException e) {
-            sendRetryMessage(getNickname(), controlBase, e.getError());
+            sendRetryMessage(getNickname(), controlBase, e.getMessage());
             return false;
         }
     }

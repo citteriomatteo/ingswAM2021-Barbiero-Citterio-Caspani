@@ -46,7 +46,7 @@ public class DevCardDrawMessage extends CtoSMessage {
         try {
             return controlBase.getMatchController().devCardDraw(getNickname(), row, column);
         } catch (RetryException e) {
-            sendRetryMessage(getNickname(), controlBase, e.getError());
+            sendRetryMessage(getNickname(), controlBase, e.getMessage());
             return false;
         }
     }

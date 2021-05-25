@@ -48,7 +48,7 @@ public class ProductionMessage extends CtoSMessage {
         try {
             return controlBase.getMatchController().production(getNickname(), cardIds, productionOfUnknown);
         } catch (RetryException e) {
-            sendRetryMessage(getNickname(), controlBase, e.getError());
+            sendRetryMessage(getNickname(), controlBase, e.getMessage());
             return false;
         }
     }

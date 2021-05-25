@@ -38,7 +38,7 @@ public class WhiteMarblesConversionMessage extends CtoSMessage {
         try {
             return controlBase.getMatchController().whiteMarblesConversion(getNickname(), resources);
         } catch (RetryException e) {
-            sendRetryMessage(getNickname(), controlBase, e.getError());
+            sendRetryMessage(getNickname(), controlBase, e.getMessage());
             return false;
         }
     }
