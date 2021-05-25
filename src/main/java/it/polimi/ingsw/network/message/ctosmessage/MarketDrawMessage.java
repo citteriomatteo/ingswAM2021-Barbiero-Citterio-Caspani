@@ -46,7 +46,7 @@ public class MarketDrawMessage extends CtoSMessage {
         try {
             return controlBase.getMatchController().marketDraw(getNickname(), row, num);
         } catch (RetryException e) {
-            sendRetryMessage(getNickname(), controlBase, e.getError());
+            sendRetryMessage(getNickname(), controlBase, e.getMessage());
             return false;
         }
     }

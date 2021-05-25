@@ -25,7 +25,7 @@ public class RematchMessage extends CtoSMessage {
         try {
             return controlBase.getMatchController().response(getNickname(), accepted);
         } catch (RetryException e) {
-            sendRetryMessage(getNickname(), controlBase, e.getError());
+            sendRetryMessage(getNickname(), controlBase, e.getMessage());
             return false;
         }
     }

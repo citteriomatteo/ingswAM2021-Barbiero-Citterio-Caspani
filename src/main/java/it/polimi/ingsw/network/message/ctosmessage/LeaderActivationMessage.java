@@ -35,7 +35,7 @@ public class LeaderActivationMessage extends CtoSMessage {
         try {
             return controlBase.getMatchController().leaderActivation(getNickname(),leaderId);
         } catch (RetryException e) {
-            sendRetryMessage(getNickname(), controlBase, e.getError());
+            sendRetryMessage(getNickname(), controlBase, e.getMessage());
             return false;
         }
     }

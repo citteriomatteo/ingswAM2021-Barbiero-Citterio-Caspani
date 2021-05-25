@@ -49,7 +49,7 @@ public class PaymentsMessage extends CtoSMessage {
         try {
             return controlBase.getMatchController().payments(getNickname(), strongboxCosts, warehouseCosts);
         } catch (RetryException e) {
-            sendRetryMessage(getNickname(), controlBase, e.getError());
+            sendRetryMessage(getNickname(), controlBase, e.getMessage());
             return false;
         }
     }

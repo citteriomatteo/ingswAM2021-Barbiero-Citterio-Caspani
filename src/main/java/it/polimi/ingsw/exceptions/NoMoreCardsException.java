@@ -6,6 +6,4 @@ public class NoMoreCardsException extends InvalidOperationException
     {
         super(error);
     }
-
-    public String getError() {return error;}
 }

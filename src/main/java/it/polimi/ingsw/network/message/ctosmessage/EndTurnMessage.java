@@ -24,7 +24,7 @@ public class EndTurnMessage extends CtoSMessage {
         try {
             return controlBase.getMatchController().nextTurn(getNickname());
         } catch (RetryException e) {
-            sendRetryMessage(getNickname(), controlBase, e.getError());
+            sendRetryMessage(getNickname(), controlBase, e.getMessage());
             return false;
         }
     }

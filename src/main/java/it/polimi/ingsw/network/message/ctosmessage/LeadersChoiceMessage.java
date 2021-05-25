@@ -37,7 +37,7 @@ public class LeadersChoiceMessage extends CtoSMessage {
         try {
             return controlBase.getMatchController().startingLeader(getNickname(),leaderIds);
         } catch (RetryException e) {
-            sendRetryMessage(getNickname(), controlBase, e.getError());
+            sendRetryMessage(getNickname(), controlBase, e.getMessage());
             return false;
         }
     }

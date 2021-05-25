@@ -36,7 +36,7 @@ public class LeaderDiscardingMessage extends CtoSMessage {
         try {
             return controlBase.getMatchController().leaderDiscarding(getNickname(),leaderId);
         } catch (RetryException e) {
-            sendRetryMessage(getNickname(), controlBase, e.getError());
+            sendRetryMessage(getNickname(), controlBase, e.getMessage());
             return false;
         }
     }

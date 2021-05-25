@@ -2,13 +2,7 @@ package it.polimi.ingsw.exceptions;
 
 public class MatchRestartException extends Exception {
 
-    String msg;
-
     public MatchRestartException(String msg){
-        this.msg = msg;
+        super(msg);
     }
-
-    public String getMsg(){ return msg; }
-
-
 }
