@@ -216,7 +216,19 @@ public class TurnController {
             catch (InvalidOperationException e) {
                 throw new RetryException ("You can still place other resources." + errMessage);
             }
-            catch (LastRoundException e) { isLastRound(); }
+            catch (LastRoundException e) {
+                isLastRound();
+                try {
+                    currentPlayer.discardRemains();
+                    changeState(StateName.END_TURN);
+                    return currentState;
+                } catch (InvalidOperationException invalidOperationException) {
+                    throw new RetryException ("You can still place other resources." + errMessage);
+                } catch (LastRoundException lastRoundException) {
+                    changeState(StateName.END_TURN);
+                    return currentState;
+                }
+            }
         }
 
         for(PhysicalResource resource : resources)
@@ -227,7 +239,19 @@ public class TurnController {
                 changeState(StateName.END_TURN);
                 return currentState;
             }
-            catch (LastRoundException e) { isLastRound(); }
+            catch (LastRoundException e) {
+                isLastRound();
+                try {
+                    currentPlayer.discardRemains();
+                    changeState(StateName.END_TURN);
+                    return currentState;
+                } catch (InvalidOperationException invalidOperationException) {
+                    throw new RetryException ("You can still place other resources." + errMessage);
+                } catch (LastRoundException lastRoundException) {
+                    changeState(StateName.END_TURN);
+                    return currentState;
+                }
+            }
             catch (InvalidOperationException e) {
                 errMessage.append("You can still place other resources.\n");
             }

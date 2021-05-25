@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.network.message.stocmessage.GoodbyeMessage;
 import it.polimi.ingsw.network.message.stocmessage.RematchOfferedMessage;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +21,7 @@ public class RematchPhaseController
 
     public RematchPhaseController(List<Player> players){
         this.players = players;
+        pendantPlayers = new ArrayList<>();
         for(Player p : players)
             pendantPlayers.add(p.getNickname());
     }

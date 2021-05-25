@@ -13,6 +13,7 @@ import it.polimi.ingsw.model.match.player.personalBoard.StrongBox;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 import it.polimi.ingsw.network.message.stocmessage.*;
+import it.polimi.ingsw.network.server.ControlBase;
 import it.polimi.ingsw.observer.ModelObserver;
 import static it.polimi.ingsw.controller.MatchController.getKeyByValue;
 import static it.polimi.ingsw.network.server.ServerUtilities.serverCall;
@@ -159,8 +160,12 @@ public class Summary implements ModelObserver {
         for(int i = 0; i< market.getBoard().length; i++)
             for(int j = 0; j<market.getBoard()[i].length; j++)
                 this.market[i][j] = Character.toLowerCase(market.getBoard()[i][j].toString().charAt(0));
-        if(serverCall().findControlBase(getPlayersNicknames().get(0)) != null)
-            new MarketChangeMessage("", this.sideMarble, this.market).sendBroadcast(getPlayersNicknames());
+        for (String player : getPlayersNicknames())
+            if (serverCall().findControlBase(player) != null) {
+                new MarketChangeMessage("", this.sideMarble, this.market).sendBroadcast(getPlayersNicknames());
+                break;
+            }
+
     }
 
     /**

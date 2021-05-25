@@ -185,7 +185,7 @@ public class ConcreteWarehouse implements Warehouse
     public int discardRemains() throws InvalidOperationException
     {
         if(!isPlaceable(getBuffer()))
-            throw new InvalidOperationException("There's a space in warehouse for atleast a buffer resource! Retry to select.");
+            throw new InvalidOperationException("There's a space in warehouse for at least a buffer resource! Retry to select.");
         int remainingSize= marketBuffer.size();
         marketBuffer.clear();
         return remainingSize;
