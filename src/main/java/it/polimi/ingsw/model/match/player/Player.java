@@ -587,6 +587,16 @@ public class Player extends ModelObservable implements Adder, Verificator
         return points;
     }
 
+    public void clear(){
+        connected = true;
+        match = null;
+        personalBoard = null;
+        handLeaders = null;
+        tempProduction = null;
+        tempDevCard = null;
+    }
+
+
     @Override
     public String toString(){
         return nickname;

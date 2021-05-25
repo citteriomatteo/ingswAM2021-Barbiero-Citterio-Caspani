@@ -359,19 +359,55 @@ public class MatchController {
         rematchPhaseController = new RematchPhaseController(match.getPlayers());
         lastUsedState = StateName.END_MATCH;
 
+        for(Player p : match.getPlayers())
+            new NextStateMessage(p.getNickname(), lastUsedState).send(p.getNickname());
+
         EndGameResultsMessage message = new EndGameResultsMessage("", e.getMsg(), e.getRanking());
         message.sendBroadcast(match);
-        NextStateMessage stateMessage = new NextStateMessage(null, lastUsedState);
-        stateMessage.sendBroadcast(match);
     }
 
     public synchronized boolean response(String nickname, boolean value) throws RetryException {
-        boolean isComputable = isComputable(nickname, CtoSMessageType.PRODUCTION);
+        boolean isComputable = isComputable(nickname, CtoSMessageType.REMATCH);
         if (!isComputable)
             return false;
 
-        rematchPhaseController.response(nickname, value);
+        try {
+            rematchPhaseController.response(nickname, value);
+        } catch (MatchRestartException e) {
+            restartMatch();
+        }
         return true;
+    }
+
+
+    private void restartMatch(){
+        List<Player> oldPlayers = match.getPlayers();
+        MatchConfiguration oldConfiguration = match.getMatchConfiguration();
+
+        //re-setting the starting summary to everyone
+        ModelObserver obs = new Summary(oldPlayers, cardMap, oldConfiguration.getCustomPath(), oldConfiguration.getBasicProduction());
+        for(Player p : oldPlayers) {
+            p.clear();
+            p.setSummary(obs);
+        }
+
+        if(match.getPlayers().size() == 1)
+            try {
+                match = new SingleMatch(match.getPlayers().get(0), match.getMatchConfiguration());
+            } catch (WrongSettingException e) { e.printStackTrace(); System.exit(1); }
+
+        else
+            try {
+                match = new MultiMatch(match.getPlayers(), match.getMatchConfiguration());
+            } catch (SingleMatchException e) { e.printStackTrace(); System.exit(1); }
+            catch (WrongSettingException e) { e.printStackTrace(); System.exit(1); }
+
+        //re-initializing controllers for a new match.
+        turnController = null;
+        rematchPhaseController = null;
+        startingPhaseController = new StartingPhaseController(match, cardMap);
+
+
     }
 
     /**

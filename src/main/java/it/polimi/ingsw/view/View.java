@@ -38,6 +38,7 @@ public interface View extends ViewObserver {
 
     void printTokenDraw(String tokenName, int remainingTokens);
     void printLastRound();
+    void setLastRound(boolean lastRound);
     void printMatchResults(String message, Map<String, Integer> ranking);
     void printRetry(String errMessage);
     void printDiscountMap(LightPlayer player);

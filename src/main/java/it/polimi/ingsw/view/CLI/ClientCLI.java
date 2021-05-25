@@ -177,7 +177,6 @@ public class ClientCLI implements View
     @Override
     public void printLastRound(){
         lastLayout = "It's the last round. Hurry up!";
-        //System.out.println(lastLayout);
         lastRound = true;
     }
 
@@ -191,7 +190,7 @@ public class ClientCLI implements View
     @Override
     public void drawRematchOfferLayout(String nickname) {
         lastLayout = nickname + " has offered a rematch. Accept?";
-        //System.out.println(lastLayout);
+        System.out.println(lastLayout);
     }
 
     @Override
@@ -290,7 +289,7 @@ public class ClientCLI implements View
         StringBuilder results = new StringBuilder();
         results.append("Match has ended, this is the ultimate ranking:\n");
         for (String player : sortedRanking.keySet()){
-            results.append(player +": " + sortedRanking.get(player));
+            results.append(player +": " + sortedRanking.get(player)+"\n");
         }
 
         System.out.println(putInColoredFrame(results, ColorCli.CLEAR.toString()));
@@ -329,11 +328,14 @@ public class ClientCLI implements View
         }
         StringBuilder allBoardsLined = new StringBuilder();
         Integer max = 0;
-        for(StringBuilder sb : boards)
-            allBoardsLined = new StringBuilder(mergePrintingObjects(allBoardsLined, sb, max, DEFAULT_SHIFT));
+        for(int i=0; i<boards.size(); i++)
+            allBoardsLined = new StringBuilder(mergePrintingObjects(allBoardsLined, boards.get(i), max, DEFAULT_SHIFT, i));
 
-        if(lastRound)
-            System.out.println(putInColoredFrame(allBoardsLined, ColorCli.RED.toString()) + "\n");
+        if(lastRound) {
+            allBoardsLined = putInColoredFrame(allBoardsLined, ColorCli.RED.toString());
+            allBoardsLined.append(ColorCli.RED).append("\nIt's the last round. Hurry up!").append(ColorCli.CLEAR);
+            System.out.println(allBoardsLined + "\n");
+        }
         else
             System.out.println(allBoardsLined + "\n");
 
@@ -350,12 +352,12 @@ public class ClientCLI implements View
         StringBuilder gridGraphic = new StringBuilder();
         showCardGrid(match.getCardGrid(), gridGraphic);
 
-        StringBuilder commonThings = mergePrintingObjects(marketGraphic, gridGraphic, 0, DEFAULT_SHIFT);
+        StringBuilder commonThings = mergePrintingObjects(marketGraphic, gridGraphic, 0, DEFAULT_SHIFT, 1);
 
         StringBuilder basicProdGraphic = new StringBuilder();
         showBasicProduction(match.getBasicProd(), basicProdGraphic);
 
-        System.out.println(mergePrintingObjects(commonThings, basicProdGraphic, 0, DEFAULT_SHIFT));
+        System.out.println(mergePrintingObjects(commonThings, basicProdGraphic, 0, DEFAULT_SHIFT, 2));
 
         StringBuilder pathGraphic = new StringBuilder();
         showFaithPath(match, pathGraphic);
@@ -451,7 +453,7 @@ public class ClientCLI implements View
     private void showFaithPath(LightMatch match, StringBuilder pathGraphic){
         System.out.println("\nFAITH PATH:\n");
         for(int i = 0; i < match.getFaithPath().size(); i++)
-            pathGraphic = mergePrintingObjects(pathGraphic, getPrintedCell(match, i, match.getFaithPath().get(i)), 0, ZERO_SHIFT);
+            pathGraphic = mergePrintingObjects(pathGraphic, getPrintedCell(match, i, match.getFaithPath().get(i)), 0, ZERO_SHIFT, i+1);
         System.out.println(pathGraphic);
     }
 
@@ -693,9 +695,9 @@ public class ClientCLI implements View
         for(String id : ids) {
             Card card = getCardMap().get(id);
             if (card.isLeader())
-                cards = mergePrintingObjects(cards, drawLeaderCard((LeaderCard) card, id), 0, ZERO_SHIFT+1);
+                cards = mergePrintingObjects(cards, drawLeaderCard((LeaderCard) card, id), 0, ZERO_SHIFT+1, ids.indexOf(id)+1);
             else
-                cards = mergePrintingObjects(cards, drawDevCard((DevelopmentCard) card, id), 0, ZERO_SHIFT+1);
+                cards = mergePrintingObjects(cards, drawDevCard((DevelopmentCard) card, id), 0, ZERO_SHIFT+1, ids.indexOf(id)+1);
         }
         System.out.println(cards);
     }
@@ -920,7 +922,7 @@ public class ClientCLI implements View
         }
     }
 
-    private StringBuilder mergePrintingObjects(StringBuilder str1, StringBuilder str2, Integer maxCols, int SHIFT){
+    private StringBuilder mergePrintingObjects(StringBuilder str1, StringBuilder str2, Integer maxCols, int SHIFT, int mergeCounter){
 
         if(str1.length() == 0)
             return str2;
@@ -939,13 +941,14 @@ public class ClientCLI implements View
         StringBuilder mergedOne = new StringBuilder();
         for(int i = 0; i < Math.max(rows1.length, rows2.length); i++){
             if(i >= rows1.length)
-                putSomeDistance(mergedOne, maxCols + SHIFT);
+                putSomeDistance(mergedOne, maxCols * (mergeCounter) + SHIFT * (mergeCounter));
+
             else {
                 mergedOne.append(rows1[i]);
                 putSomeDistance(mergedOne, maxCols - noANSIOccurrencesSize(rows1[i]) + SHIFT);
             }
             if(i >= rows2.length)
-                putSomeDistance(mergedOne, maxCols + SHIFT);
+                putSomeDistance(mergedOne, maxCols*(mergeCounter-1) + SHIFT*(mergeCounter-1));
             else {
                 mergedOne.append(rows2[i]);
                 putSomeDistance(mergedOne, maxCols - noANSIOccurrencesSize(rows2[i]) + SHIFT);
@@ -964,10 +967,6 @@ public class ClientCLI implements View
         for(ColorCli escape : ColorCli.values())
             str2 = str2.replaceAll(escape.toRegexString(), "");
         return str2.length();
-    }
-
-    private void appendLastLayout(StringBuilder str){
-        str.append("\n").append(lastLayout).append("\n");
     }
 
     private StringBuilder putInColoredFrame(StringBuilder str, String color){
@@ -1006,5 +1005,9 @@ public class ClientCLI implements View
         for(int i = 0; i < 50; i++)
             System.out.println();
     }
+
+    @Override
+    public void setLastRound(boolean lastRound) { this.lastRound = lastRound; }
+
 
 }

@@ -49,7 +49,7 @@ public class ClientController
                 entry(StateName.PRODUCTION_ACTION, List.of(SWITCH_SHELF, PAYMENTS)),
                 entry(StateName.END_TURN, List.of(SWITCH_SHELF, LEADER_ACTIVATION, LEADER_DISCARDING, END_TURN)),
                 entry(StateName.END_MATCH, List.of(REMATCH, DISCONNECTION)),
-                entry(StateName.REMATCH_OFFER, List.of(REMATCH))
+                entry(StateName.REMATCH_OFFER, List.of(REMATCH, DISCONNECTION))
         );
     }
 
@@ -72,6 +72,9 @@ public class ClientController
 
         else if(msg.getType().equals(StoCMessageType.NEXT_STATE)){
             this.currentState = ((NextStateMessage) msg).getNewState();
+            //in order to remove the frame around the boards when the match restarts
+            if(((NextStateMessage) msg).getNewState().equals(StateName.WAITING_LEADERS))
+                view.setLastRound(false);
             printMoveLegend(msg);
             if(match != null) {
                 match.getPlayerSummary(msg.getNickname()).setLastUsedState(currentState);
@@ -207,15 +210,11 @@ public class ClientController
         view.printWhiteMarbleConversions(match.getPlayerSummary(nickname));
         return true;
     }
-
     public LightMatch getMatch(){ return match; }
-
     public StateName getCurrentState() { return currentState; }
-
     public String getNickname() {
         return nickname;
     }
-
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }

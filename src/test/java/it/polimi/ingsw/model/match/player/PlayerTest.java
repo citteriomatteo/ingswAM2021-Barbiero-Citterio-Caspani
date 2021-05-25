@@ -17,8 +17,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerTest extends CommonThingsTest
 {
-
-
     public void paySequence(Player p1, Player p2) throws NegativeQuantityException, InvalidOperationException {
         p1.payFromWarehouse(new PhysicalResource(ResType.SHIELD,1), 3);
         p2.payFromStrongbox(new PhysicalResource(ResType.COIN,3));

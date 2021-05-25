@@ -49,7 +49,6 @@ public class PlayerSummary
      */
     public PlayerSummary(Player player){
         this.connected = player.isConnected();
-        System.out.println("player "+player.getNickname()+" set to "+player.isConnected()+" in summary");
         this.nickname = player.getNickname();
 
         //last used state init to the first state after the creation of the match
