@@ -7,9 +7,7 @@ import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.lightmodel.LightMatch;
 import it.polimi.ingsw.view.lightmodel.LightPlayer;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.view.lightmodel.LightMatch.getCardMap;
@@ -178,7 +176,7 @@ public class ClientCLI implements View
 
     @Override
     public void printLastRound(){
-        //lastLayout = "It's the last round. Hurry up!";
+        lastLayout = "It's the last round. Hurry up!";
         //System.out.println(lastLayout);
         lastRound = true;
     }
@@ -186,7 +184,7 @@ public class ClientCLI implements View
 
     @Override
     public void drawEndMatchLayout() {
-        lastLayout = "Match has ended";
+        lastLayout = "Do you want to play a rematch?";
         //System.out.println(lastLayout);
     }
 
@@ -280,8 +278,22 @@ public class ClientCLI implements View
 
     @Override
     public void printMatchResults(String nickname, Map<String, Integer> ranking){
+        //LinkedHashMap preserve the ordering of elements in which they are inserted
+        LinkedHashMap<String, Integer> sortedRanking = new LinkedHashMap<>();
 
+        //Use Comparator.reverseOrder() for reverse ordering
+        ranking.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .forEachOrdered(x -> sortedRanking.put(x.getKey(), x.getValue()));
 
+        StringBuilder results = new StringBuilder();
+        results.append("Match has ended, this is the ultimate ranking:\n");
+        for (String player : sortedRanking.keySet()){
+            results.append(player +": " + sortedRanking.get(player));
+        }
+
+        System.out.println(putInColoredFrame(results, ColorCli.CLEAR.toString()));
 
     }
 

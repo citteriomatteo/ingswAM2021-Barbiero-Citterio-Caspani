@@ -15,7 +15,6 @@ import it.polimi.ingsw.network.message.stocmessage.NextStateMessage;
 
 import static it.polimi.ingsw.controller.MatchController.getKeyByValue;
 
-import static it.polimi.ingsw.network.server.ServerUtilities.serverCall;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -23,7 +22,6 @@ import java.util.stream.Collectors;
 
 public class TurnController {
     private Player currentPlayer;
-    private final Player firstPlayer;
     private boolean lastRound;
     private StateName currentState;
     private final Match match;
@@ -34,7 +32,6 @@ public class TurnController {
     public TurnController(Match match, Map<String, Card> cardMap) {
         this.lastRound = false;
         this.currentPlayer = match.getCurrentPlayer();
-        this.firstPlayer = match.getCurrentPlayer();
         this.currentState = StateName.STARTING_TURN;
         for(Player p : match.getPlayers())
             if(!p.equals(currentPlayer))

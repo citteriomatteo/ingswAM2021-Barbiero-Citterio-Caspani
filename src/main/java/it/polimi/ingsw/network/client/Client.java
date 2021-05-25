@@ -3,10 +3,9 @@ package it.polimi.ingsw.network.client;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import it.polimi.ingsw.controller.StateName;
 import it.polimi.ingsw.exceptions.DisconnectionException;
-import it.polimi.ingsw.network.message.ctosmessage.CtoSMessage;
-import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
-import it.polimi.ingsw.network.message.ctosmessage.DisconnectionMessage;
+import it.polimi.ingsw.network.message.ctosmessage.*;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessageType;
 import it.polimi.ingsw.view.ClientController;
@@ -99,12 +98,19 @@ public class Client {
     //Send the message to the server after parsing it.
     public synchronized boolean writeMessage(CtoSMessage msg) {
         try {
-            String outMsg = parserCtoS.toJson(msg, CtoSMessage.class);
-            //System.out.println("You write a " + msg.getType() + ":\n" + outMsg);
+            if(msg.getType().equals(CtoSMessageType.BINARY_SELECTION) && controller.getCurrentState().equals(StateName.END_MATCH)) {
+                boolean selection = ((BinarySelectionMessage) msg).getSelection();
+
+                msg = new RematchMessage(msg.getNickname(), selection);
+
+            }
             if(!isAccepted(msg.getType())) {
                 controller.printRetry("You're in "+controller.getCurrentState()+". Operation not available: retry. Write 'help' for message tips.");
                 return false;
             }
+
+            String outMsg = parserCtoS.toJson(msg, CtoSMessage.class);
+            //System.out.println("You write a " + msg.getType() + ":\n" + outMsg);
 
             out.println(outMsg);
             return true;

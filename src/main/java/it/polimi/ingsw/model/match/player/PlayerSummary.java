@@ -56,6 +56,8 @@ public class PlayerSummary
         this.lastUsedState = StateName.WAITING_LEADERS;
         //warehouse init
         warehouse = new ArrayList<>();
+        //marketBuffer init
+        marketBuffer = new ArrayList<>();
         //strongbox init
         strongbox = new ArrayList<>();
         //player's faith marker init
@@ -183,7 +185,7 @@ public class PlayerSummary
      * @param warehouse the warehouse
      */
     public void updateMarketBuffer(Warehouse warehouse){
-        this.marketBuffer = warehouse.getBuffer();
+        this.marketBuffer = new ArrayList<>(warehouse.getBuffer());
     }
 
     /**
@@ -221,7 +223,7 @@ public class PlayerSummary
      * @param popeTiles the pope tiles' array
      */
     public void updatePopeTiles(List<Integer> popeTiles){
-        this.popeTiles = popeTiles;
+        this.popeTiles = new ArrayList<>(popeTiles);
     }
 
     /**

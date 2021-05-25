@@ -357,9 +357,12 @@ public class MatchController {
 
     private void matchEndingProcedure(MatchEndedException e){
         rematchPhaseController = new RematchPhaseController(match.getPlayers());
+        lastUsedState = StateName.END_MATCH;
 
         EndGameResultsMessage message = new EndGameResultsMessage("", e.getMsg(), e.getRanking());
         message.sendBroadcast(match);
+        NextStateMessage stateMessage = new NextStateMessage(null, lastUsedState);
+        stateMessage.sendBroadcast(match);
     }
 
     public synchronized boolean response(String nickname, boolean value) throws RetryException {
