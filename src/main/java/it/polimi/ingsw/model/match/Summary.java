@@ -160,11 +160,8 @@ public class Summary implements ModelObserver {
         for(int i = 0; i< market.getBoard().length; i++)
             for(int j = 0; j<market.getBoard()[i].length; j++)
                 this.market[i][j] = Character.toLowerCase(market.getBoard()[i][j].toString().charAt(0));
-        for (String player : getPlayersNicknames())
-            if (serverCall().findControlBase(player) != null) {
-                new MarketChangeMessage("", this.sideMarble, this.market).sendBroadcast(getPlayersNicknames());
-                break;
-            }
+
+        new MarketChangeMessage("", this.sideMarble, this.market).sendBroadcast(getPlayersNicknames());
 
     }
 
@@ -182,8 +179,7 @@ public class Summary implements ModelObserver {
                 this.cardGrid[i][j].add(getKeyByValue(cardMap,cardGrid.getTop()[i][j]));
                 this.cardGrid[i][j].add("" + cardGrid.getGrid()[i][j].size());
             }
-        if(serverCall().findControlBase(getPlayersNicknames().get(0)) != null)
-            new CardGridChangeMessage("", this.cardGrid).sendBroadcast(getPlayersNicknames());
+        new CardGridChangeMessage("", this.cardGrid).sendBroadcast(getPlayersNicknames());
     }
 
     /**
