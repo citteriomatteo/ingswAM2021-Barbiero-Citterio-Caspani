@@ -344,8 +344,6 @@ public class TurnController {
 
         if(currentState == StateName.PRODUCTION_ACTION){
 
-            removeDiscounts(discounts, currentPlayer.getTempProduction().getCost());
-
             if(payments.size() != currentPlayer.getTempProduction().getCost().size())
                 throw new RetryException("Payments don't match the chosen production ones.");
             boolean found = false;

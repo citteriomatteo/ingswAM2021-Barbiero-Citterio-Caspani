@@ -93,9 +93,7 @@ public class Production {
      * @return true if you have the resource to activate this production
      */
     public boolean isPlayable(Verificator verificator){
-        List<PhysicalResource> discountedCosts = verificator.getDiscountedCosts(cost);
-
-        for (PhysicalResource resource: discountedCosts){
+        for (PhysicalResource resource: cost){
           if(!resource.verify(verificator))
               return false;
         }

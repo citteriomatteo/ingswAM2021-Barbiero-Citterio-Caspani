@@ -13,10 +13,8 @@ import it.polimi.ingsw.model.match.player.personalBoard.StrongBox;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 import it.polimi.ingsw.network.message.stocmessage.*;
-import it.polimi.ingsw.network.server.ControlBase;
 import it.polimi.ingsw.observer.ModelObserver;
 import static it.polimi.ingsw.controller.MatchController.getKeyByValue;
-import static it.polimi.ingsw.network.server.ServerUtilities.serverCall;
 
 
 import java.util.*;
@@ -54,11 +52,10 @@ public class Summary implements ModelObserver {
         //faith path init
         this.faithPath = new ArrayList<>();
         for(Cell c : faithPath){
-            StringBuilder cell = new StringBuilder();
-            cell.append(c.getWinPoints()).append("-");
-            cell.append(c.getReportSection()).append("-");
-            cell.append(c.isVatican());
-            this.faithPath.add(cell.toString());
+            String cell = c.getWinPoints() + "-" +
+                    c.getReportSection() + "-" +
+                    c.isVatican();
+            this.faithPath.add(cell);
         }
         //players summaries init
         playersSummary = new ArrayList<>();
@@ -105,11 +102,10 @@ public class Summary implements ModelObserver {
         //faith path init
         this.faithPath = new ArrayList<>();
         for(Cell c : faithPath){
-            StringBuilder cell = new StringBuilder();
-            cell.append(c.getWinPoints()).append("-");
-            cell.append(c.getReportSection()).append("-");
-            cell.append(c.isVatican());
-            this.faithPath.add(cell.toString());
+            String cell = c.getWinPoints() + "-" +
+                    c.getReportSection() + "-" +
+                    c.isVatican();
+            this.faithPath.add(cell);
         }
 
 
@@ -199,11 +195,10 @@ public class Summary implements ModelObserver {
     public void updateFaithPath(List<Cell> faithPath) {
         this.faithPath = new ArrayList<>();
         for(Cell c : faithPath){
-            StringBuilder cell = new StringBuilder();
-            cell.append(c.getWinPoints()).append("-");
-            cell.append(c.getReportSection()).append("-");
-            cell.append(c.isVatican());
-            this.faithPath.add(cell.toString());
+            String cell = c.getWinPoints() + "-" +
+                    c.getReportSection() + "-" +
+                    c.isVatican();
+            this.faithPath.add(cell);
         }
     }
 
