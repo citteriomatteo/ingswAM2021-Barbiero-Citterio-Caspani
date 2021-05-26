@@ -94,20 +94,31 @@ public class InitController {
 
     }
 
+    /**
+     * Handles a player boolean decision in the first phases, can act differently based on the current state of the controller:
+     * - in NEW_PLAYER select the modality
+     * - in SP_CONFIGURATION_CHOOSE select if you want to play with standard configuration
+     * - in MP_CONFIGURATION_CHOOSE select if you want to play with standard configuration
+     * - in RECONNECTION select if you want to reconnect to the match,
+     *                  if meanwhile someone else has reconnected to the same match go to LOGIN phase.
+     * @param choice the value of the selection message
+     * @return true if a selection message is accepted in this phase,
+     *         false otherwise, in that case this method doesn't make any change
+     */
     public boolean selection(boolean choice) {
         if(!isAccepted(BINARY_SELECTION))
             return false;
+
         switch (currentState){
             case NEW_PLAYER:
-                if(choice) {
+                if(choice)
                     singlePlayerChoice();
-                    return true;
-                }
-                multiPlayerChoice();
+                else
+                    multiPlayerChoice();
                 return true;
 
             case SP_CONFIGURATION_CHOOSE:
-                if(choice) { //choose the default config
+                if(choice) { //choose the default config -> start single player match
                     client.setMatchController(new MatchController(client.getPlayer()));  //<-- exit from init
                     changeState(StateName.START_GAME);
                 }
@@ -116,31 +127,19 @@ public class InitController {
                 return true;
 
             case MP_CONFIGURATION_CHOOSE:
-                if(choice) { //choose the default config, wait for players or start directly the match
+                if(choice) { //choose the default config
                     changeState(StateName.WAITING_FOR_PLAYERS);
                     serverCall().searchingForPlayers(client.getPlayer(), desiredNumberOfPlayers);
-
+                    //inside the method can be called startGame() method directly or wait other players to join, the last player will call startGame()
                 }
-                else //Choose custom configuration
+                else
                     changeState(StateName.CONFIGURATION);
                 return true;
 
             case RECONNECTION:
-                if(choice && serverCall().reconnection(client, playerNickname)) {
-                    changeState(StateName.START_GAME);
+                if(choice && serverCall().reconnection(client, playerNickname))
+                    reconnectionSequence();
 
-                    Summary summary = (Summary) client.getPlayer().getSummary();
-                    StateName currentState = client.getCurrentState();
-
-                    (new SummaryMessage(playerNickname, summary.personalizedSummary(playerNickname))).send(playerNickname);
-                    if(currentState.equals(StateName.WAITING_LEADERS))
-                        (new HandLeadersStateMessage(playerNickname, client.getPlayer().getHandLeaders().stream()
-                                .map((x)->MatchController.getKeyByValue(summary.getCardMap(),x))
-                                .collect(Collectors.toList())))
-                                .send(playerNickname);
-                    (new NextStateMessage(playerNickname, currentState)).send(playerNickname);
-
-                }
                 else{
                     currentState = StateName.LOGIN;
                     client.write(new NextStateMessage(null, currentState));
@@ -152,12 +151,17 @@ public class InitController {
         }
     }
 
+    /**
+     * Moves to SP_CONFIGURATION_CHOOSE
+     */
     private void singlePlayerChoice(){
         System.out.println("Player: " + playerNickname + " chose to play a singlePlayer match");
         changeState(StateName.SP_CONFIGURATION_CHOOSE);
     }
 
-
+    /**
+     * Moves to NUMBER_OF_PLAYERS or WAITING depending on server availability to create a match
+     */
     private void multiPlayerChoice(){
         System.out.println("Player: " + playerNickname + " chose to play a multiplayer match");
 
@@ -169,7 +173,32 @@ public class InitController {
         // wait until the waiting queue is full, the state will be updated automatically
     }
 
+    /**
+     * Sends the summary and useful information for continuing the match to the reconnected player
+     */
+    private void reconnectionSequence(){
+        changeState(StateName.START_GAME);
 
+        Summary summary = client.getPlayer().getSummary();
+        StateName currentState = client.getCurrentState();
+
+        (new SummaryMessage(playerNickname, summary.personalizedSummary(playerNickname))).send(playerNickname);
+        //if the player was in WAITING_LEADERS he need the leaders to be sent separately because they are not saved in summary yet
+        if(currentState.equals(StateName.WAITING_LEADERS))
+            (new HandLeadersStateMessage(playerNickname, client.getPlayer().getHandLeaders().stream()
+                        .map((x)->MatchController.getKeyByValue(summary.getCardMap(),x))
+                        .collect(Collectors.toList())))
+                        .send(playerNickname);
+        (new NextStateMessage(playerNickname, currentState)).send(playerNickname);
+
+    }
+
+    /**
+     * Selects how many player you want in your match
+     * @param num the number of players that has to participate to the next match
+     * @return true if a number of players message is accepted in this phase,
+     *         false otherwise, in that case this method doesn't make any change
+     */
     public boolean setNumberOfPlayers(int num){
         if(!isAccepted(NUM_PLAYERS))
             return false;
@@ -182,6 +211,7 @@ public class InitController {
 
     /**
      * A player in waiting state receiving this command can now create his own match
+     * and so is moved to NUMBER_OF_PLAYERS state
      */
     public synchronized void createMatch(){
         if(currentState != StateName.WAITING) {
@@ -191,6 +221,13 @@ public class InitController {
         changeState(StateName.NUMBER_OF_PLAYERS);
     }
 
+    /**
+     * If this controller is in WAITING_FOR_PLAYERS it creates a new match with the players that have joined
+     * the queue, so this method has to be called only when the queue for the match participants is full
+     * The player in WAITING_FOR_PLAYERS (the host of the match) has to be the last one that receive this command.
+     * If this controller is in WAITING, set it to START_GAME, the player will receive the other information soon.
+     * @return true if the player was in a waiting state, false otherwise
+     */
     public boolean startGame(){
         switch (currentState) {
             case WAITING:
@@ -201,7 +238,7 @@ public class InitController {
                 List<Player> playersInMatch = serverCall().matchParticipants();
                 System.out.println("forming a new match for... " + playersInMatch);
                 MatchController controller = new MatchController(playersInMatch);
-                setMatchController(controller, playersInMatch);  //<-- exit from init
+                setMatchController(controller);  //<-- exit from init
                 changeState(StateName.START_GAME);
 
                 return true;
@@ -210,21 +247,37 @@ public class InitController {
         return false;
     }
 
+    /**
+     * Sets this controller to WAITING state
+     */
     public void setWaiting(){
         changeState(StateName.WAITING);
     }
 
-    public boolean isAccepted(CtoSMessageType msg){
-        return msg.equals(acceptedMessageMap.get(currentState));
+    /**
+     * Verifies if a CtoS Message is accepted in the current State of this controller
+     * @param messageType the type of message you want to verify
+     * @return true if is accepted
+     */
+    public boolean isAccepted(CtoSMessageType messageType){
+        return messageType.equals(acceptedMessageMap.get(currentState));
     }
 
+    /**
+     * Changes the current state of this controller and informs the client
+     * @param nextState the nextState this controller has to assume
+     */
     private void changeState(StateName nextState){
         currentState = nextState;
         (new NextStateMessage(playerNickname, currentState)).send(playerNickname);
     }
 
-    private void setMatchController(MatchController controller, List<Player> playersInMatch){
-        for(Player player : playersInMatch) {
+    /**
+     * Links the match controller with the player's handlers
+     * @param controller the new match controller you have to link to the players
+     */
+    private void setMatchController(MatchController controller){
+        for(Player player : controller.getMatch().getPlayers()) {
             serverCall().findControlBase(player.getNickname()).setMatchController(controller);
         }
     }

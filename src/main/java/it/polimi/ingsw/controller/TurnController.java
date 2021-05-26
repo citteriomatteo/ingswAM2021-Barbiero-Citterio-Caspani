@@ -303,7 +303,7 @@ public class TurnController {
      * This method is used in production/devCard payments and
      *   clones the warehouse and strongbox states before payments and tries to pay everything.
      * If something goes wrong, it refreshes the old storage versions.
-     * Does an addictional control for the production payment, summing the resources by type for a simple
+     * Does an additional control for the production payment, summing the resources by type for a simple
      *   no-order "equals" operation with the TempProduction and then, eventually, produces it.
      * @param strongboxCosts the list of resources for the Strongbox
      * @param warehouseCosts the map of resources to insert in the warehouse
@@ -318,6 +318,7 @@ public class TurnController {
 
         if(strongboxCosts == null || warehouseCosts == null)
             throw new RetryException("StrongboxCosts or WarehouseCosts are null");
+
         strongboxCosts.remove(voidResource);
         warehouseCosts.remove(0);
 
@@ -325,19 +326,17 @@ public class TurnController {
         payments.addAll(strongboxCosts);
         payments.addAll(warehouseCosts.values());
 
+        int quantity;
         for(int i= 0; i< payments.size(); i++)
             for(int j=i+1; j<payments.size(); j++)
                 if (payments.get(i).equals(payments.get(j))) {
                     PhysicalResource r = payments.get(i);
                     PhysicalResource r1 = payments.get(j);
-                    int quantity = r.getQuantity() + r1.getQuantity();
+                    quantity = r.getQuantity() + r1.getQuantity();
                     payments.remove(r);
                     payments.remove(r1);
-                    try {
-                        payments.add(new PhysicalResource(r.getType(), quantity));
-                    } catch (NegativeQuantityException e) {
-                        System.exit(1);
-                    }
+                    payments.add(new PhysicalResource(r.getType(), quantity));
+
                 }
 
         Map<ResType, Integer> discounts = currentPlayer.getPersonalBoard().getDiscountMap().getDiscountMap();

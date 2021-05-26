@@ -391,7 +391,8 @@ public class KeyboardReader extends Thread{
             int index = Math.max(params.indexOf("-warehouse"), params.indexOf("-wh")) + 1;
             for (int j=index; j<numParams; j++){
                 element = params.get(j);
-
+                if(element.startsWith("-"))
+                    break;
                 if(!addWarehouseCosts(element, warehouseCosts))
                     return null;
             }
@@ -524,7 +525,7 @@ public class KeyboardReader extends Thread{
                 break;
         }
 
-        if(type.ordinal() == ResType.UNKNOWN.ordinal()) {
+        if(type == ResType.UNKNOWN) {
             System.out.println("please insert a valid type");
             return null;
         }
