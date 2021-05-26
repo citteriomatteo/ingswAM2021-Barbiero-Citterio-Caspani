@@ -14,9 +14,8 @@ import it.polimi.ingsw.observer.ModelObservable;
 
 import java.util.*;
 
-
-public class Player extends ModelObservable implements Adder, Verificator
-{
+//todo JAVADOC
+public class Player extends ModelObservable implements Adder, Verificator {
     private static final int WINNING_CONDITION_CARDS = 7;
     private final String nickname;
     private boolean connected;
@@ -30,8 +29,7 @@ public class Player extends ModelObservable implements Adder, Verificator
      * This constructor creates a new unassociated player, without giving it the match.
      * @param nickname is the nickname of the player
      */
-    public Player(String nickname)
-    {
+    public Player(String nickname) {
         this.nickname = nickname;
         connected = true;
         match = null;
@@ -43,18 +41,17 @@ public class Player extends ModelObservable implements Adder, Verificator
      * @param handLeaders is the Leaders list
      * @return false
      */
-    public boolean setInitialHandLeaders(List<LeaderCard> handLeaders)
-    {
+    public boolean setInitialHandLeaders(List<LeaderCard> handLeaders) {
         this.handLeaders = handLeaders;
         return true;
     }
+
     /**
      * This method sets the initial configuration of the player's leaders.
      * @param handLeaders is the Leaders list
      * @return false
      */
-    public boolean setHandLeaders(List<LeaderCard> handLeaders)
-    {
+    public boolean setHandLeaders(List<LeaderCard> handLeaders) {
         this.handLeaders = handLeaders;
 
         //update_call
@@ -68,8 +65,7 @@ public class Player extends ModelObservable implements Adder, Verificator
      * @param match is the Match instantiation
      * @return true if the player had no match, else false.
      */
-    public boolean setMatch(Match match)
-    {
+    public boolean setMatch(Match match) {
         if (this.match == null)
         {
             this.match = match;
@@ -83,8 +79,7 @@ public class Player extends ModelObservable implements Adder, Verificator
      * @param personalBoard is the personal Board object.
      * @return true if the player has a match, else false.
      */
-    public boolean setPersonalBoard(PersonalBoard personalBoard)
-    {
+    public boolean setPersonalBoard(PersonalBoard personalBoard) {
         if (this.personalBoard == null)
         {
             this.personalBoard = personalBoard;
@@ -164,7 +159,7 @@ public class Player extends ModelObservable implements Adder, Verificator
         return true;
     }
 
-
+    //todo JAVADOC
     public boolean addBlackPoints(int quantity) throws LastRoundException {
         try{
             ((SingleFaithPath) getPersonalBoard().getFaithPath()).addBlackPoints(quantity, this);
@@ -186,7 +181,7 @@ public class Player extends ModelObservable implements Adder, Verificator
      * Notifies every other player about the discarded resources (for faith points).
      * @return true
      * @throws InvalidOperationException
-     * @throws LastRoundException
+     * @throws LastRoundException  //TODO: JAVADOC
      */
     public boolean discardRemains() throws InvalidOperationException, LastRoundException {
         int remaining;
@@ -256,8 +251,7 @@ public class Player extends ModelObservable implements Adder, Verificator
      * @return                 true if it's present, else false
      */
     @Override
-    public boolean verifyResources(PhysicalResource physicalResource)
-    {
+    public boolean verifyResources(PhysicalResource physicalResource) {
         int numInWarehouse;
         int numInStrongbox;
         numInWarehouse = personalBoard.getWarehouse().getNumberOf(physicalResource.getType());
@@ -295,6 +289,7 @@ public class Player extends ModelObservable implements Adder, Verificator
         return personalBoard.getDevCardSlots().isPlaceable(cardLevel);
     }
 
+    //todo JAVADOC
     @Override
     public List<PhysicalResource> getDiscountedCosts(List<PhysicalResource> initialCosts){
         Map<ResType, Integer> discountMap = personalBoard.getDiscountMap().getDiscountMap();
@@ -344,8 +339,7 @@ public class Player extends ModelObservable implements Adder, Verificator
      * @param choseLeaders a list containing the chosen starting leaders
      * @return             true
      */
-    public boolean leadersChoice(ArrayList<LeaderCard> choseLeaders) throws InvalidOperationException
-    {
+    public boolean leadersChoice(ArrayList<LeaderCard> choseLeaders) throws InvalidOperationException {
         for(LeaderCard lc : choseLeaders)
             if(!handLeaders.contains(lc))
                 throw new InvalidOperationException ("A chosen leader is not available in your hand! Retry.");
@@ -363,8 +357,7 @@ public class Player extends ModelObservable implements Adder, Verificator
      * @param leader the card to activate
      * @return true if ok, else false
      */
-    public boolean activateLeader(LeaderCard leader)
-    {
+    public boolean activateLeader(LeaderCard leader) {
         if(leader.isActivable(this))
         {
             //update_call
@@ -381,8 +374,8 @@ public class Player extends ModelObservable implements Adder, Verificator
         return false;
     }
 
-    public boolean isProducible(Production production)
-    {
+    //todo JAVADOC
+    public boolean isProducible(Production production) {
         if(production.isPlayable(this))
         {
             tempProduction = production;
@@ -408,6 +401,7 @@ public class Player extends ModelObservable implements Adder, Verificator
         return true;
     }
 
+    //todo JAVADOC
     public boolean switchShelf(int shelf1, int shelf2) throws InvalidOperationException {
         getPersonalBoard().getWarehouse().switchShelf(shelf1, shelf2);
 
@@ -423,8 +417,7 @@ public class Player extends ModelObservable implements Adder, Verificator
      * @param number the number of the row or column
      * @return the number of white marble in the selected row or column
      */
-    public int marketDeal(boolean row, int number) throws InvalidOperationException, LastRoundException
-    {
+    public int marketDeal(boolean row, int number) throws InvalidOperationException, LastRoundException {
         int whiteMarbles=0;
         try {
             if (row)
@@ -447,6 +440,7 @@ public class Player extends ModelObservable implements Adder, Verificator
         return whiteMarbles;
     }
 
+    //todo JAVADOC
     public boolean whiteMarbleInsertion(int numWhite){
         if (getWhiteMarbleConversions().size() != 1)
             return false;
@@ -547,10 +541,9 @@ public class Player extends ModelObservable implements Adder, Verificator
     /**
      * this method produces the actual production in tempProduction.
      * @return true
-     * @throws LastRoundException (propagated)
+     * @throws LastRoundException if producing the tempProduction this player reaches the end of his FaithPath
      */
-    public boolean produce() throws LastRoundException
-    {
+    public boolean produce() throws LastRoundException {
         try {
             tempProduction.produce(this);
         }
@@ -570,8 +563,7 @@ public class Player extends ModelObservable implements Adder, Verificator
      * this method returns the player's total amount of win points.
      * @return int totalWinPoints
      */
-    public int totalWinPoints()
-    {
+    public int totalWinPoints() {
         int points = 0;
         PersonalBoard pb = getPersonalBoard();
         points += pb.getActiveLeaders().stream().map(LeaderCard::getWinPoints).reduce(points, Integer::sum);
@@ -587,6 +579,7 @@ public class Player extends ModelObservable implements Adder, Verificator
         return points;
     }
 
+    //todo JAVADOC
     public void clear(){
         connected = true;
         match = null;
@@ -596,10 +589,8 @@ public class Player extends ModelObservable implements Adder, Verificator
         tempDevCard = null;
     }
 
-
     @Override
     public String toString(){
         return nickname;
     }
-
 }

@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.match.player.Verificator;
 /**
  * this class represents one or more generic cards
  */
-
 public class CardType implements Requirable{
     private final CardColor color;
     private final int level;
@@ -19,7 +18,6 @@ public class CardType implements Requirable{
      * @param quantity how many cards of the same type are contained in this object
      * @throws InvalidQuantityException if the parameter leve is not between 1 and 3
      */
-
     public CardType(CardColor color, int level, int quantity) throws InvalidQuantityException {
         this.color = color;
         if(level >= 0 && level <= 3)
@@ -35,7 +33,6 @@ public class CardType implements Requirable{
      * @param level the level of this card
      * @throws InvalidQuantityException if the parameter leve is not between 1 and 3
      */
-
     public CardType(CardColor color, int level) throws InvalidQuantityException {
         this.color = color;
         if(level >= 0 && level <= 3)
@@ -49,7 +46,6 @@ public class CardType implements Requirable{
      * getter
      * @return the color of the CardType object
      */
-
     public CardColor getColor() {
         return color;
     }
@@ -58,7 +54,6 @@ public class CardType implements Requirable{
      * getter
      * @return the level of the CardType object
      */
-
     public int getLevel() {
         return level;
     }
@@ -67,7 +62,6 @@ public class CardType implements Requirable{
      * getter
      * @return the quantity of cards contained
      */
-
     public int getQuantity() {
         return quantity;
     }
@@ -77,7 +71,6 @@ public class CardType implements Requirable{
      * @param obj the other CardType object to be compared
      * @return this and obj have the same color and the same level
      */
-
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof CardType)) {
@@ -94,7 +87,6 @@ public class CardType implements Requirable{
      * @param verificator the player's interface
      * @return true if he has them
      */
-
     @Override
     public boolean verify(Verificator verificator) {
         return verificator.verifyCard(this);

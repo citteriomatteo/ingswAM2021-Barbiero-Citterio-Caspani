@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Class that represents a Development Card of the game
+ */
 public class DevelopmentCard implements Card{
     private final CardType type;
     private final List<PhysicalResource> price;

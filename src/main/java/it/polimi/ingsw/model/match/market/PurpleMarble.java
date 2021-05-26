@@ -4,9 +4,8 @@ import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.ResType;
 import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.Adder;
-
-public class PurpleMarble extends Marble
-{
+//todo JAVADOC
+public class PurpleMarble extends Marble {
 
     /**
      * This method create a PhysicalResource with type SERVANT and quantity 1 and it adds this resource to the player's
@@ -15,8 +14,7 @@ public class PurpleMarble extends Marble
      * @param adder the player's interface
      * @return false
      */
-    public boolean onDraw(Adder adder)
-    {
+    public boolean onDraw(Adder adder) {
         try
         {
             adder.addToWarehouse(new PhysicalResource(ResType.SERVANT, 1));

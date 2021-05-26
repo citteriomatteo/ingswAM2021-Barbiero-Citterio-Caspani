@@ -3,9 +3,8 @@ package it.polimi.ingsw.model.match.market;
 
 import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.model.match.player.Adder;
-
-public abstract class Marble
-{
+//todo JAVADOC
+public abstract class Marble {
     /**
      * This method adds a single resource or a single faithPoint to the passed player
      * @param adder the player's interface

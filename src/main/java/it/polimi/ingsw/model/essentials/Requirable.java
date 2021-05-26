@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.essentials;
 
 import it.polimi.ingsw.model.match.player.Verificator;
 
+//TODO JAVADOC
 public interface Requirable {
 
     /**

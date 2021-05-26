@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.essentials;
 
+//TODO JAVADOC
 public enum CardColor {
     GREEN(1),    //ordinal: 0
     BLUE(2),     //1
@@ -8,5 +9,7 @@ public enum CardColor {
 
     private final int val;
     CardColor(int v) { val = v; }
+
+    //TODO JAVADOC
     public int getVal() { return val; }
 }

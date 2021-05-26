@@ -38,6 +38,7 @@ public class Summary implements ModelObserver {
 
     private List<PlayerSummary> playersSummary;
 
+    //todo JAVADOC
     public Summary(List<Player> playersInMatch, Map<String, Card> cardMap, List<Cell> faithPath, Production basicProd){
         //cardMap init
         this.cardMap = cardMap;
@@ -390,6 +391,7 @@ public class Summary implements ModelObserver {
 
     //GETTERS:
 
+    //todo ALL JAVADOC
     public char[][] getMarket() { return market; }
     public char getSideMarble() { return sideMarble; }
     public List<String>[][] getCardGrid() { return cardGrid; }

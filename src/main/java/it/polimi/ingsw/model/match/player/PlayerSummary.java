@@ -311,6 +311,7 @@ public class PlayerSummary
 
     //ALL GETTERS:
 
+    //todo: ALL JAVADOC
     public boolean isConnected() { return connected; }
     public String getNickname() { return nickname; }
     public List<PhysicalResource> getWarehouse() { return warehouse; }

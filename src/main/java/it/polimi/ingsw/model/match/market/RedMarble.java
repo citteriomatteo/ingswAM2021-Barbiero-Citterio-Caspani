@@ -2,9 +2,8 @@ package it.polimi.ingsw.model.match.market;
 
 import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.model.match.player.Adder;
-
-public class RedMarble extends Marble
-{
+//todo JAVADOC
+public class RedMarble extends Marble {
 
     /**
      * This method adds a single faithPoint to the player's FaithPath
@@ -12,8 +11,7 @@ public class RedMarble extends Marble
      * @return false
      * @throws LastRoundException if the player reaches the end of his FaithPath
      */
-    public boolean onDraw(Adder adder) throws LastRoundException
-    {
+    public boolean onDraw(Adder adder) throws LastRoundException {
         adder.addFaithPoints(1);
         return false;
     }

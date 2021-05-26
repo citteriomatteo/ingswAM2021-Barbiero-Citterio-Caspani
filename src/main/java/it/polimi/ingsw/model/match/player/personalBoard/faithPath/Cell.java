@@ -5,8 +5,8 @@ import it.polimi.ingsw.model.match.Communicator;
 
 public class Cell
 {
-    private int winPoints;
-    private int vaticanReportSection;
+    private final int winPoints;
+    private final int vaticanReportSection;
 
     /**
      * The constructor initializes the single basic Cell.

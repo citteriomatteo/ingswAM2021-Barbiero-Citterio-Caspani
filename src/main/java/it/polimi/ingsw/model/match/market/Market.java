@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.match.player.Adder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+//todo JAVADOC
 public class Market {
     private Marble[][] board = new Marble[3][4];
     private Marble slide;
@@ -78,8 +78,7 @@ public class Market {
      * @throws InvalidOperationException if the numRow is less than 0 or more than 3
      * @throws LastRoundException if the player reaches the end of his faithPath
      */
-    public int selectRow(int numRow, Adder adder) throws InvalidOperationException, LastRoundException
-    {
+    public int selectRow(int numRow, Adder adder) throws InvalidOperationException, LastRoundException {
         LastRoundException exc = null;
         numRow--;
         int countWhite = 0;
@@ -109,8 +108,7 @@ public class Market {
      * @throws LastRoundException if the numColumn is less than 0 or more than 4
      * @throws InvalidOperationException if the player reaches the end of his faithPath
      */
-    public int selectColumn(int numColumn, Adder adder) throws LastRoundException, InvalidOperationException
-    {
+    public int selectColumn(int numColumn, Adder adder) throws LastRoundException, InvalidOperationException {
         LastRoundException exc = null;
         numColumn--;
         int countWhite = 0;
@@ -137,8 +135,7 @@ public class Market {
      * @param choice true means that this method was called by selectRow, false means that this method was called by selectColumn
      * @param num the number of column or row
      */
-    private void rearrange(boolean choice, int num)
-    {
+    private void rearrange(boolean choice, int num) {
         Marble tempMarble = this.slide;
         int i;
         if (choice)

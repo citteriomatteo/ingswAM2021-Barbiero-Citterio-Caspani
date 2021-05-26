@@ -8,14 +8,25 @@ import java.util.concurrent.Executors;
 
 import static it.polimi.ingsw.jsonUtilities.Preferences.ReadPortFromJSON;
 
+/**
+ * This Class implements the main server, it will accept and manage every client that will try to connect
+ */
 public class Server {
 //    private static final int TIME_FOR_PING = 10000; //10 seconds
     private final int port;
 
+    /**
+     * Creates a Server object that will accept clients on a socket bounded to the specified port
+     * @param port the number of port through which the server will create his socket
+     */
     public Server(int port) {
         this.port = port;
     }
 
+    /**
+     * Continues accepting clients and delegates the job for handling communication with them to different threads
+     * of the class {@link PlayerHandler}
+     */
     public void startServer() {
         ExecutorService executor = Executors.newCachedThreadPool();
         ServerSocket serverSocket;
@@ -28,7 +39,6 @@ public class Server {
             return;
         }
 
-//        setConnectionController();
         System.out.println("Server ready");
         while (true) {
             try {

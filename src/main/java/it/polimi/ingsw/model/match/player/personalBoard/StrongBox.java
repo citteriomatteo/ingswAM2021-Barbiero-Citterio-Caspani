@@ -58,6 +58,8 @@ public class StrongBox {
      */
     public int getNumberOf(ResType type) { return resources.get(type); }
 
+
+    //todo JAVADOC
     public static StrongBox clone(StrongBox sb){
         StrongBox clone = new StrongBox();
 

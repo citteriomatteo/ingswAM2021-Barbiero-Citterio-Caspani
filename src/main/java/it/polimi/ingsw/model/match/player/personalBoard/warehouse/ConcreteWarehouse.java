@@ -11,6 +11,7 @@ public class ConcreteWarehouse implements Warehouse
     private final List<PhysicalResource> shelves;
     private final List<PhysicalResource> marketBuffer;
 
+    //todo JAVADOC
     //constructor initializes the three shelves with UNKNOWN type and zero quantity.
     public ConcreteWarehouse()
     {
@@ -217,7 +218,7 @@ public class ConcreteWarehouse implements Warehouse
     }
 
     /**
-     *
+     * //todo JAVADOC
      */
     public boolean isPlaceable(List<PhysicalResource> resources){
         //CHECKS IF THERE IS A PLACE FOR AT LEAST A RESOURCE IN THE BUFFER. IF SO, THROWS A "RETRY" EXCEPTION

@@ -6,9 +6,16 @@ import com.google.gson.JsonParser;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+/**
+ * Class that contains static methods for to read preferences from a json file
+ */
 public class Preferences {
     static final Path filePath = Path.of("src/main/resources/Preferences.json");
 
+    /**
+     * Reads the default number of port from the file Preferences.json
+     * @return the default number of port
+     */
     static public int ReadPortFromJSON() {
         try {
             JsonParser jsonParser = new JsonParser();
@@ -21,6 +28,11 @@ public class Preferences {
             return -1;
         }
     }
+
+    /**
+     * Reads the default IP address from the file Preferences.json
+     * @return the default IP address
+     */
     static public String ReadHostFromJSON(){
         try {
             JsonParser jsonParser = new JsonParser();

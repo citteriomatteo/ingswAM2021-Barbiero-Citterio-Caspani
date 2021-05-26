@@ -38,6 +38,7 @@ public class SingleMatch extends Match{
 
     }
 
+    //todo JAVADOC
     public SingleMatch(Player player, MatchConfiguration config) throws WrongSettingException {
         super(config);
         this.currentPlayer = player;
@@ -105,18 +106,13 @@ public class SingleMatch extends Match{
     public StateName nextTurn() throws LastRoundException {
 
         currentPlayer.updateLastUsedState(currentPlayer.getNickname(), StateName.WAITING_FOR_TURN);
-
         String drawnToken = tokenStack.getStack().peek().toString();
-
         tokenStack.draw(this);
 
         new TokenDrawMessage("", drawnToken, tokenStack.getStack().size()).sendBroadcast(this);
 
         currentPlayer.updateLastUsedState(currentPlayer.getNickname(), StateName.STARTING_TURN);
-
         return StateName.STARTING_TURN;
     }
-
-
 
 }

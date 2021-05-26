@@ -95,7 +95,6 @@ public interface Warehouse
 
     /**
      * This method clones the current Warehouse.
-     * @return the cloned version of the warehouse
      */
     static void clone(Warehouse wh, Warehouse clonedWh){
         wh.getWarehouseDisposition().stream().forEach(clonedWh::marketDraw);

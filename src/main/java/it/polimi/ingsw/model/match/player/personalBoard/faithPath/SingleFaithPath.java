@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model.match.player.personalBoard.faithPath;
 
-import it.polimi.ingsw.exceptions.FaithPathCreationException;
 import it.polimi.ingsw.exceptions.LastRoundException;
-import it.polimi.ingsw.model.match.Communicator;
 import it.polimi.ingsw.model.match.player.Player;
 
 import java.util.ArrayList;
@@ -10,18 +8,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SingleFaithPath extends FaithPath
-{
+public class SingleFaithPath extends FaithPath {
     private int blackCrossMarker;
 
     /**
      * This is the constructor of the Singleplayer FaithPath.
      * @param faithPath                   is the list of the Cells
      * @param faithMarker                 is the starting point of the player on the path
-     * @throws FaithPathCreationException (propagated)
      */
-    public SingleFaithPath(ArrayList<Cell>faithPath, int faithMarker)
-    {
+    public SingleFaithPath(ArrayList<Cell>faithPath, int faithMarker) {
         super(faithPath, faithMarker);
         blackCrossMarker = 0;
     }
@@ -36,8 +31,7 @@ public class SingleFaithPath extends FaithPath
      * @return              true
      * @throws LastRoundException          if Lorenzo ends the path journey
      */
-    public boolean addBlackPoints(int points, Player player) throws LastRoundException
-    {
+    public boolean addBlackPoints(int points, Player player) throws LastRoundException {
         //critical error: wrong tokens!
         if(points<0)
         {
@@ -60,8 +54,7 @@ public class SingleFaithPath extends FaithPath
      * This method checks, if Lorenzo is in a report cell, how to turn the player's pope tile depending on its position.
      * @return true (for Cell collapse), else false.
      */
-    public boolean blackVaticanReport(Player player)
-    {
+    public boolean blackVaticanReport(Player player) {
         if(getFaithPath().get(blackCrossMarker).singleVaticanReport())
         {
             List<Cell> fp = getFaithPath();
@@ -78,6 +71,5 @@ public class SingleFaithPath extends FaithPath
         }
         return false;
     }
-
 
 }

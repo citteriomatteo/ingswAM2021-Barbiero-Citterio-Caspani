@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.essentials.ResType;
 import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.Adder;
 
+//todo JAVADOC
 public class BlueMarble extends Marble {
 
     /**
@@ -14,7 +15,6 @@ public class BlueMarble extends Marble {
      * @param adder the player's interface
      * @return false
      */
-
     public boolean onDraw(Adder adder) {
         try {
             adder.addToWarehouse(new PhysicalResource(ResType.SHIELD, 1));

@@ -6,7 +6,7 @@ import it.polimi.ingsw.exceptions.LastRoundException;
 /*
     Interface used for limiting access to player methods
     It contains methods for adding resources or faith points
-*/
+*/  //todo ALL JAVADOC
 public interface Adder  {
 
     //This method increments player's faithPoints

@@ -5,7 +5,6 @@ import java.util.Comparator;
 /**
  * A comparator created to sort the DevelopmentCards
  */
-
 public class CardComparator implements Comparator<DevelopmentCard> {
 
     /**
@@ -16,7 +15,6 @@ public class CardComparator implements Comparator<DevelopmentCard> {
      * @return -1 if the first card is less then the second in the comparator's logic,
      * 0 if the two cards are equals in that logic and 1 if the first card is greater then the second in the comparator's logic
      */
-
     @Override
     public int compare(DevelopmentCard devCard1, DevelopmentCard devCard2) {
         if(devCard1.getType().getLevel() < devCard2.getType().getLevel() ||

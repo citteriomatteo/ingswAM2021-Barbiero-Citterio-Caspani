@@ -34,7 +34,6 @@ public class PersonalBoard implements Effector
      * @param startingPos     indicates the starting point of the player on the path
      * @param basicProduction is the basic Production
      */
-
     public PersonalBoard(ArrayList<Cell> path, int startingPos, Production basicProduction, Player player)
     {
         this.player = player;
@@ -143,6 +142,7 @@ public class PersonalBoard implements Effector
     public DevCardSlots getDevCardSlots() { return devCardSlots; }
 
     //ALL SETTERS:
+    //todo JAVADOC
     public boolean setStrongBox(StrongBox strongBox){
         this.strongBox = strongBox;
         return true;

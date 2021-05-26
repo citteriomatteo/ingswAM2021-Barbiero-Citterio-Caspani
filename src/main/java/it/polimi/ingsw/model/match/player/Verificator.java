@@ -2,11 +2,10 @@ package it.polimi.ingsw.model.match.player;
 
 import it.polimi.ingsw.model.essentials.CardType;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
-import it.polimi.ingsw.model.essentials.ResType;
 
 import java.util.List;
-import java.util.Map;
 
+//todo JAVADOC
 public interface Verificator
 {
     /**
@@ -30,5 +29,6 @@ public interface Verificator
      */
     boolean verifyPlaceability(int cardLevel);
 
+    //todo: JAVADOC
     List<PhysicalResource> getDiscountedCosts(List<PhysicalResource> initialCosts);
 }

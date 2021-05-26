@@ -153,7 +153,11 @@ public class PlayerHandler implements Runnable, ControlBase {
         }
     }
 
-
+    /**
+     * Continues reading messages and compute them until the match finishes without rematch or a disconnection occurs
+     * @throws IOException if something goes wrong while waiting for the message
+     * @throws DisconnectionException if the player disconnects
+     */
     private void playTheGame() throws IOException, DisconnectionException {
         CtoSMessage inMsg;
         while (inMatch.get()) {

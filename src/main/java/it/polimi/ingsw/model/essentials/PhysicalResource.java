@@ -4,6 +4,11 @@ import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.Adder;
 import it.polimi.ingsw.model.match.player.Verificator;
 
+/**
+ * Basic element of the game, it is an immutable element.
+ * Represents a physical resource with his multiplicity, the possible types for the resource are defined in the enumeration
+ * {@link ResType}
+ */
 public class PhysicalResource implements Resource, Requirable
 {
     private final ResType type;
@@ -15,7 +20,6 @@ public class PhysicalResource implements Resource, Requirable
      * @param quantity sets the number of ResType in this object
      * @throws NegativeQuantityException if quantity is negative
      */
-
     public PhysicalResource(ResType type, int quantity) throws NegativeQuantityException {
         if(quantity >= 0)
             this.quantity = quantity;

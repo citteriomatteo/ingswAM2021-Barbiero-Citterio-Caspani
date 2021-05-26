@@ -63,8 +63,8 @@ public class ProductionEffect implements Effect{
         for(Resource r : production.getEarnings()) {
             if (r.isPhysical()) {
                 str.append("  [");
-                ClientCLI.addColouredResource(((PhysicalResource) r), str);
-                str.append(", ").append(((PhysicalResource) r).getQuantity()).append("]");
+                ClientCLI.addColouredResource(r, str);
+                str.append(", ").append(r.getQuantity()).append("]");
             }
             else
                 str.append("[").append(ColorCli.RED).append(" ┼ ").append(ColorCli.CLEAR).append("]");

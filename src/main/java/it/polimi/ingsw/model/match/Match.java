@@ -24,6 +24,7 @@ public abstract class Match implements Communicator {
             this.leaderStack = new LeaderStack(matchConfiguration.getAllLeaderCards());
     }
 
+    //todo JAVADOC
     public Match(MatchConfiguration matchConfiguration){
         this.matchConfiguration = matchConfiguration;
         this.market = new Market();
@@ -85,9 +86,5 @@ public abstract class Match implements Communicator {
      * @return the player searched if it's in the players list, or null if it isn't
      */
     public abstract Player getPlayer(String nickname);
-
-
-
-
 
 }

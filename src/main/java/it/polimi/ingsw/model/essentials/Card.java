@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.essentials;
 
+//TODO: JAVADOC
 public interface Card {
     /**
      * Shows if this card is a Leader one

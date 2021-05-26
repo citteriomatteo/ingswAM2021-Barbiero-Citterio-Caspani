@@ -140,10 +140,8 @@ public class DevCardSlots
         int toSearch = requirement.getQuantity();
         if(requirement.getLevel()==0){
             for (List<DevelopmentCard> currentColumn : slots){
-                for (DevelopmentCard card : currentColumn)
-                {
-                    if(requirement.getColor().equals(card.getType().getColor()))
-                    {
+                for (DevelopmentCard card : currentColumn) {
+                    if(requirement.getColor().equals(card.getType().getColor())) {
                         toSearch--;
                         if (toSearch == 0)
                             return true;
@@ -154,10 +152,8 @@ public class DevCardSlots
         }
 
         for (List<DevelopmentCard> currentColumn : slots){
-            for (DevelopmentCard card : currentColumn)
-            {
-                if(requirement.equals(card.getType()))
-                {
+            for (DevelopmentCard card : currentColumn) {
+                if(requirement.equals(card.getType())) {
                     toSearch--;
                     if (toSearch == 0)
                         return true;

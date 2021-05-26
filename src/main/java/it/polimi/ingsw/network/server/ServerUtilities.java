@@ -24,6 +24,9 @@ public class ServerUtilities {
     private Player host;
     private final Queue<Player> waitingPlayers;
 
+    /**
+     * Private constructor of the singleton, it is called at the start of the program
+     */
     private ServerUtilities() {
         activeClients = new ConcurrentHashMap<>();
         pendentMatchWaiting = null;
@@ -31,6 +34,10 @@ public class ServerUtilities {
         waitingPlayers = new LinkedList<>();
     }
 
+    /**
+     * Static method to obtain the instance of the ServerUtilities singleton
+     * @return the instance of the ServerUtilities singleton
+     */
     public static ServerUtilities serverCall() {
         return instance;
     }
@@ -183,6 +190,12 @@ public class ServerUtilities {
         }
     }
 
+    /**
+     * Searches for the number of players passed inside the current waiting list, for every player found
+     * try to add it to the forming match.
+     * After that if there is still someone in the list tries to give him the possibility to create the next match
+     * @param numPlayers the number of players you are searching for inside the waiting list
+     */
     private void searchingPlayersInWaitingList(int numPlayers){
         Player p;
         for (int i = 0; i < Math.min(numPlayers, waitingPlayers.size()); i++) {
@@ -230,8 +243,6 @@ public class ServerUtilities {
             return res;
         }
     }
-
-
 
     /**
      * Adds the player to a waiting list for participating at the match that is forming.

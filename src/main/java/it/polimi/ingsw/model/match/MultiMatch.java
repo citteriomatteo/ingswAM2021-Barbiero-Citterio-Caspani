@@ -52,6 +52,7 @@ public class MultiMatch extends Match {
         }
     }
 
+    //todo JAVADOC
     public MultiMatch(List<Player> players, MatchConfiguration matchConfiguration) throws SingleMatchException, WrongSettingException {
         super(matchConfiguration);
         if(players.size() == 1)
@@ -112,7 +113,6 @@ public class MultiMatch extends Match {
 
         int position = (numPlayer+1)%(players.size());
         return players.get(position);
-
     }
 
     /**

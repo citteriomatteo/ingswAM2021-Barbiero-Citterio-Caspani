@@ -5,6 +5,10 @@ import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.Adder;
 
+/**
+ * Basic element of the game, it is an immutable element.
+ * It represents a certain quantity of faith points.
+ */
 public class FaithPoint implements Resource{
     private final int quantity;
 
@@ -13,7 +17,6 @@ public class FaithPoint implements Resource{
      * @param quantity how much FaithPoints contains this FaithPoints object
      * @throws NegativeQuantityException if the number of points is negative or 0
      */
-
     public FaithPoint(int quantity) throws NegativeQuantityException {
         if(quantity >= 0)
             this.quantity = quantity;
