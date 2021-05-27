@@ -429,25 +429,43 @@ public class ClientCLI implements View
 
     private void showBasicProduction(Production basicProd, StringBuilder basicProdGraphic){
         basicProdGraphic.append("\nBASIC PRODUCTION:\n");
+        StringBuilder costs = new StringBuilder();
         for(Resource r : basicProd.getCost())
             for (int i = 0; i < r.getQuantity(); i++) {
-                basicProdGraphic.append("[");
-                addColouredResource(r, basicProdGraphic);
-                basicProdGraphic.append("] ");
+                costs.append("[");
+                addColouredResource(r, costs);
+                costs.append("] ");
             }
-        basicProdGraphic.append("\n");
+        StringBuilder arrow = new StringBuilder("↓\n");
 
-        int numberOfSpaces = (noANSIOccurrencesSize(basicProdGraphic.toString()) - 19 - 2)/2;
-        putSomeDistance(basicProdGraphic, numberOfSpaces);
-        basicProdGraphic.append("↓\n");
-
+        StringBuilder earnings = new StringBuilder();
         for(Resource r : basicProd.getEarnings())
             for (int i = 0; i < r.getQuantity(); i++) {
-                basicProdGraphic.append("[");
-                addColouredResource(r, basicProdGraphic);
-                basicProdGraphic.append("] ");
+                earnings.append("[");
+                addColouredResource(r, earnings);
+                earnings.append("] ");
             }
-        basicProdGraphic.append("\n");
+
+        int firstRealSize = noANSIOccurrencesSize(costs.toString());
+        int secondRealSize = noANSIOccurrencesSize(earnings.toString());
+
+        if(firstRealSize < secondRealSize) {
+            putSomeDistance(basicProdGraphic, (secondRealSize- firstRealSize) / 2);
+            basicProdGraphic.append(costs).append("\n");
+            putSomeDistance(basicProdGraphic, noANSIOccurrencesSize(earnings.toString()) / 2 - 1);
+            basicProdGraphic.append(arrow);
+        }
+        else {
+            basicProdGraphic.append(costs).append("\n");
+            putSomeDistance(basicProdGraphic, firstRealSize / 2 - 1);
+            basicProdGraphic.append(arrow);
+            System.out.println("costs: "+costs.length()+", earnings: "+earnings.length());
+            System.out.println("leaving "+((costs.length() - earnings.length()) / 2)+" spaces.");
+            putSomeDistance(basicProdGraphic, (firstRealSize - secondRealSize) / 2);
+        }
+
+        basicProdGraphic.append(earnings).append("\n");
+
     }
 
 
@@ -640,7 +658,7 @@ public class ClientCLI implements View
         StringBuilder hl = new StringBuilder();
         hl.append("\nHAND LEADERS: [ ");
         if(player.getHandLeaders().size() == 0)
-            hl.append(ColorCli.RED).append("EMPTY").append(ColorCli.CLEAR).append("]");
+            hl.append(ColorCli.RED).append("EMPTY").append(ColorCli.CLEAR).append("]\n");
 
         else{
             int i;
@@ -669,7 +687,7 @@ public class ClientCLI implements View
         StringBuilder al = new StringBuilder();
         al.append("\nACTIVE LEADERS: [ ");
         if(player.getActiveLeaders().size() == 0)
-            al.append(ColorCli.RED).append("EMPTY").append(ColorCli.CLEAR).append(" ]");
+            al.append(ColorCli.RED).append("EMPTY").append(ColorCli.CLEAR).append(" ]\n");
 
         else{
             int i;
@@ -685,8 +703,8 @@ public class ClientCLI implements View
     }
 
     public void showTempDevCard(String nickname, LightMatch match, StringBuilder board){
-        board.append("\nDEVELOPMENT CARD TO PAY: [ ");
-            board.append(match.getPlayerSummary(nickname).getTempDevCard() + " ]");
+        board.append("\nDEVELOPMENT CARD TO PAY: ");
+        board.append("[ ").append(match.getPlayerSummary(nickname).getTempDevCard()).append(" ]");
         board.append("\n");
     }
 
@@ -774,7 +792,7 @@ public class ClientCLI implements View
                 addColouredResource(r, dm);
                 dm.append(": ");
                 putSomeDistance(dm, 7-r.getType().toString().length());
-                dm.append(",").append(r.getQuantity());
+                dm.append(r.getQuantity());
             }
         }
         if(!foundOne)
