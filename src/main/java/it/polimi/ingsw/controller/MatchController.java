@@ -357,8 +357,8 @@ public class MatchController {
 
     private void matchEndingProcedure(MatchEndedException e){
         rematchPhaseController = new RematchPhaseController(match.getPlayers());
-        lastUsedState = StateName.END_MATCH;
 
+        lastUsedState = StateName.END_MATCH;
         for(Player p : match.getPlayers())
             new NextStateMessage(p.getNickname(), lastUsedState).send(p.getNickname());
 

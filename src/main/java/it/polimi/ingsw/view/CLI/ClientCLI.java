@@ -134,7 +134,7 @@ public class ClientCLI implements View
         if(yourTurn)
             lastLayout = "It's your turn. Make a move!";
         else
-            lastLayout = "Your turn is finished. Wait";
+            lastLayout = "Your turn is finished. Wait.";
         System.out.println(lastLayout);
     }
 
@@ -177,27 +177,24 @@ public class ClientCLI implements View
 
     @Override
     public void printLastRound(){
-        lastLayout = "It's the last round. Hurry up!";
+        //lastLayout = "It's the last round. Hurry up!";
         lastRound = true;
     }
 
 
     @Override
     public void drawEndMatchLayout() {
-        lastLayout = "Do you want to play a rematch?";
-        //System.out.println(lastLayout);
+
     }
 
     @Override
-    public void drawRematchOfferLayout(String nickname) {
-        lastLayout = nickname + " has offered a rematch. Accept?";
-        System.out.println(lastLayout);
+    public void drawRematchOfferLayout(String message) {
+        System.out.println(message + " offered a rematch.\nAccept? [y/n]");
     }
 
     @Override
     public void printRetry(String errMessage) {
         lastLayout = errMessage;
-        //System.out.println(lastLayout);
     }
 
 
@@ -289,11 +286,15 @@ public class ClientCLI implements View
 
         StringBuilder results = new StringBuilder();
         results.append("Match has ended, this is the ultimate ranking:\n");
+        int i = 1;
         for (String player : sortedRanking.keySet()){
-            results.append(player +": " + sortedRanking.get(player)+"\n");
+            results.append(i).append(") ").append(player).append(": ").append(sortedRanking.get(player)).append("\n");
+            i++;
         }
 
         System.out.println(putInColoredFrame(results, ColorCli.CLEAR.toString()));
+
+        System.out.println("Do you want to play a rematch? [y/n]");
 
     }
 

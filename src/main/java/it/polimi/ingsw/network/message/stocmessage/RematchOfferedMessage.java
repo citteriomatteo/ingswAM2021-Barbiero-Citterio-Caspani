@@ -6,16 +6,16 @@ import it.polimi.ingsw.network.message.Message;
 public class RematchOfferedMessage extends StoCMessage {
 
     private static final StoCMessageType type = StoCMessageType.REMATCH_OFFERED;
-    private final String message;
+    private final String proposer;
 
     public RematchOfferedMessage(String nickname, String proposer) {
         super(nickname);
-        this.message = proposer+" offered a rematch.\nAccept? [y/n]";
+        this.proposer = proposer;
     }
 
     @Override
     public boolean compute(Client client){
-        client.getController().printMoveLegend(this);
+        client.getController().printRematchOffer(this.proposer);
         return true;
     }
 
@@ -25,6 +25,6 @@ public class RematchOfferedMessage extends StoCMessage {
     }
 
     public String getMessage() {
-        return message;
+        return proposer;
     }
 }

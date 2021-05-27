@@ -76,7 +76,7 @@ public class ClientController
             if(((NextStateMessage) msg).getNewState().equals(StateName.WAITING_LEADERS))
                 view.setLastRound(false);
             printMoveLegend(msg);
-            if(match != null) {
+            if(match != null && !((NextStateMessage) msg).getNewState().equals(StateName.END_MATCH)) {
                 match.getPlayerSummary(msg.getNickname()).setLastUsedState(currentState);
                 view.showAll(match);
             }
@@ -199,7 +199,11 @@ public class ClientController
         view.drawCards(cards.stream().map(String::toUpperCase).collect(Collectors.toList()));
 
         return true;
+    }
 
+    public boolean printRematchOffer(String message){
+        view.drawRematchOfferLayout(message);
+        return true;
     }
 
     public boolean printDiscountMap(String nickname){
