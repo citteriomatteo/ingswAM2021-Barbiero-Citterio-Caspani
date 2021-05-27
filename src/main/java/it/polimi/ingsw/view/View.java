@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.controller.StateName;
 import it.polimi.ingsw.model.essentials.Card;
 import it.polimi.ingsw.network.message.ctosmessage.LeadersChoiceMessage;
 import it.polimi.ingsw.network.message.stocmessage.HandLeadersStateMessage;
@@ -40,7 +41,7 @@ public interface View extends ViewObserver {
     void printLastRound();
     void setLastRound(boolean lastRound);
     void printMatchResults(String message, Map<String, Integer> ranking);
-    void printRetry(String errMessage);
+    void printRetry(String errMessage, StateName currentState, LightMatch match);
     void printDiscountMap(LightPlayer player);
     void printWhiteMarbleConversions(LightPlayer player);
 }

@@ -8,6 +8,6 @@ public class PrimaryController {
 
     @FXML
     private void switchToSecondary() throws IOException {
-        ClientGUI.setRoot("secondary");
+        JavaFXGUI.setRoot("secondary");
     }
 }

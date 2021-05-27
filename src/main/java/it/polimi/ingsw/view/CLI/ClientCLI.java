@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.CLI;
 
+import it.polimi.ingsw.controller.StateName;
 import it.polimi.ingsw.model.essentials.*;
 import it.polimi.ingsw.model.essentials.leader.LeaderCard;
 import it.polimi.ingsw.model.essentials.leader.SlotEffect;
@@ -14,6 +15,7 @@ import static it.polimi.ingsw.view.lightmodel.LightMatch.getCardMap;
 
 public class ClientCLI implements View
 {
+    //todo: insert match reference for showAll()
     private String lastLayout;
     private boolean lastRound = false;
     private static final Integer DEFAULT_SHIFT = 12, ZERO_SHIFT = 0;
@@ -193,8 +195,10 @@ public class ClientCLI implements View
     }
 
     @Override
-    public void printRetry(String errMessage) {
-        lastLayout = errMessage;
+    public void printRetry(String errMessage, StateName currentState, LightMatch match) {
+        lastLayout = "Message form server: " + errMessage;
+        if(match!=null)
+            showAll(match);
     }
 
 
@@ -309,7 +313,7 @@ public class ClientCLI implements View
     @Override
     public void showAll(LightMatch match){
 
-        List<String> playersToPrint = match.getPlayersSummary().stream().map(LightPlayer::getNickname).collect(Collectors.toList());
+        List<String> playersToPrint = match.getLightPlayers().stream().map(LightPlayer::getNickname).collect(Collectors.toList());
         clearScreen();
 
         StringBuilder div = new StringBuilder();
@@ -364,7 +368,7 @@ public class ClientCLI implements View
         StringBuilder pathGraphic = new StringBuilder();
         showFaithPath(match, pathGraphic);
 
-        for(LightPlayer p : match.getPlayersSummary()) {
+        for(LightPlayer p : match.getLightPlayers()) {
             StringBuilder tilesGraphic = new StringBuilder();
             showPopeTiles(p, tilesGraphic);
             System.out.println(tilesGraphic);
@@ -480,16 +484,16 @@ public class ClientCLI implements View
     //CLI PRINT METHODS OF PLAYER'S THINGS:
 
     private void showBoard(String nickname, LightMatch match, StringBuilder board){
-        board.append("\n----- PERSONAL BOARD OF ").append(match.getPlayerSummary(nickname).getColor()).append(nickname).append(ColorCli.CLEAR);
-        if(!match.getPlayerSummary(nickname).isConnected())
+        board.append("\n----- PERSONAL BOARD OF ").append(match.getLightPlayer(nickname).getColor()).append(nickname).append(ColorCli.CLEAR);
+        if(!match.getLightPlayer(nickname).isConnected())
             board.append(ColorCli.RED).append(" (OFFLINE) ").append(ColorCli.CLEAR);
         board.append(" ----- \n");
-        showDevCardSlots(match.getPlayerSummary(nickname), board);
-        showWarehouse(match.getPlayerSummary(nickname), board);
-        showStrongbox(match.getPlayerSummary(nickname),board);
-        showHandLeaders(match.getPlayerSummary(nickname), board);
-        showActiveLeaders(match.getPlayerSummary(nickname), board);
-        if(match.getPlayerSummary(nickname).getTempDevCard() != null)
+        showDevCardSlots(match.getLightPlayer(nickname), board);
+        showWarehouse(match.getLightPlayer(nickname), board);
+        showStrongbox(match.getLightPlayer(nickname),board);
+        showHandLeaders(match.getLightPlayer(nickname), board);
+        showActiveLeaders(match.getLightPlayer(nickname), board);
+        if(match.getLightPlayer(nickname).getTempDevCard() != null)
             showTempDevCard(nickname, match, board);
 
     }
@@ -705,7 +709,7 @@ public class ClientCLI implements View
 
     public void showTempDevCard(String nickname, LightMatch match, StringBuilder board){
         board.append("\nDEVELOPMENT CARD TO PAY: ");
-        board.append("[ ").append(match.getPlayerSummary(nickname).getTempDevCard()).append(" ]");
+        board.append("[ ").append(match.getLightPlayer(nickname).getTempDevCard()).append(" ]");
         board.append("\n");
     }
 
@@ -841,7 +845,7 @@ public class ClientCLI implements View
 
         //"crosses" row
         int crosses = 0;
-        for(LightPlayer p : match.getPlayersSummary())
+        for(LightPlayer p : match.getLightPlayers())
             if(p.getFaithMarker() == pos) {
                 str.append(p.getColor()).append("┼");
                 crosses++;

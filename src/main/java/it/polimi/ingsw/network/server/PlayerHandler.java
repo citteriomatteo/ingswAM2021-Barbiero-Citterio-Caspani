@@ -15,6 +15,7 @@ import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static it.polimi.ingsw.jsonUtilities.GsonHandler.*;
@@ -120,6 +121,9 @@ public class PlayerHandler implements Runnable, ControlBase {
         } catch (DisconnectionException e) {
             if(e.isVoluntary())
                 write(new GoodbyeMessage(getNickname(), "Hope to see you again", false));
+            disconnection();
+        }
+        catch (SocketException e){
             disconnection();
         }
         catch(Exception e) {

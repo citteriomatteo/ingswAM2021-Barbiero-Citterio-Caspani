@@ -7,6 +7,6 @@ import java.io.IOException;
 public class SecondaryController {
     @FXML
     private void switchToPrimary() throws IOException {
-        ClientGUI.setRoot("primary");
+        JavaFXGUI.setRoot("primary");
     }
 }

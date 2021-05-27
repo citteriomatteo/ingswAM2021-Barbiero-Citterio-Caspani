@@ -9,8 +9,10 @@ import it.polimi.ingsw.network.message.ctosmessage.*;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessageType;
 import it.polimi.ingsw.view.ClientController;
+import it.polimi.ingsw.view.GUI.JavaFXGUI;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.CLI.ClientCLI;
+import javafx.application.Application;
 
 import java.io.*;
 import java.net.Socket;
@@ -21,21 +23,27 @@ import static it.polimi.ingsw.jsonUtilities.GsonHandler.sToCMessageConfig;
 import static it.polimi.ingsw.jsonUtilities.Preferences.ReadHostFromJSON;
 import static it.polimi.ingsw.jsonUtilities.Preferences.ReadPortFromJSON;
 
-
+//singleton
 public class Client {
+    static private final Client instance = new Client();
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
-    private final AtomicBoolean play;
+    private AtomicBoolean play;
 
-    private final ClientController controller;
+    private ClientController controller;
 
     //Build the parser for json input message
     private static final Gson parserCtoS = cToSMessageConfig(new GsonBuilder()).create();
     //Build the parser for json output message
     private static final Gson parserStoC = sToCMessageConfig(new GsonBuilder()).create();
 
-    public Client(String address, int port) {
+
+    public static Client getClient(){
+        return instance;
+    }
+
+    public void setSocket(String address, int port) {
         try {
             socket = new Socket(address, port);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -44,14 +52,29 @@ public class Client {
             System.out.println("System shutdown -> cannot connect with server");
             System.exit(1);
         }
-
-        View cli = new ClientCLI();
-        controller = new ClientController(cli);
         play = new AtomicBoolean(true);
 
     }
 
-    private void startClient(){
+    private void setView(boolean cliChoice){
+        if(cliChoice) {
+            View view = new ClientCLI();
+            new KeyboardReader(this).start();
+            setController(new ClientController(view));
+            startClient();
+            return;
+        }
+
+
+
+        Application.launch(JavaFXGUI.class);
+    }
+
+    public void setController(ClientController controller) {
+        this.controller = controller;
+    }
+
+    public void startClient(){
         StoCMessage messageFromServer;
         while (play.get()){
 
@@ -76,22 +99,22 @@ public class Client {
     }
 
     private StoCMessage readMessage() throws DisconnectionException{
-            String received;
-            try {
-                received = in.readLine();
-            } catch (IOException e) {
+        String received;
+        try {
+            received = in.readLine();
+        } catch (IOException e) {
+            throw new DisconnectionException("Cannot reach the server -> try to relaunch the program and connect later");
+        }
+
+        if(received == null)
                 throw new DisconnectionException("Cannot reach the server -> try to relaunch the program and connect later");
-            }
 
-            if(received == null)
-                    throw new DisconnectionException("Cannot reach the server -> try to relaunch the program and connect later");
-
-            try{
-                return parserStoC.fromJson(received, StoCMessage.class);
-            } catch (Exception e) {
-                System.out.println("Received Wrong json syntax from server" + e.getMessage());
-                throw new DisconnectionException("The server is sending wrong messages, probably something has gone wrong, try to reconnect later");
-            }
+        try{
+            return parserStoC.fromJson(received, StoCMessage.class);
+        } catch (Exception e) {
+            System.out.println("Received Wrong json syntax from server" + e.getMessage());
+            throw new DisconnectionException("The server is sending wrong messages, probably something has gone wrong, try to reconnect later");
+        }
 
     }
 
@@ -105,7 +128,7 @@ public class Client {
 
             }
             if(!isAccepted(msg.getType())) {
-                controller.printRetry("You're in "+controller.getCurrentState()+". Operation not available: retry. Write 'help' for message tips.");
+                controller.printRetry("You're in "+controller.getCurrentState()+". Operation not available: retry. Write 'help' for message tips.", controller.getCurrentState());
                 return false;
             }
 
@@ -119,6 +142,7 @@ public class Client {
             System.exit(1);
             return false;
         } catch (Exception exception) {
+            exception.printStackTrace();
             System.out.println("Error in write");
             return false;
         }
@@ -150,18 +174,20 @@ public class Client {
     public static void main(String[] args) {
         String hostName;
         int portNumber;
-        if (args.length == 2) {
+        boolean cliChoice = false;
+        if (args.length >= 2) {
             hostName = args[0];
             portNumber = Integer.parseInt(args[1]);
+            if(args.length == 3)
+                cliChoice = args[2].equals("--cli")||args[2].equals("-cli");
         } else {
             hostName = ReadHostFromJSON();
             portNumber = ReadPortFromJSON();
         }
-        Client client = new Client(hostName, portNumber); //CLI/GUI choice param will be passed here
-        new KeyboardReader(client).start();
 
-        client.startClient();
+        instance.setSocket(hostName, portNumber);
+        instance.setView(cliChoice);
 
-        client.terminateConnection();
+        instance.terminateConnection();
     }
 }

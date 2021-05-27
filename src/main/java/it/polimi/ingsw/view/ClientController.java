@@ -56,6 +56,7 @@ public class ClientController
     public ClientController(View view){
         this.view = view;
         view.printTitle();
+        currentState = StateName.LOGIN;
     }
 
 
@@ -63,11 +64,8 @@ public class ClientController
         if(msg.getType().equals(StoCMessageType.RETRY)) {
             RetryMessage rMsg= (RetryMessage)msg;
             this.currentState = rMsg.getCurrentState();
-            if(match!= null){
-                printMoveLegend(msg);
-                view.showAll(match);
-            }
-            System.out.println("Message from server: "+ rMsg.getErrorMessage());
+            printMoveLegend(msg);
+            printRetry(rMsg.getErrorMessage(), rMsg.getCurrentState());
         }
 
         else if(msg.getType().equals(StoCMessageType.NEXT_STATE)){
@@ -76,17 +74,16 @@ public class ClientController
             if(((NextStateMessage) msg).getNewState().equals(StateName.WAITING_LEADERS))
                 view.setLastRound(false);
             printMoveLegend(msg);
-            if(match != null && !((NextStateMessage) msg).getNewState().equals(StateName.END_MATCH)) {
-                match.getPlayerSummary(msg.getNickname()).setLastUsedState(currentState);
-                view.showAll(match);
-            }
+            if(match != null && !((NextStateMessage) msg).getNewState().equals(StateName.END_MATCH))
+                view.showAll(match); //todo: TO REMOVE
+
         }
 
     }
 
     //quando si ha una retry (da parte del server o dalla keyboardReader) viene chiamata questa, che aggiorna la lastLayout.
-    public void printRetry(String errMessage){
-        view.printRetry(errMessage);
+    public void printRetry(String errMessage, StateName currentState){
+        view.printRetry(errMessage, currentState, match);
     }
 
     public void printMatchResults(String message, Map<String, Integer> ranking){
@@ -207,11 +204,11 @@ public class ClientController
     }
 
     public boolean printDiscountMap(String nickname){
-        view.printDiscountMap(match.getPlayerSummary(nickname));
+        view.printDiscountMap(match.getLightPlayer(nickname));
         return true;
     }
     public boolean printWhiteMarbleConversions(String nickname){
-        view.printWhiteMarbleConversions(match.getPlayerSummary(nickname));
+        view.printWhiteMarbleConversions(match.getLightPlayer(nickname));
         return true;
     }
     public LightMatch getMatch(){ return match; }

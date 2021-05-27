@@ -30,7 +30,7 @@ public class VaticanReportMessage extends StoCMessage {
     public boolean compute(Client client){
 
         //updates every player's tiles
-        for(LightPlayer lp : client.getController().getMatch().getPlayersSummary())
+        for(LightPlayer lp : client.getController().getMatch().getLightPlayers())
             client.getController().getMatch().setPopeTiles(lp.getNickname(), popeTiles.get(lp.getNickname()));
         return true;
     }

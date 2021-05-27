@@ -1,35 +1,246 @@
 package it.polimi.ingsw.view.GUI;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import it.polimi.ingsw.controller.StateName;
+import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.view.lightmodel.LightMatch;
+import it.polimi.ingsw.view.lightmodel.LightPlayer;
+import javafx.application.Platform;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
-public class ClientGUI extends Application {
+public class ClientGUI implements View {
+    private SceneController sceneController;
 
-    private static Scene scene;
+    public void setSceneController(SceneController sceneController) {
+        this.sceneController = sceneController;
+    }
 
     @Override
-    public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"), 640, 480);
-        stage.setScene(scene);
-        stage.show();
+    public void showAll(LightMatch match) {
+
     }
 
-    static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
+    @Override
+    public void drawCards(List<String> id) {
+
     }
 
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(ClientGUI.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();
+    @Override
+    public void printTitle() {
+
     }
 
-    public static void main(String[] args) {
-        launch();
+    @Override
+    public void drawLoginLayout() {
+
     }
 
+    @Override
+    public void drawReconnectionLayout() {
+
+    }
+
+    @Override
+    public void drawNewPlayerLayout() {
+        Platform.runLater(()-> {
+            try {
+                JavaFXGUI.setRoot("secondary");
+            } catch (IOException e) {
+                e.printStackTrace();
+                //todo: fix
+            }
+        });
+
+    }
+
+    @Override
+    public void drawNumPlayersLayout() {
+
+    }
+
+    @Override
+    public void drawConfigurationChoice() {
+
+    }
+
+    @Override
+    public void drawConfigurationLayout() {
+
+    }
+
+    @Override
+    public void drawWaitingLayout() {
+
+    }
+
+    @Override
+    public void drawLeadersChoiceLayout() {
+
+    }
+
+    @Override
+    public void drawResourcesChoiceLayout(int yourPosition) {
+
+    }
+
+    @Override
+    public void drawYourTurnLayout(boolean yourTurn) {
+
+    }
+
+    @Override
+    public void drawWhiteMarbleConversionsLayout() {
+
+    }
+
+    @Override
+    public void drawResPlacementLayout() {
+
+    }
+
+    @Override
+    public void drawBuyDevCardLayout() {
+
+    }
+
+    @Override
+    public void drawPlaceDevCardLayout() {
+
+    }
+
+    @Override
+    public void drawProductionLayout() {
+
+    }
+
+    @Override
+    public void drawEndTurnLayout() {
+
+    }
+
+    @Override
+    public void drawEndMatchLayout() {
+
+    }
+
+    @Override
+    public void drawRematchOfferLayout(String nickname) {
+
+    }
+
+    @Override
+    public void printTokenDraw(String tokenName, int remainingTokens) {
+
+    }
+
+    @Override
+    public void printLastRound() {
+
+    }
+
+    @Override
+    public void setLastRound(boolean lastRound) {
+
+    }
+
+    @Override
+    public void printMatchResults(String message, Map<String, Integer> ranking) {
+
+    }
+
+    @Override
+    public void printRetry(String errMessage, StateName currentState, LightMatch match) {
+        System.out.println("ClientGui");
+        switch (currentState){
+            case LOGIN:
+                Platform.runLater(()->sceneController.loginError(errMessage));
+        }
+    }
+
+    @Override
+    public void printDiscountMap(LightPlayer player) {
+
+    }
+
+    @Override
+    public void printWhiteMarbleConversions(LightPlayer player) {
+
+    }
+
+    @Override
+    public void updateMatch(LightMatch match) {
+
+    }
+
+    @Override
+    public void updateMarket(LightMatch match) {
+
+    }
+
+    @Override
+    public void updateCardGrid(LightMatch match) {
+
+    }
+
+    @Override
+    public void updateLorenzoMarker(LightMatch match) {
+
+    }
+
+    @Override
+    public void updateWarehouse(String nickname, LightMatch match) {
+
+    }
+
+    @Override
+    public void updateMarketBuffer(String nickname, LightMatch match) {
+
+    }
+
+    @Override
+    public void updateStrongbox(String nickname, LightMatch match) {
+
+    }
+
+    @Override
+    public void updateFaithMarker(String nickname, LightMatch match) {
+
+    }
+
+    @Override
+    public void updatePopeTiles(String nickname, LightMatch match) {
+
+    }
+
+    @Override
+    public void updateDevCardSlots(String nickname, LightMatch match) {
+
+    }
+
+    @Override
+    public void updateHandLeaders(String nickname, LightMatch match) {
+
+    }
+
+    @Override
+    public void updateActiveLeaders(String nickname, LightMatch match) {
+
+    }
+
+    @Override
+    public void updateWhiteMarbleConversions(String nickname, LightMatch match) {
+
+    }
+
+    @Override
+    public void updateDiscountMap(String nickname, LightMatch match) {
+
+    }
+
+    @Override
+    public void updateTempDevCard(String nickname, LightMatch match) {
+
+    }
 }

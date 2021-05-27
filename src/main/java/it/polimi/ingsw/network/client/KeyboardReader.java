@@ -597,7 +597,7 @@ public class KeyboardReader extends Thread{
                 messageToSend = parseInMessage(userInput);
                 if(messageToSend == null)
                     continue;
-                client.writeMessage(messageToSend);
+                messageToSend.send();
 
             } catch (IOException e) {
                 System.out.println("Error while reading");

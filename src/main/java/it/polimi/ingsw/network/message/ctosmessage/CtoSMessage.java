@@ -5,6 +5,8 @@ import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.stocmessage.RetryMessage;
 import it.polimi.ingsw.network.server.ControlBase;
 
+import static it.polimi.ingsw.network.client.Client.getClient;
+
 
 public abstract class CtoSMessage extends Message {
 
@@ -19,6 +21,10 @@ public abstract class CtoSMessage extends Message {
      * @return true if the execution succeeded
      */
     public abstract boolean computeMessage(ControlBase controlBase);
+
+    public boolean send(){
+        return getClient().writeMessage(this);
+    }
 
     public abstract boolean isSomethingNull();
 

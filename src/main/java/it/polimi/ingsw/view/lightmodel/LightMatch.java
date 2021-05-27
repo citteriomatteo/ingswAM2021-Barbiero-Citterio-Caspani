@@ -27,7 +27,7 @@ public class LightMatch extends ViewObservable {
     private List<String> faithPath;
     private int lorenzoMarker;  //stays "-1" in multi-player matches!
 
-    private List<LightPlayer> playersSummary;
+    private List<LightPlayer> lightPlayers;
     private int myPosition;
 
     /**
@@ -45,9 +45,9 @@ public class LightMatch extends ViewObservable {
         this.faithPath = summary.getFaithPath();
         this.lorenzoMarker = summary.getLorenzoMarker();
 
-        playersSummary = new ArrayList<>();
+        lightPlayers = new ArrayList<>();
         for(int i = 0; i < summary.getPlayersSummary().size(); i++)
-            playersSummary.add(new LightPlayer(summary.getPlayersSummary().get(i), ColorCli.values()[i + 3].toString()));
+            lightPlayers.add(new LightPlayer(summary.getPlayersSummary().get(i), ColorCli.values()[i + 3].toString()));
 
         //starting update_call
         updateMatch(this);
@@ -80,7 +80,7 @@ public class LightMatch extends ViewObservable {
      * @param nickname the player who discards
      */
     public void leaderDiscard(String nickname){
-        getPlayerSummary(nickname).leaderDiscard();
+        getLightPlayer(nickname).leaderDiscard();
         updateHandLeaders(nickname, this);
     }
 
@@ -105,7 +105,7 @@ public class LightMatch extends ViewObservable {
     }
 
     public void setConnected(String nickname, boolean connected) {
-        getPlayerSummary(nickname).setConnected(connected);
+        getLightPlayer(nickname).setConnected(connected);
         updateMatch(this);
         if(connected)
             System.out.println("Player " +nickname+ " is back in the game.");
@@ -119,7 +119,7 @@ public class LightMatch extends ViewObservable {
      * @param warehouse the warehouse
      */
     public void setWarehouse(String nickname, List<PhysicalResource> warehouse) {
-        getPlayerSummary(nickname).setWarehouse(warehouse);
+        getLightPlayer(nickname).setWarehouse(warehouse);
         updateWarehouse(nickname, this);
     }
 
@@ -129,7 +129,7 @@ public class LightMatch extends ViewObservable {
      * @param marketBuffer the buffer
      */
     public void setMarketBuffer(String nickname, List<PhysicalResource> marketBuffer) {
-        getPlayerSummary(nickname).setMarketBuffer(marketBuffer);
+        getLightPlayer(nickname).setMarketBuffer(marketBuffer);
         updateMarketBuffer(nickname, this);
     }
 
@@ -139,7 +139,7 @@ public class LightMatch extends ViewObservable {
      * @param strongbox the strongbox
      */
     public void setStrongbox(String nickname, List<PhysicalResource> strongbox) {
-        getPlayerSummary(nickname).setStrongbox(strongbox);
+        getLightPlayer(nickname).setStrongbox(strongbox);
         updateStrongbox(nickname, this);
     }
 
@@ -149,7 +149,7 @@ public class LightMatch extends ViewObservable {
      * @param faithMarker the new marker
      */
     public void setFaithMarker(String nickname, int faithMarker) {
-        getPlayerSummary(nickname).setFaithMarker(faithMarker);
+        getLightPlayer(nickname).setFaithMarker(faithMarker);
         updateFaithMarker(nickname, this);
     }
 
@@ -159,7 +159,7 @@ public class LightMatch extends ViewObservable {
      * @param popeTiles the player's tiles
      */
     public void setPopeTiles(String nickname, List<Integer> popeTiles) {
-        getPlayerSummary(nickname).setPopeTiles(popeTiles);
+        getLightPlayer(nickname).setPopeTiles(popeTiles);
         updatePopeTiles(nickname, this);
     }
 
@@ -169,7 +169,7 @@ public class LightMatch extends ViewObservable {
      * @param devCardSlots the slots
      */
     public void setDevCardSlots(String nickname, List<String>[] devCardSlots) {
-        getPlayerSummary(nickname).setDevCardSlots(devCardSlots);
+        getLightPlayer(nickname).setDevCardSlots(devCardSlots);
         updateDevCardSlots(nickname, this);
     }
 
@@ -179,7 +179,7 @@ public class LightMatch extends ViewObservable {
      * @param handLeaders the player's hand leaders
      */
     public void setHandLeaders(String nickname, List<String> handLeaders) {
-        getPlayerSummary(nickname).setHandLeaders(handLeaders);
+        getLightPlayer(nickname).setHandLeaders(handLeaders);
         updateHandLeaders(nickname, this);
     }
 
@@ -189,7 +189,7 @@ public class LightMatch extends ViewObservable {
      * @param activeLeader the player's active leader
      */
     public void activateLeader(String nickname, String activeLeader) {
-        getPlayerSummary(nickname).setActiveLeader(activeLeader);
+        getLightPlayer(nickname).setActiveLeader(activeLeader);
         updateActiveLeaders(nickname, this);
     }
 
@@ -199,7 +199,7 @@ public class LightMatch extends ViewObservable {
      * @param whiteMarbleConversion the player's conversions
      */
     public void setWhiteMarbleConversions(String nickname, PhysicalResource whiteMarbleConversion) {
-        getPlayerSummary(nickname).setWhiteMarbleConversions(whiteMarbleConversion);
+        getLightPlayer(nickname).setWhiteMarbleConversions(whiteMarbleConversion);
         updateWhiteMarbleConversions(nickname, this);
     }
 
@@ -209,7 +209,7 @@ public class LightMatch extends ViewObservable {
      * @param discountMap the player's discount map
      */
     public void setDiscountMap(String nickname, List<PhysicalResource> discountMap) {
-        getPlayerSummary(nickname).setDiscountMap(discountMap);
+        getLightPlayer(nickname).setDiscountMap(discountMap);
         updateDiscountMap(nickname, this);
     }
 
@@ -219,7 +219,7 @@ public class LightMatch extends ViewObservable {
      * @param tempDevCard the player's temporary dev card
      */
     public void setTempDevCard(String nickname, String tempDevCard) {
-        getPlayerSummary(nickname).setTempDevCard(tempDevCard);
+        getLightPlayer(nickname).setTempDevCard(tempDevCard);
         updateTempDevCard(nickname, this);
     }
 
@@ -228,7 +228,7 @@ public class LightMatch extends ViewObservable {
      * @param tempProduction the player's temporary production
      */
     public void setTempProduction(String nickname, Production tempProduction) {
-        getPlayerSummary(nickname).setTempProduction(tempProduction);
+        getLightPlayer(nickname).setTempProduction(tempProduction);
     }
 
     /**
@@ -238,7 +238,7 @@ public class LightMatch extends ViewObservable {
      */
     public int positionOf(String nickname){
         int i= 0;
-        for(LightPlayer player : playersSummary){
+        for(LightPlayer player : lightPlayers){
             i++;
             if(player.getNickname().equals(nickname))
                 return i;
@@ -256,9 +256,9 @@ public class LightMatch extends ViewObservable {
     public List<String>[][] getCardGrid() { return cardGrid; }
     public List<String> getFaithPath() { return faithPath; }
     public int getLorenzoMarker() { return lorenzoMarker; }
-    public List<LightPlayer> getPlayersSummary() { return playersSummary; }
-    public LightPlayer getPlayerSummary(String nickname){
-        for(LightPlayer p : playersSummary)
+    public List<LightPlayer> getLightPlayers() { return lightPlayers; }
+    public LightPlayer getLightPlayer(String nickname){
+        for(LightPlayer p : lightPlayers)
             if(p.getNickname().equals(nickname))
                 return p;
         return null;
