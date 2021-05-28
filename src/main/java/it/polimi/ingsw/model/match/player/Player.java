@@ -232,7 +232,8 @@ public class Player extends ModelObservable implements Adder, Verificator {
     }
 
     /**
-     * This method adds resources to the latest warehouse version.
+     * This method adds resources to the market buffer of the warehouse.
+     * In order to put the resources inside the warehouse call {@link Player#moveIntoWarehouse(PhysicalResource, int)}
      * @param resource is the resource to insert
      * @return the confirmation of the operation
      * @see Warehouse

@@ -27,7 +27,7 @@ public class JavaFXGUI extends Application {
         stage.setResizable(false);
         stage.setFullScreenExitHint("");
         stage.setFullScreenExitKeyCombination(KeyCombination.valueOf("CTRL+f"));
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("inkwell.png")));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("images/inkwell.png")));
         stage.setTitle("Masters of Renaissance Board Game");
         stage.show();
     }
@@ -37,7 +37,7 @@ public class JavaFXGUI extends Application {
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(JavaFXGUI.class.getResource(fxml + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(JavaFXGUI.class.getResource("fxml/" + fxml + ".fxml"));
         return fxmlLoader.load();
     }
 

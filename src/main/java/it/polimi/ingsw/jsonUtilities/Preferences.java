@@ -10,7 +10,7 @@ import java.nio.file.Path;
  * Class that contains static methods for to read preferences from a json file
  */
 public class Preferences {
-    static final Path filePath = Path.of("src/main/resources/Preferences.json");
+    static final Path filePath = Path.of("src/main/resources/json/Preferences.json");
 
     /**
      * Reads the default number of port from the file Preferences.json
