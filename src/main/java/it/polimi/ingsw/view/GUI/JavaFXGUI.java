@@ -14,13 +14,10 @@ import java.io.IOException;
 import static it.polimi.ingsw.network.client.Client.getClient;
 
 public class JavaFXGUI extends Application {
-
     private static Scene scene;
 
     @Override
     public void start(Stage stage) throws IOException {
-
-
         // Show the scene containing the root layout.
         scene = new Scene(loadFXML("loginScene"));
         stage.setScene(scene);

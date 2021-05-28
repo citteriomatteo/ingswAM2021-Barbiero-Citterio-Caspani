@@ -3,6 +3,7 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.controller.StateName;
 import it.polimi.ingsw.model.essentials.Card;
 import it.polimi.ingsw.model.match.Summary;
+import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
 import it.polimi.ingsw.network.message.stocmessage.NextStateMessage;
 import it.polimi.ingsw.network.message.stocmessage.RetryMessage;
@@ -19,8 +20,9 @@ import static java.util.Map.entry;
 
 public class ClientController
 {
+    static private final ClientController instance = new ClientController();
     private LightMatch match;
-    private final View view;      //LightMatch is observable by the View -> it has a View reference on its superclass -> MAYBE no need to put this also here!
+    private View view;      //LightMatch is observable by the View -> it has a View reference on its superclass -> MAYBE no need to put this also here!
     private StateName currentState;
     private String nickname;
     private static final Map<StateName, List<CtoSMessageType>> acceptedMessagesMap;
@@ -53,10 +55,18 @@ public class ClientController
         );
     }
 
-    public ClientController(View view){
+    public ClientController(){
+        currentState = StateName.LOGIN;
+    }
+
+    public static ClientController getClientController(){
+        return instance;
+    }
+
+
+    public void setView(View view){
         this.view = view;
         view.printTitle();
-        currentState = StateName.LOGIN;
     }
 
 

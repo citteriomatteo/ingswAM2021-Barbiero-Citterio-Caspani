@@ -31,7 +31,7 @@ public class Client {
     private BufferedReader in;
     private AtomicBoolean play;
 
-    private ClientController controller;
+    private ClientController controller = ClientController.getClientController();
 
     //Build the parser for json input message
     private static final Gson parserCtoS = cToSMessageConfig(new GsonBuilder()).create();
@@ -60,18 +60,16 @@ public class Client {
         if(cliChoice) {
             View view = new ClientCLI();
             new KeyboardReader(this).start();
-            setController(new ClientController(view));
+            setController(view);
             startClient();
             return;
         }
-
-
-
         Application.launch(JavaFXGUI.class);
     }
 
-    public void setController(ClientController controller) {
-        this.controller = controller;
+    public void setController(View view) {
+        this.controller = ClientController.getClientController();
+        controller.setView(view);
     }
 
     public void startClient(){

@@ -15,7 +15,6 @@ public class NextStateMessage extends StoCMessage {
 
     @Override
     public boolean compute(Client client){
-
         client.getController().updateCurrentState(this);
         return true;
     }

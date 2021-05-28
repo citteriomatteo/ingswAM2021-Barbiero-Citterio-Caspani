@@ -46,7 +46,7 @@ public class ClientGUI implements View {
     public void drawNewPlayerLayout() {
         Platform.runLater(()-> {
             try {
-                JavaFXGUI.setRoot("secondary");
+                JavaFXGUI.setRoot("ModeSelection");
             } catch (IOException e) {
                 e.printStackTrace();
                 //todo: fix
@@ -57,11 +57,27 @@ public class ClientGUI implements View {
 
     @Override
     public void drawNumPlayersLayout() {
+        Platform.runLater(()->{
+        try {
+            JavaFXGUI.setRoot("NumPlayer");
+        } catch (IOException e) {
+            e.printStackTrace();
+            //todo: fix
+        }
+    });
 
     }
 
     @Override
     public void drawConfigurationChoice() {
+        Platform.runLater(()->{
+            try {
+                JavaFXGUI.setRoot("ConfigurationChoice");
+            } catch (IOException e) {
+                e.printStackTrace();
+                //todo: fix
+            }
+        });
 
     }
 
@@ -72,6 +88,14 @@ public class ClientGUI implements View {
 
     @Override
     public void drawWaitingLayout() {
+        Platform.runLater(()->{
+            try {
+                JavaFXGUI.setRoot("Waiting");
+            } catch (IOException e) {
+                e.printStackTrace();
+                //todo: fix
+            }
+        });
 
     }
 
