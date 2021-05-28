@@ -16,15 +16,19 @@ import javafx.application.Application;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static it.polimi.ingsw.jsonUtilities.GsonHandler.cToSMessageConfig;
 import static it.polimi.ingsw.jsonUtilities.GsonHandler.sToCMessageConfig;
 import static it.polimi.ingsw.jsonUtilities.Preferences.ReadHostFromJSON;
 import static it.polimi.ingsw.jsonUtilities.Preferences.ReadPortFromJSON;
+import static it.polimi.ingsw.network.server.TimeoutBufferedReader.getNewTimeoutBufferedReader;
 
 //singleton
 public class Client {
+    private static final int PING_RATE = 30000; //30 seconds
     static private final Client instance = new Client();
     private Socket socket;
     private PrintWriter out;
@@ -46,7 +50,7 @@ public class Client {
     public void setSocket(String address, int port) {
         try {
             socket = new Socket(address, port);
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            in = getNewTimeoutBufferedReader(socket);
             out = new PrintWriter(socket.getOutputStream(), true);
         }catch (IOException e){
             System.out.println("System shutdown -> cannot connect with server");
@@ -146,6 +150,13 @@ public class Client {
         }
     }
 
+    /**
+     * Keeps alive the connection with the server sending a ping
+     */
+    public synchronized void keepAlive(){
+        out.println("ping");
+    }
+
 
     /**
      * Closes streams and socket
@@ -169,6 +180,22 @@ public class Client {
         return controller == null ? null : controller.getNickname();
     }
 
+    /**
+     * Creates a thread that periodically calls {@link Client#keepAlive()} to keep alive the connection with the server
+     */
+    public void heartbeat(){
+        Timer t = new Timer(true);
+        TimerTask tt = new TimerTask() {
+            @Override
+            public void run() {
+  //              System.out.println("It's ping time!");
+                keepAlive();
+            }
+        };
+
+        t.scheduleAtFixedRate(tt,6000,PING_RATE);
+    }
+
     public static void main(String[] args) {
         String hostName;
         int portNumber;
@@ -184,6 +211,8 @@ public class Client {
         }
 
         instance.setSocket(hostName, portNumber);
+
+        instance.heartbeat();
         instance.setView(cliChoice);
 
         instance.terminateConnection();

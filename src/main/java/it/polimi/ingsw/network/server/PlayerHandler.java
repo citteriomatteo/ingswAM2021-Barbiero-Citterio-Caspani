@@ -20,13 +20,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static it.polimi.ingsw.jsonUtilities.GsonHandler.*;
 import static it.polimi.ingsw.network.server.ServerUtilities.*;
+import static it.polimi.ingsw.network.server.TimeoutBufferedReader.getNewTimeoutBufferedReader;
 
 /**
  * This class manages the direct talk with the player, every exchanged message between client
  * and server has to pass from here
  */
 public class PlayerHandler implements Runnable, ControlBase {
-//    private static final int WAIT_FOR_READING = 60000; //1 minute
+
 
     //Build the parser for json input message
     private static final Gson parserCtoS = cToSMessageConfig(new GsonBuilder()).create();
@@ -47,26 +48,18 @@ public class PlayerHandler implements Runnable, ControlBase {
      */
     public PlayerHandler(Socket socket) {
 
-// &&&&&&&&&&&&& First attempt for implementing ping
-
-//        try {
-//            socket.setSoTimeout(WAIT_FOR_READING);
-//        } catch (SocketException e) {
-//            e.printStackTrace();
-//            System.out.println("error in TCP connection");
-//            System.exit(1);
-//        }
-
         this.socket = socket;
         inMatch = new AtomicBoolean(false);
         try {
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream())); //consider using TimeoutBufferReader
+            in = getNewTimeoutBufferedReader(socket);
+           // in = new BufferedReader(new InputStreamReader(socket.getInputStream())); //consider using TimeoutBufferReader
             out = new PrintWriter(socket.getOutputStream(), true);
         }catch (IOException e) {
             terminateConnection(false);
             System.out.println("A problem occurs when trying to connect with a player");
         }
     }
+
 
     @Override
     public StateName getCurrentState(){
@@ -199,18 +192,18 @@ public class PlayerHandler implements Runnable, ControlBase {
         String readLine;
         CtoSMessage inMsg;
         while(true){
-                readLine = in.readLine();
-                System.out.println("Client wrote: "+readLine);
-                if(readLine == null)
-                    throw new DisconnectionException("player " + player + " disconnected");
-                if(!readLine.equals(""))
-                    try {
-                        inMsg = parserCtoS.fromJson(readLine, CtoSMessage.class);
-                        return inMsg;
-                    } catch (Exception e) {
-                        System.out.println("Arrived wrong message syntax from " + player + "\n--> message: " + readLine);
-                        this.write(new RetryMessage(getNickname(), getCurrentState(), "Wrong Json Syntax " + e.getMessage()));
-                    }
+            readLine = in.readLine();
+            System.out.println("Client wrote: "+readLine);
+            if(readLine == null)
+                throw new DisconnectionException("player " + player + " disconnected");
+            if(!readLine.equals(""))
+                try {
+                    inMsg = parserCtoS.fromJson(readLine, CtoSMessage.class);
+                    return inMsg;
+                } catch (Exception e) {
+                    System.out.println("Arrived wrong message syntax from " + player + "\n--> message: " + readLine);
+                    this.write(new RetryMessage(getNickname(), getCurrentState(), "Wrong Json Syntax " + e.getMessage()));
+                }
         }
     }
 
@@ -234,6 +227,13 @@ public class PlayerHandler implements Runnable, ControlBase {
             System.out.println("error in write");
             return false;
         }
+    }
+
+    /**
+     * Keeps alive the connection with the client sending a ping
+     */
+    public synchronized void keepAlive(){
+        out.println("ping");
     }
 
     /**

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.message.ctosmessage;
 
-import it.polimi.ingsw.exceptions.RetryException;
 import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.stocmessage.RetryMessage;
 import it.polimi.ingsw.network.server.ControlBase;
@@ -32,6 +31,6 @@ public abstract class CtoSMessage extends Message {
     public abstract CtoSMessageType getType();
 
     public void sendRetryMessage(String nickname,ControlBase controlBase,  String error){
-        new RetryMessage(nickname, controlBase.getMatchController().getCurrentState(nickname), error).send(nickname);
+        new RetryMessage(nickname, controlBase.getCurrentState(), error).send(nickname);
     }
 }

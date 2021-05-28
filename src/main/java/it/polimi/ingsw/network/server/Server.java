@@ -3,16 +3,19 @@ package it.polimi.ingsw.network.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static it.polimi.ingsw.jsonUtilities.Preferences.ReadPortFromJSON;
+import static it.polimi.ingsw.network.server.ServerUtilities.serverCall;
 
 /**
  * This Class implements the main server, it will accept and manage every client that will try to connect
  */
 public class Server {
-//    private static final int TIME_FOR_PING = 10000; //10 seconds
+    private static final int TIME_FOR_PING = 30000; //30 seconds
     private final int port;
 
     /**
@@ -39,6 +42,7 @@ public class Server {
             return;
         }
 
+        setConnectionController();
         System.out.println("Server ready");
         while (true) {
             try {
@@ -55,19 +59,20 @@ public class Server {
              executor.shutdown();
     }
 
-// &&&&&&&&&&&&& First attempt for implementing ping
-
-//    private void setConnectionController() {
-//        Timer t = new Timer();
-//        TimerTask tt = new TimerTask() {
-//            @Override
-//            public void run() {
-//                System.out.println("It's ping time!");
-//                pingAll();
-//            }
-//        };
-//        t.scheduleAtFixedRate(tt,6000,TIME_FOR_PING);
-//    }
+    /**
+     * Creates a thread that periodically calls {@link ServerUtilities#pingAll()} to keep alive all the connected clients
+     */
+    private void setConnectionController() {
+        Timer t = new Timer(true);
+        TimerTask tt = new TimerTask() {
+            @Override
+            public void run() {
+  //              System.out.println("It's ping time!");
+                serverCall().pingAll();
+            }
+        };
+        t.scheduleAtFixedRate(tt,6000,TIME_FOR_PING);
+    }
 
 
     public static void main(String[] args) {

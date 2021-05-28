@@ -64,6 +64,20 @@ public class ServerUtilities {
     }
 
     /**
+     * Keeps alive every connection with a connected client -> this method should be called periodically
+     */
+    public void pingAll(){
+        synchronized (activeClients){
+            Player player;
+            for(PlayerHandler client : activeClients.values()){
+                player = client.getPlayer();
+                if(player == null || player.isConnected())
+                    client.keepAlive();
+            }
+        }
+    }
+
+    /**
      * Removes a player from the global list of active Players,
      * this list can be useful for searching existing nicknames or other things
      * @param removedClient the client to remove from the global list

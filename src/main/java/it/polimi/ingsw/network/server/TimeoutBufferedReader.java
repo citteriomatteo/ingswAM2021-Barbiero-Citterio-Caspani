@@ -2,31 +2,46 @@ package it.polimi.ingsw.network.server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.Socket;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 
-
-// &&&&&&&&&&&&& First attempt for implementing ping
+/**
+ * Class used for read from a BufferedReader managing and filtering ping messages
+ */
 public class TimeoutBufferedReader extends BufferedReader {
+    private static final int WAIT_FOR_PING = 60000; //1 minute
 
-    public TimeoutBufferedReader(@org.jetbrains.annotations.NotNull Reader in, int sz) {
-        super(in, sz);
-    }
-
-    public TimeoutBufferedReader(@org.jetbrains.annotations.NotNull Reader in) {
+    private TimeoutBufferedReader(@org.jetbrains.annotations.NotNull Reader in) {
         super(in);
     }
 
-    @Override
-    public String readLine(){
-        try{
-            return super.readLine();
-        }
-        catch (SocketTimeoutException t){
-            return "timeout";
-        } catch (IOException e) {
+    public static TimeoutBufferedReader getNewTimeoutBufferedReader(Socket socket) throws IOException {
+        try {
+            socket.setSoTimeout(WAIT_FOR_PING);
+        } catch (SocketException e) {
             e.printStackTrace();
+            System.out.println("error in TCP connection");
+            System.exit(1);
         }
-        return "timeout";
+
+        return new TimeoutBufferedReader(new InputStreamReader(socket.getInputStream()));
+    }
+
+    @Override
+    public String readLine() throws IOException {
+        String arrived;
+        try{
+            do{
+                arrived = super.readLine();
+  //              System.out.println(arrived);
+            }while("ping".equals(arrived));
+            return arrived;
+        }
+        catch (SocketTimeoutException t) {
+            return null;  //null is read only if the client is disconnected
+        }
     }
 }
