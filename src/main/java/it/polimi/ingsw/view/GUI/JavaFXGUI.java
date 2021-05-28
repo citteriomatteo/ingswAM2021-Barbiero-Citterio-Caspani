@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
@@ -26,6 +27,7 @@ public class JavaFXGUI extends Application {
         stage.setResizable(false);
         stage.setFullScreenExitHint("");
         stage.setFullScreenExitKeyCombination(KeyCombination.valueOf("CTRL+f"));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("inkwell.png")));
         stage.setTitle("Masters of Renaissance Board Game");
         stage.show();
     }
