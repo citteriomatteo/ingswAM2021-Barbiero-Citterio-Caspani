@@ -24,7 +24,7 @@ public class JavaFXGUI extends Application {
         stage.setResizable(false);
         stage.setFullScreenExitHint("");
         stage.setFullScreenExitKeyCombination(KeyCombination.valueOf("CTRL+f"));
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("images/inkwell.png")));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("images/punchBoard/inkwell.png")));
         stage.setTitle("Masters of Renaissance Board Game");
         stage.show();
     }
