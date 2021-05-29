@@ -10,7 +10,6 @@ import it.polimi.ingsw.network.server.ControlBase;
  * in the selected column of the devCardSlots
  * Message structure: { nickname, row's number, column's number }
  */
-
 public class DevCardPlacementMessage extends CtoSMessage {
     private static final CtoSMessageType type = CtoSMessageType.DEV_CARD_PLACEMENT;
     private final int column;
