@@ -20,7 +20,7 @@ public class JavaFXGUI extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         // Show the scene containing the root layout.
-        scene = new Scene(loadFXML("loginScene"));
+        scene = new Scene(loadFXML("gameScene"));
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setFullScreenExitHint("");
