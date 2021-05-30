@@ -111,7 +111,14 @@ public class ClientGUI implements View {
 
     @Override
     public void drawYourTurnLayout(boolean yourTurn) {
-
+        Platform.runLater(()->{
+            try {
+                JavaFXGUI.setRoot("gameScene");
+            } catch (IOException e) {
+                e.printStackTrace();
+                //todo: fix
+            }
+        });
     }
 
     @Override

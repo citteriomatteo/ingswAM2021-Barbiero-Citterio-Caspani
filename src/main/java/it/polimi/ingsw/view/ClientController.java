@@ -137,8 +137,8 @@ public class ClientController
                 view.drawWaitingLayout();
                 break;
             case START_GAME:
-                break;
             case WAITING_LEADERS:
+                view.drawYourTurnLayout(true);
                 view.drawLeadersChoiceLayout();
                 break;
             case WAITING_RESOURCES:

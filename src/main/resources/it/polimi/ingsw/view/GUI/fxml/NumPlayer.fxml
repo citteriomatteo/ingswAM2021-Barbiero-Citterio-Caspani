@@ -17,21 +17,21 @@
          <font>
             <Font name="System Italic" size="20.0" />
          </font></Label>
-        <Button id="onePayer" layoutX="134.0" layoutY="271.0" mnemonicParsing="false" onMouseClicked="#twoPlayer" prefHeight="53.0" prefWidth="57.0" text="2">
+        <Button id="onePayer" layoutX="134.0" layoutY="271.0" mnemonicParsing="false" onMouseClicked="#numPlayers" userData="2" prefHeight="53.0" prefWidth="57.0" text="2">
          <font>
             <Font name="Arial Italic" size="28.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-        <Button id="twoPlayer" layoutX="253.0" layoutY="271.0" mnemonicParsing="false" onMouseClicked="#threePlayer" prefHeight="53.0" prefWidth="57.0" text="3">
+        <Button id="twoPlayer" layoutX="253.0" layoutY="271.0" mnemonicParsing="false" onMouseClicked="#numPlayers" userData="3" prefHeight="53.0" prefWidth="57.0" text="3">
          <font>
             <Font name="Arial Italic" size="28.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-        <Button id="threePlayer" layoutX="369.0" layoutY="271.0" mnemonicParsing="false" onMouseClicked="#fourPlayer" prefHeight="53.0" prefWidth="57.0" text="4">
+        <Button id="threePlayer" layoutX="369.0" layoutY="271.0" mnemonicParsing="false" onMouseClicked="#numPlayers" userData="4" prefHeight="53.0" prefWidth="57.0" text="4">
          <font>
             <Font name="Arial Italic" size="28.0" />
          </font>

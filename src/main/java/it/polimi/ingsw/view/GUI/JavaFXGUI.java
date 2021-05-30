@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import static it.polimi.ingsw.network.client.Client.getClient;
-
 public class JavaFXGUI extends Application {
     private static Scene scene;
 

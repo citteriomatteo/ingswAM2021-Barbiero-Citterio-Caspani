@@ -6,6 +6,7 @@ import it.polimi.ingsw.network.message.ctosmessage.NumPlayersMessage;
 import it.polimi.ingsw.view.ClientController;
 import it.polimi.ingsw.view.View;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -48,17 +49,10 @@ public class SceneController {
     }
 
     @FXML
-    public void twoPlayer(){
-        new NumPlayersMessage(getClient().getNickname(), 2).send();
-    }
-
-    @FXML
-    public void threePlayer() {
-        new NumPlayersMessage(getClient().getNickname(), 3).send();
-    }
-
-    @FXML
-    public void fourPlayer(){
-        new NumPlayersMessage(getClient().getNickname(), 4).send();
+    public void numPlayers(MouseEvent mouseEvent) {
+        Node node = (Node) mouseEvent.getSource() ;
+        String data = (String) node.getUserData();
+        int numPlayers = Integer.parseInt(data);
+        new NumPlayersMessage(getClient().getNickname(), numPlayers).send();
     }
 }
