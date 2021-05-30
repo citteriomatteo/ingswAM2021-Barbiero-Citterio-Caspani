@@ -4,6 +4,7 @@ import it.polimi.ingsw.network.message.ctosmessage.BinarySelectionMessage;
 import it.polimi.ingsw.network.message.ctosmessage.LoginMessage;
 import it.polimi.ingsw.network.message.ctosmessage.NumPlayersMessage;
 import it.polimi.ingsw.view.ClientController;
+import it.polimi.ingsw.view.View;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,10 +20,7 @@ public class SceneController {
     public Label loginErrorLabel;
 
     public SceneController() {
-        view = new ClientGUI();
-        getClient().setController(view);
-
-        new Thread(()-> getClient().startClient()).start();
+        view = (ClientGUI) getClientController().getView(); //todo fix this not ideal cast
     }
 
     @FXML

@@ -9,6 +9,7 @@ import it.polimi.ingsw.network.message.ctosmessage.*;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessageType;
 import it.polimi.ingsw.view.ClientController;
+import it.polimi.ingsw.view.GUI.ClientGUI;
 import it.polimi.ingsw.view.GUI.JavaFXGUI;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.CLI.ClientCLI;
@@ -60,10 +61,12 @@ public class Client {
             View view = new ClientCLI();
             new KeyboardReader(this).start();
             setController(view);
-            startClient();
             return;
         }
-        Application.launch(JavaFXGUI.class);
+
+        View view = new ClientGUI();
+        setController(view);
+        new Thread(()-> Application.launch(JavaFXGUI.class)).start();
     }
 
     public void setController(View view) {
@@ -182,7 +185,6 @@ public class Client {
         TimerTask tt = new TimerTask() {
             @Override
             public void run() {
-  //              System.out.println("It's ping time!");
                 keepAlive();
             }
         };
@@ -208,6 +210,8 @@ public class Client {
 
         instance.heartbeat();
         instance.setView(cliChoice);
+
+        instance.startClient();
 
         instance.terminateConnection();
     }

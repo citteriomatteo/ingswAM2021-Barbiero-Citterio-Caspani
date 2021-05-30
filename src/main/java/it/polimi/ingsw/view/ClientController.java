@@ -228,4 +228,7 @@ public class ClientController
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+    public View getView(){
+        return view;
+    }
 }
