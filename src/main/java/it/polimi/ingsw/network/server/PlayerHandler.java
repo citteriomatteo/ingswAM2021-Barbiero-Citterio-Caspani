@@ -1,12 +1,12 @@
 package it.polimi.ingsw.network.server;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.controller.InitController;
 import it.polimi.ingsw.controller.MatchController;
 import it.polimi.ingsw.controller.StateName;
 import it.polimi.ingsw.exceptions.DisconnectionException;
+import it.polimi.ingsw.jsonUtilities.MyJsonParser;
+import it.polimi.ingsw.jsonUtilities.Parser;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessage;
 import it.polimi.ingsw.network.message.stocmessage.GoodbyeMessage;
@@ -18,7 +18,6 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static it.polimi.ingsw.jsonUtilities.GsonHandler.*;
 import static it.polimi.ingsw.network.server.ServerUtilities.*;
 import static it.polimi.ingsw.network.server.TimeoutBufferedReader.getNewTimeoutBufferedReader;
 
@@ -27,12 +26,7 @@ import static it.polimi.ingsw.network.server.TimeoutBufferedReader.getNewTimeout
  * and server has to pass from here
  */
 public class PlayerHandler implements Runnable, ControlBase {
-
-
-    //Build the parser for json input message
-    private static final Gson parserCtoS = cToSMessageConfig(new GsonBuilder()).create();
-    //Build the parser for json output message
-    private static final Gson parserStoC = sToCMessageConfig(new GsonBuilder()).create();
+    private static final Parser parser = MyJsonParser.getParser();
 
     private final Socket socket;
     private Player player;
@@ -198,7 +192,7 @@ public class PlayerHandler implements Runnable, ControlBase {
                 throw new DisconnectionException("player " + player + " disconnected");
             if(!readLine.equals(""))
                 try {
-                    inMsg = parserCtoS.fromJson(readLine, CtoSMessage.class);
+                    inMsg = parser.parseInCtoSMessage(readLine);
                     return inMsg;
                 } catch (Exception e) {
                     System.out.println("Arrived wrong message syntax from " + player + "\n--> message: " + readLine);
@@ -214,7 +208,7 @@ public class PlayerHandler implements Runnable, ControlBase {
      */
     public synchronized boolean write(StoCMessage msg){
         try {
-            String outMsg = parserStoC.toJson(msg, StoCMessage.class);
+            String outMsg = parser.parseFromStoCMessage(msg);
             System.out.println("out: "+outMsg+" to "+player);
             out.println(outMsg);
             return true;

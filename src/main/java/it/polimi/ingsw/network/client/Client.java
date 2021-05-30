@@ -1,10 +1,10 @@
 package it.polimi.ingsw.network.client;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.controller.StateName;
 import it.polimi.ingsw.exceptions.DisconnectionException;
+import it.polimi.ingsw.jsonUtilities.MyJsonParser;
+import it.polimi.ingsw.jsonUtilities.Parser;
 import it.polimi.ingsw.network.message.ctosmessage.*;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessageType;
@@ -20,8 +20,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static it.polimi.ingsw.jsonUtilities.GsonHandler.cToSMessageConfig;
-import static it.polimi.ingsw.jsonUtilities.GsonHandler.sToCMessageConfig;
 import static it.polimi.ingsw.jsonUtilities.Preferences.ReadHostFromJSON;
 import static it.polimi.ingsw.jsonUtilities.Preferences.ReadPortFromJSON;
 import static it.polimi.ingsw.network.server.TimeoutBufferedReader.getNewTimeoutBufferedReader;
@@ -30,18 +28,15 @@ import static it.polimi.ingsw.network.server.TimeoutBufferedReader.getNewTimeout
 public class Client {
     private static final int PING_RATE = 30000; //30 seconds
     static private final Client instance = new Client();
+    private static final Parser parser = MyJsonParser.getParser();
+    private static final ClientController controller = ClientController.getClientController();
+
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
     private AtomicBoolean play;
 
-    private ClientController controller = ClientController.getClientController();
-
-    //Build the parser for json input message
-    private static final Gson parserCtoS = cToSMessageConfig(new GsonBuilder()).create();
-    //Build the parser for json output message
-    private static final Gson parserStoC = sToCMessageConfig(new GsonBuilder()).create();
-
+    private Client(){ }
 
     public static Client getClient(){
         return instance;
@@ -72,7 +67,6 @@ public class Client {
     }
 
     public void setController(View view) {
-        this.controller = ClientController.getClientController();
         controller.setView(view);
     }
 
@@ -112,7 +106,7 @@ public class Client {
                 throw new DisconnectionException("Cannot reach the server -> try to relaunch the program and connect later");
 
         try{
-            return parserStoC.fromJson(received, StoCMessage.class);
+            return parser.parseInStoCMessage(received);
         } catch (Exception e) {
             System.out.println("Received Wrong json syntax from server" + e.getMessage());
             throw new DisconnectionException("The server is sending wrong messages, probably something has gone wrong, try to reconnect later");
@@ -134,7 +128,7 @@ public class Client {
                 return false;
             }
 
-            String outMsg = parserCtoS.toJson(msg, CtoSMessage.class);
+            String outMsg = parser.parseFromCtoSMessage(msg);
             //System.out.println("You write a " + msg.getType() + ":\n" + outMsg);
 
             out.println(outMsg);

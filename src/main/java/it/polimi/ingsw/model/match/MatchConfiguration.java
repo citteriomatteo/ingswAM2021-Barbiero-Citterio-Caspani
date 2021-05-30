@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.match;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import it.polimi.ingsw.jsonUtilities.MyJsonParser;
+import it.polimi.ingsw.jsonUtilities.Parser;
 import it.polimi.ingsw.model.essentials.DevelopmentCard;
 import it.polimi.ingsw.model.essentials.Production;
 import it.polimi.ingsw.model.essentials.leader.LeaderCard;
@@ -10,8 +10,6 @@ import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.List;
-
-import static it.polimi.ingsw.jsonUtilities.GsonHandler.*;
 
 /**
  * A configuration of the match all contained in one object
@@ -96,10 +94,10 @@ public class MatchConfiguration
      * @return the object read in the json
      */
     public static MatchConfiguration assignConfiguration(String config){
-        Gson g = completeModelConfig(new GsonBuilder()).setPrettyPrinting().create();
+        Parser parser = MyJsonParser.getParser();
         try {
             FileReader reader = new FileReader(config);
-            return g.fromJson(reader, MatchConfiguration.class);
+            return parser.readMatchConfiguration(reader);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             System.err.println("Application shutdown due to an internal error " );

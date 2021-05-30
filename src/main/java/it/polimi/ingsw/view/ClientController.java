@@ -3,7 +3,6 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.controller.StateName;
 import it.polimi.ingsw.model.essentials.Card;
 import it.polimi.ingsw.model.match.Summary;
-import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
 import it.polimi.ingsw.network.message.stocmessage.NextStateMessage;
 import it.polimi.ingsw.network.message.stocmessage.RetryMessage;
@@ -55,7 +54,7 @@ public class ClientController
         );
     }
 
-    public ClientController(){
+    private ClientController(){
         currentState = StateName.LOGIN;
     }
 

@@ -10,6 +10,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import static it.polimi.ingsw.network.client.Client.getClient;
 
@@ -24,7 +25,9 @@ public class JavaFXGUI extends Application {
         stage.setResizable(false);
         stage.setFullScreenExitHint("");
         stage.setFullScreenExitKeyCombination(KeyCombination.valueOf("CTRL+f"));
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("images/punchBoard/inkwell.png")));
+        InputStream imageStream = getClass().getResourceAsStream("images/punchBoard/inkwell.png");
+        if(imageStream != null)
+            stage.getIcons().add(new Image(imageStream));
         stage.setTitle("Masters of Renaissance Board Game");
         stage.show();
     }

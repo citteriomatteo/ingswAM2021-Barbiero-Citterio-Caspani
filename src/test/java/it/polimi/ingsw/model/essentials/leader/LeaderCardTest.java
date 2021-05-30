@@ -15,14 +15,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
-import static it.polimi.ingsw.jsonUtilities.GsonHandler.*;
+import static it.polimi.ingsw.jsonUtilities.GsonHandler.effectConfig;
+import static it.polimi.ingsw.jsonUtilities.GsonHandler.requirableConfig;
 import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LeaderCardTest extends CommonThingsTest {
 
     private LeaderCard slotLeader;
-
 
     //Tests the constructor
     @Test
@@ -33,8 +33,6 @@ public class LeaderCardTest extends CommonThingsTest {
                 new CardType(CardColor.GREEN, 1, 2))), 5,
                 new SlotEffect(new PhysicalResource(ResType.SHIELD, 2)));
     }
-
-
 
     //Test the writing on json file for LeaderCard and instantiation of LeaderCard via json file
     @Test
@@ -60,7 +58,6 @@ public class LeaderCardTest extends CommonThingsTest {
             //parse the object and instantiate it
             LeaderCard extractedJson = g.fromJson(reader, LeaderCard.class);
 
-//            System.out.println(extractedJson);
             assertEquals(extractedJson, slotLeader);
 
         } catch (IOException e) {
@@ -99,7 +96,6 @@ public class LeaderCardTest extends CommonThingsTest {
                 assertEquals(0, cheapResource.getQuantity());
 
             } else if (effect instanceof SlotEffect) {
-           //     effectResource = ((SlotEffect) effect).getExtraShelf();
                 int previousDimension = personalBoard.getWarehouse().getWarehouseDisposition().size();
                 System.out.println(personalBoard.getWarehouse().getWarehouseDisposition());
                 leader.activate(personalBoard);
@@ -108,7 +104,6 @@ public class LeaderCardTest extends CommonThingsTest {
                 assertEquals(previousDimension+1, evolvedDimension);
 
             } else if (effect instanceof WhiteMarbleEffect) {
-           //     effectResource = ((WhiteMarbleEffect) effect).getConversion();
                 int previousDimension = personalBoard.getWhiteMarbleConversions().size();
                 System.out.println(personalBoard.getWhiteMarbleConversions());
                 leader.activate(personalBoard);
@@ -117,10 +112,7 @@ public class LeaderCardTest extends CommonThingsTest {
                 assertEquals(previousDimension+1, evolvedDimension);
 
             } else if (effect instanceof ProductionEffect) {
-      //          Production effectProduction = ((ProductionEffect) effect).getProduction();
-     //           System.out.println(effectProduction);
                 int previousDimension = personalBoard.getActiveProductionLeaders().size();
-    //            System.out.println(personalBoard.getActiveProductionLeaders());
                 leader.activate(personalBoard);
                 System.out.println("ActiveProductionLeaders: " + personalBoard.getActiveProductionLeaders());
                 int evolvedDimension = personalBoard.getActiveProductionLeaders().size();
