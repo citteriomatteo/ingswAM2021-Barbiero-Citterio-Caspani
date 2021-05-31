@@ -10,12 +10,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-public class ClientGUI implements View {
-    private SceneController sceneController;
+import static it.polimi.ingsw.view.GUI.SceneProxy.getSceneProxy;
 
-    public void setSceneController(SceneController sceneController) {
-        this.sceneController = sceneController;
-    }
+public class ClientGUI implements View {
 
     @Override
     public void showAll(LightMatch match) {
@@ -192,7 +189,7 @@ public class ClientGUI implements View {
     public void printRetry(String errMessage, StateName currentState, LightMatch match) {
         switch (currentState){
             case LOGIN:
-                Platform.runLater(()->sceneController.loginError(errMessage));
+                getSceneProxy().loginError(errMessage);
         }
     }
 

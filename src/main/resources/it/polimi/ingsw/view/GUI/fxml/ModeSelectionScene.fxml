@@ -1,37 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0"
-      prefWidth="559.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="it.polimi.ingsw.view.GUI.SceneController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="559.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.InitSceneController">
    <ImageView fitHeight="360.0" fitWidth="565.0" layoutX="-1.0" pickOnBounds="true">
-      <Image url="@../images/generalBackground.jpg"/>
+      <Image url="@../images/generalBackground.jpg" />
    </ImageView>
-   <BorderPane prefHeight="200.0" prefWidth="200.0"/>
-   <Label alignment="CENTER" layoutX="16.0" layoutY="131.0" prefHeight="37.0" prefWidth="528.0"
-          text="Select match mode">
+   <BorderPane prefHeight="200.0" prefWidth="200.0" />
+   <Label alignment="CENTER" layoutX="16.0" layoutY="131.0" prefHeight="37.0" prefWidth="528.0" text="Select match mode">
       <font>
-         <Font name="System Italic" size="20.0"/>
+         <Font name="System Italic" size="20.0" />
       </font>
    </Label>
-   <Button id="multiButton" layoutX="304.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#multi"
-           prefHeight="37.0" prefWidth="101.0" text="Multiplayer">
+   <Button id="multiButton" layoutX="304.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#selection" prefHeight="37.0" prefWidth="101.0" text="Multiplayer" userData="false">
       <cursor>
-         <Cursor fx:constant="HAND"/>
+         <Cursor fx:constant="HAND" />
       </cursor>
    </Button>
-   <Button id="singleButton" layoutX="150.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#single"
-           prefHeight="37.0" prefWidth="101.0" text="Single Player">
+   <Button id="singleButton" layoutX="150.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#selection" prefHeight="37.0" prefWidth="101.0" text="Single Player" userData="true">
       <cursor>
-         <Cursor fx:constant="HAND"/>
+         <Cursor fx:constant="HAND" />
       </cursor>
    </Button>
 </Pane>

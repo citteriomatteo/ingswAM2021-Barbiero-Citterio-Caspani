@@ -10,12 +10,12 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0"
       prefWidth="559.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="it.polimi.ingsw.view.GUI.SceneController">
+      fx:controller="it.polimi.ingsw.view.GUI.InitSceneController">
     <ImageView fitHeight="360.0" fitWidth="565.0" pickOnBounds="true">
         <Image url="@../images/generalBackground.jpg"/>
     </ImageView>
-    <Button id="default" layoutX="131.0" layoutY="180.0" mnemonicParsing="false" onMouseClicked="#single"
-            prefHeight="50.0" prefWidth="103.0" text="DEFAULT">
+    <Button id="default" layoutX="131.0" layoutY="180.0" mnemonicParsing="false" onMouseClicked="#selection"
+            prefHeight="50.0" prefWidth="103.0" text="DEFAULT" userData="true">
         <font>
         <Font size="15.0"/>
         </font>
@@ -23,8 +23,8 @@
         <Cursor fx:constant="HAND"/>
         </cursor>
     </Button>
-    <Button id="customize" layoutX="316.0" layoutY="180.0" mnemonicParsing="false" onMouseClicked="#multi"
-            prefHeight="50.0" prefWidth="121.0" text="CUSTOMIZED">
+    <Button id="customize" layoutX="316.0" layoutY="180.0" mnemonicParsing="false" onMouseClicked="#selection"
+            prefHeight="50.0" prefWidth="121.0" text="CUSTOMIZED" userData="false">
         <font>
         <Font size="15.0"/>
         </font>

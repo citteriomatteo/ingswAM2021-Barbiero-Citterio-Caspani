@@ -28,7 +28,7 @@ import static it.polimi.ingsw.network.server.TimeoutBufferedReader.getNewTimeout
 //singleton
 public class Client {
     private static final int PING_RATE = 30000; //30 seconds
-    static private final Client instance = new Client();
+    private static final Client instance = new Client();
     private static final Parser parser = MyJsonParser.getParser();
     private static final ClientController controller = ClientController.getClientController();
 

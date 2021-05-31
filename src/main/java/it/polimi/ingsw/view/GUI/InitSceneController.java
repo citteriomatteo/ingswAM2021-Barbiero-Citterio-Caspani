@@ -3,11 +3,8 @@ package it.polimi.ingsw.view.GUI;
 import it.polimi.ingsw.network.message.ctosmessage.BinarySelectionMessage;
 import it.polimi.ingsw.network.message.ctosmessage.LoginMessage;
 import it.polimi.ingsw.network.message.ctosmessage.NumPlayersMessage;
-import it.polimi.ingsw.view.ClientController;
-import it.polimi.ingsw.view.View;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -16,9 +13,9 @@ import javafx.scene.input.MouseEvent;
 
 import static it.polimi.ingsw.network.client.Client.getClient;
 import static it.polimi.ingsw.view.ClientController.getClientController;
+import static it.polimi.ingsw.view.GUI.SceneProxy.getSceneProxy;
 
-public class SceneController {
-    private final ClientGUI view;
+public class InitSceneController {
     public TextField loginTextBox;
     public Label loginErrorLabel;
     public ImageView firstCard;
@@ -26,13 +23,12 @@ public class SceneController {
     public ImageView thirdCard;
     public ImageView fourthCard;
 
-    public SceneController() {
-        view = (ClientGUI) getClientController().getView(); //todo fix this not ideal cast
+    public InitSceneController() {
+        getSceneProxy().setInitSceneController(this);
     }
 
     @FXML
     public void login() {
-        view.setSceneController(this);
         String nickname = loginTextBox.getCharacters().toString();
         getClientController().setNickname(nickname);
         (new LoginMessage(nickname)).send();
@@ -45,18 +41,17 @@ public class SceneController {
     }
 
     @FXML
-    public void single(){
-        (new BinarySelectionMessage(getClient().getNickname(), true)).send();
+    public void selection(MouseEvent actionEvent){
+        Node node = (Node) actionEvent.getSource();
+        String data = (String) node.getUserData();
+        boolean selection = Boolean.parseBoolean(data);
+        (new BinarySelectionMessage(getClient().getNickname(), selection)).send();
     }
 
-    @FXML
-    public void multi(){
-        (new BinarySelectionMessage(getClient().getNickname(), false)).send();
-    }
 
     @FXML
-    public void numPlayers(MouseEvent mouseEvent) {
-        Node node = (Node) mouseEvent.getSource() ;
+    public void numPlayers(MouseEvent actionEvent) {
+        Node node = (Node) actionEvent.getSource() ;
         String data = (String) node.getUserData();
         int numPlayers = Integer.parseInt(data);
         new NumPlayersMessage(getClient().getNickname(), numPlayers).send();
@@ -66,4 +61,5 @@ public class SceneController {
     public void setFirstCard(Image image){
         firstCard.setImage(image);
     }
+
 }
