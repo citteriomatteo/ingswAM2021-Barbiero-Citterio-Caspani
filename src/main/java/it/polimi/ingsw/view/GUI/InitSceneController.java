@@ -10,6 +10,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+
+import java.util.List;
 
 import static it.polimi.ingsw.network.client.Client.getClient;
 import static it.polimi.ingsw.view.ClientController.getClientController;
@@ -22,6 +26,7 @@ public class InitSceneController {
     public ImageView secondCard;
     public ImageView thirdCard;
     public ImageView fourthCard;
+    public GridPane cardGrid;
 
     public InitSceneController() {
         getSceneProxy().setInitSceneController(this);

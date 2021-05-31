@@ -10,7 +10,8 @@
 <?import javafx.scene.text.Font?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
-      prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+      prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="it.polimi.ingsw.view.GUI.StartingPhaseSceneController">
    <ImageView fitHeight="600.0" fitWidth="802.0" layoutX="-1.0" opacity="0.75" pickOnBounds="true">
       <Image url="@../images/generalBackground.jpg"/>
    </ImageView>

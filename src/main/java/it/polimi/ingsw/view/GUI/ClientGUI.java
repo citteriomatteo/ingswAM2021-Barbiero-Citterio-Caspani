@@ -41,41 +41,18 @@ public class ClientGUI implements View {
 
     @Override
     public void drawNewPlayerLayout() {
-        Platform.runLater(()-> {
-            try {
-                JavaFXGUI.setRoot(SceneName.ModeSelectionScene.name());
-            } catch (IOException e) {
-                e.printStackTrace();
-                //todo: fix
-            }
-        });
+        getSceneProxy().changeScene(SceneName.ModeSelectionScene);
 
     }
 
     @Override
     public void drawNumPlayersLayout() {
-        Platform.runLater(()->{
-        try {
-            JavaFXGUI.setRoot(SceneName.NumPlayerScene.name());
-        } catch (IOException e) {
-            e.printStackTrace();
-            //todo: fix
-        }
-    });
-
+        getSceneProxy().changeScene(SceneName.NumPlayerScene);
     }
 
     @Override
     public void drawConfigurationChoice() {
-        Platform.runLater(()->{
-            try {
-                JavaFXGUI.setRoot(SceneName.ConfigurationChoiceScene.name());
-            } catch (IOException e) {
-                e.printStackTrace();
-                //todo: fix
-            }
-        });
-
+        getSceneProxy().changeScene(SceneName.ConfigurationChoiceScene);
     }
 
     @Override
@@ -85,27 +62,12 @@ public class ClientGUI implements View {
 
     @Override
     public void drawWaitingLayout() {
-        Platform.runLater(()->{
-            try {
-                JavaFXGUI.setRoot(SceneName.WaitingScene.name());
-            } catch (IOException e) {
-                e.printStackTrace();
-                //todo: fix
-            }
-        });
-
+        getSceneProxy().changeScene(SceneName.WaitingScene);
     }
 
     @Override
     public void drawLeadersChoiceLayout() {
-        Platform.runLater(()->{
-            try {
-                JavaFXGUI.setRoot(SceneName.LeadersChoiceScene.name());
-            } catch (IOException e) {
-                e.printStackTrace();
-                //todo: fix
-            }
-        });
+        getSceneProxy().changeScene(SceneName.LeadersChoiceScene);
     }
 
     @Override
@@ -115,14 +77,7 @@ public class ClientGUI implements View {
 
     @Override
     public void drawYourTurnLayout(boolean yourTurn) {
-        Platform.runLater(()->{
-            try {
-                JavaFXGUI.setRoot(SceneName.GameScene.name());
-            } catch (IOException e) {
-                e.printStackTrace();
-                //todo: fix
-            }
-        });
+        getSceneProxy().changeScene(SceneName.GameScene);
     }
 
     @Override
