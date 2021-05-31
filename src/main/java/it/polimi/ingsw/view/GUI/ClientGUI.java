@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view.GUI;
 
 import it.polimi.ingsw.controller.StateName;
+import it.polimi.ingsw.network.client.Client;
+import it.polimi.ingsw.view.ClientController;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.lightmodel.LightMatch;
 import it.polimi.ingsw.view.lightmodel.LightPlayer;
@@ -10,6 +12,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import static it.polimi.ingsw.network.client.Client.getClient;
+import static it.polimi.ingsw.view.ClientController.getClientController;
 import static it.polimi.ingsw.view.GUI.SceneProxy.getSceneProxy;
 
 public class ClientGUI implements View {
@@ -68,6 +72,8 @@ public class ClientGUI implements View {
     @Override
     public void drawLeadersChoiceLayout() {
         getSceneProxy().changeScene(SceneName.LeadersChoiceScene);
+        getSceneProxy().loadLeaderCards(getClientController().getMatch().getLightPlayer(getClient().getNickname()).getHandLeaders());
+
     }
 
     @Override
@@ -160,6 +166,7 @@ public class ClientGUI implements View {
 
     @Override
     public void updateMatch(LightMatch match) {
+        getSceneProxy().setMap(LightMatch.getCardMap());
 
     }
 

@@ -70,7 +70,7 @@
                   <Circle fill="DODGERBLUE" radius="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                </children>
             </GridPane>
-            <GridPane alignment="BOTTOM_LEFT" layoutX="421.0" layoutY="19.0" prefHeight="384.0" prefWidth="367.0">
+            <GridPane id="cardGrid" fx:id="cardGrid" alignment="BOTTOM_LEFT" layoutX="421.0" layoutY="19.0" prefHeight="384.0" prefWidth="367.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

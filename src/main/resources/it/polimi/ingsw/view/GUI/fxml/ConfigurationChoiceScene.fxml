@@ -14,7 +14,7 @@
     <ImageView fitHeight="360.0" fitWidth="565.0" pickOnBounds="true">
         <Image url="@../images/generalBackground.jpg"/>
     </ImageView>
-    <Button id="default" layoutX="131.0" layoutY="180.0" mnemonicParsing="false" onMouseClicked="#selection"
+    <Button id="default" layoutX="131.0" layoutY="180.0" mnemonicParsing="false" onAction="#selection"
             prefHeight="50.0" prefWidth="103.0" text="DEFAULT" userData="true">
         <font>
         <Font size="15.0"/>
@@ -23,7 +23,7 @@
         <Cursor fx:constant="HAND"/>
         </cursor>
     </Button>
-    <Button id="customize" layoutX="316.0" layoutY="180.0" mnemonicParsing="false" onMouseClicked="#selection"
+    <Button id="customize" layoutX="316.0" layoutY="180.0" mnemonicParsing="false" onAction="#selection"
             prefHeight="50.0" prefWidth="121.0" text="CUSTOMIZED" userData="false">
         <font>
         <Font size="15.0"/>
