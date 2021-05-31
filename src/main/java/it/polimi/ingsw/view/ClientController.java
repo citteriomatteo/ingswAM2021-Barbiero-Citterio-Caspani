@@ -3,7 +3,10 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.controller.StateName;
 import it.polimi.ingsw.model.essentials.Card;
 import it.polimi.ingsw.model.match.Summary;
+import it.polimi.ingsw.network.message.ctosmessage.BinarySelectionMessage;
+import it.polimi.ingsw.network.message.ctosmessage.CtoSMessage;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
+import it.polimi.ingsw.network.message.ctosmessage.RematchMessage;
 import it.polimi.ingsw.network.message.stocmessage.NextStateMessage;
 import it.polimi.ingsw.network.message.stocmessage.RetryMessage;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
@@ -13,6 +16,7 @@ import it.polimi.ingsw.view.lightmodel.LightMatch;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static it.polimi.ingsw.network.client.Client.getClient;
 import static it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType.*;
 import static java.util.Map.entry;
 
@@ -21,7 +25,7 @@ public class ClientController
 {
     static private final ClientController instance = new ClientController();
     private LightMatch match;
-    private View view;      //LightMatch is observable by the View -> it has a View reference on its superclass -> MAYBE no need to put this also here!
+    private View view;     // Controller has a View reference for managing retry and next state directly
     private StateName currentState;
     private String nickname;
     private static final Map<StateName, List<CtoSMessageType>> acceptedMessagesMap;
@@ -177,6 +181,26 @@ public class ClientController
 
     }
 
+    /**
+     * Controls if the message can be sent to the server and then sends it
+     * @param message the message to send
+     * @return true if the message has been sent
+     */
+    public boolean send(CtoSMessage message){
+        if(message.getType().equals(CtoSMessageType.BINARY_SELECTION) && currentState.equals(StateName.END_MATCH))
+            message = convertIntoRematchMessage((BinarySelectionMessage) message);
+
+        if(isAccepted(message.getType()))
+            return getClient().writeMessage(message);
+
+        printRetry("You're in " + currentState + ". Operation not available: retry. Write 'help' for message tips.", currentState);
+        return false;
+    }
+
+    private RematchMessage convertIntoRematchMessage(BinarySelectionMessage message){
+        boolean selection = message.getSelection();
+        return new RematchMessage(message.getNickname(), selection);
+    }
 
     public boolean isAccepted(CtoSMessageType type){
         if (type == DISCONNECTION)

@@ -4,7 +4,7 @@ import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.stocmessage.RetryMessage;
 import it.polimi.ingsw.network.server.ControlBase;
 
-import static it.polimi.ingsw.network.client.Client.getClient;
+import static it.polimi.ingsw.view.ClientController.getClientController;
 
 
 public abstract class CtoSMessage extends Message {
@@ -21,8 +21,12 @@ public abstract class CtoSMessage extends Message {
      */
     public abstract boolean computeMessage(ControlBase controlBase);
 
+    /**
+     * Controls if this message can be sent to the server and then sends it
+     * @return true if the message has been sent
+     */
     public boolean send(){
-        return getClient().writeMessage(this);
+        return getClientController().send(this);
     }
 
     public abstract boolean isSomethingNull();

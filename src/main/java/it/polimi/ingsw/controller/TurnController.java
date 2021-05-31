@@ -415,7 +415,7 @@ public class TurnController {
      * updates sets the new state to END_TURN.
      * @param column    the chosen dev slot
      * @return the new State of the controller and client
-     * @throws RetryException
+     * @throws RetryException //todo javadoc
      */
     public StateName devCardPlacement(int column) throws RetryException {
         try {

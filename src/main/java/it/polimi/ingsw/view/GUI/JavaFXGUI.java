@@ -24,8 +24,8 @@ public class JavaFXGUI extends Application {
         scene = new Scene(loadFXML(SceneName.LoginScene.name()));
         stage.setScene(scene);
         stage.setResizable(false);
-        stage.setFullScreenExitHint("");
-        stage.setFullScreenExitKeyCombination(KeyCombination.valueOf("CTRL+f"));
+//        stage.setFullScreenExitHint("");   //todo: think about full screen possibility
+//        stage.setFullScreenExitKeyCombination(KeyCombination.valueOf("CTRL+f"));
         InputStream imageStream = getClass().getResourceAsStream("images/punchBoard/inkwell.png");
         if(imageStream != null)
             stage.getIcons().add(new Image(imageStream));
@@ -34,8 +34,10 @@ public class JavaFXGUI extends Application {
     }
 
     static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
-      //  stage.setResizable(true);
+        Parent next = loadFXML(fxml);
+        scene.setRoot(next);
+        stage.setWidth(next.prefWidth(1280));
+        stage.setHeight(next.prefHeight(768));
     }
 
     private static Parent loadFXML(String fxml) throws IOException {

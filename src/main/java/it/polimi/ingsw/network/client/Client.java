@@ -60,18 +60,15 @@ public class Client {
         if(cliChoice) {
             View view = new ClientCLI();
             new KeyboardReader(this).start();
-            setController(view);
+            controller.setView(view);
             return;
         }
 
         View view = new ClientGUI();
-        setController(view);
+        controller.setView(view);
         new Thread(()-> Application.launch(JavaFXGUI.class)).start();
     }
 
-    public void setController(View view) {
-        controller.setView(view);
-    }
 
     public void startClient(){
         StoCMessage messageFromServer;
@@ -120,20 +117,8 @@ public class Client {
     //Send the message to the server after parsing it.
     public synchronized boolean writeMessage(CtoSMessage msg) {
         try {
-            if(msg.getType().equals(CtoSMessageType.BINARY_SELECTION) && controller.getCurrentState().equals(StateName.END_MATCH)) {
-                boolean selection = ((BinarySelectionMessage) msg).getSelection();
-
-                msg = new RematchMessage(msg.getNickname(), selection);
-
-            }
-            if(!isAccepted(msg.getType())) {
-                controller.printRetry("You're in "+controller.getCurrentState()+". Operation not available: retry. Write 'help' for message tips.", controller.getCurrentState());
-                return false;
-            }
-
             String outMsg = parser.parseFromCtoSMessage(msg);
             //System.out.println("You write a " + msg.getType() + ":\n" + outMsg);
-
             out.println(outMsg);
             return true;
         } catch (JsonSyntaxException e) {

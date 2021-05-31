@@ -45,7 +45,7 @@ public class StrongBox {
             return res;
 
         if(resources.get(res.getType()) < res.getQuantity())
-            throw new NotEnoughResourcesException("Not enough "+res.getType().toString()+" in the StrongBox!");
+            throw new NotEnoughResourcesException("Not enough "+ res.getType().name() +" in the StrongBox!");
         else
             resources.replace(res.getType(), (resources.get(res.getType()) - res.getQuantity()));
         return res;

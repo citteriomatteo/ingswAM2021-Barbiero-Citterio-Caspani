@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 import static it.polimi.ingsw.controller.StateName.*;
+import static it.polimi.ingsw.view.ClientController.getClientController;
 import static java.util.Map.entry;
 
 public class KeyboardReader extends Thread{
@@ -181,7 +182,7 @@ public class KeyboardReader extends Thread{
             return null;
         }
         nickname = params.get(0);
-        client.getController().setNickname(nickname);
+        getClientController().setNickname(nickname);
         return new LoginMessage(params.get(0));
     }
 
@@ -581,15 +582,15 @@ public class KeyboardReader extends Thread{
                     continue;
                 }
                 if(userInput.equals("discountmap") || userInput.equals("dm")) {
-                    client.getController().printDiscountMap(nickname);
+                    getClientController().printDiscountMap(nickname);
                     continue;
                 }
                 if(userInput.equals("whitemarbleconversions") || userInput.equals("wmc")) {
-                    client.getController().printWhiteMarbleConversions(nickname);
+                    getClientController().printWhiteMarbleConversions(nickname);
                     continue;
                 }
                 if(userInput.indexOf("cardinfo") == 0 || userInput.indexOf("ci") == 0) {
-                    client.getController().printCardInfo(userInput);
+                    getClientController().printCardInfo(userInput);
                     continue;
                 }
                 if(userInput.equals("exit"))
@@ -597,7 +598,7 @@ public class KeyboardReader extends Thread{
                 messageToSend = parseInMessage(userInput);
                 if(messageToSend == null)
                     continue;
-                client.writeMessage(messageToSend);
+                messageToSend.send();
 
             } catch (IOException e) {
                 System.out.println("Error while reading");
@@ -608,7 +609,7 @@ public class KeyboardReader extends Thread{
     }
 
     public void printHelpMap() {
-        StateName currentState = client.getController().getCurrentState();
+        StateName currentState = getClientController().getCurrentState();
 
         for (StateName state : helpMap.keySet())
             if(state.equals(currentState)) {
