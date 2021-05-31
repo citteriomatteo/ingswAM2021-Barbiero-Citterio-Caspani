@@ -46,7 +46,7 @@ public class ClientGUI implements View {
     public void drawNewPlayerLayout() {
         Platform.runLater(()-> {
             try {
-                JavaFXGUI.setRoot("ModeSelection");
+                JavaFXGUI.setRoot(SceneName.ModeSelectionScene.name());
             } catch (IOException e) {
                 e.printStackTrace();
                 //todo: fix
@@ -59,7 +59,7 @@ public class ClientGUI implements View {
     public void drawNumPlayersLayout() {
         Platform.runLater(()->{
         try {
-            JavaFXGUI.setRoot("NumPlayer");
+            JavaFXGUI.setRoot(SceneName.NumPlayerScene.name());
         } catch (IOException e) {
             e.printStackTrace();
             //todo: fix
@@ -72,7 +72,7 @@ public class ClientGUI implements View {
     public void drawConfigurationChoice() {
         Platform.runLater(()->{
             try {
-                JavaFXGUI.setRoot("ConfigurationChoice");
+                JavaFXGUI.setRoot(SceneName.ConfigurationChoiceScene.name());
             } catch (IOException e) {
                 e.printStackTrace();
                 //todo: fix
@@ -90,7 +90,7 @@ public class ClientGUI implements View {
     public void drawWaitingLayout() {
         Platform.runLater(()->{
             try {
-                JavaFXGUI.setRoot("Waiting");
+                JavaFXGUI.setRoot(SceneName.WaitingScene.name());
             } catch (IOException e) {
                 e.printStackTrace();
                 //todo: fix
@@ -101,7 +101,14 @@ public class ClientGUI implements View {
 
     @Override
     public void drawLeadersChoiceLayout() {
-
+        Platform.runLater(()->{
+            try {
+                JavaFXGUI.setRoot("leadersChoice");
+            } catch (IOException e) {
+                e.printStackTrace();
+                //todo: fix
+            }
+        });
     }
 
     @Override
@@ -113,7 +120,7 @@ public class ClientGUI implements View {
     public void drawYourTurnLayout(boolean yourTurn) {
         Platform.runLater(()->{
             try {
-                JavaFXGUI.setRoot("gameScene");
+                JavaFXGUI.setRoot(SceneName.GameScene.name());
             } catch (IOException e) {
                 e.printStackTrace();
                 //todo: fix
@@ -183,7 +190,6 @@ public class ClientGUI implements View {
 
     @Override
     public void printRetry(String errMessage, StateName currentState, LightMatch match) {
-        System.out.println("ClientGui");
         switch (currentState){
             case LOGIN:
                 Platform.runLater(()->sceneController.loginError(errMessage));
