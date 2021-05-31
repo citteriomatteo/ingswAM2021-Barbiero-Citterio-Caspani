@@ -8,6 +8,7 @@ public enum SceneName {
     WaitingScene,
     LeadersChoiceScene,
     StartingResourceScene,
-    GameScene;
+    GameScene,
+    EndGameScene;
 
 }

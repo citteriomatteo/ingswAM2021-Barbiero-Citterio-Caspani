@@ -14,11 +14,16 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Text?>
 
-<Pane id="largePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1280.0" style="-fx-background-color: orange;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<Pane id="largePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
+      <ImageView id="background" fitHeight="768.0" fitWidth="1280.0" opacity="0.65" pickOnBounds="true">
+         <image>
+            <Image url="@../images/generalBackground.jpg" />
+         </image>
+      </ImageView>
       <Pane id="myBoard" layoutX="-40.0" layoutY="-1.0" prefHeight="768.0" prefWidth="881.0" style="-fx-border-color: black;">
          <children>
-            <ImageView id="myBoard" fitHeight="354.0" fitWidth="651.0" layoutX="192.0" layoutY="405.0" pickOnBounds="true">
+            <ImageView id="myBoard" fitHeight="354.0" fitWidth="631.0" layoutX="212.0" layoutY="405.0" pickOnBounds="true">
                <image>
                   <Image url="@../images/board/playerBoard.jpg" />
                </image>
@@ -31,7 +36,7 @@
             </ImageView>
             <ImageView fitHeight="169.0" fitWidth="200.0" layoutX="150.0" layoutY="76.0" pickOnBounds="true">
                <image>
-                  <Image url="@../images/black.png" />
+                  <Image url="@../images/punchBoard/marketBackground.jpg" />
                </image>
             </ImageView>
             <Circle fill="DODGERBLUE" layoutX="325.0" layoutY="100.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" />
@@ -368,19 +373,9 @@
          </children></Pane>
       <Button id="exitButton" layoutX="1204.0" layoutY="8.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="68.0" text="Exit" />
       <TextField id="controlBox" editable="false" layoutX="883.0" layoutY="702.0" prefHeight="35.0" prefWidth="364.0" />
-      <Text layoutX="904.0" layoutY="695.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Informations Field" />
+      <Text layoutX="888.0" layoutY="693.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Informations Field" />
       <VBox layoutX="838.0" layoutY="40.0" prefHeight="639.0" prefWidth="436.0">
          <children>
-            <Pane prefHeight="208.0" prefWidth="436.0">
-               <children>
-                  <ImageView id="enemyBoard1" fitHeight="181.0" fitWidth="337.0" layoutX="43.0" layoutY="19.0" pickOnBounds="true">
-                     <image>
-                        <Image url="@../images/board/playerBoard.jpg" />
-                     </image>
-                  </ImageView>
-                  <Label layoutX="4.0" layoutY="1.0" text="Player 2" />
-               </children>
-            </Pane>
             <Pane prefHeight="208.0" prefWidth="436.0">
                <children>
                   <ImageView id="enemyBoard2" fitHeight="181.0" fitWidth="337.0" layoutX="43.0" layoutY="19.0" pickOnBounds="true">
@@ -399,6 +394,16 @@
                      </image>
                   </ImageView>
                   <Label layoutX="4.0" layoutY="1.0" text="Player 4" />
+               </children>
+            </Pane>
+            <Pane prefHeight="208.0" prefWidth="436.0">
+               <children>
+                  <ImageView id="enemyBoard1" fitHeight="181.0" fitWidth="337.0" layoutX="43.0" layoutY="19.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../images/board/playerBoard.jpg" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="4.0" layoutY="1.0" text="Player 2" />
                </children>
             </Pane>
          </children>

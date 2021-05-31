@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="600.0" fitWidth="800.0" opacity="0.85" pickOnBounds="true">
+         <image>
+            <Image url="@../images/generalBackground.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="279.0" layoutY="56.0" text="THE MATCH HAS ENDED.">
+         <font>
+            <Font name="Apple Chancery" size="18.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="360.0" fitWidth="312.0" layoutX="254.0" layoutY="106.0" opacity="0.69" pickOnBounds="true">
+         <image>
+            <Image url="@../images/punchBoard/rankingParchment.png" />
+         </image>
+      </ImageView>
+      <GridPane layoutX="281.0" layoutY="182.0" prefHeight="220.0" prefWidth="259.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="96.0" minWidth="10.0" prefWidth="55.028045654296875" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="158.0" minWidth="10.0" prefWidth="132.0303955078125" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="149.0" minWidth="10.0" prefWidth="65.9696044921875" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label id="1stNickname" text="Player 1" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+            <Label id="2ndNickname" text="Player 2" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+            <Label id="3rdNickname" text="Player 3" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+            <Label id="4thNickname" text="Player 4" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+            <Label id="1stPts" text="pts1" GridPane.columnIndex="2" />
+            <Label id="2ndPts" text="pts2" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Label id="3rdPts" text="pts3" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Label id="4thPts" text="pts4" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <ImageView id="1stIcon" fitHeight="34.0" fitWidth="45.0" pickOnBounds="true" GridPane.halignment="CENTER">
+               <image>
+                  <Image url="@../images/punchBoard/goldenCup.png" />
+               </image>
+            </ImageView>
+            <ImageView id="2ndIcon" fitHeight="39.0" fitWidth="34.0" pickOnBounds="true" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../images/punchBoard/silverCup.png" />
+               </image>
+            </ImageView>
+            <ImageView id="3rdIcon" fitHeight="40.0" fitWidth="39.0" pickOnBounds="true" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../images/punchBoard/bronzeCup.png" />
+               </image>
+            </ImageView>
+         </children>
+      </GridPane>
+      <Label layoutX="297.0" layoutY="151.0" text="FINAL RANKING:" />
+      <Button id="rematchButton" layoutX="364.0" layoutY="529.0" mnemonicParsing="false" text="Rematch" />
+      <Button id="exitButton" layoutX="704.0" layoutY="529.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="71.0" text="Exit" />
+      <Label id="rematchLabel" layoutX="315.0" layoutY="495.0" text="Want to ask for a Rematch?" />
+   </children>
+</Pane>
