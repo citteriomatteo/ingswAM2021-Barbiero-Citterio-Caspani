@@ -83,12 +83,22 @@ public class SceneProxy {
         //TODO: modify in case of editor
     }
 
-    public Map<String, Image> getIdToImageMap(){
-        return idToImageMap;
+    /**
+     * Returns the image of the card associated with the given ID, this should be of the form L* or D*
+     * @param ID the unique id of the card
+     * @return the relative image or null if there isn't an image associated with that id
+     */
+    public Image getImage(String ID){
+        return idToImageMap.get(ID);
     }
 
-    public Map<Image, String> getImageToIdMap(){
-        return imageToIdMap;
+    /**
+     * Returns the ID of the card associated with the given image
+     * @param image the unique image of the card
+     * @return the relative ID or null if there isn't an ID associated with that image
+     */
+    public String getID(Image image){
+        return imageToIdMap.get(image);
     }
 
     public void changeScene(SceneName scene){

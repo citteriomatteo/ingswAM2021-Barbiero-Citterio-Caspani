@@ -39,7 +39,7 @@ public class StartingPhaseSceneController {
         for (int i = 0; i < 4; i++) {
             leaderImage = (ImageView) leadersHBox.getChildren().get(i);
 
-            leaderImage.setImage(getSceneProxy().getIdToImageMap().get(leaders.get(i)));
+            leaderImage.setImage(getSceneProxy().getImage(leaders.get(i)));
         }
     }
 
@@ -48,7 +48,7 @@ public class StartingPhaseSceneController {
         String cardId;
         ImageView imageView = (ImageView) mouseEvent.getSource();
 
-        cardId = getSceneProxy().getImageToIdMap().get(imageView.getImage());
+        cardId = getSceneProxy().getID(imageView.getImage());
 
         if(firstLeader != null && secondLeader == null)
             secondLeader = cardId;
