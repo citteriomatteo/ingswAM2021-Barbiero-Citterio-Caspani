@@ -3,17 +3,12 @@ package it.polimi.ingsw.view.GUI;
 import it.polimi.ingsw.network.message.ctosmessage.BinarySelectionMessage;
 import it.polimi.ingsw.network.message.ctosmessage.LoginMessage;
 import it.polimi.ingsw.network.message.ctosmessage.NumPlayersMessage;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-
-import java.util.List;
 
 import static it.polimi.ingsw.network.client.Client.getClient;
 import static it.polimi.ingsw.view.ClientController.getClientController;
@@ -22,11 +17,6 @@ import static it.polimi.ingsw.view.GUI.SceneProxy.getSceneProxy;
 public class InitSceneController {
     public TextField loginTextBox;
     public Label loginErrorLabel;
-    public ImageView firstCard;
-    public ImageView secondCard;
-    public ImageView thirdCard;
-    public ImageView fourthCard;
-    public GridPane cardGrid;
 
     public InitSceneController() {
         getSceneProxy().setInitSceneController(this);
@@ -46,7 +36,7 @@ public class InitSceneController {
     }
 
     @FXML
-    public void selection(MouseEvent actionEvent){
+    public void selection(ActionEvent actionEvent){
         Node node = (Node) actionEvent.getSource();
         String data = (String) node.getUserData();
         boolean selection = Boolean.parseBoolean(data);
@@ -61,10 +51,4 @@ public class InitSceneController {
         int numPlayers = Integer.parseInt(data);
         new NumPlayersMessage(getClient().getNickname(), numPlayers).send();
     }
-
-    @FXML
-    public void setFirstCard(Image image){
-        firstCard.setImage(image);
-    }
-
 }

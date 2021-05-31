@@ -6,13 +6,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0"
-      prefWidth="561.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="it.polimi.ingsw.view.GUI.InitSceneController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="561.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.InitSceneController">
     <ImageView fitHeight="360.0" fitWidth="565.0" layoutX="-1.0" pickOnBounds="true">
         <Image url="@../images/generalBackground.jpg" />
     </ImageView>
-    <Button id="onePayer" layoutX="133.0" layoutY="180.0" mnemonicParsing="false" onMouseClicked="#numPlayers" prefHeight="53.0" prefWidth="57.0" text="2" userData="2">
+    <Button id="onePayer" layoutX="133.0" layoutY="180.0" mnemonicParsing="false" onAction="#numPlayers" prefHeight="53.0" prefWidth="57.0" text="2" userData="2">
         <font>
         <Font name="Arial Italic" size="28.0" />
         </font>
@@ -20,7 +18,7 @@
         <Cursor fx:constant="HAND" />
         </cursor>
     </Button>
-    <Button id="twoPlayer" layoutX="251.0" layoutY="180.0" mnemonicParsing="false" onMouseClicked="#numPlayers" prefHeight="53.0" prefWidth="57.0" text="3" userData="3">
+    <Button id="twoPlayer" layoutX="251.0" layoutY="180.0" mnemonicParsing="false" onAction="#numPlayers" prefHeight="53.0" prefWidth="57.0" text="3" userData="3">
         <font>
         <Font name="Arial Italic" size="28.0" />
         </font>
@@ -28,7 +26,7 @@
         <Cursor fx:constant="HAND" />
         </cursor>
     </Button>
-    <Button id="threePlayer" layoutX="370.0" layoutY="180.0" mnemonicParsing="false" onMouseClicked="#numPlayers" prefHeight="53.0" prefWidth="57.0" text="4" userData="4">
+    <Button id="threePlayer" layoutX="370.0" layoutY="180.0" mnemonicParsing="false" onAction="#numPlayers" prefHeight="53.0" prefWidth="57.0" text="4" userData="4">
         <font>
         <Font name="Arial Italic" size="28.0" />
         </font>

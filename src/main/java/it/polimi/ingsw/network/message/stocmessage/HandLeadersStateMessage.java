@@ -4,6 +4,8 @@ import it.polimi.ingsw.network.client.Client;
 
 import java.util.List;
 
+import static it.polimi.ingsw.view.ClientController.getClientController;
+
 public class HandLeadersStateMessage extends StoCMessage {
 
     private static final StoCMessageType type = StoCMessageType.HAND_LEADERS_STATE;
@@ -16,7 +18,7 @@ public class HandLeadersStateMessage extends StoCMessage {
 
     @Override
     public boolean compute(Client client){
-        client.getController().getMatch().setHandLeaders(getNickname(), handLeaders);
+        getClientController().getMatch().setHandLeaders(getNickname(), handLeaders);
         return true;
     }
     @Override

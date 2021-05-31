@@ -6,9 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0"
-      prefWidth="561.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="it.polimi.ingsw.view.GUI.InitSceneController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="561.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.InitSceneController">
    <ImageView fitHeight="360.0" fitWidth="565.0" layoutX="-1.0" pickOnBounds="true">
       <Image url="@../images/generalBackground.jpg" />
    </ImageView>
@@ -18,12 +16,12 @@
          <Font name="System Italic" size="20.0" />
       </font>
    </Label>
-   <Button id="multiButton" layoutX="304.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#selection" prefHeight="37.0" prefWidth="101.0" text="Multiplayer" userData="false">
+   <Button id="multiButton" layoutX="304.0" layoutY="200.0" mnemonicParsing="false" onAction="#selection" prefHeight="37.0" prefWidth="101.0" text="Multiplayer" userData="false">
       <cursor>
          <Cursor fx:constant="HAND" />
       </cursor>
    </Button>
-   <Button id="singleButton" layoutX="150.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#selection" prefHeight="37.0" prefWidth="101.0" text="Single Player" userData="true">
+   <Button id="singleButton" layoutX="150.0" layoutY="200.0" mnemonicParsing="false" onAction="#selection" prefHeight="37.0" prefWidth="101.0" text="Single Player" userData="true">
       <cursor>
          <Cursor fx:constant="HAND" />
       </cursor>

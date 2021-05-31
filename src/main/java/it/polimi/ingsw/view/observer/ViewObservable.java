@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.observer;
 
-import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.view.lightmodel.LightMatch;
 
 import java.util.ArrayList;
