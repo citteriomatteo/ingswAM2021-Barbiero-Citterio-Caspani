@@ -20,16 +20,16 @@
          <HBox.margin>
             <Insets/>
          </HBox.margin>
-         <Image url="@../images/leaderCards/L1.png"/>
+         <Image url="@../images/leaderCards/leaderCardBack.png"/>
       </ImageView>
       <ImageView fx:id="secondCard" fitHeight="250.0" fitWidth="280.0" pickOnBounds="true" preserveRatio="true">
-         <Image url="@../images/leaderCards/L2.png"/>
+         <Image url="@../images/leaderCards/leaderCardBack.png"/>
       </ImageView>
       <ImageView fx:id="thirdCard" fitHeight="250.0" fitWidth="280.0" pickOnBounds="true" preserveRatio="true">
-         <Image url="@../images/leaderCards/L3.png"/>
+         <Image url="@../images/leaderCards/leaderCardBack.png"/>
       </ImageView>
       <ImageView fx:id="fourthCard" fitHeight="250.0" fitWidth="280.0" pickOnBounds="true" preserveRatio="true">
-         <Image url="@../images/leaderCards/L4.png"/>
+         <Image url="@../images/leaderCards/leaderCardBack.png"/>
       </ImageView>
    </HBox>
    <Button id="confirmButton" layoutX="379.0" layoutY="467.0" mnemonicParsing="false" text="OK"/>
