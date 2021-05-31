@@ -103,7 +103,7 @@ public class ClientGUI implements View {
     public void drawLeadersChoiceLayout() {
         Platform.runLater(()->{
             try {
-                JavaFXGUI.setRoot("leadersChoice");
+                JavaFXGUI.setRoot(SceneName.LeadersChoiceScene.name());
             } catch (IOException e) {
                 e.printStackTrace();
                 //todo: fix
