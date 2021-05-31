@@ -67,7 +67,6 @@ public class Server {
         TimerTask tt = new TimerTask() {
             @Override
             public void run() {
-  //              System.out.println("It's ping time!");
                 serverCall().pingAll();
             }
         };

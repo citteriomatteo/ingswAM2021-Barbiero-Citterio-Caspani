@@ -239,6 +239,17 @@ public class ServerUtilities {
     }
 
     /**
+     * Removes the player from the waiting list if he was present
+     * @param player the player who is disconnecting
+     * @return true if the player was present in the waiting list
+     */
+    public boolean removeFromWaitingList(Player player){
+        synchronized (formingMatch) {
+            return waitingPlayers.remove(player);
+        }
+    }
+
+    /**
      * Returns the list of players who joins the match and empty the waiting queue, now someone else can create is own match.
      * This method is automatically called when a waiting list is full and so doesn't need to wait for filling the queue
      * @return the list of players who joins the match

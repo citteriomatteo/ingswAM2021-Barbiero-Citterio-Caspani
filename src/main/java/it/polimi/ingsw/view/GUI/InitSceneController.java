@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 
 import static it.polimi.ingsw.network.client.Client.getClient;
 import static it.polimi.ingsw.view.ClientController.getClientController;
@@ -45,7 +44,7 @@ public class InitSceneController {
 
 
     @FXML
-    public void numPlayers(MouseEvent actionEvent) {
+    public void numPlayers(ActionEvent actionEvent) {
         Node node = (Node) actionEvent.getSource() ;
         String data = (String) node.getUserData();
         int numPlayers = Integer.parseInt(data);

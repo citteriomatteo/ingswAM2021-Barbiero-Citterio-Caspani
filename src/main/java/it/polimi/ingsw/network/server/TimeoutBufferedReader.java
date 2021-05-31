@@ -9,15 +9,28 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 
 /**
- * Class used for read from a BufferedReader managing and filtering ping messages
+ * Class used for reading from a BufferedReader managing and filtering ping messages
  */
 public class TimeoutBufferedReader extends BufferedReader {
     private static final int WAIT_FOR_PING = 60000; //1 minute
 
+    /**
+     * Private constructor that copy the {@link BufferedReader} one.
+     * To make a TimeoutBufferedReader utilize {@link TimeoutBufferedReader#getNewTimeoutBufferedReader(Socket)}
+     * @param in a reader
+     */
     private TimeoutBufferedReader(@org.jetbrains.annotations.NotNull Reader in) {
         super(in);
     }
 
+    /**
+     * Creates and returns a new TimeoutBufferedReader linked to the socket, setting a fixed timeout
+     * @param socket the socket you want to communicate through
+     * @return the new TimeoutBufferedReader
+     * @throws IOException if an I/O error occurs when creating the input stream, the socket is closed,
+     *                     the socket is not connected, or the socket input has been shutdown using
+     *                     shutdownInput()
+     */
     public static TimeoutBufferedReader getNewTimeoutBufferedReader(Socket socket) throws IOException {
         try {
             socket.setSoTimeout(WAIT_FOR_PING);
@@ -26,7 +39,6 @@ public class TimeoutBufferedReader extends BufferedReader {
             System.out.println("error in TCP connection");
             System.exit(1);
         }
-
         return new TimeoutBufferedReader(new InputStreamReader(socket.getInputStream()));
     }
 
@@ -36,7 +48,6 @@ public class TimeoutBufferedReader extends BufferedReader {
         try{
             do{
                 arrived = super.readLine();
-  //              System.out.println(arrived);
             }while("ping".equals(arrived));
             return arrived;
         }

@@ -46,7 +46,6 @@ public class PlayerHandler implements Runnable, ControlBase {
         inMatch = new AtomicBoolean(false);
         try {
             in = getNewTimeoutBufferedReader(socket);
-           // in = new BufferedReader(new InputStreamReader(socket.getInputStream())); //consider using TimeoutBufferReader
             out = new PrintWriter(socket.getOutputStream(), true);
         }catch (IOException e) {
             terminateConnection(false);
@@ -238,7 +237,7 @@ public class PlayerHandler implements Runnable, ControlBase {
      */
     public synchronized void disconnection(){
 
-        System.err.println("Probably something goes wrong or the player "+getNickname()+" closed the connection --> disconnection");
+        System.err.println("Probably something goes wrong or the player " + getNickname() + " closed the connection --> disconnection");
         if(inMatch.get()) {
             terminateConnection(false);
             if (!player.disconnect())
@@ -252,6 +251,8 @@ public class PlayerHandler implements Runnable, ControlBase {
             StateName currentState = initController.getCurrentState();
             if (currentState == StateName.NUMBER_OF_PLAYERS || currentState == StateName.MP_CONFIGURATION_CHOOSE)
                 serverCall().rejectPriority(player);
+            else if(currentState == StateName.WAITING)
+                serverCall().removeFromWaitingList(player);
             //since the player is not yet in game -> remove totally his nickname from the server
             terminateConnection(true);
         }
