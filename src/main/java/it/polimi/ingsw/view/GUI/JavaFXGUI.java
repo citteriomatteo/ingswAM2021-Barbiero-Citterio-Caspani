@@ -15,10 +15,12 @@ import java.io.InputStream;
 import static it.polimi.ingsw.network.client.Client.getClient;
 public class JavaFXGUI extends Application {
     private static Scene scene;
+    private static Stage stage;
 
     @Override
     public void start(Stage stage) throws IOException {
         // Show the scene containing the root layout.
+        JavaFXGUI.stage = stage;
         scene = new Scene(loadFXML("loginScene"));
         stage.setScene(scene);
         stage.setResizable(false);
@@ -33,6 +35,7 @@ public class JavaFXGUI extends Application {
 
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
+      //  stage.setResizable(true);
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
