@@ -10,6 +10,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 import static it.polimi.ingsw.network.client.Client.getClient;
@@ -19,6 +21,10 @@ public class SceneController {
     private final ClientGUI view;
     public TextField loginTextBox;
     public Label loginErrorLabel;
+    public ImageView firstCard;
+    public ImageView secondCard;
+    public ImageView thirdCard;
+    public ImageView fourthCard;
 
     public SceneController() {
         view = (ClientGUI) getClientController().getView(); //todo fix this not ideal cast
@@ -54,5 +60,10 @@ public class SceneController {
         String data = (String) node.getUserData();
         int numPlayers = Integer.parseInt(data);
         new NumPlayersMessage(getClient().getNickname(), numPlayers).send();
+    }
+
+    @FXML
+    public void setFirstCard(Image image){
+        firstCard.setImage(image);
     }
 }
