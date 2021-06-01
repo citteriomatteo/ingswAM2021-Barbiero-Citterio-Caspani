@@ -15,7 +15,8 @@ import static it.polimi.ingsw.network.server.ServerUtilities.serverCall;
  * This Class implements the main server, it will accept and manage every client that will try to connect
  */
 public class Server {
-    private static final int TIME_FOR_PING = 30000; //30 seconds
+    //30 seconds | is friendly because the Player Handler has to use it in the first phase
+    static final int TIME_FOR_PING = 30000;
     private final int port;
 
     /**

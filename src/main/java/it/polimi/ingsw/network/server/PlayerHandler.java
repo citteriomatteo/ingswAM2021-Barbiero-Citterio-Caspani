@@ -16,8 +16,12 @@ import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
+import java.sql.Timestamp;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static it.polimi.ingsw.network.server.Server.TIME_FOR_PING;
 import static it.polimi.ingsw.network.server.ServerUtilities.*;
 import static it.polimi.ingsw.network.server.TimeoutBufferedReader.getNewTimeoutBufferedReader;
 
@@ -35,6 +39,7 @@ public class PlayerHandler implements Runnable, ControlBase {
     private MatchController matchController;
     private InitController initController;
     private final AtomicBoolean inMatch;
+    private Timer heartbeat;
 
     /**
      * Generate a PlayerHandler
@@ -79,6 +84,8 @@ public class PlayerHandler implements Runnable, ControlBase {
     @Override
     public void setPlayer(Player player) {
         this.player = player;
+        heartbeat.cancel();
+        heartbeat = null;
     }
     @Override
     public void setMatchController(MatchController matchController) {
@@ -127,6 +134,7 @@ public class PlayerHandler implements Runnable, ControlBase {
      * @throws DisconnectionException if the client disconnects
      */
     private void initializationAndSetting() throws IOException, DisconnectionException {
+        heartbeat = heartbeat();
         CtoSMessage inMsg;
         initController = new InitController(this);
 
@@ -223,10 +231,29 @@ public class PlayerHandler implements Runnable, ControlBase {
     }
 
     /**
+     * Creates a thread that periodically calls {@link PlayerHandler#keepAlive()} to keep alive the
+     * connection with the client until he give us a valid nickname
+     * @return the Timer that has to be canceled when the player give us a valid nickname
+     */
+    public Timer heartbeat(){
+        Timer t = new Timer(true);
+        TimerTask tt = new TimerTask() {
+            @Override
+            public void run() {
+                keepAlive();
+            }
+        };
+
+        t.scheduleAtFixedRate(tt,6000,TIME_FOR_PING);
+        return t;
+    }
+
+    /**
      * Keeps alive the connection with the client sending a ping
      */
     public synchronized void keepAlive(){
         out.println("ping");
+        System.out.println("send ping to " + getNickname() + " at " + new Timestamp(System.currentTimeMillis()));
     }
 
     /**

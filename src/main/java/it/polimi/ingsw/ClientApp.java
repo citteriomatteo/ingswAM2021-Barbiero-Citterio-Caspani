@@ -9,6 +9,8 @@ import static it.polimi.ingsw.network.client.Client.getClient;
  * --port [num] sets the port on which the server is listening
  * --cli/CLI chose to start a CLI
  * --gui/GUI chose to start a GUI
+ *
+ * If an argument is missing, takes it from the json file Preferences.json
  */
 public class ClientApp {
 
