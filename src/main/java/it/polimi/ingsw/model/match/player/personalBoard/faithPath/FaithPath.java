@@ -100,7 +100,7 @@ public abstract class FaithPath
     public int getWinPoints()
     {
         int points = 0;
-        for(int i = faithMarker-1; i>=0 && points==0; i--)
+        for(int i = faithMarker; i>=0 && points==0; i--)
             points = faithPath.get(i).getWinPoints();
 
         for (int i=0; i<3; i++)
