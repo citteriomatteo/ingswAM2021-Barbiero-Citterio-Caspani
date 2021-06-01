@@ -34,8 +34,7 @@ public class StartingPhaseSceneController implements SceneController{
     public Label servantCount;
     public Label coinCount;
     public HBox leadersHBox;
-    private String firstLeader;
-    private String secondLeader;
+    private List<String> leaders = new ArrayList<>();
 
 
     public StartingPhaseSceneController() {
@@ -55,55 +54,41 @@ public class StartingPhaseSceneController implements SceneController{
 
     @FXML
     public void cardSelection(MouseEvent mouseEvent) {
-        //Migliorabile
-        String cardId;
         ImageView imageView = (ImageView) mouseEvent.getSource();
-        imageView.setEffect(new Glow(0.3));
-        imageView.setFitWidth(imageView.getFitWidth()+10);
-        imageView.setFitHeight(imageView.getFitHeight()+10);
+        String removedLeader;
 
-        cardId = getSceneProxy().getID(imageView.getImage());
-
-        if(firstLeader == null && secondLeader == null)
-            firstLeader = cardId;
-        else if(firstLeader != null && secondLeader == null) {
-            secondLeader = cardId;
-            String nID;
-            for(Node n : leadersHBox.getChildren()) {
-                nID = getSceneProxy().getID(((ImageView) n).getImage());
-                if (!nID.equals(firstLeader) && !nID.equals(secondLeader))
-                    n.setDisable(true);
-            }
-        }
-        else if(cardId.equals(firstLeader)){
-            firstLeader = null;
-            imageView.setEffect(null);
-            imageView.setFitHeight(imageView.getFitHeight()-10);
-            imageView.setFitWidth(imageView.getFitWidth()-10);
-            String nID;
-            for(Node n : leadersHBox.getChildren()){
-                nID = getSceneProxy().getID(((ImageView) n).getImage());
-                if (!nID.equals(secondLeader))
-                    n.setDisable(false);
-            }
+        if(leaders.size() < 2) {
+            if (!leaders.contains(getSceneProxy().getID(imageView.getImage())))
+                leaders.add(getCardIdAndSelect(imageView));
         }
         else {
-            secondLeader = null;
-            imageView.setEffect(null);
-            imageView.setFitHeight(imageView.getFitHeight()-10);
-            imageView.setFitWidth(imageView.getFitWidth()-10);
-            String nID;
-            for(Node n : leadersHBox.getChildren()){
-                nID = getSceneProxy().getID(((ImageView) n).getImage());
-                if (!nID.equals(firstLeader))
-                    n.setDisable(false);
+            if(leaders.contains(getSceneProxy().getID(imageView.getImage())))
+                return;
+            removedLeader = leaders.remove(0);
+            for (Node n : leadersHBox.getChildren()){
+                if(getSceneProxy().getID(((ImageView) n).getImage()).equals(removedLeader)) {
+                    n.setEffect(null);
+                    ImageView oldLeader = (ImageView) n;
+                    oldLeader.setFitHeight(oldLeader.getFitHeight()-10);
+                    oldLeader.setFitWidth(oldLeader.getFitWidth()-10);
+                }
+
             }
+            leaders.add(getCardIdAndSelect(imageView));
         }
 
     }
 
+    private String getCardIdAndSelect(ImageView imageView){
+        imageView.setEffect(new Glow(0.3));
+        imageView.setFitWidth(imageView.getFitWidth()+10);
+        imageView.setFitHeight(imageView.getFitHeight()+10);
+
+        return getSceneProxy().getID(imageView.getImage());
+    }
+
     public void sendLeaders() {
-        (new LeadersChoiceMessage(getClient().getNickname(), List.of(firstLeader, secondLeader))).send();
+        (new LeadersChoiceMessage(getClient().getNickname(), leaders)).send();
     }
 
     public void loadStartingResources(int numResources){
