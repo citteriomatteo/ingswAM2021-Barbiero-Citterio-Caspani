@@ -234,7 +234,6 @@ public class MatchController {
         player.getSummary().updateConnectionState(player.getNickname(), false);
 
         PlayerConnectionStateMessage message = new PlayerConnectionStateMessage(player.getNickname(), false);
-        System.out.println("Created disconnection message for "+player.getNickname());
         message.sendBroadcast(match);
 
         return true;

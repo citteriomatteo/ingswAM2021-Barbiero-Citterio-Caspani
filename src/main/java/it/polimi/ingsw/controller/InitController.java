@@ -235,12 +235,11 @@ public class InitController {
                 return true;
 
             case WAITING_FOR_PLAYERS:
+                changeState(StateName.START_GAME);
                 List<Player> playersInMatch = serverCall().matchParticipants();
                 System.out.println("forming a new match for... " + playersInMatch);
                 MatchController controller = new MatchController(playersInMatch);
                 setMatchController(controller);  //<-- exit from init
-                changeState(StateName.START_GAME);
-
                 return true;
 
         }

@@ -42,7 +42,6 @@ public class PlayerSummary
     private Production tempProduction;
     private StateName lastUsedState;
 
-
     /**
      * This constructor is called once for every player, at the beginning of the starting phase.
      * It initializes its Summary in an "empty everything" state.
@@ -51,33 +50,21 @@ public class PlayerSummary
         this.connected = player.isConnected();
         this.nickname = player.getNickname();
 
-        //last used state init to the first state after the creation of the match
+        //last used state initialization to the first state after the creation of the match
         this.lastUsedState = StateName.WAITING_LEADERS;
-        //warehouse init
         warehouse = new ArrayList<>();
-        //marketBuffer init
         marketBuffer = new ArrayList<>();
-        //strongbox init
         strongbox = new ArrayList<>();
-        //player's faith marker init
         faithMarker = -1;
-        //pope tiles init
         popeTiles = new ArrayList<>();
-        //dev card slots init
         this.devCardSlots = new List[3];
         for(int i = 0; i<3; i++)
             this.devCardSlots[i] = new ArrayList<>();
-        //hand leaders init
         handLeaders = new ArrayList<>();
-        //active leaders init
         activeLeaders = new ArrayList<>();
-        //white marble conversions init
         this.whiteMarbleConversions = new ArrayList<>();
-        //discount map init
         this.discountMap = new ArrayList<>();
-        //temp dev card init
         tempDevCard = null;
-        //temp production init
         tempProduction = null;
     }
 

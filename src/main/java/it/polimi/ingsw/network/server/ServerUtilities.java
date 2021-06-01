@@ -293,23 +293,4 @@ public class ServerUtilities {
             return false;
         }
     }
-
-
-//    //!!!!!!!!!!!!!TODO: REMOVE ME!!!!!!!!!!!!!!!!!!!
-//    //only for test purpose
-//    private static void sendAMessageWithDelay(int delay, Match match) {
-//
-//        Timer t = new Timer();
-//        TimerTask tt = new TimerTask() {
-//            @Override
-//            public void run() {
-//                System.out.println("Sending a StoC Message in the first match");
-//                StoCMessage msg = new TokenDrawMessage("giorgio", "yellow token");
-//     //           msg.send(match);
-//            }
-//        };
-//        System.out.println("sending a message in " + delay/1000 + " seconds");
-//        t.schedule(tt, delay);
-//    }
-//    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 }

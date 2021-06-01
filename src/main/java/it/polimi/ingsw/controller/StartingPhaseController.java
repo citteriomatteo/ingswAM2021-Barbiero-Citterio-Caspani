@@ -13,11 +13,9 @@ import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 import it.polimi.ingsw.model.match.player.personalBoard.warehouse.WarehouseDecorator;
 import it.polimi.ingsw.network.message.stocmessage.HandLeadersStateMessage;
-import it.polimi.ingsw.network.message.stocmessage.NextStateMessage;
 import it.polimi.ingsw.network.message.stocmessage.SummaryMessage;
 
 import static it.polimi.ingsw.controller.MatchController.getKeyByValue;
-import static it.polimi.ingsw.network.server.ServerUtilities.serverCall;
 
 
 import java.util.*;
@@ -41,9 +39,7 @@ public class  StartingPhaseController {
             playerStates.put(p.getNickname(), StateName.WAITING_LEADERS);
 
             p.setSummary(summary);
-            System.out.println("player "+p.getNickname()+" connection states before send: "+p.isConnected());
             SummaryMessage msg = new SummaryMessage(p.getNickname(), summary);
-            System.out.println("player "+msg.getNickname()+" connections state after msg creation: "+msg.getSummary().getPlayerSummary(msg.getNickname()).isConnected());
             msg.send(p.getNickname());
             //for the interested player
             new HandLeadersStateMessage(p.getNickname(), p.getHandLeaders().stream().map((x) -> getKeyByValue(cardMap, x)).collect(Collectors.toList())).send(p.getNickname());

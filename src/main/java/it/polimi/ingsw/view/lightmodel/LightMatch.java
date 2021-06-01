@@ -108,7 +108,7 @@ public class LightMatch extends ViewObservable {
         getLightPlayer(nickname).setConnected(connected);
         updateMatch(this);
         if(connected)
-            System.out.println("Player " +nickname+ " is back in the game.");
+            System.out.println("Player " +nickname+ " is back in the game."); //todo: use a controller function that can inform the view, not directly the print
         else
             System.out.println("Player " +nickname+ " has left the match.");
     }

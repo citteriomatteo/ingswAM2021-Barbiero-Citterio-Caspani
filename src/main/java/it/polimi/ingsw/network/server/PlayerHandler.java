@@ -16,7 +16,6 @@ import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
-import java.sql.Timestamp;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -89,7 +88,7 @@ public class PlayerHandler implements Runnable, ControlBase {
     }
     @Override
     public void setMatchController(MatchController matchController) {
-        System.out.println("set the matchController for " + player);
+        //System.out.println("set the matchController for " + player);
         this.matchController = matchController;
         inMatch.set(true);
     }
@@ -253,7 +252,7 @@ public class PlayerHandler implements Runnable, ControlBase {
      */
     public synchronized void keepAlive(){
         out.println("ping");
-        System.out.println("send ping to " + getNickname() + " at " + new Timestamp(System.currentTimeMillis()));
+      //  System.out.println("send ping to " + getNickname() + " at " + new Timestamp(System.currentTimeMillis()));
     }
 
     /**

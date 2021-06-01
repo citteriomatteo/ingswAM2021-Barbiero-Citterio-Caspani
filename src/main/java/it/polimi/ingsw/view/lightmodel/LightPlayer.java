@@ -37,7 +37,6 @@ public class LightPlayer {
      */
     public LightPlayer(PlayerSummary playerSummary, String color) {
         this.connected = playerSummary.isConnected();
-        System.out.println("player "+playerSummary.getNickname()+ " set to "+playerSummary.isConnected());
         this.color = color;
         this.nickname = playerSummary.getNickname();
         setWarehouse(playerSummary.getWarehouse());
