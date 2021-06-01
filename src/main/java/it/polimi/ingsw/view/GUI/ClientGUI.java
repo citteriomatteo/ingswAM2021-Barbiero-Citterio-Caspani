@@ -158,6 +158,9 @@ public class ClientGUI implements View {
         switch (currentState){
             case LOGIN:
                 getSceneProxy().loginError(errMessage);
+                break;
+            case WAITING_LEADERS:
+                getSceneProxy().leadersChoiceError(errMessage);
         }
     }
 

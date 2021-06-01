@@ -34,6 +34,7 @@ public class StartingPhaseSceneController implements SceneController{
     public Label servantCount;
     public Label coinCount;
     public HBox leadersHBox;
+    public Label errorLabel;
     private List<String> leaders = new ArrayList<>();
 
 
@@ -88,6 +89,11 @@ public class StartingPhaseSceneController implements SceneController{
     }
 
     public void sendLeaders() {
+        if(leaders.size() != 2) {
+            errorLabel.setText("Please chose 2 leaders");
+            errorLabel.setOpacity(1);
+            return;
+        }
         (new LeadersChoiceMessage(getClient().getNickname(), leaders)).send();
     }
 
@@ -148,6 +154,10 @@ public class StartingPhaseSceneController implements SceneController{
         getSceneProxy().changeScene(SceneName.GameScene);
     }
 
+    public void leadersChoiceError(String errorMessage){
+        errorLabel.setText(errorMessage);
+        errorLabel.setOpacity(1);
+    }
     @Override
     public void disableAll() {
         basePane.setDisable(true);
