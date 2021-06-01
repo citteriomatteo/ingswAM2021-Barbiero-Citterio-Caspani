@@ -131,10 +131,6 @@ public class SceneProxy {
         actualController.disableAll();
     }
 
-    public void loginError(String errMessage) {
-        Platform.runLater(()->initSceneController.loginError(errMessage));
-    }
-
     public void loadLeaderCards(List<String> leaders){
         Platform.runLater(()->{
             if(startingPhaseSceneController != null)
@@ -147,7 +143,20 @@ public class SceneProxy {
             if(startingPhaseSceneController != null)
                 startingPhaseSceneController.loadStartingResources(numResources);
         });
+    }
 
+    public void loginError(String errMessage) {
+        Platform.runLater(()->{
+            if(initSceneController != null)
+                initSceneController.loginError(errMessage);
+        });
+    }
+
+    public void leadersChoiceError(String errMessage){
+        Platform.runLater(()->{
+            if (startingPhaseSceneController != null)
+                startingPhaseSceneController.leadersChoiceError(errMessage);
+        });
     }
 
 

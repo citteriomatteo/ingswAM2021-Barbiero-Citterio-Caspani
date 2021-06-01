@@ -29,9 +29,9 @@
    </HBox>
    <Button id="confirmButton" layoutX="379.0" layoutY="467.0" mnemonicParsing="false" onAction="#sendLeaders" text="OK" />
    <Label layoutX="352.0" layoutY="109.0" text="Choose two leaders." />
-   <Label id="errorLabel" layoutX="347.0" layoutY="520.0" opacity="0.0" text="msg from server" textFill="RED">
+   <Label fx:id="errorLabel" layoutX="302.0" layoutY="521.0" opacity="0.0" text="msg from server" textAlignment="CENTER" textFill="RED">
       <font>
-         <Font size="12.0" />
+         <Font size="26.0" />
       </font>
    </Label>
 </Pane>
