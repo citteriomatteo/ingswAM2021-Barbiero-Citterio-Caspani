@@ -119,6 +119,11 @@ public class ClientCLI implements View
     }
 
     @Override
+    public void drawStartingPhaseDone() {
+
+    }
+
+    @Override
     public void drawLeadersChoiceLayout() {
         lastLayout = "Choose two Leaders";
         System.out.println(lastLayout);

@@ -6,11 +6,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.StartingPhaseSceneController">
+<Pane fx:id="basePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.StartingPhaseSceneController">
    <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true">
       <Image url="@../images/generalBackground.jpg" />
    </ImageView>
-   <HBox fx:id="leadersHBox" layoutX="37.0" layoutY="161.0" prefHeight="247.0" prefWidth="724.0" spacing="20.0">
+   <HBox fx:id="leadersHBox" alignment="CENTER" layoutX="37.0" layoutY="161.0" prefHeight="247.0" prefWidth="724.0" spacing="20.0">
       <ImageView fx:id="firstCard" fitHeight="250.0" fitWidth="280.0" onMouseClicked="#cardSelection" pickOnBounds="true" preserveRatio="true">
          <HBox.margin>
             <Insets />

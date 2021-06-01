@@ -136,11 +136,15 @@ public class ClientController
                 view.drawConfigurationLayout();
                 break;
             case STARTING_PHASE_DONE:
+                view.drawWaitingLayout();
+                view.drawStartingPhaseDone();
+                break;
             case WAITING_FOR_PLAYERS:
             case WAITING:
                 view.drawWaitingLayout();
                 break;
             case START_GAME:
+                break;
             case WAITING_LEADERS:
                 view.drawLeadersChoiceLayout();
                 break;

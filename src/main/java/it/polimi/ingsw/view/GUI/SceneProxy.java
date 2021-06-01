@@ -15,20 +15,28 @@ import static it.polimi.ingsw.network.client.Client.getClient;
 
 
 public class SceneProxy {
-    private static final SceneProxy instance = new SceneProxy();
+    private static SceneProxy instance;
     private InitSceneController initSceneController;
     private StartingPhaseSceneController startingPhaseSceneController;
     private TurnSceneController turnSceneController;
     private RematchPhaseSceneController rematchPhaseSceneController;
     private Map<String, Image> idToImageMap;
     private Map<Image, String> imageToIdMap;
+    private SceneController actualController;
+    private SceneName actualScene;
 
-    public static SceneProxy getSceneProxy(){ return instance; }
+    public static SceneProxy getSceneProxy(){
+        if (instance == null)
+            instance = new SceneProxy();
+
+        return instance;
+    }
 
     //%%%%%%%%%%%%%%%%%%%%%%%%SETTER%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     public void setInitSceneController(InitSceneController initSceneController) {
         this.initSceneController = initSceneController;
+        this.actualController = initSceneController;
         this.startingPhaseSceneController = null;
         this.turnSceneController = null;
         this.rematchPhaseSceneController = null;
@@ -37,6 +45,7 @@ public class SceneProxy {
     public void setStartingPhaseSceneController(StartingPhaseSceneController startingPhaseSceneController) {
         this.initSceneController = null;
         this.startingPhaseSceneController = startingPhaseSceneController;
+        this.actualController = startingPhaseSceneController;
         this.turnSceneController = null;
         this.rematchPhaseSceneController = null;
 
@@ -46,6 +55,7 @@ public class SceneProxy {
         this.initSceneController = null;
         this.startingPhaseSceneController = null;
         this.turnSceneController = turnSceneController;
+        this.actualController = turnSceneController;
         this.rematchPhaseSceneController = null;
 
     }
@@ -55,6 +65,7 @@ public class SceneProxy {
         this.startingPhaseSceneController = null;
         this.turnSceneController = null;
         this.rematchPhaseSceneController = rematchPhaseSceneController;
+        this.actualController = rematchPhaseSceneController;
 
     }
 
@@ -102,6 +113,10 @@ public class SceneProxy {
     }
 
     public void changeScene(SceneName scene){
+        if(actualScene == scene)
+            return;
+
+        actualScene = scene;
         Platform.runLater(()->{
             try {
                 JavaFXGUI.setRoot(scene.name());
@@ -112,17 +127,29 @@ public class SceneProxy {
         });
     }
 
-    public void loadLeaderCards(List<String> leaders){
-        Platform.runLater(()->{
-            if(startingPhaseSceneController != null)
-                startingPhaseSceneController.loadLeaderCards(leaders);
-        });
-
+    public void disableAll(){
+        actualController.disableAll();
     }
 
     public void loginError(String errMessage) {
         Platform.runLater(()->initSceneController.loginError(errMessage));
     }
+
+    public void loadLeaderCards(List<String> leaders){
+        Platform.runLater(()->{
+            if(startingPhaseSceneController != null)
+                startingPhaseSceneController.loadLeaderCards(leaders);
+        });
+    }
+
+    public void loadStartingResources(int numResources){
+        Platform.runLater(()->{
+            if(startingPhaseSceneController != null)
+                startingPhaseSceneController.loadStartingResources(numResources);
+        });
+
+    }
+
 
 
 }

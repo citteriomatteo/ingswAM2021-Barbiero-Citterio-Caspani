@@ -25,6 +25,7 @@ public interface View extends ViewObserver {
     void drawConfigurationChoice();
     void drawConfigurationLayout();
     void drawWaitingLayout();
+    void drawStartingPhaseDone();
     void drawLeadersChoiceLayout();
     void drawResourcesChoiceLayout(int yourPosition);
     void drawYourTurnLayout(boolean yourTurn);

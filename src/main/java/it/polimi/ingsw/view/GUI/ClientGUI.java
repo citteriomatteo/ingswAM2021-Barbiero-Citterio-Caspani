@@ -70,6 +70,12 @@ public class ClientGUI implements View {
     }
 
     @Override
+    public void drawStartingPhaseDone() {
+        getSceneProxy().changeScene(SceneName.GameScene);
+        getSceneProxy().disableAll();
+    }
+
+    @Override
     public void drawLeadersChoiceLayout() {
         getSceneProxy().changeScene(SceneName.LeadersChoiceScene);
         getSceneProxy().loadLeaderCards(getClientController().getMatch().getLightPlayer(getClient().getNickname()).getHandLeaders());
@@ -78,7 +84,8 @@ public class ClientGUI implements View {
 
     @Override
     public void drawResourcesChoiceLayout(int yourPosition) {
-
+        getSceneProxy().changeScene(SceneName.StartingResourceScene);
+        getSceneProxy().loadStartingResources((yourPosition)/2);
     }
 
     @Override

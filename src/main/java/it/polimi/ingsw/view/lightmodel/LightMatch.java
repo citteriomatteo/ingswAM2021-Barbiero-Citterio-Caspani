@@ -59,7 +59,7 @@ public class LightMatch extends ViewObservable {
      * This method sets the map of cards' IDs.
      * @param cardMap
      */
-    public void setCardMap(Map<String, Card> cardMap) { this.cardMap = cardMap; }
+    public void setCardMap(Map<String, Card> cardMap) { LightMatch.cardMap = cardMap; }
 
     /**
      * This method sets the market and the slide marble.

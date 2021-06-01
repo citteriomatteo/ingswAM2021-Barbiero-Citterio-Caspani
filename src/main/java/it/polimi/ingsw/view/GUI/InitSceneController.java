@@ -8,12 +8,14 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 
 import static it.polimi.ingsw.network.client.Client.getClient;
 import static it.polimi.ingsw.view.ClientController.getClientController;
 import static it.polimi.ingsw.view.GUI.SceneProxy.getSceneProxy;
 
-public class InitSceneController {
+public class InitSceneController implements SceneController{
+    public Pane basePane;
     public TextField loginTextBox;
     public Label loginErrorLabel;
 
@@ -49,5 +51,10 @@ public class InitSceneController {
         String data = (String) node.getUserData();
         int numPlayers = Integer.parseInt(data);
         new NumPlayersMessage(getClient().getNickname(), numPlayers).send();
+    }
+
+    @Override
+    public void disableAll() {
+        basePane.setDisable(true);
     }
 }
