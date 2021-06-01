@@ -2,7 +2,6 @@ package it.polimi.ingsw.network.message.stocmessage;
 
 import it.polimi.ingsw.controller.StateName;
 import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.network.message.Message;
 
 /**
  * This class implements a message that notifies the player about a Retry request. Something went wrong.
@@ -23,7 +22,8 @@ public class RetryMessage extends StoCMessage {
 
     @Override
     public boolean compute(Client client){
-        client.getController().printRetry(errMessage, currentState);
+        //todo: fix this, watch printRetry
+      //  client.getController().printRetry(errMessage, currentState);
         client.getController().updateCurrentState(this);
         return true;
     }

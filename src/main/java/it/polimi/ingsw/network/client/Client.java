@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.client;
 
 import com.google.gson.JsonSyntaxException;
-import it.polimi.ingsw.controller.StateName;
 import it.polimi.ingsw.exceptions.DisconnectionException;
 import it.polimi.ingsw.jsonUtilities.MyJsonParser;
 import it.polimi.ingsw.jsonUtilities.Parser;
@@ -21,8 +20,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static it.polimi.ingsw.jsonUtilities.Preferences.ReadHostFromJSON;
-import static it.polimi.ingsw.jsonUtilities.Preferences.ReadPortFromJSON;
 import static it.polimi.ingsw.network.server.TimeoutBufferedReader.getNewTimeoutBufferedReader;
 
 //singleton
@@ -56,7 +53,12 @@ public class Client {
 
     }
 
-    private void setView(boolean cliChoice){
+    /**
+     * Creates the correct view, sets it inside the controller and creates a separate thread to handle player inputs
+     * In case of CLI the thread is daemon, in case of GUI not
+     * @param cliChoice if true set up a CLI, if false set up a GUI
+     */
+    public void setView(boolean cliChoice){
         if(cliChoice) {
             View view = new ClientCLI();
             new KeyboardReader(this).start();
@@ -152,8 +154,6 @@ public class Client {
         }catch (IOException ignored) { /*this exception is thrown when trying to close an already closed stream */}
     }
 
-    public boolean isAccepted(CtoSMessageType type){ return controller.isAccepted(type); }
-
     public ClientController getController() {
         return controller;
     }
@@ -175,29 +175,5 @@ public class Client {
         };
 
         t.scheduleAtFixedRate(tt,6000,PING_RATE);
-    }
-
-    public static void main(String[] args) {
-        String hostName;
-        int portNumber;
-        boolean cliChoice = false;
-        if (args.length >= 2) {
-            hostName = args[0];
-            portNumber = Integer.parseInt(args[1]);
-            if(args.length == 3)
-                cliChoice = args[2].equals("--cli")||args[2].equals("-cli");
-        } else {
-            hostName = ReadHostFromJSON();
-            portNumber = ReadPortFromJSON();
-        }
-
-        instance.setSocket(hostName, portNumber);
-
-        instance.heartbeat();
-        instance.setView(cliChoice);
-
-        instance.startClient();
-
-        instance.terminateConnection();
     }
 }

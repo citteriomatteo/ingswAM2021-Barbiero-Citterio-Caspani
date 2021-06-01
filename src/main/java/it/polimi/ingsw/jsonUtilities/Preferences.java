@@ -16,11 +16,11 @@ public class Preferences {
      * Reads the default number of port from the file Preferences.json
      * @return the default number of port
      */
-    static public int ReadPortFromJSON() {
+    static public int readPortFromJSON() {
         try {
             JsonParser jsonParser = new JsonParser();
             JsonObject object = (JsonObject) jsonParser.parse(Files.readString(filePath));
-            return  object.get("ServerPort").getAsInt();
+            return object.get("ServerPort").getAsInt();
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Application shutdown due to an internal error, cannot find " + filePath);
@@ -33,7 +33,7 @@ public class Preferences {
      * Reads the default IP address from the file Preferences.json
      * @return the default IP address
      */
-    static public String ReadHostFromJSON(){
+    static public String readHostFromJSON(){
         try {
             JsonParser jsonParser = new JsonParser();
             JsonObject object = (JsonObject) jsonParser.parse(Files.readString(filePath));
@@ -43,6 +43,23 @@ public class Preferences {
             System.err.println("Application shutdown due to an internal error, cannot find " + filePath);
             System.exit(1);
             return null;
+        }
+    }
+
+    /**
+     * Reads the default view choice from the file Preferences.json
+     * @return the default view choice, true if CLI, false if GUI
+     */
+    static public boolean readViewFromJSON() {
+        try {
+            JsonParser jsonParser = new JsonParser();
+            JsonObject object = (JsonObject) jsonParser.parse(Files.readString(filePath));
+            return object.get("CliChoice").getAsBoolean();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Application shutdown due to an internal error, cannot find " + filePath);
+            System.exit(1);
+            return false;
         }
     }
 }

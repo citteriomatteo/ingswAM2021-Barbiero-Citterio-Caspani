@@ -196,9 +196,14 @@ public class ClientCLI implements View
 
     @Override
     public void printRetry(String errMessage, StateName currentState, LightMatch match) {
-        lastLayout = "Message form server: " + errMessage;
-        if(match!=null)
+        //todo: fix this adding a errorLabel variable to be printed after the show all and removed at the change state
+        String message = "Message from server: " + errMessage;
+        if(match!=null) {
+            lastLayout = message;
             showAll(match);
+        }
+        else
+            System.out.println(message);
     }
 
 

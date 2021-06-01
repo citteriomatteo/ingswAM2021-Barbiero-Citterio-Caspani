@@ -8,7 +8,7 @@ import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static it.polimi.ingsw.jsonUtilities.Preferences.ReadPortFromJSON;
+import static it.polimi.ingsw.jsonUtilities.Preferences.readPortFromJSON;
 import static it.polimi.ingsw.network.server.ServerUtilities.serverCall;
 
 /**
@@ -71,17 +71,5 @@ public class Server {
             }
         };
         t.scheduleAtFixedRate(tt,6000,TIME_FOR_PING);
-    }
-
-
-    public static void main(String[] args) {
-        int portNumber;
-        if (args.length==1)
-            portNumber = Integer.parseInt(args[0]);
-        else{
-            portNumber = ReadPortFromJSON();
-        }
-        Server echoServer = new Server(portNumber);
-        echoServer.startServer();
     }
 }
