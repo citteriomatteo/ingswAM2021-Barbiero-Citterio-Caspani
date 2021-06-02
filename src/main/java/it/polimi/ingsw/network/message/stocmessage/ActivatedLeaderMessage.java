@@ -6,7 +6,6 @@ import it.polimi.ingsw.network.client.Client;
  * This class implements a message that notifies everyone about a leader's play of someone.
  * Message structure: { nickname, ID of the card }
  */
-
 public class ActivatedLeaderMessage extends StoCMessage {
 
     private static final StoCMessageType type = StoCMessageType.ACTIVATED_LEADER;

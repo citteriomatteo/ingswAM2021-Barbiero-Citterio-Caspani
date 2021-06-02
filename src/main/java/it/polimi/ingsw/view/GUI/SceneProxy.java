@@ -3,7 +3,9 @@ package it.polimi.ingsw.view.GUI;
 
 import it.polimi.ingsw.model.essentials.Card;
 import javafx.application.Platform;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -193,5 +195,18 @@ public class SceneProxy {
             if(turnSceneController != null)
                 turnSceneController.loadStartingTurn();
         });
+    }
+
+    /**
+     * Returns the child of the given father with the given id
+     * @param father a pane
+     * @param Id the id of the node you want to search for
+     * @return the child node or null if there isn't such a child
+     */
+    public Node getChildById(Pane father, String Id){
+        for(Node children : father.getChildren())
+            if(children.getId().equals(Id))
+                return children;
+            return null;
     }
 }
