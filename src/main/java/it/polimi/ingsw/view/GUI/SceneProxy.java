@@ -203,7 +203,7 @@ public class SceneProxy {
      * @param Id the id of the node you want to search for
      * @return the child node or null if there isn't such a child
      */
-    public Node getChildById(Pane father, String Id){
+    public static Node getChildById(Pane father, String Id){
         for(Node children : father.getChildren())
             if(Id.equals(children.getId()))
                 return children;
