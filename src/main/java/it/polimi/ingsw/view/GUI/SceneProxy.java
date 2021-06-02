@@ -26,7 +26,6 @@ public class SceneProxy {
     private SceneController actualController;
     private SceneName actualScene;
     private Map<Character, Image> charToImageMap;
-    private Map<Image, Character> imageToCharMap;
 
     public static SceneProxy getSceneProxy(){
         if (instance == null)
@@ -95,6 +94,18 @@ public class SceneProxy {
         //TODO: modify in case of editor
     }
 
+    public void setMarblesMap(){
+        charToImageMap = Map.ofEntries(
+                entry('w', new Image(getClass().getResourceAsStream("images/punchBoard/whiteMarble.png"))),
+                entry('r', new Image(getClass().getResourceAsStream("images/punchBoard/redMarble.png"))),
+                entry('b', new Image(getClass().getResourceAsStream("images/punchBoard/blueMarble.png"))),
+                entry('y', new Image(getClass().getResourceAsStream("images/punchBoard/yellowMarble.png"))),
+                entry('g', new Image(getClass().getResourceAsStream("images/punchBoard/greyMarble.png"))),
+                entry('p', new Image(getClass().getResourceAsStream("images/punchBoard/purpleMarble.png")))
+        );
+
+    }
+
     /**
      * Returns the image of the card associated with the given ID, this should be of the form L* or D*
      * @param ID the unique id of the card
@@ -113,28 +124,20 @@ public class SceneProxy {
         return imageToIdMap.get(image);
     }
 
-    public void setMarblesMap(){
-        charToImageMap = Map.ofEntries(
-                entry('w', new Image(getClass().getResourceAsStream("images/punchBoard/whiteMarble.png"))),
-                entry('r', new Image(getClass().getResourceAsStream("images/punchBoard/redMarble.png"))),
-                entry('b', new Image(getClass().getResourceAsStream("images/punchBoard/blueMarble.png"))),
-                entry('y', new Image(getClass().getResourceAsStream("images/punchBoard/yellowMarble.png"))),
-                entry('g', new Image(getClass().getResourceAsStream("images/punchBoard/greyMarble.png"))),
-                entry('p', new Image(getClass().getResourceAsStream("images/punchBoard/purpleMarble.png")))
-        );
-
-        imageToCharMap = Map.ofEntries(
-                entry(new Image(getClass().getResourceAsStream("images/punchBoard/whiteMarble.png")), 'w'),
-                entry(new Image(getClass().getResourceAsStream("images/punchBoard/redMarble.png")), 'r'),
-                entry(new Image(getClass().getResourceAsStream("images/punchBoard/blueMarble.png")), 'b'),
-                entry(new Image(getClass().getResourceAsStream("images/punchBoard/yellowMarble.png")), 'y'),
-                entry(new Image(getClass().getResourceAsStream("images/punchBoard/greyMarble.png")), 'g'),
-                entry(new Image(getClass().getResourceAsStream("images/punchBoard/purpleMarble.png")), 'p')
-        );
-    }
-
     public Image getMarbleImage(char marble){
         return charToImageMap.get(marble);
+    }
+
+    /**
+     * Returns true if the id represents a slot Leader
+     * @param cardId the id of the card
+     * @return true if the id represents a slot Leader
+     */
+    public boolean isSlotLeader(String cardId){
+        if(!cardId.startsWith("L"))
+            return false;
+        int number = Integer.parseInt(cardId.substring(1));
+        return number >= 5 && number <= 8;
     }
 
     public void changeScene(SceneName scene){

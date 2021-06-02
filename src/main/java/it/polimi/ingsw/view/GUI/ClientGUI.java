@@ -1,14 +1,10 @@
 package it.polimi.ingsw.view.GUI;
 
 import it.polimi.ingsw.controller.StateName;
-import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.view.ClientController;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.lightmodel.LightMatch;
 import it.polimi.ingsw.view.lightmodel.LightPlayer;
-import javafx.application.Platform;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
