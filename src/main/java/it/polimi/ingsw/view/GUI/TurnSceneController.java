@@ -1,22 +1,21 @@
 package it.polimi.ingsw.view.GUI;
 
-import com.google.gson.stream.JsonToken;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.ResType;
+import it.polimi.ingsw.network.message.ctosmessage.CtoSMessage;
+import it.polimi.ingsw.network.message.ctosmessage.MarketDrawMessage;
 import it.polimi.ingsw.network.message.ctosmessage.SwitchShelfMessage;
 import it.polimi.ingsw.network.message.ctosmessage.WarehouseInsertionMessage;
 import it.polimi.ingsw.view.lightmodel.LightMatch;
 import it.polimi.ingsw.view.lightmodel.LightPlayer;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import it.polimi.ingsw.model.essentials.PhysicalResource;
+import javafx.scene.control.TextField;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 
 import java.util.List;
 
@@ -33,10 +32,14 @@ public class TurnSceneController implements SceneController{
     public HBox handLeaders;
     public HBox marketBufferBox;
     public Pane warehousePane;
+    public Pane marketPane;
+    public VBox enemiesBox;
+    public TextField informationsField;
     private ResType tempResource;
     private LightMatch match;
     private LightPlayer player;
     private Integer firstShelfToSwitch;
+    private CtoSMessage message;
 
 
     public TurnSceneController() {
@@ -53,14 +56,12 @@ public class TurnSceneController implements SceneController{
         StackPane stackPane;
         List<String>[][] cards;
         List<PhysicalResource> marketBuffer;
+        List<LightPlayer> enemies = getClientController().getMatch().getLightPlayers();
 
-        for(int i=0; i< 3; i++){
-            for (int j = 0; j < 4; j++) {
-                imageView = (ImageView) marketGrid.getChildren().get(i*4+j);
-                imageView.setImage(getSceneProxy().getMarbleImage(market[i][j]));
-            }
-        }
-        slideMarble.setImage(getSceneProxy().getMarbleImage(getClientController().getMatch().getSideMarble()));
+        for (int i=0; i < enemies.size()-1; i++)
+            enemiesBox.getChildren().get(i).setId(enemies.get(i).getNickname());
+
+        updateMarket(market);
 
         cards = getClientController().getMatch().getCardGrid();
 
@@ -78,9 +79,7 @@ public class TurnSceneController implements SceneController{
 
         marketBuffer = getClientController().getMatch().getLightPlayer(getClient().getNickname()).getMarketBuffer();
 
-        for (int i=0; i<marketBuffer.size(); i++){
-            ((ImageView) marketBufferBox.getChildren().get(i)).setImage(new Image(getClass().getResourceAsStream("images/punchBoard/" + marketBuffer.get(i).getType().toString().toLowerCase() + ".png")));
-        }
+        updateMarketBuffer(getClient().getNickname(), marketBuffer);
     }
 
 
@@ -174,5 +173,73 @@ public class TurnSceneController implements SceneController{
     }
 
 
+    public void yourTurn(boolean yourTurn) {
+        if (yourTurn)
+            informationsField.setText("It's your turn! Make a move");
+        else {
+            informationsField.setText("Wait your turn");
+            disableAll();
+        }
+    }
 
+    @FXML
+    public void columnCall(MouseEvent mouseEvent) {
+        Node node = (Node) mouseEvent.getSource() ;
+        String data = (String) node.getUserData();
+        int numColumn = Integer.parseInt(data);
+
+        node.setEffect(new Glow(1));
+
+        message = new MarketDrawMessage(getClient().getNickname(), false, numColumn);
+    }
+
+    @FXML
+    public void rowCall(MouseEvent mouseEvent) {
+        Node node = (Node) mouseEvent.getSource() ;
+        String data = (String) node.getUserData();
+        int numRow = Integer.parseInt(data);
+
+        node.setEffect(new Glow(1));
+
+        message = new MarketDrawMessage(getClient().getNickname(), true, numRow);
+    }
+
+    @FXML
+    public void sendMessage() {
+        if(message != null)
+            message.send();
+    }
+
+    public void updateMarket(char[][] market) {
+        ImageView imageView;
+        for(int i=0; i< 3; i++){
+            for (int j = 0; j < 4; j++) {
+                imageView = (ImageView) marketGrid.getChildren().get(i*4+j);
+                imageView.setImage(getSceneProxy().getMarbleImage(market[i][j]));
+            }
+        }
+        slideMarble.setImage(getSceneProxy().getMarbleImage(getClientController().getMatch().getSideMarble()));
+
+        for (Node child : marketPane.getChildren()) {
+            if(!child.getId().equals(marketGrid.getId()))
+                child.setEffect(null);
+        }
+
+    }
+
+    public void updateMarketBuffer(String nickname, List<PhysicalResource> marketBuffer) {
+        if(nickname.equals(getClient().getNickname()))
+            for (int i=0; i < marketBuffer.size(); i++)
+                ((ImageView) marketBufferBox.getChildren().get(i)).setImage(new Image(getClass().getResourceAsStream("images/punchBoard/" + marketBuffer.get(i).getType().toString().toLowerCase() + ".png")));
+
+        else{
+            for(Node enemyPane : enemiesBox.getChildren())
+                if(nickname.equals(enemyPane.getId()))
+                    for (Node child : ((Pane) enemyPane).getChildren())
+                        if(("marketBuffer").equals(child.getId()))
+                            for (int i = 0; i < marketBuffer.size(); i++)
+                                ((ImageView) marketBufferBox.getChildren().get(i)).setImage(new Image(getClass().getResourceAsStream("images/punchBoard/" + marketBuffer.get(i).getType().toString().toLowerCase() + ".png")));
+
+        }
+    }
 }

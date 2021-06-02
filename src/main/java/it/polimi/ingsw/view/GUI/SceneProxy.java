@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.GUI;
 
 
 import it.polimi.ingsw.model.essentials.Card;
+import it.polimi.ingsw.model.essentials.PhysicalResource;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -208,5 +209,27 @@ public class SceneProxy {
             if(Id.equals(children.getId()))
                 return children;
             return null;
+    }
+
+    public void yourTurn(boolean yourTurn) {
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.yourTurn(yourTurn);
+        });
+
+    }
+
+    public void updateMarket(char[][] market) {
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.updateMarket(market);
+        });
+    }
+
+    public void updateMarketBuffer(String nickname, List<PhysicalResource> marketBuffer) {
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.updateMarketBuffer(nickname, marketBuffer);
+        });
     }
 }

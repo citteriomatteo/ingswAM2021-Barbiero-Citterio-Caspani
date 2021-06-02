@@ -88,10 +88,7 @@ public class ClientGUI implements View {
     @Override
     public void drawYourTurnLayout(boolean yourTurn) {
         getSceneProxy().changeScene(SceneName.GameScene);
-        if(!yourTurn)
-            getSceneProxy().disableAll();
-        else
-            getSceneProxy().loadStartingTurn();
+        getSceneProxy().yourTurn(yourTurn);
     }
 
     @Override
@@ -185,7 +182,7 @@ public class ClientGUI implements View {
 
     @Override
     public void updateMarket(LightMatch match) {
-
+        getSceneProxy().updateMarket(match.getMarket());
     }
 
     @Override
@@ -205,7 +202,7 @@ public class ClientGUI implements View {
 
     @Override
     public void updateMarketBuffer(String nickname, LightMatch match) {
-
+        getSceneProxy().updateMarketBuffer(nickname, match.getLightPlayer(nickname).getMarketBuffer());
     }
 
     @Override
