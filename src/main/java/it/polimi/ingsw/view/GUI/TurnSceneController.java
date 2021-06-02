@@ -132,6 +132,7 @@ public class TurnSceneController implements SceneController{
     }
 
     private int searchShelf(ImageView clicked){
+        System.out.println(clicked);
         List<Node> shelves = warehousePane.getChildren();
         for (int i = 0; i < shelves.size(); i++) {
             for(Node n : ((HBox)shelves.get(i)).getChildren())
