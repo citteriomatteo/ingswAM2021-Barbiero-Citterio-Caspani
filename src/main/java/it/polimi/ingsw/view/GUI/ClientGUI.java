@@ -68,6 +68,7 @@ public class ClientGUI implements View {
     @Override
     public void drawStartingPhaseDone() {
         getSceneProxy().changeScene(SceneName.GameScene);
+        getSceneProxy().loadStartingTurn();
         getSceneProxy().disableAll();
     }
 

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.GUI;
 
+import it.polimi.ingsw.model.essentials.PhysicalResource;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -17,8 +19,9 @@ public class TurnSceneController implements SceneController{
     public GridPane marketGrid;
     public GridPane cardGrid;
     public ImageView slideMarble;
-    public HBox activeLeaders;
+    public Pane myPane;
     public HBox handLeaders;
+    public HBox marketBufferBox;
 
 
     public TurnSceneController() {
@@ -30,17 +33,18 @@ public class TurnSceneController implements SceneController{
         char[][] market = getClientController().getMatch().getMarket();
         ImageView imageView;
         StackPane stackPane;
+        List<String>[][] cards;
+        List<PhysicalResource> marketBuffer;
 
         for(int i=0; i< 3; i++){
             for (int j = 0; j < 4; j++) {
                 imageView = (ImageView) marketGrid.getChildren().get(i*4+j);
-                System.out.println(imageView.getId());
                 imageView.setImage(getSceneProxy().getMarbleImage(market[i][j]));
             }
         }
         slideMarble.setImage(getSceneProxy().getMarbleImage(getClientController().getMatch().getSideMarble()));
 
-        List<String>[][] cards = getClientController().getMatch().getCardGrid();
+        cards = getClientController().getMatch().getCardGrid();
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
@@ -54,7 +58,14 @@ public class TurnSceneController implements SceneController{
             ((ImageView) handLeaders.getChildren().get(i)).setImage(getSceneProxy().getCardImage(getClientController().getMatch().getLightPlayer(getClient().getNickname()).getHandLeaders().get(i)));
         }
 
+        marketBuffer = getClientController().getMatch().getLightPlayer(getClient().getNickname()).getMarketBuffer();
+
+        for (int i=0; i<marketBuffer.size(); i++){
+            ((ImageView) marketBufferBox.getChildren().get(i)).setImage(new Image(getClass().getResourceAsStream("images/punchBoard/" + marketBuffer.get(i).getType().toString().toLowerCase() + ".png")));
+        }
     }
+
+
 
     @Override
     public void disableAll() {

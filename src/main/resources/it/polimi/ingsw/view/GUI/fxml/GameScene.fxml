@@ -44,7 +44,6 @@
             </ImageView>
             <HBox id="marketBuffer" fx:id="marketBufferBox" layoutX="76.20450973510742" layoutY="3.0" prefHeight="74.0" prefWidth="277.0">
                <children>
-                  <HBox prefHeight="100.0" prefWidth="200.0" />
                   <ImageView id="firstBufferRes" fitHeight="74.0" fitWidth="69.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView id="secondBufferRes" fitHeight="74.0" fitWidth="69.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView id="thirdBufferRes" fitHeight="74.0" fitWidth="69.0" pickOnBounds="true" preserveRatio="true" />

@@ -35,6 +35,7 @@ public class StartingPhaseSceneController implements SceneController{
     public Label coinCount;
     public HBox leadersHBox;
     public Label errorLabel;
+    public Label startingResourcesLabel;
     private List<String> leaders = new ArrayList<>();
 
 
@@ -100,6 +101,11 @@ public class StartingPhaseSceneController implements SceneController{
     public void loadStartingResources(int numResources){
         startingResources = new ArrayList<>();
         this.numResources = numResources;
+        if (numResources == 2)
+            startingResourcesLabel.setText("please chose " + numResources + " resources");
+        else
+            startingResourcesLabel.setText("please chose your resource");
+
     }
 
     public void addCoin() {
@@ -152,6 +158,7 @@ public class StartingPhaseSceneController implements SceneController{
                 .collect(Collectors.toList());
         getClientController().getMatch().setMarketBuffer(getClient().getNickname(), chosenResources);
         getSceneProxy().changeScene(SceneName.GameScene);
+        getSceneProxy().loadStartingTurn();
     }
 
     public void leadersChoiceError(String errorMessage){
