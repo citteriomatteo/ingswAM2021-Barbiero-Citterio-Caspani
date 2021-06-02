@@ -91,6 +91,10 @@ public class ClientGUI implements View {
     @Override
     public void drawYourTurnLayout(boolean yourTurn) {
         getSceneProxy().changeScene(SceneName.GameScene);
+        if(!yourTurn)
+            getSceneProxy().disableAll();
+        else
+            getSceneProxy().loadStartingTurn();
     }
 
     @Override
@@ -161,6 +165,7 @@ public class ClientGUI implements View {
                 break;
             case WAITING_LEADERS:
                 getSceneProxy().leadersChoiceError(errMessage);
+                getSceneProxy().leadersChoiceError(errMessage);
         }
     }
 
@@ -176,7 +181,8 @@ public class ClientGUI implements View {
 
     @Override
     public void updateMatch(LightMatch match) {
-        getSceneProxy().setMap(LightMatch.getCardMap());
+        getSceneProxy().setCardMap(LightMatch.getCardMap());
+        getSceneProxy().setMarblesMap();
 
     }
 

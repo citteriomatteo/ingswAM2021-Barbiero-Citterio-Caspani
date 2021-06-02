@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import static it.polimi.ingsw.network.client.Client.getClient;
+import static java.util.Map.entry;
 
 
 public class SceneProxy {
@@ -24,6 +25,8 @@ public class SceneProxy {
     private Map<Image, String> imageToIdMap;
     private SceneController actualController;
     private SceneName actualScene;
+    private Map<Character, Image> charToImageMap;
+    private Map<Image, Character> imageToCharMap;
 
     public static SceneProxy getSceneProxy(){
         if (instance == null)
@@ -69,7 +72,7 @@ public class SceneProxy {
 
     }
 
-    public void setMap(Map<String, Card> cardMap){
+    public void setCardMap(Map<String, Card> cardMap){
         InputStream imageStream;
         Image image;
 
@@ -89,8 +92,6 @@ public class SceneProxy {
 
         }
 
-
-
         //TODO: modify in case of editor
     }
 
@@ -99,7 +100,7 @@ public class SceneProxy {
      * @param ID the unique id of the card
      * @return the relative image or null if there isn't an image associated with that id
      */
-    public Image getImage(String ID){
+    public Image getCardImage(String ID){
         return idToImageMap.get(ID);
     }
 
@@ -108,8 +109,32 @@ public class SceneProxy {
      * @param image the unique image of the card
      * @return the relative ID or null if there isn't an ID associated with that image
      */
-    public String getID(Image image){
+    public String getCardID(Image image){
         return imageToIdMap.get(image);
+    }
+
+    public void setMarblesMap(){
+        charToImageMap = Map.ofEntries(
+                entry('w', new Image(getClass().getResourceAsStream("images/punchBoard/whiteMarble.png"))),
+                entry('r', new Image(getClass().getResourceAsStream("images/punchBoard/redMarble.png"))),
+                entry('b', new Image(getClass().getResourceAsStream("images/punchBoard/blueMarble.png"))),
+                entry('y', new Image(getClass().getResourceAsStream("images/punchBoard/yellowMarble.png"))),
+                entry('g', new Image(getClass().getResourceAsStream("images/punchBoard/greyMarble.png"))),
+                entry('p', new Image(getClass().getResourceAsStream("images/punchBoard/purpleMarble.png")))
+        );
+
+        imageToCharMap = Map.ofEntries(
+                entry(new Image(getClass().getResourceAsStream("images/punchBoard/whiteMarble.png")), 'w'),
+                entry(new Image(getClass().getResourceAsStream("images/punchBoard/redMarble.png")), 'r'),
+                entry(new Image(getClass().getResourceAsStream("images/punchBoard/blueMarble.png")), 'b'),
+                entry(new Image(getClass().getResourceAsStream("images/punchBoard/yellowMarble.png")), 'y'),
+                entry(new Image(getClass().getResourceAsStream("images/punchBoard/greyMarble.png")), 'g'),
+                entry(new Image(getClass().getResourceAsStream("images/punchBoard/purpleMarble.png")), 'p')
+        );
+    }
+
+    public Image getMarbleImage(char marble){
+        return charToImageMap.get(marble);
     }
 
     public void changeScene(SceneName scene){
@@ -160,5 +185,10 @@ public class SceneProxy {
     }
 
 
-
+    public void loadStartingTurn() {
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.loadStartingTurn();
+        });
+    }
 }

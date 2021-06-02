@@ -49,7 +49,7 @@ public class StartingPhaseSceneController implements SceneController{
         for (int i = 0; i < 4; i++) {
             leaderImage = (ImageView) leadersHBox.getChildren().get(i);
 
-            leaderImage.setImage(getSceneProxy().getImage(leaders.get(i)));
+            leaderImage.setImage(getSceneProxy().getCardImage(leaders.get(i)));
         }
     }
 
@@ -59,15 +59,15 @@ public class StartingPhaseSceneController implements SceneController{
         String removedLeader;
 
         if(leaders.size() < 2) {
-            if (!leaders.contains(getSceneProxy().getID(imageView.getImage())))
+            if (!leaders.contains(getSceneProxy().getCardID(imageView.getImage())))
                 leaders.add(getCardIdAndSelect(imageView));
         }
         else {
-            if(leaders.contains(getSceneProxy().getID(imageView.getImage())))
+            if(leaders.contains(getSceneProxy().getCardID(imageView.getImage())))
                 return;
             removedLeader = leaders.remove(0);
             for (Node n : leadersHBox.getChildren()){
-                if(getSceneProxy().getID(((ImageView) n).getImage()).equals(removedLeader)) {
+                if(getSceneProxy().getCardID(((ImageView) n).getImage()).equals(removedLeader)) {
                     n.setEffect(null);
                     ImageView oldLeader = (ImageView) n;
                     oldLeader.setFitHeight(oldLeader.getFitHeight()-10);
@@ -85,7 +85,7 @@ public class StartingPhaseSceneController implements SceneController{
         imageView.setFitWidth(imageView.getFitWidth()+10);
         imageView.setFitHeight(imageView.getFitHeight()+10);
 
-        return getSceneProxy().getID(imageView.getImage());
+        return getSceneProxy().getCardID(imageView.getImage());
     }
 
     public void sendLeaders() {
