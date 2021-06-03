@@ -118,6 +118,7 @@ public class ClientGUI implements View {
 
     @Override
     public void drawEndTurnLayout() {
+        getSceneProxy().endTurnState();
 
     }
 
@@ -160,6 +161,11 @@ public class ClientGUI implements View {
             case WAITING_LEADERS:
                 getSceneProxy().leadersChoiceError(errMessage);
                 getSceneProxy().leadersChoiceError(errMessage);
+                break;
+            case RESOURCES_PLACEMENT:
+            case END_TURN:
+                getSceneProxy().printRetry(errMessage);
+                break;
         }
     }
 
@@ -197,7 +203,7 @@ public class ClientGUI implements View {
 
     @Override
     public void updateWarehouse(String nickname, LightMatch match) {
-
+        getSceneProxy().updateWarehouse(nickname, match.getLightPlayer(nickname).getWarehouse());
     }
 
     @Override
@@ -227,11 +233,13 @@ public class ClientGUI implements View {
 
     @Override
     public void updateHandLeaders(String nickname, LightMatch match) {
+        getSceneProxy().updateHandLeaders(nickname, match.getLightPlayer(nickname).getHandLeaders());
 
     }
 
     @Override
     public void updateActiveLeaders(String nickname, LightMatch match) {
+        getSceneProxy().updateActiveLeaders(nickname, match.getLightPlayer(nickname).getActiveLeaders());
 
     }
 

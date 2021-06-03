@@ -231,4 +231,39 @@ public class SceneProxy {
                 turnSceneController.updateMarketBuffer(nickname, marketBuffer);
         });
     }
+
+    public void updateWarehouse(String nickname, List<PhysicalResource> warehouse) {
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.updateWarehouse(nickname, warehouse);
+        });
+    }
+
+    public void printRetry(String errMessage) {
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.printRetry(errMessage);
+        });
+    }
+
+    public void endTurnState() {
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.endTurnState();
+        });
+    }
+
+    public void updateHandLeaders(String nickname, List<String> handLeaders) {
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.updateHandLeaders(nickname, handLeaders);
+        });
+    }
+
+    public void updateActiveLeaders(String nickname, List<String> activeLeaders) {
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.updateActiveLeaders(nickname, activeLeaders);
+        });
+    }
 }

@@ -1,15 +1,16 @@
 package it.polimi.ingsw.view.GUI;
 
+import it.polimi.ingsw.controller.StateName;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.ResType;
-import it.polimi.ingsw.network.message.ctosmessage.CtoSMessage;
-import it.polimi.ingsw.network.message.ctosmessage.MarketDrawMessage;
-import it.polimi.ingsw.network.message.ctosmessage.SwitchShelfMessage;
-import it.polimi.ingsw.network.message.ctosmessage.WarehouseInsertionMessage;
+import it.polimi.ingsw.network.message.ctosmessage.*;
 import it.polimi.ingsw.view.lightmodel.LightMatch;
 import it.polimi.ingsw.view.lightmodel.LightPlayer;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
@@ -17,6 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.ingsw.network.client.Client.getClient;
@@ -30,15 +32,18 @@ public class TurnSceneController implements SceneController{
     public ImageView slideMarble;
     public Pane myPane;
     public HBox handLeaders;
+    public HBox activeLeaders;
     public HBox marketBufferBox;
     public Pane warehousePane;
     public Pane marketPane;
     public VBox enemiesBox;
     public TextField informationsField;
+    public Button confirmButton;
     private ResType tempResource;
     private LightMatch match;
     private LightPlayer player;
     private Integer firstShelfToSwitch;
+    private List<PhysicalResource> chosenResources = new ArrayList<>();
     private CtoSMessage message;
 
 
@@ -92,8 +97,9 @@ public class TurnSceneController implements SceneController{
     public void resourceSelected(MouseEvent mouseEvent) {
         ImageView imageView = (ImageView) mouseEvent.getSource();
         int index = marketBufferBox.getChildren().indexOf(imageView);
-        if(index > player.getMarketBuffer().size())
+        if(index > player.getMarketBuffer().size()-1)
             return;
+        imageView.setEffect(new Glow(0.5));
         tempResource = player.getMarketBuffer().get(index).getType();
         System.out.println("set tempResource = "+ tempResource);
        // disableAllMinus("warehousePane");
@@ -112,9 +118,13 @@ public class TurnSceneController implements SceneController{
 
         if(tempResource != null){
             System.out.println("sending message");
-            (new WarehouseInsertionMessage(player.getNickname(), List.of(new PhysicalResource(tempResource, shelf)))).send();
+            chosenResources.add(new PhysicalResource(tempResource, shelf));
+            message = new WarehouseInsertionMessage(player.getNickname(), chosenResources);
+            //(new WarehouseInsertionMessage(player.getNickname(), List.of(new PhysicalResource(tempResource, shelf)))).send();
             tempResource = null;
-            returnToCurrentState();
+            for (Node child : marketBufferBox.getChildren())
+                child.setEffect(null);
+            //returnToCurrentState();
             return;
         }
 
@@ -124,9 +134,9 @@ public class TurnSceneController implements SceneController{
             return;
         }
 
-        (new SwitchShelfMessage(player.getNickname(), firstShelfToSwitch, shelf)).send();
+        message = new SwitchShelfMessage(player.getNickname(), firstShelfToSwitch, shelf);
         firstShelfToSwitch = null;
-        returnToCurrentState();
+        //returnToCurrentState();
 
     }
 
@@ -176,8 +186,11 @@ public class TurnSceneController implements SceneController{
 
 
     public void yourTurn(boolean yourTurn) {
-        if (yourTurn)
+        if (yourTurn) {
             informationsField.setText("It's your turn! Make a move");
+            basePane.setDisable(false);
+        }
+
         else {
             informationsField.setText("Wait your turn");
             disableAll();
@@ -190,6 +203,11 @@ public class TurnSceneController implements SceneController{
         String data = (String) node.getUserData();
         int numColumn = Integer.parseInt(data);
 
+        for (Node child : marketPane.getChildren()) {
+            if(!child.getId().equals(marketGrid.getId()))
+                child.setEffect(null);
+        }
+
         node.setEffect(new Glow(1));
 
         message = new MarketDrawMessage(getClient().getNickname(), false, numColumn);
@@ -201,6 +219,11 @@ public class TurnSceneController implements SceneController{
         String data = (String) node.getUserData();
         int numRow = Integer.parseInt(data);
 
+        for (Node child : marketPane.getChildren()) {
+            if(!child.getId().equals(marketGrid.getId()))
+                child.setEffect(null);
+        }
+
         node.setEffect(new Glow(1));
 
         message = new MarketDrawMessage(getClient().getNickname(), true, numRow);
@@ -208,8 +231,63 @@ public class TurnSceneController implements SceneController{
 
     @FXML
     public void sendMessage() {
-        if(message != null)
-            message.send();
+        if(getClientController().getCurrentState().equals(StateName.END_TURN))
+            (new EndTurnMessage(getClient().getNickname())).send();
+        else
+            if(message != null)
+                message.send();
+    }
+
+    public void updateHandLeaders(String nickname, List<String> newHandLeaders) {
+        if(nickname.equals(getClient().getNickname())){
+            for (Node child : handLeaders.getChildren())
+                ((ImageView) child).setImage(null);
+            for (int i=0; i < newHandLeaders.size(); i++) {
+                ((ImageView) handLeaders.getChildren().get(i)).setImage(getSceneProxy().getCardImage(newHandLeaders.get(i)));
+            }
+        }
+        else {
+            for(Node enemyPane : enemiesBox.getChildren())
+                if(nickname.equals(enemyPane.getId()))
+                    for (Node child : ((Pane) enemyPane).getChildren())
+                        if(("handLeaders").equals(child.getId())){
+                            HBox leaders = (HBox) child;
+                            if(newHandLeaders.size() < leaders.getChildren().size())
+                                for(Node n : leaders.getChildren()) {
+                                    ImageView leader = (ImageView) n;
+                                    if(leader.getImage() != null) {
+                                        leader.setImage(null);
+                                        break;
+                                    }
+                                }
+                        }
+        }
+    }
+
+    public void updateActiveLeaders(String nickname, List<String> newActiveLeaders) {
+        if(nickname.equals(getClient().getNickname())){
+            for (Node child : activeLeaders.getChildren())
+                ((ImageView) child).setImage(null);
+            for (int i=0; i < newActiveLeaders.size(); i++) {
+                ((ImageView) activeLeaders.getChildren().get(i)).setImage(getSceneProxy().getCardImage(newActiveLeaders.get(i)));
+            }
+        }
+        else {
+            for(Node enemyPane : enemiesBox.getChildren())
+                if(nickname.equals(enemyPane.getId()))
+                    for (Node child : ((Pane) enemyPane).getChildren())
+                        if(("activeLeaders").equals(child.getId())){
+                            HBox leaders = (HBox) child;
+                            if(newActiveLeaders.size() < leaders.getChildren().size())
+                                for(Node n : leaders.getChildren()) {
+                                    ImageView leader = (ImageView) n;
+                                    if(leader.getImage() != null) {
+                                        leader.setImage(null);
+                                        break;
+                                    }
+                                }
+                        }
+        }
     }
 
     public void updateMarket(char[][] market) {
@@ -230,18 +308,87 @@ public class TurnSceneController implements SceneController{
     }
 
     public void updateMarketBuffer(String nickname, List<PhysicalResource> marketBuffer) {
-        if(nickname.equals(getClient().getNickname()))
-            for (int i=0; i < marketBuffer.size(); i++)
+        if(nickname.equals(getClient().getNickname())) {
+            for (Node child :  marketBufferBox.getChildren() )
+                ((ImageView) child).setImage(null);
+            for (int i = 0; i < marketBuffer.size(); i++)
                 ((ImageView) marketBufferBox.getChildren().get(i)).setImage(new Image(getClass().getResourceAsStream("images/punchBoard/" + marketBuffer.get(i).getType().toString().toLowerCase() + ".png")));
+        }
 
         else{
             for(Node enemyPane : enemiesBox.getChildren())
                 if(nickname.equals(enemyPane.getId()))
                     for (Node child : ((Pane) enemyPane).getChildren())
-                        if(("marketBuffer").equals(child.getId()))
+                        if(("marketBuffer").equals(child.getId())) {
+                            VBox enemyMarketBuffer = (VBox) child;
+                            for (Node n : enemyMarketBuffer.getChildren())
+                                ((ImageView) n).setImage(null);
                             for (int i = 0; i < marketBuffer.size(); i++)
-                                ((ImageView) marketBufferBox.getChildren().get(i)).setImage(new Image(getClass().getResourceAsStream("images/punchBoard/" + marketBuffer.get(i).getType().toString().toLowerCase() + ".png")));
-
+                                ((ImageView) enemyMarketBuffer.getChildren().get(i)).setImage(new Image(getClass().getResourceAsStream("images/punchBoard/" + marketBuffer.get(i).getType().toString().toLowerCase() + ".png")));
+                        }
         }
     }
+
+    public void updateWarehouse(String nickname, List<PhysicalResource> warehouse) {
+        if(nickname.equals(getClient().getNickname())){
+            for (Node box : warehousePane.getChildren()){
+                HBox shelf = (HBox) box;
+                for (Node place : shelf.getChildren())
+                    ((ImageView) place).setImage(null);
+            }
+            for (int i = 0; i < warehouse.size(); i++) {
+                PhysicalResource resShelf = warehouse.get(i);
+                HBox shelf = (HBox) warehousePane.getChildren().get(i);
+                for (int j = 0; j < resShelf.getQuantity(); j++) {
+                    ((ImageView) shelf.getChildren().get(j)).setImage(new Image(getClass().getResourceAsStream("images/punchBoard/" + resShelf.getType().toString().toLowerCase() + ".png")));
+                }
+            }
+        }
+        else {
+            for(Node enemyPane : enemiesBox.getChildren())
+                if(nickname.equals(enemyPane.getId()))
+                    for (Node child : ((Pane) enemyPane).getChildren())
+                        if(("warehousePane").equals(child.getId())){
+                            for (Node box : ((Pane) child).getChildren()){
+                                HBox shelf = (HBox) box;
+                                for (Node place : shelf.getChildren())
+                                    ((ImageView) place).setImage(null);
+                            }
+
+                            for (int i = 0; i < warehouse.size(); i++) {
+                                PhysicalResource resShelf = warehouse.get(i);
+                                HBox shelf = (HBox) ((Pane) child).getChildren().get(i);
+                                for (int j = 0; j < resShelf.getQuantity(); j++) {
+                                    ((ImageView) shelf.getChildren().get(j)).setImage(new Image(getClass().getResourceAsStream("images/punchBoard/" + resShelf.getType().toString().toLowerCase() + ".png")));
+                                }
+                            }
+
+                        }
+        }
+    }
+
+    public void printRetry(String errMessage) {
+        informationsField.setText(errMessage);
+    }
+
+    public void endTurnState() {
+        confirmButton.setText("EndTurn");
+    }
+
+    @FXML
+    public void activateLeader(ActionEvent actionEvent) {
+        MenuItem node = (MenuItem) actionEvent.getSource();
+        int numLeader = Integer.parseInt((String) node.getUserData());
+
+        message = new LeaderActivationMessage(getClient().getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()));
+    }
+
+    public void discardLeader(ActionEvent actionEvent) {
+        MenuItem node = (MenuItem) actionEvent.getSource();
+        int numLeader = Integer.parseInt((String) node.getUserData());
+
+        message = new LeaderDiscardingMessage(getClient().getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()));
+
+    }
+
 }
