@@ -8,6 +8,9 @@
   <artifactId>AM15</artifactId>
   <version>1.0-SNAPSHOT</version>
 
+  <!-- Added on 03/06/21 for .jar -->
+  <packaging>jar</packaging>
+
   <name>AM15</name>
   <!-- change it to the project's website -->
   <url>https://www.example.com</url>
@@ -60,6 +63,30 @@
       <version>16</version>
     </dependency>
 
+    <!-- Added for .jar on 03/06/2021 -->
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-base</artifactId>
+      <version>16</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics</artifactId>
+      <version>13</version>
+      <classifier>linux</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics</artifactId>
+      <version>13</version>
+      <classifier>mac</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics</artifactId>
+      <version>13</version>
+      <classifier>win</classifier>
+    </dependency>
   </dependencies>
 
   <build>
@@ -71,7 +98,7 @@
           <artifactId>javafx-maven-plugin</artifactId>
           <version>0.0.4</version>
           <configuration>
-            <mainClass>ClientGUI</mainClass>
+            <mainClass>it.polimi.ingsw.ClientApp</mainClass>
           </configuration>
         </plugin>
 
@@ -116,7 +143,56 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <!-- Added on 03/06/2021 for .jar -->
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.2.4</version>
+        <executions>
+
+          <execution>
+            <id>Client</id>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <shadedArtifactAttached>true</shadedArtifactAttached>
+              <shadedClassifierName>project-classifier</shadedClassifierName>
+              <outputFile>ClientApp.jar</outputFile>
+              <transformers>
+                <transformer
+                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <mainClass>it.polimi.ingsw.ClientApp</mainClass>
+                </transformer>
+              </transformers>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>Server</id>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <shadedArtifactAttached>true</shadedArtifactAttached>
+              <shadedClassifierName>project-classifier</shadedClassifierName>
+              <outputFile>ServerApp.jar</outputFile>
+              <transformers>
+                <transformer
+                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <mainClass>it.polimi.ingsw.ServerApp</mainClass>
+                </transformer>
+              </transformers>
+            </configuration>
+          </execution>
+
+        </executions>
+      </plugin>
+
+      <!-- Necessary for using path.of -> need to say which java version is necessary -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -126,5 +202,6 @@
         </configuration>
       </plugin>
     </plugins>
+
   </build>
 </project>

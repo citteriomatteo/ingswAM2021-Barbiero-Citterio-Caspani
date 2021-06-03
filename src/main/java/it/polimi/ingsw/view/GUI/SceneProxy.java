@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.GUI;
 
-
 import it.polimi.ingsw.model.essentials.Card;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import javafx.application.Platform;

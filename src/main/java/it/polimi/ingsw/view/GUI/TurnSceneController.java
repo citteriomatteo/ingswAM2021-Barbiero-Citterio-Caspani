@@ -105,7 +105,7 @@ public class TurnSceneController implements SceneController{
         ImageView clicked = (ImageView) mouseEvent.getSource();
         int shelf = searchShelf(clicked);
         System.out.println("clicked on shelf number "+ shelf);
-        if (shelf > player.getWarehouse().size()) {
+        if (shelf > 3 && shelf > player.getWarehouse().size()) {
             firstShelfToSwitch = null;
             return;
         }
@@ -161,6 +161,8 @@ public class TurnSceneController implements SceneController{
                 n.setDisable(true);
                 found = true;
             }
+            else
+                n.setDisable(false);
 
         if(!found) {
             myPane.setDisable(false);
