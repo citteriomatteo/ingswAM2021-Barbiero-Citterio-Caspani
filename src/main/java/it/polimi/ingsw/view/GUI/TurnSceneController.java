@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.Glow;
@@ -52,6 +53,7 @@ public class TurnSceneController implements SceneController{
         match = getClientController().getMatch();
         player = match.getLightPlayer(getClient().getNickname());
         firstShelfToSwitch = null;
+        //loadStartingTurn();
     }
 
 
@@ -61,10 +63,15 @@ public class TurnSceneController implements SceneController{
         StackPane stackPane;
         List<String>[][] cards;
         List<PhysicalResource> marketBuffer;
-        List<LightPlayer> enemies = getClientController().getMatch().getLightPlayers();
+        List<LightPlayer> enemies = new ArrayList<>(getClientController().getMatch().getLightPlayers());
+        enemies.remove(getClientController().getMatch().getLightPlayer(getClient().getNickname()));
 
-        for (int i=0; i < enemies.size()-1; i++)
-            enemiesBox.getChildren().get(i).setId(enemies.get(i).getNickname());
+        for (int i=0; i < enemies.size(); i++) {
+            Pane enemyPane = (Pane) enemiesBox.getChildren().get(i);
+            enemyPane.setId(enemies.get(i).getNickname());
+            Label enemyName = (Label) enemyPane.getChildren().get(2);
+            enemyName.setText(enemies.get(i).getNickname());
+        }
 
         updateMarket(market);
 
@@ -85,6 +92,9 @@ public class TurnSceneController implements SceneController{
         marketBuffer = getClientController().getMatch().getLightPlayer(getClient().getNickname()).getMarketBuffer();
 
         updateMarketBuffer(getClient().getNickname(), marketBuffer);
+
+        for (LightPlayer player1 : getClientController().getMatch().getLightPlayers())
+            updateWarehouse(player1.getNickname(), player1.getWarehouse());
     }
 
 
@@ -99,6 +109,8 @@ public class TurnSceneController implements SceneController{
         int index = marketBufferBox.getChildren().indexOf(imageView);
         if(index > player.getMarketBuffer().size()-1)
             return;
+        for (Node child : marketBufferBox.getChildren())
+            child.setEffect(null);
         imageView.setEffect(new Glow(0.5));
         tempResource = player.getMarketBuffer().get(index).getType();
         System.out.println("set tempResource = "+ tempResource);
@@ -119,6 +131,13 @@ public class TurnSceneController implements SceneController{
         if(tempResource != null){
             System.out.println("sending message");
             chosenResources.add(new PhysicalResource(tempResource, shelf));
+            for (Node place : ((HBox) warehousePane.getChildren().get(shelf-1)).getChildren()) {
+                ImageView res = (ImageView) place;
+                if (res.getImage() == null)
+                    res.setImage(new Image(getClass().getResourceAsStream("images/punchBoard/" + tempResource.toString().toLowerCase() + ".png")));
+                break;
+            }
+
             message = new WarehouseInsertionMessage(player.getNickname(), chosenResources);
             //(new WarehouseInsertionMessage(player.getNickname(), List.of(new PhysicalResource(tempResource, shelf)))).send();
             tempResource = null;
