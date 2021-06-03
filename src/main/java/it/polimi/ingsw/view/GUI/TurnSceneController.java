@@ -37,6 +37,7 @@ public class TurnSceneController implements SceneController{
     public HBox marketBufferBox;
     public Pane warehousePane;
     public Pane marketPane;
+    public GridPane faithPath;
     public VBox enemiesBox;
     public TextField informationsField;
     public Button confirmButton;
@@ -386,6 +387,27 @@ public class TurnSceneController implements SceneController{
         }
     }
 
+    public void updateFaithMarker(String nickname, int faithMarker) {
+        if(nickname.equals(getClient().getNickname())){
+            for(Node cell : faithPath.getChildren())
+                cell.setVisible(false);
+
+            faithPath.getChildren().get(faithMarker).setVisible(true);
+        }
+        else {
+            for(Node enemyPane : enemiesBox.getChildren())
+                if(nickname.equals(enemyPane.getId()))
+                    for (Node child : ((Pane) enemyPane).getChildren())
+                        if(("faithPath").equals(child.getId())){
+                            GridPane enemyFaithPath = (GridPane) child;
+                            for(Node cell : enemyFaithPath.getChildren())
+                                cell.setVisible(false);
+                            enemyFaithPath.getChildren().get(faithMarker).setVisible(true);
+                        }
+        }
+
+    }
+
     public void printRetry(String errMessage) {
         informationsField.setText(errMessage);
     }
@@ -402,6 +424,7 @@ public class TurnSceneController implements SceneController{
         message = new LeaderActivationMessage(getClient().getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()));
     }
 
+    @FXML
     public void discardLeader(ActionEvent actionEvent) {
         MenuItem node = (MenuItem) actionEvent.getSource();
         int numLeader = Integer.parseInt((String) node.getUserData());

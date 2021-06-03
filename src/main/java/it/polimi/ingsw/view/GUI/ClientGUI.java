@@ -218,6 +218,7 @@ public class ClientGUI implements View {
 
     @Override
     public void updateFaithMarker(String nickname, LightMatch match) {
+        getSceneProxy().updateFaithMarker(nickname, match.getLightPlayer(nickname).getFaithMarker());
 
     }
 

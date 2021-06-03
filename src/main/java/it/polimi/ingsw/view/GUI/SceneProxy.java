@@ -266,4 +266,11 @@ public class SceneProxy {
                 turnSceneController.updateActiveLeaders(nickname, activeLeaders);
         });
     }
+
+    public void updateFaithMarker(String nickname, int faithMarker) {
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.updateFaithMarker(nickname, faithMarker);
+        });
+    }
 }
