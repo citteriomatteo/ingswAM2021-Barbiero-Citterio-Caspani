@@ -20,7 +20,9 @@ public class InitSceneController implements SceneController{
     public Label loginErrorLabel;
 
     public InitSceneController() {
+
         getSceneProxy().setInitSceneController(this);
+        System.out.println("creating initController");
     }
 
     @FXML

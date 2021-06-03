@@ -180,10 +180,8 @@ public class ClientGUI implements View {
     }
 
     @Override
-    public void updateMatch(LightMatch match) {
+        public void updateMatch(LightMatch match) {
         getSceneProxy().setCardMap(LightMatch.getCardMap());
-        getSceneProxy().setMarblesMap();
-
     }
 
     @Override

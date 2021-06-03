@@ -16,7 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.*;
 
 import java.util.ArrayList;
@@ -41,7 +41,6 @@ public class TurnSceneController implements SceneController{
     public VBox enemiesBox;
     public TextField informationsField;
     public Button confirmButton;
-    private ResType tempResource;
     private LightMatch match;
     private LightPlayer player;
     private Integer firstShelfToSwitch;
@@ -54,18 +53,16 @@ public class TurnSceneController implements SceneController{
         match = getClientController().getMatch();
         player = match.getLightPlayer(getClient().getNickname());
         firstShelfToSwitch = null;
-        //loadStartingTurn();
+        System.out.println("creating turnController");
     }
 
 
     public void loadStartingTurn() {
-        char[][] market = getClientController().getMatch().getMarket();
         ImageView imageView;
         StackPane stackPane;
         List<String>[][] cards;
-        List<PhysicalResource> marketBuffer;
-        List<LightPlayer> enemies = new ArrayList<>(getClientController().getMatch().getLightPlayers());
-        enemies.remove(getClientController().getMatch().getLightPlayer(getClient().getNickname()));
+        List<LightPlayer> enemies = new ArrayList<>(match.getLightPlayers());
+        enemies.remove(player);
 
         for (int i=0; i < enemies.size(); i++) {
             Pane enemyPane = (Pane) enemiesBox.getChildren().get(i);
@@ -74,9 +71,15 @@ public class TurnSceneController implements SceneController{
             enemyName.setText(enemies.get(i).getNickname());
         }
 
-        updateMarket(market);
+        for(Node n : cardGrid.getChildren()){
+            List<Node> images = ((StackPane) n).getChildren();
+            for (int i=0; i < images.size()-1; i++)
+                images.get(i).setDisable(true);
+        }
 
-        cards = getClientController().getMatch().getCardGrid();
+        updateMarket(match.getMarket());
+
+        cards = match.getCardGrid();
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
@@ -86,15 +89,10 @@ public class TurnSceneController implements SceneController{
             }
         }
 
-        for (int i = 0; i < handLeaders.getChildren().size(); i++) {
-            ((ImageView) handLeaders.getChildren().get(i)).setImage(getSceneProxy().getCardImage(getClientController().getMatch().getLightPlayer(getClient().getNickname()).getHandLeaders().get(i)));
-        }
+        updateHandLeaders(player.getNickname(), player.getHandLeaders());
+        updateMarketBuffer(getClient().getNickname(), player.getMarketBuffer());
 
-        marketBuffer = getClientController().getMatch().getLightPlayer(getClient().getNickname()).getMarketBuffer();
-
-        updateMarketBuffer(getClient().getNickname(), marketBuffer);
-
-        for (LightPlayer player1 : getClientController().getMatch().getLightPlayers())
+        for (LightPlayer player1 : match.getLightPlayers())
             updateWarehouse(player1.getNickname(), player1.getWarehouse());
     }
 
@@ -105,70 +103,26 @@ public class TurnSceneController implements SceneController{
     }
 
     @FXML
-    public void resourceSelected(MouseEvent mouseEvent) {
-        ImageView imageView = (ImageView) mouseEvent.getSource();
-        int index = marketBufferBox.getChildren().indexOf(imageView);
-        if(index > player.getMarketBuffer().size()-1)
-            return;
-        for (Node child : marketBufferBox.getChildren())
-            child.setEffect(null);
-        imageView.setEffect(new Glow(0.5));
-        tempResource = player.getMarketBuffer().get(index).getType();
-        System.out.println("set tempResource = "+ tempResource);
-       // disableAllMinus("warehousePane");
-
-    }
-
-    @FXML
     public void clickOnWarehouse(MouseEvent mouseEvent) {
         ImageView clicked = (ImageView) mouseEvent.getSource();
         int shelf = searchShelf(clicked);
-        System.out.println("clicked on shelf number "+ shelf);
         if (shelf > 3 && shelf > player.getWarehouse().size()) {
             firstShelfToSwitch = null;
             return;
         }
 
-        if(tempResource != null){
-            System.out.println("sending message");
-            chosenResources.add(new PhysicalResource(tempResource, shelf));
-            for (Node place : ((HBox) warehousePane.getChildren().get(shelf-1)).getChildren()) {
-                ImageView res = (ImageView) place;
-                if (res.getImage() == null)
-                    res.setImage(new Image(getClass().getResourceAsStream("images/punchBoard/" + tempResource.toString().toLowerCase() + ".png")));
-                break;
-            }
-
-            message = new WarehouseInsertionMessage(player.getNickname(), chosenResources);
-            //(new WarehouseInsertionMessage(player.getNickname(), List.of(new PhysicalResource(tempResource, shelf)))).send();
-            tempResource = null;
-            for (Node child : marketBufferBox.getChildren())
-                child.setEffect(null);
-            //returnToCurrentState();
-            return;
-        }
-
         if (firstShelfToSwitch == null) {
             firstShelfToSwitch = shelf;
-           // disableAllMinus("warehousePane");
             return;
         }
 
         message = new SwitchShelfMessage(player.getNickname(), firstShelfToSwitch, shelf);
         firstShelfToSwitch = null;
-        //returnToCurrentState();
 
     }
 
     private int searchShelf(ImageView clicked){
-        System.out.println(clicked);
-        List<Node> shelves = warehousePane.getChildren();
-        for (int i = 0; i < shelves.size(); i++) {
-            for(Node n : ((HBox)shelves.get(i)).getChildren())
-                if(n.equals(clicked))
-                    return i+1;
-        }
-        return -1;
+        return warehousePane.getChildren().indexOf(clicked.getParent());
     }
 
     /**
@@ -318,7 +272,7 @@ public class TurnSceneController implements SceneController{
                 imageView.setImage(getSceneProxy().getMarbleImage(market[i][j]));
             }
         }
-        slideMarble.setImage(getSceneProxy().getMarbleImage(getClientController().getMatch().getSideMarble()));
+        slideMarble.setImage(getSceneProxy().getMarbleImage(match.getSideMarble()));
 
         for (Node child : marketPane.getChildren()) {
             if(!child.getId().equals(marketGrid.getId()))
@@ -332,7 +286,7 @@ public class TurnSceneController implements SceneController{
             for (Node child :  marketBufferBox.getChildren() )
                 ((ImageView) child).setImage(null);
             for (int i = 0; i < marketBuffer.size(); i++)
-                ((ImageView) marketBufferBox.getChildren().get(i)).setImage(new Image(getClass().getResourceAsStream("images/punchBoard/" + marketBuffer.get(i).getType().toString().toLowerCase() + ".png")));
+                ((ImageView) marketBufferBox.getChildren().get(i)).setImage(marketBuffer.get(i).getType().asImage());
         }
 
         else{
@@ -344,9 +298,11 @@ public class TurnSceneController implements SceneController{
                             for (Node n : enemyMarketBuffer.getChildren())
                                 ((ImageView) n).setImage(null);
                             for (int i = 0; i < marketBuffer.size(); i++)
-                                ((ImageView) enemyMarketBuffer.getChildren().get(i)).setImage(new Image(getClass().getResourceAsStream("images/punchBoard/" + marketBuffer.get(i).getType().toString().toLowerCase() + ".png")));
+                                ((ImageView) enemyMarketBuffer.getChildren().get(i)).setImage(marketBuffer.get(i).getType().asImage());
                         }
         }
+
+        message = new WarehouseInsertionMessage(player.getNickname(), List.of(new PhysicalResource(ResType.UNKNOWN, 0)));
     }
 
     public void updateWarehouse(String nickname, List<PhysicalResource> warehouse) {
@@ -360,7 +316,7 @@ public class TurnSceneController implements SceneController{
                 PhysicalResource resShelf = warehouse.get(i);
                 HBox shelf = (HBox) warehousePane.getChildren().get(i);
                 for (int j = 0; j < resShelf.getQuantity(); j++) {
-                    ((ImageView) shelf.getChildren().get(j)).setImage(new Image(getClass().getResourceAsStream("images/punchBoard/" + resShelf.getType().toString().toLowerCase() + ".png")));
+                    ((ImageView) shelf.getChildren().get(j)).setImage(resShelf.getType().asImage());
                 }
             }
         }
@@ -379,7 +335,7 @@ public class TurnSceneController implements SceneController{
                                 PhysicalResource resShelf = warehouse.get(i);
                                 HBox shelf = (HBox) ((Pane) child).getChildren().get(i);
                                 for (int j = 0; j < resShelf.getQuantity(); j++) {
-                                    ((ImageView) shelf.getChildren().get(j)).setImage(new Image(getClass().getResourceAsStream("images/punchBoard/" + resShelf.getType().toString().toLowerCase() + ".png")));
+                                    ((ImageView) shelf.getChildren().get(j)).setImage(resShelf.getType().asImage());
                                 }
                             }
 
@@ -433,4 +389,64 @@ public class TurnSceneController implements SceneController{
 
     }
 
+    @FXML
+    public void dragBufferResource(MouseEvent mouseEvent) {
+        ImageView resource = (ImageView) mouseEvent.getSource();
+        Dragboard db = resource.startDragAndDrop(TransferMode.MOVE);
+
+        ClipboardContent content = new ClipboardContent();
+        content.putImage(resource.getImage());
+        db.setContent(content);
+
+        //Avoid behind objects to detect this event
+        mouseEvent.consume();
+    }
+
+    public void dropResourceWarehouse(DragEvent dragEvent) {
+        boolean success = true;
+        System.out.println("dropped");
+        ImageView selectedPlace = (ImageView)dragEvent.getSource();
+        Image draggedImage = dragEvent.getDragboard().getImage();
+        if(selectedPlace.getImage() == null) {
+            for (Node place : selectedPlace.getParent().getChildrenUnmodifiable()) {
+                Image resInPlace = ((ImageView) place).getImage();
+                if (resInPlace != null && !draggedImage.equals(resInPlace))
+                    success = false;
+            }
+
+            if(success) {
+                selectedPlace.setImage(draggedImage);
+                chosenResources.add(new PhysicalResource(ResType.valueOfImage(draggedImage), searchShelf(selectedPlace)));
+                //TODO: valueOfImage returns null
+
+                message = new WarehouseInsertionMessage(player.getNickname(), chosenResources);
+            }
+        }
+        else
+            success = false;
+
+        dragEvent.setDropCompleted(success);
+        dragEvent.consume();
+
+    }
+
+    public void drawDevCard(MouseEvent mouseEvent) {
+
+    }
+
+
+    public void acceptDrop(DragEvent dragEvent) {
+        dragEvent.acceptTransferModes(TransferMode.MOVE);
+        System.out.println("accepted");
+
+        dragEvent.consume();
+    }
+
+    public void dragBufferResourceDone(DragEvent dragEvent) {
+        if (dragEvent.getTransferMode() == TransferMode.MOVE) {
+            ((ImageView) dragEvent.getGestureSource()).setImage(null);
+        }
+
+        dragEvent.consume();
+    }
 }

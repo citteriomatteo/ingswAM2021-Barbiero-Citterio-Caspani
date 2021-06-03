@@ -36,8 +36,7 @@ public class JavaFXGUI extends Application {
     static void setRoot(String fxml) throws IOException {
         Parent next = loadFXML(fxml);
         scene.setRoot(next);
-        stage.setWidth(next.prefWidth(1280));
-        stage.setHeight(next.prefHeight(768));
+        stage.sizeToScene();
     }
 
     private static Parent loadFXML(String fxml) throws IOException {

@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.GUI;
 
 import it.polimi.ingsw.model.essentials.Card;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
+import it.polimi.ingsw.model.essentials.ResType;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -28,6 +29,10 @@ public class SceneProxy {
     private SceneController actualController;
     private SceneName actualScene;
     private Map<Character, Image> charToImageMap;
+
+    public SceneProxy() {
+        setMarblesMap();
+    }
 
     public static SceneProxy getSceneProxy(){
         if (instance == null)
@@ -105,7 +110,6 @@ public class SceneProxy {
                 entry('g', new Image(getClass().getResourceAsStream("images/punchBoard/greyMarble.png"))),
                 entry('p', new Image(getClass().getResourceAsStream("images/punchBoard/purpleMarble.png")))
         );
-
     }
 
     /**

@@ -105,7 +105,6 @@ public class StartingPhaseSceneController implements SceneController{
             startingResourcesLabel.setText("please chose " + numResources + " resources");
         else
             startingResourcesLabel.setText("please chose your resource");
-
     }
 
     public void addCoin() {
