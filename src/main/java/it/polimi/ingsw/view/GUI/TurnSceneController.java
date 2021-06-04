@@ -529,7 +529,8 @@ public class TurnSceneController implements SceneController{
     }
 
     public void printRetry(String errMessage) {
-        informationsField.setText(errMessage);
+        JavaFXGUI.popUpWarning(errMessage);
+        // informationsField.setText(errMessage);
     }
 
     public void endTurnState() {

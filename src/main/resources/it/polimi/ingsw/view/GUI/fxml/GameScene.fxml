@@ -934,7 +934,6 @@
             </ImageView>
          </children>
       </Pane>
-      <Button id="exitButton" fx:id="exitButton" layoutX="1204.0" layoutY="8.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="68.0" text="Exit" />
       <TextField id="controlBox" fx:id="informationsField" editable="false" layoutX="883.0" layoutY="722.0" prefHeight="35.0" prefWidth="364.0" />
       <Text id="informationText" fx:id="informationText" layoutX="884.0" layoutY="715.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Informations Field" />
       <VBox fx:id="enemiesBox" layoutX="838.0" layoutY="40.0" prefHeight="639.0" prefWidth="436.0">
@@ -1888,7 +1887,7 @@
             </Pane>
          </children>
       </VBox>
-      <Pane fx:id="paymentsPane" disable="true" layoutX="64.0" layoutY="15.0" prefHeight="392.0" prefWidth="689.0" style="-fx-background-color: black;" visible="false">
+      <Pane id="paymentsPane" fx:id="paymentsPane" disable="true" layoutX="64.0" layoutY="15.0" prefHeight="392.0" prefWidth="689.0" style="-fx-background-color: black;" visible="false">
          <children>
             <ImageView id="paymentsStrongBox" fitHeight="181.0" fitWidth="267.0" layoutX="14.0" layoutY="116.0" onDragDropped="#dropResourcePayments" onDragOver="#acceptDrop" pickOnBounds="true" preserveRatio="true">
                <image>
