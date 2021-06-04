@@ -161,7 +161,6 @@ public class ClientGUI implements View {
                 break;
             case WAITING_LEADERS:
                 getSceneProxy().leadersChoiceError(errMessage);
-                getSceneProxy().leadersChoiceError(errMessage);
                 break;
             default:
                 getSceneProxy().printRetry(errMessage);

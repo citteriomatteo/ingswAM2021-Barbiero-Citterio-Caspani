@@ -62,7 +62,6 @@ public class TurnSceneController implements SceneController{
         player = match.getLightPlayer(getClient().getNickname());
 
         firstShelfToSwitch = null;
-        System.out.println("creating turnController");
     }
 
 
