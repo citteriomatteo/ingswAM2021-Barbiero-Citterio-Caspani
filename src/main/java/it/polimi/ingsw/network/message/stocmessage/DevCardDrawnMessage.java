@@ -19,6 +19,7 @@ public class DevCardDrawnMessage extends StoCMessage {
     }
 
     public String getCardID() { return cardID; }
+
     @Override
     public  StoCMessageType getType() { return type; }
 }

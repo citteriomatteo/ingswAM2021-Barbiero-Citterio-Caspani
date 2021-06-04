@@ -418,11 +418,11 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <StackPane fx:id="grid_1_1" alignment="BOTTOM_CENTER" layoutX="10.0" layoutY="138.0" prefHeight="150.0" prefWidth="200.0" GridPane.rowIndex="2">
+            <StackPane id="grid_3_1" fx:id="grid_3_1" alignment="BOTTOM_CENTER" layoutX="10.0" layoutY="8.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
                <children>
                   <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/developmentCards/back/green1.png" />
+                        <Image url="@../images/developmentCards/back/green3.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -430,43 +430,7 @@
                   </ImageView>
                   <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true" translateX="2.0" translateY="-3.0">
                      <image>
-                        <Image url="@../images/developmentCards/back/green1.png" />
-                     </image>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-                  <ImageView fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" translateX="4.0" translateY="-6.0">
-                     <image>
-                        <Image url="@../images/developmentCards/back/green1.png" />
-                     </image>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-                  <ImageView id="grid_1_1" fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" translateX="6.0" translateY="-9.0">
-                     <image>
-                        <Image url="@../images/developmentCards/back/green1.png" />
-                     </image>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-               </children>
-            </StackPane>
-            <StackPane id="grid_1_2" fx:id="grid_1_2" alignment="BOTTOM_CENTER" layoutX="10.0" layoutY="8.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-               <children>
-                  <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/developmentCards/back/blue1.png" />
-                     </image>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-                  <ImageView fitHeight="120.0" fitWidth="100.0" onMouseDragged="#drawDevCard" pickOnBounds="true" preserveRatio="true" translateX="2.0" translateY="-3.0">
-                     <image>
-                        <Image url="@../images/developmentCards/back/blue1.png" />
+                        <Image url="@../images/developmentCards/back/green3.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -474,7 +438,7 @@
                   </ImageView>
                   <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true" translateX="4.0" translateY="-6.0">
                      <image>
-                        <Image url="@../images/developmentCards/back/blue1.png" />
+                        <Image url="@../images/developmentCards/back/green3.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -482,7 +446,7 @@
                   </ImageView>
                   <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true" translateX="6.0" translateY="-9.0">
                      <image>
-                        <Image url="@../images/developmentCards/back/blue1.png" />
+                        <Image url="@../images/developmentCards/back/green3.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -490,11 +454,11 @@
                   </ImageView>
                </children>
             </StackPane>
-            <StackPane id="grid_1_3" fx:id="grid_1_3" alignment="BOTTOM_CENTER" layoutX="10.0" layoutY="8.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <StackPane id="grid_3_2" fx:id="grid_3_2" alignment="BOTTOM_CENTER" layoutX="10.0" layoutY="8.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
                <children>
                   <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/developmentCards/back/yellow1.png" />
+                        <Image url="@../images/developmentCards/back/blue3.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -502,7 +466,7 @@
                   </ImageView>
                   <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true" translateX="2.0" translateY="-3.0">
                      <image>
-                        <Image url="@../images/developmentCards/back/yellow1.png" />
+                        <Image url="@../images/developmentCards/back/blue3.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -510,7 +474,7 @@
                   </ImageView>
                   <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true" translateX="4.0" translateY="-6.0">
                      <image>
-                        <Image url="@../images/developmentCards/back/yellow1.png" />
+                        <Image url="@../images/developmentCards/back/blue3.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -518,7 +482,7 @@
                   </ImageView>
                   <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true" translateX="6.0" translateY="-9.0">
                      <image>
-                        <Image url="@../images/developmentCards/back/yellow1.png" />
+                        <Image url="@../images/developmentCards/back/blue3.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -526,11 +490,11 @@
                   </ImageView>
                </children>
             </StackPane>
-            <StackPane id="grid_1_4" fx:id="grid_1_4" alignment="BOTTOM_CENTER" layoutX="10.0" layoutY="8.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
+            <StackPane id="grid_3_3" fx:id="grid_3_3" alignment="BOTTOM_CENTER" layoutX="10.0" layoutY="8.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="0">
                <children>
                   <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/developmentCards/back/purple1.png" />
+                        <Image url="@../images/developmentCards/back/yellow3.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -538,7 +502,7 @@
                   </ImageView>
                   <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true" translateX="2.0" translateY="-3.0">
                      <image>
-                        <Image url="@../images/developmentCards/back/purple1.png" />
+                        <Image url="@../images/developmentCards/back/yellow3.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -546,7 +510,7 @@
                   </ImageView>
                   <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true" translateX="4.0" translateY="-6.0">
                      <image>
-                        <Image url="@../images/developmentCards/back/purple1.png" />
+                        <Image url="@../images/developmentCards/back/yellow3.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -554,7 +518,7 @@
                   </ImageView>
                   <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true" translateX="6.0" translateY="-9.0">
                      <image>
-                        <Image url="@../images/developmentCards/back/purple1.png" />
+                        <Image url="@../images/developmentCards/back/yellow3.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -562,7 +526,43 @@
                   </ImageView>
                </children>
             </StackPane>
-            <StackPane id="grid_2_1" fx:id="grid_2_1" alignment="BOTTOM_CENTER" layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.rowIndex="1">
+            <StackPane id="grid_3_4" fx:id="grid_3_4" alignment="BOTTOM_CENTER" layoutX="10.0" layoutY="8.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="0">
+               <children>
+                  <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/developmentCards/back/purple3.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true" translateX="2.0" translateY="-3.0">
+                     <image>
+                        <Image url="@../images/developmentCards/back/purple3.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true" translateX="4.0" translateY="-6.0">
+                     <image>
+                        <Image url="@../images/developmentCards/back/purple3.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true" translateX="6.0" translateY="-9.0">
+                     <image>
+                        <Image url="@../images/developmentCards/back/purple3.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+               </children>
+            </StackPane>
+            <StackPane id="grid_2_1" fx:id="grid_2_1" alignment="BOTTOM_CENTER" layoutX="10.0" layoutY="8.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
                <children>
                   <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -672,7 +672,7 @@
             </StackPane>
             <StackPane id="grid_2_4" fx:id="grid_2_4" alignment="BOTTOM_CENTER" layoutX="10.0" layoutY="8.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
                <children>
-                  <ImageView fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/developmentCards/back/purple2.png" />
                      </image>
@@ -680,7 +680,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
-                  <ImageView fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" translateX="2.0" translateY="-3.0">
+                  <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true" translateX="2.0" translateY="-3.0">
                      <image>
                         <Image url="@../images/developmentCards/back/purple2.png" />
                      </image>
@@ -688,7 +688,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
-                  <ImageView fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" translateX="4.0" translateY="-6.0">
+                  <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true" translateX="4.0" translateY="-6.0">
                      <image>
                         <Image url="@../images/developmentCards/back/purple2.png" />
                      </image>
@@ -696,7 +696,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
-                  <ImageView fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" translateX="6.0" translateY="-9.0">
+                  <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true" translateX="6.0" translateY="-9.0">
                      <image>
                         <Image url="@../images/developmentCards/back/purple2.png" />
                      </image>
@@ -706,35 +706,35 @@
                   </ImageView>
                </children>
             </StackPane>
-            <StackPane id="grid_3_1" fx:id="grid_3_1" alignment="BOTTOM_CENTER" prefHeight="150.0" prefWidth="200.0">
+            <StackPane id="grid_1_1" fx:id="grid_1_1" alignment="BOTTOM_CENTER" layoutX="10.0" layoutY="8.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
                <children>
-                  <ImageView fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/developmentCards/back/green3.png" />
+                        <Image url="@../images/developmentCards/back/green1.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
-                  <ImageView fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" translateX="2.0" translateY="-3.0">
+                  <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true" translateX="2.0" translateY="-3.0">
                      <image>
-                        <Image url="@../images/developmentCards/back/green3.png" />
+                        <Image url="@../images/developmentCards/back/green1.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
-                  <ImageView fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" translateX="4.0" translateY="-6.0">
+                  <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true" translateX="4.0" translateY="-6.0">
                      <image>
-                        <Image url="@../images/developmentCards/back/green3.png" />
+                        <Image url="@../images/developmentCards/back/green1.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
-                  <ImageView fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" translateX="6.0" translateY="-9.0">
+                  <ImageView id="grid_1_1" fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true" translateX="6.0" translateY="-9.0">
                      <image>
-                        <Image url="@../images/developmentCards/back/green3.png" />
+                        <Image url="@../images/developmentCards/back/green1.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -742,75 +742,35 @@
                   </ImageView>
                </children>
             </StackPane>
-            <StackPane id="grid_3_2" fx:id="grid_3_2" alignment="BOTTOM_CENTER" layoutX="10.0" layoutY="8.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1">
+            <StackPane id="grid_1_2" fx:id="grid_1_2" alignment="BOTTOM_CENTER" layoutX="10.0" layoutY="8.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <ImageView fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/developmentCards/back/blue3.png" />
+                        <Image url="@../images/developmentCards/back/blue1.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
-                  <ImageView fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" translateX="2.0" translateY="-3.0">
+                  <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true" translateX="2.0" translateY="-3.0">
                      <image>
-                        <Image url="@../images/developmentCards/back/blue3.png" />
+                        <Image url="@../images/developmentCards/back/blue1.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
-                  <ImageView fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" translateX="4.0" translateY="-6.0">
+                  <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true" translateX="4.0" translateY="-6.0">
                      <image>
-                        <Image url="@../images/developmentCards/back/blue3.png" />
+                        <Image url="@../images/developmentCards/back/blue1.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
-                  <ImageView fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" translateX="6.0" translateY="-9.0">
+                  <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true" translateX="6.0" translateY="-9.0">
                      <image>
-                        <Image url="@../images/developmentCards/back/blue3.png" />
-                     </image>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-                  <ImageView id="enemy1firstBufferRes" fitHeight="19.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor></ImageView>
-               </children>
-            </StackPane>
-            <StackPane id="grid_3_3" fx:id="grid_3_3" alignment="BOTTOM_CENTER" layoutX="10.0" layoutY="8.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2">
-               <children>
-                  <ImageView fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/developmentCards/back/yellow3.png" />
-                     </image>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-                  <ImageView fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" translateX="2.0" translateY="-3.0">
-                     <image>
-                        <Image url="@../images/developmentCards/back/yellow3.png" />
-                     </image>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-                  <ImageView fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" translateX="4.0" translateY="-6.0">
-                     <image>
-                        <Image url="@../images/developmentCards/back/yellow3.png" />
-                     </image>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-                  <ImageView fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" translateX="6.0" translateY="-9.0">
-                     <image>
-                        <Image url="@../images/developmentCards/back/yellow3.png" />
+                        <Image url="@../images/developmentCards/back/blue1.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -818,44 +778,76 @@
                   </ImageView>
                </children>
             </StackPane>
-            <StackPane id="grid_3_4" fx:id="grid_3_4" alignment="BOTTOM_CENTER" layoutX="10.0" layoutY="8.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="3">
+            <StackPane id="grid_1_3" fx:id="grid_1_3" alignment="BOTTOM_CENTER" layoutX="10.0" layoutY="8.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <children>
-                  <ImageView fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/developmentCards/back/purple3.png" />
+                        <Image url="@../images/developmentCards/back/yellow1.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
-                  <ImageView fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" translateX="2.0" translateY="-3.0">
+                  <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true" translateX="2.0" translateY="-3.0">
                      <image>
-                        <Image url="@../images/developmentCards/back/purple3.png" />
+                        <Image url="@../images/developmentCards/back/yellow1.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
-                  <ImageView fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" translateX="4.0" translateY="-6.0">
+                  <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true" translateX="4.0" translateY="-6.0">
                      <image>
-                        <Image url="@../images/developmentCards/back/purple3.png" />
+                        <Image url="@../images/developmentCards/back/yellow1.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
-                  <ImageView fitHeight="120.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" translateX="6.0" translateY="-9.0">
+                  <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true" translateX="6.0" translateY="-9.0">
                      <image>
-                        <Image url="@../images/developmentCards/back/purple3.png" />
+                        <Image url="@../images/developmentCards/back/yellow1.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
-                  <ImageView id="enemy1firstBufferRes" fitHeight="19.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
+               </children>
+            </StackPane>
+            <StackPane id="grid_1_4" fx:id="grid_1_4" alignment="BOTTOM_CENTER" layoutX="10.0" layoutY="8.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
+               <children>
+                  <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/developmentCards/back/purple1.png" />
+                     </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
-                     </cursor></ImageView>
+                     </cursor>
+                  </ImageView>
+                  <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true" translateX="2.0" translateY="-3.0">
+                     <image>
+                        <Image url="@../images/developmentCards/back/purple1.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true" translateX="4.0" translateY="-6.0">
+                     <image>
+                        <Image url="@../images/developmentCards/back/purple1.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fitHeight="120.0" fitWidth="100.0" onMouseClicked="#drawDevCard" pickOnBounds="true" preserveRatio="true" translateX="6.0" translateY="-9.0">
+                     <image>
+                        <Image url="@../images/developmentCards/back/purple1.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
                </children>
             </StackPane>
          </children>

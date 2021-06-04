@@ -341,4 +341,18 @@ public class SceneProxy {
                 turnSceneController.updateDisconnections(nickname, connected);
         });
     }
+
+    public void updateCardGrid(List<String>[][] cardGrid){
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.updateCardGrid(cardGrid);
+        });
+    }
+
+    public void updateTempDevCard(String card){
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.updateTempDevCard(card);
+        });
+    }
 }

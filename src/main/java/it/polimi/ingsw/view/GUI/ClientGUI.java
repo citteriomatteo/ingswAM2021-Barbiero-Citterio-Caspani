@@ -163,8 +163,7 @@ public class ClientGUI implements View {
                 getSceneProxy().leadersChoiceError(errMessage);
                 getSceneProxy().leadersChoiceError(errMessage);
                 break;
-            case RESOURCES_PLACEMENT:
-            case END_TURN:
+            default:
                 getSceneProxy().printRetry(errMessage);
                 break;
         }
@@ -181,7 +180,7 @@ public class ClientGUI implements View {
     }
 
     @Override
-        public void updateMatch(LightMatch match) {
+    public void updateMatch(LightMatch match) {
         getSceneProxy().setCardMap(LightMatch.getCardMap());
     }
 
@@ -192,7 +191,7 @@ public class ClientGUI implements View {
 
     @Override
     public void updateCardGrid(LightMatch match) {
-
+        getSceneProxy().updateCardGrid(match.getCardGrid());
     }
 
     @Override
@@ -256,7 +255,7 @@ public class ClientGUI implements View {
 
     @Override
     public void updateTempDevCard(String nickname, LightMatch match) {
-
+        getSceneProxy().updateTempDevCard(match.getLightPlayer(nickname).getTempDevCard());
     }
 
     @Override

@@ -28,6 +28,4 @@ public interface ViewObserver {
 
     public void updateDisconnections(String nickname, boolean connected);
 
-
-
 }

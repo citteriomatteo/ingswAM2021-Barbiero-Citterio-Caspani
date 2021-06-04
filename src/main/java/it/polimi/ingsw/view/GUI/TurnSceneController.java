@@ -44,6 +44,7 @@ public class TurnSceneController implements SceneController{
     public VBox enemiesBox;
     public TextField informationsField;
     public Button confirmButton;
+    public ImageView tempDevCard;
     private ResType temporaryRes;
     private LightMatch match;
     private LightPlayer player;
@@ -52,6 +53,7 @@ public class TurnSceneController implements SceneController{
     private List<PhysicalResource> paymentsFromWarehouse = new ArrayList<>();
     private List<PhysicalResource> paymentsFromStrongbox = new ArrayList<>();
     private CtoSMessage message;
+    private ImageView selectedCard;
 
 
     public TurnSceneController() {
@@ -97,7 +99,7 @@ public class TurnSceneController implements SceneController{
             for (int j = 0; j < 4; j++) {
                 stackPane = (StackPane) cardGrid.getChildren().get(i*4+j);
                 imageView = (ImageView) stackPane.getChildren().get(3);
-                imageView.setImage(getSceneProxy().getCardImage(cards[i][j].get(0)));
+                imageView.setImage(getSceneProxy().getCardImage(cards[2-i][j].get(0)));
             }
         }
 
@@ -553,7 +555,26 @@ public class TurnSceneController implements SceneController{
 
     }
 
+    @FXML
     public void drawDevCard(MouseEvent mouseEvent) {
+        ImageView card = (ImageView) mouseEvent.getSource();
+        if(selectedCard != null) {
+            selectedCard.setEffect(null);
+            selectedCard.setFitWidth(card.getFitWidth());
+            selectedCard.setFitHeight(card.getFitHeight());
+        }
+        selectedCard = card;
+        card.setEffect(new Glow(0.3));
+        card.setFitWidth(card.getFitWidth()+ 5);
+        card.setFitHeight(card.getFitHeight()+ 5);
+
+        int rowIndex, columnIndex;
+        rowIndex = GridPane.getRowIndex(card.getParent());
+        columnIndex = GridPane.getColumnIndex(card.getParent());
+        //System.out.println("selected card r "+ rowIndex + " c " + columnIndex);
+
+        message = new DevCardDrawMessage(player.getNickname(), cardGrid.getRowCount()-rowIndex, columnIndex + 1);
+        mouseEvent.consume();
 
     }
     @FXML
@@ -590,6 +611,42 @@ public class TurnSceneController implements SceneController{
         dragEvent.setDropCompleted(success);
         dragEvent.consume();
 
+    }
+
+    public void updateCardGrid(List<String>[][] cards){
+        StackPane stackPane;
+        ImageView imageView;
+        List<String> cardAndDepth;
+        String card;
+        int depth;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                cardAndDepth = cards[2-i][j];
+                card = cardAndDepth.get(0);
+                depth = Integer.parseInt(cardAndDepth.get(1))-1;
+
+                stackPane = (StackPane) cardGrid.getChildren().get(i*4+j);
+
+                for (int k = 0; k < 4; k++) {
+                    imageView = (ImageView) stackPane.getChildren().get(k);
+                    if(k<depth)
+                        imageView.setDisable(true);
+                    else if(k==depth) {
+                        imageView.setImage(getSceneProxy().getCardImage(card));
+                        imageView.setDisable(false);
+                    }
+                    else{
+                        imageView.setDisable(true);
+                        imageView.setVisible(false);
+                    }
+                }
+            }
+        }
+    }
+
+    public void updateTempDevCard(String card){
+        tempDevCard.setImage(getSceneProxy().getCardImage(card));
+        tempDevCard.setVisible(true);
     }
 
     @FXML
