@@ -127,7 +127,7 @@ public class TurnSceneController implements SceneController{
         cardGrid.setDisable(true);
 
         //ids of the elements to keep enabled
-        List<String> importantIds = new ArrayList<>(List.of("warehousePane", "marketBufferBox"));
+        List<String> importantIds = new ArrayList<>(List.of("warehousePane", "marketBuffer"));
 
         keepEnabledOnly(importantIds);
 
@@ -192,10 +192,12 @@ public class TurnSceneController implements SceneController{
         for(Node n : myPane.getChildren())
             if(!ids.contains(n.getId())) {
                 n.setDisable(true);
-                System.out.print(n+" disabled |");
+                System.out.println(n+" DISABLED");
             }
-            else
+            else {
                 n.setDisable(false);
+                System.out.println(n+" ENABLED");
+            }
     }
 
 
