@@ -233,7 +233,7 @@ public class SceneProxy {
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.updateMarketBuffer(nickname, marketBuffer);
-        });
+            });
     }
 
     public void updateWarehouse(String nickname, List<PhysicalResource> warehouse) {
@@ -275,6 +275,13 @@ public class SceneProxy {
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.updateFaithMarker(nickname, faithMarker);
+        });
+    }
+
+    public void updateStrongBox(String nickname, List<PhysicalResource> strongbox) {
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.updateStrongBox(nickname, strongbox);
         });
     }
 }

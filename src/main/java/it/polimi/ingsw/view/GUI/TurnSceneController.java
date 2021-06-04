@@ -36,11 +36,13 @@ public class TurnSceneController implements SceneController{
     public HBox activeLeaders;
     public HBox marketBufferBox;
     public Pane warehousePane;
+    public VBox strongBox;
     public Pane marketPane;
     public GridPane faithPath;
     public VBox enemiesBox;
     public TextField informationsField;
     public Button confirmButton;
+    private ResType temporaryRes;
     private LightMatch match;
     private LightPlayer player;
     private Integer firstShelfToSwitch;
@@ -122,7 +124,7 @@ public class TurnSceneController implements SceneController{
     }
 
     private int searchShelf(ImageView clicked){
-        return warehousePane.getChildren().indexOf(clicked.getParent());
+        return warehousePane.getChildren().indexOf(clicked.getParent())+1;
     }
 
     /**
@@ -364,6 +366,36 @@ public class TurnSceneController implements SceneController{
 
     }
 
+    public void updateStrongBox(String nickname, List<PhysicalResource> newStrongbox) {
+        if(nickname.equals(getClient().getNickname())){
+            for (int i = 0; i < newStrongbox.size(); i++) {
+                for (Node n : strongBox.getChildren()) {
+                    HBox shelf = (HBox) n;
+                    if (newStrongbox.get(i).getType().toString().equals(shelf.getId()))
+                        ((TextField) shelf.getChildren().get(1)).setText("x" + newStrongbox.get(i).getQuantity());
+                }
+            }
+        }
+        else {
+            for(Node enemyPane : enemiesBox.getChildren())
+                if(nickname.equals(enemyPane.getId())) {
+                    for (Node child : ((Pane) enemyPane).getChildren()) {
+                        if (("strongBox").equals(child.getId())) {
+                            VBox sb = (VBox) child;
+                            for (int i = 0; i < newStrongbox.size(); i++) {
+                                for (Node n : sb.getChildren()) {
+                                    HBox shelf = (HBox) n;
+                                    if (newStrongbox.get(i).getType().toString().toLowerCase().equals(shelf.getId()))
+                                        ((TextField) shelf.getChildren().get(1)).setText("x" + newStrongbox.get(i).getQuantity());
+
+                                }
+                            }
+                        }
+                    }
+                }
+        }
+    }
+
     public void printRetry(String errMessage) {
         informationsField.setText(errMessage);
     }
@@ -393,6 +425,7 @@ public class TurnSceneController implements SceneController{
     public void dragBufferResource(MouseEvent mouseEvent) {
         ImageView resource = (ImageView) mouseEvent.getSource();
         Dragboard db = resource.startDragAndDrop(TransferMode.MOVE);
+        temporaryRes = ResType.valueOfImage(resource.getImage());
 
         ClipboardContent content = new ClipboardContent();
         content.putImage(resource.getImage());
@@ -403,24 +436,24 @@ public class TurnSceneController implements SceneController{
     }
 
     public void dropResourceWarehouse(DragEvent dragEvent) {
-        boolean success = true;
-        System.out.println("dropped");
+        boolean success;
         ImageView selectedPlace = (ImageView)dragEvent.getSource();
         Image draggedImage = dragEvent.getDragboard().getImage();
         if(selectedPlace.getImage() == null) {
-            for (Node place : selectedPlace.getParent().getChildrenUnmodifiable()) {
-                Image resInPlace = ((ImageView) place).getImage();
-                if (resInPlace != null && !draggedImage.equals(resInPlace))
-                    success = false;
-            }
+            success = true;
+//            for (Node place : selectedPlace.getParent().getChildrenUnmodifiable()) {
+//                Image resInPlace = ((ImageView) place).getImage();
+//                if (resInPlace != null && !(draggedImage.equals(resInPlace)))
+//                    success = false;
 
-            if(success) {
-                selectedPlace.setImage(draggedImage);
-                chosenResources.add(new PhysicalResource(ResType.valueOfImage(draggedImage), searchShelf(selectedPlace)));
-                //TODO: valueOfImage returns null
 
-                message = new WarehouseInsertionMessage(player.getNickname(), chosenResources);
-            }
+            selectedPlace.setImage(draggedImage);
+            chosenResources.add(new PhysicalResource(temporaryRes, searchShelf(selectedPlace)));
+            //chosenResources.add(new PhysicalResource(ResType.valueOfImage(draggedImage), searchShelf(selectedPlace)));
+            //TODO: valueOfImage returns null
+
+            message = new WarehouseInsertionMessage(player.getNickname(), chosenResources);
+
         }
         else
             success = false;
@@ -437,7 +470,6 @@ public class TurnSceneController implements SceneController{
 
     public void acceptDrop(DragEvent dragEvent) {
         dragEvent.acceptTransferModes(TransferMode.MOVE);
-        System.out.println("accepted");
 
         dragEvent.consume();
     }
@@ -449,4 +481,6 @@ public class TurnSceneController implements SceneController{
 
         dragEvent.consume();
     }
+
+
 }

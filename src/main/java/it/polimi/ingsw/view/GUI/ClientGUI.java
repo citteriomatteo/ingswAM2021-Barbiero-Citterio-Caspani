@@ -211,6 +211,7 @@ public class ClientGUI implements View {
 
     @Override
     public void updateStrongbox(String nickname, LightMatch match) {
+        getSceneProxy().updateStrongBox(nickname, match.getLightPlayer(nickname).getStrongbox());
 
     }
 

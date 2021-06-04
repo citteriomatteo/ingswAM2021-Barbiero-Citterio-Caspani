@@ -320,9 +320,9 @@
                   </HBox>
                </children>
             </Pane>
-            <VBox id="strongbox" layoutX="235.20450973510742" layoutY="369.0" prefHeight="76.0" prefWidth="90.0" translateY="10.0">
+            <VBox id="strongbox" fx:id="strongBox" layoutX="235.20450973510742" layoutY="369.0" prefHeight="76.0" prefWidth="90.0" translateY="10.0">
                <children>
-                  <HBox id="coinBox" prefHeight="27.0" prefWidth="90.0" spacing="30.0">
+                  <HBox id="coin" prefHeight="27.0" prefWidth="90.0" spacing="30.0">
                      <children>
                         <ImageView fitHeight="47.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -335,7 +335,7 @@
                         <Insets left="10.0" />
                      </padding>
                   </HBox>
-                  <HBox id="servantBox" prefHeight="0.0" prefWidth="90.0" spacing="30.0">
+                  <HBox id="servant" prefHeight="0.0" prefWidth="90.0" spacing="30.0">
                      <children>
                         <ImageView fitHeight="47.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -348,7 +348,7 @@
                         <Insets left="10.0" />
                      </padding>
                   </HBox>
-                  <HBox id="stoneBox" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                  <HBox id="stone" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                      <children>
                         <ImageView fitHeight="47.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -361,7 +361,7 @@
                         <Insets left="10.0" />
                      </padding>
                   </HBox>
-                  <HBox id="shieldBox" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                  <HBox id="shield" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                      <children>
                         <ImageView fitHeight="21.0" fitWidth="20.0" pickOnBounds="true">
                            <image>
@@ -1189,9 +1189,9 @@
                         </HBox>
                      </children>
                   </Pane>
-                  <VBox id="strongbox" layoutX="60.0" layoutY="148.0" prefHeight="44.0" prefWidth="52.0">
+                  <VBox id="strongBox" layoutX="60.0" layoutY="148.0" prefHeight="44.0" prefWidth="52.0">
                      <children>
-                        <HBox id="coinBox" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
+                        <HBox id="coin" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
                            <children>
                               <ImageView fitHeight="22.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -1205,7 +1205,7 @@
                               </Text>
                            </children>
                         </HBox>
-                        <HBox id="servantBox" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
+                        <HBox id="servant" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
                            <children>
                               <ImageView fitHeight="22.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -1219,7 +1219,7 @@
                               </Text>
                            </children>
                         </HBox>
-                        <HBox id="stoneBox" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
+                        <HBox id="stone" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
                            <children>
                               <ImageView fitHeight="22.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -1233,7 +1233,7 @@
                               </Text>
                            </children>
                         </HBox>
-                        <HBox id="shieldBox" prefHeight="12.0" prefWidth="52.0" spacing="15.0">
+                        <HBox id="shield" prefHeight="12.0" prefWidth="52.0" spacing="15.0">
                            <children>
                               <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true">
                                  <image>
@@ -1504,9 +1504,9 @@
                         </HBox>
                      </children>
                   </Pane>
-                  <VBox id="strongbox" layoutX="56.0" layoutY="148.0" prefHeight="44.0" prefWidth="52.0">
+                  <VBox id="strongBox" layoutX="56.0" layoutY="148.0" prefHeight="44.0" prefWidth="52.0">
                      <children>
-                        <HBox id="coinBox" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
+                        <HBox id="coin" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
                            <children>
                               <ImageView fitHeight="22.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -1520,7 +1520,7 @@
                               </Text>
                            </children>
                         </HBox>
-                        <HBox id="servantBox" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
+                        <HBox id="servant" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
                            <children>
                               <ImageView fitHeight="22.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -1534,7 +1534,7 @@
                               </Text>
                            </children>
                         </HBox>
-                        <HBox id="stoneBox" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
+                        <HBox id="stone" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
                            <children>
                               <ImageView fitHeight="22.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -1820,11 +1820,11 @@
                         </HBox>
                      </children>
                   </Pane>
-                  <VBox id="strongbox" layoutX="61.0" layoutY="146.0" prefHeight="44.0" prefWidth="52.0">
+                  <VBox id="strongBox" layoutX="61.0" layoutY="146.0" prefHeight="44.0" prefWidth="52.0">
                      <children>
-                        <HBox id="coinBox" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
+                        <HBox id="coin" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
                            <children>
-                              <ImageView fitHeight="22.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView id="coin" fitHeight="22.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/punchBoard/coin.png" />
                                  </image>
@@ -1836,9 +1836,9 @@
                               </Text>
                            </children>
                         </HBox>
-                        <HBox id="servantBox" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
+                        <HBox id="servant" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
                            <children>
-                              <ImageView fitHeight="22.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView id="servant" fitHeight="22.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/punchBoard/servant.png" />
                                  </image>
@@ -1850,7 +1850,7 @@
                               </Text>
                            </children>
                         </HBox>
-                        <HBox id="stoneBox" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
+                        <HBox id="stone" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
                            <children>
                               <ImageView fitHeight="22.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -1864,7 +1864,7 @@
                               </Text>
                            </children>
                         </HBox>
-                        <HBox id="shieldBox" prefHeight="12.0" prefWidth="52.0" spacing="15.0">
+                        <HBox id="shield" prefHeight="12.0" prefWidth="52.0" spacing="15.0">
                            <children>
                               <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true">
                                  <image>
