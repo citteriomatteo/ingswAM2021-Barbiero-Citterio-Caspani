@@ -280,6 +280,7 @@ public class SceneProxy {
 
     public void updateMarketBuffer(String nickname, List<PhysicalResource> marketBuffer) {
         Platform.runLater(()->{
+            System.out.println(marketBuffer);
             if(turnSceneController != null)
                 turnSceneController.updateMarketBuffer(nickname, marketBuffer);
         });

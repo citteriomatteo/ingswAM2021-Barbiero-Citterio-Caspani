@@ -59,7 +59,6 @@ public class TurnSceneController implements SceneController{
 
 
     public void loadStartingTurn() {
-        char[][] market = getClientController().getMatch().getMarket();
         ImageView imageView;
         StackPane stackPane;
         List<String>[][] cards;
@@ -92,7 +91,7 @@ public class TurnSceneController implements SceneController{
         }
 
         updateHandLeaders(player.getNickname(), player.getHandLeaders());
-        updateMarketBuffer(getClient().getNickname(), player.getMarketBuffer());
+        updateMarketBuffer(player.getNickname(), player.getMarketBuffer());
 
         for (LightPlayer player1 : match.getLightPlayers())
             updateWarehouse(player1.getNickname(), player1.getWarehouse());
@@ -127,7 +126,7 @@ public class TurnSceneController implements SceneController{
         cardGrid.setDisable(true);
 
         //ids of the elements to keep enabled
-        List<String> importantIds = new ArrayList<>(List.of("warehousePane", "marketBuffer"));
+        List<String> importantIds = new ArrayList<>(List.of("warehousePane", "marketBufferBox"));
 
         keepEnabledOnly(importantIds);
 
@@ -220,40 +219,18 @@ public class TurnSceneController implements SceneController{
     public void clickOnWarehouse(MouseEvent mouseEvent) {
         ImageView clicked = (ImageView) mouseEvent.getSource();
         int shelf = searchShelf(clicked);
-        System.out.println("clicked on shelf number "+ shelf);
         if (shelf > 3 && shelf > player.getWarehouse().size()) {
             firstShelfToSwitch = null;
             return;
         }
 
-        if(tempResource != null){
-            System.out.println("sending message");
-            chosenResources.add(new PhysicalResource(tempResource, shelf));
-            for (Node place : ((HBox) warehousePane.getChildren().get(shelf-1)).getChildren()) {
-                ImageView res = (ImageView) place;
-                if (res.getImage() == null)
-                    res.setImage(new Image(getClass().getResourceAsStream("images/punchBoard/" + tempResource.toString().toLowerCase() + ".png")));
-                break;
-            }
-
-            message = new WarehouseInsertionMessage(player.getNickname(), chosenResources);
-            //(new WarehouseInsertionMessage(player.getNickname(), List.of(new PhysicalResource(tempResource, shelf)))).send();
-            tempResource = null;
-            for (Node child : marketBufferBox.getChildren())
-                child.setEffect(null);
-            //returnToCurrentState();
-            return;
-        }
-
         if (firstShelfToSwitch == null) {
             firstShelfToSwitch = shelf;
-           // disableAllMinus("warehousePane");
             return;
         }
 
         message = new SwitchShelfMessage(player.getNickname(), firstShelfToSwitch, shelf);
         firstShelfToSwitch = null;
-        //returnToCurrentState();
 
     }
 
@@ -319,7 +296,7 @@ public class TurnSceneController implements SceneController{
 
         node.setEffect(new Glow(1));
 
-        message = new MarketDrawMessage(getClient().getNickname(), false, numColumn);
+        message = new MarketDrawMessage(player.getNickname(), false, numColumn);
     }
 
     @FXML
@@ -335,20 +312,20 @@ public class TurnSceneController implements SceneController{
 
         node.setEffect(new Glow(1));
 
-        message = new MarketDrawMessage(getClient().getNickname(), true, numRow);
+        message = new MarketDrawMessage(player.getNickname(), true, numRow);
     }
 
     @FXML
     public void sendMessage() {
         if(getClientController().getCurrentState().equals(StateName.END_TURN))
-            (new EndTurnMessage(getClient().getNickname())).send();
+            (new EndTurnMessage(player.getNickname())).send();
         else
             if(message != null)
                 message.send();
     }
 
     public void updateHandLeaders(String nickname, List<String> newHandLeaders) {
-        if(nickname.equals(getClient().getNickname())){
+        if(nickname.equals(player.getNickname())){
             for (Node child : handLeaders.getChildren())
                 ((ImageView) child).setImage(null);
             for (int i=0; i < newHandLeaders.size(); i++) {
@@ -374,7 +351,7 @@ public class TurnSceneController implements SceneController{
     }
 
     public void updateActiveLeaders(String nickname, List<String> newActiveLeaders) {
-        if(nickname.equals(getClient().getNickname())){
+        if(nickname.equals(player.getNickname())){
             for (Node child : activeLeaders.getChildren())
                 ((ImageView) child).setImage(null);
             for (int i=0; i < newActiveLeaders.size(); i++) {
@@ -407,7 +384,7 @@ public class TurnSceneController implements SceneController{
                 imageView.setImage(getSceneProxy().getMarbleImage(market[i][j]));
             }
         }
-        slideMarble.setImage(getSceneProxy().getMarbleImage(getClientController().getMatch().getSideMarble()));
+        slideMarble.setImage(getSceneProxy().getMarbleImage(match.getSideMarble()));
 
         for (Node child : marketPane.getChildren()) {
             if(!child.getId().equals(marketGrid.getId()))
@@ -417,11 +394,12 @@ public class TurnSceneController implements SceneController{
     }
 
     public void updateMarketBuffer(String nickname, List<PhysicalResource> marketBuffer) {
-        if(nickname.equals(getClient().getNickname())) {
+        System.out.println("from buffer: "+marketBuffer);
+        if(nickname.equals(player.getNickname())) {
             for (Node child :  marketBufferBox.getChildren() )
                 ((ImageView) child).setImage(null);
             for (int i = 0; i < marketBuffer.size(); i++)
-                ((ImageView) marketBufferBox.getChildren().get(i)).setImage(new Image(getClass().getResourceAsStream("images/punchBoard/" + marketBuffer.get(i).getType().toString().toLowerCase() + ".png")));
+                ((ImageView) marketBufferBox.getChildren().get(i)).setImage(marketBuffer.get(i).getType().asImage());
         }
 
         else{
@@ -433,13 +411,13 @@ public class TurnSceneController implements SceneController{
                             for (Node n : enemyMarketBuffer.getChildren())
                                 ((ImageView) n).setImage(null);
                             for (int i = 0; i < marketBuffer.size(); i++)
-                                ((ImageView) enemyMarketBuffer.getChildren().get(i)).setImage(new Image(getClass().getResourceAsStream("images/punchBoard/" + marketBuffer.get(i).getType().toString().toLowerCase() + ".png")));
+                                ((ImageView) enemyMarketBuffer.getChildren().get(i)).setImage(marketBuffer.get(i).getType().asImage());
                         }
         }
     }
 
     public void updateWarehouse(String nickname, List<PhysicalResource> warehouse) {
-        if(nickname.equals(getClient().getNickname())){
+        if(nickname.equals(player.getNickname())){
             for (Node box : warehousePane.getChildren()){
                 HBox shelf = (HBox) box;
                 for (Node place : shelf.getChildren())
@@ -449,7 +427,7 @@ public class TurnSceneController implements SceneController{
                 PhysicalResource resShelf = warehouse.get(i);
                 HBox shelf = (HBox) warehousePane.getChildren().get(i);
                 for (int j = 0; j < resShelf.getQuantity(); j++) {
-                    ((ImageView) shelf.getChildren().get(j)).setImage(new Image(getClass().getResourceAsStream("images/punchBoard/" + resShelf.getType().toString().toLowerCase() + ".png")));
+                    ((ImageView) shelf.getChildren().get(j)).setImage(resShelf.getType().asImage());
                 }
             }
         }
@@ -468,7 +446,7 @@ public class TurnSceneController implements SceneController{
                                 PhysicalResource resShelf = warehouse.get(i);
                                 HBox shelf = (HBox) ((Pane) child).getChildren().get(i);
                                 for (int j = 0; j < resShelf.getQuantity(); j++) {
-                                    ((ImageView) shelf.getChildren().get(j)).setImage(new Image(getClass().getResourceAsStream("images/punchBoard/" + resShelf.getType().toString().toLowerCase() + ".png")));
+                                    ((ImageView) shelf.getChildren().get(j)).setImage(resShelf.getType().asImage());
                                 }
                             }
 
@@ -477,7 +455,7 @@ public class TurnSceneController implements SceneController{
     }
 
     public void updateFaithMarker(String nickname, int faithMarker) {
-        if(nickname.equals(getClient().getNickname())){
+        if(nickname.equals(player.getNickname())){
             for(Node cell : faithPath.getChildren())
                 cell.setVisible(false);
 
@@ -510,7 +488,7 @@ public class TurnSceneController implements SceneController{
         MenuItem node = (MenuItem) actionEvent.getSource();
         int numLeader = Integer.parseInt((String) node.getUserData());
 
-        message = new LeaderActivationMessage(getClient().getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()));
+        message = new LeaderActivationMessage(player.getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()));
     }
 
     @FXML
@@ -518,7 +496,7 @@ public class TurnSceneController implements SceneController{
         MenuItem node = (MenuItem) actionEvent.getSource();
         int numLeader = Integer.parseInt((String) node.getUserData());
 
-        message = new LeaderDiscardingMessage(getClient().getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()));
+        message = new LeaderDiscardingMessage(player.getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()));
 
     }
 
