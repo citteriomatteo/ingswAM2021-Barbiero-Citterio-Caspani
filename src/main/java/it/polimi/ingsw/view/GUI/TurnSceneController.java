@@ -18,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,7 @@ public class TurnSceneController implements SceneController{
     public Pane warehousePane;
     public VBox strongBox;
     public Pane marketPane;
+    public Pane paymentsPane;
     public GridPane faithPath;
     public VBox enemiesBox;
     public TextField informationsField;
@@ -47,6 +49,8 @@ public class TurnSceneController implements SceneController{
     private LightPlayer player;
     private Integer firstShelfToSwitch;
     private List<PhysicalResource> chosenResources = new ArrayList<>();
+    private List<PhysicalResource> paymentsFromWarehouse = new ArrayList<>();
+    private List<PhysicalResource> paymentsFromStrongbox = new ArrayList<>();
     private CtoSMessage message;
 
 
@@ -100,8 +104,10 @@ public class TurnSceneController implements SceneController{
         updateHandLeaders(player.getNickname(), player.getHandLeaders());
         updateMarketBuffer(player.getNickname(), player.getMarketBuffer());
 
-        for (LightPlayer player1 : match.getLightPlayers())
+        for (LightPlayer player1 : match.getLightPlayers()) {
             updateWarehouse(player1.getNickname(), player1.getWarehouse());
+            updateFaithMarker(player1.getNickname(), player1.getFaithMarker());
+        }
     }
 
     public void disableAll(boolean value) {
@@ -148,6 +154,8 @@ public class TurnSceneController implements SceneController{
     public void buyDevActionPhaseDisables(){
         marketPane.setDisable(true);
         cardGrid.setDisable(true);
+        paymentsPane.setDisable(false);
+        paymentsPane.setVisible(true);
 
         //ids of the elements to keep enabled
         List<String> importantIds = new ArrayList<>(List.of("warehousePane", "strongbox"));
@@ -216,6 +224,7 @@ public class TurnSceneController implements SceneController{
         }
 
         message = new SwitchShelfMessage(player.getNickname(), firstShelfToSwitch, shelf);
+        confirmButton.setText("confirm");
         firstShelfToSwitch = null;
 
     }
@@ -266,6 +275,7 @@ public class TurnSceneController implements SceneController{
         else{
             informationsField.setText("Wait your turn");
         }
+        confirmButton.setText("confirm");
         disableAll(!yourTurn);
     }
 
@@ -303,11 +313,13 @@ public class TurnSceneController implements SceneController{
 
     @FXML
     public void sendMessage() {
-        if(getClientController().getCurrentState().equals(StateName.END_TURN))
+        if(getClientController().getCurrentState().equals(StateName.END_TURN) && !message.getType().equals(CtoSMessageType.SWITCH_SHELF) && !message.getType().equals(CtoSMessageType.LEADER_DISCARDING) && !message.getType().equals(CtoSMessageType.LEADER_ACTIVATION) )
             (new EndTurnMessage(player.getNickname())).send();
         else
-            if(message != null)
+            if(message != null) {
                 message.send();
+                message = null;
+            }
     }
 
     public void updateHandLeaders(String nickname, List<String> newHandLeaders) {
@@ -483,7 +495,7 @@ public class TurnSceneController implements SceneController{
                                 for (Node n : sb.getChildren()) {
                                     HBox shelf = (HBox) n;
                                     if (newStrongbox.get(i).getType().toString().toLowerCase().equals(shelf.getId()))
-                                        ((TextField) shelf.getChildren().get(1)).setText("x" + newStrongbox.get(i).getQuantity());
+                                        ((Text) shelf.getChildren().get(1)).setText("x" + newStrongbox.get(i).getQuantity());
 
                                 }
                             }
@@ -528,6 +540,7 @@ public class TurnSceneController implements SceneController{
         int numLeader = Integer.parseInt((String) node.getUserData());
 
         message = new LeaderActivationMessage(player.getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()));
+        confirmButton.setText("confirm");
     }
 
     @FXML
@@ -536,11 +549,15 @@ public class TurnSceneController implements SceneController{
         int numLeader = Integer.parseInt((String) node.getUserData());
 
         message = new LeaderDiscardingMessage(player.getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()));
+        confirmButton.setText("confirm");
 
     }
 
+    public void drawDevCard(MouseEvent mouseEvent) {
+
+    }
     @FXML
-    public void dragBufferResource(MouseEvent mouseEvent) {
+    public void dragResource(MouseEvent mouseEvent) {
         ImageView resource = (ImageView) mouseEvent.getSource();
         Dragboard db = resource.startDragAndDrop(TransferMode.MOVE);
         temporaryRes = ResType.valueOfImage(resource.getImage());
@@ -553,22 +570,16 @@ public class TurnSceneController implements SceneController{
         mouseEvent.consume();
     }
 
+    @FXML
     public void dropResourceWarehouse(DragEvent dragEvent) {
         boolean success;
         ImageView selectedPlace = (ImageView)dragEvent.getSource();
         Image draggedImage = dragEvent.getDragboard().getImage();
         if(selectedPlace.getImage() == null) {
             success = true;
-//            for (Node place : selectedPlace.getParent().getChildrenUnmodifiable()) {
-//                Image resInPlace = ((ImageView) place).getImage();
-//                if (resInPlace != null && !(draggedImage.equals(resInPlace)))
-//                    success = false;
-
 
             selectedPlace.setImage(draggedImage);
             chosenResources.add(new PhysicalResource(temporaryRes, searchShelf(selectedPlace)));
-            //chosenResources.add(new PhysicalResource(ResType.valueOfImage(draggedImage), searchShelf(selectedPlace)));
-            //TODO: valueOfImage returns null
 
             message = new WarehouseInsertionMessage(player.getNickname(), chosenResources);
 
@@ -581,22 +592,67 @@ public class TurnSceneController implements SceneController{
 
     }
 
-    public void drawDevCard(MouseEvent mouseEvent) {
-
-    }
-
-
+    @FXML
     public void acceptDrop(DragEvent dragEvent) {
         dragEvent.acceptTransferModes(TransferMode.MOVE);
 
         dragEvent.consume();
     }
 
-    public void dragBufferResourceDone(DragEvent dragEvent) {
+    @FXML
+    public void dragResourceDone(DragEvent dragEvent) {
         if (dragEvent.getTransferMode() == TransferMode.MOVE) {
             ((ImageView) dragEvent.getGestureSource()).setImage(null);
         }
 
         dragEvent.consume();
+    }
+
+
+    @FXML
+    public void dragStrongBoxResourceDone(DragEvent dragEvent) {
+        if (dragEvent.getTransferMode() == TransferMode.MOVE) {
+            HBox hBox = (HBox) ((Node) dragEvent.getGestureSource()).getParent();
+            Text text = (Text) hBox.getChildren().get(1);
+            int newNum = Integer.parseInt(text.getText()) - 1;
+            text.setText("x" + newNum);
+        }
+
+        dragEvent.consume();
+    }
+
+    @FXML
+    public void dropResourcePayments(DragEvent dragEvent) {
+        boolean success;
+        int numRes = 0;
+        ImageView selectedPlace = (ImageView)dragEvent.getSource();
+        Image draggedImage = dragEvent.getDragboard().getImage();
+        if(selectedPlace.getParent().isVisible()) {
+            success = true;
+
+            VBox paymentsResources = (VBox) paymentsPane.getChildren().get(1);
+
+            for(Node n : paymentsResources.getChildren()){
+                HBox res = (HBox) n;
+                if(temporaryRes.toString().toLowerCase().equals(res.getId())){
+                    Label resLabel = (Label) res.getChildren().get(1);
+                    numRes = Integer.parseInt(resLabel.getText().substring(1))+1;
+                    resLabel.setText("x" + numRes);
+                }
+            }
+
+            PhysicalResource addedRes = new PhysicalResource(temporaryRes, numRes);
+            if(((Node) dragEvent.getGestureSource()).getParent().getParent().equals(warehousePane))
+                paymentsFromWarehouse.add(addedRes);
+            else if(((Node) dragEvent.getGestureSource()).getParent().getParent().equals(strongBox))
+                paymentsFromStrongbox.add(addedRes);
+
+        }
+        else
+            success = false;
+
+        dragEvent.setDropCompleted(success);
+        dragEvent.consume();
+
     }
 }

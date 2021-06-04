@@ -24,7 +24,6 @@ public class InitSceneController implements SceneController{
     public InitSceneController() {
 
         getSceneProxy().setInitSceneController(this);
-        System.out.println("creating initController");
     }
 
     @FXML
