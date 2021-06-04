@@ -165,7 +165,7 @@ public class PlayerSummaryTest extends CommonThingsTest
         Player player3 = new Player("player3");
         Player player4 = new Player("player4");
         List<Player> players = new ArrayList<>(List.of(player1,player2,player3,player4));
-        MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/TotalFreeConfiguration.json");
+        MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
         setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         Match match = new MultiMatch(players, matchConfiguration);
         setCardMap(match.getMatchConfiguration());
@@ -174,11 +174,10 @@ public class PlayerSummaryTest extends CommonThingsTest
             p.setSummary(summary);
 
         //testing the equals after having activated every in-hand leader
-
-        Player curr = match.getCurrentPlayer();
-        for(int i = 0; i < curr.getHandLeaders().size(); i++){
+        Player curr = player4;
+        System.out.println(curr.getHandLeaders().stream().map((x)->getKeyByValue(cardMap,x)).collect(Collectors.toList()));
+        for(int i = 0; i < curr.getHandLeaders().size(); i++)
             curr.activateLeader(curr.getHandLeaders().get(i));
-        }
 
         List<String> sortedSummaryAL = summary.getPlayerSummary(curr.getNickname()).getActiveLeaders().stream().sorted().collect(Collectors.toList());
         List<String> sortedPlayerAL = new ArrayList<>(curr.getPersonalBoard().getActiveLeaders().stream().map((x)->getKeyByValue(cardMap,x)).collect(Collectors.toList()));

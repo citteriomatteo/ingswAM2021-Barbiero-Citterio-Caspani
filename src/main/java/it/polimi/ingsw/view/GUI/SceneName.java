@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.GUI;
 
 public enum SceneName {
     LoginScene,
+    ReconnectionScene,
     ModeSelectionScene,
     NumPlayerScene,
     ConfigurationChoiceScene,

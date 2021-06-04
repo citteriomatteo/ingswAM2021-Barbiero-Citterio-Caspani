@@ -54,6 +54,7 @@ public class TurnSceneController implements SceneController{
         getSceneProxy().setTurnSceneController(this);
         match = getClientController().getMatch();
         player = match.getLightPlayer(getClient().getNickname());
+
         firstShelfToSwitch = null;
         System.out.println("creating turnController");
     }
@@ -66,12 +67,17 @@ public class TurnSceneController implements SceneController{
         List<LightPlayer> enemies = new ArrayList<>(match.getLightPlayers());
         enemies.remove(player);
 
-        for (int i=0; i < enemies.size(); i++) {
-            Pane enemyPane = (Pane) enemiesBox.getChildren().get(i);
-            enemyPane.setId(enemies.get(i).getNickname());
+        int k;
+        for (k=0; k < enemies.size(); k++) {
+            Pane enemyPane = (Pane) enemiesBox.getChildren().get(k);
+            enemyPane.setId(enemies.get(k).getNickname());
             Label enemyName = (Label) enemyPane.getChildren().get(2);
-            enemyName.setText(enemies.get(i).getNickname());
+            enemyName.setText(enemies.get(k).getNickname());
         }
+
+        //in order to put invisible the boards of the remaining free players' positions.
+        for(int h = k; h<3; h++)
+            enemiesBox.getChildren().get(h).setVisible(false);
 
         for(Node n : cardGrid.getChildren()){
             List<Node> images = ((StackPane) n).getChildren();
@@ -188,16 +194,11 @@ public class TurnSceneController implements SceneController{
      */
     public void keepEnabledOnly(List<String> ids){
         ids.addAll(List.of("exitButton","confirmButton"));
-        System.out.println("elems to keep enabled on the current state ("+getClientController().getCurrentState()+"): "+ids);
         for(Node n : myPane.getChildren())
-            if(!ids.contains(n.getId())) {
+            if(!ids.contains(n.getId()))
                 n.setDisable(true);
-                System.out.println(n+" DISABLED");
-            }
-            else {
+            else
                 n.setDisable(false);
-                System.out.println(n+" ENABLED");
-            }
     }
 
     @FXML
@@ -379,7 +380,7 @@ public class TurnSceneController implements SceneController{
     }
 
     public void updateMarketBuffer(String nickname, List<PhysicalResource> marketBuffer) {
-        System.out.println("from buffer: "+marketBuffer);
+
         if(nickname.equals(player.getNickname())) {
             for (Node child :  marketBufferBox.getChildren() )
                 ((ImageView) child).setImage(null);
@@ -492,6 +493,27 @@ public class TurnSceneController implements SceneController{
         }
     }
 
+    public void updateDisconnections(String nickname, boolean connected) {
+        String str = "";
+
+        for(Node enemyPane : enemiesBox.getChildren())
+            if ((nickname).equals(enemyPane.getId())) {
+                Pane chosenEnemy = (Pane) enemyPane;
+                for(Node n : ((Pane) enemyPane).getChildren())
+                    if(("nicknameLabel").equals(n.getId()))
+                        if (connected) {
+                            //str = "player " + nickname + " is back in the game.";
+                            ((Label) n).setText(nickname);
+                        } else {
+                            //str = "player " + nickname + " has left the match.";
+                            ((Label) n).setText(nickname + " (OFFLINE)");
+                        }
+            }
+
+        informationsField.setText(str+""+informationsField.getText());
+
+    }
+
     public void printRetry(String errMessage) {
         informationsField.setText(errMessage);
     }
@@ -566,7 +588,6 @@ public class TurnSceneController implements SceneController{
 
     public void acceptDrop(DragEvent dragEvent) {
         dragEvent.acceptTransferModes(TransferMode.MOVE);
-        System.out.println("accepted");
 
         dragEvent.consume();
     }

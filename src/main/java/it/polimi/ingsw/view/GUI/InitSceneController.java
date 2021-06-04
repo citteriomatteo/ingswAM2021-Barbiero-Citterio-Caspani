@@ -19,6 +19,8 @@ public class InitSceneController implements SceneController{
     public TextField loginTextBox;
     public Label loginErrorLabel;
 
+
+
     public InitSceneController() {
 
         getSceneProxy().setInitSceneController(this);

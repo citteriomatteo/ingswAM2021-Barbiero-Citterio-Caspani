@@ -288,6 +288,14 @@ public class ClientCLI implements View
     }
 
     @Override
+    public void updateDisconnections(String nickname, boolean connected) {
+        if(connected)
+            System.out.println("Player " +nickname+ " is back in the game."); //todo: use a controller function that can inform the view, not directly the print
+        else
+            System.out.println("Player " +nickname+ " has left the match.");
+    }
+
+    @Override
     public void printMatchResults(String nickname, Map<String, Integer> ranking){
         //LinkedHashMap preserve the ordering of elements in which they are inserted
         LinkedHashMap<String, Integer> sortedRanking = new LinkedHashMap<>();

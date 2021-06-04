@@ -334,4 +334,11 @@ public class SceneProxy {
                 turnSceneController.updateStrongBox(nickname, strongbox);
         });
     }
+
+    public void updateDisconnections(String nickname, boolean connected) {
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.updateDisconnections(nickname, connected);
+        });
+    }
 }

@@ -130,4 +130,12 @@ public class ViewObservable {
     public void updateTempDevCard(String nickname, LightMatch match){
         observers.get(0).updateTempDevCard(nickname, match);
     }
+
+    /**
+     * This method calls an update on the Observer's class, to print a player's disconnection layout.
+     * @param connected the match to get the player's temporary dev card into
+     */
+    public void updateDisconnections(String nickname, boolean connected){
+        observers.get(0).updateDisconnections(nickname, connected);
+    }
 }

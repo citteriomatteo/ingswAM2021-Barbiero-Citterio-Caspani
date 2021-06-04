@@ -36,7 +36,7 @@ public class ClientGUI implements View {
 
     @Override
     public void drawReconnectionLayout() {
-
+        getSceneProxy().changeScene(SceneName.ReconnectionScene);
     }
 
     @Override
@@ -257,5 +257,10 @@ public class ClientGUI implements View {
     @Override
     public void updateTempDevCard(String nickname, LightMatch match) {
 
+    }
+
+    @Override
+    public void updateDisconnections(String nickname, boolean connected) {
+        getSceneProxy().updateDisconnections(nickname, connected);
     }
 }
