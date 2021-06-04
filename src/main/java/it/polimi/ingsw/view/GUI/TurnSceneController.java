@@ -41,6 +41,7 @@ public class TurnSceneController implements SceneController{
     public VBox enemiesBox;
     public TextField informationsField;
     public Button confirmButton;
+    private ResType tempResource;
     private LightMatch match;
     private LightPlayer player;
     private Integer firstShelfToSwitch;
@@ -58,6 +59,7 @@ public class TurnSceneController implements SceneController{
 
 
     public void loadStartingTurn() {
+        char[][] market = getClientController().getMatch().getMarket();
         ImageView imageView;
         StackPane stackPane;
         List<String>[][] cards;
@@ -96,28 +98,162 @@ public class TurnSceneController implements SceneController{
             updateWarehouse(player1.getNickname(), player1.getWarehouse());
     }
 
+    public void disableAll(boolean value) {
+        basePane.setDisable(value);
+        if(value) {
+            marketPane.setDisable(false);
+            cardGrid.setDisable(false);
+        }
+    }
 
-    @Override
-    public void disableAll() {
-        basePane.setDisable(true);
+    public void marketActionPhaseDisables(){
+        marketPane.setDisable(true);
+        cardGrid.setDisable(true);
+
+        //ids of the elements to keep enabled
+        List<String> importantIds = new ArrayList<>();
+        importantIds.addAll(List.of("warehousePane","activeLeaders"));
+
+        keepEnabledOnly(importantIds);
+
+        for(Node n : myPane.getChildren())
+            //putting visible the labels for the white marble conversions
+            if(("firstConversionCount").equals(n.getId()) || ("secondConversionCount").equals(n.getId()))
+                n.setVisible(true);
+    }
+
+    public void resourcesPlacementPhaseDisables(){
+        marketPane.setDisable(true);
+        cardGrid.setDisable(true);
+
+        //ids of the elements to keep enabled
+        List<String> importantIds = new ArrayList<>(List.of("warehousePane", "marketBuffer"));
+
+        keepEnabledOnly(importantIds);
+
+        for(Node n : myPane.getChildren())
+            //putting back invisible the labels for the white marble conversions
+            if(("firstConversionCount").equals(n.getId()) || ("secondConversionCount").equals(n.getId()))
+                n.setVisible(false);
+
+
+    }
+
+    public void buyDevActionPhaseDisables(){
+        marketPane.setDisable(true);
+        cardGrid.setDisable(true);
+
+        //ids of the elements to keep enabled
+        List<String> importantIds = new ArrayList<>(List.of("warehousePane", "strongbox"));
+
+        keepEnabledOnly(importantIds);
+
+    }
+
+    public void placeDevCardPhaseDisables(){
+        marketPane.setDisable(true);
+        cardGrid.setDisable(true);
+
+        //ids of the elements to keep enabled
+        List<String> importantIds = new ArrayList<>(List.of("warehousePane", "firstDevSlot", "secondDevSlot", "thirdDevSlot"));
+
+        keepEnabledOnly(importantIds);
+    }
+
+    public void productionActionPhaseDisables(){
+        marketPane.setDisable(true);
+        cardGrid.setDisable(true);
+
+        //ids of the elements to keep enabled
+        List<String> importantIds = new ArrayList<>(List.of("warehousePane", "firstDevSlot", "secondDevSlot", "thirdDevSlot"));
+
+        keepEnabledOnly(importantIds);
+
+    }
+
+    public void endTurnPhaseDisables(){
+        marketPane.setDisable(true);
+        cardGrid.setDisable(true);
+
+        //ids of the elements to keep enabled
+        List<String> importantIds = new ArrayList<>(List.of("warehousePane", "firstDevSlot", "secondDevSlot", "thirdDevSlot"));
+
+        keepEnabledOnly(importantIds);
+
+    }
+
+    /**
+     * This method keeps enabled only the requested elements and disables everything else.
+     * @param ids list of chosen elements' ids
+     */
+    public void keepEnabledOnly(List<String> ids){
+        ids.addAll(List.of("exitButton","confirmButton"));
+        System.out.println("elems to keep enabled on the current state ("+getClientController().getCurrentState()+"): "+ids);
+        for(Node n : myPane.getChildren())
+            if(!ids.contains(n.getId())) {
+                n.setDisable(true);
+                System.out.println(n+" DISABLED");
+            }
+            else {
+                n.setDisable(false);
+                System.out.println(n+" ENABLED");
+            }
+    }
+
+
+    @FXML
+    public void resourceSelected(MouseEvent mouseEvent) {
+        ImageView imageView = (ImageView) mouseEvent.getSource();
+        int index = marketBufferBox.getChildren().indexOf(imageView);
+        if(index > player.getMarketBuffer().size()-1)
+            return;
+        for (Node child : marketBufferBox.getChildren())
+            child.setEffect(null);
+        imageView.setEffect(new Glow(0.5));
+        tempResource = player.getMarketBuffer().get(index).getType();
+        System.out.println("set tempResource = "+ tempResource);
+       // disableAllMinus("warehousePane");
+
     }
 
     @FXML
     public void clickOnWarehouse(MouseEvent mouseEvent) {
         ImageView clicked = (ImageView) mouseEvent.getSource();
         int shelf = searchShelf(clicked);
+        System.out.println("clicked on shelf number "+ shelf);
         if (shelf > 3 && shelf > player.getWarehouse().size()) {
             firstShelfToSwitch = null;
             return;
         }
 
+        if(tempResource != null){
+            System.out.println("sending message");
+            chosenResources.add(new PhysicalResource(tempResource, shelf));
+            for (Node place : ((HBox) warehousePane.getChildren().get(shelf-1)).getChildren()) {
+                ImageView res = (ImageView) place;
+                if (res.getImage() == null)
+                    res.setImage(new Image(getClass().getResourceAsStream("images/punchBoard/" + tempResource.toString().toLowerCase() + ".png")));
+                break;
+            }
+
+            message = new WarehouseInsertionMessage(player.getNickname(), chosenResources);
+            //(new WarehouseInsertionMessage(player.getNickname(), List.of(new PhysicalResource(tempResource, shelf)))).send();
+            tempResource = null;
+            for (Node child : marketBufferBox.getChildren())
+                child.setEffect(null);
+            //returnToCurrentState();
+            return;
+        }
+
         if (firstShelfToSwitch == null) {
             firstShelfToSwitch = shelf;
+           // disableAllMinus("warehousePane");
             return;
         }
 
         message = new SwitchShelfMessage(player.getNickname(), firstShelfToSwitch, shelf);
         firstShelfToSwitch = null;
+        //returnToCurrentState();
 
     }
 
@@ -162,13 +298,12 @@ public class TurnSceneController implements SceneController{
     public void yourTurn(boolean yourTurn) {
         if (yourTurn) {
             informationsField.setText("It's your turn! Make a move");
-            basePane.setDisable(false);
         }
 
-        else {
+        else{
             informationsField.setText("Wait your turn");
-            disableAll();
         }
+        disableAll(!yourTurn);
     }
 
     @FXML
@@ -272,7 +407,7 @@ public class TurnSceneController implements SceneController{
                 imageView.setImage(getSceneProxy().getMarbleImage(market[i][j]));
             }
         }
-        slideMarble.setImage(getSceneProxy().getMarbleImage(match.getSideMarble()));
+        slideMarble.setImage(getSceneProxy().getMarbleImage(getClientController().getMatch().getSideMarble()));
 
         for (Node child : marketPane.getChildren()) {
             if(!child.getId().equals(marketGrid.getId()))
@@ -286,7 +421,7 @@ public class TurnSceneController implements SceneController{
             for (Node child :  marketBufferBox.getChildren() )
                 ((ImageView) child).setImage(null);
             for (int i = 0; i < marketBuffer.size(); i++)
-                ((ImageView) marketBufferBox.getChildren().get(i)).setImage(marketBuffer.get(i).getType().asImage());
+                ((ImageView) marketBufferBox.getChildren().get(i)).setImage(new Image(getClass().getResourceAsStream("images/punchBoard/" + marketBuffer.get(i).getType().toString().toLowerCase() + ".png")));
         }
 
         else{
@@ -298,11 +433,9 @@ public class TurnSceneController implements SceneController{
                             for (Node n : enemyMarketBuffer.getChildren())
                                 ((ImageView) n).setImage(null);
                             for (int i = 0; i < marketBuffer.size(); i++)
-                                ((ImageView) enemyMarketBuffer.getChildren().get(i)).setImage(marketBuffer.get(i).getType().asImage());
+                                ((ImageView) enemyMarketBuffer.getChildren().get(i)).setImage(new Image(getClass().getResourceAsStream("images/punchBoard/" + marketBuffer.get(i).getType().toString().toLowerCase() + ".png")));
                         }
         }
-
-        message = new WarehouseInsertionMessage(player.getNickname(), List.of(new PhysicalResource(ResType.UNKNOWN, 0)));
     }
 
     public void updateWarehouse(String nickname, List<PhysicalResource> warehouse) {
@@ -316,7 +449,7 @@ public class TurnSceneController implements SceneController{
                 PhysicalResource resShelf = warehouse.get(i);
                 HBox shelf = (HBox) warehousePane.getChildren().get(i);
                 for (int j = 0; j < resShelf.getQuantity(); j++) {
-                    ((ImageView) shelf.getChildren().get(j)).setImage(resShelf.getType().asImage());
+                    ((ImageView) shelf.getChildren().get(j)).setImage(new Image(getClass().getResourceAsStream("images/punchBoard/" + resShelf.getType().toString().toLowerCase() + ".png")));
                 }
             }
         }
@@ -335,7 +468,7 @@ public class TurnSceneController implements SceneController{
                                 PhysicalResource resShelf = warehouse.get(i);
                                 HBox shelf = (HBox) ((Pane) child).getChildren().get(i);
                                 for (int j = 0; j < resShelf.getQuantity(); j++) {
-                                    ((ImageView) shelf.getChildren().get(j)).setImage(resShelf.getType().asImage());
+                                    ((ImageView) shelf.getChildren().get(j)).setImage(new Image(getClass().getResourceAsStream("images/punchBoard/" + resShelf.getType().toString().toLowerCase() + ".png")));
                                 }
                             }
 

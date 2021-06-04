@@ -11,8 +11,4 @@ public class RematchPhaseSceneController implements SceneController{
         getSceneProxy().setRematchPhaseSceneController(this);
     }
 
-    @Override
-    public void disableAll() {
-        basePane.setDisable(true);
-    }
 }
