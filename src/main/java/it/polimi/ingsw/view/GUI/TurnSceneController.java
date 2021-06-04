@@ -200,22 +200,6 @@ public class TurnSceneController implements SceneController{
             }
     }
 
-
-    @FXML
-    public void resourceSelected(MouseEvent mouseEvent) {
-        ImageView imageView = (ImageView) mouseEvent.getSource();
-        int index = marketBufferBox.getChildren().indexOf(imageView);
-        if(index > player.getMarketBuffer().size()-1)
-            return;
-        for (Node child : marketBufferBox.getChildren())
-            child.setEffect(null);
-        imageView.setEffect(new Glow(0.5));
-        tempResource = player.getMarketBuffer().get(index).getType();
-        System.out.println("set tempResource = "+ tempResource);
-       // disableAllMinus("warehousePane");
-
-    }
-
     @FXML
     public void clickOnWarehouse(MouseEvent mouseEvent) {
         ImageView clicked = (ImageView) mouseEvent.getSource();
