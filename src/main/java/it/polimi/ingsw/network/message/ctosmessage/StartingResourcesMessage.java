@@ -46,7 +46,13 @@ public class StartingResourcesMessage extends CtoSMessage {
 
     @Override
     public boolean isSomethingNull() {
-        return getNickname() == null || resources == null;
+        if(getNickname() == null || resources == null)
+            return true;
+        for(PhysicalResource res : resources)
+            if (res.getType() == null)
+                return true;
+
+        return false;
     }
 
     /**

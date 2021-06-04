@@ -45,7 +45,7 @@
                   <Image url="@../images/punchBoard/marketBuffer.jpg" />
                </image>
             </ImageView>
-            <HBox id="marketBuffer" fx:id="marketBufferBox" layoutX="76.20450973510742" layoutY="3.0" prefHeight="74.0" prefWidth="277.0">
+            <HBox id="marketBufferBox" fx:id="marketBufferBox" layoutX="76.20450973510742" layoutY="3.0" prefHeight="74.0" prefWidth="277.0">
                <children>
                   <ImageView id="firstBufferRes" fitHeight="74.0" fitWidth="69.0" onDragDetected="#dragBufferResource" onDragDone="#dragBufferResourceDone" pickOnBounds="true" preserveRatio="true">
                      <cursor>

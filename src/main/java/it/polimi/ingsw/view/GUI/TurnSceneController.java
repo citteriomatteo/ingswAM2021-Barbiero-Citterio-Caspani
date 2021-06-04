@@ -92,16 +92,128 @@ public class TurnSceneController implements SceneController{
         }
 
         updateHandLeaders(player.getNickname(), player.getHandLeaders());
-        updateMarketBuffer(getClient().getNickname(), player.getMarketBuffer());
+        updateMarketBuffer(player.getNickname(), player.getMarketBuffer());
 
         for (LightPlayer player1 : match.getLightPlayers())
             updateWarehouse(player1.getNickname(), player1.getWarehouse());
     }
 
+    public void disableAll(boolean value) {
+        basePane.setDisable(value);
+        if(value) {
+            marketPane.setDisable(false);
+            cardGrid.setDisable(false);
+        }
+    }
 
-    @Override
-    public void disableAll() {
-        basePane.setDisable(true);
+    public void marketActionPhaseDisables(){
+        marketPane.setDisable(true);
+        cardGrid.setDisable(true);
+
+        //ids of the elements to keep enabled
+        List<String> importantIds = new ArrayList<>();
+        importantIds.addAll(List.of("warehousePane","activeLeaders"));
+
+        keepEnabledOnly(importantIds);
+
+        for(Node n : myPane.getChildren())
+            //putting visible the labels for the white marble conversions
+            if(("firstConversionCount").equals(n.getId()) || ("secondConversionCount").equals(n.getId()))
+                n.setVisible(true);
+    }
+
+    public void resourcesPlacementPhaseDisables(){
+        marketPane.setDisable(true);
+        cardGrid.setDisable(true);
+
+        //ids of the elements to keep enabled
+        List<String> importantIds = new ArrayList<>(List.of("warehousePane", "marketBufferBox"));
+
+        keepEnabledOnly(importantIds);
+
+        for(Node n : myPane.getChildren())
+            //putting back invisible the labels for the white marble conversions
+            if(("firstConversionCount").equals(n.getId()) || ("secondConversionCount").equals(n.getId()))
+                n.setVisible(false);
+
+
+    }
+
+    public void buyDevActionPhaseDisables(){
+        marketPane.setDisable(true);
+        cardGrid.setDisable(true);
+
+        //ids of the elements to keep enabled
+        List<String> importantIds = new ArrayList<>(List.of("warehousePane", "strongbox"));
+
+        keepEnabledOnly(importantIds);
+
+    }
+
+    public void placeDevCardPhaseDisables(){
+        marketPane.setDisable(true);
+        cardGrid.setDisable(true);
+
+        //ids of the elements to keep enabled
+        List<String> importantIds = new ArrayList<>(List.of("warehousePane", "firstDevSlot", "secondDevSlot", "thirdDevSlot"));
+
+        keepEnabledOnly(importantIds);
+    }
+
+    public void productionActionPhaseDisables(){
+        marketPane.setDisable(true);
+        cardGrid.setDisable(true);
+
+        //ids of the elements to keep enabled
+        List<String> importantIds = new ArrayList<>(List.of("warehousePane", "firstDevSlot", "secondDevSlot", "thirdDevSlot"));
+
+        keepEnabledOnly(importantIds);
+
+    }
+
+    public void endTurnPhaseDisables(){
+        marketPane.setDisable(true);
+        cardGrid.setDisable(true);
+
+        //ids of the elements to keep enabled
+        List<String> importantIds = new ArrayList<>(List.of("warehousePane", "firstDevSlot", "secondDevSlot", "thirdDevSlot"));
+
+        keepEnabledOnly(importantIds);
+
+    }
+
+    /**
+     * This method keeps enabled only the requested elements and disables everything else.
+     * @param ids list of chosen elements' ids
+     */
+    public void keepEnabledOnly(List<String> ids){
+        ids.addAll(List.of("exitButton","confirmButton"));
+        System.out.println("elems to keep enabled on the current state ("+getClientController().getCurrentState()+"): "+ids);
+        for(Node n : myPane.getChildren())
+            if(!ids.contains(n.getId())) {
+                n.setDisable(true);
+                System.out.println(n+" DISABLED");
+            }
+            else {
+                n.setDisable(false);
+                System.out.println(n+" ENABLED");
+            }
+    }
+
+
+    @FXML
+    public void resourceSelected(MouseEvent mouseEvent) {
+        ImageView imageView = (ImageView) mouseEvent.getSource();
+        int index = marketBufferBox.getChildren().indexOf(imageView);
+        if(index > player.getMarketBuffer().size()-1)
+            return;
+        for (Node child : marketBufferBox.getChildren())
+            child.setEffect(null);
+        imageView.setEffect(new Glow(0.5));
+        tempResource = player.getMarketBuffer().get(index).getType();
+        System.out.println("set tempResource = "+ tempResource);
+       // disableAllMinus("warehousePane");
+
     }
 
     @FXML
@@ -164,13 +276,12 @@ public class TurnSceneController implements SceneController{
     public void yourTurn(boolean yourTurn) {
         if (yourTurn) {
             informationsField.setText("It's your turn! Make a move");
-            basePane.setDisable(false);
         }
 
-        else {
+        else{
             informationsField.setText("Wait your turn");
-            disableAll();
         }
+        disableAll(!yourTurn);
     }
 
     @FXML
@@ -186,7 +297,7 @@ public class TurnSceneController implements SceneController{
 
         node.setEffect(new Glow(1));
 
-        message = new MarketDrawMessage(getClient().getNickname(), false, numColumn);
+        message = new MarketDrawMessage(player.getNickname(), false, numColumn);
     }
 
     @FXML
@@ -202,20 +313,20 @@ public class TurnSceneController implements SceneController{
 
         node.setEffect(new Glow(1));
 
-        message = new MarketDrawMessage(getClient().getNickname(), true, numRow);
+        message = new MarketDrawMessage(player.getNickname(), true, numRow);
     }
 
     @FXML
     public void sendMessage() {
         if(getClientController().getCurrentState().equals(StateName.END_TURN))
-            (new EndTurnMessage(getClient().getNickname())).send();
+            (new EndTurnMessage(player.getNickname())).send();
         else
             if(message != null)
                 message.send();
     }
 
     public void updateHandLeaders(String nickname, List<String> newHandLeaders) {
-        if(nickname.equals(getClient().getNickname())){
+        if(nickname.equals(player.getNickname())){
             for (Node child : handLeaders.getChildren())
                 ((ImageView) child).setImage(null);
             for (int i=0; i < newHandLeaders.size(); i++) {
@@ -241,7 +352,7 @@ public class TurnSceneController implements SceneController{
     }
 
     public void updateActiveLeaders(String nickname, List<String> newActiveLeaders) {
-        if(nickname.equals(getClient().getNickname())){
+        if(nickname.equals(player.getNickname())){
             for (Node child : activeLeaders.getChildren())
                 ((ImageView) child).setImage(null);
             for (int i=0; i < newActiveLeaders.size(); i++) {
@@ -284,7 +395,8 @@ public class TurnSceneController implements SceneController{
     }
 
     public void updateMarketBuffer(String nickname, List<PhysicalResource> marketBuffer) {
-        if(nickname.equals(getClient().getNickname())) {
+        System.out.println("from buffer: "+marketBuffer);
+        if(nickname.equals(player.getNickname())) {
             for (Node child :  marketBufferBox.getChildren() )
                 ((ImageView) child).setImage(null);
             for (int i = 0; i < marketBuffer.size(); i++)
@@ -308,7 +420,7 @@ public class TurnSceneController implements SceneController{
     }
 
     public void updateWarehouse(String nickname, List<PhysicalResource> warehouse) {
-        if(nickname.equals(getClient().getNickname())){
+        if(nickname.equals(player.getNickname())){
             for (Node box : warehousePane.getChildren()){
                 HBox shelf = (HBox) box;
                 for (Node place : shelf.getChildren())
@@ -346,7 +458,7 @@ public class TurnSceneController implements SceneController{
     }
 
     public void updateFaithMarker(String nickname, int faithMarker) {
-        if(nickname.equals(getClient().getNickname())){
+        if(nickname.equals(player.getNickname())){
             for(Node cell : faithPath.getChildren())
                 cell.setVisible(false);
 
@@ -409,7 +521,7 @@ public class TurnSceneController implements SceneController{
         MenuItem node = (MenuItem) actionEvent.getSource();
         int numLeader = Integer.parseInt((String) node.getUserData());
 
-        message = new LeaderActivationMessage(getClient().getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()));
+        message = new LeaderActivationMessage(player.getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()));
     }
 
     @FXML
@@ -417,7 +529,7 @@ public class TurnSceneController implements SceneController{
         MenuItem node = (MenuItem) actionEvent.getSource();
         int numLeader = Integer.parseInt((String) node.getUserData());
 
-        message = new LeaderDiscardingMessage(getClient().getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()));
+        message = new LeaderDiscardingMessage(player.getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()));
 
     }
 
@@ -470,6 +582,7 @@ public class TurnSceneController implements SceneController{
 
     public void acceptDrop(DragEvent dragEvent) {
         dragEvent.acceptTransferModes(TransferMode.MOVE);
+        System.out.println("accepted");
 
         dragEvent.consume();
     }
@@ -481,6 +594,4 @@ public class TurnSceneController implements SceneController{
 
         dragEvent.consume();
     }
-
-
 }
