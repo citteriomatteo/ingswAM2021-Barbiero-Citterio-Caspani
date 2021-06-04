@@ -1,8 +1,8 @@
 package it.polimi.ingsw.view.GUI;
 
+import it.polimi.ingsw.controller.StateName;
 import it.polimi.ingsw.model.essentials.Card;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
-import it.polimi.ingsw.model.essentials.ResType;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import static it.polimi.ingsw.network.client.Client.getClient;
+import static it.polimi.ingsw.view.ClientController.getClientController;
 import static java.util.Map.entry;
 
 
@@ -90,11 +91,11 @@ public class SceneProxy {
                 break;
             imageStream = getClass().getResourceAsStream("images/" +
                         ((cardId.startsWith("L")) ? "leaderCards/" : "developmentCards/front/") + cardId +".png");
-        if (imageStream != null) {
-            image = new Image(imageStream);
-            idToImageMap.put(cardId, image);
-            imageToIdMap.put(image, cardId);
-        }
+            if (imageStream != null) {
+                image = new Image(imageStream);
+                idToImageMap.put(cardId, image);
+                imageToIdMap.put(image, cardId);
+            }
 
         }
 
@@ -110,6 +111,7 @@ public class SceneProxy {
                 entry('g', new Image(getClass().getResourceAsStream("images/punchBoard/greyMarble.png"))),
                 entry('p', new Image(getClass().getResourceAsStream("images/punchBoard/purpleMarble.png")))
         );
+
     }
 
     /**
@@ -161,8 +163,55 @@ public class SceneProxy {
         });
     }
 
-    public void disableAll(){
-        actualController.disableAll();
+    public void disableAll(boolean value){
+        Platform.runLater(()-> {
+            turnSceneController.disableAll(value);
+        });
+    }
+
+
+    public void disableOnState(){
+        StateName currentState = getClientController().getCurrentState();
+
+        switch(currentState){
+            case WAITING_FOR_TURN:
+                disableAll(true);
+                break;
+            case STARTING_TURN:
+                disableAll(false);
+                break;
+            case MARKET_ACTION:
+                Platform.runLater(()-> {
+                    turnSceneController.marketActionPhaseDisables();
+                });
+                break;
+            case RESOURCES_PLACEMENT:
+                Platform.runLater(()-> {
+                    turnSceneController.resourcesPlacementPhaseDisables();
+                });
+                break;
+            case BUY_DEV_ACTION:
+                Platform.runLater(()-> {
+                    turnSceneController.buyDevActionPhaseDisables();
+                });
+                break;
+            case PLACE_DEV_CARD:
+                Platform.runLater(()-> {
+                    turnSceneController.placeDevCardPhaseDisables();
+                });
+                break;
+            case PRODUCTION_ACTION:
+                Platform.runLater(()-> {
+                    turnSceneController.productionActionPhaseDisables();
+                });
+                break;
+            case END_TURN:
+                Platform.runLater(()-> {
+                    turnSceneController.endTurnPhaseDisables();
+                });
+                break;
+        }
+
     }
 
     public void loadLeaderCards(List<String> leaders){

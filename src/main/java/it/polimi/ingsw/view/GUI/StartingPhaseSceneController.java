@@ -164,8 +164,5 @@ public class StartingPhaseSceneController implements SceneController{
         errorLabel.setText(errorMessage);
         errorLabel.setOpacity(1);
     }
-    @Override
-    public void disableAll() {
-        basePane.setDisable(true);
-    }
+
 }

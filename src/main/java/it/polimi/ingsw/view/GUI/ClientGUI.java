@@ -69,7 +69,7 @@ public class ClientGUI implements View {
     public void drawStartingPhaseDone() {
         getSceneProxy().changeScene(SceneName.GameScene);
         getSceneProxy().loadStartingTurn();
-        getSceneProxy().disableAll();
+        getSceneProxy().disableAll(true);
     }
 
     @Override
@@ -89,42 +89,43 @@ public class ClientGUI implements View {
     public void drawYourTurnLayout(boolean yourTurn) {
         getSceneProxy().changeScene(SceneName.GameScene);
         getSceneProxy().yourTurn(yourTurn);
+        getSceneProxy().disableOnState();
     }
 
     @Override
     public void drawWhiteMarbleConversionsLayout() {
-
+        getSceneProxy().disableOnState();
     }
 
     @Override
     public void drawResPlacementLayout() {
-
+        getSceneProxy().disableOnState();
     }
 
     @Override
     public void drawBuyDevCardLayout() {
-
+        getSceneProxy().disableOnState();
     }
 
     @Override
     public void drawPlaceDevCardLayout() {
-
+        getSceneProxy().disableOnState();
     }
 
     @Override
     public void drawProductionLayout() {
-
+        getSceneProxy().disableOnState();
     }
 
     @Override
     public void drawEndTurnLayout() {
         getSceneProxy().endTurnState();
-
+        getSceneProxy().disableOnState();
     }
 
     @Override
     public void drawEndMatchLayout() {
-
+        getSceneProxy().disableOnState();
     }
 
     @Override

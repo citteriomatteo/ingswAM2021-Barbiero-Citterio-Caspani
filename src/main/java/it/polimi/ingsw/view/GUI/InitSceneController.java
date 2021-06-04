@@ -55,8 +55,4 @@ public class InitSceneController implements SceneController{
         new NumPlayersMessage(getClient().getNickname(), numPlayers).send();
     }
 
-    @Override
-    public void disableAll() {
-        basePane.setDisable(true);
-    }
 }
