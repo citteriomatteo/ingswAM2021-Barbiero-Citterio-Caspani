@@ -1904,7 +1904,10 @@
                               <Image url="@../images/punchBoard/coin.png" />
                            </image>
                         </ImageView>
-                        <Label prefHeight="82.0" prefWidth="103.0" text="Label" />
+                        <Label prefHeight="82.0" prefWidth="103.0" text="x0" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font></Label>
                      </children>
                   </HBox>
                   <HBox id="servant" prefHeight="100.0" prefWidth="200.0">
@@ -1914,7 +1917,10 @@
                               <Image url="@../images/punchBoard/servant.png" />
                            </image>
                         </ImageView>
-                        <Label prefHeight="82.0" prefWidth="103.0" text="Label" />
+                        <Label prefHeight="82.0" prefWidth="103.0" text="x0" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font></Label>
                      </children>
                   </HBox>
                   <HBox id="stone" prefHeight="100.0" prefWidth="200.0">
@@ -1924,7 +1930,10 @@
                               <Image url="@../images/punchBoard/stone.png" />
                            </image>
                         </ImageView>
-                        <Label prefHeight="82.0" prefWidth="103.0" text="Label" />
+                        <Label prefHeight="82.0" prefWidth="103.0" text="x0" textFill="#f7f7f7">
+                           <font>
+                              <Font size="24.0" />
+                           </font></Label>
                      </children>
                   </HBox>
                   <HBox id="shield" prefHeight="100.0" prefWidth="200.0">
@@ -1934,7 +1943,10 @@
                               <Image url="@../images/punchBoard/shield.png" />
                            </image>
                         </ImageView>
-                        <Label prefHeight="82.0" prefWidth="103.0" text="Label" />
+                        <Label prefHeight="82.0" prefWidth="103.0" text="x0" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font></Label>
                      </children>
                   </HBox>
                </children>

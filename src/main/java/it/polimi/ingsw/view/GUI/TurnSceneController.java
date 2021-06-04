@@ -21,7 +21,9 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static it.polimi.ingsw.network.client.Client.getClient;
 import static it.polimi.ingsw.view.ClientController.getClientController;
@@ -50,7 +52,7 @@ public class TurnSceneController implements SceneController{
     private LightPlayer player;
     private Integer firstShelfToSwitch;
     private List<PhysicalResource> chosenResources = new ArrayList<>();
-    private List<PhysicalResource> paymentsFromWarehouse = new ArrayList<>();
+    private Map<Integer, PhysicalResource> paymentsFromWarehouse = new HashMap<>();
     private List<PhysicalResource> paymentsFromStrongbox = new ArrayList<>();
     private CtoSMessage message;
     private ImageView selectedCard;
@@ -651,7 +653,10 @@ public class TurnSceneController implements SceneController{
 
     @FXML
     public void acceptDrop(DragEvent dragEvent) {
-        dragEvent.acceptTransferModes(TransferMode.MOVE);
+        System.out.println(dragEvent.getGestureSource());
+        System.out.println(dragEvent.getSource());
+        if(!(((Node) dragEvent.getGestureSource()).getParent().getParent()).equals(((Node) dragEvent.getSource()).getParent().getParent()))
+            dragEvent.acceptTransferModes(TransferMode.MOVE);
 
         dragEvent.consume();
     }
@@ -683,7 +688,6 @@ public class TurnSceneController implements SceneController{
         boolean success;
         int numRes = 0;
         ImageView selectedPlace = (ImageView)dragEvent.getSource();
-        Image draggedImage = dragEvent.getDragboard().getImage();
         if(selectedPlace.getParent().isVisible()) {
             success = true;
 
@@ -698,11 +702,17 @@ public class TurnSceneController implements SceneController{
                 }
             }
 
-            PhysicalResource addedRes = new PhysicalResource(temporaryRes, numRes);
-            if(((Node) dragEvent.getGestureSource()).getParent().getParent().equals(warehousePane))
-                paymentsFromWarehouse.add(addedRes);
+            if(((Node) dragEvent.getGestureSource()).getParent().getParent().equals(warehousePane)) {
+                int numShelf = warehousePane.getChildren().indexOf((((Node) dragEvent.getGestureSource()).getParent()))+1;
+                if(paymentsFromWarehouse.containsKey(numShelf))
+                    paymentsFromWarehouse.replace(numShelf, new PhysicalResource(temporaryRes, paymentsFromWarehouse.get(numShelf).getQuantity() + 1));
+                else
+                    paymentsFromWarehouse.put(numShelf, new PhysicalResource(temporaryRes, 1));
+            }
             else if(((Node) dragEvent.getGestureSource()).getParent().getParent().equals(strongBox))
-                paymentsFromStrongbox.add(addedRes);
+                paymentsFromStrongbox.add(new PhysicalResource(temporaryRes, numRes));
+
+            message = new PaymentsMessage(player.getNickname(), paymentsFromStrongbox, paymentsFromWarehouse);
 
         }
         else

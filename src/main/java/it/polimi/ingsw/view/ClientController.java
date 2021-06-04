@@ -214,6 +214,7 @@ public class ClientController
 
     public void setLightMatch(Summary summary){
         match = new LightMatch(summary, this.view);
+
     }
 
     public boolean printCardInfo(String request){

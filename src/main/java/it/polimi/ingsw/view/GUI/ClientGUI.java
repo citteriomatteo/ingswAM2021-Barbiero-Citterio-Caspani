@@ -163,6 +163,10 @@ public class ClientGUI implements View {
                 getSceneProxy().leadersChoiceError(errMessage);
                 getSceneProxy().leadersChoiceError(errMessage);
                 break;
+            case RESOURCES_PLACEMENT:
+                getSceneProxy().updateMarketBuffer(getClient().getNickname(), match.getLightPlayer(getClient().getNickname()).getMarketBuffer());
+                getSceneProxy().updateWarehouse(getClient().getNickname(), match.getLightPlayer(getClient().getNickname()).getWarehouse());
+                break;
             default:
                 getSceneProxy().printRetry(errMessage);
                 break;
