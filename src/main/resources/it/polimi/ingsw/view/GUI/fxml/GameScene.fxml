@@ -265,7 +265,7 @@
                <children>
                   <HBox id="shelf1" layoutX="253.0" layoutY="58.0" prefHeight="18.0" prefWidth="12.0" spacing="5.0" translateY="10.0">
                      <children>
-                        <ImageView id="firstRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#clickOnWarehouse" pickOnBounds="true" preserveRatio="true">
+                        <ImageView id="firstRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></ImageView>
@@ -273,11 +273,11 @@
                   </HBox>
                   <HBox id="shelf2" layoutX="240.0" layoutY="86.0" prefHeight="18.0" prefWidth="39.0" spacing="5.0" translateY="10.0">
                      <children>
-                        <ImageView id="firstRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#clickOnWarehouse" pickOnBounds="true" preserveRatio="true">
+                        <ImageView id="firstRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></ImageView>
-                        <ImageView id="secondRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#clickOnWarehouse" pickOnBounds="true" preserveRatio="true">
+                        <ImageView id="secondRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></ImageView>
@@ -285,17 +285,17 @@
                   </HBox>
                   <HBox id="shelf3" layoutX="229.0" layoutY="121.0" prefHeight="18.0" prefWidth="48.0" spacing="4.0" translateY="10.0">
                      <children>
-                        <ImageView id="firstRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#clickOnWarehouse" pickOnBounds="true" preserveRatio="true">
+                        <ImageView id="firstRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </ImageView>
-                        <ImageView id="secondRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#clickOnWarehouse" pickOnBounds="true" preserveRatio="true">
+                        <ImageView id="secondRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </ImageView>
-                        <ImageView id="thirdRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#clickOnWarehouse" pickOnBounds="true" preserveRatio="true">
+                        <ImageView id="thirdRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -304,14 +304,14 @@
                   </HBox>
                   <HBox id="shelf4" opacity="0.0" prefHeight="24.0" prefWidth="55.0" spacing="12.0">
                      <children>
-                        <ImageView id="firstRes" fitHeight="19.0" fitWidth="20.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#clickOnWarehouse" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView id="secondRes" fitHeight="19.0" fitWidth="20.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#clickOnWarehouse" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="firstRes" fitHeight="19.0" fitWidth="20.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="secondRes" fitHeight="19.0" fitWidth="20.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </HBox>
                   <HBox id="shelf5" disable="true" layoutX="92.00000381469727" layoutY="3.0" opacity="0.0" prefHeight="22.0" prefWidth="55.0" spacing="12.0">
                      <children>
-                        <ImageView id="firstRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#clickOnWarehouse" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView id="secondRes" fitHeight="16.0" fitWidth="21.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#clickOnWarehouse" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="firstRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="secondRes" fitHeight="16.0" fitWidth="21.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </HBox>
                </children>

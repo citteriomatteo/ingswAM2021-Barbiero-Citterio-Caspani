@@ -157,7 +157,7 @@ public class StartingPhaseSceneController implements SceneController{
                 .collect(Collectors.toList());
         getClientController().getMatch().setMarketBuffer(getClient().getNickname(), chosenResources);
         getSceneProxy().changeScene(SceneName.GameScene);
-        getSceneProxy().loadStartingTurn();
+        getSceneProxy().loadStartingMatch();
     }
 
     public void leadersChoiceError(String errorMessage){

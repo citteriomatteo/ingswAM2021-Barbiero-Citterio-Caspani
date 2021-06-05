@@ -20,10 +20,7 @@ import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static it.polimi.ingsw.network.client.Client.getClient;
 import static it.polimi.ingsw.view.ClientController.getClientController;
@@ -68,6 +65,7 @@ public class TurnSceneController implements SceneController{
 
     private CtoSMessage message;
 
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CONSTRUCTOR %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     public TurnSceneController() {
         getSceneProxy().setTurnSceneController(this);
@@ -76,6 +74,8 @@ public class TurnSceneController implements SceneController{
 
         initializeTemporaryVariables();
     }
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%% UTILITY FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     private void initializeTemporaryVariables(){
         temporaryRes = null;
@@ -87,8 +87,25 @@ public class TurnSceneController implements SceneController{
         selectedCard = null;
     }
 
+    /**
+     * Returns the ordinal number of the shelf which contains the 'clicked' Imageview
+     * @param clicked the place you want to obtain the related shelf
+     * @return the ordinal number of the shelf which contains the 'clicked' Imageview or 0 if it is not part of a shelf
+     */
+    private int searchShelf(ImageView clicked){
+        return warehousePane.getChildren().indexOf(clicked.getParent())+1;
+    }
 
-    public void loadStartingTurn() {
+    /**
+     * Sets the text on the button Confirm to EndTurn
+     */
+    public void endTurnState() {
+        confirmButton.setText("EndTurn");
+    }
+
+//%%%%%%%%%%%%%%%%%%%%%% ONE TIME FUNCTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    public void loadStartingMatch() {
         turnSceneLoaded = true;
         ImageView imageView;
         StackPane stackPane;
@@ -140,12 +157,52 @@ public class TurnSceneController implements SceneController{
         }
     }
 
+//%%%%%%%%%%%%%%%%%%%%%% DISABLE FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
     public void disableAll(boolean value) {
         basePane.setDisable(value);
         if(value) {
             marketPane.setDisable(false);
             cardGrid.setDisable(false);
         }
+    }
+
+    /**
+     * This method keeps enabled only the requested elements inside the player pane and disables everything else inside the pane.
+     * Confirm button always remain activated
+     * @param ids list of chosen elements' ids
+     */
+    public void keepEnabledOnly(List<String> ids){
+        ids.add("confirmButton");
+        for(Node n : myPane.getChildren())
+            n.setDisable(!ids.contains(n.getId()));
+    }
+
+    /**
+     * Disables all the nodes in the scene minus the one with the given id, the node should be among the direct children
+     * of the basePane or myPane, otherwise every node will be disabled.
+     * Warehouse pane will never be disabled
+     * @param id the id of the node you want to not disable
+     */
+    public void disableAllMinus(String id){
+        //todo: doesn't work
+        boolean found = false;
+        for(Node n : basePane.getChildren())
+            if(!id.equals(n.getId())) {
+                n.setDisable(true);
+                found = true;
+            }
+            else
+                n.setDisable(false);
+
+        if(!found) {
+            myPane.setDisable(false);
+            for (Node n : myPane.getChildren()) {
+                if (!id.equals(n.getId()))
+                    n.setDisable(true);
+            }
+        }
+        warehousePane.setDisable(false);
     }
 
     public void marketActionPhaseDisables(){
@@ -177,8 +234,6 @@ public class TurnSceneController implements SceneController{
             //putting back invisible the labels for the white marble conversions
             if(("firstConversionCount").equals(n.getId()) || ("secondConversionCount").equals(n.getId()))
                 n.setVisible(false);
-
-
     }
 
     public void buyDevActionPhaseDisables(){
@@ -191,7 +246,6 @@ public class TurnSceneController implements SceneController{
         List<String> importantIds = new ArrayList<>(List.of("warehousePane", "strongbox"));
 
         keepEnabledOnly(importantIds);
-
     }
 
     public void placeDevCardPhaseDisables(){
@@ -226,18 +280,23 @@ public class TurnSceneController implements SceneController{
 
     }
 
-    /**
-     * This method keeps enabled only the requested elements and disables everything else.
-     * @param ids list of chosen elements' ids
-     */
-    public void keepEnabledOnly(List<String> ids){
-        ids.add("confirmButton");
-        for(Node n : myPane.getChildren())
-            n.setDisable(!ids.contains(n.getId()));
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%  START / END TURN FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+    public void yourTurn(boolean yourTurn) {
+        if (yourTurn)
+            informationField.setText("It's your turn! Make a move");
+        else
+            informationField.setText("Wait your turn");
+
+        confirmButton.setText("confirm");
+        disableAll(!yourTurn);
+        //todo: when the turn starts i can also activate a production
     }
 
     @FXML
-    public void clickOnWarehouse(MouseEvent mouseEvent) {
+    public void switchShelf(MouseEvent mouseEvent) {
         ImageView clicked = (ImageView) mouseEvent.getSource();
         int shelf = searchShelf(clicked);
         if (shelf > 3 && shelf > player.getWarehouse().size()) {
@@ -264,75 +323,38 @@ public class TurnSceneController implements SceneController{
 
     }
 
-    private int searchShelf(ImageView clicked){
-        return warehousePane.getChildren().indexOf(clicked.getParent())+1;
-    }
+    @FXML
+    public void activateLeader(ActionEvent actionEvent) {
+        MenuItem node = (MenuItem) actionEvent.getSource();
+        int numLeader = Integer.parseInt((String) node.getUserData());
 
-    /**
-     * Sets the nodes in the scene correctly disabled or not, respect to the current state
-     */
-    private void returnToCurrentState(){
-        //todo: return to current state
-    }
-
-    /**
-     * Disables all the nodes in the scene minus the one with the given id, the node should be among the direct children
-     * of the basePane or myPane, otherwise every node will be disabled.
-     * Warehouse pane will never be disabled
-     * @param id the id of the node you want to not disable
-     */
-    public void disableAllMinus(String id){
-        boolean found = false;
-        for(Node n : basePane.getChildren())
-            if(!id.equals(n.getId())) {
-                n.setDisable(true);
-                found = true;
-            }
-            else
-                n.setDisable(false);
-
-        if(!found) {
-            myPane.setDisable(false);
-            for (Node n : myPane.getChildren()) {
-                if (!id.equals(n.getId()))
-                    n.setDisable(true);
-            }
-        }
-        warehousePane.setDisable(false);
-    }
-
-
-    public void yourTurn(boolean yourTurn) {
-        if (yourTurn)
-            informationField.setText("It's your turn! Make a move");
-        else
-            informationField.setText("Wait your turn");
-
+        message = new LeaderActivationMessage(player.getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()));
         confirmButton.setText("confirm");
-        disableAll(!yourTurn);
     }
 
     @FXML
+    public void discardLeader(ActionEvent actionEvent) {
+        MenuItem node = (MenuItem) actionEvent.getSource();
+        int numLeader = Integer.parseInt((String) node.getUserData());
+
+        message = new LeaderDiscardingMessage(player.getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()));
+        confirmButton.setText("confirm");
+
+    }
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%% MARKET DRAW %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    @FXML
     public void columnCall(MouseEvent mouseEvent) {
-        Node node = (Node) mouseEvent.getSource() ;
-        String data = (String) node.getUserData();
-        int numColumn = Integer.parseInt(data);
-
-        for (Node child : marketPane.getChildren()) {
-            if(!child.getId().equals(marketGrid.getId()))
-                child.setEffect(null);
-        }
-
-        node.setEffect(new Glow(1));
+        int numColumn = marketDraw(mouseEvent);
 
         message = new MarketDrawMessage(player.getNickname(), false, numColumn);
     }
 
-    @FXML
-    public void rowCall(MouseEvent mouseEvent) {
-        Node node = (Node) mouseEvent.getSource() ;
+    private int marketDraw(MouseEvent mouseEvent) {
+        Node node = (Node) mouseEvent.getSource();
         String data = (String) node.getUserData();
-        int numRow = Integer.parseInt(data);
+        int numSelected = Integer.parseInt(data);
 
         for (Node child : marketPane.getChildren()) {
             if(!child.getId().equals(marketGrid.getId()))
@@ -341,32 +363,199 @@ public class TurnSceneController implements SceneController{
 
         node.setEffect(new Glow(1));
 
-        message = new MarketDrawMessage(player.getNickname(), true, numRow);
+        return numSelected;
     }
 
     @FXML
-    public void sendMessage() {
-        if(getClientController().getCurrentState().equals(StateName.END_TURN) &&
-                ( message==null ||
-                        (!message.getType().equals(CtoSMessageType.SWITCH_SHELF) &&
-                         !message.getType().equals(CtoSMessageType.LEADER_DISCARDING) &&
-                         !message.getType().equals(CtoSMessageType.LEADER_ACTIVATION)
-                        )
-                ) )
-            (new EndTurnMessage(player.getNickname())).send();
+    public void rowCall(MouseEvent mouseEvent) {
+        int numRow = marketDraw(mouseEvent);
+
+        message = new MarketDrawMessage(player.getNickname(), true, numRow);
+    }
+
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%% DEV CARD BUY %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    @FXML
+    public void drawDevCard(MouseEvent mouseEvent) {
+        ImageView card = (ImageView) mouseEvent.getSource();
+        if(selectedCard != null) {
+            selectedCard.setEffect(null);
+            selectedCard.setFitWidth(card.getFitWidth());
+            selectedCard.setFitHeight(card.getFitHeight());
+        }
+
+        if(!card.equals(selectedCard)) {
+            selectedCard = card;
+            card.setEffect(new Glow(0.3));
+            card.setFitWidth(card.getFitWidth() + 5);
+            card.setFitHeight(card.getFitHeight() + 5);
+        }
+
+        int rowIndex, columnIndex;
+        rowIndex = GridPane.getRowIndex(card.getParent());
+        columnIndex = GridPane.getColumnIndex(card.getParent());
+
+        message = new DevCardDrawMessage(player.getNickname(), cardGrid.getRowCount()-rowIndex, columnIndex + 1);
+        mouseEvent.consume();
+
+    }
+
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PRODUCTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+    @FXML
+    public void produce(MouseEvent mouseEvent) {
+        Node node = (Node) mouseEvent.getSource();
+        String card = ("basicProduction").equals(node.getId()) ? "basicProduction" : getSceneProxy().getCardID(((ImageView) node).getImage());
+        if (cardsToProduce.contains(card)) {
+            cardsToProduce.remove(card);
+            node.setEffect(null);
+
+            if(!card.equals("basicProduction"))
+                ((ImageView) node).setFitHeight(((ImageView) node).getFitHeight()-5);
+            ((ImageView) node).setFitWidth(((ImageView) node).getFitWidth()-5);
+        }
+        else {
+            cardsToProduce.add(card);
+            node.setEffect(new Glow(0.3));
+
+            if(!card.equals("basicProduction")) {
+                ((ImageView) node).setFitHeight(((ImageView) node).getFitHeight() + 5);
+                ((ImageView) node).setFitWidth(((ImageView) node).getFitWidth() + 5);
+            }
+        }
+
+        System.out.println(cardsToProduce);
+    }
+
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DRAG AND DROP %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    /**
+     * Starts a Drag and drop sequence for a resource (it is shared by Warehouse, Strongbox and MarketBuffer)
+     * @param mouseEvent the mouseEvent that starts the sequence
+     */
+    @FXML
+    public void dragResource(MouseEvent mouseEvent) {
+        ImageView resource = (ImageView) mouseEvent.getSource();
+        Dragboard db = resource.startDragAndDrop(TransferMode.MOVE);
+        temporaryRes = ResType.valueOfImage(resource.getImage());
+
+        ClipboardContent content = new ClipboardContent();
+        content.putImage(resource.getImage());
+        db.setContent(content);
+
+        //Avoid behind objects to detect this event
+        mouseEvent.consume();
+    }
+
+    @FXML
+    public void dropResourceWarehouse(DragEvent dragEvent) {
+        boolean success;
+        ImageView selectedPlace = (ImageView)dragEvent.getSource();
+        Image draggedImage = dragEvent.getDragboard().getImage();
+        if(selectedPlace.getImage() == null) {
+            success = true;
+
+            selectedPlace.setImage(draggedImage);
+            chosenResources.add(new PhysicalResource(temporaryRes, searchShelf(selectedPlace)));
+
+            message = new WarehouseInsertionMessage(player.getNickname(), chosenResources);
+
+        }
         else
-            if(message != null) {
-                message.send();
-                if(message.getType()==CtoSMessageType.SWITCH_SHELF) {
-                    SwitchShelfMessage shelfMessage = (SwitchShelfMessage)message;
-                    warehousePane.getChildren().get(shelfMessage.getShelf1()).setEffect(null);
-                    warehousePane.getChildren().get(shelfMessage.getShelf2()).setEffect(null);
+            success = false;
+
+        dragEvent.setDropCompleted(success);
+        dragEvent.consume();
+
+    }
+
+    /**
+     * Controls if the grandParent of the source is the same of the gesture source, if not -> the drop is acceptable
+     * @param dragEvent the relative dragEvent
+     */
+    @FXML
+    public void acceptDrop(DragEvent dragEvent) {
+        if(!(((Node) dragEvent.getGestureSource()).getParent().getParent()).equals(((Node) dragEvent.getSource()).getParent().getParent()))
+            dragEvent.acceptTransferModes(TransferMode.MOVE);
+
+        dragEvent.consume();
+    }
+
+    /**
+     * End the drag sequence for a sequence started from the market buffer or the Warehouse
+     * @param dragEvent the relative dragEvent
+     */
+    @FXML
+    public void dragResourceDone(DragEvent dragEvent) {
+        if (dragEvent.getTransferMode() == TransferMode.MOVE) {
+            ((ImageView) dragEvent.getGestureSource()).setImage(null);
+        }
+
+        dragEvent.consume();
+    }
+
+    /**
+     * End the drag sequence for a sequence started from the strongbox
+     * @param dragEvent the relative dragEvent
+     */
+    @FXML
+    public void dragStrongBoxResourceDone(DragEvent dragEvent) {
+        if (dragEvent.getTransferMode() == TransferMode.MOVE) {
+            HBox hBox = (HBox) ((Node) dragEvent.getGestureSource()).getParent();
+            Text text = (Text) hBox.getChildren().get(1);
+            int newNum = Integer.parseInt(text.getText()) - 1;
+            text.setText("x" + newNum);
+        }
+
+        dragEvent.consume();
+    }
+
+    @FXML
+    public void dropResourcePayments(DragEvent dragEvent) {
+        boolean success;
+        int numRes = 0;
+        ImageView selectedPlace = (ImageView)dragEvent.getSource();
+        if(selectedPlace.getParent().isVisible()) {
+            success = true;
+
+            VBox paymentsResources = (VBox) paymentsPane.getChildren().get(1);
+
+            for(Node n : paymentsResources.getChildren()){
+                HBox res = (HBox) n;
+                if(temporaryRes.toString().toLowerCase().equals(res.getId())){
+                    Label resLabel = (Label) res.getChildren().get(1);
+                    numRes = Integer.parseInt(resLabel.getText().substring(1))+1;
+                    resLabel.setText("x" + numRes);
                 }
-                message = null;
             }
 
-        initializeTemporaryVariables();
+            if(((Node) dragEvent.getGestureSource()).getParent().getParent().equals(warehousePane)) {
+                int numShelf = warehousePane.getChildren().indexOf((((Node) dragEvent.getGestureSource()).getParent()))+1;
+                if(paymentsFromWarehouse.containsKey(numShelf))
+                    paymentsFromWarehouse.replace(numShelf, new PhysicalResource(temporaryRes, paymentsFromWarehouse.get(numShelf).getQuantity() + 1));
+                else
+                    paymentsFromWarehouse.put(numShelf, new PhysicalResource(temporaryRes, 1));
+            }
+            else if(((Node) dragEvent.getGestureSource()).getParent().getParent().equals(strongBox))
+                paymentsFromStrongbox.add(new PhysicalResource(temporaryRes, numRes));
+
+            message = new PaymentsMessage(player.getNickname(), paymentsFromStrongbox, paymentsFromWarehouse);
+
+        }
+        else
+            success = false;
+
+        dragEvent.setDropCompleted(success);
+        dragEvent.consume();
+
     }
+
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% UPDATES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     public void updateHandLeaders(String nickname, List<String> newHandLeaders) {
         if(nickname.equals(player.getNickname())){
@@ -378,45 +567,53 @@ public class TurnSceneController implements SceneController{
         }
         else {
             for(Node enemyPane : enemiesBox.getChildren())
-                if(nickname.equals(enemyPane.getId()))
+                if(nickname.equals(enemyPane.getId())) {
                     for (Node child : ((Pane) enemyPane).getChildren())
-                        if(("handLeaders").equals(child.getId())){
-                            HBox leaders = (HBox) child;
-                            if(newHandLeaders.size() < leaders.getChildren().size())
-                                for(Node n : leaders.getChildren()) {
-                                    ImageView leader = (ImageView) n;
-                                    if(leader.getImage() != null) {
-                                        leader.setImage(null);
-                                        break;
-                                    }
-                                }
+                        if (("handLeaders").equals(child.getId())) {
+                            clearHandLeadersImages(newHandLeaders, (HBox) child);
+                            return;
                         }
+                }
         }
+    }
+
+    private void clearHandLeadersImages(List<String> newHandLeaders, HBox handLeaders) {
+        if(newHandLeaders.size() < handLeaders.getChildren().size())
+            for(Node n : handLeaders.getChildren()) {
+                ImageView leader = (ImageView) n;
+                if(leader.getImage() != null) {
+                    leader.setImage(null);
+                    return;
+                }
+            }
     }
 
     public void updateActiveLeaders(String nickname, List<String> newActiveLeaders) {
         if(nickname.equals(player.getNickname())){
-            for (Node child : activeLeaders.getChildren())
-                ((ImageView) child).setImage(null);
-            for (int i=0; i < newActiveLeaders.size(); i++) {
-                ((ImageView) activeLeaders.getChildren().get(i)).setImage(getSceneProxy().getCardImage(newActiveLeaders.get(i)));
-            }
+            setActiveLeadersImages(newActiveLeaders, activeLeaders);
         }
         else {
             for(Node enemyPane : enemiesBox.getChildren())
-                if(nickname.equals(enemyPane.getId()))
+                if(nickname.equals(enemyPane.getId())) {
                     for (Node child : ((Pane) enemyPane).getChildren())
-                        if(("activeLeaders").equals(child.getId())){
-                            HBox leaders = (HBox) child;
-                            if(newActiveLeaders.size() < leaders.getChildren().size())
-                                for(Node n : leaders.getChildren()) {
-                                    ImageView leader = (ImageView) n;
-                                    if(leader.getImage() != null) {
-                                        leader.setImage(null);
-                                        break;
-                                    }
-                                }
+                        if (("activeLeaders").equals(child.getId())) {
+                            setActiveLeadersImages(newActiveLeaders, (HBox) child);
+                            return;
                         }
+                }
+        }
+    }
+
+    private void setActiveLeadersImages(List<String> newActiveLeaders, HBox activeLeaders) {
+        if(newActiveLeaders.size()==2 && getSceneProxy().isSlotLeader(newActiveLeaders.get(1)))
+            Collections.swap(newActiveLeaders, 0, 1);
+        List<Node> leaders = activeLeaders.getChildren();
+        for (int i = 0; i <leaders.size(); i++) {
+            ImageView leader = (ImageView) leaders.get(i);
+            if(newActiveLeaders.size() > i)
+                leader.setImage(getSceneProxy().getCardImage(newActiveLeaders.get(i)));
+            else
+                leader.setImage(null);
         }
     }
 
@@ -466,6 +663,7 @@ public class TurnSceneController implements SceneController{
         if(nickname.equals(player.getNickname())){
             for (Node box : warehousePane.getChildren()){
                 HBox shelf = (HBox) box;
+                shelf.setEffect(null); //remove eventually glow from switch shelf
                 for (Node place : shelf.getChildren())
                     ((ImageView) place).setImage(null);
             }
@@ -495,7 +693,6 @@ public class TurnSceneController implements SceneController{
                                     ((ImageView) shelf.getChildren().get(j)).setImage(resShelf.getType().asImage());
                                 }
                             }
-
                         }
         }
 
@@ -560,120 +757,35 @@ public class TurnSceneController implements SceneController{
     }
 
     public void updateDisconnections(String nickname, boolean connected) {
-        String str = "";
+        String message = null;
 
         for(Node enemyPane : enemiesBox.getChildren())
             if ((nickname).equals(enemyPane.getId())) {
                 Pane chosenEnemy = (Pane) enemyPane;
-                for(Node n : ((Pane) enemyPane).getChildren())
+                for(Node n : chosenEnemy.getChildren())
                     if(("nicknameLabel").equals(n.getId()))
-                        if (connected)
+                        if (connected) {
                             ((Label) n).setText(nickname);
-                        else
+                            message = "player " + nickname + " is back in the game! ";
+                        }
+                        else {
                             ((Label) n).setText(nickname + " (OFFLINE)");
+                            message = "player " + nickname + " as left the match ";
+                        }
             }
 
-        informationField.setText(str+""+ informationField.getText());
+        informationField.setText(message + informationField.getText());
 
     }
 
     public void updateTokenDrawn(String tokenName, int remainingTokens) {
 
-        System.out.println(tokenName + " extracted");
-
         this.remainingTokens.setText("(" + remainingTokens + " remaining)");
         tokenDrawn.setImage(new Image(getClass().getResourceAsStream("images/punchBoard/"+tokenName+".png")));
-
-    }
-
-    public void printRetry(String errMessage) {
-        JavaFXGUI.popUpWarning(errMessage);
-    }
-
-    public void endTurnState() {
-        confirmButton.setText("EndTurn");
-    }
-
-    @FXML
-    public void activateLeader(ActionEvent actionEvent) {
-        MenuItem node = (MenuItem) actionEvent.getSource();
-        int numLeader = Integer.parseInt((String) node.getUserData());
-
-        message = new LeaderActivationMessage(player.getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()));
-        confirmButton.setText("confirm");
-    }
-
-    @FXML
-    public void discardLeader(ActionEvent actionEvent) {
-        MenuItem node = (MenuItem) actionEvent.getSource();
-        int numLeader = Integer.parseInt((String) node.getUserData());
-
-        message = new LeaderDiscardingMessage(player.getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()));
-        confirmButton.setText("confirm");
-
-    }
-
-    @FXML
-    public void drawDevCard(MouseEvent mouseEvent) {
-        ImageView card = (ImageView) mouseEvent.getSource();
-        if(selectedCard != null) {
-            selectedCard.setEffect(null);
-            selectedCard.setFitWidth(card.getFitWidth());
-            selectedCard.setFitHeight(card.getFitHeight());
-        }
-        selectedCard = card;
-        card.setEffect(new Glow(0.3));
-        card.setFitWidth(card.getFitWidth()+ 5);
-        card.setFitHeight(card.getFitHeight()+ 5);
-
-        int rowIndex, columnIndex;
-        rowIndex = GridPane.getRowIndex(card.getParent());
-        columnIndex = GridPane.getColumnIndex(card.getParent());
-        //System.out.println("selected card r "+ rowIndex + " c " + columnIndex);
-
-        message = new DevCardDrawMessage(player.getNickname(), cardGrid.getRowCount()-rowIndex, columnIndex + 1);
-        mouseEvent.consume();
-
-    }
-    @FXML
-    public void dragResource(MouseEvent mouseEvent) {
-        ImageView resource = (ImageView) mouseEvent.getSource();
-        Dragboard db = resource.startDragAndDrop(TransferMode.MOVE);
-        temporaryRes = ResType.valueOfImage(resource.getImage());
-
-        ClipboardContent content = new ClipboardContent();
-        content.putImage(resource.getImage());
-        db.setContent(content);
-
-        //Avoid behind objects to detect this event
-        mouseEvent.consume();
-    }
-
-    @FXML
-    public void dropResourceWarehouse(DragEvent dragEvent) {
-        boolean success;
-        ImageView selectedPlace = (ImageView)dragEvent.getSource();
-        Image draggedImage = dragEvent.getDragboard().getImage();
-        if(selectedPlace.getImage() == null) {
-            success = true;
-
-            selectedPlace.setImage(draggedImage);
-            chosenResources.add(new PhysicalResource(temporaryRes, searchShelf(selectedPlace)));
-
-            message = new WarehouseInsertionMessage(player.getNickname(), chosenResources);
-
-        }
-        else
-            success = false;
-
-        dragEvent.setDropCompleted(success);
-        dragEvent.consume();
-
     }
 
     public void updateCardGrid(List<String>[][] cards){
         StackPane stackPane;
-        ImageView imageView;
         List<String> cardAndDepth;
         String card;
         int depth;
@@ -685,19 +797,23 @@ public class TurnSceneController implements SceneController{
 
                 stackPane = (StackPane) cardGrid.getChildren().get(i*4+j);
 
-                for (int k = 0; k < 4; k++) {
-                    imageView = (ImageView) stackPane.getChildren().get(k);
-                    if(k<depth)
-                        imageView.setDisable(true);
-                    else if(k==depth) {
-                        imageView.setImage(getSceneProxy().getCardImage(card));
-                        imageView.setDisable(false);
-                    }
-                    else{
-                        imageView.setDisable(true);
-                        imageView.setVisible(false);
-                    }
-                }
+                setStackPaneContent(stackPane, depth, card);
+            }
+        }
+    }
+
+    private void setStackPaneContent(StackPane stackPane, int newDepth, String topCard) {
+        ImageView imageView;
+        List<Node> cards = stackPane.getChildren();
+        for (int k = cards.size()-1; k > 0; k--) {
+            imageView = (ImageView) cards.get(k);
+            if (k < newDepth)
+                imageView.setDisable(true);
+            else if (k == newDepth) {
+                imageView.setImage(getSceneProxy().getCardImage(topCard));
+                imageView.setDisable(false);
+            } else {
+                stackPane.getChildren().remove(imageView);
             }
         }
     }
@@ -707,100 +823,39 @@ public class TurnSceneController implements SceneController{
         tempDevCard.setVisible(true);
     }
 
-    @FXML
-    public void acceptDrop(DragEvent dragEvent) {
-        System.out.println(dragEvent.getGestureSource());
-        System.out.println(dragEvent.getSource());
-        if(!(((Node) dragEvent.getGestureSource()).getParent().getParent()).equals(((Node) dragEvent.getSource()).getParent().getParent()))
-            dragEvent.acceptTransferModes(TransferMode.MOVE);
-
-        dragEvent.consume();
-    }
-
-    @FXML
-    public void dragResourceDone(DragEvent dragEvent) {
-        if (dragEvent.getTransferMode() == TransferMode.MOVE) {
-            ((ImageView) dragEvent.getGestureSource()).setImage(null);
-        }
-
-        dragEvent.consume();
+    /**
+     * Displays a pop-up showing the relative message
+     * @param errMessage the message you want to show
+     */
+    public void printRetry(String errMessage) {
+        JavaFXGUI.popUpWarning(errMessage);
     }
 
 
+
+    /**
+     * Function calls by the press of confirm button, sends the temporary message saved or EndTurnMessage if it is the case
+     */
     @FXML
-    public void dragStrongBoxResourceDone(DragEvent dragEvent) {
-        if (dragEvent.getTransferMode() == TransferMode.MOVE) {
-            HBox hBox = (HBox) ((Node) dragEvent.getGestureSource()).getParent();
-            Text text = (Text) hBox.getChildren().get(1);
-            int newNum = Integer.parseInt(text.getText()) - 1;
-            text.setText("x" + newNum);
-        }
-
-        dragEvent.consume();
-    }
-
-    @FXML
-    public void dropResourcePayments(DragEvent dragEvent) {
-        boolean success;
-        int numRes = 0;
-        ImageView selectedPlace = (ImageView)dragEvent.getSource();
-        if(selectedPlace.getParent().isVisible()) {
-            success = true;
-
-            VBox paymentsResources = (VBox) paymentsPane.getChildren().get(1);
-
-            for(Node n : paymentsResources.getChildren()){
-                HBox res = (HBox) n;
-                if(temporaryRes.toString().toLowerCase().equals(res.getId())){
-                    Label resLabel = (Label) res.getChildren().get(1);
-                    numRes = Integer.parseInt(resLabel.getText().substring(1))+1;
-                    resLabel.setText("x" + numRes);
-                }
-            }
-
-            if(((Node) dragEvent.getGestureSource()).getParent().getParent().equals(warehousePane)) {
-                int numShelf = warehousePane.getChildren().indexOf((((Node) dragEvent.getGestureSource()).getParent()))+1;
-                if(paymentsFromWarehouse.containsKey(numShelf))
-                    paymentsFromWarehouse.replace(numShelf, new PhysicalResource(temporaryRes, paymentsFromWarehouse.get(numShelf).getQuantity() + 1));
-                else
-                    paymentsFromWarehouse.put(numShelf, new PhysicalResource(temporaryRes, 1));
-            }
-            else if(((Node) dragEvent.getGestureSource()).getParent().getParent().equals(strongBox))
-                paymentsFromStrongbox.add(new PhysicalResource(temporaryRes, numRes));
-
-            message = new PaymentsMessage(player.getNickname(), paymentsFromStrongbox, paymentsFromWarehouse);
-
-        }
+    public void sendMessage() {
+        if(endTurn())
+            (new EndTurnMessage(player.getNickname())).send();
         else
-            success = false;
+        if(message != null) {
+            message.send();
+            message = null;
+        }
 
-        dragEvent.setDropCompleted(success);
-        dragEvent.consume();
-
+        initializeTemporaryVariables();
     }
 
-    @FXML
-    public void produce(MouseEvent mouseEvent) {
-        Node node = (Node) mouseEvent.getSource();
-        String card = ("basicProduction").equals(node.getId()) ? "basicProduction" : getSceneProxy().getCardID(((ImageView) node).getImage());
-        if (cardsToProduce.contains(card)) {
-            cardsToProduce.remove(card);
-            node.setEffect(null);
-
-            if(!card.equals("basicProduction"))
-            ((ImageView) node).setFitHeight(((ImageView) node).getFitHeight()-5);
-            ((ImageView) node).setFitWidth(((ImageView) node).getFitWidth()-5);
-        }
-        else {
-            cardsToProduce.add(card);
-            node.setEffect(new Glow(0.3));
-
-            if(!card.equals("basicProduction")) {
-                ((ImageView) node).setFitHeight(((ImageView) node).getFitHeight() + 5);
-                ((ImageView) node).setFitWidth(((ImageView) node).getFitWidth() + 5);
-            }
-        }
-
-        System.out.println(cardsToProduce);
+    private boolean endTurn(){
+        return getClientController().getCurrentState().equals(StateName.END_TURN) &&
+                ( message==null ||
+                        (!message.getType().equals(CtoSMessageType.SWITCH_SHELF) &&
+                         !message.getType().equals(CtoSMessageType.LEADER_DISCARDING) &&
+                         !message.getType().equals(CtoSMessageType.LEADER_ACTIVATION)
+                        )
+                );
     }
 }

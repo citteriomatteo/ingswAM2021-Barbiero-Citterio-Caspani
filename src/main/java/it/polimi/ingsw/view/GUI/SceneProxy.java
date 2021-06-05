@@ -243,10 +243,10 @@ public class SceneProxy {
     }
 
 
-    public void loadStartingTurn() {
+    public void loadStartingMatch() {
         Platform.runLater(()->{
             if(turnSceneController != null) {
-                turnSceneController.loadStartingTurn();
+                turnSceneController.loadStartingMatch();
                 System.out.println("called");
             }
         });
