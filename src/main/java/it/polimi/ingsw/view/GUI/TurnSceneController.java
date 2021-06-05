@@ -28,6 +28,8 @@ import static it.polimi.ingsw.view.ClientController.getClientController;
 import static it.polimi.ingsw.view.GUI.SceneProxy.getSceneProxy;
 
 public class TurnSceneController implements SceneController{
+    public boolean turnSceneLoaded = false;
+
     public Pane basePane;
     public GridPane marketGrid;
     public GridPane cardGrid;
@@ -45,6 +47,12 @@ public class TurnSceneController implements SceneController{
     public TextField informationsField;
     public Button confirmButton;
     public ImageView tempDevCard;
+
+    public Pane lorenzoPane;
+    public Label lorenzoMarker;
+    public ImageView tokenDrawn;
+    public Label remainingTokens;
+
     private ResType temporaryRes;
     private LightMatch match;
     private LightPlayer player;
@@ -66,6 +74,7 @@ public class TurnSceneController implements SceneController{
 
 
     public void loadStartingTurn() {
+        turnSceneLoaded = true;
         ImageView imageView;
         StackPane stackPane;
         List<String>[][] cards;
@@ -83,6 +92,11 @@ public class TurnSceneController implements SceneController{
         //in order to put invisible the boards of the remaining free players' positions.
         for(int h = k; h<3; h++)
             enemiesBox.getChildren().get(h).setVisible(false);
+
+        //put visible the pane about Lorenzo in case of a single-player match
+        if(match.getLightPlayers().size() == 1) {
+            lorenzoPane.setVisible(true);
+        }
 
         for(Node n : cardGrid.getChildren()){
             List<Node> images = ((StackPane) n).getChildren();
@@ -191,7 +205,7 @@ public class TurnSceneController implements SceneController{
         cardGrid.setDisable(true);
 
         //ids of the elements to keep enabled
-        List<String> importantIds = new ArrayList<>(List.of("warehousePane", "firstDevSlot", "secondDevSlot", "thirdDevSlot"));
+        List<String> importantIds = new ArrayList<>(List.of("warehousePane", "firstLeaderActions", "secondLeaderActions"));
 
         keepEnabledOnly(importantIds);
 
@@ -456,6 +470,10 @@ public class TurnSceneController implements SceneController{
     }
 
     public void updateFaithMarker(String nickname, int faithMarker) {
+
+        if(nickname.equals("Lorenzo the Magnificent"))
+            lorenzoMarker.setText(faithMarker + "");
+
         if(nickname.equals(player.getNickname())){
             for(Node cell : faithPath.getChildren())
                 cell.setVisible(false);
@@ -514,16 +532,22 @@ public class TurnSceneController implements SceneController{
                 Pane chosenEnemy = (Pane) enemyPane;
                 for(Node n : ((Pane) enemyPane).getChildren())
                     if(("nicknameLabel").equals(n.getId()))
-                        if (connected) {
-                            //str = "player " + nickname + " is back in the game.";
+                        if (connected)
                             ((Label) n).setText(nickname);
-                        } else {
-                            //str = "player " + nickname + " has left the match.";
+                        else
                             ((Label) n).setText(nickname + " (OFFLINE)");
-                        }
             }
 
         informationsField.setText(str+""+informationsField.getText());
+
+    }
+
+    public void updateTokenDrawn(String tokenName, int remainingTokens) {
+
+        System.out.println(tokenName + " extracted");
+
+        this.remainingTokens.setText("(" + remainingTokens + " remaining)");
+        tokenDrawn.setImage(new Image(getClass().getResourceAsStream("images/punchBoard/"+tokenName+".png")));
 
     }
 

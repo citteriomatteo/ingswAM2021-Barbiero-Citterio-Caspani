@@ -7,8 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="561.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="561.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.InitSceneController">
    <children>
       <ImageView fitHeight="360.0" fitWidth="567.0" layoutX="-2.0" pickOnBounds="true">
          <image>
@@ -25,7 +24,7 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Button id="acceptButton" fx:id="acceptButton" layoutX="206.0" layoutY="287.0" mnemonicParsing="false" text="YES" />
-      <Button id="declineButton" fx:id="declineButton" layoutX="315.0" layoutY="287.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="42.0" text="NO" />
+      <Button id="acceptButton" fx:id="acceptButton" layoutX="206.0" layoutY="287.0" mnemonicParsing="false" onAction="#reconnect" text="YES" />
+      <Button id="declineButton" fx:id="declineButton" layoutX="315.0" layoutY="287.0" mnemonicParsing="false" onAction="#backToLogin" prefHeight="26.0" prefWidth="42.0" text="NO" />
    </children>
 </Pane>

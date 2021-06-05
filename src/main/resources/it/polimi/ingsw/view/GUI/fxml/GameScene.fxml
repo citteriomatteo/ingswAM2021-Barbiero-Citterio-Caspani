@@ -8,7 +8,6 @@
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.Light.Distant?>
 <?import javafx.scene.effect.Lighting?>
 <?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.image.Image?>
@@ -398,7 +397,7 @@
                         <Shadow />
                      </bumpInput>
                      <light>
-                        <Light.Distant />
+                        
                      </light>
                   </Lighting>
                </effect>
@@ -1975,6 +1974,41 @@
                   </HBox>
                </children>
             </VBox>
+         </children>
+      </Pane>
+      <Pane id="lorenzoPane" fx:id="lorenzoPane" layoutX="883.0" layoutY="17.0" prefHeight="331.0" prefWidth="374.0" visible="false">
+         <children>
+            <ImageView fitHeight="337.0" fitWidth="374.0" layoutY="-2.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../images/punchBoard/lorenzoBricks.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="262.0" fitWidth="200.0" layoutX="37.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/punchBoard/lorenzo_the_magnificent.jpeg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="45.0" fitWidth="33.0" layoutX="270.0" layoutY="71.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/punchBoard/blackCross.png" />
+               </image>
+            </ImageView>
+            <ImageView id="tokenDrawn" fx:id="tokenDrawn" fitHeight="98.0" fitWidth="103.0" layoutX="201.0" layoutY="199.0" pickOnBounds="true" preserveRatio="true" />
+            <Label layoutX="58.0" layoutY="238.0" text="Last Extraction:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font></Label>
+            <Label id="lorenzoMarker" fx:id="lorenzoMarker" layoutX="309.0" layoutY="78.0" text="0">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+            </Label>
+            <Label id="remainingTokens" fx:id="remainingTokens" layoutX="281.0" layoutY="297.0" />
+            <Label layoutX="37.0" layoutY="14.0" text="Lorenzo the Magnificent">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>
