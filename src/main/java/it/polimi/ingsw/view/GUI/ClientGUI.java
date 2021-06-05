@@ -87,7 +87,12 @@ public class ClientGUI implements View {
 
     @Override
     public void drawYourTurnLayout(boolean yourTurn) {
-        getSceneProxy().changeScene(SceneName.GameScene);
+        //useful for reconnections
+        if(!getSceneProxy().turnSceneIsLoaded())
+            getSceneProxy().changeScene(SceneName.GameScene);
+
+
+        getSceneProxy().loadStartingTurn();
         getSceneProxy().yourTurn(yourTurn);
         getSceneProxy().disableOnState();
     }
@@ -135,7 +140,7 @@ public class ClientGUI implements View {
 
     @Override
     public void printTokenDraw(String tokenName, int remainingTokens) {
-
+        getSceneProxy().updateTokenDrawn(tokenName, remainingTokens);
     }
 
     @Override
@@ -160,7 +165,6 @@ public class ClientGUI implements View {
                 getSceneProxy().loginError(errMessage);
                 break;
             case WAITING_LEADERS:
-                getSceneProxy().leadersChoiceError(errMessage);
                 getSceneProxy().leadersChoiceError(errMessage);
                 break;
             case RESOURCES_PLACEMENT:
@@ -200,7 +204,7 @@ public class ClientGUI implements View {
 
     @Override
     public void updateLorenzoMarker(LightMatch match) {
-
+        getSceneProxy().updateFaithMarker("Lorenzo the Magnificent", match.getLorenzoMarker());
     }
 
     @Override

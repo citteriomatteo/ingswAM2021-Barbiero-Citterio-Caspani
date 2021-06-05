@@ -3,19 +3,24 @@ package it.polimi.ingsw.view.GUI;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCombination;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import static it.polimi.ingsw.network.client.Client.getClient;
+
 public class JavaFXGUI extends Application {
     private static Scene scene;
     private static Stage stage;
+    private static Stage popUpStage;
+    private static Scene popUpScene;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -24,12 +29,13 @@ public class JavaFXGUI extends Application {
         scene = new Scene(loadFXML(SceneName.LoginScene.name()));
         stage.setScene(scene);
         stage.setResizable(false);
-//        stage.setFullScreenExitHint("");   //todo: think about full screen possibility
-//        stage.setFullScreenExitKeyCombination(KeyCombination.valueOf("CTRL+f"));
         InputStream imageStream = getClass().getResourceAsStream("images/punchBoard/inkwell.png");
         if(imageStream != null)
             stage.getIcons().add(new Image(imageStream));
         stage.setTitle("Masters of Renaissance Board Game");
+
+        setUpWarningStage();
+
         stage.show();
     }
 
@@ -37,6 +43,35 @@ public class JavaFXGUI extends Application {
         Parent next = loadFXML(fxml);
         scene.setRoot(next);
         stage.sizeToScene();
+    }
+
+    /**
+     * Creates an additional stage for warning messages that will show the specific error message on necessity without showing it
+     */
+    private void setUpWarningStage() throws IOException {
+        JavaFXGUI.popUpStage = new Stage();
+        popUpScene = new Scene(loadFXML(SceneName.WarningScene.name()));
+
+        popUpStage.setScene(popUpScene);
+        popUpStage.setResizable(false);
+        InputStream imageStream = JavaFXGUI.class.getResourceAsStream("images/warning.png");
+        if(imageStream != null)
+            popUpStage.getIcons().add(new Image(imageStream));
+        popUpStage.setTitle("Warning");
+        popUpStage.setAlwaysOnTop(true);
+    }
+
+    /**
+     * Shows a pop-up stage for warning messages showing the specific error passed
+     * @param error the string you want to show
+     */
+    static void popUpWarning(String error){
+        Pane root = (Pane)popUpScene.getRoot();
+        for(Node n : root.getChildren())
+            if("errorLabel".equals(n.getId()))
+                ((Label)n).setText(error);
+
+        popUpStage.show();
     }
 
     private static Parent loadFXML(String fxml) throws IOException {

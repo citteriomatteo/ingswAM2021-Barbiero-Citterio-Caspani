@@ -6,6 +6,7 @@ import it.polimi.ingsw.network.message.ctosmessage.NumPlayersMessage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -18,7 +19,8 @@ public class InitSceneController implements SceneController{
     public Pane basePane;
     public TextField loginTextBox;
     public Label loginErrorLabel;
-
+    public Button acceptButton;
+    public Button declineButton;
 
 
     public InitSceneController() {
@@ -50,10 +52,19 @@ public class InitSceneController implements SceneController{
 
     @FXML
     public void numPlayers(ActionEvent actionEvent) {
-        Node node = (Node) actionEvent.getSource() ;
+        Node node = (Node) actionEvent.getSource();
         String data = (String) node.getUserData();
         int numPlayers = Integer.parseInt(data);
         new NumPlayersMessage(getClient().getNickname(), numPlayers).send();
     }
 
+
+    public void reconnect(ActionEvent actionEvent) {
+        new BinarySelectionMessage(getClient().getNickname(), true).send();
+    }
+
+    public void backToLogin(ActionEvent actionEvent) {
+        new BinarySelectionMessage(getClient().getNickname(), false).send();
+        //getSceneProxy().changeScene(SceneName.LoginScene);
+    }
 }

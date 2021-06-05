@@ -51,8 +51,6 @@ public class LightMatch extends ViewObservable {
 
         //starting update_call
         updateMatch(this);
-
-
     }
 
     /**

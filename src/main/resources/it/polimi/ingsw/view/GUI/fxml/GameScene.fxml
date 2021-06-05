@@ -8,6 +8,8 @@
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -388,7 +390,21 @@
                   </HBox>
                </children>
             </VBox>
-            <Button id="confirmButton" fx:id="confirmButton" layoutX="6.0" layoutY="438.0" mnemonicParsing="false" onAction="#sendMessage" text="Confirm" />
+            <Button id="confirmButton" fx:id="confirmButton" alignment="CENTER" layoutX="65.0" layoutY="439.0" mnemonicParsing="false" onAction="#sendMessage" prefHeight="37.0" prefWidth="62.0" text="Confirm">
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        
+                     </light>
+                  </Lighting>
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
             <MenuButton id="firstLeaderActions" layoutX="22.0" layoutY="403.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="35.0">
                <items>
                   <MenuItem id="activateLeader" mnemonicParsing="false" onAction="#activateLeader" text="Activate" userData="1" />
@@ -901,42 +917,61 @@
                <image>
                   <Image url="@../images/punchBoard/columnArrow.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
             <ImageView id="colArrow2" fx:id="colArrow2" fitHeight="52.0" fitWidth="22.0" layoutX="122.0" layoutY="221.0" onMouseClicked="#columnCall" pickOnBounds="true" preserveRatio="true" userData="2">
                <image>
                   <Image url="@../images/punchBoard/columnArrow.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
             <ImageView id="colArrow3" fx:id="colArrow3" fitHeight="52.0" fitWidth="22.0" layoutX="156.0" layoutY="222.0" onMouseClicked="#columnCall" pickOnBounds="true" preserveRatio="true" userData="3">
                <image>
                   <Image url="@../images/punchBoard/columnArrow.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
             <ImageView id="colArrow4" fx:id="colArrow4" fitHeight="52.0" fitWidth="22.0" layoutX="190.0" layoutY="221.0" onMouseClicked="#columnCall" pickOnBounds="true" preserveRatio="true" userData="4">
                <image>
                   <Image url="@../images/punchBoard/columnArrow.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
             <ImageView id="rowArrow1" fx:id="rowArrow1" fitHeight="24.0" fitWidth="33.0" layoutX="254.0" layoutY="89.0" onMouseClicked="#rowCall" pickOnBounds="true" preserveRatio="true" userData="1">
                <image>
                   <Image url="@../images/punchBoard/rowArrow.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
             <ImageView id="rowArrow2" fx:id="rowArrow2" fitHeight="26.0" fitWidth="42.0" layoutX="252.0" layoutY="121.0" onMouseClicked="#rowCall" pickOnBounds="true" preserveRatio="true" userData="2">
                <image>
                   <Image url="@../images/punchBoard/rowArrow.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
             <ImageView id="rowArrow3" fx:id="rowArrow3" fitHeight="26.0" fitWidth="42.0" layoutX="252.0" layoutY="155.0" onMouseClicked="#rowCall" pickOnBounds="true" preserveRatio="true" userData="3">
                <image>
                   <Image url="@../images/punchBoard/rowArrow.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
          </children>
       </Pane>
-      <Button id="exitButton" fx:id="exitButton" layoutX="1204.0" layoutY="8.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="68.0" text="Exit" />
-      <TextField id="controlBox" fx:id="informationsField" editable="false" layoutX="883.0" layoutY="722.0" prefHeight="35.0" prefWidth="364.0" />
-      <Text id="informationText" fx:id="informationText" layoutX="884.0" layoutY="715.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Informations Field" />
+      <TextField id="controlBox" fx:id="informationsField" editable="false" layoutX="883.0" layoutY="678.0" prefHeight="109.0" prefWidth="364.0" />
       <VBox fx:id="enemiesBox" layoutX="838.0" layoutY="40.0" prefHeight="639.0" prefWidth="436.0">
          <children>
             <Pane id="enemy1Pane" fx:id="enemy1Pane" prefHeight="208.0" prefWidth="436.0">
@@ -1888,7 +1923,7 @@
             </Pane>
          </children>
       </VBox>
-      <Pane fx:id="paymentsPane" disable="true" layoutX="64.0" layoutY="15.0" prefHeight="392.0" prefWidth="689.0" style="-fx-background-color: black;" visible="false">
+      <Pane id="paymentsPane" fx:id="paymentsPane" disable="true" layoutX="64.0" layoutY="15.0" prefHeight="392.0" prefWidth="689.0" style="-fx-background-color: black;" visible="false">
          <children>
             <ImageView id="paymentsStrongBox" fitHeight="181.0" fitWidth="267.0" layoutX="14.0" layoutY="116.0" onDragDropped="#dropResourcePayments" onDragOver="#acceptDrop" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -1951,6 +1986,41 @@
                   </HBox>
                </children>
             </VBox>
+         </children>
+      </Pane>
+      <Pane id="lorenzoPane" fx:id="lorenzoPane" layoutX="883.0" layoutY="17.0" prefHeight="331.0" prefWidth="374.0" visible="false">
+         <children>
+            <ImageView fitHeight="337.0" fitWidth="374.0" layoutY="-2.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../images/punchBoard/lorenzoBricks.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="262.0" fitWidth="200.0" layoutX="37.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/punchBoard/lorenzo_the_magnificent.jpeg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="45.0" fitWidth="33.0" layoutX="270.0" layoutY="71.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/punchBoard/blackCross.png" />
+               </image>
+            </ImageView>
+            <ImageView id="tokenDrawn" fx:id="tokenDrawn" fitHeight="98.0" fitWidth="103.0" layoutX="201.0" layoutY="199.0" pickOnBounds="true" preserveRatio="true" />
+            <Label layoutX="58.0" layoutY="238.0" text="Last Extraction:">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font></Label>
+            <Label id="lorenzoMarker" fx:id="lorenzoMarker" layoutX="309.0" layoutY="78.0" text="0">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+            </Label>
+            <Label id="remainingTokens" fx:id="remainingTokens" layoutX="281.0" layoutY="297.0" />
+            <Label layoutX="37.0" layoutY="14.0" text="Lorenzo the Magnificent">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>

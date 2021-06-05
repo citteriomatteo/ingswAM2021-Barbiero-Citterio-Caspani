@@ -245,8 +245,10 @@ public class SceneProxy {
 
     public void loadStartingTurn() {
         Platform.runLater(()->{
-            if(turnSceneController != null)
+            if(turnSceneController != null) {
                 turnSceneController.loadStartingTurn();
+                System.out.println("called");
+            }
         });
     }
 
@@ -355,4 +357,18 @@ public class SceneProxy {
                 turnSceneController.updateTempDevCard(card);
         });
     }
+
+    public boolean turnSceneIsLoaded(){
+        if(turnSceneController != null)
+            return turnSceneController.turnSceneLoaded;
+        return false;
+    }
+
+    public void updateTokenDrawn(String tokenName, int remainingTokens){
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.updateTokenDrawn(tokenName, remainingTokens);
+        });
+    }
+
 }

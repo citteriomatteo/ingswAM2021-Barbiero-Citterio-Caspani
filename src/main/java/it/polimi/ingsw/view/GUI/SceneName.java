@@ -10,6 +10,7 @@ public enum SceneName {
     LeadersChoiceScene,
     StartingResourceScene,
     GameScene,
-    EndGameScene;
+    EndGameScene,
+    WarningScene
 
 }
