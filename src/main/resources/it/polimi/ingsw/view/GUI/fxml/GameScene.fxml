@@ -263,7 +263,7 @@
             </StackPane>
             <Pane id="warehousePane" fx:id="warehousePane" layoutX="28.204509735107422" layoutY="212.0">
                <children>
-                  <HBox id="firstShelf" layoutX="253.0" layoutY="58.0" prefHeight="18.0" prefWidth="12.0" spacing="5.0" translateY="10.0">
+                  <HBox id="shelf1" layoutX="253.0" layoutY="58.0" prefHeight="18.0" prefWidth="12.0" spacing="5.0" translateY="10.0">
                      <children>
                         <ImageView id="firstRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#clickOnWarehouse" pickOnBounds="true" preserveRatio="true">
                            <cursor>
@@ -271,7 +271,7 @@
                            </cursor></ImageView>
                      </children>
                   </HBox>
-                  <HBox id="secondShelf" layoutX="240.0" layoutY="86.0" prefHeight="18.0" prefWidth="39.0" spacing="5.0" translateY="10.0">
+                  <HBox id="shelf2" layoutX="240.0" layoutY="86.0" prefHeight="18.0" prefWidth="39.0" spacing="5.0" translateY="10.0">
                      <children>
                         <ImageView id="firstRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#clickOnWarehouse" pickOnBounds="true" preserveRatio="true">
                            <cursor>
@@ -283,7 +283,7 @@
                            </cursor></ImageView>
                      </children>
                   </HBox>
-                  <HBox id="thirdShelf" layoutX="229.0" layoutY="121.0" prefHeight="18.0" prefWidth="48.0" spacing="4.0" translateY="10.0">
+                  <HBox id="shelf3" layoutX="229.0" layoutY="121.0" prefHeight="18.0" prefWidth="48.0" spacing="4.0" translateY="10.0">
                      <children>
                         <ImageView id="firstRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#clickOnWarehouse" pickOnBounds="true" preserveRatio="true">
                            <cursor>
@@ -302,19 +302,13 @@
                         </ImageView>
                      </children>
                   </HBox>
-                  <HBox id="firstExtraShelf" opacity="0.0" prefHeight="24.0" prefWidth="55.0" spacing="12.0">
-                     <children>
-                        <ImageView id="firstRes" fitHeight="19.0" fitWidth="20.0" onMouseClicked="#clickOnWarehouse" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView id="secondRes" fitHeight="19.0" fitWidth="20.0" onMouseClicked="#clickOnWarehouse" pickOnBounds="true" preserveRatio="true" />
-                     </children>
-                  </HBox>
-                  <HBox id="firstExtraShelf" opacity="0.0" prefHeight="24.0" prefWidth="55.0" spacing="12.0">
+                  <HBox id="shelf4" opacity="0.0" prefHeight="24.0" prefWidth="55.0" spacing="12.0">
                      <children>
                         <ImageView id="firstRes" fitHeight="19.0" fitWidth="20.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#clickOnWarehouse" pickOnBounds="true" preserveRatio="true" />
                         <ImageView id="secondRes" fitHeight="19.0" fitWidth="20.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#clickOnWarehouse" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </HBox>
-                  <HBox id="secondExtraShelf" disable="true" layoutX="92.00000381469727" layoutY="3.0" opacity="0.0" prefHeight="22.0" prefWidth="55.0" spacing="12.0">
+                  <HBox id="shelf5" disable="true" layoutX="92.00000381469727" layoutY="3.0" opacity="0.0" prefHeight="22.0" prefWidth="55.0" spacing="12.0">
                      <children>
                         <ImageView id="firstRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#clickOnWarehouse" pickOnBounds="true" preserveRatio="true" />
                         <ImageView id="secondRes" fitHeight="16.0" fitWidth="21.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#clickOnWarehouse" pickOnBounds="true" preserveRatio="true" />
@@ -971,7 +965,7 @@
             </ImageView>
          </children>
       </Pane>
-      <TextField id="controlBox" fx:id="informationsField" editable="false" layoutX="883.0" layoutY="678.0" prefHeight="109.0" prefWidth="364.0" />
+      <TextField id="controlBox" fx:id="informationField" editable="false" layoutX="883.0" layoutY="678.0" prefHeight="109.0" prefWidth="364.0" />
       <VBox fx:id="enemiesBox" layoutX="838.0" layoutY="40.0" prefHeight="639.0" prefWidth="436.0">
          <children>
             <Pane id="enemy1Pane" fx:id="enemy1Pane" prefHeight="208.0" prefWidth="436.0">
@@ -1196,31 +1190,31 @@
                   </StackPane>
                   <Pane id="warehousePane" layoutX="66.0" layoutY="96.0">
                      <children>
-                        <HBox id="firstShelf" layoutX="14.0" prefHeight="10.0" prefWidth="16.0" spacing="4.0">
+                        <HBox id="shelf1" layoutX="14.0" prefHeight="10.0" prefWidth="16.0" spacing="4.0">
                            <children>
                               <ImageView id="firstRes" fitHeight="10.0" fitWidth="11.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </HBox>
-                        <HBox id="secondShelf" layoutX="8.0" layoutY="17.0" prefHeight="10.0" prefWidth="24.0" spacing="4.0">
+                        <HBox id="shelf2" layoutX="8.0" layoutY="17.0" prefHeight="10.0" prefWidth="24.0" spacing="4.0">
                            <children>
                               <ImageView id="firstRes" fitHeight="11.0" fitWidth="11.0" pickOnBounds="true" preserveRatio="true" />
                               <ImageView id="secondRes" fitHeight="10.0" fitWidth="11.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </HBox>
-                        <HBox id="thirdShelf" layoutY="32.0" prefHeight="10.0" prefWidth="24.0" spacing="4.0">
+                        <HBox id="shelf3" layoutY="32.0" prefHeight="10.0" prefWidth="24.0" spacing="4.0">
                            <children>
                               <ImageView id="firstRes" fitHeight="11.0" fitWidth="11.0" pickOnBounds="true" preserveRatio="true" />
                               <ImageView id="secondRes" fitHeight="10.0" fitWidth="11.0" pickOnBounds="true" preserveRatio="true" />
                               <ImageView id="thirdRes" fitHeight="11.0" fitWidth="9.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </HBox>
-                        <HBox id="firstExtraShelf" disable="true" layoutX="322.0" layoutY="8.0" opacity="0.0" prefHeight="8.0" prefWidth="17.0" spacing="2.0">
+                        <HBox id="shelf4" disable="true" layoutX="322.0" layoutY="8.0" opacity="0.0" prefHeight="8.0" prefWidth="17.0" spacing="2.0">
                            <children>
                               <ImageView id="firstRes" fitHeight="9.0" fitWidth="8.0" pickOnBounds="true" preserveRatio="true" />
                               <ImageView id="secondRes" fitHeight="10.0" fitWidth="8.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </HBox>
-                        <HBox id="secondExtraShelf" disable="true" layoutX="348.0" layoutY="8.0" opacity="0.0" prefHeight="8.0" prefWidth="17.0" spacing="2.0">
+                        <HBox id="shelf5" disable="true" layoutX="348.0" layoutY="8.0" opacity="0.0" prefHeight="8.0" prefWidth="17.0" spacing="2.0">
                            <children>
                               <ImageView id="firstRes" fitHeight="9.0" fitWidth="8.0" pickOnBounds="true" preserveRatio="true" />
                               <ImageView id="secondRes" fitHeight="10.0" fitWidth="8.0" pickOnBounds="true" preserveRatio="true" />
@@ -1511,31 +1505,31 @@
                   </StackPane>
                   <Pane id="warehousePane" layoutX="66.0" layoutY="96.0">
                      <children>
-                        <HBox id="firstShelf" layoutX="14.0" prefHeight="10.0" prefWidth="16.0" spacing="4.0">
+                        <HBox id="shelf1" layoutX="14.0" prefHeight="10.0" prefWidth="16.0" spacing="4.0">
                            <children>
                               <ImageView id="firstRes" fitHeight="10.0" fitWidth="11.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </HBox>
-                        <HBox id="secondShelf" layoutX="8.0" layoutY="15.0" prefHeight="10.0" prefWidth="24.0" spacing="4.0">
+                        <HBox id="shelf2" layoutX="8.0" layoutY="15.0" prefHeight="10.0" prefWidth="24.0" spacing="4.0">
                            <children>
                               <ImageView id="firstRes" fitHeight="11.0" fitWidth="11.0" pickOnBounds="true" preserveRatio="true" />
                               <ImageView id="secondRes" fitHeight="10.0" fitWidth="11.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </HBox>
-                        <HBox id="thirdShelf" layoutY="33.0" prefHeight="10.0" prefWidth="24.0" spacing="4.0">
+                        <HBox id="shelf3" layoutY="33.0" prefHeight="10.0" prefWidth="24.0" spacing="4.0">
                            <children>
                               <ImageView id="firstRes" fitHeight="11.0" fitWidth="11.0" pickOnBounds="true" preserveRatio="true" />
                               <ImageView id="secondRes" fitHeight="10.0" fitWidth="11.0" pickOnBounds="true" preserveRatio="true" />
                               <ImageView id="thirdRes" fitHeight="11.0" fitWidth="9.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </HBox>
-                        <HBox id="firstExtraShelf" disable="true" layoutX="321.0" layoutY="6.0" opacity="0.0" prefHeight="8.0" prefWidth="17.0" spacing="2.0">
+                        <HBox id="shelf4" disable="true" layoutX="321.0" layoutY="6.0" opacity="0.0" prefHeight="8.0" prefWidth="17.0" spacing="2.0">
                            <children>
                               <ImageView id="firstRes" fitHeight="9.0" fitWidth="8.0" pickOnBounds="true" preserveRatio="true" />
                               <ImageView id="secondRes" fitHeight="10.0" fitWidth="8.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </HBox>
-                        <HBox id="secondExtraShelf" disable="true" layoutX="347.0" layoutY="6.0" opacity="0.0" prefHeight="5.0" prefWidth="18.0" spacing="2.0">
+                        <HBox id="shelf5" disable="true" layoutX="347.0" layoutY="6.0" opacity="0.0" prefHeight="5.0" prefWidth="18.0" spacing="2.0">
                            <children>
                               <ImageView id="firstRes" fitHeight="9.0" fitWidth="8.0" pickOnBounds="true" preserveRatio="true" />
                               <ImageView id="secondRes" fitHeight="10.0" fitWidth="8.0" pickOnBounds="true" preserveRatio="true" />
@@ -1827,31 +1821,31 @@
                   </StackPane>
                   <Pane id="warehousePane" layoutX="68.0" layoutY="98.0">
                      <children>
-                        <HBox id="firstShelf" layoutX="12.0" prefHeight="10.0" prefWidth="16.0" spacing="4.0">
+                        <HBox id="shelf1" layoutX="12.0" prefHeight="10.0" prefWidth="16.0" spacing="4.0">
                            <children>
                               <ImageView id="firstRes" fitHeight="10.0" fitWidth="11.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </HBox>
-                        <HBox id="secondShelf" layoutX="5.0" layoutY="15.0" prefHeight="10.0" prefWidth="24.0" spacing="4.0">
+                        <HBox id="shelf2" layoutX="5.0" layoutY="15.0" prefHeight="10.0" prefWidth="24.0" spacing="4.0">
                            <children>
                               <ImageView id="firstRes" fitHeight="11.0" fitWidth="11.0" pickOnBounds="true" preserveRatio="true" />
                               <ImageView id="secondRes" fitHeight="10.0" fitWidth="11.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </HBox>
-                        <HBox id="thirdShelf" layoutY="30.0" prefHeight="10.0" prefWidth="24.0" spacing="2.0">
+                        <HBox id="shelf3" layoutY="30.0" prefHeight="10.0" prefWidth="24.0" spacing="2.0">
                            <children>
                               <ImageView id="firstRes" fitHeight="11.0" fitWidth="11.0" pickOnBounds="true" preserveRatio="true" />
                               <ImageView id="secondRes" fitHeight="10.0" fitWidth="11.0" pickOnBounds="true" preserveRatio="true" />
                               <ImageView id="thirdRes" fitHeight="11.0" fitWidth="9.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </HBox>
-                        <HBox id="firstExtraShelf" disable="true" layoutX="318.0" layoutY="5.0" opacity="0.0" prefHeight="8.0" prefWidth="17.0" spacing="2.0">
+                        <HBox id="shelf4" disable="true" layoutX="318.0" layoutY="5.0" opacity="0.0" prefHeight="8.0" prefWidth="17.0" spacing="2.0">
                            <children>
                               <ImageView id="firstRes" fitHeight="9.0" fitWidth="8.0" pickOnBounds="true" preserveRatio="true" />
                               <ImageView id="secondRes" fitHeight="10.0" fitWidth="8.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </HBox>
-                        <HBox id="secondExtraShelf" disable="true" layoutX="345.0" layoutY="6.0" opacity="0.0" prefHeight="5.0" prefWidth="18.0" spacing="2.0">
+                        <HBox id="shelf5" disable="true" layoutX="345.0" layoutY="6.0" opacity="0.0" prefHeight="5.0" prefWidth="18.0" spacing="2.0">
                            <children>
                               <ImageView id="firstRes" fitHeight="9.0" fitWidth="8.0" pickOnBounds="true" preserveRatio="true" />
                               <ImageView id="secondRes" fitHeight="10.0" fitWidth="8.0" pickOnBounds="true" preserveRatio="true" />

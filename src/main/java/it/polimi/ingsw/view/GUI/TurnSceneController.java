@@ -46,7 +46,7 @@ public class TurnSceneController implements SceneController{
     public Pane paymentsPane;
     public GridPane faithPath;
     public VBox enemiesBox;
-    public TextField informationsField;
+    public TextField informationField;
     public Button confirmButton;
     public ImageView tempDevCard;
 
@@ -55,16 +55,18 @@ public class TurnSceneController implements SceneController{
     public ImageView tokenDrawn;
     public Label remainingTokens;
 
+    private final LightMatch match;
+    private final LightPlayer player;
+
     private ResType temporaryRes;
-    private LightMatch match;
-    private LightPlayer player;
     private Integer firstShelfToSwitch;
-    private List<PhysicalResource> chosenResources = new ArrayList<>();
-    private Map<Integer, PhysicalResource> paymentsFromWarehouse = new HashMap<>();
-    private List<PhysicalResource> paymentsFromStrongbox = new ArrayList<>();
-    private List<String> cardsToProduce = new ArrayList<>();
-    private CtoSMessage message;
+    private List<PhysicalResource> chosenResources;
+    private Map<Integer, PhysicalResource> paymentsFromWarehouse;
+    private List<PhysicalResource> paymentsFromStrongbox;
+    private List<String> cardsToProduce;
     private ImageView selectedCard;
+
+    private CtoSMessage message;
 
 
     public TurnSceneController() {
@@ -72,7 +74,17 @@ public class TurnSceneController implements SceneController{
         match = getClientController().getMatch();
         player = match.getLightPlayer(getClient().getNickname());
 
+        initializeTemporaryVariables();
+    }
+
+    private void initializeTemporaryVariables(){
+        temporaryRes = null;
         firstShelfToSwitch = null;
+        chosenResources = new ArrayList<>();
+        paymentsFromWarehouse = new HashMap<>();
+        paymentsFromStrongbox = new ArrayList<>();
+        cardsToProduce = new ArrayList<>();
+        selectedCard = null;
     }
 
 
@@ -219,12 +231,9 @@ public class TurnSceneController implements SceneController{
      * @param ids list of chosen elements' ids
      */
     public void keepEnabledOnly(List<String> ids){
-        ids.addAll(List.of("exitButton","confirmButton"));
+        ids.add("confirmButton");
         for(Node n : myPane.getChildren())
-            if(!ids.contains(n.getId()))
-                n.setDisable(true);
-            else
-                n.setDisable(false);
+            n.setDisable(!ids.contains(n.getId()));
     }
 
     @FXML
@@ -236,14 +245,22 @@ public class TurnSceneController implements SceneController{
             return;
         }
 
+        clicked.getParent().setEffect(new Glow(0.3));
+        SwitchShelfMessage shelfMessage;
+        if (message != null && message.getType() == CtoSMessageType.SWITCH_SHELF) {
+            shelfMessage = (SwitchShelfMessage) message;
+            warehousePane.getChildren().get(shelfMessage.getShelf1()-1).setEffect(null);
+        }
+
         if (firstShelfToSwitch == null) {
             firstShelfToSwitch = shelf;
             return;
         }
 
         message = new SwitchShelfMessage(player.getNickname(), firstShelfToSwitch, shelf);
+        //in case of change idea save the next first shelf
+        firstShelfToSwitch = shelf;
         confirmButton.setText("confirm");
-        firstShelfToSwitch = null;
 
     }
 
@@ -286,13 +303,11 @@ public class TurnSceneController implements SceneController{
 
 
     public void yourTurn(boolean yourTurn) {
-        if (yourTurn) {
-            informationsField.setText("It's your turn! Make a move");
-        }
+        if (yourTurn)
+            informationField.setText("It's your turn! Make a move");
+        else
+            informationField.setText("Wait your turn");
 
-        else{
-            informationsField.setText("Wait your turn");
-        }
         confirmButton.setText("confirm");
         disableAll(!yourTurn);
     }
@@ -331,13 +346,26 @@ public class TurnSceneController implements SceneController{
 
     @FXML
     public void sendMessage() {
-        if(getClientController().getCurrentState().equals(StateName.END_TURN) && !message.getType().equals(CtoSMessageType.SWITCH_SHELF) && !message.getType().equals(CtoSMessageType.LEADER_DISCARDING) && !message.getType().equals(CtoSMessageType.LEADER_ACTIVATION) )
+        if(getClientController().getCurrentState().equals(StateName.END_TURN) &&
+                ( message==null ||
+                        (!message.getType().equals(CtoSMessageType.SWITCH_SHELF) &&
+                         !message.getType().equals(CtoSMessageType.LEADER_DISCARDING) &&
+                         !message.getType().equals(CtoSMessageType.LEADER_ACTIVATION)
+                        )
+                ) )
             (new EndTurnMessage(player.getNickname())).send();
         else
             if(message != null) {
                 message.send();
+                if(message.getType()==CtoSMessageType.SWITCH_SHELF) {
+                    SwitchShelfMessage shelfMessage = (SwitchShelfMessage)message;
+                    warehousePane.getChildren().get(shelfMessage.getShelf1()).setEffect(null);
+                    warehousePane.getChildren().get(shelfMessage.getShelf2()).setEffect(null);
+                }
                 message = null;
             }
+
+        initializeTemporaryVariables();
     }
 
     public void updateHandLeaders(String nickname, List<String> newHandLeaders) {
@@ -470,6 +498,10 @@ public class TurnSceneController implements SceneController{
 
                         }
         }
+
+        //if i tried a switch shelf while i had placed other resources i need to return to a consistent visualization
+        if(nickname.equals(player.getNickname()))
+            updateMarketBuffer(nickname, player.getMarketBuffer());
     }
 
     public void updateFaithMarker(String nickname, int faithMarker) {
@@ -541,7 +573,7 @@ public class TurnSceneController implements SceneController{
                             ((Label) n).setText(nickname + " (OFFLINE)");
             }
 
-        informationsField.setText(str+""+informationsField.getText());
+        informationField.setText(str+""+ informationField.getText());
 
     }
 
@@ -556,7 +588,6 @@ public class TurnSceneController implements SceneController{
 
     public void printRetry(String errMessage) {
         JavaFXGUI.popUpWarning(errMessage);
-        // informationsField.setText(errMessage);
     }
 
     public void endTurnState() {

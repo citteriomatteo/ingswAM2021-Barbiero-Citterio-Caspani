@@ -259,9 +259,9 @@ public class SceneProxy {
      * @return the child node or null if there isn't such a child
      */
     public static Node getChildById(Pane father, String Id){
-        for(Node children : father.getChildren())
-            if(Id.equals(children.getId()))
-                return children;
+        for(Node child : father.getChildren())
+            if(Id.equals(child.getId()))
+                return child;
             return null;
     }
 

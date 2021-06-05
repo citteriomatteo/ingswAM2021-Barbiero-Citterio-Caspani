@@ -13,7 +13,7 @@
             <Image url="@../images/warning.png" />
          </image>
       </ImageView>
-      <Label id="errorLabel" alignment="CENTER" layoutX="163.0" layoutY="27.0" prefHeight="90.0" prefWidth="416.0" text="Error message" textFill="WHITE">
+      <Label id="errorLabel" alignment="CENTER" layoutX="163.0" layoutY="27.0" prefHeight="90.0" prefWidth="416.0" text="Error message" textFill="WHITE" wrapText="true">
          <font>
             <Font name="Calisto MT" size="18.0" />
          </font>

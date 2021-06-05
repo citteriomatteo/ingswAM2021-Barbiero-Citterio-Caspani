@@ -3,7 +3,6 @@ package it.polimi.ingsw.view.GUI;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -67,9 +66,8 @@ public class JavaFXGUI extends Application {
      */
     static void popUpWarning(String error){
         Pane root = (Pane)popUpScene.getRoot();
-        for(Node n : root.getChildren())
-            if("errorLabel".equals(n.getId()))
-                ((Label)n).setText(error);
+        Label label = (Label) SceneProxy.getChildById(root, "errorLabel");
+        label.setText(error);
 
         popUpStage.show();
     }
