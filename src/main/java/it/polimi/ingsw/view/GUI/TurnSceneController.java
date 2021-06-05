@@ -62,6 +62,7 @@ public class TurnSceneController implements SceneController{
     private List<PhysicalResource> chosenResources = new ArrayList<>();
     private Map<Integer, PhysicalResource> paymentsFromWarehouse = new HashMap<>();
     private List<PhysicalResource> paymentsFromStrongbox = new ArrayList<>();
+    private List<String> cardsToProduce = new ArrayList<>();
     private CtoSMessage message;
     private ImageView selectedCard;
 
@@ -745,5 +746,30 @@ public class TurnSceneController implements SceneController{
         dragEvent.setDropCompleted(success);
         dragEvent.consume();
 
+    }
+
+    @FXML
+    public void produce(MouseEvent mouseEvent) {
+        Node node = (Node) mouseEvent.getSource();
+        String card = ("basicProduction").equals(node.getId()) ? "basicProduction" : getSceneProxy().getCardID(((ImageView) node).getImage());
+        if (cardsToProduce.contains(card)) {
+            cardsToProduce.remove(card);
+            node.setEffect(null);
+
+            if(!card.equals("basicProduction"))
+            ((ImageView) node).setFitHeight(((ImageView) node).getFitHeight()-5);
+            ((ImageView) node).setFitWidth(((ImageView) node).getFitWidth()-5);
+        }
+        else {
+            cardsToProduce.add(card);
+            node.setEffect(new Glow(0.3));
+
+            if(!card.equals("basicProduction")) {
+                ((ImageView) node).setFitHeight(((ImageView) node).getFitHeight() + 5);
+                ((ImageView) node).setFitWidth(((ImageView) node).getFitWidth() + 5);
+            }
+        }
+
+        System.out.println(cardsToProduce);
     }
 }

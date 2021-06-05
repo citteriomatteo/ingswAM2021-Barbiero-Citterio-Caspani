@@ -239,26 +239,26 @@
             <ImageView id="firstPopeTile" fitHeight="48.0" fitWidth="39.0" layoutX="364.2045097351074" layoutY="156.0" pickOnBounds="true" preserveRatio="true" translateY="10.0" />
             <ImageView id="thirdPopeTile" fitHeight="37.0" fitWidth="46.0" layoutX="701.2045097351074" layoutY="158.0" pickOnBounds="true" preserveRatio="true" translateY="10.0" />
             <ImageView id="secondPopeTile" fitHeight="37.0" fitWidth="46.0" layoutX="518.2045097351074" layoutY="136.0" pickOnBounds="true" preserveRatio="true" translateY="10.0" />
-            <Canvas id="basicProduction" height="50.0" layoutX="360.2045097351074" layoutY="351.0" translateY="10.0" width="74.0" />
+            <Canvas id="basicProduction" height="50.0" layoutX="360.2045097351074" layoutY="351.0" onMouseClicked="#produce" translateY="10.0" width="74.0" />
             <StackPane id="firstDevSlot" alignment="BOTTOM_CENTER" layoutX="445.2045097351074" layoutY="244.0" prefHeight="187.0" prefWidth="109.0" translateY="10.0">
                <children>
-                  <ImageView id="firstCard" fitHeight="150.0" fitWidth="91.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView id="secondCard" fitHeight="150.0" fitWidth="91.0" pickOnBounds="true" preserveRatio="true" translateY="-27.0" />
-                  <ImageView id="thirdCard" fitHeight="150.0" fitWidth="91.0" pickOnBounds="true" preserveRatio="true" translateY="-54.0" />
+                  <ImageView id="firstCard" fitHeight="150.0" fitWidth="91.0" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="secondCard" fitHeight="150.0" fitWidth="91.0" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" translateY="-27.0" />
+                  <ImageView id="thirdCard" fitHeight="150.0" fitWidth="91.0" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" translateY="-54.0" />
                </children>
             </StackPane>
             <StackPane id="secondDevSlot" alignment="BOTTOM_CENTER" layoutX="565.2045097351074" layoutY="243.0" prefHeight="187.0" prefWidth="109.0" translateY="10.0">
                <children>
-                  <ImageView id="firstCard" fitHeight="150.0" fitWidth="91.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView id="secondCard" fitHeight="150.0" fitWidth="91.0" pickOnBounds="true" preserveRatio="true" translateY="-27.0" />
-                  <ImageView id="thirdCard" fitHeight="150.0" fitWidth="91.0" pickOnBounds="true" preserveRatio="true" translateY="-54.0" />
+                  <ImageView id="firstCard" fitHeight="150.0" fitWidth="91.0" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="secondCard" fitHeight="150.0" fitWidth="91.0" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" translateY="-27.0" />
+                  <ImageView id="thirdCard" fitHeight="150.0" fitWidth="91.0" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" translateY="-54.0" />
                </children>
             </StackPane>
             <StackPane id="thirdDevSlot" alignment="BOTTOM_CENTER" layoutX="691.2045097351074" layoutY="242.0" prefHeight="187.0" prefWidth="109.0" translateY="10.0">
                <children>
-                  <ImageView id="firstCard" fitHeight="150.0" fitWidth="91.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView id="secondCard" disable="true" fitHeight="150.0" fitWidth="91.0" pickOnBounds="true" preserveRatio="true" translateY="-27.0" />
-                  <ImageView id="thirdCard" disable="true" fitHeight="150.0" fitWidth="91.0" pickOnBounds="true" preserveRatio="true" translateY="-54.0" />
+                  <ImageView id="firstCard" fitHeight="150.0" fitWidth="91.0" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="secondCard" disable="true" fitHeight="150.0" fitWidth="91.0" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" translateY="-27.0" />
+                  <ImageView id="thirdCard" disable="true" fitHeight="150.0" fitWidth="91.0" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" translateY="-54.0" />
                </children>
             </StackPane>
             <Pane id="warehousePane" fx:id="warehousePane" layoutX="28.204509735107422" layoutY="212.0">
