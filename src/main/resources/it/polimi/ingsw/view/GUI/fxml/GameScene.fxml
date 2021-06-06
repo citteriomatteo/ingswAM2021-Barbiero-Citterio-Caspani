@@ -239,7 +239,10 @@
             <ImageView id="firstPopeTile" fitHeight="48.0" fitWidth="39.0" layoutX="364.2045097351074" layoutY="156.0" pickOnBounds="true" preserveRatio="true" translateY="10.0" />
             <ImageView id="thirdPopeTile" fitHeight="37.0" fitWidth="46.0" layoutX="701.2045097351074" layoutY="158.0" pickOnBounds="true" preserveRatio="true" translateY="10.0" />
             <ImageView id="secondPopeTile" fitHeight="37.0" fitWidth="46.0" layoutX="518.2045097351074" layoutY="136.0" pickOnBounds="true" preserveRatio="true" translateY="10.0" />
-            <Canvas id="basicProduction" height="50.0" layoutX="360.2045097351074" layoutY="351.0" onMouseClicked="#produce" translateY="10.0" width="74.0" />
+            <Canvas id="basicProduction" height="50.0" layoutX="360.2045097351074" layoutY="351.0" onMouseClicked="#produceBasicProd" translateY="10.0" width="74.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Canvas>
             <StackPane id="firstDevSlot" alignment="BOTTOM_CENTER" layoutX="445.2045097351074" layoutY="244.0" prefHeight="187.0" prefWidth="109.0" translateY="10.0">
                <children>
                   <ImageView id="firstCard" fitHeight="150.0" fitWidth="91.0" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" />
@@ -2015,6 +2018,165 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="productionPane" disable="true" layoutX="753.0" layoutY="241.0" prefHeight="318.0" prefWidth="522.0" style="-fx-background-color: black;" visible="false">
+         <children>
+            <Text fill="WHITE" layoutX="81.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose how to convert the unknown costs">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <HBox layoutX="21.0" layoutY="38.0" prefHeight="102.0" prefWidth="470.0" spacing="30.0">
+               <children>
+                  <VBox alignment="CENTER_RIGHT" prefHeight="102.0" prefWidth="90.0">
+                     <children>
+                        <Label prefHeight="20.0" prefWidth="22.0" text="x0" textAlignment="RIGHT" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="81.0" fitWidth="119.0" onMouseClicked="#convertUCosts" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/punchBoard/stone.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="10.0" prefHeight="102.0" prefWidth="90.0">
+                     <children>
+                        <Label prefHeight="20.0" prefWidth="22.0" text="x0" textAlignment="RIGHT" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="81.0" fitWidth="119.0" onMouseClicked="#convertUCosts" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/punchBoard/shield.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_RIGHT" layoutX="100.0" layoutY="10.0" prefHeight="102.0" prefWidth="90.0">
+                     <children>
+                        <Label prefHeight="20.0" prefWidth="22.0" text="x0" textAlignment="RIGHT" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="81.0" fitWidth="119.0" onMouseClicked="#convertUCosts" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/punchBoard/servant.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_RIGHT" layoutX="191.0" layoutY="10.0" prefHeight="102.0" prefWidth="90.0">
+                     <children>
+                        <Label prefHeight="20.0" prefWidth="22.0" text="x0" textAlignment="RIGHT" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="81.0" fitWidth="119.0" onMouseClicked="#convertUCosts" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/punchBoard/coin.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Text fill="WHITE" layoutX="78.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose how to convert the unknown earnings">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <HBox layoutX="26.0" layoutY="160.0" prefHeight="102.0" prefWidth="470.0" spacing="30.0">
+               <children>
+                  <VBox alignment="CENTER_RIGHT" prefHeight="102.0" prefWidth="90.0">
+                     <children>
+                        <Label prefHeight="20.0" prefWidth="22.0" text="x0" textAlignment="RIGHT" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="81.0" fitWidth="119.0" onMouseClicked="#convertUEarnings" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/punchBoard/stone.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="10.0" prefHeight="102.0" prefWidth="90.0">
+                     <children>
+                        <Label prefHeight="20.0" prefWidth="22.0" text="x0" textAlignment="RIGHT" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="81.0" fitWidth="119.0" onMouseClicked="#convertUEarnings" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/punchBoard/shield.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_RIGHT" layoutX="100.0" layoutY="10.0" prefHeight="102.0" prefWidth="90.0">
+                     <children>
+                        <Label prefHeight="20.0" prefWidth="22.0" text="x0" textAlignment="RIGHT" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="81.0" fitWidth="119.0" onMouseClicked="#convertUEarnings" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/punchBoard/servant.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_RIGHT" layoutX="191.0" layoutY="10.0" prefHeight="102.0" prefWidth="90.0">
+                     <children>
+                        <Label prefHeight="20.0" prefWidth="22.0" text="x0" textAlignment="RIGHT" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="81.0" fitWidth="119.0" onMouseClicked="#convertUEarnings" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/punchBoard/coin.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Button layoutX="247.0" layoutY="279.0" mnemonicParsing="false" text="ok" />
          </children>
       </Pane>
    </children>

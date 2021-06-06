@@ -41,6 +41,7 @@ public class TurnSceneController implements SceneController{
     public VBox strongBox;
     public Pane marketPane;
     public Pane paymentsPane;
+    public Pane productionPane;
     public GridPane faithPath;
     public VBox enemiesBox;
     public TextField informationField;
@@ -60,7 +61,11 @@ public class TurnSceneController implements SceneController{
     private List<PhysicalResource> chosenResources;
     private Map<Integer, PhysicalResource> paymentsFromWarehouse;
     private List<PhysicalResource> paymentsFromStrongbox;
+    private List<PhysicalResource> uCosts;
+    private List<PhysicalResource> uEarnings;
     private List<String> cardsToProduce;
+    int numUCosts;
+    int numUEarnings;
     private ImageView selectedCard;
 
     private CtoSMessage message;
@@ -84,6 +89,10 @@ public class TurnSceneController implements SceneController{
         paymentsFromWarehouse = new HashMap<>();
         paymentsFromStrongbox = new ArrayList<>();
         cardsToProduce = new ArrayList<>();
+        uCosts = new ArrayList<>();
+        uEarnings = new ArrayList<>();
+        numUCosts = 0;
+        numUEarnings = 0;
         selectedCard = null;
     }
 
@@ -280,6 +289,11 @@ public class TurnSceneController implements SceneController{
 
     }
 
+    public void endPaymentsPhase() {
+        paymentsPane.setDisable(true);
+        paymentsPane.setVisible(false);
+    }
+
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%  START / END TURN FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -407,27 +421,69 @@ public class TurnSceneController implements SceneController{
 
     @FXML
     public void produce(MouseEvent mouseEvent) {
-        Node node = (Node) mouseEvent.getSource();
-        String card = ("basicProduction").equals(node.getId()) ? "basicProduction" : getSceneProxy().getCardID(((ImageView) node).getImage());
-        if (cardsToProduce.contains(card)) {
-            cardsToProduce.remove(card);
-            node.setEffect(null);
 
-            if(!card.equals("basicProduction"))
-                ((ImageView) node).setFitHeight(((ImageView) node).getFitHeight()-5);
-            ((ImageView) node).setFitWidth(((ImageView) node).getFitWidth()-5);
+    }
+
+    public void produceBasicProd(MouseEvent mouseEvent) {
+        numUCosts += 2;
+        numUEarnings += 1;
+        int index = cardsToProduce.indexOf("basicProduction");
+
+        if(index != -1) {
+            int numUofLeaders = 0;
+            cardsToProduce.remove("basicProduction");
+            uCosts = new ArrayList<>();
+            for (int i = 0; i < index; i++) {
+                if(cardsToProduce.get(i).startsWith("L"))
+                    numUofLeaders += 1;
+            }
+            uEarnings.remove(numUofLeaders);
         }
         else {
-            cardsToProduce.add(card);
-            node.setEffect(new Glow(0.3));
+            cardsToProduce.add("basicProduction");
+            productionPane.setDisable(false);
+            productionPane.setVisible(true);
+        }
+    }
 
-            if(!card.equals("basicProduction")) {
-                ((ImageView) node).setFitHeight(((ImageView) node).getFitHeight() + 5);
-                ((ImageView) node).setFitWidth(((ImageView) node).getFitWidth() + 5);
-            }
+    public void convertUCosts(MouseEvent mouseEvent) {
+        int numActualUCosts = 0;
+        HBox uCostsHBox = (HBox) productionPane.getChildren().get(1);
+        VBox resVBox;
+        Label resLabel;
+        int newQuantity;
+        ImageView selectedResourceImageView = ((ImageView) mouseEvent.getSource());
+        PhysicalResource selectedResource = new PhysicalResource(ResType.valueOfImage(selectedResourceImageView.getImage()), 1);
+
+        for (PhysicalResource uCost : uCosts)
+            numActualUCosts += uCost.getQuantity();
+
+        if(numActualUCosts >= numUCosts){
+            PhysicalResource oldestResource = uCosts.get(0);
+            newQuantity = oldestResource.getQuantity() - 1;
+            if (newQuantity == 0)
+                uCosts.remove(0);
+            else
+                oldestResource = new PhysicalResource(oldestResource.getType(), newQuantity);
+
+            resVBox = (VBox) uCostsHBox.getChildren().get(oldestResource.getType().ordinal()-1);
+            resLabel = (Label) resVBox.getChildren().get(0);
+            resLabel.setText("x" + newQuantity);
+        }
+        int indexOfResource = uCosts.indexOf(selectedResource);
+        if(indexOfResource != -1) {
+            PhysicalResource foundResource = uCosts.get(indexOfResource);
+            newQuantity = foundResource.getQuantity() + 1;
+            foundResource = new PhysicalResource(foundResource.getType(), newQuantity);
+        }
+        else {
+            uCosts.add(selectedResource);
+            newQuantity = 1;
         }
 
-        System.out.println(cardsToProduce);
+        resVBox = (VBox) uCostsHBox.getChildren().get(selectedResource.getType().ordinal()-1);
+        resLabel = (Label) resVBox.getChildren().get(0);
+        resLabel.setText("x" + newQuantity);
     }
 
 
@@ -559,10 +615,11 @@ public class TurnSceneController implements SceneController{
 
     public void updateHandLeaders(String nickname, List<String> newHandLeaders) {
         if(nickname.equals(player.getNickname())){
-            for (Node child : handLeaders.getChildren())
-                ((ImageView) child).setImage(null);
-            for (int i=0; i < newHandLeaders.size(); i++) {
-                ((ImageView) handLeaders.getChildren().get(i)).setImage(getSceneProxy().getCardImage(newHandLeaders.get(i)));
+            for (int i = 0; i < handLeaders.getChildren().size(); i++) {
+                if(i < newHandLeaders.size())
+                    ((ImageView) handLeaders.getChildren().get(i)).setImage(getSceneProxy().getCardImage(newHandLeaders.get(i)));
+                else
+                    ((ImageView) handLeaders.getChildren().get(i)).setImage(null);
             }
         }
         else {
@@ -637,10 +694,12 @@ public class TurnSceneController implements SceneController{
     public void updateMarketBuffer(String nickname, List<PhysicalResource> marketBuffer) {
 
         if(nickname.equals(player.getNickname())) {
-            for (Node child :  marketBufferBox.getChildren() )
-                ((ImageView) child).setImage(null);
-            for (int i = 0; i < marketBuffer.size(); i++)
-                ((ImageView) marketBufferBox.getChildren().get(i)).setImage(marketBuffer.get(i).getType().asImage());
+            for (int i = 0; i < marketBufferBox.getChildren().size(); i++) {
+                if(i < marketBuffer.size())
+                    ((ImageView) marketBufferBox.getChildren().get(i)).setImage(marketBuffer.get(i).getType().asImage());
+                else
+                    ((ImageView) marketBufferBox.getChildren().get(i)).setImage(null);
+            }
         }
 
         else{
@@ -649,10 +708,12 @@ public class TurnSceneController implements SceneController{
                     for (Node child : ((Pane) enemyPane).getChildren())
                         if(("marketBuffer").equals(child.getId())) {
                             VBox enemyMarketBuffer = (VBox) child;
-                            for (Node n : enemyMarketBuffer.getChildren())
-                                ((ImageView) n).setImage(null);
-                            for (int i = 0; i < marketBuffer.size(); i++)
-                                ((ImageView) enemyMarketBuffer.getChildren().get(i)).setImage(marketBuffer.get(i).getType().asImage());
+                            for (int i = 0; i < enemyMarketBuffer.getChildren().size(); i++) {
+                                if(i < marketBuffer.size())
+                                    ((ImageView) enemyMarketBuffer.getChildren().get(i)).setImage(marketBuffer.get(i).getType().asImage());
+                                else
+                                    ((ImageView) enemyMarketBuffer.getChildren().get(i)).setImage(null);
+                            }
                         }
         }
 
@@ -857,5 +918,8 @@ public class TurnSceneController implements SceneController{
                          !message.getType().equals(CtoSMessageType.LEADER_ACTIVATION)
                         )
                 );
+    }
+
+    public void convertUEarnings(MouseEvent mouseEvent) {
     }
 }

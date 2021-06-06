@@ -198,6 +198,7 @@ public class SceneProxy {
             case PLACE_DEV_CARD:
                 Platform.runLater(()-> {
                     turnSceneController.placeDevCardPhaseDisables();
+                    turnSceneController.endPaymentsPhase();
                 });
                 break;
             case PRODUCTION_ACTION:
