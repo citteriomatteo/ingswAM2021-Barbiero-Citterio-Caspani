@@ -3,11 +3,14 @@ package it.polimi.ingsw.model.match;
 import it.polimi.ingsw.controller.StateName;
 import it.polimi.ingsw.exceptions.SingleMatchException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
+import it.polimi.ingsw.model.essentials.PhysicalResource;
+import it.polimi.ingsw.model.essentials.ResType;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.personalBoard.PersonalBoard;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -50,6 +53,7 @@ public class MultiMatch extends Match {
 
             }
         }
+        adminCase();
     }
 
     //todo JAVADOC
@@ -76,7 +80,10 @@ public class MultiMatch extends Match {
 
             }
         }
+        adminCase();
     }
+
+
 
     /**
      * Getter

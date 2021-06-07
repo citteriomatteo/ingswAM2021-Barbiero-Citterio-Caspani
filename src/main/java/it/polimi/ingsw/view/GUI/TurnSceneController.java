@@ -164,6 +164,7 @@ public class TurnSceneController implements SceneController{
         for (LightPlayer player1 : match.getLightPlayers()) {
             updateWarehouse(player1.getNickname(), player1.getWarehouse());
             updateFaithMarker(player1.getNickname(), player1.getFaithMarker());
+            updateStrongBox(player1.getNickname(), player1.getStrongbox());
         }
     }
 
@@ -320,11 +321,6 @@ public class TurnSceneController implements SceneController{
         }
 
         clicked.getParent().setEffect(new Glow(0.3));
- //       SwitchShelfMessage shelfMessage;
-//        if (message != null && message.getType() == CtoSMessageType.SWITCH_SHELF) {
-//            shelfMessage = (SwitchShelfMessage) message;
-//            warehousePane.getChildren().get(shelfMessage.getShelf1()-1).setEffect(null);
-//        }
 
         if (firstShelfToSwitch == null) {
             firstShelfToSwitch = shelf;
@@ -334,9 +330,7 @@ public class TurnSceneController implements SceneController{
         (new SwitchShelfMessage(player.getNickname(), firstShelfToSwitch, shelf)).send();
         clicked.getParent().setEffect(null);
         warehousePane.getChildren().get(firstShelfToSwitch-1).setEffect(null);
-//        //in case of change idea save the next first shelf
-//        firstShelfToSwitch = shelf;
-//        confirmButton.setText("confirm");
+        firstShelfToSwitch = null;
 
     }
 
@@ -859,8 +853,8 @@ public class TurnSceneController implements SceneController{
             for (int i = 0; i < newStrongbox.size(); i++) {
                 for (Node n : strongBox.getChildren()) {
                     HBox shelf = (HBox) n;
-                    if (newStrongbox.get(i).getType().toString().equals(shelf.getId()))
-                        ((TextField) shelf.getChildren().get(1)).setText("x" + newStrongbox.get(i).getQuantity());
+                    if (newStrongbox.get(i).getType().toString().toLowerCase().equals(shelf.getId()))
+                        ((Text) shelf.getChildren().get(1)).setText("x" + newStrongbox.get(i).getQuantity());
                 }
             }
         }

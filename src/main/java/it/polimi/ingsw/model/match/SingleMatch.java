@@ -36,6 +36,8 @@ public class SingleMatch extends Match{
         currentPlayer.setMatch(this);
         currentPlayer.setInitialHandLeaders(getLeaderStack().draw(4));
 
+        adminCase();
+
     }
 
     //todo JAVADOC
@@ -47,6 +49,8 @@ public class SingleMatch extends Match{
         currentPlayer.setPersonalBoard(new PersonalBoard((ArrayList<Cell>) config.getCustomPath(), config.getBasicProduction(), currentPlayer));
         currentPlayer.setMatch(this);
         currentPlayer.setInitialHandLeaders(getLeaderStack().draw(4));
+
+        adminCase();
     }
 
     /**

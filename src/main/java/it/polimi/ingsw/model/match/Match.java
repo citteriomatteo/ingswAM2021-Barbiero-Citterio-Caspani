@@ -2,9 +2,12 @@ package it.polimi.ingsw.model.match;
 
 import it.polimi.ingsw.controller.StateName;
 import it.polimi.ingsw.exceptions.LastRoundException;
+import it.polimi.ingsw.model.essentials.PhysicalResource;
+import it.polimi.ingsw.model.essentials.ResType;
 import it.polimi.ingsw.model.match.market.Market;
 import it.polimi.ingsw.model.match.player.Player;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
@@ -86,5 +89,23 @@ public abstract class Match implements Communicator {
      * @return the player searched if it's in the players list, or null if it isn't
      */
     public abstract Player getPlayer(String nickname);
+
+    /**
+     * Controls if there is a player nickname starting for admin and charge his strongbox for easy testing
+     */
+    protected void adminCase(){
+        for(Player p : this.getPlayers())
+            if(p.getNickname().startsWith("admin"))
+                chargeStrongBox(p, 50);
+    }
+
+    /**
+     * Charge the strongbox of the relative player with value of every resource
+     * @param p the player you want to charge the strongbox to
+     * @param value the quantity of resources you want to put in the strongbox for every type
+     */
+    private void chargeStrongBox(Player p, int value){
+        Arrays.stream(ResType.values()).filter((x)->!x.equals(ResType.UNKNOWN)).forEach((x)-> p.addToStrongBox(new PhysicalResource(x, value)));
+    }
 
 }
