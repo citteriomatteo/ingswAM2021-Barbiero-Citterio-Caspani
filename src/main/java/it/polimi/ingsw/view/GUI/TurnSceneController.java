@@ -345,8 +345,7 @@ public class TurnSceneController implements SceneController{
         MenuItem node = (MenuItem) actionEvent.getSource();
         int numLeader = Integer.parseInt((String) node.getUserData());
 
-        message = new LeaderActivationMessage(player.getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()));
-        message.send();
+        (new LeaderActivationMessage(player.getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()))).send();
     }
 
     @FXML
@@ -998,6 +997,9 @@ public class TurnSceneController implements SceneController{
      */
     @FXML
     public void sendMessage() {
+        if(endTurn())
+            (new EndTurnMessage(player.getNickname())).send();
+        else
         if(message != null) {
             message.send();
             message = null;
@@ -1005,8 +1007,9 @@ public class TurnSceneController implements SceneController{
         initializeTemporaryVariables();
     }
 
-
-
+    private boolean endTurn(){
+        return getClientController().getCurrentState().equals(StateName.END_TURN);
+    }
 
     public void convertUEarnings(MouseEvent mouseEvent) {
     }
