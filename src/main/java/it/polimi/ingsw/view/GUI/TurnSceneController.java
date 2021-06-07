@@ -346,7 +346,7 @@ public class TurnSceneController implements SceneController{
         int numLeader = Integer.parseInt((String) node.getUserData());
 
         message = new LeaderActivationMessage(player.getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()));
-        confirmButton.setText("confirm");
+        message.send();
     }
 
     @FXML
@@ -998,26 +998,15 @@ public class TurnSceneController implements SceneController{
      */
     @FXML
     public void sendMessage() {
-        if(endTurn())
-            (new EndTurnMessage(player.getNickname())).send();
-        else
         if(message != null) {
             message.send();
             message = null;
         }
-
         initializeTemporaryVariables();
     }
 
-    private boolean endTurn(){
-        return getClientController().getCurrentState().equals(StateName.END_TURN) &&
-                ( message==null ||
-                        (!message.getType().equals(CtoSMessageType.SWITCH_SHELF) &&
-                         !message.getType().equals(CtoSMessageType.LEADER_DISCARDING) &&
-                         !message.getType().equals(CtoSMessageType.LEADER_ACTIVATION)
-                        )
-                );
-    }
+
+
 
     public void convertUEarnings(MouseEvent mouseEvent) {
     }
