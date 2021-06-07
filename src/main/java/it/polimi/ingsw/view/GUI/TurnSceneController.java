@@ -352,18 +352,19 @@ public class TurnSceneController implements SceneController{
         MenuItem node = (MenuItem) actionEvent.getSource();
         int numLeader = Integer.parseInt((String) node.getUserData());
 
+        message = new LeaderDiscardingMessage(player.getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()));
+        confirmButton.setText("confirm");
+
         /*
         manually removing the hand leaders from my hand (no confirm needed by the server) and setting invisible the
             related MenuButton.
         */
         player.getHandLeaders().remove(getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()));
+        updateHandLeaders(player.getNickname(), player.getHandLeaders());
         if(numLeader == 1)
             leaderActions1.setVisible(false);
         else if(numLeader == 2)
             leaderActions2.setVisible(false);
-
-        message = new LeaderDiscardingMessage(player.getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()));
-        confirmButton.setText("confirm");
 
     }
 
