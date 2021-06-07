@@ -129,7 +129,7 @@ public class TurnSceneController implements SceneController{
         for (k=0; k < enemies.size(); k++) {
             Pane enemyPane = (Pane) enemiesBox.getChildren().get(k);
             enemyPane.setId(enemies.get(k).getNickname());
-            Label enemyName = (Label) enemyPane.getChildren().get(2);
+            Label enemyName = (Label) enemyPane.getChildren().get(3);
             enemyName.setText(enemies.get(k).getNickname());
         }
 
