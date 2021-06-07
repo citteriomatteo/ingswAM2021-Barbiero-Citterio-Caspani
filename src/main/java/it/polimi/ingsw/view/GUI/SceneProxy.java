@@ -243,12 +243,10 @@ public class SceneProxy {
         });
     }
 
-
     public void loadStartingMatch() {
         Platform.runLater(()->{
             if(turnSceneController != null) {
                 turnSceneController.loadStartingMatch();
-                System.out.println("called");
             }
         });
     }
@@ -283,7 +281,6 @@ public class SceneProxy {
 
     public void updateMarketBuffer(String nickname, List<PhysicalResource> marketBuffer) {
         Platform.runLater(()->{
-            System.out.println(marketBuffer);
             if(turnSceneController != null)
                 turnSceneController.updateMarketBuffer(nickname, marketBuffer);
             });
@@ -356,6 +353,13 @@ public class SceneProxy {
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.updateTempDevCard(card);
+        });
+    }
+
+    public void updateDevCardSlots(String nickname, List<String>[] devCardSlots){
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.updateDevCardSlots(nickname, devCardSlots);
         });
     }
 

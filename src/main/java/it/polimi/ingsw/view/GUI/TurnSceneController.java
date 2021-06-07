@@ -24,6 +24,7 @@ import java.util.*;
 
 import static it.polimi.ingsw.network.client.Client.getClient;
 import static it.polimi.ingsw.view.ClientController.getClientController;
+import static it.polimi.ingsw.view.GUI.SceneProxy.getChildById;
 import static it.polimi.ingsw.view.GUI.SceneProxy.getSceneProxy;
 
 public class TurnSceneController implements SceneController{
@@ -55,6 +56,7 @@ public class TurnSceneController implements SceneController{
 
     private final LightMatch match;
     private final LightPlayer player;
+    public HBox devCardSlots;
 
     private ResType temporaryRes;
     private Integer firstShelfToSwitch;
@@ -194,7 +196,7 @@ public class TurnSceneController implements SceneController{
      * @param id the id of the node you want to not disable
      */
     public void disableAllMinus(String id){
-        //todo: doesn't work
+        //todo: doesn't work properly
         boolean found = false;
         for(Node n : basePane.getChildren())
             if(!id.equals(n.getId())) {
@@ -262,7 +264,7 @@ public class TurnSceneController implements SceneController{
         cardGrid.setDisable(true);
 
         //ids of the elements to keep enabled
-        List<String> importantIds = new ArrayList<>(List.of("warehousePane", "firstDevSlot", "secondDevSlot", "thirdDevSlot"));
+        List<String> importantIds = new ArrayList<>(List.of("warehousePane","devCardSlots", "1DevSlot", "2DevSlot", "3DevSlot"));
 
         keepEnabledOnly(importantIds);
     }
@@ -415,6 +417,60 @@ public class TurnSceneController implements SceneController{
 
     }
 
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DEV CARD PLACEMENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    @FXML
+    public void dragCard(MouseEvent mouseEvent) {
+        Dragboard db = tempDevCard.startDragAndDrop(TransferMode.MOVE);
+        ClipboardContent content = new ClipboardContent();
+        content.putImage((new Image(getClass().getResourceAsStream("images/handCard.png"))));
+        db.setContent(content);
+
+        //Avoid behind objects to detect this event
+        mouseEvent.consume();
+    }
+
+    @FXML
+    public void dropCard(DragEvent dragEvent) {
+        boolean success;
+        StackPane selectedColumn = (StackPane) ((Node)dragEvent.getSource()).getParent();
+        System.out.println("Selected StackPane: " + selectedColumn);
+        int freePosition = findFreePosition(selectedColumn);
+        System.out.println("first free position " + freePosition);
+        if(freePosition>=0) {
+            success = true;
+            ((ImageView)selectedColumn.getChildren().get(freePosition)).setImage(tempDevCard.getImage());
+            message = new DevCardPlacementMessage(player.getNickname(), devCardSlots.getChildren().indexOf(selectedColumn)+1);
+        }
+        else
+            success = false;
+
+        dragEvent.setDropCompleted(success);
+        dragEvent.consume();
+    }
+
+    /**
+     * Return the first free position in the stackPane, if there isn't a free position, returns -1
+     * @param selectedColumn the stack pane you want to search into
+     * @return the first free position in the stackPane, if there isn't a free position, returns -1
+     */
+    private int findFreePosition(StackPane selectedColumn) {
+        for (int i = 0; i < selectedColumn.getChildren().size(); i++) {
+            if(((ImageView)selectedColumn.getChildren().get(i)).getImage() == null)
+                return i;
+        }
+        return -1;
+    }
+
+    @FXML
+    public void acceptCardDrop(DragEvent dragEvent) {
+        Node gestureSource = (Node)dragEvent.getGestureSource();
+        if(tempDevCard.equals(gestureSource))
+            dragEvent.acceptTransferModes(TransferMode.MOVE);
+
+        dragEvent.consume();
+    }
+
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PRODUCTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -535,18 +591,19 @@ public class TurnSceneController implements SceneController{
      */
     @FXML
     public void acceptDrop(DragEvent dragEvent) {
-        if(!(((Node) dragEvent.getGestureSource()).getParent().getParent()).equals(((Node) dragEvent.getSource()).getParent().getParent()))
+        Node gestureSource = (Node)dragEvent.getGestureSource();
+        if(!gestureSource.equals(tempDevCard) && !((gestureSource.getParent().getParent()).equals(((Node) dragEvent.getSource()).getParent().getParent())))
             dragEvent.acceptTransferModes(TransferMode.MOVE);
 
         dragEvent.consume();
     }
 
     /**
-     * End the drag sequence for a sequence started from the market buffer or the Warehouse
+     * End the drag sequence for a sequence started from an ImageView -> remove the image
      * @param dragEvent the relative dragEvent
      */
     @FXML
-    public void dragResourceDone(DragEvent dragEvent) {
+    public void dragDone(DragEvent dragEvent) {
         if (dragEvent.getTransferMode() == TransferMode.MOVE) {
             ((ImageView) dragEvent.getGestureSource()).setImage(null);
         }
@@ -788,7 +845,7 @@ public class TurnSceneController implements SceneController{
     }
 
     public void updateStrongBox(String nickname, List<PhysicalResource> newStrongbox) {
-        if(nickname.equals(getClient().getNickname())){
+        if(nickname.equals(player.getNickname())){
             for (int i = 0; i < newStrongbox.size(); i++) {
                 for (Node n : strongBox.getChildren()) {
                     HBox shelf = (HBox) n;
@@ -866,7 +923,7 @@ public class TurnSceneController implements SceneController{
     private void setStackPaneContent(StackPane stackPane, int newDepth, String topCard) {
         ImageView imageView;
         List<Node> cards = stackPane.getChildren();
-        for (int k = cards.size()-1; k > 0; k--) {
+        for (int k = cards.size()-1; k >= 0; k--) {
             imageView = (ImageView) cards.get(k);
             if (k < newDepth)
                 imageView.setDisable(true);
@@ -880,8 +937,39 @@ public class TurnSceneController implements SceneController{
     }
 
     public void updateTempDevCard(String card){
+        if(card == null || card.equals("")) {
+            tempDevCard.setImage(null);
+            tempDevCard.setVisible(false);
+            return;
+        }
         tempDevCard.setImage(getSceneProxy().getCardImage(card));
         tempDevCard.setVisible(true);
+    }
+
+    public void updateDevCardSlots(String nickname, List<String>[] devCardSlots){
+        HBox devCardHBox;
+        Pane playerPane;
+        List<String> cardColumn;
+        StackPane cardColumnStack;
+        ImageView imageview;
+
+        if(nickname.equals(player.getNickname()))
+            playerPane = myPane;
+        else
+            playerPane = (Pane) getChildById(enemiesBox, nickname);
+
+        devCardHBox = (HBox)getChildById(playerPane, "devCardSlots");
+        for (int i = 0; i < devCardSlots.length; i++) {
+            cardColumn = devCardSlots[i];
+            cardColumnStack = (StackPane) devCardHBox.getChildren().get(i);
+            for (int j = 0; j < cardColumn.size(); j++) {
+                imageview = (ImageView) cardColumnStack.getChildren().get(j);
+                imageview.setImage(getSceneProxy().getCardImage(cardColumn.get(j)));
+            }
+        }
+
+        updateTempDevCard(match.getLightPlayer(nickname).getTempDevCard());
+
     }
 
     /**
@@ -895,7 +983,7 @@ public class TurnSceneController implements SceneController{
 
 
     /**
-     * Function calls by the press of confirm button, sends the temporary message saved or EndTurnMessage if it is the case
+     * Function called by the press of confirm button, sends the temporary message saved or EndTurnMessage if it is the case
      */
     @FXML
     public void sendMessage() {
@@ -922,4 +1010,7 @@ public class TurnSceneController implements SceneController{
 
     public void convertUEarnings(MouseEvent mouseEvent) {
     }
+
+
+
 }

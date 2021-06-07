@@ -49,19 +49,19 @@
             </ImageView>
             <HBox id="marketBufferBox" fx:id="marketBufferBox" layoutX="76.20450973510742" layoutY="3.0" prefHeight="74.0" prefWidth="277.0">
                <children>
-                  <ImageView id="firstBufferRes" fitHeight="74.0" fitWidth="69.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" pickOnBounds="true" preserveRatio="true">
+                  <ImageView id="firstBufferRes" fitHeight="74.0" fitWidth="69.0" onDragDetected="#dragResource" onDragDone="#dragDone" pickOnBounds="true" preserveRatio="true">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></ImageView>
-                  <ImageView id="secondBufferRes" fitHeight="74.0" fitWidth="69.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" pickOnBounds="true" preserveRatio="true">
+                  <ImageView id="secondBufferRes" fitHeight="74.0" fitWidth="69.0" onDragDetected="#dragResource" onDragDone="#dragDone" pickOnBounds="true" preserveRatio="true">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></ImageView>
-                  <ImageView id="thirdBufferRes" fitHeight="74.0" fitWidth="69.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" pickOnBounds="true" preserveRatio="true">
+                  <ImageView id="thirdBufferRes" fitHeight="74.0" fitWidth="69.0" onDragDetected="#dragResource" onDragDone="#dragDone" pickOnBounds="true" preserveRatio="true">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></ImageView>
-                  <ImageView id="fourthBufferRes" fitHeight="74.0" fitWidth="69.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" pickOnBounds="true" preserveRatio="true">
+                  <ImageView id="fourthBufferRes" fitHeight="74.0" fitWidth="69.0" onDragDetected="#dragResource" onDragDone="#dragDone" pickOnBounds="true" preserveRatio="true">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></ImageView>
@@ -243,32 +243,36 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Canvas>
-            <StackPane id="firstDevSlot" alignment="BOTTOM_CENTER" layoutX="445.2045097351074" layoutY="244.0" prefHeight="187.0" prefWidth="109.0" translateY="10.0">
+            <HBox id="devCardSlots" fx:id="devCardSlots" alignment="CENTER" layoutX="445.0" layoutY="235.0" prefHeight="200.0" prefWidth="363.0">
                <children>
-                  <ImageView id="firstCard" fitHeight="150.0" fitWidth="91.0" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView id="secondCard" fitHeight="150.0" fitWidth="91.0" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" translateY="-27.0" />
-                  <ImageView id="thirdCard" fitHeight="150.0" fitWidth="91.0" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" translateY="-54.0" />
+                  <StackPane id="1DevSlot" alignment="BOTTOM_CENTER" prefHeight="187.0" prefWidth="109.0" translateY="10.0">
+                     <children>
+                        <ImageView id="firstCard" fitHeight="150.0" fitWidth="91.0" onDragDropped="#dropCard" onDragOver="#acceptCardDrop" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="secondCard" fitHeight="150.0" fitWidth="91.0" onDragDropped="#dropCard" onDragOver="#acceptCardDrop" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" translateY="-27.0" />
+                        <ImageView id="thirdCard" fitHeight="150.0" fitWidth="91.0" onDragDropped="#dropCard" onDragOver="#acceptCardDrop" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" translateY="-54.0" />
+                     </children>
+                  </StackPane>
+                  <StackPane id="2DevSlot" alignment="BOTTOM_CENTER" prefHeight="187.0" prefWidth="109.0" translateY="10.0">
+                     <children>
+                        <ImageView id="firstCard" fitHeight="150.0" fitWidth="91.0" onDragDropped="#dropCard" onDragOver="#acceptCardDrop" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="secondCard" fitHeight="150.0" fitWidth="91.0" onDragDropped="#dropCard" onDragOver="#acceptCardDrop" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" translateY="-27.0" />
+                        <ImageView id="thirdCard" fitHeight="150.0" fitWidth="91.0" onDragDropped="#dropCard" onDragOver="#acceptCardDrop" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" translateY="-54.0" />
+                     </children>
+                  </StackPane>
+                  <StackPane id="3DevSlot" alignment="BOTTOM_CENTER" prefHeight="187.0" prefWidth="109.0" translateY="10.0">
+                     <children>
+                        <ImageView id="firstCard" fitHeight="150.0" fitWidth="91.0" onDragDropped="#dropCard" onDragOver="#acceptCardDrop" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="secondCard" disable="true" fitHeight="150.0" fitWidth="91.0" onDragDropped="#dropCard" onDragOver="#acceptCardDrop" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" translateY="-27.0" />
+                        <ImageView id="thirdCard" disable="true" fitHeight="150.0" fitWidth="91.0" onDragDropped="#dropCard" onDragOver="#acceptCardDrop" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" translateY="-54.0" />
+                     </children>
+                  </StackPane>
                </children>
-            </StackPane>
-            <StackPane id="secondDevSlot" alignment="BOTTOM_CENTER" layoutX="565.2045097351074" layoutY="243.0" prefHeight="187.0" prefWidth="109.0" translateY="10.0">
-               <children>
-                  <ImageView id="firstCard" fitHeight="150.0" fitWidth="91.0" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView id="secondCard" fitHeight="150.0" fitWidth="91.0" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" translateY="-27.0" />
-                  <ImageView id="thirdCard" fitHeight="150.0" fitWidth="91.0" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" translateY="-54.0" />
-               </children>
-            </StackPane>
-            <StackPane id="thirdDevSlot" alignment="BOTTOM_CENTER" layoutX="691.2045097351074" layoutY="242.0" prefHeight="187.0" prefWidth="109.0" translateY="10.0">
-               <children>
-                  <ImageView id="firstCard" fitHeight="150.0" fitWidth="91.0" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView id="secondCard" disable="true" fitHeight="150.0" fitWidth="91.0" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" translateY="-27.0" />
-                  <ImageView id="thirdCard" disable="true" fitHeight="150.0" fitWidth="91.0" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" translateY="-54.0" />
-               </children>
-            </StackPane>
+            </HBox>
             <Pane id="warehousePane" fx:id="warehousePane" layoutX="28.204509735107422" layoutY="212.0">
                <children>
                   <HBox id="shelf1" layoutX="253.0" layoutY="58.0" prefHeight="18.0" prefWidth="12.0" spacing="5.0" translateY="10.0">
                      <children>
-                        <ImageView id="firstRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true">
+                        <ImageView id="firstRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></ImageView>
@@ -276,11 +280,11 @@
                   </HBox>
                   <HBox id="shelf2" layoutX="240.0" layoutY="86.0" prefHeight="18.0" prefWidth="39.0" spacing="5.0" translateY="10.0">
                      <children>
-                        <ImageView id="firstRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true">
+                        <ImageView id="firstRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></ImageView>
-                        <ImageView id="secondRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true">
+                        <ImageView id="secondRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></ImageView>
@@ -288,17 +292,17 @@
                   </HBox>
                   <HBox id="shelf3" layoutX="229.0" layoutY="121.0" prefHeight="18.0" prefWidth="48.0" spacing="4.0" translateY="10.0">
                      <children>
-                        <ImageView id="firstRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true">
+                        <ImageView id="firstRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </ImageView>
-                        <ImageView id="secondRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true">
+                        <ImageView id="secondRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </ImageView>
-                        <ImageView id="thirdRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true">
+                        <ImageView id="thirdRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -307,14 +311,14 @@
                   </HBox>
                   <HBox id="shelf4" opacity="0.0" prefHeight="24.0" prefWidth="55.0" spacing="12.0">
                      <children>
-                        <ImageView id="firstRes" fitHeight="19.0" fitWidth="20.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView id="secondRes" fitHeight="19.0" fitWidth="20.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="firstRes" fitHeight="19.0" fitWidth="20.0" onDragDetected="#dragResource" onDragDone="#dragDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="secondRes" fitHeight="19.0" fitWidth="20.0" onDragDetected="#dragResource" onDragDone="#dragDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </HBox>
                   <HBox id="shelf5" disable="true" layoutX="92.00000381469727" layoutY="3.0" opacity="0.0" prefHeight="22.0" prefWidth="55.0" spacing="12.0">
                      <children>
-                        <ImageView id="firstRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView id="secondRes" fitHeight="16.0" fitWidth="21.0" onDragDetected="#dragResource" onDragDone="#dragResourceDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="firstRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="secondRes" fitHeight="16.0" fitWidth="21.0" onDragDetected="#dragResource" onDragDone="#dragDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </HBox>
                </children>
@@ -865,10 +869,13 @@
             </StackPane>
          </children>
       </GridPane>
-      <ImageView id="tempDevCard" fx:id="tempDevCard" fitHeight="109.0" fitWidth="60.0" layoutX="764.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView id="tempDevCard" fx:id="tempDevCard" fitHeight="109.0" fitWidth="60.0" layoutX="764.0" layoutY="165.0" onDragDetected="#dragCard" onDragDone="#dragDone" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../images/developmentCards/back/purple2.png" />
          </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </ImageView>
       <Pane id="marketPane" fx:id="marketPane" layoutX="66.0" layoutY="18.0">
          <children>
@@ -1170,27 +1177,31 @@
                         </ImageView>
                      </children>
                   </GridPane>
-                  <StackPane id="firstDevSlot" alignment="BOTTOM_CENTER" layoutX="170.0" layoutY="101.0" maxHeight="84.0" maxWidth="60.0" prefHeight="84.0" prefWidth="60.0">
+                  <HBox id="devCardSlots" alignment="CENTER" layoutX="170.0" layoutY="84.0" prefHeight="98.0" prefWidth="200.0">
                      <children>
-                        <ImageView id="firstCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView id="secondCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-12.0" />
-                        <ImageView id="thirdCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-24.0" />
+                        <StackPane id="firstDevSlot" alignment="BOTTOM_CENTER" maxHeight="84.0" maxWidth="60.0" prefHeight="84.0" prefWidth="60.0">
+                           <children>
+                              <ImageView id="firstCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView id="secondCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-12.0" />
+                              <ImageView id="thirdCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-24.0" />
+                           </children>
+                        </StackPane>
+                        <StackPane id="secondDevSlot" alignment="BOTTOM_CENTER" prefHeight="84.0" prefWidth="60.0">
+                           <children>
+                              <ImageView id="firstCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView id="secondCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-12.0" />
+                              <ImageView id="thirdCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-24.0" />
+                           </children>
+                        </StackPane>
+                        <StackPane id="thirdDevSlot" alignment="BOTTOM_CENTER" prefHeight="84.0" prefWidth="60.0">
+                           <children>
+                              <ImageView id="firstCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView id="secondCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-12.0" />
+                              <ImageView id="thirdCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-24.0" />
+                           </children>
+                        </StackPane>
                      </children>
-                  </StackPane>
-                  <StackPane id="secondDevSlot" alignment="BOTTOM_CENTER" layoutX="236.0" layoutY="100.0" prefHeight="84.0" prefWidth="60.0">
-                     <children>
-                        <ImageView id="firstCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView id="secondCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-12.0" />
-                        <ImageView id="thirdCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-24.0" />
-                     </children>
-                  </StackPane>
-                  <StackPane id="thirdDevSlot" alignment="BOTTOM_CENTER" layoutX="305.0" layoutY="101.0" prefHeight="84.0" prefWidth="60.0">
-                     <children>
-                        <ImageView id="firstCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView id="secondCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-12.0" />
-                        <ImageView id="thirdCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-24.0" />
-                     </children>
-                  </StackPane>
+                  </HBox>
                   <Pane id="warehousePane" layoutX="66.0" layoutY="96.0">
                      <children>
                         <HBox id="shelf1" layoutX="14.0" prefHeight="10.0" prefWidth="16.0" spacing="4.0">
@@ -1485,27 +1496,31 @@
                   <ImageView id="firstPopeTile" fx:id="firstPopeTile" fitHeight="18.0" fitWidth="22.0" layoutX="129.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView id="secondPopeTile" fx:id="secondPopeTile" fitHeight="18.0" fitWidth="22.0" layoutX="211.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView id="thirdPopeTIle" fx:id="thirdPopeTile" fitHeight="18.0" fitWidth="22.0" layoutX="310.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" />
-                  <StackPane id="firstDevSlot" alignment="BOTTOM_CENTER" layoutX="173.0" layoutY="101.0" prefHeight="84.0" prefWidth="60.0">
+                  <HBox id="devCardSlots" alignment="CENTER" layoutX="173.0" layoutY="84.0" prefHeight="98.0" prefWidth="194.0">
                      <children>
-                        <ImageView id="firstCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView id="secondCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-12.0" />
-                        <ImageView id="thirdCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-24.0" />
+                        <StackPane id="firstDevSlot" alignment="BOTTOM_CENTER" prefHeight="84.0" prefWidth="60.0">
+                           <children>
+                              <ImageView id="firstCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView id="secondCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-12.0" />
+                              <ImageView id="thirdCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-24.0" />
+                           </children>
+                        </StackPane>
+                        <StackPane id="secondDevSlot" alignment="BOTTOM_CENTER" prefHeight="84.0" prefWidth="60.0">
+                           <children>
+                              <ImageView id="firstCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView id="secondCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-12.0" />
+                              <ImageView id="thirdCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-24.0" />
+                           </children>
+                        </StackPane>
+                        <StackPane id="thirdDevSlot" alignment="BOTTOM_CENTER" prefHeight="84.0" prefWidth="60.0">
+                           <children>
+                              <ImageView id="firstCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView id="secondCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-12.0" />
+                              <ImageView id="thirdCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-24.0" />
+                           </children>
+                        </StackPane>
                      </children>
-                  </StackPane>
-                  <StackPane id="secondDevSlot" alignment="BOTTOM_CENTER" layoutX="236.0" layoutY="102.0" prefHeight="84.0" prefWidth="60.0">
-                     <children>
-                        <ImageView id="firstCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView id="secondCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-12.0" />
-                        <ImageView id="thirdCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-24.0" />
-                     </children>
-                  </StackPane>
-                  <StackPane id="thirdDevSlot" alignment="BOTTOM_CENTER" layoutX="304.0" layoutY="100.0" prefHeight="84.0" prefWidth="60.0">
-                     <children>
-                        <ImageView id="firstCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView id="secondCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-12.0" />
-                        <ImageView id="thirdCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-24.0" />
-                     </children>
-                  </StackPane>
+                  </HBox>
                   <Pane id="warehousePane" layoutX="66.0" layoutY="96.0">
                      <children>
                         <HBox id="shelf1" layoutX="14.0" prefHeight="10.0" prefWidth="16.0" spacing="4.0">
@@ -1801,27 +1816,31 @@
                   <ImageView id="firstPopeTile" fitHeight="18.0" fitWidth="22.0" layoutX="129.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView id="secondPopeTile" fitHeight="18.0" fitWidth="22.0" layoutX="211.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView id="thirdPopeTile" fitHeight="18.0" fitWidth="22.0" layoutX="310.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true" />
-                  <StackPane id="firstDevSlot" fx:id="firstDevSlot" alignment="BOTTOM_CENTER" layoutX="173.0" layoutY="100.0" prefHeight="84.0" prefWidth="60.0">
+                  <HBox id="devCardSlots" alignment="CENTER" layoutX="173.0" layoutY="83.0" prefHeight="98.0" prefWidth="194.0">
                      <children>
-                        <ImageView id="firstCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView id="secondCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-12.0" />
-                        <ImageView id="thirdCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-24.0" />
+                        <StackPane id="firstDevSlot" fx:id="firstDevSlot" alignment="BOTTOM_CENTER" prefHeight="84.0" prefWidth="60.0">
+                           <children>
+                              <ImageView id="firstCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView id="secondCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-12.0" />
+                              <ImageView id="thirdCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-24.0" />
+                           </children>
+                        </StackPane>
+                        <StackPane id="thirdDevSlot" fx:id="secondDevSlot" alignment="BOTTOM_CENTER" prefHeight="84.0" prefWidth="60.0">
+                           <children>
+                              <ImageView id="firstCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView id="secondCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-12.0" />
+                              <ImageView id="thirdCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-24.0" />
+                           </children>
+                        </StackPane>
+                        <StackPane id="thirdDevSlot" alignment="BOTTOM_CENTER" prefHeight="84.0" prefWidth="60.0">
+                           <children>
+                              <ImageView id="firstCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView id="secondCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-12.0" />
+                              <ImageView id="thirdCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-24.0" />
+                           </children>
+                        </StackPane>
                      </children>
-                  </StackPane>
-                  <StackPane id="thirdDevSlot" fx:id="secondDevSlot" alignment="BOTTOM_CENTER" layoutX="237.0" layoutY="100.0" prefHeight="84.0" prefWidth="60.0">
-                     <children>
-                        <ImageView id="firstCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView id="secondCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-12.0" />
-                        <ImageView id="thirdCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-24.0" />
-                     </children>
-                  </StackPane>
-                  <StackPane id="thirdDevSlot" alignment="BOTTOM_CENTER" layoutX="304.0" layoutY="99.0" prefHeight="84.0" prefWidth="60.0">
-                     <children>
-                        <ImageView id="firstCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView id="secondCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-12.0" />
-                        <ImageView id="thirdCard" fitHeight="76.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" translateY="-24.0" />
-                     </children>
-                  </StackPane>
+                  </HBox>
                   <Pane id="warehousePane" layoutX="68.0" layoutY="98.0">
                      <children>
                         <HBox id="shelf1" layoutX="12.0" prefHeight="10.0" prefWidth="16.0" spacing="4.0">

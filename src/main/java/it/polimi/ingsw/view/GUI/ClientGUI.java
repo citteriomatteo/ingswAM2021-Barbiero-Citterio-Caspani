@@ -235,7 +235,7 @@ public class ClientGUI implements View {
 
     @Override
     public void updateDevCardSlots(String nickname, LightMatch match) {
-
+        getSceneProxy().updateDevCardSlots(nickname, match.getLightPlayer(nickname).getDevCardSlots());
     }
 
     @Override
