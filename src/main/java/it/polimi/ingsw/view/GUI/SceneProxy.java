@@ -169,51 +169,38 @@ public class SceneProxy {
         });
     }
 
-
-    public void disableOnState(){
-        StateName currentState = getClientController().getCurrentState();
-
-        switch(currentState){
-            case WAITING_FOR_TURN:
-                disableAll(true);
-                break;
-            case STARTING_TURN:
-                disableAll(false);
-                break;
-            case MARKET_ACTION:
-                Platform.runLater(()-> {
-                    turnSceneController.marketActionPhaseDisables();
-                });
-                break;
-            case RESOURCES_PLACEMENT:
-                Platform.runLater(()-> {
-                    turnSceneController.resourcesPlacementPhaseDisables();
-                });
-                break;
-            case BUY_DEV_ACTION:
-                Platform.runLater(()-> {
-                    turnSceneController.buyDevActionPhaseDisables();
-                });
-                break;
-            case PLACE_DEV_CARD:
-                Platform.runLater(()-> {
-                    turnSceneController.placeDevCardPhaseDisables();
-                    turnSceneController.endPaymentsPhase();
-                });
-                break;
-            case PRODUCTION_ACTION:
-                Platform.runLater(()-> {
-                    turnSceneController.productionActionPhaseDisables();
-                });
-                break;
-            case END_TURN:
-                Platform.runLater(()-> {
-                    turnSceneController.endTurnPhaseDisables();
-                });
-                break;
-        }
-
+    public void marketActionPhaseDisables(){
+        Platform.runLater(()-> {
+            turnSceneController.marketActionPhaseDisables();
+        });
     }
+    public void resourcesPlacementPhaseDisables() {
+        Platform.runLater(()-> {
+            turnSceneController.resourcesPlacementPhaseDisables();
+        });
+    }
+    public void buyDevActionPhaseDisables() {
+        Platform.runLater(()-> {
+            turnSceneController.buyDevActionPhaseDisables();
+        });
+    }
+    public void placeDevCardPhaseDisables() {
+        Platform.runLater(()-> {
+            turnSceneController.placeDevCardPhaseDisables();
+            turnSceneController.endPaymentsPhase();
+        });
+    }
+    public void productionActionPhaseDisables() {
+        Platform.runLater(()-> {
+            turnSceneController.productionActionPhaseDisables();
+        });
+    }
+    public void endTurnPhaseDisables() {
+        Platform.runLater(()-> {
+            turnSceneController.endTurnPhaseDisables();
+        });
+    }
+
 
     public void loadLeaderCards(List<String> leaders){
         Platform.runLater(()->{

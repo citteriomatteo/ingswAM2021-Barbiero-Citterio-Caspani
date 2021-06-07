@@ -93,43 +93,43 @@ public class ClientGUI implements View {
 
 
         getSceneProxy().yourTurn(yourTurn);
-        getSceneProxy().disableOnState();
+        //getSceneProxy().disableOnState();
     }
 
     @Override
     public void drawWhiteMarbleConversionsLayout() {
-        getSceneProxy().disableOnState();
+        getSceneProxy().marketActionPhaseDisables();
     }
 
     @Override
     public void drawResPlacementLayout() {
-        getSceneProxy().disableOnState();
+        getSceneProxy().resourcesPlacementPhaseDisables();
     }
 
     @Override
     public void drawBuyDevCardLayout() {
-        getSceneProxy().disableOnState();
+        getSceneProxy().buyDevActionPhaseDisables();
     }
 
     @Override
     public void drawPlaceDevCardLayout() {
-        getSceneProxy().disableOnState();
+        getSceneProxy().placeDevCardPhaseDisables();
     }
 
     @Override
     public void drawProductionLayout() {
-        getSceneProxy().disableOnState();
+        getSceneProxy().productionActionPhaseDisables();
     }
 
     @Override
     public void drawEndTurnLayout() {
         getSceneProxy().endTurnState();
-        getSceneProxy().disableOnState();
+        getSceneProxy().endTurnPhaseDisables();
     }
 
     @Override
     public void drawEndMatchLayout() {
-        getSceneProxy().disableOnState();
+        //TODO
     }
 
     @Override

@@ -110,7 +110,7 @@ public class TurnSceneController implements SceneController{
      * Sets the text on the button Confirm to EndTurn
      */
     public void endTurnState() {
-        confirmButton.setText("EndTurn");
+        confirmButton.setText("End turn");
     }
 
 //%%%%%%%%%%%%%%%%%%%%%% ONE TIME FUNCTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -175,6 +175,9 @@ public class TurnSceneController implements SceneController{
         if(value) {
             marketPane.setDisable(false);
             cardGrid.setDisable(false);
+            myPane.setDisable(false);
+            for(Node n : myPane.getChildren())
+                n.setDisable(false);
         }
     }
 
@@ -230,6 +233,9 @@ public class TurnSceneController implements SceneController{
             //putting visible the labels for the white marble conversions
             if(("firstConversionCount").equals(n.getId()) || ("secondConversionCount").equals(n.getId()))
                 n.setVisible(true);
+
+        //information field text setting for this state
+        informationField.setText("Convert each white marble.");
     }
 
     public void resourcesPlacementPhaseDisables(){
@@ -245,6 +251,9 @@ public class TurnSceneController implements SceneController{
             //putting back invisible the labels for the white marble conversions
             if(("firstConversionCount").equals(n.getId()) || ("secondConversionCount").equals(n.getId()))
                 n.setVisible(false);
+
+        //information field text setting for this state
+        informationField.setText("Place the resources you've got.");
     }
 
     public void buyDevActionPhaseDisables(){
@@ -257,6 +266,9 @@ public class TurnSceneController implements SceneController{
         List<String> importantIds = new ArrayList<>(List.of("warehousePane", "strongbox"));
 
         keepEnabledOnly(importantIds);
+
+        //information field text setting for this state
+        informationField.setText("Pay the card you've chosen.");
     }
 
     public void placeDevCardPhaseDisables(){
@@ -267,6 +279,9 @@ public class TurnSceneController implements SceneController{
         List<String> importantIds = new ArrayList<>(List.of("warehousePane","devCardSlots", "1DevSlot", "2DevSlot", "3DevSlot"));
 
         keepEnabledOnly(importantIds);
+
+        //information field text setting for this state
+        informationField.setText("Place your Development card.");
     }
 
     public void productionActionPhaseDisables(){
@@ -278,6 +293,9 @@ public class TurnSceneController implements SceneController{
 
         keepEnabledOnly(importantIds);
 
+        //information field text setting for this state
+        informationField.setText("Produce.");
+
     }
 
     public void endTurnPhaseDisables(){
@@ -288,6 +306,9 @@ public class TurnSceneController implements SceneController{
         List<String> importantIds = new ArrayList<>(List.of("warehousePane", "firstLeaderActions", "secondLeaderActions"));
 
         keepEnabledOnly(importantIds);
+
+        //information field text setting for this state
+        informationField.setText("It's the end of your turn. Switch shelves, discard/activate leaders or finish the turn.");
 
     }
 
@@ -302,11 +323,11 @@ public class TurnSceneController implements SceneController{
 
     public void yourTurn(boolean yourTurn) {
         if (yourTurn)
-            informationField.setText("It's your turn! Make a move");
+            informationField.setText("It's your turn! Make a move.");
         else
-            informationField.setText("Wait your turn");
+            informationField.setText("Wait for your turn.");
 
-        confirmButton.setText("confirm");
+        confirmButton.setText("Confirm");
         disableAll(!yourTurn);
         //todo: when the turn starts i can also activate a production
     }

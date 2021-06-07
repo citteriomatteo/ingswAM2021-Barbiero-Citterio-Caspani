@@ -243,7 +243,7 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Canvas>
-            <HBox id="devCardSlots" fx:id="devCardSlots" alignment="CENTER" layoutX="445.0" layoutY="235.0" prefHeight="200.0" prefWidth="363.0">
+            <HBox id="devCardSlots" fx:id="devCardSlots" alignment="CENTER" layoutX="445.0" layoutY="235.0" prefHeight="200.0" prefWidth="363.0" spacing="15.0">
                <children>
                   <StackPane id="1DevSlot" alignment="BOTTOM_CENTER" prefHeight="187.0" prefWidth="109.0" translateY="10.0">
                      <children>
@@ -1177,7 +1177,7 @@
                         </ImageView>
                      </children>
                   </GridPane>
-                  <HBox id="devCardSlots" alignment="CENTER" layoutX="170.0" layoutY="84.0" prefHeight="98.0" prefWidth="200.0">
+                  <HBox id="devCardSlots" alignment="CENTER" layoutX="170.0" layoutY="84.0" prefHeight="98.0" prefWidth="200.0" spacing="10.0">
                      <children>
                         <StackPane id="firstDevSlot" alignment="BOTTOM_CENTER" maxHeight="84.0" maxWidth="60.0" prefHeight="84.0" prefWidth="60.0">
                            <children>
@@ -1496,7 +1496,7 @@
                   <ImageView id="firstPopeTile" fx:id="firstPopeTile" fitHeight="18.0" fitWidth="22.0" layoutX="129.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView id="secondPopeTile" fx:id="secondPopeTile" fitHeight="18.0" fitWidth="22.0" layoutX="211.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView id="thirdPopeTIle" fx:id="thirdPopeTile" fitHeight="18.0" fitWidth="22.0" layoutX="310.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" />
-                  <HBox id="devCardSlots" alignment="CENTER" layoutX="173.0" layoutY="84.0" prefHeight="98.0" prefWidth="194.0">
+                  <HBox id="devCardSlots" alignment="CENTER" layoutX="173.0" layoutY="84.0" prefHeight="98.0" prefWidth="194.0" spacing="10.0">
                      <children>
                         <StackPane id="firstDevSlot" alignment="BOTTOM_CENTER" prefHeight="84.0" prefWidth="60.0">
                            <children>
