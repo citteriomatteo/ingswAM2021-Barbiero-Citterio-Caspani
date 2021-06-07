@@ -1,13 +1,18 @@
 package it.polimi.ingsw.view.GUI;
 
+import it.polimi.ingsw.view.lightmodel.LightPlayer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -20,6 +25,8 @@ public class JavaFXGUI extends Application {
     private static Stage stage;
     private static Stage popUpStage;
     private static Scene popUpScene;
+    private static Stage popUpZoom;
+    private static Scene zoom;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -34,6 +41,7 @@ public class JavaFXGUI extends Application {
         stage.setTitle("Masters of Renaissance Board Game");
 
         setUpWarningStage();
+        setUpZoomStage();
 
         stage.show();
     }
@@ -58,6 +66,60 @@ public class JavaFXGUI extends Application {
             popUpStage.getIcons().add(new Image(imageStream));
         popUpStage.setTitle("Warning");
         popUpStage.setAlwaysOnTop(true);
+    }
+
+    /**
+     * Creates an additional stage for showing zoomed images of the players' Boards
+     */
+    private void setUpZoomStage(){
+        JavaFXGUI.popUpZoom = new Stage();
+
+        popUpZoom.setResizable(false);
+        InputStream imageStream = JavaFXGUI.class.getResourceAsStream("images/zoom.png");
+        if(imageStream != null)
+            popUpZoom.getIcons().add(new Image(imageStream));
+        popUpZoom.setAlwaysOnTop(true);
+    }
+
+    /**
+     * Shows a pop-up stage for showing a zoom on a specific player board
+     * @param player the player you want to show the relative player board
+     */
+    static void popUpZoom(LightPlayer player){
+        popUpZoom.setTitle(player.getNickname()+"'s PlayerBoard");
+        try {
+            zoom = new Scene(loadFXML(SceneName.ZoomScene.name()));
+        } catch (IOException ignored) {}
+        popUpZoom.setScene(zoom);
+        Pane root = (Pane)zoom.getRoot();
+        for(Node n : root.getChildren())
+            if(n.getId()!=null)
+                switch (n.getId()){
+                    case "activeLeaders":
+                        TurnSceneController.setActiveLeadersImages(player.getActiveLeaders(), (HBox) n);
+                        break;
+                    case "marketBuffer":
+                        TurnSceneController.populateMarketBuffer(player.getMarketBuffer(), (Pane) n);
+                        break;
+                    case "handLeaders":
+                        TurnSceneController.clearHandLeadersImages(player.getHandLeaders(), (HBox) n);
+                        break;
+                    case "faithPath":
+                        GridPane faithPath = (GridPane) n;
+                        faithPath.getChildren().get(player.getFaithMarker()).setVisible(true);
+                        break;
+                    case "devCardSlots":
+                        TurnSceneController.populateDevCardSlots(player.getDevCardSlots(), (HBox) n);
+                        break;
+                    case "warehousePane":
+                        TurnSceneController.populateWarehouse(player.getWarehouse(), (Pane) n);
+                        break;
+                    case "strongBox":
+                        TurnSceneController.populateStrongbox(player.getStrongbox(), (VBox) n);
+
+                }
+
+        popUpZoom.show();
     }
 
     /**

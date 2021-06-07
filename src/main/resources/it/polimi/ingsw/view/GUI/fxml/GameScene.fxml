@@ -975,10 +975,10 @@
             </ImageView>
          </children>
       </Pane>
-      <TextField id="controlBox" fx:id="informationField" editable="false" layoutX="883.0" layoutY="678.0" prefHeight="109.0" prefWidth="364.0" />
+      <TextField id="controlBox" fx:id="informationField" alignment="CENTER" editable="false" layoutX="883.0" layoutY="678.0" prefHeight="109.0" prefWidth="364.0" />
       <VBox fx:id="enemiesBox" layoutX="838.0" layoutY="40.0" prefHeight="639.0" prefWidth="436.0">
          <children>
-            <Pane id="enemy1Pane" fx:id="enemy1Pane" prefHeight="208.0" prefWidth="436.0">
+            <Pane id="enemy1Pane" fx:id="enemy1Pane" onMouseClicked="#zoom" prefHeight="208.0" prefWidth="436.0">
                <children>
                   <HBox id="activeLeaders" layoutX="385.0" layoutY="73.0" prefHeight="33.0" prefWidth="50.0">
                      <children>
@@ -1296,8 +1296,11 @@
                         </HBox>
                      </children></VBox>
                </children>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Pane>
-            <Pane id="enemy2Pane" fx:id="enemy2Pane" prefHeight="208.0" prefWidth="436.0">
+            <Pane id="enemy2Pane" fx:id="enemy2Pane" onMouseClicked="#zoom" prefHeight="208.0" prefWidth="436.0">
                <children>
                   <HBox id="activeLeaders" layoutX="384.0" layoutY="73.0" prefHeight="33.0" prefWidth="50.0">
                      <children>
@@ -1616,8 +1619,11 @@
                      </children>
                   </VBox>
                </children>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Pane>
-            <Pane id="enemy3Pane" fx:id="enemy3Pane" prefHeight="208.0" prefWidth="436.0">
+            <Pane id="enemy3Pane" fx:id="enemy3Pane" onMouseClicked="#zoom" prefHeight="208.0" prefWidth="436.0">
                <children>
                   <ImageView id="board" fitHeight="181.0" fitWidth="337.0" layoutX="43.0" layoutY="19.0" pickOnBounds="true">
                      <image>
@@ -1936,6 +1942,9 @@
                      </children>
                   </VBox>
                </children>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Pane>
          </children>
       </VBox>
