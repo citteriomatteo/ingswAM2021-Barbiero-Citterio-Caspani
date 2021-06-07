@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 import static it.polimi.ingsw.controller.StateName.*;
+import static it.polimi.ingsw.network.client.Client.getClient;
 import static it.polimi.ingsw.view.ClientController.getClientController;
 import static java.util.Map.entry;
 
@@ -279,6 +280,11 @@ public class KeyboardReader extends Thread{
             System.out.println("you have to chose only one leader");
             return null;
         }
+
+        //deleting the discarded leader without waiting for a server's response.
+        client.getController().getMatch().getLightPlayer(getClient().getNickname()).getHandLeaders().remove(params.get(0).toUpperCase());
+
+
         return new LeaderDiscardingMessage(nickname, params.get(0).toUpperCase());
     }
 
