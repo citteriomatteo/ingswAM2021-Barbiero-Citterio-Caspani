@@ -15,7 +15,8 @@ public class DiscardedLeaderMessage extends StoCMessage {
 
     @Override
     public boolean compute(Client client){
-        client.getController().getMatch().leaderDiscard(getNickname());
+        if(! client.getNickname().equals(getNickname()))
+            client.getController().getMatch().leaderDiscard(getNickname());
         return true;
     }
 
