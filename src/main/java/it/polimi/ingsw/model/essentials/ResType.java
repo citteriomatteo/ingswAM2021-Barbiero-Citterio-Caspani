@@ -2,10 +2,6 @@ package it.polimi.ingsw.model.essentials;
 
 import javafx.scene.image.Image;
 
-import java.util.Map;
-
-import static java.util.Map.entry;
-
 /**
  * This enumeration represents the possible types of resources in the game
  */
