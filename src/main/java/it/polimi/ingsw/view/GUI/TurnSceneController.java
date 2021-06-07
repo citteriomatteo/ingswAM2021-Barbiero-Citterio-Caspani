@@ -47,6 +47,7 @@ public class TurnSceneController implements SceneController{
     public TextField informationField;
     public Button confirmButton;
     public ImageView tempDevCard;
+    public HBox devCardSlots;
 
     public Pane lorenzoPane;
     public Label lorenzoMarker;
@@ -55,7 +56,6 @@ public class TurnSceneController implements SceneController{
 
     private final LightMatch match;
     private final LightPlayer player;
-    public HBox devCardSlots;
 
     private ResType temporaryRes;
     private Integer firstShelfToSwitch;
@@ -320,21 +320,23 @@ public class TurnSceneController implements SceneController{
         }
 
         clicked.getParent().setEffect(new Glow(0.3));
-        SwitchShelfMessage shelfMessage;
-        if (message != null && message.getType() == CtoSMessageType.SWITCH_SHELF) {
-            shelfMessage = (SwitchShelfMessage) message;
-            warehousePane.getChildren().get(shelfMessage.getShelf1()-1).setEffect(null);
-        }
+ //       SwitchShelfMessage shelfMessage;
+//        if (message != null && message.getType() == CtoSMessageType.SWITCH_SHELF) {
+//            shelfMessage = (SwitchShelfMessage) message;
+//            warehousePane.getChildren().get(shelfMessage.getShelf1()-1).setEffect(null);
+//        }
 
         if (firstShelfToSwitch == null) {
             firstShelfToSwitch = shelf;
             return;
         }
 
-        message = new SwitchShelfMessage(player.getNickname(), firstShelfToSwitch, shelf);
-        //in case of change idea save the next first shelf
-        firstShelfToSwitch = shelf;
-        confirmButton.setText("confirm");
+        (new SwitchShelfMessage(player.getNickname(), firstShelfToSwitch, shelf)).send();
+        clicked.getParent().setEffect(null);
+        warehousePane.getChildren().get(firstShelfToSwitch-1).setEffect(null);
+//        //in case of change idea save the next first shelf
+//        firstShelfToSwitch = shelf;
+//        confirmButton.setText("confirm");
 
     }
 
@@ -352,8 +354,7 @@ public class TurnSceneController implements SceneController{
         MenuItem node = (MenuItem) actionEvent.getSource();
         int numLeader = Integer.parseInt((String) node.getUserData());
 
-        message = new LeaderDiscardingMessage(player.getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()));
-        confirmButton.setText("confirm");
+        (new LeaderDiscardingMessage(player.getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()))).send();
 
         /*
         manually removing the hand leaders from my hand (no confirm needed by the server) and setting invisible the
