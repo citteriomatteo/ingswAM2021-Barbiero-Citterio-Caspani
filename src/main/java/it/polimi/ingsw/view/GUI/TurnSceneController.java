@@ -9,10 +9,7 @@ import it.polimi.ingsw.view.lightmodel.LightPlayer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -36,6 +33,8 @@ public class TurnSceneController implements SceneController{
     public ImageView slideMarble;
     public Pane myPane;
     public HBox handLeaders;
+    public MenuButton leaderActions1;
+    public MenuButton leaderActions2;
     public HBox activeLeaders;
     public HBox marketBufferBox;
     public Pane warehousePane;
@@ -352,6 +351,16 @@ public class TurnSceneController implements SceneController{
     public void discardLeader(ActionEvent actionEvent) {
         MenuItem node = (MenuItem) actionEvent.getSource();
         int numLeader = Integer.parseInt((String) node.getUserData());
+
+        /*
+        manually removing the hand leaders from my hand (no confirm needed by the server) and setting invisible the
+            related MenuButton.
+        */
+        player.getHandLeaders().remove(getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()));
+        if(numLeader == 1)
+            leaderActions1.setVisible(false);
+        else if(numLeader == 2)
+            leaderActions2.setVisible(false);
 
         message = new LeaderDiscardingMessage(player.getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()));
         confirmButton.setText("confirm");

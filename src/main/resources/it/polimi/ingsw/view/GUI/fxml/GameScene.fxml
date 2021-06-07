@@ -406,13 +406,13 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <MenuButton id="firstLeaderActions" layoutX="22.0" layoutY="403.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="35.0">
+            <MenuButton id="firstLeaderActions" fx:id="leaderActions1" layoutX="22.0" layoutY="403.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="35.0">
                <items>
                   <MenuItem id="activateLeader" mnemonicParsing="false" onAction="#activateLeader" text="Activate" userData="1" />
                   <MenuItem id="discardLeader" mnemonicParsing="false" onAction="#discardLeader" text="Discard" userData="1" />
                </items>
             </MenuButton>
-            <MenuButton id="secondLeaderActions" layoutX="133.0" layoutY="403.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="35.0">
+            <MenuButton id="secondLeaderActions" fx:id="leaderActions2" layoutX="133.0" layoutY="403.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="35.0">
               <items>
                   <MenuItem id="activateLeader" mnemonicParsing="false" onAction="#activateLeader" text="Activate" userData="2" />
                   <MenuItem id="discardLeader" mnemonicParsing="false" onAction="#discardLeader" text="Discard" userData="2" />
