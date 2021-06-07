@@ -24,26 +24,26 @@
             <Image url="@../images/board/playerBoard.jpg" />
          </image>
       </ImageView>
-      <HBox id="activeLeaders" layoutX="361.0" layoutY="435.0" prefHeight="117.0" prefWidth="135.0">
+      <HBox id="activeLeaders" layoutX="361.0" layoutY="435.0" prefHeight="117.0" prefWidth="135.0" spacing="10.0">
          <children>
             <ImageView id="activeLeader1" fitHeight="128.0" fitWidth="92.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView id="activeLeader2" fitHeight="128.0" fitWidth="92.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <ImageView fitHeight="42.0" fitWidth="162.0" layoutX="-49.0" layoutY="225.0" pickOnBounds="true" rotate="90.0">
+      <ImageView fitHeight="50.0" fitWidth="150.0" layoutX="-40.0" layoutY="225.0" pickOnBounds="true" rotate="90.0">
          <image>
             <Image url="@../images/punchBoard/marketBuffer.jpg" />
          </image>
       </ImageView>
-      <VBox id="marketBuffer" layoutX="14.0" layoutY="170.0" prefHeight="152.0" prefWidth="36.0">
+      <VBox id="marketBuffer" layoutX="17.0" layoutY="176.0" prefHeight="146.0" prefWidth="36.0" spacing="2.0">
          <children>
-            <ImageView id="firstBufferRes" fitHeight="38.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView id="secondBufferRes" fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView id="thirdBufferRes" fitHeight="36.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView id="fourthBufferRes" fitHeight="42.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView id="firstBufferRes" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView id="secondBufferRes" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView id="thirdBufferRes" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView id="fourthBufferRes" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </VBox>
-      <HBox id="handLeaders" layoutX="72.0" layoutY="441.0" prefHeight="117.0" prefWidth="134.0">
+      <HBox id="handLeaders" layoutX="72.0" layoutY="441.0" prefHeight="117.0" prefWidth="134.0" spacing="10.0">
          <children>
             <ImageView id="handLeader1" fitHeight="112.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -242,22 +242,22 @@
       </HBox>
       <Pane id="warehousePane" layoutX="98.0" layoutY="183.0" prefHeight="117.0" prefWidth="118.0">
          <children>
-            <HBox id="shelf1" layoutX="49.0" layoutY="6.0" prefHeight="24.0" prefWidth="28.0" spacing="4.0">
+            <HBox id="shelf1" layoutX="49.0" layoutY="6.0" prefHeight="28.0" prefWidth="28.0" spacing="4.0">
                <children>
                   <ImageView id="firstRes" fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </HBox>
-            <HBox id="shelf2" layoutX="35.0" layoutY="47.0" prefHeight="25.0" prefWidth="50.0" spacing="4.0">
+            <HBox id="shelf2" layoutX="35.0" layoutY="47.0" prefHeight="28.0" prefWidth="56.0" spacing="4.0">
                <children>
-                  <ImageView id="firstRes" fitHeight="24.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView id="secondRes" fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="firstRes" fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="secondRes" fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </HBox>
-            <HBox id="shelf3" layoutX="16.0" layoutY="80.0" prefHeight="30.0" prefWidth="88.0" spacing="4.0">
+            <HBox id="shelf3" layoutX="16.0" layoutY="80.0" prefHeight="28.0" prefWidth="92.0" spacing="4.0">
                <children>
-                  <ImageView id="firstRes" fitHeight="29.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView id="secondRes" fitHeight="31.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView id="thirdRes" fitHeight="31.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="firstRes" fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="secondRes" fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="thirdRes" fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </HBox>
             <HBox id="shelf4" disable="true" layoutX="281.0" layoutY="351.0" opacity="0.0" prefHeight="20.0" prefWidth="50.0" spacing="10.0">
@@ -274,7 +274,7 @@
             </HBox>
          </children>
       </Pane>
-      <VBox id="strongBox" layoutX="97.0" layoutY="320.0" prefHeight="90.0" prefWidth="102.0">
+      <VBox id="strongBox" layoutX="102.0" layoutY="313.0" prefHeight="90.0" prefWidth="102.0">
          <children>
             <HBox id="coin" prefHeight="24.0" prefWidth="103.0" spacing="15.0">
                <children>
@@ -283,7 +283,7 @@
                         <Image url="@../images/punchBoard/coin.png" />
                      </image>
                   </ImageView>
-                  <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0" wrappingWidth="24.982421875">
+                  <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0" wrappingWidth="50.982421875">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
@@ -297,7 +297,7 @@
                         <Image url="@../images/punchBoard/servant.png" />
                      </image>
                   </ImageView>
-                  <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0">
+                  <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0" wrappingWidth="56.232421875">
                      <font>
                         <Font name="System Bold Italic" size="18.0" />
                      </font>
@@ -311,7 +311,7 @@
                         <Image url="@../images/punchBoard/stone.png" />
                      </image>
                   </ImageView>
-                  <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0">
+                  <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0" wrappingWidth="57.2939453125">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
@@ -325,7 +325,7 @@
                         <Image url="@../images/punchBoard/shield.png" />
                      </image>
                   </ImageView>
-                  <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0">
+                  <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0" wrappingWidth="58.232421875">
                      <font>
                         <Font name="System Bold Italic" size="18.0" />
                      </font>
