@@ -325,39 +325,7 @@
             </Pane>
             <VBox id="strongbox" fx:id="strongBox" layoutX="235.20450973510742" layoutY="369.0" prefHeight="76.0" prefWidth="90.0" translateY="10.0">
                <children>
-                  <HBox id="coin" prefHeight="27.0" prefWidth="90.0" spacing="30.0">
-                     <children>
-                        <ImageView fitHeight="47.0" fitWidth="21.0" onDragDetected="#dragResource" onDragDone="#dragStrongBoxResourceDone" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/punchBoard/coin.png" />
-                           </image>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </ImageView>
-                        <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0" />
-                     </children>
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
-                  </HBox>
-                  <HBox id="servant" prefHeight="0.0" prefWidth="90.0" spacing="30.0">
-                     <children>
-                        <ImageView fitHeight="47.0" fitWidth="21.0" onDragDetected="#dragResource" onDragDone="#dragStrongBoxResourceDone" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/punchBoard/servant.png" />
-                           </image>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </ImageView>
-                        <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0" />
-                     </children>
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
-                  </HBox>
-                  <HBox id="stone" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                  <HBox id="stone" prefHeight="27.0" prefWidth="90.0" spacing="30.0">
                      <children>
                         <ImageView fitHeight="47.0" fitWidth="21.0" onDragDetected="#dragResource" onDragDone="#dragStrongBoxResourceDone" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -373,11 +341,43 @@
                         <Insets left="10.0" />
                      </padding>
                   </HBox>
-                  <HBox id="shield" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                  <HBox id="shield" prefHeight="0.0" prefWidth="90.0" spacing="30.0">
+                     <children>
+                        <ImageView fitHeight="47.0" fitWidth="21.0" onDragDetected="#dragResource" onDragDone="#dragStrongBoxResourceDone" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/punchBoard/shield.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                        <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0" />
+                     </children>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox id="servant" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                     <children>
+                        <ImageView fitHeight="47.0" fitWidth="21.0" onDragDetected="#dragResource" onDragDone="#dragStrongBoxResourceDone" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/punchBoard/servant.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                        <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0" />
+                     </children>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox id="coin" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                      <children>
                         <ImageView fitHeight="21.0" fitWidth="20.0" onDragDetected="#dragResource" onDragDone="#dragStrongBoxResourceDone" pickOnBounds="true">
                            <image>
-                              <Image url="@../images/punchBoard/shield.png" />
+                              <Image url="@../images/punchBoard/coin.png" />
                            </image>
                            <cursor>
                               <Cursor fx:constant="HAND" />
@@ -1238,11 +1238,25 @@
                   </Pane>
                   <VBox id="strongBox" layoutX="60.0" layoutY="148.0" prefHeight="44.0" prefWidth="52.0">
                      <children>
-                        <HBox id="coin" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
+                        <HBox id="stone" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
                            <children>
                               <ImageView fitHeight="22.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../images/punchBoard/coin.png" />
+                                    <Image url="@../images/punchBoard/stone.png" />
+                                 </image>
+                              </ImageView>
+                              <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0">
+                                 <font>
+                                    <Font size="9.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </HBox>
+                        <HBox id="shield" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
+                           <children>
+                              <ImageView fitHeight="22.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/punchBoard/shield.png" />
                                  </image>
                               </ImageView>
                               <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0">
@@ -1266,25 +1280,11 @@
                               </Text>
                            </children>
                         </HBox>
-                        <HBox id="stone" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
-                           <children>
-                              <ImageView fitHeight="22.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/punchBoard/stone.png" />
-                                 </image>
-                              </ImageView>
-                              <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0">
-                                 <font>
-                                    <Font size="9.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                        </HBox>
-                        <HBox id="shield" prefHeight="12.0" prefWidth="52.0" spacing="15.0">
+                        <HBox id="coin" prefHeight="12.0" prefWidth="52.0" spacing="15.0">
                            <children>
                               <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true">
                                  <image>
-                                    <Image url="@../images/punchBoard/shield.png" />
+                                    <Image url="@../images/punchBoard/coin.png" />
                                  </image>
                               </ImageView>
                               <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0">
@@ -1557,11 +1557,25 @@
                   </Pane>
                   <VBox id="strongBox" layoutX="56.0" layoutY="148.0" prefHeight="44.0" prefWidth="52.0">
                      <children>
-                        <HBox id="coin" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
+                        <HBox id="stone" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
                            <children>
                               <ImageView fitHeight="22.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../images/punchBoard/coin.png" />
+                                    <Image url="@../images/punchBoard/stone.png" />
+                                 </image>
+                              </ImageView>
+                              <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0">
+                                 <font>
+                                    <Font size="9.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </HBox>
+                        <HBox id="shield" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
+                           <children>
+                              <ImageView fitHeight="22.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/punchBoard/shield.png" />
                                  </image>
                               </ImageView>
                               <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0">
@@ -1585,25 +1599,11 @@
                               </Text>
                            </children>
                         </HBox>
-                        <HBox id="stone" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
-                           <children>
-                              <ImageView fitHeight="22.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/punchBoard/stone.png" />
-                                 </image>
-                              </ImageView>
-                              <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0">
-                                 <font>
-                                    <Font size="9.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                        </HBox>
-                        <HBox id="shieldBox" prefHeight="12.0" prefWidth="52.0" spacing="15.0">
+                        <HBox id="coin" prefHeight="12.0" prefWidth="52.0" spacing="15.0">
                            <children>
                               <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true">
                                  <image>
-                                    <Image url="@../images/punchBoard/shield.png" />
+                                    <Image url="@../images/punchBoard/coin.png" />
                                  </image>
                               </ImageView>
                               <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0">
@@ -1877,34 +1877,6 @@
                   </Pane>
                   <VBox id="strongBox" layoutX="61.0" layoutY="146.0" prefHeight="44.0" prefWidth="52.0">
                      <children>
-                        <HBox id="coin" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
-                           <children>
-                              <ImageView id="coin" fitHeight="22.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/punchBoard/coin.png" />
-                                 </image>
-                              </ImageView>
-                              <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0">
-                                 <font>
-                                    <Font size="9.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                        </HBox>
-                        <HBox id="servant" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
-                           <children>
-                              <ImageView id="servant" fitHeight="22.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/punchBoard/servant.png" />
-                                 </image>
-                              </ImageView>
-                              <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0">
-                                 <font>
-                                    <Font size="9.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                        </HBox>
                         <HBox id="stone" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
                            <children>
                               <ImageView fitHeight="22.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
@@ -1919,11 +1891,39 @@
                               </Text>
                            </children>
                         </HBox>
-                        <HBox id="shield" prefHeight="12.0" prefWidth="52.0" spacing="15.0">
+                        <HBox id="shield" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
+                           <children>
+                              <ImageView fitHeight="22.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/punchBoard/shield.png" />
+                                 </image>
+                              </ImageView>
+                              <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0">
+                                 <font>
+                                    <Font size="9.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </HBox>
+                        <HBox id="servant" prefHeight="12.0" prefWidth="51.0" spacing="15.0">
+                           <children>
+                              <ImageView fitHeight="22.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/punchBoard/servant.png" />
+                                 </image>
+                              </ImageView>
+                              <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0">
+                                 <font>
+                                    <Font size="9.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </HBox>
+                        <HBox id="coin" prefHeight="12.0" prefWidth="52.0" spacing="15.0">
                            <children>
                               <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true">
                                  <image>
-                                    <Image url="@../images/punchBoard/shield.png" />
+                                    <Image url="@../images/punchBoard/coin.png" />
                                  </image>
                               </ImageView>
                               <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0">
@@ -2055,7 +2055,7 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <ImageView fitHeight="81.0" fitWidth="119.0" onMouseClicked="#convertUCosts" pickOnBounds="true" preserveRatio="true">
+                        <ImageView id="stone" fitHeight="81.0" fitWidth="119.0" onMouseClicked="#convertUCosts" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/punchBoard/stone.png" />
                            </image>
@@ -2072,7 +2072,7 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <ImageView fitHeight="81.0" fitWidth="119.0" onMouseClicked="#convertUCosts" pickOnBounds="true" preserveRatio="true">
+                        <ImageView id="shield" fitHeight="81.0" fitWidth="119.0" onMouseClicked="#convertUCosts" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/punchBoard/shield.png" />
                            </image>
@@ -2089,7 +2089,7 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <ImageView fitHeight="81.0" fitWidth="119.0" onMouseClicked="#convertUCosts" pickOnBounds="true" preserveRatio="true">
+                        <ImageView id="servant" fitHeight="81.0" fitWidth="119.0" onMouseClicked="#convertUCosts" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/punchBoard/servant.png" />
                            </image>
@@ -2106,7 +2106,7 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <ImageView fitHeight="81.0" fitWidth="119.0" onMouseClicked="#convertUCosts" pickOnBounds="true" preserveRatio="true">
+                        <ImageView id="coin" fitHeight="81.0" fitWidth="119.0" onMouseClicked="#convertUCosts" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/punchBoard/coin.png" />
                            </image>
@@ -2132,7 +2132,7 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <ImageView fitHeight="81.0" fitWidth="119.0" onMouseClicked="#convertUEarnings" pickOnBounds="true" preserveRatio="true">
+                        <ImageView id="stone" fitHeight="81.0" fitWidth="119.0" onMouseClicked="#convertUEarnings" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/punchBoard/stone.png" />
                            </image>
@@ -2149,7 +2149,7 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <ImageView fitHeight="81.0" fitWidth="119.0" onMouseClicked="#convertUEarnings" pickOnBounds="true" preserveRatio="true">
+                        <ImageView id="shield" fitHeight="81.0" fitWidth="119.0" onMouseClicked="#convertUEarnings" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/punchBoard/shield.png" />
                            </image>
@@ -2166,7 +2166,7 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <ImageView fitHeight="81.0" fitWidth="119.0" onMouseClicked="#convertUEarnings" pickOnBounds="true" preserveRatio="true">
+                        <ImageView id="servant" fitHeight="81.0" fitWidth="119.0" onMouseClicked="#convertUEarnings" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/punchBoard/servant.png" />
                            </image>
@@ -2183,7 +2183,7 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <ImageView fitHeight="81.0" fitWidth="119.0" onMouseClicked="#convertUEarnings" pickOnBounds="true" preserveRatio="true">
+                        <ImageView id="coin" fitHeight="81.0" fitWidth="119.0" onMouseClicked="#convertUEarnings" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/punchBoard/coin.png" />
                            </image>
@@ -2195,7 +2195,7 @@
                   </VBox>
                </children>
             </HBox>
-            <Button layoutX="247.0" layoutY="279.0" mnemonicParsing="false" text="ok" />
+            <Button layoutX="247.0" layoutY="279.0" mnemonicParsing="false" onAction="#closeProductionPane" text="ok" />
          </children>
       </Pane>
    </children>

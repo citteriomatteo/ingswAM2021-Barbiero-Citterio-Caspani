@@ -2,7 +2,9 @@ package it.polimi.ingsw.view.GUI;
 
 import it.polimi.ingsw.controller.StateName;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
+import it.polimi.ingsw.model.essentials.Production;
 import it.polimi.ingsw.model.essentials.ResType;
+import it.polimi.ingsw.model.essentials.Resource;
 import it.polimi.ingsw.network.message.ctosmessage.*;
 import it.polimi.ingsw.view.lightmodel.LightMatch;
 import it.polimi.ingsw.view.lightmodel.LightPlayer;
@@ -63,7 +65,7 @@ public class TurnSceneController implements SceneController{
     private Map<Integer, PhysicalResource> paymentsFromWarehouse;
     private List<PhysicalResource> paymentsFromStrongbox;
     private List<PhysicalResource> uCosts;
-    private List<PhysicalResource> uEarnings;
+    private List<Resource> uEarnings;
     private List<String> cardsToProduce;
     int numUCosts;
     int numUEarnings;
@@ -161,6 +163,13 @@ public class TurnSceneController implements SceneController{
         updateHandLeaders(player.getNickname(), player.getHandLeaders());
         updateMarketBuffer(player.getNickname(), player.getMarketBuffer());
 
+        for (int i = 0; i < strongBox.getChildren().size(); i++) {
+            HBox resHBox = (HBox) strongBox.getChildren().get(i);
+            ResType[] values = ResType.values();
+            ((ImageView) resHBox.getChildren().get(0)).setImage(values[i+1].asImage());
+
+        }
+
         for (LightPlayer player1 : match.getLightPlayers()) {
             updateWarehouse(player1.getNickname(), player1.getWarehouse());
             updateFaithMarker(player1.getNickname(), player1.getFaithMarker());
@@ -224,8 +233,7 @@ public class TurnSceneController implements SceneController{
         cardGrid.setDisable(true);
 
         //ids of the elements to keep enabled
-        List<String> importantIds = new ArrayList<>();
-        importantIds.addAll(List.of("warehousePane","activeLeaders"));
+        List<String> importantIds = new ArrayList<>(List.of("warehousePane", "activeLeaders"));
 
         keepEnabledOnly(importantIds);
 
@@ -287,9 +295,11 @@ public class TurnSceneController implements SceneController{
     public void productionActionPhaseDisables(){
         marketPane.setDisable(true);
         cardGrid.setDisable(true);
+        paymentsPane.setDisable(false);
+        paymentsPane.setVisible(true);
 
         //ids of the elements to keep enabled
-        List<String> importantIds = new ArrayList<>(List.of("warehousePane", "firstDevSlot", "secondDevSlot", "thirdDevSlot"));
+        List<String> importantIds = new ArrayList<>(List.of("warehousePane", "strongbox", "firstDevSlot", "secondDevSlot", "thirdDevSlot"));
 
         keepEnabledOnly(importantIds);
 
@@ -301,6 +311,7 @@ public class TurnSceneController implements SceneController{
     public void endTurnPhaseDisables(){
         marketPane.setDisable(true);
         cardGrid.setDisable(true);
+        endPaymentsPhase();
 
         //ids of the elements to keep enabled
         List<String> importantIds = new ArrayList<>(List.of("warehousePane", "firstLeaderActions", "secondLeaderActions"));
@@ -313,6 +324,12 @@ public class TurnSceneController implements SceneController{
     }
 
     public void endPaymentsPhase() {
+        VBox resourcesVBox = (VBox) paymentsPane.getChildren().get(1);
+        for(Node n : resourcesVBox.getChildren()){
+            HBox resourceHBox = (HBox) n;
+            Label resourceLabel = (Label) resourceHBox.getChildren().get(1);
+            resourceLabel.setText("x0");
+        }
         paymentsPane.setDisable(true);
         paymentsPane.setVisible(false);
     }
@@ -502,17 +519,52 @@ public class TurnSceneController implements SceneController{
 
     @FXML
     public void produce(MouseEvent mouseEvent) {
+        ImageView imageViewCard = (ImageView) mouseEvent.getSource();
+        System.out.println(imageViewCard.getImage());
+        String selectedCard = getSceneProxy().getCardID(imageViewCard.getImage());
 
+        if(selectedCard.charAt(0) == 'D') {
+            if(!cardsToProduce.contains(selectedCard)) {
+                cardsToProduce.add(selectedCard);
+                imageViewCard.setEffect(new Glow(0.5));
+            }
+            else {
+                imageViewCard.setEffect(null);
+                cardsToProduce.remove(selectedCard);
+            }
+        }
+        else {
+            if(!cardsToProduce.contains(selectedCard)){
+                int numCard = Integer.parseInt(selectedCard.substring(1));
+                if(numCard < 12) {
+                    return;
+                }
+                cardsToProduce.add(selectedCard);
+                imageViewCard.setEffect(new Glow(0.5));
+                numUEarnings += 1;
+                productionPane.setDisable(false);
+                productionPane.setVisible(true);
+            }
+            else{
+                imageViewCard.setEffect(null);
+                int numInArray = cardsToProduce.indexOf(selectedCard);
+                cardsToProduce.remove(selectedCard);
+                uEarnings.remove(numInArray);
+            }
+
+        }
+
+        message = new ProductionMessage(player.getNickname(), cardsToProduce, new Production(uCosts, uEarnings));
     }
 
-    public void produceBasicProd(MouseEvent mouseEvent) {
+    public void produceBasicProd() {
         numUCosts += 2;
         numUEarnings += 1;
         int index = cardsToProduce.indexOf("basicProduction");
 
         if(index != -1) {
             int numUofLeaders = 0;
-            cardsToProduce.remove("basicProduction");
+            cardsToProduce.remove("BASICPROD");
             uCosts = new ArrayList<>();
             for (int i = 0; i < index; i++) {
                 if(cardsToProduce.get(i).startsWith("L"))
@@ -521,10 +573,12 @@ public class TurnSceneController implements SceneController{
             uEarnings.remove(numUofLeaders);
         }
         else {
-            cardsToProduce.add("basicProduction");
+            cardsToProduce.add("BASICPROD");
             productionPane.setDisable(false);
             productionPane.setVisible(true);
         }
+
+        message = new ProductionMessage(player.getNickname(), cardsToProduce, new Production(uCosts, uEarnings));
     }
 
     public void convertUCosts(MouseEvent mouseEvent) {
@@ -534,7 +588,14 @@ public class TurnSceneController implements SceneController{
         Label resLabel;
         int newQuantity;
         ImageView selectedResourceImageView = ((ImageView) mouseEvent.getSource());
-        PhysicalResource selectedResource = new PhysicalResource(ResType.valueOfImage(selectedResourceImageView.getImage()), 1);
+        ResType selectedType = ResType.UNKNOWN;
+        for (ResType type : ResType.values())
+            if(type.toString().toLowerCase().equals(selectedResourceImageView.getId())) {
+                selectedType = type;
+                break;
+            }
+
+        PhysicalResource selectedResource = new PhysicalResource(selectedType, 1);
 
         for (PhysicalResource uCost : uCosts)
             numActualUCosts += uCost.getQuantity();
@@ -565,6 +626,66 @@ public class TurnSceneController implements SceneController{
         resVBox = (VBox) uCostsHBox.getChildren().get(selectedResource.getType().ordinal()-1);
         resLabel = (Label) resVBox.getChildren().get(0);
         resLabel.setText("x" + newQuantity);
+
+        message = new ProductionMessage(player.getNickname(), cardsToProduce, new Production(uCosts, uEarnings));
+    }
+
+    public void convertUEarnings(MouseEvent mouseEvent) {
+        int numActualEarnings = 0;
+        HBox uCostsHBox = (HBox) productionPane.getChildren().get(3);
+        VBox resVBox;
+        Label resLabel;
+        int newQuantity;
+        ImageView selectedResourceImageView = ((ImageView) mouseEvent.getSource());
+        ResType selectedType = ResType.UNKNOWN;
+
+        for (ResType type : ResType.values())
+            if(type.toString().toLowerCase().equals(selectedResourceImageView.getId())) {
+                selectedType = type;
+                break;
+            }
+
+        PhysicalResource selectedResource = new PhysicalResource(selectedType, 1);
+
+        for (Resource uCost : uEarnings)
+            numActualEarnings += uCost.getQuantity();
+
+        if(numActualEarnings >= numUEarnings){
+            Resource oldestResource = uEarnings.get(0);
+            newQuantity = oldestResource.getQuantity() - 1;
+            if (newQuantity == 0)
+                uEarnings.remove(0);
+            else
+                oldestResource = new PhysicalResource(((PhysicalResource) oldestResource).getType(), newQuantity);
+
+            resVBox = (VBox) uCostsHBox.getChildren().get(((PhysicalResource) oldestResource).getType().ordinal()-1);
+            resLabel = (Label) resVBox.getChildren().get(0);
+            resLabel.setText("x" + newQuantity);
+        }
+
+        int indexOfResource = uEarnings.indexOf(selectedResource);
+        if(indexOfResource != -1) {
+            Resource foundResource = uEarnings.get(indexOfResource);
+            newQuantity = foundResource.getQuantity() + 1;
+            foundResource = new PhysicalResource(((PhysicalResource) foundResource).getType(), newQuantity);
+        }
+        else {
+            uEarnings.add(selectedResource);
+            newQuantity = 1;
+        }
+
+        resVBox = (VBox) uCostsHBox.getChildren().get(selectedResource.getType().ordinal()-1);
+        resLabel = (Label) resVBox.getChildren().get(0);
+        resLabel.setText("x" + newQuantity);
+
+        message = new ProductionMessage(player.getNickname(), cardsToProduce, new Production(uCosts, uEarnings));
+
+
+    }
+
+    public void closeProductionPane() {
+        productionPane.setDisable(true);
+        productionPane.setVisible(false);
     }
 
 
@@ -645,7 +766,7 @@ public class TurnSceneController implements SceneController{
         if (dragEvent.getTransferMode() == TransferMode.MOVE) {
             HBox hBox = (HBox) ((Node) dragEvent.getGestureSource()).getParent();
             Text text = (Text) hBox.getChildren().get(1);
-            int newNum = Integer.parseInt(text.getText()) - 1;
+            int newNum = Integer.parseInt(text.getText().substring(1)) - 1;
             text.setText("x" + newNum);
         }
 
@@ -678,8 +799,16 @@ public class TurnSceneController implements SceneController{
                 else
                     paymentsFromWarehouse.put(numShelf, new PhysicalResource(temporaryRes, 1));
             }
-            else if(((Node) dragEvent.getGestureSource()).getParent().getParent().equals(strongBox))
-                paymentsFromStrongbox.add(new PhysicalResource(temporaryRes, numRes));
+            else if(((Node) dragEvent.getGestureSource()).getParent().getParent().equals(strongBox)) {
+                PhysicalResource resourceToPay = new PhysicalResource(temporaryRes, numRes);
+                int indexOfResourceToPay = paymentsFromStrongbox.indexOf(resourceToPay);
+                if(indexOfResourceToPay == -1)
+                    paymentsFromStrongbox.add(resourceToPay);
+                else {
+                    paymentsFromStrongbox.remove(resourceToPay);
+                    paymentsFromStrongbox.add(resourceToPay);
+                }
+            }
 
             message = new PaymentsMessage(player.getNickname(), paymentsFromStrongbox, paymentsFromWarehouse);
 
@@ -1014,10 +1143,11 @@ public class TurnSceneController implements SceneController{
     public void sendMessage() {
         if(endTurn())
             (new EndTurnMessage(player.getNickname())).send();
-        else
-        if(message != null) {
-            message.send();
-            message = null;
+        else {
+            if (message != null) {
+                message.send();
+                message = null;
+            }
         }
         initializeTemporaryVariables();
     }
@@ -1025,10 +1155,6 @@ public class TurnSceneController implements SceneController{
     private boolean endTurn(){
         return getClientController().getCurrentState().equals(StateName.END_TURN);
     }
-
-    public void convertUEarnings(MouseEvent mouseEvent) {
-    }
-
 
 
 }
