@@ -50,6 +50,7 @@ public class JavaFXGUI extends Application {
         Parent next = loadFXML(fxml);
         scene.setRoot(next);
         stage.sizeToScene();
+        stage.setFullScreen(true);
     }
 
     /**
@@ -107,6 +108,11 @@ public class JavaFXGUI extends Application {
                     case "faithPath":
                         GridPane faithPath = (GridPane) n;
                         faithPath.getChildren().get(player.getFaithMarker()).setVisible(true);
+                        break;
+                    case "firstPopeTile":
+                    case "secondPopeTile":
+                    case "thirdPopeTile":
+                        //todo popeTiles
                         break;
                     case "devCardSlots":
                         TurnSceneController.populateDevCardSlots(player.getDevCardSlots(), (HBox) n);

@@ -16,18 +16,21 @@
             <Image url="@../images/newLogo.jpg" />
          </image>
       </ImageView>
-      <Label layoutX="144.0" layoutY="252.0" text="Choose your nickname">
+      <Label layoutX="144.0" layoutY="240.0" prefHeight="17.0" prefWidth="234.0" text="Choose your nickname">
          <font>
-            <Font name="System Bold Italic" size="16.0" />
+            <Font name="Playbill" size="35.0" />
          </font></Label>
       <Label fx:id="loginErrorLabel" alignment="TOP_LEFT" layoutX="144.0" layoutY="313.0" opacity="0.0" prefHeight="46.0" prefWidth="234.0" text="Error message" textFill="#f50505" wrapText="true">
          <font>
             <Font name="System Bold" size="13.0" />
          </font></Label>
-      <Button fx:id="loginButton" layoutX="398.0" layoutY="276.0" mnemonicParsing="false" onAction="#login" prefHeight="37.0" prefWidth="92.0" text="Login">
+      <Button fx:id="loginButton" layoutX="398.0" layoutY="269.0" mnemonicParsing="false" onAction="#login" prefHeight="50.0" prefWidth="87.0" text="Login">
          <cursor>
             <Cursor fx:constant="HAND" />
-         </cursor></Button>
+         </cursor>
+         <font>
+            <Font name="Playbill" size="29.0" />
+         </font></Button>
       <TextField fx:id="loginTextBox" layoutX="144.0" layoutY="281.0" onAction="#login" prefHeight="25.0" prefWidth="234.0" promptText="Nickname">
          <cursor>
             <Cursor fx:constant="TEXT" />
