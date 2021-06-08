@@ -13,9 +13,9 @@
    <ImageView id="servantCount" fitHeight="600.0" fitWidth="802.0" layoutX="-1.0" opacity="0.75" pickOnBounds="true">
       <Image url="@../images/generalBackground.jpg" />
    </ImageView>
-   <Label id="startinResLabel" fx:id="startingResourcesLabel" layoutX="308.0" layoutY="179.0" text="Choose your starting resources.">
+   <Label id="startinResLabel" fx:id="startingResourcesLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="1.0" layoutY="125.0" prefHeight="46.0" prefWidth="800.0" text="Choose your starting resources." textAlignment="CENTER">
       <font>
-         <Font size="14.0" />
+         <Font name="Playbill" size="45.0" />
       </font>
    </Label>
    <HBox fx:id="resourcesHBox" layoutX="98.0" layoutY="234.0" prefHeight="123.0" prefWidth="485.0" spacing="100.0">
@@ -35,7 +35,7 @@
                <Font name="System Bold Italic" size="26.0" />
             </font>
          </Label>
-         <ImageView fx:id="ShieldImage" fitHeight="114.0" fitWidth="85.0" onMouseClicked="#addShield" pickOnBounds="true" preserveRatio="true">
+         <ImageView fx:id="ShieldImage" fitHeight="90.0" fitWidth="85.0" onMouseClicked="#addShield" pickOnBounds="true" preserveRatio="true">
             <Image url="@../images/punchBoard/shield.png" />
          </ImageView>
       </VBox>
@@ -45,7 +45,7 @@
                <Font name="System Bold Italic" size="26.0" />
             </font>
          </Label>
-         <ImageView fx:id="servantImage" fitHeight="114.0" fitWidth="75.0" onMouseClicked="#addServant" pickOnBounds="true" preserveRatio="true">
+         <ImageView fx:id="servantImage" fitHeight="114.0" fitWidth="85.0" onMouseClicked="#addServant" pickOnBounds="true" preserveRatio="true">
             <Image url="@../images/punchBoard/servant.png" />
          </ImageView>
       </VBox>
@@ -60,7 +60,7 @@
          </ImageView>
       </VBox>
    </HBox>
-   <Button fx:id="confirmButton" layoutX="396.0" layoutY="443.0" mnemonicParsing="false" onAction="#chooseResources" text="OK" />
+   <Button fx:id="confirmButton" layoutX="374.0" layoutY="443.0" mnemonicParsing="false" onAction="#chooseResources" prefHeight="46.0" prefWidth="54.0" text="-&gt;" />
    <Label id="errorLabel" layoutX="336.0" layoutY="517.0" opacity="0.0" text="error msg from server" textFill="RED">
       <font>
          <Font size="15.0" />

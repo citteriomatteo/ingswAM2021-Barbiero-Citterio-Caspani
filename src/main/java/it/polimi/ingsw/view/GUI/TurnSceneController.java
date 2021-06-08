@@ -114,6 +114,74 @@ public class TurnSceneController implements SceneController{
         return warehousePane.getChildren().indexOf(clicked.getParent())+1;
     }
 
+    static public void clearHandLeadersImages(List<String> newHandLeaders, HBox handLeaders) {
+        if(newHandLeaders.size() < handLeaders.getChildren().size())
+            for(Node n : handLeaders.getChildren()) {
+                ImageView leader = (ImageView) n;
+                if(leader.getImage() != null) {
+                    leader.setImage(null);
+                    return;
+                }
+            }
+    }
+
+    static public void setActiveLeadersImages(List<String> newActiveLeaders, HBox activeLeaders) {
+        if(newActiveLeaders.size()==2 && getSceneProxy().isSlotLeader(newActiveLeaders.get(1)))
+            Collections.swap(newActiveLeaders, 0, 1);
+        List<Node> leaders = activeLeaders.getChildren();
+        for (int i = 0; i <leaders.size(); i++) {
+            ImageView leader = (ImageView) leaders.get(i);
+            if(newActiveLeaders.size() > i)
+                leader.setImage(getSceneProxy().getCardImage(newActiveLeaders.get(i)));
+            else
+                leader.setImage(null);
+        }
+    }
+
+    static public void populateMarketBuffer(List<PhysicalResource> marketBuffer, Pane marketBufferBox) {
+        List<Node> places = marketBufferBox.getChildren();
+        for (int i = 0; i < places.size(); i++) {
+            if(i < marketBuffer.size())
+                ((ImageView) places.get(i)).setImage(marketBuffer.get(i).getType().asImage());
+            else
+                ((ImageView) places.get(i)).setImage(null);
+        }
+    }
+
+    static public void populateDevCardSlots(List<String>[] devCardSlots, HBox devCardHBox) {
+        List<String> cardColumn;
+        ImageView imageview;
+        StackPane cardColumnStack;
+        for (int i = 0; i < devCardSlots.length; i++) {
+            cardColumn = devCardSlots[i];
+            cardColumnStack = (StackPane) devCardHBox.getChildren().get(i);
+            for (int j = 0; j < cardColumn.size(); j++) {
+                imageview = (ImageView) cardColumnStack.getChildren().get(j);
+                imageview.setImage(getSceneProxy().getCardImage(cardColumn.get(j)));
+            }
+        }
+    }
+
+    static public void populateWarehouse(List<PhysicalResource> warehouse, Pane warehousePane) {
+        for (int i = 0; i < warehouse.size(); i++) {
+            PhysicalResource resShelf = warehouse.get(i);
+            HBox shelf = (HBox) warehousePane.getChildren().get(i);
+            for (int j = 0; j < resShelf.getQuantity(); j++) {
+                ((ImageView) shelf.getChildren().get(j)).setImage(resShelf.getType().asImage());
+            }
+        }
+    }
+
+    static public void populateStrongbox(List<PhysicalResource> newStrongbox, VBox strongboxVbox) {
+        for (PhysicalResource resource : newStrongbox) {
+            for (Node n : strongboxVbox.getChildren()) {
+                HBox shelf = (HBox) n;
+                if (resource.getType().toString().toLowerCase().equals(shelf.getId()))
+                    ((Text) shelf.getChildren().get(1)).setText("x" + resource.getQuantity());
+            }
+        }
+    }
+
     /**
      * Sets the text on the button Confirm to EndTurn
      */
@@ -528,9 +596,7 @@ public class TurnSceneController implements SceneController{
     public void dropCard(DragEvent dragEvent) {
         boolean success;
         StackPane selectedColumn = (StackPane) ((Node)dragEvent.getSource()).getParent();
-        System.out.println("Selected StackPane: " + selectedColumn);
         int freePosition = findFreePosition(selectedColumn);
-        System.out.println("first free position " + freePosition);
         if(freePosition>=0) {
             success = true;
             ((ImageView)selectedColumn.getChildren().get(freePosition)).setImage(tempDevCard.getImage());
@@ -949,17 +1015,6 @@ public class TurnSceneController implements SceneController{
         }
     }
 
-    private void clearHandLeadersImages(List<String> newHandLeaders, HBox handLeaders) {
-        if(newHandLeaders.size() < handLeaders.getChildren().size())
-            for(Node n : handLeaders.getChildren()) {
-                ImageView leader = (ImageView) n;
-                if(leader.getImage() != null) {
-                    leader.setImage(null);
-                    return;
-                }
-            }
-    }
-
     public void updateActiveLeaders(String nickname, List<String> newActiveLeaders) {
         if(nickname.equals(player.getNickname())){
             setActiveLeadersImages(newActiveLeaders, activeLeaders);
@@ -973,19 +1028,6 @@ public class TurnSceneController implements SceneController{
                             return;
                         }
                 }
-        }
-    }
-
-    private void setActiveLeadersImages(List<String> newActiveLeaders, HBox activeLeaders) {
-        if(newActiveLeaders.size()==2 && getSceneProxy().isSlotLeader(newActiveLeaders.get(1)))
-            Collections.swap(newActiveLeaders, 0, 1);
-        List<Node> leaders = activeLeaders.getChildren();
-        for (int i = 0; i <leaders.size(); i++) {
-            ImageView leader = (ImageView) leaders.get(i);
-            if(newActiveLeaders.size() > i)
-                leader.setImage(getSceneProxy().getCardImage(newActiveLeaders.get(i)));
-            else
-                leader.setImage(null);
         }
     }
 
@@ -1008,14 +1050,8 @@ public class TurnSceneController implements SceneController{
 
     public void updateMarketBuffer(String nickname, List<PhysicalResource> marketBuffer) {
 
-        if(nickname.equals(player.getNickname())) {
-            for (int i = 0; i < marketBufferBox.getChildren().size(); i++) {
-                if(i < marketBuffer.size())
-                    ((ImageView) marketBufferBox.getChildren().get(i)).setImage(marketBuffer.get(i).getType().asImage());
-                else
-                    ((ImageView) marketBufferBox.getChildren().get(i)).setImage(null);
-            }
-        }
+        if(nickname.equals(player.getNickname()))
+            populateMarketBuffer(marketBuffer, marketBufferBox);
 
         else{
             for(Node enemyPane : enemiesBox.getChildren())
@@ -1023,12 +1059,7 @@ public class TurnSceneController implements SceneController{
                     for (Node child : ((Pane) enemyPane).getChildren())
                         if(("marketBuffer").equals(child.getId())) {
                             VBox enemyMarketBuffer = (VBox) child;
-                            for (int i = 0; i < enemyMarketBuffer.getChildren().size(); i++) {
-                                if(i < marketBuffer.size())
-                                    ((ImageView) enemyMarketBuffer.getChildren().get(i)).setImage(marketBuffer.get(i).getType().asImage());
-                                else
-                                    ((ImageView) enemyMarketBuffer.getChildren().get(i)).setImage(null);
-                            }
+                            populateMarketBuffer(marketBuffer, enemyMarketBuffer);
                         }
         }
 
@@ -1043,13 +1074,7 @@ public class TurnSceneController implements SceneController{
                 for (Node place : shelf.getChildren())
                     ((ImageView) place).setImage(null);
             }
-            for (int i = 0; i < warehouse.size(); i++) {
-                PhysicalResource resShelf = warehouse.get(i);
-                HBox shelf = (HBox) warehousePane.getChildren().get(i);
-                for (int j = 0; j < resShelf.getQuantity(); j++) {
-                    ((ImageView) shelf.getChildren().get(j)).setImage(resShelf.getType().asImage());
-                }
-            }
+            populateWarehouse(warehouse, warehousePane);
         }
         else {
             for(Node enemyPane : enemiesBox.getChildren())
@@ -1061,14 +1086,7 @@ public class TurnSceneController implements SceneController{
                                 for (Node place : shelf.getChildren())
                                     ((ImageView) place).setImage(null);
                             }
-
-                            for (int i = 0; i < warehouse.size(); i++) {
-                                PhysicalResource resShelf = warehouse.get(i);
-                                HBox shelf = (HBox) ((Pane) child).getChildren().get(i);
-                                for (int j = 0; j < resShelf.getQuantity(); j++) {
-                                    ((ImageView) shelf.getChildren().get(j)).setImage(resShelf.getType().asImage());
-                                }
-                            }
+                            populateWarehouse(warehouse, (Pane) child);
                         }
         }
 
@@ -1103,29 +1121,16 @@ public class TurnSceneController implements SceneController{
     }
 
     public void updateStrongBox(String nickname, List<PhysicalResource> newStrongbox) {
-        if(nickname.equals(player.getNickname())){
-            for (int i = 0; i < newStrongbox.size(); i++) {
-                for (Node n : strongBox.getChildren()) {
-                    HBox shelf = (HBox) n;
-                    if (newStrongbox.get(i).getType().toString().toLowerCase().equals(shelf.getId()))
-                        ((Text) shelf.getChildren().get(1)).setText("x" + newStrongbox.get(i).getQuantity());
-                }
-            }
-        }
+        if(nickname.equals(player.getNickname()))
+            populateStrongbox(newStrongbox, strongBox);
+
         else {
             for(Node enemyPane : enemiesBox.getChildren())
                 if(nickname.equals(enemyPane.getId())) {
                     for (Node child : ((Pane) enemyPane).getChildren()) {
                         if (("strongBox").equals(child.getId())) {
                             VBox sb = (VBox) child;
-                            for (int i = 0; i < newStrongbox.size(); i++) {
-                                for (Node n : sb.getChildren()) {
-                                    HBox shelf = (HBox) n;
-                                    if (newStrongbox.get(i).getType().toString().toLowerCase().equals(shelf.getId()))
-                                        ((Text) shelf.getChildren().get(1)).setText("x" + newStrongbox.get(i).getQuantity());
-
-                                }
-                            }
+                            populateStrongbox(newStrongbox, sb);
                         }
                     }
                 }
@@ -1207,9 +1212,6 @@ public class TurnSceneController implements SceneController{
     public void updateDevCardSlots(String nickname, List<String>[] devCardSlots){
         HBox devCardHBox;
         Pane playerPane;
-        List<String> cardColumn;
-        StackPane cardColumnStack;
-        ImageView imageview;
 
         if(nickname.equals(player.getNickname()))
             playerPane = myPane;
@@ -1217,17 +1219,9 @@ public class TurnSceneController implements SceneController{
             playerPane = (Pane) getChildById(enemiesBox, nickname);
 
         devCardHBox = (HBox)getChildById(playerPane, "devCardSlots");
-        for (int i = 0; i < devCardSlots.length; i++) {
-            cardColumn = devCardSlots[i];
-            cardColumnStack = (StackPane) devCardHBox.getChildren().get(i);
-            for (int j = 0; j < cardColumn.size(); j++) {
-                imageview = (ImageView) cardColumnStack.getChildren().get(j);
-                imageview.setImage(getSceneProxy().getCardImage(cardColumn.get(j)));
-            }
-        }
+        populateDevCardSlots(devCardSlots, devCardHBox);
 
         updateTempDevCard(match.getLightPlayer(nickname).getTempDevCard());
-
     }
 
     /**
@@ -1238,7 +1232,20 @@ public class TurnSceneController implements SceneController{
         JavaFXGUI.popUpWarning(errMessage);
     }
 
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% OTHER FUNCTIONS  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+    /**
+     * Displays a pop-up showing the playerBoard of the clicked player
+     * @param mouseEvent the event that has started this method
+     */
+    @FXML
+    public void zoom(MouseEvent mouseEvent) {
+        String nickname = ((Pane) mouseEvent.getSource()).getId();
+        JavaFXGUI.popUpZoom(match.getLightPlayer(nickname));
+
+        mouseEvent.consume();
+    }
 
     /**
      * Function called by the press of confirm button, sends the temporary message saved or EndTurnMessage if it is the case

@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="570.0" fitWidth="800.0" opacity="0.5" pickOnBounds="true">
+         <image>
+            <Image url="@../images/generalBackground.jpg" />
+         </image>
+      </ImageView>
+      <ImageView id="board" fitHeight="418.0" fitWidth="655.0" layoutX="73.0" layoutY="14.0" pickOnBounds="true">
+         <image>
+            <Image url="@../images/board/playerBoard.jpg" />
+         </image>
+      </ImageView>
+      <HBox id="activeLeaders" layoutX="361.0" layoutY="435.0" prefHeight="117.0" prefWidth="135.0" spacing="10.0">
+         <children>
+            <ImageView id="activeLeader1" fitHeight="128.0" fitWidth="92.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView id="activeLeader2" fitHeight="128.0" fitWidth="92.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </HBox>
+      <ImageView fitHeight="50.0" fitWidth="150.0" layoutX="-40.0" layoutY="225.0" pickOnBounds="true" rotate="90.0">
+         <image>
+            <Image url="@../images/punchBoard/marketBuffer.jpg" />
+         </image>
+      </ImageView>
+      <VBox id="marketBuffer" layoutX="17.0" layoutY="176.0" prefHeight="146.0" prefWidth="36.0" spacing="2.0">
+         <children>
+            <ImageView id="firstBufferRes" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView id="secondBufferRes" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView id="thirdBufferRes" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView id="fourthBufferRes" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </VBox>
+      <HBox id="handLeaders" layoutX="72.0" layoutY="441.0" prefHeight="117.0" prefWidth="134.0" spacing="10.0">
+         <children>
+            <ImageView id="handLeader1" fitHeight="112.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/leaderCards/leaderCardBack.png" />
+               </image>
+            </ImageView>
+            <ImageView id="handLeader2" fitHeight="112.0" fitWidth="86.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/leaderCards/leaderCardBack.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+      <ImageView id="firstPopeTile" fitHeight="18.0" fitWidth="22.0" layoutX="138.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView id="secondPopeTile" fitHeight="18.0" fitWidth="22.0" layoutX="220.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView id="thirdPopeTile" fitHeight="18.0" fitWidth="22.0" layoutX="320.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true" />
+      <GridPane id="faithPath" layoutX="98.0" layoutY="36.0" prefHeight="84.0" prefWidth="612.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="27.521514892578125" minHeight="10.0" prefHeight="21.2918701171875" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="28.2081298828125" minHeight="10.0" prefHeight="27.3583984375" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="27.92486572265625" minHeight="10.0" prefHeight="25.6416015625" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <ImageView id="step0" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../images/board/faithMarker.png" />
+               </image>
+            </ImageView>
+            <ImageView id="step1" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../images/board/faithMarker.png" />
+               </image>
+            </ImageView>
+            <ImageView id="step2" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../images/board/faithMarker.png" />
+               </image>
+            </ImageView>
+            <ImageView id="step3" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../images/board/faithMarker.png" />
+               </image>
+            </ImageView>
+            <ImageView id="step4" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+               <image>
+                  <Image url="@../images/board/faithMarker.png" />
+               </image>
+            </ImageView>
+            <ImageView id="step5" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="3" GridPane.halignment="CENTER">
+               <image>
+                  <Image url="@../images/board/faithMarker.png" />
+               </image>
+            </ImageView>
+            <ImageView id="step6" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="4" GridPane.halignment="CENTER">
+               <image>
+                  <Image url="@../images/board/faithMarker.png" />
+               </image>
+            </ImageView>
+            <ImageView id="step7" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="5" GridPane.halignment="CENTER">
+               <image>
+                  <Image url="@../images/board/faithMarker.png" />
+               </image>
+            </ImageView>
+            <ImageView id="step8" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="6" GridPane.halignment="CENTER">
+               <image>
+                  <Image url="@../images/board/faithMarker.png" />
+               </image>
+            </ImageView>
+            <ImageView id="step9" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="7" GridPane.halignment="CENTER">
+               <image>
+                  <Image url="@../images/board/faithMarker.png" />
+               </image>
+            </ImageView>
+            <ImageView id="step10" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../images/board/faithMarker.png" />
+               </image>
+            </ImageView>
+            <ImageView id="step11" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../images/board/faithMarker.png" />
+               </image>
+            </ImageView>
+            <ImageView id="step12" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="8" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../images/board/faithMarker.png" />
+               </image>
+            </ImageView>
+            <ImageView id="step13" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="9" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../images/board/faithMarker.png" />
+               </image>
+            </ImageView>
+            <ImageView id="step14" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="10" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../images/board/faithMarker.png" />
+               </image>
+            </ImageView>
+            <ImageView id="step15" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="11" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../images/board/faithMarker.png" />
+               </image>
+            </ImageView>
+            <ImageView id="step16" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="12" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../images/board/faithMarker.png" />
+               </image>
+            </ImageView>
+            <ImageView id="step17" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="12" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../images/board/faithMarker.png" />
+               </image>
+            </ImageView>
+            <ImageView id="step18" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="12" GridPane.halignment="CENTER">
+               <image>
+                  <Image url="@../images/board/faithMarker.png" />
+               </image>
+            </ImageView>
+            <ImageView id="step19" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="13" GridPane.halignment="CENTER">
+               <image>
+                  <Image url="@../images/board/faithMarker.png" />
+               </image>
+            </ImageView>
+            <ImageView id="step20" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="14" GridPane.halignment="CENTER">
+               <image>
+                  <Image url="@../images/board/faithMarker.png" />
+               </image>
+            </ImageView>
+            <ImageView id="step21" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="15" GridPane.halignment="CENTER">
+               <image>
+                  <Image url="@../images/board/faithMarker.png" />
+               </image>
+            </ImageView>
+            <ImageView id="step22" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="16" GridPane.halignment="CENTER">
+               <image>
+                  <Image url="@../images/board/faithMarker.png" />
+               </image>
+            </ImageView>
+            <ImageView id="step23" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="17" GridPane.halignment="CENTER">
+               <image>
+                  <Image url="@../images/board/faithMarker.png" />
+               </image>
+            </ImageView>
+            <ImageView id="step24" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="18" GridPane.halignment="CENTER">
+               <image>
+                  <Image url="@../images/board/faithMarker.png" />
+               </image>
+            </ImageView>
+         </children>
+      </GridPane>
+      <HBox id="devCardSlots" alignment="CENTER" layoutX="320.0" layoutY="170.0" prefHeight="219.0" prefWidth="382.0" spacing="10.0">
+         <children>
+            <StackPane id="firstDevSlot" alignment="BOTTOM_CENTER" prefHeight="218.0" prefWidth="120.0">
+               <children>
+                  <ImageView id="firstCard" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="secondCard" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" translateY="-30.0" />
+                  <ImageView id="thirdCard" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" translateY="-60.0" />
+               </children>
+            </StackPane>
+            <StackPane id="secondDevSlot" alignment="BOTTOM_CENTER" prefHeight="219.0" prefWidth="120.0">
+               <children>
+                  <ImageView id="firstCard" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="secondCard" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" translateY="-30.0" />
+                  <ImageView id="thirdCard" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" translateY="-60.0" />
+               </children>
+            </StackPane>
+            <StackPane id="thirdDevSlot" alignment="BOTTOM_CENTER" prefHeight="219.0" prefWidth="120.0">
+               <children>
+                  <ImageView id="firstCard" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="secondCard" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" translateY="-30.0" />
+                  <ImageView id="thirdCard" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" translateY="-60.0" />
+               </children>
+            </StackPane>
+         </children>
+      </HBox>
+      <Pane id="warehousePane" layoutX="98.0" layoutY="183.0" prefHeight="117.0" prefWidth="118.0">
+         <children>
+            <HBox id="shelf1" layoutX="49.0" layoutY="6.0" prefHeight="28.0" prefWidth="28.0" spacing="4.0">
+               <children>
+                  <ImageView id="firstRes" fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </HBox>
+            <HBox id="shelf2" layoutX="35.0" layoutY="47.0" prefHeight="28.0" prefWidth="56.0" spacing="4.0">
+               <children>
+                  <ImageView id="firstRes" fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="secondRes" fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </HBox>
+            <HBox id="shelf3" layoutX="16.0" layoutY="80.0" prefHeight="28.0" prefWidth="92.0" spacing="4.0">
+               <children>
+                  <ImageView id="firstRes" fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="secondRes" fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="thirdRes" fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </HBox>
+            <HBox id="shelf4" disable="true" layoutX="281.0" layoutY="351.0" opacity="0.0" prefHeight="20.0" prefWidth="50.0" spacing="10.0">
+               <children>
+                  <ImageView id="firstRes" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="secondRes" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </HBox>
+            <HBox id="shelf5" disable="true" layoutX="372.0" layoutY="353.0" opacity="0.0" prefHeight="20.0" prefWidth="50.0" spacing="10.0">
+               <children>
+                  <ImageView id="firstRes" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="secondRes" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </HBox>
+         </children>
+      </Pane>
+      <VBox id="strongBox" layoutX="102.0" layoutY="313.0" prefHeight="90.0" prefWidth="102.0">
+         <children>
+            <HBox id="coin" prefHeight="24.0" prefWidth="103.0" spacing="15.0">
+               <children>
+                  <ImageView fitHeight="24.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/punchBoard/coin.png" />
+                     </image>
+                  </ImageView>
+                  <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0" wrappingWidth="50.982421875">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox id="servant" prefHeight="22.0" prefWidth="103.0" spacing="15.0">
+               <children>
+                  <ImageView fitHeight="22.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/punchBoard/servant.png" />
+                     </image>
+                  </ImageView>
+                  <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0" wrappingWidth="56.232421875">
+                     <font>
+                        <Font name="System Bold Italic" size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox id="stone" prefHeight="22.0" prefWidth="102.0" spacing="15.0">
+               <children>
+                  <ImageView fitHeight="22.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/punchBoard/stone.png" />
+                     </image>
+                  </ImageView>
+                  <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0" wrappingWidth="57.2939453125">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox id="shield" prefHeight="22.0" prefWidth="108.0" spacing="15.0">
+               <children>
+                  <ImageView fitHeight="23.0" fitWidth="22.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../images/punchBoard/shield.png" />
+                     </image>
+                  </ImageView>
+                  <Text id="count" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="x0" wrappingWidth="58.232421875">
+                     <font>
+                        <Font name="System Bold Italic" size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</Pane>

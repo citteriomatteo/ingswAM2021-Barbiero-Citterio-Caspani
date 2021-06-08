@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.GUI;
 
-import it.polimi.ingsw.controller.StateName;
 import it.polimi.ingsw.model.essentials.Card;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import javafx.application.Platform;
@@ -15,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 import static it.polimi.ingsw.network.client.Client.getClient;
-import static it.polimi.ingsw.view.ClientController.getClientController;
 import static java.util.Map.entry;
 
 
