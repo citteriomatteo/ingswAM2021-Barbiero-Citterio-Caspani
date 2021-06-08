@@ -32,8 +32,8 @@
          <children>
             <HBox id="activeLeaders" fx:id="activeLeaders" layoutX="12.204509735107422" layoutY="115.0" prefHeight="121.0" prefWidth="174.0" spacing="10.0">
                <children>
-                  <ImageView id="activeLeader1" fitHeight="150.0" fitWidth="82.0" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView id="activeLeader2" fitHeight="150.0" fitWidth="82.0" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="activeLeader1" fitHeight="150.0" fitWidth="82.0" onMouseClicked="#produce" userData="1" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="activeLeader2" fitHeight="150.0" fitWidth="82.0" onMouseClicked="#produce" userData="2" pickOnBounds="true" preserveRatio="true" />
                </children>
             </HBox>
             <ImageView id="board" fitHeight="360.0" fitWidth="626.0" layoutX="207.20450973510742" layoutY="107.0" pickOnBounds="true" translateY="10.0">

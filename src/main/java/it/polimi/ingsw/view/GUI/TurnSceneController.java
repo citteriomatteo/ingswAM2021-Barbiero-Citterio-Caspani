@@ -214,7 +214,7 @@ public class TurnSceneController implements SceneController{
         for (k=0; k < enemies.size(); k++) {
             Pane enemyPane = (Pane) enemiesBox.getChildren().get(k);
             enemyPane.setId(enemies.get(k).getNickname());
-            Label enemyName = (Label) enemyPane.getChildren().get(3);
+            Label enemyName = (Label) SceneProxy.getChildById(enemyPane, "nicknameLabel");
             enemyName.setText(enemies.get(k).getNickname());
         }
 
@@ -235,15 +235,7 @@ public class TurnSceneController implements SceneController{
 
         updateMarket(match.getMarket());
 
-        cards = match.getCardGrid();
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 4; j++) {
-                stackPane = (StackPane) cardGrid.getChildren().get(i*4+j);
-                imageView = (ImageView) stackPane.getChildren().get(3);
-                imageView.setImage(getSceneProxy().getCardImage(cards[2-i][j].get(0)));
-            }
-        }
+        updateCardGrid(match.getCardGrid());
 
         updateHandLeaders(player.getNickname(), player.getHandLeaders());
         updateMarketBuffer(player.getNickname(), player.getMarketBuffer());
@@ -371,7 +363,8 @@ public class TurnSceneController implements SceneController{
         for(Node node : devCardSlots.getChildren()){
             StackPane stackPane = (StackPane) node;
             int firstFree = findFreePosition(stackPane);
-            stackPane.getChildren().get(firstFree).setDisable(false);
+            if(firstFree >= 0)
+                stackPane.getChildren().get(firstFree).setDisable(false);
 
         }
 
@@ -743,8 +736,11 @@ public class TurnSceneController implements SceneController{
             newQuantity = oldestResource.getQuantity() - 1;
             if (newQuantity == 0)
                 uCosts.remove(0);
-            else
+            else {
+                uCosts.remove(oldestResource);
                 oldestResource = new PhysicalResource(oldestResource.getType(), newQuantity);
+                uCosts.add(oldestResource);
+            }
 
             resVBox = (VBox) uCostsHBox.getChildren().get(oldestResource.getType().ordinal()-1);
             resLabel = (Label) resVBox.getChildren().get(0);
@@ -752,9 +748,10 @@ public class TurnSceneController implements SceneController{
         }
         int indexOfResource = uCosts.indexOf(selectedResource);
         if(indexOfResource != -1) {
-            PhysicalResource foundResource = uCosts.get(indexOfResource);
+            PhysicalResource foundResource = uCosts.remove(indexOfResource);
             newQuantity = foundResource.getQuantity() + 1;
             foundResource = new PhysicalResource(foundResource.getType(), newQuantity);
+            uCosts.add(foundResource);
         }
         else {
             uCosts.add(selectedResource);

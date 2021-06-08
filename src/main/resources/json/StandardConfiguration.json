@@ -1962,7 +1962,7 @@
       "requirements": [
         {
           "requirement": "cardType",
-          "color": "BLUE",
+          "color": "PURPLE",
           "level": 0,
           "quantity": 2
         },
