@@ -65,6 +65,5 @@ public class InitSceneController implements SceneController{
 
     public void backToLogin(ActionEvent actionEvent) {
         new BinarySelectionMessage(getClient().getNickname(), false).send();
-        //getSceneProxy().changeScene(SceneName.LoginScene);
     }
 }

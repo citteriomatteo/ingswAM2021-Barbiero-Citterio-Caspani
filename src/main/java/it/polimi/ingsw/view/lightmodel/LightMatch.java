@@ -73,7 +73,7 @@ public class LightMatch extends ViewObservable {
     }
 
     /**
-     * This method discardsa player's leader.
+     * This method discards a player's leader.
      * Calls an update to the view.
      * @param nickname the player who discards
      */
@@ -191,6 +191,7 @@ public class LightMatch extends ViewObservable {
      */
     public void activateLeader(String nickname, String activeLeader) {
         getLightPlayer(nickname).setActiveLeader(activeLeader);
+        leaderDiscard(nickname);
         updateActiveLeaders(nickname, this);
     }
 

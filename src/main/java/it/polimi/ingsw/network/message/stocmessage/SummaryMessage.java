@@ -16,7 +16,7 @@ public class SummaryMessage extends StoCMessage {
         super(nickname);
 
         for(PlayerSummary ps : summary.getPlayersSummary())
-            if(!ps.getNickname().equals(nickname)) //TODO: fix this hand-leaders filter for reconnections
+            if(!ps.getNickname().equals(nickname))
                 ps.getHandLeaders().stream().map((x)->(LeaderCard) null).collect(Collectors.toList());
 
         this.summary = summary;

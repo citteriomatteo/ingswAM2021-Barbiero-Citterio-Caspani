@@ -370,7 +370,7 @@
             <ImageView id="basicUe" fx:id="unknownEarning" fitHeight="22.0" fitWidth="22.0" layoutX="412.0" layoutY="378.0" pickOnBounds="true" preserveRatio="true" />
             <Pane id="warehousePane" fx:id="warehousePane" layoutX="28.204509735107422" layoutY="212.0">
                <children>
-                  <HBox id="shelf1" layoutX="253.0" layoutY="58.0" prefHeight="18.0" prefWidth="12.0" spacing="5.0" translateY="10.0">
+                  <HBox id="shelf1" layoutX="253.0" layoutY="58.0" prefHeight="18.0" prefWidth="18.0" spacing="5.0" translateY="10.0">
                      <children>
                         <ImageView id="firstRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true">
                            <cursor>
@@ -390,7 +390,7 @@
                            </cursor></ImageView>
                      </children>
                   </HBox>
-                  <HBox id="shelf3" layoutX="229.0" layoutY="121.0" prefHeight="18.0" prefWidth="48.0" spacing="4.0" translateY="10.0">
+                  <HBox id="shelf3" layoutX="229.0" layoutY="115.0" prefHeight="18.0" prefWidth="48.0" spacing="4.0" translateY="10.0">
                      <children>
                         <ImageView id="firstRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true">
                            <cursor>
@@ -980,12 +980,12 @@
             </ImageView>
          </children>
       </Pane>
-      <TextField id="controlBox" fx:id="informationField" alignment="CENTER" editable="false" layoutX="883.0" layoutY="678.0" prefHeight="109.0" prefWidth="364.0" />
+      <TextField id="controlBox" fx:id="informationField" alignment="CENTER" editable="false" layoutX="883.0" layoutY="678.0" prefColumnCount="1" prefHeight="109.0" prefWidth="364.0" text="AAAAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
       <VBox fx:id="enemiesBox" layoutX="838.0" layoutY="40.0" prefHeight="639.0" prefWidth="436.0">
          <children>
             <Pane id="enemy1Pane" fx:id="enemy1Pane" onMouseClicked="#zoom" prefHeight="208.0" prefWidth="436.0">
                <children>
-                  <ImageView fitHeight="18.0" fitWidth="129.0" layoutX="-3.0" layoutY="-3.0" pickOnBounds="true">
+                  <ImageView fitHeight="18.0" fitWidth="200.0" layoutX="-3.0" layoutY="-3.0" pickOnBounds="true">
                      <image>
                         <Image url="@../images/nicknameBackground.png" />
                      </image>
@@ -1312,7 +1312,7 @@
             </Pane>
             <Pane id="enemy2Pane" fx:id="enemy2Pane" onMouseClicked="#zoom" prefHeight="208.0" prefWidth="436.0">
                <children>
-                  <ImageView fitHeight="18.0" fitWidth="129.0" layoutX="-3.0" layoutY="-3.0" pickOnBounds="true">
+                  <ImageView fitHeight="18.0" fitWidth="200.0" layoutX="-3.0" layoutY="-3.0" pickOnBounds="true">
                      <image>
                         <Image url="@../images/nicknameBackground.png" />
                      </image>
@@ -1640,7 +1640,7 @@
             </Pane>
             <Pane id="enemy3Pane" fx:id="enemy3Pane" onMouseClicked="#zoom" prefHeight="208.0" prefWidth="436.0">
                <children>
-                  <ImageView fitHeight="18.0" fitWidth="129.0" layoutX="-3.0" layoutY="-3.0" pickOnBounds="true">
+                  <ImageView fitHeight="18.0" fitWidth="200.0" layoutX="-3.0" layoutY="-3.0" pickOnBounds="true">
                      <image>
                         <Image url="@../images/nicknameBackground.png" />
                      </image>

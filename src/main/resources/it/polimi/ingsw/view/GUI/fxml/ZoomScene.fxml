@@ -57,9 +57,6 @@
             </ImageView>
          </children>
       </HBox>
-      <ImageView id="firstPopeTile" fitHeight="18.0" fitWidth="22.0" layoutX="138.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView id="secondPopeTile" fitHeight="18.0" fitWidth="22.0" layoutX="220.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView id="thirdPopeTile" fitHeight="18.0" fitWidth="22.0" layoutX="320.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true" />
       <GridPane id="faithPath" layoutX="98.0" layoutY="36.0" prefHeight="84.0" prefWidth="612.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -334,5 +331,8 @@
             </HBox>
          </children>
       </VBox>
+      <ImageView id="firstPopeTile" fitHeight="32.0" fitWidth="32.0" layoutX="242.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView id="secondPopeTile" fitHeight="32.0" fitWidth="32.0" layoutX="401.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView id="thirdPopeTile" fitHeight="32.0" fitWidth="32.0" layoutX="594.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </Pane>
