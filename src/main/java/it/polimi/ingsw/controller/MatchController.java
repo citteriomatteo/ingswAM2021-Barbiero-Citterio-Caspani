@@ -222,7 +222,7 @@ public class MatchController {
     }
 
     public synchronized  boolean disconnection(Player player){
-        if(turnController!=null && player.equals(match.getCurrentPlayer())){
+        if(turnController!=null && player.equals(match.getCurrentPlayer()) && match.getPlayers().size() != 1){
             try {
                 turnController.nextTurn();
             } catch (MatchEndedException e) {
@@ -398,8 +398,7 @@ public class MatchController {
         else
             try {
                 match = new MultiMatch(match.getPlayers(), match.getMatchConfiguration());
-            } catch (SingleMatchException e) { e.printStackTrace(); System.exit(1); }
-            catch (WrongSettingException e) { e.printStackTrace(); System.exit(1); }
+            } catch (SingleMatchException | WrongSettingException e) { e.printStackTrace(); System.exit(1); }
 
         //re-initializing controllers for a new match.
         turnController = null;
