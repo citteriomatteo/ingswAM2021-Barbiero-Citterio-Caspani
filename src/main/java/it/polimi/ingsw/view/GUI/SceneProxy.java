@@ -187,7 +187,6 @@ public class SceneProxy {
     public void placeDevCardPhaseDisables() {
         Platform.runLater(()-> {
             turnSceneController.placeDevCardPhaseDisables();
-            turnSceneController.endPaymentsPhase();
         });
     }
     public void productionActionPhaseDisables() {
@@ -363,4 +362,10 @@ public class SceneProxy {
         });
     }
 
+    public void resetPayments() {
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.resetPayments();
+        });
+    }
 }

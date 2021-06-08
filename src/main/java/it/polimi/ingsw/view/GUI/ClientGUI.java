@@ -169,7 +169,12 @@ public class ClientGUI implements View {
             case RESOURCES_PLACEMENT:
                 getSceneProxy().updateMarketBuffer(getClient().getNickname(), match.getLightPlayer(getClient().getNickname()).getMarketBuffer());
                 getSceneProxy().updateWarehouse(getClient().getNickname(), match.getLightPlayer(getClient().getNickname()).getWarehouse());
+                getSceneProxy().printRetry(errMessage);
                 break;
+            case PRODUCTION_ACTION:
+            case BUY_DEV_ACTION:
+                getSceneProxy().resetPayments();
+                getSceneProxy().printRetry(errMessage);
             default:
                 getSceneProxy().printRetry(errMessage);
                 break;

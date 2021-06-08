@@ -354,6 +354,7 @@ public class TurnController {
                     }
                 if(!found)
                     throw new RetryException("Payments don't match the chosen production ones.");
+                found = false;
             }
         }
         else{
@@ -370,6 +371,7 @@ public class TurnController {
                     }
                 if(!found)
                     throw new RetryException("Payments don't match the chosen production ones.");
+                found = false;
             }
         }
 

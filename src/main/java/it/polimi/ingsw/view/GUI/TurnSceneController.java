@@ -50,6 +50,12 @@ public class TurnSceneController implements SceneController{
     public Button confirmButton;
     public ImageView tempDevCard;
     public HBox devCardSlots;
+    public ImageView basicProduction;
+    public ImageView unknownCost1;
+    public ImageView unknownCost2;
+    public ImageView unknownEarning;
+    public ImageView firstProdLeaderUnknown;
+    public ImageView secondProdLeaderUnknown;
 
     public Pane lorenzoPane;
     public Label lorenzoMarker;
@@ -113,6 +119,17 @@ public class TurnSceneController implements SceneController{
      */
     public void endTurnState() {
         confirmButton.setText("End turn");
+    }
+
+    public void resetPayments() {
+        VBox resourcesVBox = (VBox) paymentsPane.getChildren().get(1);
+        for(Node n : resourcesVBox.getChildren()){
+            HBox resourceHBox = (HBox) n;
+            Label resourceLabel = (Label) resourceHBox.getChildren().get(1);
+            resourceLabel.setText("x0");
+        }
+        updateWarehouse(player.getNickname(), player.getWarehouse());
+        updateStrongBox(player.getNickname(), player.getStrongbox());
     }
 
 //%%%%%%%%%%%%%%%%%%%%%% ONE TIME FUNCTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -282,6 +299,13 @@ public class TurnSceneController implements SceneController{
     public void placeDevCardPhaseDisables(){
         marketPane.setDisable(true);
         cardGrid.setDisable(true);
+        endPaymentsPhase();
+        for(Node node : devCardSlots.getChildren()){
+            StackPane stackPane = (StackPane) node;
+            int firstFree = findFreePosition(stackPane);
+            stackPane.getChildren().get(firstFree).setDisable(false);
+
+        }
 
         //ids of the elements to keep enabled
         List<String> importantIds = new ArrayList<>(List.of("warehousePane","devCardSlots", "1DevSlot", "2DevSlot", "3DevSlot"));
@@ -312,6 +336,7 @@ public class TurnSceneController implements SceneController{
         marketPane.setDisable(true);
         cardGrid.setDisable(true);
         endPaymentsPhase();
+        endProductionPhase();
 
         //ids of the elements to keep enabled
         List<String> importantIds = new ArrayList<>(List.of("warehousePane", "firstLeaderActions", "secondLeaderActions"));
@@ -323,7 +348,7 @@ public class TurnSceneController implements SceneController{
 
     }
 
-    public void endPaymentsPhase() {
+    private void endPaymentsPhase() {
         VBox resourcesVBox = (VBox) paymentsPane.getChildren().get(1);
         for(Node n : resourcesVBox.getChildren()){
             HBox resourceHBox = (HBox) n;
@@ -333,6 +358,30 @@ public class TurnSceneController implements SceneController{
         paymentsPane.setDisable(true);
         paymentsPane.setVisible(false);
     }
+    private void endProductionPhase(){
+        basicProduction.setEffect(null);
+        unknownCost1.setImage(null);
+        unknownCost2.setImage(null);
+        unknownEarning.setImage(null);
+
+        for(Node node : activeLeaders.getChildren()){
+            ImageView leader = (ImageView) node;
+            leader.setEffect(null);
+        }
+
+        activeLeaders.setDisable(true);
+        firstProdLeaderUnknown.setImage(null);
+        secondProdLeaderUnknown.setImage(null);
+
+        for(Node node : devCardSlots.getChildren()){
+            StackPane stackPane = (StackPane) node;
+            for(Node n : stackPane.getChildren()){
+                ImageView devCard = (ImageView) n;
+                devCard.setEffect(null);
+            }
+        }
+    }
+
 
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%  START / END TURN FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -393,11 +442,14 @@ public class TurnSceneController implements SceneController{
         */
         player.getHandLeaders().remove(getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()));
         updateHandLeaders(player.getNickname(), player.getHandLeaders());
-        if(numLeader == 1)
+        if(player.getHandLeaders().size() == 0){
+            leaderActions1.setDisable(true);
             leaderActions1.setVisible(false);
-        else if(numLeader == 2)
+        }
+        else if(player.getHandLeaders().size() == 1){
+            leaderActions2.setDisable(true);
             leaderActions2.setVisible(false);
-
+        }
     }
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%% MARKET DRAW %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -482,6 +534,7 @@ public class TurnSceneController implements SceneController{
         if(freePosition>=0) {
             success = true;
             ((ImageView)selectedColumn.getChildren().get(freePosition)).setImage(tempDevCard.getImage());
+
             message = new DevCardPlacementMessage(player.getNickname(), devCardSlots.getChildren().indexOf(selectedColumn)+1);
         }
         else
@@ -523,6 +576,9 @@ public class TurnSceneController implements SceneController{
         System.out.println(imageViewCard.getImage());
         String selectedCard = getSceneProxy().getCardID(imageViewCard.getImage());
 
+        if(selectedCard == null)
+            return;
+
         if(selectedCard.charAt(0) == 'D') {
             if(!cardsToProduce.contains(selectedCard)) {
                 cardsToProduce.add(selectedCard);
@@ -544,12 +600,20 @@ public class TurnSceneController implements SceneController{
                 numUEarnings += 1;
                 productionPane.setDisable(false);
                 productionPane.setVisible(true);
+                productionPane.getChildren().get(0).setVisible(false);
+                productionPane.getChildren().get(1).setVisible(false);
+                productionPane.getChildren().get(1).setDisable(true);
             }
             else{
                 imageViewCard.setEffect(null);
                 int numInArray = cardsToProduce.indexOf(selectedCard);
                 cardsToProduce.remove(selectedCard);
                 uEarnings.remove(numInArray);
+
+                if(getSceneProxy().getCardID(((ImageView) activeLeaders.getChildren().get(0)).getImage()).equals(selectedCard))
+                    firstProdLeaderUnknown.setImage(null);
+                else
+                    secondProdLeaderUnknown.setImage(null);
             }
 
         }
@@ -560,11 +624,15 @@ public class TurnSceneController implements SceneController{
     public void produceBasicProd() {
         numUCosts += 2;
         numUEarnings += 1;
-        int index = cardsToProduce.indexOf("basicProduction");
+        int index = cardsToProduce.indexOf("BASICPROD");
 
         if(index != -1) {
             int numUofLeaders = 0;
             cardsToProduce.remove("BASICPROD");
+            basicProduction.setEffect(null);
+            unknownCost1.setImage(null);
+            unknownCost2.setImage(null);
+            unknownEarning.setImage(null);
             uCosts = new ArrayList<>();
             for (int i = 0; i < index; i++) {
                 if(cardsToProduce.get(i).startsWith("L"))
@@ -574,8 +642,12 @@ public class TurnSceneController implements SceneController{
         }
         else {
             cardsToProduce.add("BASICPROD");
+            basicProduction.setEffect(new Glow(0.5));
             productionPane.setDisable(false);
             productionPane.setVisible(true);
+            productionPane.getChildren().get(0).setVisible(true);
+            productionPane.getChildren().get(1).setVisible(true);
+            productionPane.getChildren().get(1).setDisable(false);
         }
 
         message = new ProductionMessage(player.getNickname(), cardsToProduce, new Production(uCosts, uEarnings));
@@ -626,6 +698,14 @@ public class TurnSceneController implements SceneController{
         resVBox = (VBox) uCostsHBox.getChildren().get(selectedResource.getType().ordinal()-1);
         resLabel = (Label) resVBox.getChildren().get(0);
         resLabel.setText("x" + newQuantity);
+
+
+        if(uCosts.size() == 2) {
+            unknownCost1.setImage(uCosts.get(0).getType().asImage());
+            unknownCost2.setImage(uCosts.get(1).getType().asImage());
+        }
+        else if(uCosts.size() == 1)
+            unknownCost1.setImage(uCosts.get(0).getType().asImage());
 
         message = new ProductionMessage(player.getNickname(), cardsToProduce, new Production(uCosts, uEarnings));
     }
@@ -678,12 +758,36 @@ public class TurnSceneController implements SceneController{
         resLabel = (Label) resVBox.getChildren().get(0);
         resLabel.setText("x" + newQuantity);
 
+        if(cardsToProduce.get(cardsToProduce.size()-1).equals("BASICPROD"))
+            unknownEarning.setImage(((PhysicalResource) uEarnings.get(uEarnings.size()-1)).getType().asImage());
+        else {
+            if(getSceneProxy().getCardID(((ImageView) activeLeaders.getChildren().get(0)).getImage()).equals(cardsToProduce.get(cardsToProduce.size()-1)))
+                firstProdLeaderUnknown.setImage(((PhysicalResource) uEarnings.get(uEarnings.size()-1)).getType().asImage());
+            else
+                secondProdLeaderUnknown.setImage(((PhysicalResource) uEarnings.get(uEarnings.size()-1)).getType().asImage());
+        }
+
         message = new ProductionMessage(player.getNickname(), cardsToProduce, new Production(uCosts, uEarnings));
 
 
     }
 
     public void closeProductionPane() {
+        HBox hBox = (HBox) productionPane.getChildren().get(1);
+        VBox vBox;
+
+        for (Node node : hBox.getChildren()){
+            vBox = (VBox) node;
+            ((Label) vBox.getChildren().get(0)).setText("x0");
+        }
+
+        hBox = (HBox) productionPane.getChildren().get(3);
+
+        for (Node node : hBox.getChildren()){
+            vBox = (VBox) node;
+            ((Label) vBox.getChildren().get(0)).setText("x0");
+        }
+
         productionPane.setDisable(true);
         productionPane.setVisible(false);
     }
@@ -1155,6 +1259,5 @@ public class TurnSceneController implements SceneController{
     private boolean endTurn(){
         return getClientController().getCurrentState().equals(StateName.END_TURN);
     }
-
 
 }
