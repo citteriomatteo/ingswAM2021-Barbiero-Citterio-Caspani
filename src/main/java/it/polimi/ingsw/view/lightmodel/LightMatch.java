@@ -248,6 +248,25 @@ public class LightMatch extends ViewObservable {
         return -1;
     }
 
+    public int numWhiteDrawn(boolean row, int num){
+        int numWhiteDrawn = 0;
+
+        if(sideMarble == 'w')
+            numWhiteDrawn += 1;
+        if(row) {
+            for (int i = 0; i < 3; i++)
+                if(market[num][i] == 'w')
+                    numWhiteDrawn += 1;
+        }
+        else {
+            for (int i=0; i < 2; i++)
+                if(market[i][num] == 'w')
+                    numWhiteDrawn += 1;
+        }
+
+        return numWhiteDrawn;
+    }
+
 
     //GETTERS:
 

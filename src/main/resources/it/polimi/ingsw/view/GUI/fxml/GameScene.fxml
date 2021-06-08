@@ -32,8 +32,8 @@
          <children>
             <HBox id="activeLeaders" fx:id="activeLeaders" layoutX="12.204509735107422" layoutY="115.0" prefHeight="121.0" prefWidth="174.0" spacing="10.0">
                <children>
-                  <ImageView id="activeLeader1" fitHeight="150.0" fitWidth="82.0" onMouseClicked="#produce" userData="1" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView id="activeLeader2" fitHeight="150.0" fitWidth="82.0" onMouseClicked="#produce" userData="2" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="activeLeader1" fitHeight="150.0" fitWidth="82.0" onMouseClicked="#useLeader" pickOnBounds="true" preserveRatio="true" userData="1" />
+                  <ImageView id="activeLeader2" fitHeight="150.0" fitWidth="82.0" onMouseClicked="#useLeader" pickOnBounds="true" preserveRatio="true" userData="2" />
                </children>
             </HBox>
             <ImageView id="board" fitHeight="360.0" fitWidth="626.0" layoutX="207.20450973510742" layoutY="107.0" pickOnBounds="true" translateY="10.0">
@@ -236,8 +236,8 @@
                </children>
             </GridPane>
             <ImageView id="firstPopeTile" fitHeight="48.0" fitWidth="39.0" layoutX="364.2045097351074" layoutY="156.0" pickOnBounds="true" preserveRatio="true" translateY="10.0" />
-            <ImageView id="thirdPopeTile" fitHeight="37.0" fitWidth="46.0" layoutX="701.2045097351074" layoutY="158.0" pickOnBounds="true" preserveRatio="true" translateY="10.0" />
             <ImageView id="secondPopeTile" fitHeight="37.0" fitWidth="46.0" layoutX="518.2045097351074" layoutY="136.0" pickOnBounds="true" preserveRatio="true" translateY="10.0" />
+            <ImageView id="thirdPopeTile" fitHeight="37.0" fitWidth="46.0" layoutX="701.2045097351074" layoutY="158.0" pickOnBounds="true" preserveRatio="true" translateY="10.0" />
             <HBox id="devCardSlots" fx:id="devCardSlots" alignment="CENTER" layoutX="445.0" layoutY="235.0" prefHeight="200.0" prefWidth="363.0" spacing="15.0">
                <children>
                   <StackPane id="1DevSlot" alignment="BOTTOM_CENTER" prefHeight="187.0" prefWidth="109.0" translateY="10.0">
@@ -358,8 +358,8 @@
                   <MenuItem id="discardLeader" mnemonicParsing="false" onAction="#discardLeader" text="Discard" userData="2" />
               </items>
             </MenuButton>
-            <Text id="firstConversionCount" fill="WHITE" layoutX="15.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="x0" visible="false" />
-            <Text id="secondConversionCount" fill="WHITE" layoutX="108.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="x0" visible="false" />
+            <Text id="firstConversionCount" fx:id="countWhite1" fill="WHITE" layoutX="15.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="x0" visible="false" />
+            <Text id="secondConversionCount" fx:id="countWhite2" fill="WHITE" layoutX="108.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="x0" visible="false" />
             <ImageView id="basicProduction" fx:id="basicProduction" fitHeight="72.0" fitWidth="90.0" layoutX="351.0" layoutY="349.0" onMouseClicked="#produceBasicProd" pickOnBounds="true">
                <image>
                   <Image url="@../images/punchBoard/basicProduction.png" />
@@ -980,7 +980,7 @@
             </ImageView>
          </children>
       </Pane>
-      <TextField id="controlBox" fx:id="informationField" alignment="CENTER" editable="false" layoutX="883.0" layoutY="678.0" prefColumnCount="1" prefHeight="109.0" prefWidth="364.0" text="AAAAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+      <TextField id="controlBox" fx:id="informationField" alignment="CENTER" editable="false" layoutX="883.0" layoutY="678.0" prefColumnCount="1" prefHeight="109.0" prefWidth="364.0" />
       <VBox fx:id="enemiesBox" layoutX="838.0" layoutY="40.0" prefHeight="639.0" prefWidth="436.0">
          <children>
             <Pane id="enemy1Pane" fx:id="enemy1Pane" onMouseClicked="#zoom" prefHeight="208.0" prefWidth="436.0">

@@ -56,6 +56,8 @@ public class TurnSceneController implements SceneController{
     public ImageView unknownEarning;
     public ImageView firstProdLeaderUnknown;
     public ImageView secondProdLeaderUnknown;
+    public Text countWhite1;
+    public Text countWhite2;
 
     public Pane lorenzoPane;
     public Label lorenzoMarker;
@@ -73,9 +75,12 @@ public class TurnSceneController implements SceneController{
     private List<PhysicalResource> uCosts;
     private List<Resource> uEarnings;
     private List<String> cardsToProduce;
-    int numUCosts;
-    int numUEarnings;
+    private int numUCosts;
+    private int numUEarnings;
     private ImageView selectedCard;
+    private boolean row;
+    private int numMarket;
+    private List<PhysicalResource> whiteConversions;
 
     private CtoSMessage message;
 
@@ -103,6 +108,7 @@ public class TurnSceneController implements SceneController{
         numUCosts = 0;
         numUEarnings = 0;
         selectedCard = null;
+        whiteConversions = new ArrayList<>();
     }
 
     /**
@@ -200,13 +206,30 @@ public class TurnSceneController implements SceneController{
         updateStrongBox(player.getNickname(), player.getStrongbox());
     }
 
+    private ResType getWhiteConversion(String leaderId){
+        ResType conversion = null;
+        switch (leaderId) {
+            case "L9":
+                conversion = ResType.SERVANT;
+                break;
+            case "L10":
+                conversion = ResType.SHIELD;
+                break;
+            case "L11":
+                conversion = ResType.STONE;
+                break;
+            case "L12":
+                conversion = ResType.COIN;
+                break;
+        }
+
+        return conversion;
+    }
+
 //%%%%%%%%%%%%%%%%%%%%%% ONE TIME FUNCTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     public void loadStartingMatch() {
         turnSceneLoaded = true;
-        ImageView imageView;
-        StackPane stackPane;
-        List<String>[][] cards;
         List<LightPlayer> enemies = new ArrayList<>(match.getLightPlayers());
         enemies.remove(player);
 
@@ -443,6 +466,49 @@ public class TurnSceneController implements SceneController{
         }
     }
 
+//%%%%%%%%%%%%%%%%%%%%%%%%%  LEADERS POWER %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    public void useLeader(MouseEvent mouseEvent) {
+        if(getClientController().getCurrentState().equals(StateName.MARKET_ACTION)){
+            int numWhiteDrawn = match.numWhiteDrawn(row, numMarket);
+            Node leader = (Node) mouseEvent.getSource();
+            int numConverted = Integer.parseInt(countWhite1.getText().substring(1)) + Integer.parseInt(countWhite2.getText().substring(1));
+
+            String leaderId = getSceneProxy().getCardID(((ImageView) mouseEvent.getSource()).getImage());
+
+           if(Integer.parseInt((String) leader.getUserData()) == 1){
+               countWhite1.setText("x" + (Integer.parseInt(countWhite1.getText().substring(1))+1));
+               whiteConversions.add(new PhysicalResource(getWhiteConversion(leaderId), 1));
+               if(numConverted == numWhiteDrawn){
+                   for (PhysicalResource conversion : whiteConversions){
+                       if(!conversion.getType().equals(getWhiteConversion(leaderId)))
+                           whiteConversions.remove(conversion);
+                       break;
+                   }
+
+                   countWhite2.setText("x" + (Integer.parseInt(countWhite1.getText().substring(1))-1));
+               }
+
+           }
+           else {
+               countWhite2.setText("x" + (Integer.parseInt(countWhite2.getText().substring(1))+1));
+               whiteConversions.add(new PhysicalResource(getWhiteConversion(leaderId), 1));
+               if(numConverted == numWhiteDrawn){
+                   for (PhysicalResource conversion : whiteConversions){
+                       if(!conversion.getType().equals(getWhiteConversion(leaderId)))
+                           whiteConversions.remove(conversion);
+                       break;
+                   }
+
+                   countWhite1.setText("x" + (Integer.parseInt(countWhite1.getText().substring(1))-1));
+               }
+           }
+
+           message = new WhiteMarblesConversionMessage(player.getNickname(), whiteConversions);
+        }
+        else
+            produce(mouseEvent);
+    }
 
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%  START / END TURN FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -488,6 +554,7 @@ public class TurnSceneController implements SceneController{
         int numLeader = Integer.parseInt((String) node.getUserData());
 
         (new LeaderActivationMessage(player.getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()))).send();
+        deleteLeaderMenu();
     }
 
     @FXML
@@ -503,6 +570,11 @@ public class TurnSceneController implements SceneController{
         */
         player.getHandLeaders().remove(getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()));
         updateHandLeaders(player.getNickname(), player.getHandLeaders());
+
+        deleteLeaderMenu();
+    }
+
+    private void deleteLeaderMenu(){
         if(player.getHandLeaders().size() == 0){
             leaderActions1.setDisable(true);
             leaderActions1.setVisible(false);
@@ -518,8 +590,10 @@ public class TurnSceneController implements SceneController{
     @FXML
     public void columnCall(MouseEvent mouseEvent) {
         int numColumn = marketDraw(mouseEvent);
+        row = false;
+        numMarket = numColumn;
 
-        message = new MarketDrawMessage(player.getNickname(), false, numColumn);
+        message = new MarketDrawMessage(player.getNickname(), row, numColumn);
     }
 
     private int marketDraw(MouseEvent mouseEvent) {
@@ -540,8 +614,10 @@ public class TurnSceneController implements SceneController{
     @FXML
     public void rowCall(MouseEvent mouseEvent) {
         int numRow = marketDraw(mouseEvent);
+        row = true;
+        numMarket = numRow;
 
-        message = new MarketDrawMessage(player.getNickname(), true, numRow);
+        message = new MarketDrawMessage(player.getNickname(), row, numRow);
     }
 
 
@@ -651,7 +727,7 @@ public class TurnSceneController implements SceneController{
         else {
             if(!cardsToProduce.contains(selectedCard)){
                 int numCard = Integer.parseInt(selectedCard.substring(1));
-                if(numCard < 12) {
+                if(numCard < 13) {
                     return;
                 }
                 cardsToProduce.add(selectedCard);
@@ -798,8 +874,11 @@ public class TurnSceneController implements SceneController{
             newQuantity = oldestResource.getQuantity() - 1;
             if (newQuantity == 0)
                 uEarnings.remove(0);
-            else
+            else {
+                uEarnings.remove(oldestResource);
                 oldestResource = new PhysicalResource(((PhysicalResource) oldestResource).getType(), newQuantity);
+                uEarnings.add(oldestResource);
+            }
 
             resVBox = (VBox) uCostsHBox.getChildren().get(((PhysicalResource) oldestResource).getType().ordinal()-1);
             resLabel = (Label) resVBox.getChildren().get(0);
@@ -808,9 +887,10 @@ public class TurnSceneController implements SceneController{
 
         int indexOfResource = uEarnings.indexOf(selectedResource);
         if(indexOfResource != -1) {
-            Resource foundResource = uEarnings.get(indexOfResource);
+            Resource foundResource = uEarnings.remove(indexOfResource);
             newQuantity = foundResource.getQuantity() + 1;
             foundResource = new PhysicalResource(((PhysicalResource) foundResource).getType(), newQuantity);
+            uEarnings.add(foundResource);
         }
         else {
             uEarnings.add(selectedResource);
