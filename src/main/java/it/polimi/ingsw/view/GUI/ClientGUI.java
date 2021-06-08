@@ -31,7 +31,7 @@ public class ClientGUI implements View {
 
     @Override
     public void drawLoginLayout() {
-
+        getSceneProxy().changeScene(SceneName.LoginScene);
     }
 
     @Override
@@ -42,7 +42,6 @@ public class ClientGUI implements View {
     @Override
     public void drawNewPlayerLayout() {
         getSceneProxy().changeScene(SceneName.ModeSelectionScene);
-
     }
 
     @Override
@@ -76,7 +75,6 @@ public class ClientGUI implements View {
     public void drawLeadersChoiceLayout() {
         getSceneProxy().changeScene(SceneName.LeadersChoiceScene);
         getSceneProxy().loadLeaderCards(getClientController().getMatch().getLightPlayer(getClient().getNickname()).getHandLeaders());
-
     }
 
     @Override
@@ -87,13 +85,7 @@ public class ClientGUI implements View {
 
     @Override
     public void drawYourTurnLayout(boolean yourTurn) {
-        //useful for reconnections
-        if(!getSceneProxy().turnSceneIsLoaded())
-            getSceneProxy().changeScene(SceneName.GameScene);
-
-
         getSceneProxy().yourTurn(yourTurn);
-        //getSceneProxy().disableOnState();
     }
 
     @Override

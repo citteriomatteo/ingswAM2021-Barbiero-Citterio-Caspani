@@ -27,8 +27,6 @@ import static it.polimi.ingsw.view.GUI.SceneProxy.getChildById;
 import static it.polimi.ingsw.view.GUI.SceneProxy.getSceneProxy;
 
 public class TurnSceneController implements SceneController{
-    public boolean turnSceneLoaded = false;
-
     public Pane basePane;
     public GridPane marketGrid;
     public GridPane cardGrid;
@@ -219,10 +217,6 @@ public class TurnSceneController implements SceneController{
 //%%%%%%%%%%%%%%%%%%%%%% ONE TIME FUNCTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     public void loadStartingMatch() {
-        turnSceneLoaded = true;
-        ImageView imageView;
-        StackPane stackPane;
-        List<String>[][] cards;
         List<LightPlayer> enemies = new ArrayList<>(match.getLightPlayers());
         enemies.remove(player);
 
@@ -514,6 +508,8 @@ public class TurnSceneController implements SceneController{
         warehousePane.getChildren().get(firstShelfToSwitch-1).setEffect(null);
         firstShelfToSwitch = null;
 
+        mouseEvent.consume();
+
     }
 
     @FXML
@@ -522,6 +518,8 @@ public class TurnSceneController implements SceneController{
         int numLeader = Integer.parseInt((String) node.getUserData());
 
         (new LeaderActivationMessage(player.getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()))).send();
+
+        actionEvent.consume();
     }
 
     @FXML
@@ -545,6 +543,8 @@ public class TurnSceneController implements SceneController{
             leaderActions2.setDisable(true);
             leaderActions2.setVisible(false);
         }
+
+        actionEvent.consume();
     }
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%% MARKET DRAW %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -554,6 +554,7 @@ public class TurnSceneController implements SceneController{
         int numColumn = marketDraw(mouseEvent);
 
         message = new MarketDrawMessage(player.getNickname(), false, numColumn);
+        mouseEvent.consume();
     }
 
     private int marketDraw(MouseEvent mouseEvent) {
@@ -576,6 +577,7 @@ public class TurnSceneController implements SceneController{
         int numRow = marketDraw(mouseEvent);
 
         message = new MarketDrawMessage(player.getNickname(), true, numRow);
+        mouseEvent.consume();
     }
 
 
@@ -712,6 +714,8 @@ public class TurnSceneController implements SceneController{
         }
 
         message = new ProductionMessage(player.getNickname(), cardsToProduce, new Production(uCosts, uEarnings));
+
+        mouseEvent.consume();
     }
 
     public void produceBasicProd() {
@@ -805,6 +809,8 @@ public class TurnSceneController implements SceneController{
             unknownCost1.setImage(uCosts.get(0).getType().asImage());
 
         message = new ProductionMessage(player.getNickname(), cardsToProduce, new Production(uCosts, uEarnings));
+
+        mouseEvent.consume();
     }
 
     public void convertUEarnings(MouseEvent mouseEvent) {
@@ -866,7 +872,7 @@ public class TurnSceneController implements SceneController{
 
         message = new ProductionMessage(player.getNickname(), cardsToProduce, new Production(uCosts, uEarnings));
 
-
+        mouseEvent.consume();
     }
 
     public void closeProductionPane() {
@@ -929,7 +935,6 @@ public class TurnSceneController implements SceneController{
 
         dragEvent.setDropCompleted(success);
         dragEvent.consume();
-
     }
 
     /**
@@ -1019,7 +1024,6 @@ public class TurnSceneController implements SceneController{
 
         dragEvent.setDropCompleted(success);
         dragEvent.consume();
-
     }
 
 

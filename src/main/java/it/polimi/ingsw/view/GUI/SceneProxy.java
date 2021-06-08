@@ -162,44 +162,52 @@ public class SceneProxy {
     }
 
     public void disableAll(boolean value){
+        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()-> {
             turnSceneController.disableAll(value);
         });
     }
 
     public void marketActionPhaseDisables(){
+        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()-> {
             turnSceneController.marketActionPhaseDisables();
         });
     }
     public void resourcesPlacementPhaseDisables() {
+        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()-> {
             turnSceneController.resourcesPlacementPhaseDisables();
         });
     }
     public void buyDevActionPhaseDisables() {
+        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()-> {
             turnSceneController.buyDevActionPhaseDisables();
         });
     }
     public void placeDevCardPhaseDisables() {
+        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()-> {
             turnSceneController.placeDevCardPhaseDisables();
         });
     }
     public void productionActionPhaseDisables() {
+        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()-> {
             turnSceneController.productionActionPhaseDisables();
         });
     }
+
     public void endTurnPhaseDisables() {
+        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()-> {
             turnSceneController.endTurnPhaseDisables();
         });
     }
 
-
     public void loadLeaderCards(List<String> leaders){
+        loadSceneIfReconnected(SceneName.LeadersChoiceScene);
         Platform.runLater(()->{
             if(startingPhaseSceneController != null)
                 startingPhaseSceneController.loadLeaderCards(leaders);
@@ -207,6 +215,7 @@ public class SceneProxy {
     }
 
     public void loadStartingResources(int numResources){
+        loadSceneIfReconnected(SceneName.StartingResourceScene);
         Platform.runLater(()->{
             if(startingPhaseSceneController != null)
                 startingPhaseSceneController.loadStartingResources(numResources);
@@ -229,9 +238,8 @@ public class SceneProxy {
 
     public void loadStartingMatch() {
         Platform.runLater(()->{
-            if(turnSceneController != null) {
+            if(turnSceneController != null)
                 turnSceneController.loadStartingMatch();
-            }
         });
     }
 
@@ -249,14 +257,15 @@ public class SceneProxy {
     }
 
     public void yourTurn(boolean yourTurn) {
+        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.yourTurn(yourTurn);
         });
-
     }
 
     public void updateMarket(char[][] market) {
+        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.updateMarket(market);
@@ -264,6 +273,7 @@ public class SceneProxy {
     }
 
     public void updateMarketBuffer(String nickname, List<PhysicalResource> marketBuffer) {
+        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.updateMarketBuffer(nickname, marketBuffer);
@@ -271,6 +281,7 @@ public class SceneProxy {
     }
 
     public void updateWarehouse(String nickname, List<PhysicalResource> warehouse) {
+        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.updateWarehouse(nickname, warehouse);
@@ -299,6 +310,7 @@ public class SceneProxy {
     }
 
     public void endTurnState() {
+        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.endTurnState();
@@ -313,6 +325,7 @@ public class SceneProxy {
     }
 
     public void updateActiveLeaders(String nickname, List<String> activeLeaders) {
+        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.updateActiveLeaders(nickname, activeLeaders);
@@ -320,6 +333,7 @@ public class SceneProxy {
     }
 
     public void updateFaithMarker(String nickname, int faithMarker) {
+        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.updateFaithMarker(nickname, faithMarker);
@@ -334,6 +348,7 @@ public class SceneProxy {
     }
 
     public void updateStrongBox(String nickname, List<PhysicalResource> strongbox) {
+        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.updateStrongBox(nickname, strongbox);
@@ -341,6 +356,7 @@ public class SceneProxy {
     }
 
     public void updateDisconnections(String nickname, boolean connected) {
+        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.updateDisconnections(nickname, connected);
@@ -348,6 +364,7 @@ public class SceneProxy {
     }
 
     public void updateCardGrid(List<String>[][] cardGrid){
+        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.updateCardGrid(cardGrid);
@@ -355,6 +372,7 @@ public class SceneProxy {
     }
 
     public void updateTempDevCard(String card){
+        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.updateTempDevCard(card);
@@ -362,19 +380,15 @@ public class SceneProxy {
     }
 
     public void updateDevCardSlots(String nickname, List<String>[] devCardSlots){
+        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.updateDevCardSlots(nickname, devCardSlots);
         });
     }
 
-    public boolean turnSceneIsLoaded(){
-        if(turnSceneController != null)
-            return turnSceneController.turnSceneLoaded;
-        return false;
-    }
-
     public void updateTokenDrawn(String tokenName, int remainingTokens){
+        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.updateTokenDrawn(tokenName, remainingTokens);
@@ -382,9 +396,22 @@ public class SceneProxy {
     }
 
     public void resetPayments() {
+        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.resetPayments();
         });
     }
+
+    /**
+     * Controls if the player is in reconnection, in that case change the scene to the proper one and then controls
+     * if the player is in game -> in that case recharge the data
+     */
+    private void loadSceneIfReconnected(SceneName scene){
+        if(initSceneController != null){
+                    changeScene(scene);
+                    if(actualScene == SceneName.GameScene)
+                        loadStartingMatch();
+            }
+        }
 }
