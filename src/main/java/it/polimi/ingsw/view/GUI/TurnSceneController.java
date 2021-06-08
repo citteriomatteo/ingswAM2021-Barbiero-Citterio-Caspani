@@ -188,6 +188,22 @@ public class TurnSceneController implements SceneController{
         }
     }
 
+    static public void populatePopeTiles(List<Integer> popeTiles, Pane interestedPane) {
+        //changing the tiles on the specified pane
+        for(int i = 0; i < popeTiles.size(); i++){
+            String imagePath = "";
+            if(popeTiles.get(i) == 1) //tile is upside
+                imagePath = "images/punchBoard/upsidePopeTile"+(i+1)+".png";
+            if(popeTiles.get(i) == 2) //tile is downside
+                imagePath = "images/punchBoard/popeTile"+(i+1)+".png";
+            Image tile = new Image(TurnSceneController.class.getResourceAsStream(imagePath));
+
+            for(Node n : interestedPane.getChildren())
+                if(("popeTile"+(i+1)).equals(n.getId()))
+                    ((ImageView) n).setImage(tile);
+        }
+    }
+
     /**
      * Sets the text on the button Confirm to EndTurn
      */
@@ -275,19 +291,37 @@ public class TurnSceneController implements SceneController{
             updateFaithMarker(player1.getNickname(), player1.getFaithMarker());
             updateStrongBox(player1.getNickname(), player1.getStrongbox());
         }
+
+        //for the inkwell:
+        assignInkwell();
+    }
+
+    /**
+     * This method looks for the first player and puts visible his inkwell.
+     * It's called once at the start of TurnSceneController's lifecycle.
+     */
+    private void assignInkwell() {
+        String firstPlayer = match.getLightPlayers().get(0).getNickname();
+
+        if(firstPlayer.equals(player.getNickname()))
+            SceneProxy.getChildById(myPane, "inkwell").setVisible(true);
+
+        else
+            for(Node box : enemiesBox.getChildren())
+                if(firstPlayer.equals(box.getId()))
+                    SceneProxy.getChildById((Pane) box, "inkwell").setVisible(true);
     }
 
 //%%%%%%%%%%%%%%%%%%%%%% DISABLE FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     public void disableAll(boolean value) {
-        basePane.setDisable(value);
-        if(value) {
-            marketPane.setDisable(false);
-            cardGrid.setDisable(false);
-            myPane.setDisable(false);
+        marketPane.setDisable(value);
+        cardGrid.setDisable(value);
+        tempDevCard.setDisable(value);
+        myPane.setDisable(value);
+        if(value)
             for(Node n : myPane.getChildren())
                 n.setDisable(false);
-        }
     }
 
     /**
@@ -546,6 +580,8 @@ public class TurnSceneController implements SceneController{
         warehousePane.getChildren().get(firstShelfToSwitch-1).setEffect(null);
         firstShelfToSwitch = null;
 
+        mouseEvent.consume();
+
     }
 
     @FXML
@@ -554,6 +590,8 @@ public class TurnSceneController implements SceneController{
         int numLeader = Integer.parseInt((String) node.getUserData());
 
         (new LeaderActivationMessage(player.getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()))).send();
+
+        actionEvent.consume();
         deleteLeaderMenu();
     }
 
@@ -583,6 +621,8 @@ public class TurnSceneController implements SceneController{
             leaderActions2.setDisable(true);
             leaderActions2.setVisible(false);
         }
+
+        actionEvent.consume();
     }
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%% MARKET DRAW %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -594,6 +634,7 @@ public class TurnSceneController implements SceneController{
         numMarket = numColumn;
 
         message = new MarketDrawMessage(player.getNickname(), row, numColumn);
+        mouseEvent.consume();
     }
 
     private int marketDraw(MouseEvent mouseEvent) {
@@ -618,6 +659,7 @@ public class TurnSceneController implements SceneController{
         numMarket = numRow;
 
         message = new MarketDrawMessage(player.getNickname(), row, numRow);
+        mouseEvent.consume();
     }
 
 
@@ -754,6 +796,8 @@ public class TurnSceneController implements SceneController{
         }
 
         message = new ProductionMessage(player.getNickname(), cardsToProduce, new Production(uCosts, uEarnings));
+
+        mouseEvent.consume();
     }
 
     public void produceBasicProd() {
@@ -847,6 +891,8 @@ public class TurnSceneController implements SceneController{
             unknownCost1.setImage(uCosts.get(0).getType().asImage());
 
         message = new ProductionMessage(player.getNickname(), cardsToProduce, new Production(uCosts, uEarnings));
+
+        mouseEvent.consume();
     }
 
     public void convertUEarnings(MouseEvent mouseEvent) {
@@ -912,7 +958,7 @@ public class TurnSceneController implements SceneController{
 
         message = new ProductionMessage(player.getNickname(), cardsToProduce, new Production(uCosts, uEarnings));
 
-
+        mouseEvent.consume();
     }
 
     public void closeProductionPane() {
@@ -975,7 +1021,6 @@ public class TurnSceneController implements SceneController{
 
         dragEvent.setDropCompleted(success);
         dragEvent.consume();
-
     }
 
     /**
@@ -1065,7 +1110,6 @@ public class TurnSceneController implements SceneController{
 
         dragEvent.setDropCompleted(success);
         dragEvent.consume();
-
     }
 
 
@@ -1197,6 +1241,21 @@ public class TurnSceneController implements SceneController{
 
     }
 
+    public void updatePopeTiles(String nickname, List<Integer> popeTiles) {
+        Pane interestedBoard = null;
+
+        //searching the pane
+        if(nickname.equals(getClient().getNickname()))
+            interestedBoard = myPane;
+        else
+            for(Node board : enemiesBox.getChildren())
+                if(nickname.equals(board.getId()))
+                    interestedBoard = (Pane) board;
+
+        populatePopeTiles(popeTiles, interestedBoard);
+
+    }
+
     public void updateStrongBox(String nickname, List<PhysicalResource> newStrongbox) {
         if(nickname.equals(player.getNickname()))
             populateStrongbox(newStrongbox, strongBox);
@@ -1228,7 +1287,7 @@ public class TurnSceneController implements SceneController{
                         }
                         else {
                             ((Label) n).setText(nickname + " (OFFLINE)");
-                            message = "player " + nickname + " as left the match ";
+                            message = "player " + nickname + " has left the match ";
                         }
             }
 

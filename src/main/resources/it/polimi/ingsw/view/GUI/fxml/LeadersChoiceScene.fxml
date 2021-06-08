@@ -30,13 +30,13 @@
          <Image url="@../images/leaderCards/leaderCardBack.png" />
       </ImageView>
    </HBox>
-   <Button id="confirmButton" layoutX="722.0" layoutY="540.0" mnemonicParsing="false" onAction="#sendLeaders" prefHeight="38.0" prefWidth="51.0" text="-&gt;">
+   <Button id="confirmButton" layoutX="722.0" layoutY="540.0" mnemonicParsing="false" onAction="#sendLeaders" prefHeight="38.0" prefWidth="51.0" text="→">
       <font>
-         <Font name="Verdana Italic" size="19.0" />
+         <Font name="Verdana Italic" size="25.0" />
       </font></Button>
    <Label alignment="CENTER" layoutX="1.0" layoutY="71.0" prefHeight="58.0" prefWidth="800.0" text="Choose two leaders">
       <font>
-         <Font name="Playbill" size="57.0" />
+         <Font name="Songti SC Black" size="57.0" />
       </font></Label>
    <Label fx:id="errorLabel" layoutX="302.0" layoutY="521.0" opacity="0.0" text="msg from server" textAlignment="CENTER" textFill="RED">
       <font>

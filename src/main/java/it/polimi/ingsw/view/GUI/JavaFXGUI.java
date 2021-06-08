@@ -108,10 +108,10 @@ public class JavaFXGUI extends Application {
                         GridPane faithPath = (GridPane) n;
                         faithPath.getChildren().get(player.getFaithMarker()).setVisible(true);
                         break;
-                    case "firstPopeTile":
-                    case "secondPopeTile":
-                    case "thirdPopeTile":
-                        //todo popeTiles
+                    case "popeTile1":
+                    case "popeTile2":
+                    case "popeTile3":
+                        TurnSceneController.populatePopeTiles(player.getPopeTiles(), root);
                         break;
                     case "devCardSlots":
                         TurnSceneController.populateDevCardSlots(player.getDevCardSlots(), (HBox) n);

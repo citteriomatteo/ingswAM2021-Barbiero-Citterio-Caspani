@@ -18,7 +18,7 @@
       </ImageView>
       <Label layoutX="144.0" layoutY="240.0" prefHeight="17.0" prefWidth="234.0" text="Choose your nickname">
          <font>
-            <Font name="Playbill" size="35.0" />
+            <Font name="Songti SC Black" size="20.0" />
          </font></Label>
       <Label fx:id="loginErrorLabel" alignment="TOP_LEFT" layoutX="144.0" layoutY="313.0" opacity="0.0" prefHeight="46.0" prefWidth="234.0" text="Error message" textFill="#f50505" wrapText="true">
          <font>
@@ -29,7 +29,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
          <font>
-            <Font name="Playbill" size="29.0" />
+            <Font name="Songti SC Black" size="20.0" />
          </font></Button>
       <TextField fx:id="loginTextBox" layoutX="144.0" layoutY="281.0" onAction="#login" prefHeight="25.0" prefWidth="234.0" promptText="Nickname">
          <cursor>
