@@ -482,8 +482,6 @@ public class ClientCLI implements View
             basicProdGraphic.append(costs).append("\n");
             putSomeDistance(basicProdGraphic, firstRealSize / 2 - 1);
             basicProdGraphic.append(arrow);
-            System.out.println("costs: "+costs.length()+", earnings: "+earnings.length());
-            System.out.println("leaving "+((costs.length() - earnings.length()) / 2)+" spaces.");
             putSomeDistance(basicProdGraphic, (firstRealSize - secondRealSize) / 2);
         }
 

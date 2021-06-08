@@ -14,7 +14,7 @@
     </ImageView>
     <Button id="onePayer" layoutX="133.0" layoutY="180.0" mnemonicParsing="false" onAction="#numPlayers" prefHeight="53.0" prefWidth="57.0" text="2" userData="2">
         <font>
-        <Font name="Arial Italic" size="28.0" />
+        <Font name="Songti SC Black" size="28.0" />
         </font>
         <cursor>
         <Cursor fx:constant="HAND" />
@@ -22,7 +22,7 @@
     </Button>
     <Button id="twoPlayer" layoutX="251.0" layoutY="180.0" mnemonicParsing="false" onAction="#numPlayers" prefHeight="53.0" prefWidth="57.0" text="3" userData="3">
         <font>
-        <Font name="Arial Italic" size="28.0" />
+        <Font name="Songti SC Black" size="28.0" />
         </font>
         <cursor>
         <Cursor fx:constant="HAND" />
@@ -30,7 +30,7 @@
     </Button>
     <Button id="threePlayer" layoutX="370.0" layoutY="180.0" mnemonicParsing="false" onAction="#numPlayers" prefHeight="53.0" prefWidth="57.0" text="4" userData="4">
         <font>
-        <Font name="Arial Italic" size="28.0" />
+        <Font name="Songti SC Black" size="28.0" />
         </font>
         <cursor>
         <Cursor fx:constant="HAND" />
@@ -38,7 +38,7 @@
     </Button>
     <Label alignment="CENTER" layoutX="20.0" layoutY="81.0" prefHeight="36.0" prefWidth="524.0" text="Choose the number of players" textAlignment="CENTER">
         <font>
-        <Font name="Playbill" size="44.0" />
+        <Font name="Songti SC Black" size="35.0" />
         </font>
     </Label>
 </Pane>

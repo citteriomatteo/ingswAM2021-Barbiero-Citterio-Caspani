@@ -15,14 +15,14 @@
    </ImageView>
    <Label id="startinResLabel" fx:id="startingResourcesLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="1.0" layoutY="125.0" prefHeight="46.0" prefWidth="800.0" text="Choose your starting resources." textAlignment="CENTER">
       <font>
-         <Font name="Playbill" size="45.0" />
+         <Font name="Songti SC Black" size="45.0" />
       </font>
    </Label>
    <HBox fx:id="resourcesHBox" layoutX="98.0" layoutY="234.0" prefHeight="123.0" prefWidth="485.0" spacing="100.0">
       <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0">
          <Label fx:id="stoneCount" text="x0">
             <font>
-               <Font name="System Bold Italic" size="26.0" />
+               <Font name="Songti SC Black" size="26.0" />
             </font>
          </Label>
          <ImageView fx:id="stoneImage" fitHeight="114.0" fitWidth="85.0" onMouseClicked="#addStone" pickOnBounds="true" preserveRatio="true">
@@ -32,7 +32,7 @@
       <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0">
          <Label fx:id="shieldCount" text="x0">
             <font>
-               <Font name="System Bold Italic" size="26.0" />
+               <Font name="Songti SC Black" size="26.0" />
             </font>
          </Label>
          <ImageView fx:id="ShieldImage" fitHeight="90.0" fitWidth="85.0" onMouseClicked="#addShield" pickOnBounds="true" preserveRatio="true">
@@ -42,7 +42,7 @@
       <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0">
          <Label fx:id="servantCount" text="x0">
             <font>
-               <Font name="System Bold Italic" size="26.0" />
+               <Font name="Songti SC Black" size="26.0" />
             </font>
          </Label>
          <ImageView fx:id="servantImage" fitHeight="114.0" fitWidth="85.0" onMouseClicked="#addServant" pickOnBounds="true" preserveRatio="true">
@@ -52,7 +52,7 @@
       <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0">
          <Label fx:id="coinCount" text="x0">
             <font>
-               <Font name="System Bold" size="26.0" />
+               <Font name="Songti SC Black" size="26.0" />
             </font>
          </Label>
          <ImageView fx:id="coinImage" fitHeight="114.0" fitWidth="85.0" onMouseClicked="#addCoin" pickOnBounds="true" preserveRatio="true">
@@ -60,7 +60,10 @@
          </ImageView>
       </VBox>
    </HBox>
-   <Button fx:id="confirmButton" layoutX="374.0" layoutY="443.0" mnemonicParsing="false" onAction="#chooseResources" prefHeight="46.0" prefWidth="54.0" text="-&gt;" />
+   <Button fx:id="confirmButton" layoutX="374.0" layoutY="443.0" mnemonicParsing="false" onAction="#chooseResources" prefHeight="46.0" prefWidth="54.0" text="→">
+      <font>
+         <Font size="25.0" />
+      </font></Button>
    <Label id="errorLabel" layoutX="336.0" layoutY="517.0" opacity="0.0" text="error msg from server" textFill="RED">
       <font>
          <Font size="15.0" />

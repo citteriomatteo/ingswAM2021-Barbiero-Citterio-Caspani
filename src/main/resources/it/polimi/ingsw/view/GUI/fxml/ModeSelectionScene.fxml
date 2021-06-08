@@ -16,17 +16,23 @@
    <BorderPane prefHeight="200.0" prefWidth="200.0" />
    <Label alignment="CENTER" layoutX="18.0" layoutY="100.0" prefHeight="37.0" prefWidth="528.0" text="Select match mode">
       <font>
-         <Font name="Playbill" size="49.0" />
+         <Font name="Songti SC Black" size="40.0" />
       </font>
    </Label>
    <Button id="multiButton" layoutX="304.0" layoutY="200.0" mnemonicParsing="false" onAction="#selection" prefHeight="37.0" prefWidth="101.0" text="Multiplayer" userData="false">
       <cursor>
          <Cursor fx:constant="HAND" />
       </cursor>
+      <font>
+         <Font name="Songti SC Black" size="15.0" />
+      </font>
    </Button>
    <Button id="singleButton" layoutX="150.0" layoutY="200.0" mnemonicParsing="false" onAction="#selection" prefHeight="37.0" prefWidth="101.0" text="Single Player" userData="true">
       <cursor>
          <Cursor fx:constant="HAND" />
       </cursor>
+      <font>
+         <Font name="Songti SC Black" size="15.0" />
+      </font>
    </Button>
 </Pane>

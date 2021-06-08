@@ -284,6 +284,20 @@ public class SceneProxy {
         });
     }
 
+    public void printMatchResults(Map<String, Integer> ranking) {
+        Platform.runLater(()->{
+            if(rematchPhaseSceneController != null)
+                rematchPhaseSceneController.printMatchResults(ranking);
+        });
+    }
+
+    public void printRematchOffer(String nickname) {
+        Platform.runLater(()->{
+            if(rematchPhaseSceneController != null)
+                rematchPhaseSceneController.printRematchOffer(nickname);
+        });
+    }
+
     public void endTurnState() {
         Platform.runLater(()->{
             if(turnSceneController != null)
@@ -309,6 +323,13 @@ public class SceneProxy {
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.updateFaithMarker(nickname, faithMarker);
+        });
+    }
+
+    public void updatePopeTiles(String nickname, List<Integer> popeTiles) {
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.updatePopeTiles(nickname, popeTiles);
         });
     }
 

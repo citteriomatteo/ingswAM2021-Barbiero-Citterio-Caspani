@@ -129,12 +129,12 @@ public class ClientGUI implements View {
 
     @Override
     public void drawEndMatchLayout() {
-        //TODO
+        getSceneProxy().changeScene(SceneName.EndGameScene);
     }
 
     @Override
     public void drawRematchOfferLayout(String nickname) {
-
+        getSceneProxy().printRematchOffer(nickname);
     }
 
     @Override
@@ -154,7 +154,7 @@ public class ClientGUI implements View {
 
     @Override
     public void printMatchResults(String message, Map<String, Integer> ranking) {
-
+        getSceneProxy().printMatchResults(ranking);
     }
 
     @Override
@@ -235,7 +235,7 @@ public class ClientGUI implements View {
 
     @Override
     public void updatePopeTiles(String nickname, LightMatch match) {
-
+        getSceneProxy().updatePopeTiles(nickname, match.getLightPlayer(nickname).getPopeTiles());
     }
 
     @Override
