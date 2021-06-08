@@ -610,6 +610,7 @@ public class TurnSceneController implements SceneController{
         updateHandLeaders(player.getNickname(), player.getHandLeaders());
 
         deleteLeaderMenu();
+        actionEvent.consume();
     }
 
     private void deleteLeaderMenu(){
@@ -621,8 +622,6 @@ public class TurnSceneController implements SceneController{
             leaderActions2.setDisable(true);
             leaderActions2.setVisible(false);
         }
-
-        actionEvent.consume();
     }
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%% MARKET DRAW %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
