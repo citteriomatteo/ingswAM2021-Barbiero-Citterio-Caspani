@@ -167,6 +167,9 @@ public class ClientGUI implements View {
             case BUY_DEV_ACTION:
                 getSceneProxy().resetPayments();
                 getSceneProxy().printRetry(errMessage);
+                break;
+            case PLACE_DEV_CARD:
+                getSceneProxy().resetPlacement();
             default:
                 getSceneProxy().printRetry(errMessage);
                 break;

@@ -391,6 +391,13 @@ public class SceneProxy {
         });
     }
 
+    public void resetPlacement(){
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.resetPlacement();
+        });
+    }
+
     /**
      * Controls if the player is in reconnection, in that case change the scene to the proper one and then controls
      * if the player is in game -> in that case recharge the data

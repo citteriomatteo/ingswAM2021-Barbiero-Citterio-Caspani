@@ -28,6 +28,7 @@ import static it.polimi.ingsw.view.GUI.SceneProxy.getChildById;
 import static it.polimi.ingsw.view.GUI.SceneProxy.getSceneProxy;
 
 public class TurnSceneController implements SceneController{
+    private static final int ENLARGEMENT_CARD = 5;
 
     public Pane basePane;
     public GridPane marketGrid;
@@ -134,8 +135,14 @@ public class TurnSceneController implements SceneController{
         else if(!foundTempDev)
             tempDevCard.setImage(null);
 
+        message = null;
+        resetPayments();
+        endProductionPhase();
+
         updateMarket(match.getMarket());
         updateCardGrid(match.getCardGrid());
+
+        initializeTemporaryVariables();
     }
 
     private void showConnectionState(boolean connected, Pane playerPane){
@@ -333,6 +340,16 @@ public class TurnSceneController implements SceneController{
         }
         updateWarehouse(player.getNickname(), player.getWarehouse());
         updateStrongBox(player.getNickname(), player.getStrongbox());
+    }
+
+    /**
+     * Reset the situation if the placement of a card has gone wrong ->
+     * recharge the devCardSlots watching the one saved on the lightPlayer and eventually restore the tempDevCard
+     */
+    public void resetPlacement(){
+        populateDevCardSlots(player.getDevCardSlots(), devCardSlots);
+        if(player.getTempDevCard()!=null)
+            tempDevCard.setImage(getSceneProxy().getCardImage(player.getTempDevCard()));
     }
 
     private ResType getWhiteConversion(String leaderId){
@@ -761,8 +778,8 @@ public class TurnSceneController implements SceneController{
         if(!card.equals(selectedCard)) {
             selectedCard = card;
             card.setEffect(new Glow(0.3));
-            card.setFitWidth(card.getFitWidth() + 5);
-            card.setFitHeight(card.getFitHeight() + 5);
+            card.setFitWidth(card.getFitWidth() + ENLARGEMENT_CARD);
+            card.setFitHeight(card.getFitHeight() + ENLARGEMENT_CARD);
         }
 
         int rowIndex, columnIndex;
@@ -1096,7 +1113,6 @@ public class TurnSceneController implements SceneController{
             chosenResources.add(new PhysicalResource(temporaryRes, searchShelf(selectedPlace)));
 
             message = new WarehouseInsertionMessage(player.getNickname(), chosenResources);
-
         }
         else
             success = false;
@@ -1406,6 +1422,11 @@ public class TurnSceneController implements SceneController{
         List<Node> cards = stackPane.getChildren();
         for (int k = cards.size()-1; k >= 0; k--) {
             imageView = (ImageView) cards.get(k);
+            if(imageView.getEffect() != null) {
+                imageView.setEffect(null);
+                imageView.setFitWidth(imageView.getFitWidth() - ENLARGEMENT_CARD);
+                imageView.setFitHeight(imageView.getFitHeight() - ENLARGEMENT_CARD);
+            }
             if (k < newDepth)
                 imageView.setDisable(true);
             else if (k == newDepth) {

@@ -59,12 +59,9 @@ public class StartingPhaseSceneController implements SceneController{
     public void cardSelection(MouseEvent mouseEvent) {
         errorLabel.setOpacity(0);
         ImageView imageView = (ImageView) mouseEvent.getSource();
-        System.out.println("imageView: "+imageView);
         String removedLeader;
-        System.out.println(leaders);
 
         if(leaders.size() < 2) {
-            System.out.println("equivalent card: "+getSceneProxy().getCardID(imageView.getImage()));
             if (!leaders.contains(getSceneProxy().getCardID(imageView.getImage())))
                 leaders.add(getCardIdAndSelect(imageView));
         }
@@ -83,8 +80,6 @@ public class StartingPhaseSceneController implements SceneController{
             }
             leaders.add(getCardIdAndSelect(imageView));
         }
-        System.out.println(leaders);
-
     }
 
     private String getCardIdAndSelect(ImageView imageView){
@@ -175,9 +170,13 @@ public class StartingPhaseSceneController implements SceneController{
         List<PhysicalResource> chosenResources = startingResources.stream()
                 .map((x)->new PhysicalResource(x, 1))
                 .collect(Collectors.toList());
-        getClientController().getMatch().setMarketBuffer(getClient().getNickname(), chosenResources);
-        getSceneProxy().changeScene(SceneName.GameScene);
-        getSceneProxy().loadStartingMatch();
+        if(numResources==chosenResources.size()) {
+            getClientController().getMatch().setMarketBuffer(getClient().getNickname(), chosenResources);
+            getSceneProxy().changeScene(SceneName.GameScene);
+            getSceneProxy().loadStartingMatch();
+        }
+        else
+            JavaFXGUI.popUpWarning("You haven't choose the resource/s yet");
     }
 
     public void leadersChoiceError(String errorMessage){
