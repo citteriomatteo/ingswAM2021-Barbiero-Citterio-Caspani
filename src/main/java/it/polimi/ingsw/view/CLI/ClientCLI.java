@@ -11,6 +11,7 @@ import it.polimi.ingsw.view.lightmodel.LightPlayer;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static it.polimi.ingsw.view.ClientController.getClientController;
 import static it.polimi.ingsw.view.lightmodel.LightMatch.getCardMap;
 
 public class ClientCLI implements View
@@ -289,6 +290,7 @@ public class ClientCLI implements View
 
     @Override
     public void updateDisconnections(String nickname, boolean connected) {
+        showAll(getClientController().getMatch());
         if(connected)
             System.out.println("Player " +nickname+ " is back in the game."); //todo: use a controller function that can inform the view, not directly the print
         else

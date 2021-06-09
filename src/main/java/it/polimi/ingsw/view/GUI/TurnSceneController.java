@@ -17,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 import java.util.*;
@@ -27,7 +28,6 @@ import static it.polimi.ingsw.view.GUI.SceneProxy.getChildById;
 import static it.polimi.ingsw.view.GUI.SceneProxy.getSceneProxy;
 
 public class TurnSceneController implements SceneController{
-    public boolean turnSceneLoaded = false;
 
     public Pane basePane;
     public GridPane marketGrid;
@@ -112,6 +112,45 @@ public class TurnSceneController implements SceneController{
     }
 
     /**
+     * Restore all the graphic contents to the values saved in the lightMatch, it doesn't affect current state
+     */
+    @FXML
+    public void refreshAll(){
+        populatePlayerPane(player, myPane);
+        boolean foundTempDev = false;
+        for(LightPlayer enemy : match.getLightPlayers()) {
+            if(enemy != player) {
+                Pane enemyPane = (Pane) getChildById(enemiesBox, enemy.getNickname());
+                populatePlayerPane(enemy, enemyPane);
+                showConnectionState(enemy.isConnected(), enemyPane);
+                if(enemy.getTempDevCard() != null) {
+                    tempDevCard.setImage(getSceneProxy().getCardImage(enemy.getTempDevCard()));
+                    foundTempDev = true;
+                }
+            }
+        }
+        if(player.getTempDevCard()!=null)
+            tempDevCard.setImage(getSceneProxy().getCardImage(player.getTempDevCard()));
+        else if(!foundTempDev)
+            tempDevCard.setImage(null);
+
+        updateMarket(match.getMarket());
+        updateCardGrid(match.getCardGrid());
+    }
+
+    private void showConnectionState(boolean connected, Pane playerPane){
+        Label label = (Label) SceneProxy.getChildById(playerPane, "nicknameLabel");
+        if (connected) {
+            label.setText(playerPane.getId());
+            label.setTextFill(Color.WHITE);
+        }
+        else {
+            label.setText(playerPane.getId() + " (OFFLINE)");
+            label.setTextFill(Color.RED);
+        }
+    }
+
+    /**
      * Returns the ordinal number of the shelf which contains the 'clicked' Imageview
      * @param clicked the place you want to obtain the related shelf
      * @return the ordinal number of the shelf which contains the 'clicked' Imageview or 0 if it is not part of a shelf
@@ -120,15 +159,64 @@ public class TurnSceneController implements SceneController{
         return warehousePane.getChildren().indexOf(clicked.getParent())+1;
     }
 
-    static public void clearHandLeadersImages(List<String> newHandLeaders, HBox handLeaders) {
-        if(newHandLeaders.size() < handLeaders.getChildren().size())
-            for(Node n : handLeaders.getChildren()) {
-                ImageView leader = (ImageView) n;
-                if(leader.getImage() != null) {
-                    leader.setImage(null);
-                    return;
+    static public void populatePlayerPane(LightPlayer player, Pane playerPane){
+        List<Integer> popeTiles = player.getPopeTiles();
+        for(Node n : playerPane.getChildren())
+            if(n.getId()!=null)
+                switch (n.getId()){
+                    case "activeLeaders":
+                        setActiveLeadersImages(player.getActiveLeaders(), (HBox) n);
+                        break;
+                    case "marketBuffer":
+                        populateMarketBuffer(player.getMarketBuffer(), (Pane) n);
+                        break;
+                    case "handLeaders":
+                        populateHandLeadersImages(player.getHandLeaders(), (HBox) n);
+                        break;
+                    case "faithPath":
+                        GridPane faithPath = (GridPane) n;
+                        for(Node cell : faithPath.getChildren())
+                            cell.setVisible(false);
+                        faithPath.getChildren().get(player.getFaithMarker()).setVisible(true);
+                        break;
+                    case "popeTile1":
+                        setPopeTileImage(1, popeTiles.get(0), (ImageView)n);
+                        break;
+                    case "popeTile2":
+                        setPopeTileImage(2, popeTiles.get(1), (ImageView)n);
+                        break;
+                    case "popeTile3":
+                        setPopeTileImage(3, popeTiles.get(2), (ImageView)n);
+                        break;
+                    case "devCardSlots":
+                        populateDevCardSlots(player.getDevCardSlots(), (HBox) n);
+                        break;
+                    case "warehousePane":
+                        populateWarehouse(player.getWarehouse(), (Pane) n);
+                        break;
+                    case "strongBox":
+                        populateStrongbox(player.getStrongbox(), (VBox) n);
+
                 }
-            }
+    }
+
+    /**
+     * Sets the correct images for hand leaders either they are explicit or -1
+     * @param newHandLeaders the list of ids or -1
+     * @param handLeaders the graphic object that shows the leaders
+     */
+    static public void populateHandLeadersImages(List<String> newHandLeaders, HBox handLeaders) {
+        List<Node> leaders = handLeaders.getChildren();
+        ImageView leader;
+        for (int i = 0; i < leaders.size(); i++) {
+            leader = (ImageView) leaders.get(i);
+            if(newHandLeaders.size()>i && newHandLeaders.get(0).equals("-1"))
+                leader.setImage(new Image(TurnSceneController.class.getResourceAsStream("images/leaderCards/leaderCardBack.png")));
+            else if (newHandLeaders.size()>i)
+                ((ImageView) handLeaders.getChildren().get(i)).setImage(getSceneProxy().getCardImage(newHandLeaders.get(i)));
+            else
+                leader.setImage(null);
+        }
     }
 
     static public void setActiveLeadersImages(List<String> newActiveLeaders, HBox activeLeaders) {
@@ -144,6 +232,11 @@ public class TurnSceneController implements SceneController{
         }
     }
 
+    /**
+     * Places the right images on the right slot of the marketBufferBox
+     * @param marketBuffer the values of the effective marketBuffer
+     * @param marketBufferBox the graphic object that represents the market buffer
+     */
     static public void populateMarketBuffer(List<PhysicalResource> marketBuffer, Pane marketBufferBox) {
         List<Node> places = marketBufferBox.getChildren();
         for (int i = 0; i < places.size(); i++) {
@@ -154,16 +247,24 @@ public class TurnSceneController implements SceneController{
         }
     }
 
+    /**
+     * Sets the correct images for the devCardSlots, if a card is present sets its image otherwise set null that image
+     * @param devCardSlots the array of columns that occupies the devCardSlots, the values inside the lists are the ids of the cards
+     * @param devCardHBox the graphic object that shows the devCardSlots
+     */
     static public void populateDevCardSlots(List<String>[] devCardSlots, HBox devCardHBox) {
         List<String> cardColumn;
         ImageView imageview;
         StackPane cardColumnStack;
-        for (int i = 0; i < devCardSlots.length; i++) {
+        for (int i = 0; i < devCardSlots.length; i++) { //for every column
             cardColumn = devCardSlots[i];
             cardColumnStack = (StackPane) devCardHBox.getChildren().get(i);
-            for (int j = 0; j < cardColumn.size(); j++) {
+            for (int j = 0; j < cardColumnStack.getChildren().size(); j++) { //for every imageView inside the Stack
                 imageview = (ImageView) cardColumnStack.getChildren().get(j);
-                imageview.setImage(getSceneProxy().getCardImage(cardColumn.get(j)));
+                if(j<cardColumn.size())
+                    imageview.setImage(getSceneProxy().getCardImage(cardColumn.get(j)));
+                else
+                    imageview.setImage(null);
             }
         }
     }
@@ -189,19 +290,31 @@ public class TurnSceneController implements SceneController{
     }
 
     static public void populatePopeTiles(List<Integer> popeTiles, Pane interestedPane) {
-        //changing the tiles on the specified pane
-        for(int i = 0; i < popeTiles.size(); i++){
-            String imagePath = "";
-            if(popeTiles.get(i) == 1) //tile is upside
-                imagePath = "images/punchBoard/upsidePopeTile"+(i+1)+".png";
-            if(popeTiles.get(i) == 2) //tile is downside
-                imagePath = "images/punchBoard/popeTile"+(i+1)+".png";
-            Image tile = new Image(TurnSceneController.class.getResourceAsStream(imagePath));
+        for(Node n : interestedPane.getChildren())
+            if(n.getId()!= null)
+                switch (n.getId()){
+                    case "popeTile1":
+                        setPopeTileImage(1, popeTiles.get(0), (ImageView)n);
+                        break;
+                    case "popeTile2":
+                        setPopeTileImage(2, popeTiles.get(1), (ImageView)n);
+                        break;
+                    case "popeTile3":
+                        setPopeTileImage(3, popeTiles.get(2), (ImageView)n);
+                        break;
+                }
+    }
 
-            for(Node n : interestedPane.getChildren())
-                if(("popeTile"+(i+1)).equals(n.getId()))
-                    ((ImageView) n).setImage(tile);
-        }
+    static public void setPopeTileImage(int order, int value, ImageView popeTileView){
+        Image tile;
+        if(value == 1) //tile is upside
+            tile = new Image(TurnSceneController.class.getResourceAsStream("images/punchBoard/upsidePopeTile"+(order)+".png"));
+        else if(value == 2) //tile is downside
+            tile = new Image(TurnSceneController.class.getResourceAsStream("images/punchBoard/PopeTile"+(order)+".png"));
+        else
+            tile = null;
+
+        popeTileView.setImage(tile);
     }
 
     /**
@@ -245,7 +358,6 @@ public class TurnSceneController implements SceneController{
 //%%%%%%%%%%%%%%%%%%%%%% ONE TIME FUNCTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     public void loadStartingMatch() {
-        turnSceneLoaded = true;
         List<LightPlayer> enemies = new ArrayList<>(match.getLightPlayers());
         enemies.remove(player);
 
@@ -333,33 +445,6 @@ public class TurnSceneController implements SceneController{
         ids.add("confirmButton");
         for(Node n : myPane.getChildren())
             n.setDisable(!ids.contains(n.getId()));
-    }
-
-    /**
-     * Disables all the nodes in the scene minus the one with the given id, the node should be among the direct children
-     * of the basePane or myPane, otherwise every node will be disabled.
-     * Warehouse pane will never be disabled
-     * @param id the id of the node you want to not disable
-     */
-    public void disableAllMinus(String id){
-        //todo: doesn't work properly
-        boolean found = false;
-        for(Node n : basePane.getChildren())
-            if(!id.equals(n.getId())) {
-                n.setDisable(true);
-                found = true;
-            }
-            else
-                n.setDisable(false);
-
-        if(!found) {
-            myPane.setDisable(false);
-            for (Node n : myPane.getChildren()) {
-                if (!id.equals(n.getId()))
-                    n.setDisable(true);
-            }
-        }
-        warehousePane.setDisable(false);
     }
 
     public void marketActionPhaseDisables(){
@@ -476,6 +561,7 @@ public class TurnSceneController implements SceneController{
         paymentsPane.setDisable(true);
         paymentsPane.setVisible(false);
     }
+
     private void endProductionPhase(){
         basicProduction.setEffect(null);
         unknownCost1.setImage(null);
@@ -546,7 +632,6 @@ public class TurnSceneController implements SceneController{
 
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%  START / END TURN FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
     public void yourTurn(boolean yourTurn) {
         if (yourTurn)
@@ -745,11 +830,9 @@ public class TurnSceneController implements SceneController{
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PRODUCTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
     @FXML
     public void produce(MouseEvent mouseEvent) {
         ImageView imageViewCard = (ImageView) mouseEvent.getSource();
-        System.out.println(imageViewCard.getImage());
         String selectedCard = getSceneProxy().getCardID(imageViewCard.getImage());
 
         if(selectedCard == null)
@@ -1093,12 +1176,9 @@ public class TurnSceneController implements SceneController{
             else if(((Node) dragEvent.getGestureSource()).getParent().getParent().equals(strongBox)) {
                 PhysicalResource resourceToPay = new PhysicalResource(temporaryRes, numRes);
                 int indexOfResourceToPay = paymentsFromStrongbox.indexOf(resourceToPay);
-                if(indexOfResourceToPay == -1)
-                    paymentsFromStrongbox.add(resourceToPay);
-                else {
+                if(indexOfResourceToPay != -1)
                     paymentsFromStrongbox.remove(resourceToPay);
-                    paymentsFromStrongbox.add(resourceToPay);
-                }
+                paymentsFromStrongbox.add(resourceToPay);
             }
 
             message = new PaymentsMessage(player.getNickname(), paymentsFromStrongbox, paymentsFromWarehouse);
@@ -1128,7 +1208,7 @@ public class TurnSceneController implements SceneController{
                 if(nickname.equals(enemyPane.getId())) {
                     for (Node child : ((Pane) enemyPane).getChildren())
                         if (("handLeaders").equals(child.getId())) {
-                            clearHandLeadersImages(newHandLeaders, (HBox) child);
+                            populateHandLeadersImages(newHandLeaders, (HBox) child);
                             return;
                         }
                 }
@@ -1283,11 +1363,14 @@ public class TurnSceneController implements SceneController{
                         if (connected) {
                             ((Label) n).setText(nickname);
                             message = "player " + nickname + " is back in the game! ";
+                            break;
                         }
                         else {
                             ((Label) n).setText(nickname + " (OFFLINE)");
                             message = "player " + nickname + " has left the match ";
+                            break;
                         }
+                break;
             }
 
         informationField.setText(message + informationField.getText());

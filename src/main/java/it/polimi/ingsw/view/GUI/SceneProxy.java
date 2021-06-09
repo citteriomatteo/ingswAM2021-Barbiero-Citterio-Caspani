@@ -265,7 +265,6 @@ public class SceneProxy {
     }
 
     public void updateMarket(char[][] market) {
-        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.updateMarket(market);
@@ -273,7 +272,6 @@ public class SceneProxy {
     }
 
     public void updateMarketBuffer(String nickname, List<PhysicalResource> marketBuffer) {
-        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.updateMarketBuffer(nickname, marketBuffer);
@@ -281,7 +279,6 @@ public class SceneProxy {
     }
 
     public void updateWarehouse(String nickname, List<PhysicalResource> warehouse) {
-        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.updateWarehouse(nickname, warehouse);
@@ -325,7 +322,6 @@ public class SceneProxy {
     }
 
     public void updateActiveLeaders(String nickname, List<String> activeLeaders) {
-        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.updateActiveLeaders(nickname, activeLeaders);
@@ -333,7 +329,6 @@ public class SceneProxy {
     }
 
     public void updateFaithMarker(String nickname, int faithMarker) {
-        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.updateFaithMarker(nickname, faithMarker);
@@ -348,7 +343,6 @@ public class SceneProxy {
     }
 
     public void updateStrongBox(String nickname, List<PhysicalResource> strongbox) {
-        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.updateStrongBox(nickname, strongbox);
@@ -356,7 +350,6 @@ public class SceneProxy {
     }
 
     public void updateDisconnections(String nickname, boolean connected) {
-        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.updateDisconnections(nickname, connected);
@@ -364,7 +357,6 @@ public class SceneProxy {
     }
 
     public void updateCardGrid(List<String>[][] cardGrid){
-        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.updateCardGrid(cardGrid);
@@ -372,7 +364,6 @@ public class SceneProxy {
     }
 
     public void updateTempDevCard(String card){
-        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.updateTempDevCard(card);
@@ -380,7 +371,6 @@ public class SceneProxy {
     }
 
     public void updateDevCardSlots(String nickname, List<String>[] devCardSlots){
-        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.updateDevCardSlots(nickname, devCardSlots);
@@ -388,7 +378,6 @@ public class SceneProxy {
     }
 
     public void updateTokenDrawn(String tokenName, int remainingTokens){
-        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.updateTokenDrawn(tokenName, remainingTokens);
@@ -396,7 +385,6 @@ public class SceneProxy {
     }
 
     public void resetPayments() {
-        loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.resetPayments();
@@ -410,8 +398,10 @@ public class SceneProxy {
     private void loadSceneIfReconnected(SceneName scene){
         if(initSceneController != null){
                     changeScene(scene);
-                    if(actualScene == SceneName.GameScene)
+                    if(actualScene == SceneName.GameScene) {
                         loadStartingMatch();
+                        Platform.runLater(()-> turnSceneController.refreshAll() );
+                    }
             }
         }
 }

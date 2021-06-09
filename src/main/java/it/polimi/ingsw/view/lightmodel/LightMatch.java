@@ -28,7 +28,6 @@ public class LightMatch extends ViewObservable {
     private int lorenzoMarker;  //stays "-1" in multi-player matches!
 
     private List<LightPlayer> lightPlayers;
-    private int myPosition;
 
     /**
      * Constructor: initialize a LightMatch as a pseudo-Summary.
@@ -104,14 +103,8 @@ public class LightMatch extends ViewObservable {
 
     public void setConnected(String nickname, boolean connected) {
         getLightPlayer(nickname).setConnected(connected);
-        updateMatch(this);
+      //  updateMatch(this); removed because gave problems with gui, added a showAll inside the updateDisconnections
         updateDisconnections(nickname, connected);
-        /*
-        if(connected)
-            System.out.println("Player " +nickname+ " is back in the game."); //todo: use a controller function that can inform the view, not directly the print
-        else
-            System.out.println("Player " +nickname+ " has left the match.");
-         */
     }
 
     /**

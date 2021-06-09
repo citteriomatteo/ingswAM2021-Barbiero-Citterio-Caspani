@@ -246,6 +246,9 @@
                         <ImageView id="secondCard" disable="true" fitHeight="150.0" fitWidth="91.0" onDragDropped="#dropCard" onDragOver="#acceptCardDrop" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" translateY="-27.0" />
                         <ImageView id="thirdCard" disable="true" fitHeight="150.0" fitWidth="91.0" onDragDropped="#dropCard" onDragOver="#acceptCardDrop" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" translateY="-54.0" />
                      </children>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </StackPane>
                   <StackPane id="2DevSlot" alignment="BOTTOM_CENTER" prefHeight="187.0" prefWidth="109.0" translateY="10.0">
                      <children>
@@ -253,6 +256,9 @@
                         <ImageView id="secondCard" disable="true" fitHeight="150.0" fitWidth="91.0" onDragDropped="#dropCard" onDragOver="#acceptCardDrop" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" translateY="-27.0" />
                         <ImageView id="thirdCard" disable="true" fitHeight="150.0" fitWidth="91.0" onDragDropped="#dropCard" onDragOver="#acceptCardDrop" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" translateY="-54.0" />
                      </children>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </StackPane>
                   <StackPane id="3DevSlot" alignment="BOTTOM_CENTER" prefHeight="187.0" prefWidth="109.0" translateY="10.0">
                      <children>
@@ -260,8 +266,14 @@
                         <ImageView id="secondCard" disable="true" fitHeight="150.0" fitWidth="91.0" onDragDropped="#dropCard" onDragOver="#acceptCardDrop" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" translateY="-27.0" />
                         <ImageView id="thirdCard" disable="true" fitHeight="150.0" fitWidth="91.0" onDragDropped="#dropCard" onDragOver="#acceptCardDrop" onMouseClicked="#produce" pickOnBounds="true" preserveRatio="true" translateY="-54.0" />
                      </children>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </StackPane>
                </children>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </HBox>
             <VBox id="strongbox" fx:id="strongBox" layoutX="235.20450973510742" layoutY="369.0" prefHeight="76.0" prefWidth="90.0" translateY="10.0">
                <children>
@@ -364,6 +376,9 @@
                <image>
                   <Image url="@../images/punchBoard/basicProduction.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
             <ImageView id="basicUc1" fx:id="unknownCost1" fitHeight="18.0" fitWidth="22.0" layoutX="369.0" layoutY="368.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView id="basicUc2" fx:id="unknownCost2" fitHeight="19.0" fitWidth="22.0" layoutX="369.0" layoutY="387.0" pickOnBounds="true" preserveRatio="true" />
@@ -1221,20 +1236,20 @@
                      <children>
                         <HBox id="shelf1" layoutX="14.0" prefHeight="10.0" prefWidth="16.0" spacing="4.0">
                            <children>
-                              <ImageView id="firstRes" fitHeight="10.0" fitWidth="11.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView id="firstRes" fitHeight="11.0" fitWidth="11.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </HBox>
                         <HBox id="shelf2" layoutX="8.0" layoutY="17.0" prefHeight="10.0" prefWidth="24.0" spacing="4.0">
                            <children>
                               <ImageView id="firstRes" fitHeight="11.0" fitWidth="11.0" pickOnBounds="true" preserveRatio="true" />
-                              <ImageView id="secondRes" fitHeight="10.0" fitWidth="11.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView id="secondRes" fitHeight="11.0" fitWidth="11.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </HBox>
                         <HBox id="shelf3" layoutY="32.0" prefHeight="10.0" prefWidth="24.0" spacing="4.0">
                            <children>
                               <ImageView id="firstRes" fitHeight="11.0" fitWidth="11.0" pickOnBounds="true" preserveRatio="true" />
-                              <ImageView id="secondRes" fitHeight="10.0" fitWidth="11.0" pickOnBounds="true" preserveRatio="true" />
-                              <ImageView id="thirdRes" fitHeight="11.0" fitWidth="9.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView id="secondRes" fitHeight="11.0" fitWidth="11.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView id="thirdRes" fitHeight="11.0" fitWidth="11.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </HBox>
                         <HBox id="shelf4" disable="true" layoutX="322.0" layoutY="8.0" opacity="0.0" prefHeight="8.0" prefWidth="17.0" spacing="2.0">
@@ -2247,5 +2262,13 @@
             <Button layoutX="247.0" layoutY="279.0" mnemonicParsing="false" onAction="#closeProductionPane" text="ok" />
          </children>
       </Pane>
+      <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="1250.0" layoutY="9.0" onMouseClicked="#refreshAll" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/refresh.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
    </children>
 </Pane>

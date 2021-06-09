@@ -26,6 +26,5 @@ public interface ViewObserver {
     void updateDiscountMap(String nickname, LightMatch match);
     void updateTempDevCard(String nickname, LightMatch match);
 
-    public void updateDisconnections(String nickname, boolean connected);
-
+    void updateDisconnections(String nickname, boolean connected);
 }

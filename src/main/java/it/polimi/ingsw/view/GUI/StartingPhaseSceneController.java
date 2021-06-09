@@ -36,11 +36,12 @@ public class StartingPhaseSceneController implements SceneController{
     public HBox leadersHBox;
     public Label errorLabel;
     public Label startingResourcesLabel;
-    private List<String> leaders = new ArrayList<>();
+    private final List<String> leaders;
 
 
     public StartingPhaseSceneController() {
         getSceneProxy().setStartingPhaseSceneController(this);
+        leaders = new ArrayList<>();
     }
 
 
@@ -56,10 +57,14 @@ public class StartingPhaseSceneController implements SceneController{
 
     @FXML
     public void cardSelection(MouseEvent mouseEvent) {
+        errorLabel.setOpacity(0);
         ImageView imageView = (ImageView) mouseEvent.getSource();
+        System.out.println("imageView: "+imageView);
         String removedLeader;
+        System.out.println(leaders);
 
         if(leaders.size() < 2) {
+            System.out.println("equivalent card: "+getSceneProxy().getCardID(imageView.getImage()));
             if (!leaders.contains(getSceneProxy().getCardID(imageView.getImage())))
                 leaders.add(getCardIdAndSelect(imageView));
         }
@@ -78,6 +83,7 @@ public class StartingPhaseSceneController implements SceneController{
             }
             leaders.add(getCardIdAndSelect(imageView));
         }
+        System.out.println(leaders);
 
     }
 
@@ -93,18 +99,32 @@ public class StartingPhaseSceneController implements SceneController{
         if(leaders.size() != 2) {
             errorLabel.setText("Please chose 2 leaders");
             errorLabel.setOpacity(1);
+            resetScene();
             return;
         }
         (new LeadersChoiceMessage(getClient().getNickname(), leaders)).send();
+    }
+
+    private void resetScene(){
+        ImageView view;
+        leaders.clear();
+        for(Node n : leadersHBox.getChildren()){
+            if(n.getEffect() != null){
+                view = (ImageView) n;
+                view.setEffect(null);
+                view.setFitHeight(view.getFitHeight()-10);
+                view.setFitWidth(view.getFitWidth()-10);
+            }
+        }
     }
 
     public void loadStartingResources(int numResources){
         startingResources = new ArrayList<>();
         this.numResources = numResources;
         if (numResources == 2)
-            startingResourcesLabel.setText("please chose " + numResources + " resources");
+            startingResourcesLabel.setText("Choose " + numResources + " resources");
         else
-            startingResourcesLabel.setText("please chose your resource");
+            startingResourcesLabel.setText("Choose your resource");
     }
 
     public void addCoin() {
@@ -163,6 +183,7 @@ public class StartingPhaseSceneController implements SceneController{
     public void leadersChoiceError(String errorMessage){
         errorLabel.setText(errorMessage);
         errorLabel.setOpacity(1);
+        resetScene();
     }
 
 }

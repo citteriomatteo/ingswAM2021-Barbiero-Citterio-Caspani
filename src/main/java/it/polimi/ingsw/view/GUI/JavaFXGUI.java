@@ -4,21 +4,18 @@ import it.polimi.ingsw.view.lightmodel.LightPlayer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import static it.polimi.ingsw.network.client.Client.getClient;
+import static it.polimi.ingsw.view.GUI.TurnSceneController.populatePlayerPane;
 
 public class JavaFXGUI extends Application {
     private static Scene scene;
@@ -92,37 +89,7 @@ public class JavaFXGUI extends Application {
         } catch (IOException ignored) {}
         popUpZoom.setScene(zoom);
         Pane root = (Pane)zoom.getRoot();
-        for(Node n : root.getChildren())
-            if(n.getId()!=null)
-                switch (n.getId()){
-                    case "activeLeaders":
-                        TurnSceneController.setActiveLeadersImages(player.getActiveLeaders(), (HBox) n);
-                        break;
-                    case "marketBuffer":
-                        TurnSceneController.populateMarketBuffer(player.getMarketBuffer(), (Pane) n);
-                        break;
-                    case "handLeaders":
-                        TurnSceneController.clearHandLeadersImages(player.getHandLeaders(), (HBox) n);
-                        break;
-                    case "faithPath":
-                        GridPane faithPath = (GridPane) n;
-                        faithPath.getChildren().get(player.getFaithMarker()).setVisible(true);
-                        break;
-                    case "popeTile1":
-                    case "popeTile2":
-                    case "popeTile3":
-                        TurnSceneController.populatePopeTiles(player.getPopeTiles(), root);
-                        break;
-                    case "devCardSlots":
-                        TurnSceneController.populateDevCardSlots(player.getDevCardSlots(), (HBox) n);
-                        break;
-                    case "warehousePane":
-                        TurnSceneController.populateWarehouse(player.getWarehouse(), (Pane) n);
-                        break;
-                    case "strongBox":
-                        TurnSceneController.populateStrongbox(player.getStrongbox(), (VBox) n);
-
-                }
+        populatePlayerPane(player, root);
 
         popUpZoom.show();
     }
