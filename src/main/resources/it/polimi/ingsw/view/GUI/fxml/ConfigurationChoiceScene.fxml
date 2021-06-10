@@ -20,7 +20,7 @@
         <Cursor fx:constant="HAND" />
         </cursor>
     </Button>
-    <Button id="customize" layoutX="316.0" layoutY="180.0" mnemonicParsing="false" onAction="#selection" prefHeight="50.0" prefWidth="121.0" text="CUSTOMIZED" userData="false">
+    <Button id="customize" disable="true" layoutX="316.0" layoutY="180.0" mnemonicParsing="false" onAction="#selection" prefHeight="50.0" prefWidth="121.0" text="CUSTOMIZED" userData="false">
         <font>
         <Font name="Songti SC Black" size="15.0" />
         </font>
@@ -33,4 +33,9 @@
         <Font name="Songti SC Black" size="40.0" />
         </font>
     </Label>
+   <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="362.0" layoutY="197.0" pickOnBounds="true" preserveRatio="true" rotate="15.0">
+      <image>
+         <Image url="@../images/workInProgress.png" />
+      </image>
+   </ImageView>
 </Pane>

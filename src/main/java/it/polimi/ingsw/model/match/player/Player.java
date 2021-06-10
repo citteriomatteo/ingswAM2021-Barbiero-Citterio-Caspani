@@ -520,9 +520,12 @@ public class Player extends ModelObservable implements Adder, Verificator {
      */
     public boolean payFromWarehouse(PhysicalResource res, int shelf) throws InvalidCardRequestException, NotEnoughResourcesException {
         Warehouse wh = personalBoard.getWarehouse();
-        if(!res.getType().equals(wh.getWarehouseDisposition().get(shelf-1).getType()))
-            throw new InvalidCardRequestException ("The resource" + res + "is not present on the shelf! Operation failed.");
-
+        if(!res.getType().equals(wh.getWarehouseDisposition().get(shelf-1).getType())) {
+            System.out.println("current warehouse: ");
+            for(PhysicalResource r : wh.getWarehouseDisposition())
+                System.out.println(r);
+            throw new InvalidCardRequestException("The resource" + res + "is not present on the shelf! Operation failed.");
+        }
         wh.take(shelf, res.getQuantity());
 
         return true;
