@@ -140,6 +140,7 @@ public class TurnSceneController implements SceneController{
         else if(!foundTempDev)
             tempDevCard.setImage(null);
 
+
         message = null;
         resetPayments();
         endProductionPhase();
@@ -472,6 +473,7 @@ public class TurnSceneController implements SceneController{
      */
     public void keepEnabledOnly(List<String> ids){
         ids.add("confirmButton");
+        myPane.setDisable(false);
         for(Node n : myPane.getChildren())
             n.setDisable(!ids.contains(n.getId()));
     }
@@ -479,6 +481,7 @@ public class TurnSceneController implements SceneController{
     public void marketActionPhaseDisables(){
         marketPane.setDisable(true);
         cardGrid.setDisable(true);
+        tempDevCard.setDisable(true);
 
         //ids of the elements to keep enabled
         List<String> importantIds = new ArrayList<>(List.of("warehousePane", "activeLeaders"));
@@ -497,6 +500,7 @@ public class TurnSceneController implements SceneController{
     public void resourcesPlacementPhaseDisables(){
         marketPane.setDisable(true);
         cardGrid.setDisable(true);
+        tempDevCard.setDisable(true);
 
         //ids of the elements to keep enabled
         List<String> importantIds = new ArrayList<>(List.of("warehousePane", "marketBufferBox"));
@@ -517,9 +521,12 @@ public class TurnSceneController implements SceneController{
         cardGrid.setDisable(true);
         paymentsPane.setDisable(false);
         paymentsPane.setVisible(true);
+        tempDevCard.setDisable(false);
 
         //ids of the elements to keep enabled
         List<String> importantIds = new ArrayList<>(List.of("warehousePane", "strongbox"));
+
+        System.out.println("enabling only: "+importantIds);
 
         keepEnabledOnly(importantIds);
 
@@ -530,6 +537,7 @@ public class TurnSceneController implements SceneController{
     public void placeDevCardPhaseDisables(){
         marketPane.setDisable(true);
         cardGrid.setDisable(true);
+        tempDevCard.setDisable(false);
         endPaymentsPhase();
         for(Node node : devCardSlots.getChildren()){
             StackPane stackPane = (StackPane) node;
@@ -541,7 +549,7 @@ public class TurnSceneController implements SceneController{
 
         //ids of the elements to keep enabled
         List<String> importantIds = new ArrayList<>(List.of("warehousePane","devCardSlots", "1DevSlot", "2DevSlot", "3DevSlot"));
-
+        System.out.println("enabling only: "+importantIds);
         keepEnabledOnly(importantIds);
 
         //information field text setting for this state
@@ -553,9 +561,10 @@ public class TurnSceneController implements SceneController{
         cardGrid.setDisable(true);
         paymentsPane.setDisable(false);
         paymentsPane.setVisible(true);
+        tempDevCard.setDisable(true);
 
         //ids of the elements to keep enabled
-        List<String> importantIds = new ArrayList<>(List.of("warehousePane", "strongbox", "firstDevSlot", "secondDevSlot", "thirdDevSlot"));
+        List<String> importantIds = new ArrayList<>(List.of("warehousePane", "strongbox","devCardSlots", "1DevSlot", "2DevSlot", "3DevSlot"));
 
         keepEnabledOnly(importantIds);
 
@@ -567,6 +576,7 @@ public class TurnSceneController implements SceneController{
     public void endTurnPhaseDisables(){
         marketPane.setDisable(true);
         cardGrid.setDisable(true);
+        tempDevCard.setDisable(true);
         endPaymentsPhase();
         endProductionPhase();
 
