@@ -41,8 +41,6 @@ public class CardGridTest extends CommonThingsTest {
             //parse the developmentCard list
             ArrayList<DevelopmentCard> extractedJson = g.fromJson(reader, collectionType);
 
-//            System.out.println(extractedJson);
-
             //create the grid
             grid = new CardGrid(extractedJson);
 

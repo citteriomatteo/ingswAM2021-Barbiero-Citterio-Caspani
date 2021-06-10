@@ -13,7 +13,6 @@ public class GoodbyeSceneController implements SceneController {
     }
 
     public void printGoodbyeMessage(String msg) {
-        System.out.println("arrived: "+msg);
         errorMessage.setText(msg);
     }
 

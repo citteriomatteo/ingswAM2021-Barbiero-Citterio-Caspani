@@ -39,8 +39,6 @@ public class SingleCardGridTest {
             //parse the developmentCard list
             ArrayList<DevelopmentCard> extractedJson = g.fromJson(reader, collectionType);
 
-//            System.out.println(extractedJson);
-
             //create the grid
             grid = new SingleCardGrid(extractedJson);
 

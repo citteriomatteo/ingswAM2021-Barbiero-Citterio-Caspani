@@ -5,14 +5,12 @@ import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.Production;
 import it.polimi.ingsw.model.essentials.ResType;
 import it.polimi.ingsw.model.essentials.Resource;
-import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.network.message.ctosmessage.*;
 import it.polimi.ingsw.view.lightmodel.LightMatch;
 import it.polimi.ingsw.view.lightmodel.LightPlayer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
@@ -99,6 +97,7 @@ public class TurnSceneController implements SceneController{
 
         initializeTemporaryVariables();
     }
+
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%% UTILITY FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -379,6 +378,7 @@ public class TurnSceneController implements SceneController{
         return conversion;
     }
 
+
 //%%%%%%%%%%%%%%%%%%%%%% ONE TIME FUNCTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     public void loadStartingMatch() {
@@ -451,6 +451,7 @@ public class TurnSceneController implements SceneController{
                 if(firstPlayer.equals(box.getId()))
                     SceneProxy.getChildById((Pane) box, "inkwell").setVisible(true);
     }
+
 
 //%%%%%%%%%%%%%%%%%%%%%% DISABLE FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -570,7 +571,7 @@ public class TurnSceneController implements SceneController{
         endProductionPhase();
 
         //ids of the elements to keep enabled
-        List<String> importantIds = new ArrayList<>(List.of("warehousePane", "LeaderActions1", "LeaderActions2"));
+        List<String> importantIds = new ArrayList<>(List.of("warehousePane", "leaderActions1", "leaderActions2"));
 
         keepEnabledOnly(importantIds);
 
@@ -613,6 +614,7 @@ public class TurnSceneController implements SceneController{
             }
         }
     }
+
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%  LEADERS POWER %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -670,6 +672,7 @@ public class TurnSceneController implements SceneController{
         else //todo: check if the type of the clicked leader is production or not
             produce(mouseEvent);
     }
+
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%  START / END TURN FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -750,6 +753,7 @@ public class TurnSceneController implements SceneController{
         }
     }
 
+
 //%%%%%%%%%%%%%%%%%%%%%%%%%%% MARKET DRAW %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     @FXML
@@ -814,6 +818,7 @@ public class TurnSceneController implements SceneController{
         mouseEvent.consume();
 
     }
+
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DEV CARD PLACEMENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -886,6 +891,7 @@ public class TurnSceneController implements SceneController{
 
         mouseEvent.consume();
     }
+
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PRODUCTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1437,17 +1443,19 @@ public class TurnSceneController implements SceneController{
             if ((nickname).equals(enemyPane.getId())) {
                 Pane chosenEnemy = (Pane) enemyPane;
                 for(Node n : chosenEnemy.getChildren())
-                    if(("nicknameLabel").equals(n.getId()))
+                    if(("nicknameLabel").equals(n.getId())) {
+                        Label label = (Label) n;
                         if (connected) {
-                            ((Label) n).setText(nickname);
+                            label.setText(nickname);
+                            label.setTextFill(Color.WHITE);
                             message = "player " + nickname + " is back in the game! ";
-                            break;
-                        }
-                        else {
-                            ((Label) n).setText(nickname + " (OFFLINE)");
+                        } else {
+                            label.setText(nickname + " (OFFLINE)");
+                            label.setTextFill(Color.RED);
                             message = "player " + nickname + " has left the match ";
-                            break;
                         }
+                        break;
+                    }
                 break;
             }
         informationField.appendText("\n" + message);
@@ -1502,11 +1510,9 @@ public class TurnSceneController implements SceneController{
     public void updateTempDevCard(String card){
         if(card == null || card.equals("")) {
             tempDevCard.setImage(null);
-            tempDevCard.setVisible(false);
             return;
         }
         tempDevCard.setImage(getSceneProxy().getCardImage(card));
-        tempDevCard.setVisible(true);
     }
 
     public void updateDevCardSlots(String nickname, List<String>[] devCardSlots){
@@ -1532,6 +1538,7 @@ public class TurnSceneController implements SceneController{
         JavaFXGUI.popUpWarning(errMessage);
     }
 
+
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LAST ROUND FUNCTIONS  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     public void setLastRound(boolean value) {
@@ -1547,7 +1554,6 @@ public class TurnSceneController implements SceneController{
 
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% OTHER FUNCTIONS  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
     /**
      * Displays a pop-up showing the playerBoard of the clicked player

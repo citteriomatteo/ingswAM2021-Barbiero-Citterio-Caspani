@@ -36,8 +36,9 @@ public class InitSceneController implements SceneController{
 
     @FXML
     public void loginError(String message){
-        loginErrorLabel.setText(message);
-        loginErrorLabel.setOpacity(1);
+//        loginErrorLabel.setText(message);
+//        loginErrorLabel.setOpacity(1);
+        JavaFXGUI.popUpWarning(message);
     }
 
     @FXML

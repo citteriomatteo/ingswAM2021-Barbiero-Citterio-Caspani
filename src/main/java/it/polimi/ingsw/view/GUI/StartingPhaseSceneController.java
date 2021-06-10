@@ -92,9 +92,7 @@ public class StartingPhaseSceneController implements SceneController{
 
     public void sendLeaders() {
         if(leaders.size() != 2) {
-            errorLabel.setText("Please chose 2 leaders");
-            errorLabel.setOpacity(1);
-            resetScene();
+            leadersChoiceError("Please choose 2 leaders");
             return;
         }
         (new LeadersChoiceMessage(getClient().getNickname(), leaders)).send();
@@ -180,8 +178,9 @@ public class StartingPhaseSceneController implements SceneController{
     }
 
     public void leadersChoiceError(String errorMessage){
-        errorLabel.setText(errorMessage);
-        errorLabel.setOpacity(1);
+        JavaFXGUI.popUpWarning(errorMessage);
+//        errorLabel.setText(errorMessage);
+//        errorLabel.setOpacity(1);
         resetScene();
     }
 

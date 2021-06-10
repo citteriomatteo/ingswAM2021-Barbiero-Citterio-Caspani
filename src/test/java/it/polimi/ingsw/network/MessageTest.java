@@ -90,7 +90,6 @@ public class MessageTest {
             //parse the object and instantiate it
             ArrayList<CtoSMessage> extractedJson = g.fromJson(reader, collectionType);
 
-            System.out.println(extractedJson);
             assertEquals(extractedJson.get(0).getNickname(), switchShelfMessage.getNickname());
 
         } catch (IOException e) {

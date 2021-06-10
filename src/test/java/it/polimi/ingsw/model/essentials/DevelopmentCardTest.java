@@ -49,7 +49,6 @@ public class DevelopmentCardTest extends CommonThingsTest {
             //parse the object and instantiate it
             DevelopmentCard extractedJson = g.fromJson(reader, DevelopmentCard.class);
 
-//            System.out.println(extractedJson);
             assertEquals(extractedJson, devCard);
 
         } catch (IOException e) {
