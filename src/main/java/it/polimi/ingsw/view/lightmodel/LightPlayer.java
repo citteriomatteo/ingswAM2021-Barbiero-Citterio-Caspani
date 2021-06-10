@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.lightmodel;
 
-import it.polimi.ingsw.controller.StateName;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.Production;
 import it.polimi.ingsw.model.match.player.PlayerSummary;

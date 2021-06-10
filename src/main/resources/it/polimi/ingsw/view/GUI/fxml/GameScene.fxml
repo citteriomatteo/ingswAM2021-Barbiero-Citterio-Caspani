@@ -894,10 +894,7 @@
             </StackPane>
          </children>
       </GridPane>
-      <ImageView id="tempDevCard" fx:id="tempDevCard" fitHeight="120.0" fitWidth="100.0" layoutX="762.0" layoutY="100.0" onDragDetected="#dragCard" onDragDone="#dragDone" onMouseEntered="#zoomInCard" onMouseExited="#zoomOutCard" pickOnBounds="true" preserveRatio="true" visible="false">
-         <image>
-            <Image url="@../images/developmentCards/back/purple2.png" />
-         </image>
+      <ImageView id="tempDevCard" fx:id="tempDevCard" fitHeight="120.0" fitWidth="100.0" layoutX="762.0" layoutY="100.0" onDragDetected="#dragCard" onDragDone="#dragDone" onMouseEntered="#zoomInCard" onMouseExited="#zoomOutCard" pickOnBounds="true" preserveRatio="true">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
