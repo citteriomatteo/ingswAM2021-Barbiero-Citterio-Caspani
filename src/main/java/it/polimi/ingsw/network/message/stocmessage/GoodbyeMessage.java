@@ -16,7 +16,7 @@ public class GoodbyeMessage extends StoCMessage {
 
     @Override
     public boolean compute(Client client){
-        System.out.println(msg);
+        client.getController().printGoodbyeMessage(msg);
         return true;
     }
     @Override

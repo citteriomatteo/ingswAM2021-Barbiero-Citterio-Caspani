@@ -130,18 +130,24 @@ public class ClientGUI implements View {
     }
 
     @Override
+    public void drawGoodbyeLayout(String msg) {
+        getSceneProxy().changeScene(SceneName.GoodbyeScene);
+        getSceneProxy().printGoodbye(msg);
+    }
+
+    @Override
     public void printTokenDraw(String tokenName, int remainingTokens) {
         getSceneProxy().updateTokenDrawn(tokenName, remainingTokens);
     }
 
     @Override
     public void printLastRound() {
-
+        getSceneProxy().printLastRound();
     }
 
     @Override
     public void setLastRound(boolean lastRound) {
-
+        getSceneProxy().setLastRound(lastRound);
     }
 
     @Override

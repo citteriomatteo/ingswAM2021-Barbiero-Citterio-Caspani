@@ -12,6 +12,7 @@ public enum SceneName {
     GameScene,
     EndGameScene,
     WarningScene,
-    ZoomScene
+    ZoomScene,
+    GoodbyeScene
 
 }

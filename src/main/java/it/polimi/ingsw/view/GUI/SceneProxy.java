@@ -23,6 +23,7 @@ public class SceneProxy {
     private StartingPhaseSceneController startingPhaseSceneController;
     private TurnSceneController turnSceneController;
     private RematchPhaseSceneController rematchPhaseSceneController;
+    private GoodbyeSceneController goodbyeSceneController = null;
     private Map<String, Image> idToImageMap;
     private Map<Image, String> imageToIdMap;
     private SceneController actualController;
@@ -48,6 +49,7 @@ public class SceneProxy {
         this.startingPhaseSceneController = null;
         this.turnSceneController = null;
         this.rematchPhaseSceneController = null;
+        this.goodbyeSceneController = null;
     }
 
     public void setStartingPhaseSceneController(StartingPhaseSceneController startingPhaseSceneController) {
@@ -56,6 +58,7 @@ public class SceneProxy {
         this.actualController = startingPhaseSceneController;
         this.turnSceneController = null;
         this.rematchPhaseSceneController = null;
+        this.goodbyeSceneController = null;
 
     }
 
@@ -65,6 +68,7 @@ public class SceneProxy {
         this.turnSceneController = turnSceneController;
         this.actualController = turnSceneController;
         this.rematchPhaseSceneController = null;
+        this.goodbyeSceneController = null;
 
     }
 
@@ -74,7 +78,14 @@ public class SceneProxy {
         this.turnSceneController = null;
         this.rematchPhaseSceneController = rematchPhaseSceneController;
         this.actualController = rematchPhaseSceneController;
+        this.goodbyeSceneController = null;
 
+    }
+
+    public void setGoodbyePhaseSceneController(GoodbyeSceneController goodbyeSceneController) {
+
+        this.goodbyeSceneController = goodbyeSceneController;
+        this.actualController = goodbyeSceneController;
     }
 
     public void setCardMap(Map<String, Card> cardMap){
@@ -292,6 +303,20 @@ public class SceneProxy {
         });
     }
 
+    public void setLastRound(boolean value) {
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.setLastRound(value);
+        });
+    }
+
+    public void printLastRound() {
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.printLastRound();
+        });
+    }
+
     public void printMatchResults(Map<String, Integer> ranking) {
         Platform.runLater(()->{
             if(rematchPhaseSceneController != null)
@@ -303,6 +328,16 @@ public class SceneProxy {
         Platform.runLater(()->{
             if(rematchPhaseSceneController != null)
                 rematchPhaseSceneController.printRematchOffer(nickname);
+        });
+    }
+
+    public void printGoodbye(String msg) {
+        Platform.runLater(()->{
+            //if(rematchPhaseSceneController != null)
+                //rematchPhaseSceneController.printGoodbyeMessage(msg);
+            if(goodbyeSceneController != null)
+                goodbyeSceneController.printGoodbyeMessage(msg);
+
         });
     }
 

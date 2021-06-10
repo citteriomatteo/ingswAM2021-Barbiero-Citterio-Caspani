@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.Production;
 import it.polimi.ingsw.model.essentials.ResType;
 import it.polimi.ingsw.model.essentials.Resource;
+import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.network.message.ctosmessage.*;
 import it.polimi.ingsw.view.lightmodel.LightMatch;
 import it.polimi.ingsw.view.lightmodel.LightPlayer;
@@ -31,6 +32,7 @@ public class TurnSceneController implements SceneController{
     private static final int ENLARGEMENT_CARD = 5;
 
     public Pane basePane;
+    public ImageView lastRoundFlag;
     public GridPane marketGrid;
     public GridPane cardGrid;
     public ImageView slideMarble;
@@ -47,7 +49,7 @@ public class TurnSceneController implements SceneController{
     public Pane productionPane;
     public GridPane faithPath;
     public VBox enemiesBox;
-    public TextField informationField;
+    public TextArea informationField;
     public Button confirmButton;
     public ImageView tempDevCard;
     public HBox devCardSlots;
@@ -79,6 +81,7 @@ public class TurnSceneController implements SceneController{
     private int numUCosts;
     private int numUEarnings;
     private ImageView selectedCard;
+    private boolean lastRound;
     private boolean row;
     private int numMarket;
     private List<PhysicalResource> whiteConversions;
@@ -98,6 +101,7 @@ public class TurnSceneController implements SceneController{
 //%%%%%%%%%%%%%%%%%%%%%%%%%% UTILITY FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     private void initializeTemporaryVariables(){
+        lastRound = false;
         temporaryRes = null;
         firstShelfToSwitch = null;
         chosenResources = new ArrayList<>();
@@ -227,8 +231,9 @@ public class TurnSceneController implements SceneController{
     }
 
     static public void setActiveLeadersImages(List<String> newActiveLeaders, HBox activeLeaders) {
-        if(newActiveLeaders.size()==2 && getSceneProxy().isSlotLeader(newActiveLeaders.get(1)))
+        if(newActiveLeaders.size()==2 && !getSceneProxy().isSlotLeader(newActiveLeaders.get(0)) && getSceneProxy().isSlotLeader(newActiveLeaders.get(1)))
             Collections.swap(newActiveLeaders, 0, 1);
+
         List<Node> leaders = activeLeaders.getChildren();
         for (int i = 0; i <leaders.size(); i++) {
             ImageView leader = (ImageView) leaders.get(i);
@@ -423,6 +428,10 @@ public class TurnSceneController implements SceneController{
 
         //for the inkwell:
         assignInkwell();
+
+        //for the last round flag in reconnections:
+        if(lastRound)
+            printLastRound();
     }
 
     /**
@@ -479,7 +488,7 @@ public class TurnSceneController implements SceneController{
                 n.setVisible(true);
 
         //information field text setting for this state
-        informationField.setText("Convert each white marble.");
+        informationField.appendText("\nConvert each white marble.");
     }
 
     public void resourcesPlacementPhaseDisables(){
@@ -497,7 +506,7 @@ public class TurnSceneController implements SceneController{
                 n.setVisible(false);
 
         //information field text setting for this state
-        informationField.setText("Place the resources you've got.");
+        informationField.appendText("\nPlace the resources you've got.");
     }
 
     public void buyDevActionPhaseDisables(){
@@ -512,7 +521,7 @@ public class TurnSceneController implements SceneController{
         keepEnabledOnly(importantIds);
 
         //information field text setting for this state
-        informationField.setText("Pay the card you've chosen.");
+        informationField.appendText("\nPay the card you've chosen.");
     }
 
     public void placeDevCardPhaseDisables(){
@@ -533,7 +542,7 @@ public class TurnSceneController implements SceneController{
         keepEnabledOnly(importantIds);
 
         //information field text setting for this state
-        informationField.setText("Place your Development card.");
+        informationField.appendText("\nPlace your Development card.");
     }
 
     public void productionActionPhaseDisables(){
@@ -548,7 +557,7 @@ public class TurnSceneController implements SceneController{
         keepEnabledOnly(importantIds);
 
         //information field text setting for this state
-        informationField.setText("Produce.");
+        informationField.appendText("\nProduce.");
 
     }
 
@@ -564,7 +573,7 @@ public class TurnSceneController implements SceneController{
         keepEnabledOnly(importantIds);
 
         //information field text setting for this state
-        informationField.setText("It's the end of your turn. Switch shelves, discard/activate leaders or finish the turn.");
+        informationField.appendText("\nIt's the end of your turn. Switch shelves, discard/activate leaders or finish the turn.");
 
     }
 
@@ -652,9 +661,9 @@ public class TurnSceneController implements SceneController{
 
     public void yourTurn(boolean yourTurn) {
         if (yourTurn)
-            informationField.setText("It's your turn! Make a move.");
+            informationField.appendText("\nIt's your turn! Make a move.");
         else
-            informationField.setText("Wait for your turn.");
+            informationField.appendText("\nWait for your turn.");
 
         confirmButton.setText("Confirm");
         disableAll(!yourTurn);
@@ -690,11 +699,25 @@ public class TurnSceneController implements SceneController{
     public void activateLeader(ActionEvent actionEvent) {
         MenuItem node = (MenuItem) actionEvent.getSource();
         int numLeader = Integer.parseInt((String) node.getUserData());
+        String cardId = getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage());
 
-        (new LeaderActivationMessage(player.getNickname(), getSceneProxy().getCardID(((ImageView) handLeaders.getChildren().get(numLeader-1)).getImage()))).send();
+        (new LeaderActivationMessage(player.getNickname(), cardId)).send();
 
         actionEvent.consume();
-        deleteLeaderMenu();
+        //deleteLeaderMenu();
+
+
+        //activating the relative extra shelf, if the leader is a slot one.
+        if(getSceneProxy().isSlotLeader(cardId))
+            if(player.getHandLeaders().size() == 0) {
+                SceneProxy.getChildById(warehousePane, "shelf5").setDisable(false);
+                System.out.println("shelf5 enabled");
+            }
+            else {
+                SceneProxy.getChildById(warehousePane, "shelf4").setDisable(false);
+                System.out.println("shelf4 enabled");
+            }
+
     }
 
     @FXML
@@ -1211,13 +1234,17 @@ public class TurnSceneController implements SceneController{
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% UPDATES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     public void updateHandLeaders(String nickname, List<String> newHandLeaders) {
+
         if(nickname.equals(player.getNickname())){
             for (int i = 0; i < handLeaders.getChildren().size(); i++) {
                 if(i < newHandLeaders.size())
                     ((ImageView) handLeaders.getChildren().get(i)).setImage(getSceneProxy().getCardImage(newHandLeaders.get(i)));
                 else
                     ((ImageView) handLeaders.getChildren().get(i)).setImage(null);
+
+                deleteLeaderMenu();
             }
+
         }
         else {
             for(Node enemyPane : enemiesBox.getChildren())
@@ -1388,8 +1415,7 @@ public class TurnSceneController implements SceneController{
                         }
                 break;
             }
-
-        informationField.setText(message + informationField.getText());
+        informationField.appendText("\n" + message + informationField.getText());
 
     }
 
@@ -1470,6 +1496,20 @@ public class TurnSceneController implements SceneController{
     public void printRetry(String errMessage) {
         JavaFXGUI.popUpWarning(errMessage);
     }
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LAST ROUND FUNCTIONS  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    public void setLastRound(boolean value) {
+        System.out.println("setting lastRound to "+value);
+        this.lastRound = value;
+    }
+
+    public void printLastRound() {
+        System.out.println("lastRound: "+lastRound);
+
+        lastRoundFlag.setVisible(true);
+    }
+
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% OTHER FUNCTIONS  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

@@ -79,6 +79,8 @@ public class Client {
             try {
                 messageFromServer = readMessage();
             } catch (DisconnectionException e) {
+                instance.getController().printGoodbyeMessage(e.getMessage());
+
                 System.err.println(e.getMessage());
                 return;
             }
@@ -101,17 +103,21 @@ public class Client {
         try {
             received = in.readLine();
         } catch (IOException e) {
-            throw new DisconnectionException("Cannot reach the server -> try to relaunch the program and connect later");
+            String msg = "Cannot reach the server -> try to relaunch the program and connect later";
+            throw new DisconnectionException(msg);
         }
 
-        if(received == null)
-                throw new DisconnectionException("Cannot reach the server -> try to relaunch the program and connect later");
+        if(received == null) {
+            String msg = "Cannot reach the server -> try to relaunch the program and connect later";
+            throw new DisconnectionException(msg);
+        }
 
         try{
             return parser.parseInStoCMessage(received);
         } catch (Exception e) {
             System.out.println("Received Wrong json syntax from server" + e.getMessage());
-            throw new DisconnectionException("The server is sending wrong messages, probably something has gone wrong, try to reconnect later");
+            String msg = "The server is sending wrong messages, probably something has gone wrong, try to reconnect later";
+            throw new DisconnectionException(msg);
         }
 
     }
@@ -120,7 +126,6 @@ public class Client {
     public synchronized boolean writeMessage(CtoSMessage msg) {
         try {
             String outMsg = parser.parseFromCtoSMessage(msg);
-            //System.out.println("You write a " + msg.getType() + ":\n" + outMsg);
             out.println(outMsg);
             return true;
         } catch (JsonSyntaxException e) {

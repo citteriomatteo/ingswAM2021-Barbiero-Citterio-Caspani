@@ -6,7 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.effect.Lighting?>
 <?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.image.Image?>
@@ -358,13 +358,13 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <MenuButton id="firstLeaderActions" fx:id="leaderActions1" layoutX="22.0" layoutY="403.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="35.0">
+            <MenuButton id="leaderActions1" fx:id="leaderActions1" layoutX="22.0" layoutY="403.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="35.0">
                <items>
                   <MenuItem id="activateLeader" mnemonicParsing="false" onAction="#activateLeader" text="Activate" userData="1" />
                   <MenuItem id="discardLeader" mnemonicParsing="false" onAction="#discardLeader" text="Discard" userData="1" />
                </items>
             </MenuButton>
-            <MenuButton id="secondLeaderActions" fx:id="leaderActions2" layoutX="133.0" layoutY="403.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="35.0">
+            <MenuButton id="leaderActions2" fx:id="leaderActions2" layoutX="133.0" layoutY="403.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="35.0">
               <items>
                   <MenuItem id="activateLeader" mnemonicParsing="false" onAction="#activateLeader" text="Activate" userData="2" />
                   <MenuItem id="discardLeader" mnemonicParsing="false" onAction="#discardLeader" text="Discard" userData="2" />
@@ -1000,7 +1000,6 @@
             </ImageView>
          </children>
       </Pane>
-      <TextField id="controlBox" fx:id="informationField" alignment="CENTER" editable="false" layoutX="883.0" layoutY="678.0" prefColumnCount="1" prefHeight="109.0" prefWidth="364.0" />
       <VBox fx:id="enemiesBox" layoutX="838.0" layoutY="40.0" prefHeight="639.0" prefWidth="436.0">
          <children>
             <Pane id="enemy1Pane" fx:id="enemy1Pane" onMouseClicked="#zoom" prefHeight="208.0" prefWidth="436.0">
@@ -2270,5 +2269,11 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
+      <ImageView id="lastRoundFlag" fx:id="lastRoundFlag" fitHeight="41.0" fitWidth="43.0" layoutX="1200.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../images/redFlag.png" />
+         </image>
+      </ImageView>
+      <TextArea id="controlBox" fx:id="informationField" layoutX="856.0" layoutY="680.0" prefHeight="102.0" prefWidth="382.0" />
    </children>
 </Pane>

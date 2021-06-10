@@ -240,6 +240,11 @@ public class ClientController
         return true;
     }
 
+    public boolean printGoodbyeMessage(String msg) {
+        view.drawGoodbyeLayout(msg);
+        return true;
+    }
+
     public boolean printDiscountMap(String nickname){
         view.printDiscountMap(match.getLightPlayer(nickname));
         return true;

@@ -37,6 +37,7 @@ public interface View extends ViewObserver {
     void drawEndTurnLayout();
     void drawEndMatchLayout();
     void drawRematchOfferLayout(String nickname);
+    void drawGoodbyeLayout(String msg);
 
     void printTokenDraw(String tokenName, int remainingTokens);
     void printLastRound();
