@@ -12,6 +12,7 @@ import it.polimi.ingsw.view.lightmodel.LightPlayer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
@@ -717,20 +718,6 @@ public class TurnSceneController implements SceneController{
         (new LeaderActivationMessage(player.getNickname(), cardId)).send();
 
         actionEvent.consume();
-        //deleteLeaderMenu();
-
-
-        //activating the relative extra shelf, if the leader is a slot one.
-        if(getSceneProxy().isSlotLeader(cardId))
-            if(player.getHandLeaders().size() == 0) {
-                SceneProxy.getChildById(warehousePane, "shelf5").setDisable(false);
-                System.out.println("shelf5 enabled");
-            }
-            else {
-                SceneProxy.getChildById(warehousePane, "shelf4").setDisable(false);
-                System.out.println("shelf4 enabled");
-            }
-
     }
 
     @FXML
@@ -1141,6 +1128,7 @@ public class TurnSceneController implements SceneController{
     public void dropResourceWarehouse(DragEvent dragEvent) {
         boolean success;
         ImageView selectedPlace = (ImageView)dragEvent.getSource();
+        System.out.println("selected place: "+ selectedPlace);
         Image draggedImage = dragEvent.getDragboard().getImage();
         if(selectedPlace.getImage() == null) {
             success = true;
@@ -1274,6 +1262,21 @@ public class TurnSceneController implements SceneController{
     public void updateActiveLeaders(String nickname, List<String> newActiveLeaders) {
         if(nickname.equals(player.getNickname())){
             setActiveLeadersImages(newActiveLeaders, activeLeaders);
+
+            //trying to enable extra shelves here instead of enabling it on the activateLeader() method.
+            boolean firstSlotActivated = false;
+            for(String cardId : newActiveLeaders)
+                if(getSceneProxy().isSlotLeader(cardId))
+                    if(!firstSlotActivated) {
+                        System.out.println("shelf4 activated");
+                        firstSlotActivated = true;
+                        SceneProxy.getChildById(warehousePane, "shelf4").setDisable(false);
+                    }
+                    else {
+                        System.out.println("shelf5 activated");
+                        SceneProxy.getChildById(warehousePane, "shelf5").setDisable(false);
+                    }
+
         }
         else {
             for(Node enemyPane : enemiesBox.getChildren())

@@ -424,16 +424,16 @@
                         </ImageView>
                      </children>
                   </HBox>
-                  <HBox id="shelf5" disable="true" layoutX="92.00000381469727" layoutY="3.0" prefHeight="22.0" prefWidth="55.0" spacing="12.0" visible="false">
-                     <children>
-                        <ImageView id="firstRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView id="secondRes" fitHeight="16.0" fitWidth="21.0" onDragDetected="#dragResource" onDragDone="#dragDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true" />
-                     </children>
-                  </HBox>
-                  <HBox id="shelf4" disable="true" prefHeight="24.0" prefWidth="55.0" spacing="12.0" visible="false">
+                  <HBox id="shelf4" disable="true" prefHeight="24.0" prefWidth="55.0" spacing="12.0">
                      <children>
                         <ImageView id="firstRes" fitHeight="19.0" fitWidth="20.0" onDragDetected="#dragResource" onDragDone="#dragDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true" />
                         <ImageView id="secondRes" fitHeight="19.0" fitWidth="20.0" onDragDetected="#dragResource" onDragDone="#dragDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </HBox>
+                  <HBox id="shelf5" disable="true" layoutX="92.00000381469727" layoutY="3.0" prefHeight="22.0" prefWidth="55.0" spacing="12.0">
+                     <children>
+                        <ImageView id="firstRes" fitHeight="16.0" fitWidth="18.0" onDragDetected="#dragResource" onDragDone="#dragDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="secondRes" fitHeight="16.0" fitWidth="21.0" onDragDetected="#dragResource" onDragDone="#dragDone" onDragDropped="#dropResourceWarehouse" onDragOver="#acceptDrop" onMouseClicked="#switchShelf" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </HBox>
                </children>
