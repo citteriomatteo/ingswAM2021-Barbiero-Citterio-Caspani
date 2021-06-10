@@ -31,6 +31,7 @@ import static it.polimi.ingsw.view.GUI.SceneProxy.getSceneProxy;
 
 public class TurnSceneController implements SceneController{
     private static final int ENLARGEMENT_CARD = 5;
+    private static final int ZOOM_CARD = 25;
 
     public Pane basePane;
     public ImageView lastRoundFlag;
@@ -569,7 +570,7 @@ public class TurnSceneController implements SceneController{
         endProductionPhase();
 
         //ids of the elements to keep enabled
-        List<String> importantIds = new ArrayList<>(List.of("warehousePane", "firstLeaderActions", "secondLeaderActions"));
+        List<String> importantIds = new ArrayList<>(List.of("warehousePane", "LeaderActions1", "LeaderActions2"));
 
         keepEnabledOnly(importantIds);
 
@@ -670,10 +671,10 @@ public class TurnSceneController implements SceneController{
             produce(mouseEvent);
     }
 
-
 //%%%%%%%%%%%%%%%%%%%%%%%%%  START / END TURN FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     public void yourTurn(boolean yourTurn) {
+        informationField.clear();
         if (yourTurn)
             informationField.appendText("\nIt's your turn! Make a move.");
         else
@@ -867,6 +868,24 @@ public class TurnSceneController implements SceneController{
         dragEvent.consume();
     }
 
+    @FXML
+    public void zoomInCard(MouseEvent mouseEvent) {
+        ImageView imageView = (ImageView) mouseEvent.getSource();
+        imageView.setFitWidth(imageView.getFitWidth() + ZOOM_CARD);
+        imageView.setFitHeight(imageView.getFitHeight() + ZOOM_CARD);
+        imageView.toFront();
+
+        mouseEvent.consume();
+    }
+
+    @FXML
+    public void zoomOutCard(MouseEvent mouseEvent) {
+        ImageView imageView = (ImageView) mouseEvent.getSource();
+        imageView.setFitWidth(imageView.getFitWidth() - ZOOM_CARD);
+        imageView.setFitHeight(imageView.getFitHeight() - ZOOM_CARD);
+
+        mouseEvent.consume();
+    }
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PRODUCTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1431,7 +1450,7 @@ public class TurnSceneController implements SceneController{
                         }
                 break;
             }
-        informationField.appendText("\n" + message + informationField.getText());
+        informationField.appendText("\n" + message);
 
     }
 

@@ -257,13 +257,13 @@
                   <ImageView id="thirdRes" fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </HBox>
-            <HBox id="shelf4" disable="true" layoutX="281.0" layoutY="351.0" opacity="0.0" prefHeight="20.0" prefWidth="50.0" spacing="10.0">
+            <HBox id="shelf4" layoutX="281.0" layoutY="351.0" prefHeight="20.0" prefWidth="50.0" spacing="10.0">
                <children>
                   <ImageView id="firstRes" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView id="secondRes" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </HBox>
-            <HBox id="shelf5" disable="true" layoutX="372.0" layoutY="353.0" opacity="0.0" prefHeight="20.0" prefWidth="50.0" spacing="10.0">
+            <HBox id="shelf5" layoutX="372.0" layoutY="353.0" prefHeight="20.0" prefWidth="50.0" spacing="10.0">
                <children>
                   <ImageView id="firstRes" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView id="secondRes" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />

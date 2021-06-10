@@ -894,7 +894,7 @@
             </StackPane>
          </children>
       </GridPane>
-      <ImageView id="tempDevCard" fx:id="tempDevCard" fitHeight="120.0" fitWidth="100.0" layoutX="762.0" layoutY="100.0" onDragDetected="#dragCard" onDragDone="#dragDone" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView id="tempDevCard" fx:id="tempDevCard" fitHeight="120.0" fitWidth="100.0" layoutX="762.0" layoutY="100.0" onDragDetected="#dragCard" onDragDone="#dragDone" onMouseEntered="#zoomInCard" onMouseExited="#zoomOutCard" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../images/developmentCards/back/purple2.png" />
          </image>
@@ -1251,13 +1251,13 @@
                               <ImageView id="thirdRes" fitHeight="11.0" fitWidth="11.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </HBox>
-                        <HBox id="shelf4" disable="true" layoutX="322.0" layoutY="8.0" opacity="0.0" prefHeight="8.0" prefWidth="17.0" spacing="2.0">
+                        <HBox id="shelf4" layoutX="322.0" layoutY="8.0" prefHeight="8.0" prefWidth="17.0" spacing="2.0">
                            <children>
                               <ImageView id="firstRes" fitHeight="9.0" fitWidth="8.0" pickOnBounds="true" preserveRatio="true" />
                               <ImageView id="secondRes" fitHeight="10.0" fitWidth="8.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </HBox>
-                        <HBox id="shelf5" disable="true" layoutX="348.0" layoutY="8.0" opacity="0.0" prefHeight="8.0" prefWidth="17.0" spacing="2.0">
+                        <HBox id="shelf5" layoutX="348.0" layoutY="8.0" prefHeight="8.0" prefWidth="17.0" spacing="2.0">
                            <children>
                               <ImageView id="firstRes" fitHeight="9.0" fitWidth="8.0" pickOnBounds="true" preserveRatio="true" />
                               <ImageView id="secondRes" fitHeight="10.0" fitWidth="8.0" pickOnBounds="true" preserveRatio="true" />
@@ -1583,13 +1583,13 @@
                               <ImageView id="thirdRes" fitHeight="11.0" fitWidth="9.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </HBox>
-                        <HBox id="shelf4" disable="true" layoutX="321.0" layoutY="6.0" opacity="0.0" prefHeight="8.0" prefWidth="17.0" spacing="2.0">
+                        <HBox id="shelf4" layoutX="321.0" layoutY="6.0" prefHeight="8.0" prefWidth="17.0" spacing="2.0">
                            <children>
                               <ImageView id="firstRes" fitHeight="9.0" fitWidth="8.0" pickOnBounds="true" preserveRatio="true" />
                               <ImageView id="secondRes" fitHeight="10.0" fitWidth="8.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </HBox>
-                        <HBox id="shelf5" disable="true" layoutX="347.0" layoutY="6.0" opacity="0.0" prefHeight="5.0" prefWidth="18.0" spacing="2.0">
+                        <HBox id="shelf5" layoutX="347.0" layoutY="6.0" prefHeight="5.0" prefWidth="18.0" spacing="2.0">
                            <children>
                               <ImageView id="firstRes" fitHeight="9.0" fitWidth="8.0" pickOnBounds="true" preserveRatio="true" />
                               <ImageView id="secondRes" fitHeight="10.0" fitWidth="8.0" pickOnBounds="true" preserveRatio="true" />
@@ -1916,13 +1916,13 @@
                               <ImageView id="thirdRes" fitHeight="11.0" fitWidth="9.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </HBox>
-                        <HBox id="shelf4" disable="true" layoutX="318.0" layoutY="5.0" opacity="0.0" prefHeight="8.0" prefWidth="17.0" spacing="2.0">
+                        <HBox id="shelf4" layoutX="318.0" layoutY="5.0" prefHeight="8.0" prefWidth="17.0" spacing="2.0">
                            <children>
                               <ImageView id="firstRes" fitHeight="9.0" fitWidth="8.0" pickOnBounds="true" preserveRatio="true" />
                               <ImageView id="secondRes" fitHeight="10.0" fitWidth="8.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </HBox>
-                        <HBox id="shelf5" disable="true" layoutX="345.0" layoutY="6.0" opacity="0.0" prefHeight="5.0" prefWidth="18.0" spacing="2.0">
+                        <HBox id="shelf5" layoutX="345.0" layoutY="6.0" prefHeight="5.0" prefWidth="18.0" spacing="2.0">
                            <children>
                               <ImageView id="firstRes" fitHeight="9.0" fitWidth="8.0" pickOnBounds="true" preserveRatio="true" />
                               <ImageView id="secondRes" fitHeight="10.0" fitWidth="8.0" pickOnBounds="true" preserveRatio="true" />
@@ -2067,7 +2067,7 @@
             </VBox>
          </children>
       </Pane>
-      <Pane id="lorenzoPane" fx:id="lorenzoPane" layoutX="883.0" layoutY="17.0" prefHeight="331.0" prefWidth="374.0" visible="false">
+      <Pane id="lorenzoPane" fx:id="lorenzoPane" layoutX="870.0" layoutY="25.0" prefHeight="331.0" prefWidth="374.0" visible="false">
          <children>
             <ImageView fitHeight="337.0" fitWidth="374.0" layoutY="-2.0" pickOnBounds="true">
                <image>
@@ -2274,6 +2274,6 @@
             <Image url="@../images/redFlag.png" />
          </image>
       </ImageView>
-      <TextArea id="controlBox" fx:id="informationField" layoutX="856.0" layoutY="680.0" prefHeight="102.0" prefWidth="382.0" />
+      <TextArea id="controlBox" fx:id="informationField" layoutX="856.0" layoutY="680.0" prefHeight="102.0" prefWidth="382.0" scrollTop="10.0" wrapText="true" />
    </children>
 </Pane>
