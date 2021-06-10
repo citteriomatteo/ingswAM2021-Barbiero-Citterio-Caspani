@@ -242,6 +242,9 @@ public class LightMatch extends ViewObservable {
     }
 
     public int numWhiteDrawn(boolean row, int num){
+
+        num--;
+
         int numWhiteDrawn = 0;
 
         if(sideMarble == 'w')

@@ -617,42 +617,55 @@ public class TurnSceneController implements SceneController{
     public void useLeader(MouseEvent mouseEvent) {
         if(getClientController().getCurrentState().equals(StateName.MARKET_ACTION)){
             int numWhiteDrawn = match.numWhiteDrawn(row, numMarket);
+            System.out.println("num white to draw: " + numWhiteDrawn);
             Node leader = (Node) mouseEvent.getSource();
             int numConverted = Integer.parseInt(countWhite1.getText().substring(1)) + Integer.parseInt(countWhite2.getText().substring(1));
 
             String leaderId = getSceneProxy().getCardID(((ImageView) mouseEvent.getSource()).getImage());
 
            if(Integer.parseInt((String) leader.getUserData()) == 1){
-               countWhite1.setText("x" + (Integer.parseInt(countWhite1.getText().substring(1))+1));
-               whiteConversions.add(new PhysicalResource(getWhiteConversion(leaderId), 1));
-               if(numConverted == numWhiteDrawn){
-                   for (PhysicalResource conversion : whiteConversions){
-                       if(!conversion.getType().equals(getWhiteConversion(leaderId)))
-                           whiteConversions.remove(conversion);
-                       break;
-                   }
+               System.out.println("1st leader click:");
+                if(Integer.parseInt(countWhite1.getText().substring(1)) < numWhiteDrawn) {
+                    System.out.println("incrementing 1st label");
+                    countWhite1.setText("x" + (Integer.parseInt(countWhite1.getText().substring(1)) + 1));
+                    whiteConversions.add(new PhysicalResource(getWhiteConversion(leaderId), 1));
+                }
 
-                   countWhite2.setText("x" + (Integer.parseInt(countWhite1.getText().substring(1))-1));
+               if(numConverted == numWhiteDrawn && Integer.parseInt(countWhite2.getText().substring(1)) > 0) {
+                   for (PhysicalResource conversion : whiteConversions)
+                       if(!conversion.getType().equals(getWhiteConversion(leaderId))) {
+                           System.out.println("removing resource");
+                           whiteConversions.remove(conversion);
+                           break;
+                       }
+                   System.out.println("decrementing 2nd label");
+                   countWhite2.setText("x" + (Integer.parseInt(countWhite2.getText().substring(1))-1));
                }
 
            }
            else {
-               countWhite2.setText("x" + (Integer.parseInt(countWhite2.getText().substring(1))+1));
-               whiteConversions.add(new PhysicalResource(getWhiteConversion(leaderId), 1));
-               if(numConverted == numWhiteDrawn){
-                   for (PhysicalResource conversion : whiteConversions){
-                       if(!conversion.getType().equals(getWhiteConversion(leaderId)))
-                           whiteConversions.remove(conversion);
-                       break;
-                   }
+               System.out.println("2nd leader click:");
+               if(Integer.parseInt(countWhite2.getText().substring(1)) < numWhiteDrawn) {
+                   System.out.println("incrementing 2nd label");
+                   countWhite2.setText("x" + (Integer.parseInt(countWhite2.getText().substring(1)) + 1));
+                   whiteConversions.add(new PhysicalResource(getWhiteConversion(leaderId), 1));
+               }
 
+               if(numConverted == numWhiteDrawn && Integer.parseInt(countWhite1.getText().substring(1)) > 0) {
+                   for (PhysicalResource conversion : whiteConversions)
+                       if(!conversion.getType().equals(getWhiteConversion(leaderId))) {
+                           System.out.println("removing resource");
+                           whiteConversions.remove(conversion);
+                           break;
+                       }
+                   System.out.println("decrementing 1st label");
                    countWhite1.setText("x" + (Integer.parseInt(countWhite1.getText().substring(1))-1));
                }
            }
 
            message = new WhiteMarblesConversionMessage(player.getNickname(), whiteConversions);
         }
-        else
+        else //todo: check if the type of the clicked leader is production or not
             produce(mouseEvent);
     }
 
