@@ -974,7 +974,8 @@ public class TurnSceneController implements SceneController{
                 if(cardsToProduce.get(i).startsWith("L"))
                     numUofLeaders += 1;
             }
-            uEarnings.remove(numUofLeaders);
+            if(uEarnings.size() != 0)
+                uEarnings.remove(numUofLeaders);
         }
         else {
             cardsToProduce.add("BASICPROD");
@@ -1225,7 +1226,7 @@ public class TurnSceneController implements SceneController{
     @FXML
     public void dropResourcePayments(DragEvent dragEvent) {
         boolean success;
-        int numRes = 0;
+        int numRes;
         ImageView selectedPlace = (ImageView)dragEvent.getSource();
         if(selectedPlace.getParent().isVisible()) {
             success = true;
@@ -1249,10 +1250,14 @@ public class TurnSceneController implements SceneController{
                     paymentsFromWarehouse.put(numShelf, new PhysicalResource(temporaryRes, 1));
             }
             else if(((Node) dragEvent.getGestureSource()).getParent().getParent().equals(strongBox)) {
-                PhysicalResource resourceToPay = new PhysicalResource(temporaryRes, numRes);
+                PhysicalResource resourceToPay = new PhysicalResource(temporaryRes, 1);
                 int indexOfResourceToPay = paymentsFromStrongbox.indexOf(resourceToPay);
-                if(indexOfResourceToPay != -1)
+                if(indexOfResourceToPay != -1) {
+                    int oldQuantity = paymentsFromStrongbox.get(indexOfResourceToPay).getQuantity();
                     paymentsFromStrongbox.remove(resourceToPay);
+                    resourceToPay = new PhysicalResource(temporaryRes,  oldQuantity+ 1);
+                }
+
                 paymentsFromStrongbox.add(resourceToPay);
             }
 

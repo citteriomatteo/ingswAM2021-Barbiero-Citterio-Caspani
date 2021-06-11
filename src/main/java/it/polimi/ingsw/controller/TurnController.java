@@ -327,8 +327,10 @@ public class TurnController {
         payments.addAll(warehouseCosts.values());
 
         int quantity;
-        for(int i= 0; i< payments.size(); i++)
-            for(int j=i+1; j<payments.size(); j++)
+        int i=0;
+        boolean isDouble = false;
+        while (i < payments.size()){
+            for (int j = i+1; j < payments.size(); j++){
                 if (payments.get(i).equals(payments.get(j))) {
                     PhysicalResource r = payments.get(i);
                     PhysicalResource r1 = payments.get(j);
@@ -336,8 +338,14 @@ public class TurnController {
                     payments.remove(r);
                     payments.remove(r1);
                     payments.add(new PhysicalResource(r.getType(), quantity));
-
+                    isDouble = true;
                 }
+            }
+            if(!isDouble)
+                i++;
+
+            isDouble = false;
+        }
 
         Map<ResType, Integer> discounts = currentPlayer.getPersonalBoard().getDiscountMap().getDiscountMap();
 
