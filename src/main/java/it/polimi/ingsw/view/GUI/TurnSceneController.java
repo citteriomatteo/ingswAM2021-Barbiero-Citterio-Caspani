@@ -27,6 +27,9 @@ import static it.polimi.ingsw.view.ClientController.getClientController;
 import static it.polimi.ingsw.view.GUI.SceneProxy.getChildById;
 import static it.polimi.ingsw.view.GUI.SceneProxy.getSceneProxy;
 
+/**
+ * A scene controller used for communicating with the gameScene
+ */
 public class TurnSceneController implements SceneController{
     private static final int ENLARGEMENT_CARD = 5;
     private static final int ZOOM_CARD = 25;
@@ -90,6 +93,10 @@ public class TurnSceneController implements SceneController{
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CONSTRUCTOR %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+    /**
+     * Creates an instance and links it to the {@link SceneProxy}.
+     * Initialize all the temporary variables
+     */
     public TurnSceneController() {
         getSceneProxy().setTurnSceneController(this);
         match = getClientController().getMatch();
@@ -101,6 +108,9 @@ public class TurnSceneController implements SceneController{
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%% UTILITY FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+    /**
+     * Brings all the variables useful for inter-state operations inside this to their init values
+     */
     private void initializeTemporaryVariables(){
         lastRound = false;
         temporaryRes = null;
@@ -118,7 +128,9 @@ public class TurnSceneController implements SceneController{
     }
 
     /**
-     * Restore all the graphic contents to the values saved in the lightMatch, it doesn't affect current state
+     * Restore all the graphic contents to the values saved in the lightMatch,
+     * erase the current temporary message and initialize the temporary variables.
+     * It doesn't affect current state
      */
     @FXML
     public void refreshAll(){
@@ -151,6 +163,11 @@ public class TurnSceneController implements SceneController{
         initializeTemporaryVariables();
     }
 
+    /**
+     * Changes the visualization of the player nickname inside the pane watching if it is connected or disconnected
+     * @param connected the connection state of the player
+     * @param playerPane the pane that represents the player board of the interested player
+     */
     private void showConnectionState(boolean connected, Pane playerPane){
         Label label = (Label) SceneProxy.getChildById(playerPane, "nicknameLabel");
         if (connected) {
@@ -172,6 +189,11 @@ public class TurnSceneController implements SceneController{
         return warehousePane.getChildren().indexOf(clicked.getParent())+1;
     }
 
+    /**
+     * Synchronizes the graphic content of the player pane with the data stored in the {@link LightPlayer}
+     * @param player the playerPane's owner
+     * @param playerPane the Pane that represents the player board of the player passed
+     */
     static public void populatePlayerPane(LightPlayer player, Pane playerPane){
         List<Integer> popeTiles = player.getPopeTiles();
         for(Node n : playerPane.getChildren())
@@ -232,6 +254,11 @@ public class TurnSceneController implements SceneController{
         }
     }
 
+    /**
+     * Sets the correct images for active leaders if they are present, empties the imageView otherwise
+     * @param newActiveLeaders the list of ids that represents the active leaders
+     * @param activeLeaders the graphic object that shows the leaders
+     */
     static public void setActiveLeadersImages(List<String> newActiveLeaders, HBox activeLeaders) {
         if(newActiveLeaders.size()==2 && !getSceneProxy().isSlotLeader(newActiveLeaders.get(0)) && getSceneProxy().isSlotLeader(newActiveLeaders.get(1)))
             Collections.swap(newActiveLeaders, 0, 1);
@@ -262,7 +289,7 @@ public class TurnSceneController implements SceneController{
     }
 
     /**
-     * Sets the correct images for the devCardSlots, if a card is present sets its image otherwise set null that image
+     * Sets the correct images for the devCardSlots, if a card is present sets its image, otherwise sets null that image
      * @param devCardSlots the array of columns that occupies the devCardSlots, the values inside the lists are the ids of the cards
      * @param devCardHBox the graphic object that shows the devCardSlots
      */
@@ -285,6 +312,11 @@ public class TurnSceneController implements SceneController{
         }
     }
 
+    /**
+     * Places the right images on the right slot of the warehousePane
+     * @param warehouse the values of the effective warehouse
+     * @param warehousePane the graphic object that represents the warehouse
+     */
     static public void populateWarehouse(List<PhysicalResource> warehouse, Pane warehousePane) {
         for (int i = 0; i < warehouse.size(); i++) {
             PhysicalResource resShelf = warehouse.get(i);
@@ -295,6 +327,11 @@ public class TurnSceneController implements SceneController{
         }
     }
 
+    /**
+     * Writes the right number of resource for every type inside the labels of the strongboxVbox
+     * @param newStrongbox the values of the effective strongbox
+     * @param strongboxVbox the graphic object that represents the strongbox
+     */
     static public void populateStrongbox(List<PhysicalResource> newStrongbox, VBox strongboxVbox) {
         for (PhysicalResource resource : newStrongbox) {
             for (Node n : strongboxVbox.getChildren()) {
@@ -305,6 +342,13 @@ public class TurnSceneController implements SceneController{
         }
     }
 
+    /**
+     * Places the right images for the pope tiles inside the interestedPane, this could be myPane or an enemy pane
+     * @param popeTiles the values of the effective popeTiles (0 -> the tile is absent
+     *                                                         1 -> the tile is upside
+     *                                                         2 -> the tile is downside)
+     * @param interestedPane the graphic object that contains a playerBoard
+     */
     static public void populatePopeTiles(List<Integer> popeTiles, Pane interestedPane) {
         for(Node n : interestedPane.getChildren())
             if(n.getId()!= null)
@@ -321,6 +365,14 @@ public class TurnSceneController implements SceneController{
                 }
     }
 
+    /**
+     * Places the right image for the popeTileView passed
+     * @param order the order of the pope tile, from the start of the faith path (the first has order 1)
+     * @param value the value of the effective popeTile (0 -> the tile is absent
+     *                                                   1 -> the tile is upside
+     *                                                   2 -> the tile is downside)
+     * @param popeTileView the graphic object that contains a popeTile image
+     */
     static public void setPopeTileImage(int order, int value, ImageView popeTileView){
         Image tile;
         if(value == 1) //tile is upside
@@ -340,6 +392,11 @@ public class TurnSceneController implements SceneController{
         confirmButton.setText("End turn");
     }
 
+    /**
+     * Resets the situation if the payments has gone wrong or are finished ->
+     * recharges the warehouse and strongbox watching the one saved on the lightPlayer
+     * and restore the payments pane to his starting situation
+     */
     public void resetPayments() {
         VBox resourcesVBox = (VBox) paymentsPane.getChildren().get(1);
         for(Node n : resourcesVBox.getChildren()){
@@ -352,8 +409,8 @@ public class TurnSceneController implements SceneController{
     }
 
     /**
-     * Reset the situation if the placement of a card has gone wrong ->
-     * recharge the devCardSlots watching the one saved on the lightPlayer and eventually restore the tempDevCard
+     * Resets the situation if the placement of a card has gone wrong ->
+     * recharges the devCardSlots watching the one saved on the lightPlayer and eventually restore the tempDevCard
      */
     public void resetPlacement(){
         populateDevCardSlots(player.getDevCardSlots(), devCardSlots);
@@ -361,6 +418,11 @@ public class TurnSceneController implements SceneController{
             tempDevCard.setImage(getSceneProxy().getCardImage(player.getTempDevCard()));
     }
 
+    /**
+     * Returns the type of resource the passed leader can convert the white marble to
+     * @param leaderId the id of the leader you want to know the power conversion
+     * @return the type of resource the passed leader can convert the white marble to or null if the leader isn't a WhiteMarbleLeader
+     */
     private ResType getWhiteConversion(String leaderId){
         ResType conversion = null;
         switch (leaderId) {
@@ -384,6 +446,7 @@ public class TurnSceneController implements SceneController{
 
 //%%%%%%%%%%%%%%%%%%%%%% ONE TIME FUNCTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+    //todo: javadoc
     public void loadStartingMatch() {
         List<LightPlayer> enemies = new ArrayList<>(match.getLightPlayers());
         enemies.remove(player);
@@ -457,6 +520,7 @@ public class TurnSceneController implements SceneController{
 
 
 //%%%%%%%%%%%%%%%%%%%%%% DISABLE FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//todo: all JavaDoc Disable
 
     public void disableAll(boolean value) {
         marketPane.setDisable(value);
@@ -700,6 +764,10 @@ public class TurnSceneController implements SceneController{
         //todo: when the turn starts i can also activate a production
     }
 
+    /**
+     * When called two times, sends a SwitchShelfMessage asking for a switch between the two sources that has called this method
+     * @param mouseEvent the event that triggered this method
+     */
     @FXML
     public void switchShelf(MouseEvent mouseEvent) {
         ImageView clicked = (ImageView) mouseEvent.getSource();
@@ -754,14 +822,17 @@ public class TurnSceneController implements SceneController{
         actionEvent.consume();
     }
 
+    /**
+     * Sets invisible and disabled the leaderAction menu if there is no more a leader in that position
+     */
     private void deleteLeaderMenu(){
-        if(player.getHandLeaders().size() == 0){
-            leaderActions1.setDisable(true);
-            leaderActions1.setVisible(false);
-        }
-        else if(player.getHandLeaders().size() == 1){
+        if(player.getHandLeaders().size() <= 1){
             leaderActions2.setDisable(true);
             leaderActions2.setVisible(false);
+            if(player.getHandLeaders().size() == 0){
+                leaderActions1.setDisable(true);
+                leaderActions1.setVisible(false);
+            }
         }
     }
 
@@ -806,6 +877,11 @@ public class TurnSceneController implements SceneController{
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%% DEV CARD BUY %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+    /**
+     * Enlarges the clicked card and sets a temporary message {@link DevCardDrawMessage} for the selected card
+     * If you had previously clicked on another card changes the message and the visualization of the previous and the new clicked card
+     * @param mouseEvent the event that triggered this method
+     */
     @FXML
     public void drawDevCard(MouseEvent mouseEvent) {
         ImageView card = (ImageView) mouseEvent.getSource();
@@ -834,6 +910,10 @@ public class TurnSceneController implements SceneController{
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DEV CARD PLACEMENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+    /**
+     * Starts the drag and drop sequence from the tempDevCard
+     * @param mouseEvent the event that triggered this method
+     */
     @FXML
     public void dragCard(MouseEvent mouseEvent) {
         Dragboard db = tempDevCard.startDragAndDrop(TransferMode.MOVE);
@@ -845,6 +925,11 @@ public class TurnSceneController implements SceneController{
         mouseEvent.consume();
     }
 
+    /**
+     * If you can drop the card here({@link DragEvent#getSource()}) sets a temporary message {@link DevCardPlacementMessage} with the relative column.
+     * It doesn't control if you can place effectively the card but only if there is still space in the stack
+     * @param dragEvent the event that triggered this method
+     */
     @FXML
     public void dropCard(DragEvent dragEvent) {
         boolean success;
@@ -876,6 +961,10 @@ public class TurnSceneController implements SceneController{
         return -1;
     }
 
+    /**
+     * If the drag and drop sequence starts from the TempDevCard, accept the drop
+     * @param dragEvent the event that triggered this method
+     */
     @FXML
     public void acceptCardDrop(DragEvent dragEvent) {
         Node gestureSource = (Node)dragEvent.getGestureSource();
@@ -885,6 +974,10 @@ public class TurnSceneController implements SceneController{
         dragEvent.consume();
     }
 
+    /**
+     * Enlarges the dimensions of the ImageView source
+     * @param mouseEvent the event that triggered this method
+     */
     @FXML
     public void zoomInCard(MouseEvent mouseEvent) {
         ImageView imageView = (ImageView) mouseEvent.getSource();
@@ -895,6 +988,10 @@ public class TurnSceneController implements SceneController{
         mouseEvent.consume();
     }
 
+    /**
+     * Reduce the dimensions of the ImageView source
+     * @param mouseEvent the event that triggered this method
+     */
     @FXML
     public void zoomOutCard(MouseEvent mouseEvent) {
         ImageView imageView = (ImageView) mouseEvent.getSource();
@@ -1345,6 +1442,11 @@ public class TurnSceneController implements SceneController{
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% UPDATES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+    /**
+     * Updates the graphic visualization of the hand leaders for the relative player to the new passed value
+     * @param nickname the player whom the update is faced to
+     * @param newHandLeaders the new value
+     */
     public void updateHandLeaders(String nickname, List<String> newHandLeaders) {
 
         if(nickname.equals(player.getNickname())){
@@ -1370,6 +1472,11 @@ public class TurnSceneController implements SceneController{
         }
     }
 
+    /**
+     * Updates the graphic visualization of the active leaders for the relative player to the new passed value
+     * @param nickname the player whom the update is faced to
+     * @param newActiveLeaders the new value
+     */
     public void updateActiveLeaders(String nickname, List<String> newActiveLeaders) {
         if(nickname.equals(player.getNickname())){
             setActiveLeadersImages(newActiveLeaders, activeLeaders);
@@ -1418,6 +1525,11 @@ public class TurnSceneController implements SceneController{
 
     }
 
+    /**
+     * Updates the graphic visualization of the market buffer for the relative player to the new passed value
+     * @param nickname the player whom the update is faced to
+     * @param marketBuffer the new value
+     */
     public void updateMarketBuffer(String nickname, List<PhysicalResource> marketBuffer) {
 
         if(nickname.equals(player.getNickname()))
@@ -1436,6 +1548,11 @@ public class TurnSceneController implements SceneController{
         message = new WarehouseInsertionMessage(player.getNickname(), List.of(new PhysicalResource(ResType.UNKNOWN, 0)));
     }
 
+    /**
+     * Updates the graphic visualization of the warehouse for the relative player to the new passed value
+     * @param nickname the player whom the update is faced to
+     * @param warehouse the new value
+     */
     public void updateWarehouse(String nickname, List<PhysicalResource> warehouse) {
         if(nickname.equals(player.getNickname())){
             for (Node box : warehousePane.getChildren()){
@@ -1465,6 +1582,11 @@ public class TurnSceneController implements SceneController{
             updateMarketBuffer(nickname, player.getMarketBuffer());
     }
 
+    /**
+     * Updates the graphic visualization of the faith marker for the relative player to the new passed value
+     * @param nickname the player whom the update is faced to
+     * @param faithMarker the new value
+     */
     public void updateFaithMarker(String nickname, int faithMarker) {
 
         if(nickname.equals("Lorenzo the Magnificent"))
@@ -1490,6 +1612,11 @@ public class TurnSceneController implements SceneController{
 
     }
 
+    /**
+     * Updates the graphic visualization of the popeTiles for the relative player to the new passed value
+     * @param nickname the player whom the update is faced to
+     * @param popeTiles the new value
+     */
     public void updatePopeTiles(String nickname, List<Integer> popeTiles) {
         Pane interestedBoard = null;
 
@@ -1505,6 +1632,11 @@ public class TurnSceneController implements SceneController{
 
     }
 
+    /**
+     * Updates the graphic visualization of the strongbox for the relative player to the new passed value
+     * @param nickname the player whom the update is faced to
+     * @param newStrongbox the new value
+     */
     public void updateStrongBox(String nickname, List<PhysicalResource> newStrongbox) {
         if(nickname.equals(player.getNickname()))
             populateStrongbox(newStrongbox, strongBox);
@@ -1522,6 +1654,11 @@ public class TurnSceneController implements SceneController{
         }
     }
 
+    /**
+     * Updates the graphic visualization of the connection state for the relative player to the new passed value
+     * @param nickname the player whom the update is faced to
+     * @param connected true if the player is connected, false if it is disconnected
+     */
     public void updateDisconnections(String nickname, boolean connected) {
         String message = null;
 
@@ -1601,6 +1738,11 @@ public class TurnSceneController implements SceneController{
         tempDevCard.setImage(getSceneProxy().getCardImage(card));
     }
 
+    /**
+     * Updates the graphic visualization of the DevCardSlots for the relative player to the new passed value
+     * @param nickname the player whom the update is faced to
+     * @param devCardSlots the new value
+     */
     public void updateDevCardSlots(String nickname, List<String>[] devCardSlots){
         HBox devCardHBox;
         Pane playerPane;
@@ -1628,13 +1770,10 @@ public class TurnSceneController implements SceneController{
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LAST ROUND FUNCTIONS  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     public void setLastRound(boolean value) {
-        System.out.println("setting lastRound to "+value);
         this.lastRound = value;
     }
 
     public void printLastRound() {
-        System.out.println("lastRound: "+lastRound);
-
         lastRoundFlag.setVisible(true);
     }
 
@@ -1669,6 +1808,10 @@ public class TurnSceneController implements SceneController{
         initializeTemporaryVariables();
     }
 
+    /**
+     * Controls the state on the {@link it.polimi.ingsw.view.ClientController} and returns true if it is the end of the turn
+     * @return true if it is the end of the turn
+     */
     private boolean endTurn(){
         return getClientController().getCurrentState().equals(StateName.END_TURN);
     }

@@ -36,8 +36,16 @@ public class Client {
     private BufferedReader in;
     private AtomicBoolean play;
 
+    /**
+     * Private constructor of the Client, since it is a singleton no one should create an instance of this class.
+     * This constructor doesn't set any parameter
+     */
     private Client(){ }
 
+    /**
+     * Gets the instance of the Client singleton
+     * @return he instance of the Client singleton
+     */
     public static Client getClient(){
         return instance;
     }
@@ -181,10 +189,18 @@ public class Client {
         }catch (IOException ignored) { /*this exception is thrown when trying to close an already closed stream */}
     }
 
+    /**
+     * Returns the clientController singleton, you can also get it calling {@link ClientController#getClientController()}
+     * @return the clientController instance
+     */
     public ClientController getController() {
         return controller;
     }
 
+    /**
+     * Returns the nickname associated to this client if there is already a nickname, otherwise returns null
+     * @return the nickname associated to this client or null if this client hasn't a nickname yet
+     */
     public String getNickname(){
         return controller == null ? null : controller.getNickname();
     }

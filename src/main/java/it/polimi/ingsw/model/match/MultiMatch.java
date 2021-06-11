@@ -133,7 +133,7 @@ public class MultiMatch extends Match {
 
     /**
      * This method finish the turn and change the currentPlayer
-     * @return true if it worked
+     * @return true if it worked //todo: correct JavaDoc
      */
     @Override
     public StateName nextTurn(){
