@@ -277,8 +277,10 @@ public class TurnSceneController implements SceneController{
                 imageview = (ImageView) cardColumnStack.getChildren().get(j);
                 if(j<cardColumn.size())
                     imageview.setImage(getSceneProxy().getCardImage(cardColumn.get(j)));
-                else
+                else {
                     imageview.setImage(null);
+                    imageview.setDisable(true);
+                }
             }
         }
     }
@@ -940,9 +942,30 @@ public class TurnSceneController implements SceneController{
             }
             else{
                 imageViewCard.setEffect(null);
-                int numInArray = cardsToProduce.indexOf(selectedCard);
+                int numInArray = cardsToProduce.indexOf(selectedCard) + 1;
+
+//                Resource uEarning = uEarnings.get(numInArray);
+//                uEarnings.remove(numInArray);
+//                if(uEarning.getQuantity() > 1){
+//                    uEarning = new PhysicalResource(((PhysicalResource) uEarning).getType(), uEarning.getQuantity() - 1);
+//                    uEarnings.add(uEarning);
+//                }
+
+                int numUEarningsToProduce = 0;
+                int actualUEarnings = 0;
+                for (String card : cardsToProduce) {
+                    if (card.startsWith("L") || card.startsWith("B"))
+                        numUEarningsToProduce++;
+                }
+
+                for (Resource uEarning : uEarnings)
+                    actualUEarnings += uEarning.getQuantity();
+
                 cardsToProduce.remove(selectedCard);
-                uEarnings.remove(numInArray);
+                removeResource(numInArray, numUEarningsToProduce, actualUEarnings);
+
+                productionPane.setDisable(true);
+                productionPane.setVisible(false);
 
                 if(getSceneProxy().getCardID(((ImageView) activeLeaders.getChildren().get(0)).getImage()).equals(selectedCard))
                     firstProdLeaderUnknown.setImage(null);
@@ -952,32 +975,72 @@ public class TurnSceneController implements SceneController{
 
         }
 
+        System.out.println(cardsToProduce);
+        System.out.println(uEarnings);
+
         message = new ProductionMessage(player.getNickname(), cardsToProduce, new Production(uCosts, uEarnings));
 
         mouseEvent.consume();
     }
 
+    private void removeResource(int numInArray, int numUEarningsToProduce, int actualUEarnings) {
+        int count = 0;
+        if(numUEarningsToProduce == actualUEarnings){
+            for (Resource uEarning : uEarnings){
+                count += uEarning.getQuantity();
+                if(count > numInArray) {
+                    uEarnings.remove(uEarning);
+                    if (uEarning.getQuantity() > 1){
+                        uEarning = new PhysicalResource(((PhysicalResource) uEarning).getType(), uEarning.getQuantity() - 1);
+                        uEarnings.add(uEarning);
+                    }
+
+                    break;
+                }
+
+            }
+        }
+    }
+
     public void produceBasicProd() {
-        numUCosts += 2;
-        numUEarnings += 1;
         int index = cardsToProduce.indexOf("BASICPROD");
 
         if(index != -1) {
             int numUofLeaders = 0;
+            int numUEarningsToProduce = 0;
+            int actualUEarnings = 0;
+            boolean found = false;
+            for (String card : cardsToProduce) {
+                if (card.startsWith("L")) {
+                    numUEarningsToProduce++;
+                    if(!found)
+                        numUofLeaders++;
+                }
+                else if(card.startsWith("B")){
+                    numUEarningsToProduce++;
+                    found = true;
+                }
+            }
+
+            for (Resource uEarning : uEarnings)
+                actualUEarnings += uEarning.getQuantity();
+
             cardsToProduce.remove("BASICPROD");
             basicProduction.setEffect(null);
             unknownCost1.setImage(null);
             unknownCost2.setImage(null);
             unknownEarning.setImage(null);
+            productionPane.setDisable(true);
+            productionPane.setVisible(false);
             uCosts = new ArrayList<>();
-            for (int i = 0; i < index; i++) {
-                if(cardsToProduce.get(i).startsWith("L"))
-                    numUofLeaders += 1;
-            }
-            if(uEarnings.size() != 0)
-                uEarnings.remove(numUofLeaders);
+
+            removeResource(numUofLeaders, numUEarningsToProduce, actualUEarnings);
+
+
         }
         else {
+            numUCosts += 2;
+            numUEarnings += 1;
             cardsToProduce.add("BASICPROD");
             basicProduction.setEffect(new Glow(0.5));
             productionPane.setDisable(false);
@@ -986,6 +1049,9 @@ public class TurnSceneController implements SceneController{
             productionPane.getChildren().get(1).setVisible(true);
             productionPane.getChildren().get(1).setDisable(false);
         }
+
+        System.out.println(cardsToProduce);
+        System.out.println(uEarnings);
 
         message = new ProductionMessage(player.getNickname(), cardsToProduce, new Production(uCosts, uEarnings));
     }
@@ -1054,7 +1120,9 @@ public class TurnSceneController implements SceneController{
     }
 
     public void convertUEarnings(MouseEvent mouseEvent) {
+        int numUEarningsToProduce = 0;
         int numActualEarnings = 0;
+        int newFirstResource = uEarnings.size()-1;
         HBox uCostsHBox = (HBox) productionPane.getChildren().get(3);
         VBox resVBox;
         Label resLabel;
@@ -1068,21 +1136,19 @@ public class TurnSceneController implements SceneController{
                 break;
             }
 
+        for (String card : cardsToProduce)
+            if(card.startsWith("L") || card.startsWith("B"))
+                numUEarningsToProduce++;
+
         PhysicalResource selectedResource = new PhysicalResource(selectedType, 1);
 
-        for (Resource uCost : uEarnings)
-            numActualEarnings += uCost.getQuantity();
+        for (Resource uEarning : uEarnings)
+            numActualEarnings += uEarning.getQuantity();
 
-        if(numActualEarnings >= numUEarnings){
-            Resource oldestResource = uEarnings.get(0);
+        if(numUEarningsToProduce == numActualEarnings){
+            Resource oldestResource = uEarnings.get(newFirstResource);
             newQuantity = oldestResource.getQuantity() - 1;
-            if (newQuantity == 0)
-                uEarnings.remove(0);
-            else {
-                uEarnings.remove(oldestResource);
-                oldestResource = new PhysicalResource(((PhysicalResource) oldestResource).getType(), newQuantity);
-                uEarnings.add(oldestResource);
-            }
+            uEarnings.remove(newFirstResource);
 
             resVBox = (VBox) uCostsHBox.getChildren().get(((PhysicalResource) oldestResource).getType().ordinal()-1);
             resLabel = (Label) resVBox.getChildren().get(0);
@@ -1101,9 +1167,11 @@ public class TurnSceneController implements SceneController{
             newQuantity = 1;
         }
 
+
+
         resVBox = (VBox) uCostsHBox.getChildren().get(selectedResource.getType().ordinal()-1);
         resLabel = (Label) resVBox.getChildren().get(0);
-        resLabel.setText("x" + newQuantity);
+        resLabel.setText("x1");
 
         if(cardsToProduce.get(cardsToProduce.size()-1).equals("BASICPROD"))
             unknownEarning.setImage(((PhysicalResource) uEarnings.get(uEarnings.size()-1)).getType().asImage());
@@ -1113,6 +1181,9 @@ public class TurnSceneController implements SceneController{
             else
                 secondProdLeaderUnknown.setImage(((PhysicalResource) uEarnings.get(uEarnings.size()-1)).getType().asImage());
         }
+
+        System.out.println(cardsToProduce);
+        System.out.println(uEarnings);
 
         message = new ProductionMessage(player.getNickname(), cardsToProduce, new Production(uCosts, uEarnings));
 
