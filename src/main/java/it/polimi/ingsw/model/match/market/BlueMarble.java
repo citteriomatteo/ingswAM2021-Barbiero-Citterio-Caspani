@@ -5,7 +5,9 @@ import it.polimi.ingsw.model.essentials.ResType;
 import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.Adder;
 
-//todo JAVADOC
+/**
+ * This method implements the blue marble.
+ */
 public class BlueMarble extends Marble {
 
     /**
@@ -25,6 +27,10 @@ public class BlueMarble extends Marble {
         return false;
     }
 
+    /**
+     * Redefinition of class' toString
+     * @return a string
+     */
     public String toString() {
         return "BlueMarble";
     }

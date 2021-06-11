@@ -19,6 +19,9 @@ import static it.polimi.ingsw.controller.MatchController.getKeyByValue;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * This controller handles all the messages and moves that characterize the turn phase.
+ */
 
 public class TurnController {
     private Player currentPlayer;
@@ -29,6 +32,12 @@ public class TurnController {
     private int whiteMarbleDrawn;
     private String bufferResult="";
 
+
+    /**
+     * The constructor initializes every player in waiting for turn, except for the first.
+     * @param match the match
+     * @param cardMap the cards map to save
+     */
     public TurnController(Match match, Map<String, Card> cardMap) {
         this.lastRound = false;
         this.currentPlayer = match.getCurrentPlayer();
@@ -50,8 +59,8 @@ public class TurnController {
     }
 
     /**
-     * This method returns a list of the accepted messages depending on the current state.
-     * @return List<CtoSMessageType>
+     * This method goes on with the turn, return the new state of the player and eventually notifying the end of match.
+     * @return a StateName
      */
     public StateName nextTurn() throws MatchEndedException {
         //If it's the last turn of the last player of the last round...
@@ -116,7 +125,7 @@ public class TurnController {
      * This method does the activate of the chosen leader.
      * @param leaderId is the id of the leader card
      * @return the new State of the controller and client
-     * @throws RetryException
+     * @throws RetryException if the discard is not possible
      */
     public StateName leaderDiscarding(String leaderId) throws RetryException {
         for(LeaderCard card : currentPlayer.getHandLeaders())
@@ -135,7 +144,7 @@ public class TurnController {
      * @param row the choice between row and column
      * @param num the value of the choice
      * @return the new State of the controller and client
-     * @throws RetryException
+     * @throws RetryException when the draw is not possible due to invalid parameters.
      */
     public StateName marketDraw(boolean row, int num) throws RetryException {
         try {
@@ -165,7 +174,7 @@ public class TurnController {
      * Then it inserts the resources in the buffer.
      * @param resources the conversions
      * @return the new State of the controller and client
-     * @throws RetryException
+     * @throws RetryException when the conversion is not acceptable
      */
     public StateName whiteMarblesConversion(List<PhysicalResource> resources) throws RetryException {
         if(resources.size() != whiteMarbleDrawn) {
@@ -202,7 +211,7 @@ public class TurnController {
      * The process iterates until the buffer is discardable.
      * @param resources the resources list, with quantity -> shelf.
      * @return the new State of the controller and client
-     * @throws RetryException
+     * @throws RetryException when the insertion is not acceptable
      */
     public StateName warehouseInsertion(List<PhysicalResource> resources) throws RetryException {
         List<Boolean> errors = new ArrayList<>();
@@ -272,7 +281,7 @@ public class TurnController {
      * @param row    the row
      * @param column the column
      * @return       the new State of the controller and client
-     * @throws RetryException
+     * @throws RetryException if the chosen draw is not possible
      */
     public StateName devCardDraw(int row, int column) throws RetryException {
         try {
@@ -308,7 +317,7 @@ public class TurnController {
      * @param strongboxCosts the list of resources for the Strongbox
      * @param warehouseCosts the map of resources to insert in the warehouse
      * @return               the new State of the controller and client
-     * @throws RetryException
+     * @throws RetryException when the payments are not valid
      */
     public StateName payments(List<PhysicalResource> strongboxCosts, Map<Integer, PhysicalResource> warehouseCosts) throws RetryException {
         StrongBox sbUndo = StrongBox.clone(currentPlayer.getPersonalBoard().getStrongBox());
@@ -425,7 +434,7 @@ public class TurnController {
      * updates sets the new state to END_TURN.
      * @param column    the chosen dev slot
      * @return the new State of the controller and client
-     * @throws RetryException //todo javadoc
+     * @throws RetryException if the operation is invalid, somehow.
      */
     public StateName devCardPlacement(int column) throws RetryException {
         try {
@@ -451,7 +460,8 @@ public class TurnController {
      * @param cardIds the list of the cards to produce
      * @param productionOfUnknown the summative production of all the unknowns
      * @return the new State of the controller and client
-     * @throws RetryException
+     * @throws RetryException when the production is not acceptable and the reasons may be: not enough resources in the production,
+     *                         unknowns do not correspond to the effective payments, ...
      */
     public StateName production(List<String> cardIds, Production productionOfUnknown) throws RetryException {
         //checking if the player has all the cards that he wants to produce
@@ -584,6 +594,11 @@ public class TurnController {
         }
     }
 
+    /**
+     * This method just keeps track of the player's discounts and removes them from the costs.
+     * @param discounts the discounts' map
+     * @param cost the costs to filter
+     */
     private static void removeDiscounts(Map<ResType, Integer> discounts, List<PhysicalResource> cost){
         for (ResType discount : discounts.keySet()) {
             int index = cost.indexOf(new PhysicalResource(discount, discounts.get(discount)));
@@ -601,20 +616,33 @@ public class TurnController {
 
     }
 
+    /**
+     * This method notifies every player about the last round raise.
+     */
     private void isLastRound(){
         lastRound = true;
         new LastRoundMessage("", "This is the last round").sendBroadcast(match);
     }
 
+    /**
+     * This method changes the state of the current player to the passed one and calls an update.
+     * @param newState the new state
+     */
     public void changeState(StateName newState){
         currentState = newState;
         currentPlayer.getSummary().updateLastUsedState(currentPlayer.getNickname(), newState);
     }
 
+    /** Getter for current player */
     public Player getCurrentPlayer(){ return currentPlayer; }
+    /** Getter for current player's state */
     public StateName getCurrentState() { return currentState; }
+    /** Setter for current player's state */
     public void setCurrentState(StateName currentState) { this.currentState = currentState; }
+    /** Getter for white marbles drawn */
     public int getWhiteMarbleDrawn() { return whiteMarbleDrawn; }
+    /** Setter for white marbles drawn */
     public void setWhiteMarbleDrawn(int whiteMarbleDrawn) { this.whiteMarbleDrawn = whiteMarbleDrawn; }
+    /** Setter for last round's flag */
     public void setLastRound(boolean lastRound){ this.lastRound = lastRound ;}
 }

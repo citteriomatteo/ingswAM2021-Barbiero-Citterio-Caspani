@@ -3,18 +3,31 @@ package it.polimi.ingsw.model.match.player;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.exceptions.LastRoundException;
 
-/*
+/**
     Interface used for limiting access to player methods
     It contains methods for adding resources or faith points
-*/  //todo ALL JAVADOC
+*/
 public interface Adder  {
 
-    //This method increments player's faithPoints
+    /**
+     *  This method increments player's faithPoints.
+     * @param quantity the quantity of faith points.
+     * @return a boolean
+     * @throws LastRoundException if the player has reached the end of the path.
+     */
     boolean addFaithPoints(int quantity) throws LastRoundException;
 
-    //This method adds resource to the strong box
+    /**
+     * This method adds resource to the strong box.
+     * @param resource the single resource to add
+     * @return a boolean
+     */
     boolean addToStrongBox(PhysicalResource resource);
 
-    //Add the resource to the warehouse
+    /**
+     * This method adds the resource to the warehouse.
+     * @param resource the resourse to add
+     * @return a boolean
+     */
     boolean addToWarehouse(PhysicalResource resource);
 }

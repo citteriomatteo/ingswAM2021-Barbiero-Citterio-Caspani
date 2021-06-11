@@ -2,7 +2,11 @@ package it.polimi.ingsw.model.match.market;
 
 import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.model.match.player.Adder;
-//todo JAVADOC
+
+/**
+ * This method implements the red marble.
+ */
+
 public class RedMarble extends Marble {
 
     /**
@@ -16,5 +20,9 @@ public class RedMarble extends Marble {
         return false;
     }
 
+    /**
+     * Redefinition of class' toString
+     * @return a string
+     */
     public String toString() { return "RedMarble"; }
 }

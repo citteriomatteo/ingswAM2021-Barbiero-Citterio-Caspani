@@ -6,7 +6,10 @@ import it.polimi.ingsw.model.match.player.Adder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-//todo JAVADOC
+
+/**
+ * This class implements the Market.
+ */
 public class Market {
     private Marble[][] board = new Marble[3][4];
     private Marble slide;

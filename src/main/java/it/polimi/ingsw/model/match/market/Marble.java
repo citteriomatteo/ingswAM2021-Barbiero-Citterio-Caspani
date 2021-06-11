@@ -3,7 +3,11 @@ package it.polimi.ingsw.model.match.market;
 
 import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.model.match.player.Adder;
-//todo JAVADOC
+
+/**
+ * This abstract class is made common for every marble type.
+ */
+
 public abstract class Marble {
     /**
      * This method adds a single resource or a single faithPoint to the passed player

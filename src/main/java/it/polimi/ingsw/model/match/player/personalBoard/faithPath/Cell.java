@@ -3,6 +3,9 @@ package it.polimi.ingsw.model.match.player.personalBoard.faithPath;
 import it.polimi.ingsw.exceptions.FaithPathCreationException;
 import it.polimi.ingsw.model.match.Communicator;
 
+/**
+ * This class implements a cell.
+ */
 public class Cell
 {
     private final int winPoints;

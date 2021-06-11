@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * This class extends the normal Cell, adding vatican report features to it.
+ */
 public class VaticanReportCell extends Cell
 {
     /**

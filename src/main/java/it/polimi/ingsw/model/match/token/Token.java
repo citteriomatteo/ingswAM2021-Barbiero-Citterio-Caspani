@@ -4,6 +4,9 @@ import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.SingleMatch;
 
+/**
+ * This class is common for every token and implements the common operation( such as onDraw, updates, ...)
+ */
 public abstract class Token {
 
     /**

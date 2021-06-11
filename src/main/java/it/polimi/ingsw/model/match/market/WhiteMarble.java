@@ -1,7 +1,11 @@
 package it.polimi.ingsw.model.match.market;
 
 import it.polimi.ingsw.model.match.player.Adder;
-//todo JAVADOC
+
+/**
+ * This method implements the white marble.
+ */
+
 public class WhiteMarble extends Marble {
     /**
      * this method simply returns true
@@ -12,6 +16,10 @@ public class WhiteMarble extends Marble {
         return true;
     }
 
+    /**
+     * Redefinition of class' toString
+     * @return a string
+     */
     public String toString() {
         return "WhiteMarble";
     }

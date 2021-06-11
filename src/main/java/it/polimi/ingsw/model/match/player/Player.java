@@ -14,7 +14,9 @@ import it.polimi.ingsw.observer.ModelObservable;
 
 import java.util.*;
 
-//todo JAVADOC
+/**
+ * This class implements the Player's identity.
+ */
 public class Player extends ModelObservable implements Adder, Verificator {
     private static final int WINNING_CONDITION_CARDS = 7;
     private final String nickname;
@@ -159,7 +161,12 @@ public class Player extends ModelObservable implements Adder, Verificator {
         return true;
     }
 
-    //todo JAVADOC
+    /**
+     * This method adds points to the blackMarker (in single player).
+     * @param quantity the quantity of faith points to Lorenzo
+     * @return a boolean
+     * @throws LastRoundException when Lorenzo reaches the end of the path
+     */
     public boolean addBlackPoints(int quantity) throws LastRoundException {
         try{
             ((SingleFaithPath) getPersonalBoard().getFaithPath()).addBlackPoints(quantity, this);
@@ -180,8 +187,8 @@ public class Player extends ModelObservable implements Adder, Verificator {
      * This method calls the same method inside the warehouse.
      * Notifies every other player about the discarded resources (for faith points).
      * @return true
-     * @throws InvalidOperationException
-     * @throws LastRoundException  //TODO: JAVADOC
+     * @throws InvalidOperationException if the discard operation is not valid.
+     * @throws LastRoundException if discarding someone reaches the end of the path.
      */
     public boolean discardRemains() throws InvalidOperationException, LastRoundException {
         int remaining;
@@ -290,7 +297,11 @@ public class Player extends ModelObservable implements Adder, Verificator {
         return personalBoard.getDevCardSlots().isPlaceable(cardLevel);
     }
 
-    //todo JAVADOC
+    /**
+     * This method gets some costs and discounts them.
+     * @param initialCosts the costs to discount
+     * @return the discounted costs list
+     */
     @Override
     public List<PhysicalResource> getDiscountedCosts(List<PhysicalResource> initialCosts){
         Map<ResType, Integer> discountMap = personalBoard.getDiscountMap().getDiscountMap();
@@ -375,7 +386,11 @@ public class Player extends ModelObservable implements Adder, Verificator {
         return false;
     }
 
-    //todo JAVADOC
+    /**
+     * This method tells whether the passed production is producible or not.
+     * @param production the production
+     * @return the result
+     */
     public boolean isProducible(Production production) {
         if(production.isPlayable(this))
         {
@@ -402,7 +417,13 @@ public class Player extends ModelObservable implements Adder, Verificator {
         return true;
     }
 
-    //todo JAVADOC
+    /**
+     * This method calls other switch methods directly on the warehouse instance.
+     * @param shelf1 first index
+     * @param shelf2 second index
+     * @return a boolean
+     * @throws InvalidOperationException when the switch is impossible
+     */
     public boolean switchShelf(int shelf1, int shelf2) throws InvalidOperationException {
         getPersonalBoard().getWarehouse().switchShelf(shelf1, shelf2);
 
@@ -441,7 +462,11 @@ public class Player extends ModelObservable implements Adder, Verificator {
         return whiteMarbles;
     }
 
-    //todo JAVADOC
+    /**
+     * This method inserts white conversions on market buffer.
+     * @param numWhite the number of conversions
+     * @return a boolean
+     */
     public boolean whiteMarbleInsertion(int numWhite){
         if (getWhiteMarbleConversions().size() != 1)
             return false;
@@ -583,7 +608,10 @@ public class Player extends ModelObservable implements Adder, Verificator {
         return points;
     }
 
-    //todo JAVADOC
+    /**
+     * This method clears player's situation for a new match.
+     * Used by the RematchPhaseController, in case of rematch.
+     */
     public void clear(){
         connected = true;
         match = null;

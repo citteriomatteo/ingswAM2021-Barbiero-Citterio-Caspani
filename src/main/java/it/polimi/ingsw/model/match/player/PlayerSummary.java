@@ -298,20 +298,34 @@ public class PlayerSummary
 
     //ALL GETTERS:
 
-    //todo: ALL JAVADOC
+    /** Getter for player's connection state */
     public boolean isConnected() { return connected; }
+    /** Getter for player's nickname */
     public String getNickname() { return nickname; }
+    /** Getter for player's warehouse disposition */
     public List<PhysicalResource> getWarehouse() { return warehouse; }
+    /** Getter for player's market buffer */
     public List<PhysicalResource> getMarketBuffer() { return marketBuffer; }
+    /** Getter for player's strongbox */
     public List<PhysicalResource> getStrongbox() { return strongbox; }
+    /** Getter for player's faith position */
     public int getFaithMarker() { return faithMarker; }
+    /** Getter for player's pope tiles' list */
     public List<Integer> getPopeTiles() { return popeTiles; }
+    /** Getter for player's dev card slots */
     public List<String>[] getDevCardSlots() { return devCardSlots; }
+    /** Getter for player's hand leaders state */
     public List<String> getHandLeaders() { return handLeaders; }
+    /** Getter for player's active leaders state */
     public List<String> getActiveLeaders() { return activeLeaders; }
+    /** Getter for player's white marble conversions */
     public List<PhysicalResource> getWhiteMarbleConversions() { return whiteMarbleConversions; }
+    /** Getter for player's discount map */
     public List<PhysicalResource> getDiscountMap() { return discountMap; }
+    /** Getter for player's temp development card */
     public String getTempDevCard() { return tempDevCard; }
+    /** Getter for player's temp production */
     public Production getTempProduction() { return tempProduction; }
+    /** Getter for player's last used state (for reconnection purposes) */
     public StateName getLastUsedState() { return lastUsedState; }
 }

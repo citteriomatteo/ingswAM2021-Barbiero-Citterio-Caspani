@@ -14,6 +14,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * This class extends common things defined in Match class with multiplayer features.
+ */
 public class MultiMatch extends Match {
     private Player currentPlayer;
     private final List<Player> players;
@@ -56,7 +59,13 @@ public class MultiMatch extends Match {
         adminCase();
     }
 
-    //todo JAVADOC
+    /**
+     * This constructor is the one used in case of a custom configuration's multiplayer match.
+     * @param players the list of players
+     * @param matchConfiguration the custom configuration
+     * @throws SingleMatchException when the list is composed only by one player (must be at least 2).
+     * @throws WrongSettingException when some configuration settings are wrong.
+     */
     public MultiMatch(List<Player> players, MatchConfiguration matchConfiguration) throws SingleMatchException, WrongSettingException {
         super(matchConfiguration);
         if(players.size() == 1)

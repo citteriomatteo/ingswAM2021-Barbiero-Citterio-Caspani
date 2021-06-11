@@ -6,6 +6,10 @@ import it.polimi.ingsw.exceptions.*;
 
 import java.util.Map;
 
+/**
+ * This interface is a piece of Decorator pattern implementation.
+ * Implemented by ExtraShelfWarehouse.
+ */
 public interface WarehouseDecorator extends Warehouse
 {
     /**

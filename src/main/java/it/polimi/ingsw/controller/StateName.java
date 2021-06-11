@@ -1,5 +1,8 @@
 package it.polimi.ingsw.controller;
 
+/**
+ * This enumeration is used to keep together all the types of messages.
+ */
 public enum StateName {
     //States used in LoginPhase
     CLIENT_START(0),

@@ -3,7 +3,9 @@ package it.polimi.ingsw.model.essentials;
 import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.model.match.player.Adder;
 
-//TODO JAVADOC
+/**
+ * This interface unifies physical resources and faith points (for cards earnings).
+ */
 public interface Resource {
 
     /**

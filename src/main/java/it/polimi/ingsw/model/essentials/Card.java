@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.essentials;
 
-//TODO: JAVADOC
+/**
+ * This interface unifies Development and Leader cards.
+ */
 public interface Card {
     /**
      * Shows if this card is a Leader one

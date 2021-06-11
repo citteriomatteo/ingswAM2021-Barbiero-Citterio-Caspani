@@ -4,6 +4,9 @@ import it.polimi.ingsw.exceptions.FaithPathCreationException;
 
 import java.util.ArrayList;
 
+/**
+ * This class extends the common faith path things with multiplayer features.
+ */
 public class MultiFaithPath extends FaithPath
 {
     /**

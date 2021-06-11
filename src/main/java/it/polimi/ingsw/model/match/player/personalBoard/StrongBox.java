@@ -7,6 +7,9 @@ import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.ResType;
 import it.polimi.ingsw.exceptions.NotEnoughResourcesException;
 
+/**
+ * This class implements the Strongbox.
+ */
 public class StrongBox {
 
     private Map<ResType, Integer> resources;

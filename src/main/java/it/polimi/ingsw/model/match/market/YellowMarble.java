@@ -4,7 +4,11 @@ import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.ResType;
 import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.Adder;
-//todo JAVADOC
+
+/**
+ * This method implements the yellow marble.
+ */
+
 public class YellowMarble extends Marble {
 
     /**
@@ -24,6 +28,10 @@ public class YellowMarble extends Marble {
         return false;
     }
 
+    /**
+     * Redefinition of class' toString
+     * @return a string
+     */
     public String toString() {
         return "YellowMarble";
     }
