@@ -43,7 +43,12 @@ public class SingleMatch extends Match{
 
     }
 
-    //todo JAVADOC
+    /**
+     * Constructor used for initializing the single match in case of a custom configuration.
+     * @param player the player
+     * @param config the custom configuration
+     * @throws WrongSettingException in case something in the configuration is not valid
+     */
     public SingleMatch(Player player, MatchConfiguration config) throws WrongSettingException {
         super(config);
         this.currentPlayer = player;

@@ -2,6 +2,10 @@ package it.polimi.ingsw.network.message.stocmessage;
 
 import it.polimi.ingsw.network.client.Client;
 
+/**
+ * This class implements the DevCardDrawnMessage from server to client.
+ * Message structure: { nickname, id of the drawn card }
+ */
 public class DevCardDrawnMessage extends StoCMessage {
 
     private static final StoCMessageType type = StoCMessageType.DEV_CARD_DRAWN;

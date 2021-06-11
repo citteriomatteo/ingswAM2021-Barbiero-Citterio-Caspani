@@ -7,6 +7,10 @@ import it.polimi.ingsw.network.client.Client;
 
 import java.util.stream.Collectors;
 
+/**
+ * This class implements the SummaryMessage from server to client.
+ * Message structure: { nickname, already compiled summary object }
+ */
 public class SummaryMessage extends StoCMessage {
 
     private static final StoCMessageType type = StoCMessageType.SUMMARY;

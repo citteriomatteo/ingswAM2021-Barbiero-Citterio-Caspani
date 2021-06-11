@@ -9,7 +9,6 @@ import java.util.List;
  * This class implements the message that the server sends to every client on a card grid move.
  * Message structure: { nickname, num of row, num of column, ID of the new surfaced card }
  */
-
 public class CardGridChangeMessage extends StoCMessage {
 
     private static final StoCMessageType type = StoCMessageType.CARD_GRID_CHANGE;

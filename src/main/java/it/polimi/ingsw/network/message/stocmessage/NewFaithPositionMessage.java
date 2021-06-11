@@ -7,7 +7,6 @@ import it.polimi.ingsw.network.client.Client;
  * position of a certain player.
  * Message structure: { nickname, new position }
  */
-
 public class NewFaithPositionMessage extends StoCMessage {
 
     private static final StoCMessageType type = StoCMessageType.NEW_FAITH_POSITION;

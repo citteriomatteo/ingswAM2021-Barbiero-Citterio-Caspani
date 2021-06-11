@@ -62,7 +62,11 @@ public class StrongBox {
     public int getNumberOf(ResType type) { return resources.get(type); }
 
 
-    //todo JAVADOC
+    /**
+     * This method clones the strongbox passed as a parameter and returns the cloned one.
+     * @param sb the sb to clone
+     * @return the cloned sb
+     */
     public static StrongBox clone(StrongBox sb){
         StrongBox clone = new StrongBox();
 

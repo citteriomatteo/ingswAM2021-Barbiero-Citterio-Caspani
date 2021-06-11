@@ -12,7 +12,6 @@ import java.util.List;
  * when someone makes a deal on the market.
  * Message structure: { nickname, side marble, row/column changed, row/column boolean, chosen row/column }
  */
-
 public class MarketChangeMessage extends StoCMessage {
 
     private static final StoCMessageType type = StoCMessageType.MARKET_CHANGE;

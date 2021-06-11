@@ -1,9 +1,11 @@
 package it.polimi.ingsw.network.message.ctosmessage;
 
-import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.network.message.stocmessage.RetryMessage;
 import it.polimi.ingsw.network.server.ControlBase;
 
+/**
+ * This class implements the LoginMessage.
+ */
 public class LoginMessage extends CtoSMessage{
     private static final CtoSMessageType type = CtoSMessageType.LOGIN;
 

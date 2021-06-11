@@ -3,6 +3,10 @@ package it.polimi.ingsw.network.message.stocmessage;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.server.ControlBase;
 
+/**
+ * This class implements the BinarySelectionMessage from server to client.
+ * Message structure: { nickname, selection, string-made comment }
+ */
 public class BinarySelectionMessage extends StoCMessage {
     private static final StoCMessageType type = StoCMessageType.BINARY_SELECTION;
     private final boolean selection;

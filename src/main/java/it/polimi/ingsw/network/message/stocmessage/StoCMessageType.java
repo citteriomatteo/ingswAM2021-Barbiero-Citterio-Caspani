@@ -2,6 +2,9 @@ package it.polimi.ingsw.network.message.stocmessage;
 
 import it.polimi.ingsw.network.message.MessageType;
 
+/**
+ * This enumeration unifies every type of server-to-client message available.
+ */
 public enum StoCMessageType implements MessageType {
 
     SUMMARY,

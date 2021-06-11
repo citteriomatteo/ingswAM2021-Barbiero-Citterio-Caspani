@@ -5,6 +5,10 @@ import it.polimi.ingsw.model.essentials.PhysicalResource;
 import java.util.List;
 import it.polimi.ingsw.network.client.Client;
 
+/**
+ * This class implements the UpdatedDiscountMapMessage from server to client.
+ * Message structure: { nickname, new list of discounts }
+ */
 public class UpdatedDiscountMapMessage extends StoCMessage {
 
     private static final StoCMessageType type = StoCMessageType.NEW_WHITE_MARBLE_CONVERSION;

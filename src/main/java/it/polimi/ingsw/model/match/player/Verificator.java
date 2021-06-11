@@ -31,6 +31,10 @@ public interface Verificator
      */
     boolean verifyPlaceability(int cardLevel);
 
-    //todo: JAVADOC
+    /**
+     * This method gets some costs, discounts them and returns a copy of the discounted list.
+     * @param initialCosts the initial costs' list
+     * @return the discounted list
+     */
     List<PhysicalResource> getDiscountedCosts(List<PhysicalResource> initialCosts);
 }

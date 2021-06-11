@@ -22,7 +22,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static it.polimi.ingsw.network.server.TimeoutBufferedReader.getNewTimeoutBufferedReader;
 
-//singleton
+/**
+ * This singleton class implements the client operation: connecting, reading, writing, disconnecting, ...
+ */
 public class Client {
     private static final int PING_RATE = 30000; //30 seconds
     private static final Client instance = new Client();
@@ -40,6 +42,12 @@ public class Client {
         return instance;
     }
 
+    /**
+     * This method sets the connection parameters and starts the connection.
+     * It also initializes all the necessary components for reading/writing via input/output stream services.
+     * @param address the ip address of the server
+     * @param port the port
+     */
     public void setSocket(String address, int port) {
         try {
             socket = new Socket(address, port);
@@ -71,7 +79,9 @@ public class Client {
         new Thread(()-> Application.launch(JavaFXGUI.class)).start();
     }
 
-
+    /**
+     * This method starts the client, beginning the reading cycle and computing each time a message is read and parsed.
+     */
     public void startClient(){
         StoCMessage messageFromServer;
         while (play.get()){
@@ -92,12 +102,20 @@ public class Client {
             }
     }
 
+    /**
+     * This method disconnects the player from the server.
+     */
     public void exit(){
         System.out.println("...Exiting from game");
         play.set(false);
         writeMessage(new DisconnectionMessage(getNickname()));
     }
 
+    /**
+     * This method reads a message and parse it to an object message for computing.
+     * @return the read message
+     * @throws DisconnectionException in case the client cannot reach the server -> goodbyeMessage in this case.
+     */
     private StoCMessage readMessage() throws DisconnectionException{
         String received;
         try {
@@ -122,7 +140,11 @@ public class Client {
 
     }
 
-    //Send the message to the server after parsing it.
+    /**
+     * This method sends the message to the server after parsing it.
+     * @param msg the message still to parse
+     * @return true if the send goes well
+     */
     public synchronized boolean writeMessage(CtoSMessage msg) {
         try {
             String outMsg = parser.parseFromCtoSMessage(msg);
@@ -148,7 +170,7 @@ public class Client {
 
 
     /**
-     * Closes streams and socket
+     * Closes streams and socket.
      */
     public void terminateConnection(){
         try {

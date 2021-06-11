@@ -15,6 +15,10 @@ import static it.polimi.ingsw.network.client.Client.getClient;
 import static it.polimi.ingsw.view.ClientController.getClientController;
 import static java.util.Map.entry;
 
+/**
+ * This class implements a reader for the keyboard, used for cli purposes.
+ * This instance will eventually run on another parallel process.
+ */
 public class KeyboardReader extends Thread{
     private final BufferedReader keyboard;
     private final Client client;
@@ -68,12 +72,20 @@ public class KeyboardReader extends Thread{
         );
     }
 
+    /**
+     * This constructor initializes the bufferedReader for reading keyboard inputs.
+     * @param client the client
+     */
     public KeyboardReader(Client client) {
         setDaemon(true);
         keyboard = new BufferedReader(new InputStreamReader(System.in));
         this.client = client;
     }
 
+    /**
+     * This method sets the player's nickname.
+     * @param nickname the nickname
+     */
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
@@ -177,6 +189,11 @@ public class KeyboardReader extends Thread{
         return null;
     }
 
+    /**
+     * This method checks for a good indentation of the login message
+     * @param params cli input
+     * @return the message if params are ok
+     */
     private CtoSMessage login(List<String> params){
         if(params == null || params.size() > 1) {
             System.out.println("The nickname can't contains spaces. PLease insert a new nickname");
@@ -187,6 +204,11 @@ public class KeyboardReader extends Thread{
         return new LoginMessage(params.get(0));
     }
 
+    /**
+     * This method offers a simple conversion of BinarySelectionMessage.
+     * @param input cli input
+     * @return the message
+     */
     private CtoSMessage selection(String input){
 
         boolean choice;
@@ -209,6 +231,11 @@ public class KeyboardReader extends Thread{
         return new BinarySelectionMessage(nickname, choice);
     }
 
+    /**
+     * This method checks if the number of players is accepted.
+     * @param params cli input
+     * @return the message
+     */
     private CtoSMessage numPlayers(List<String> params){
         if(params == null || params.size() > 1){
             System.out.println("please insert only an integer");
@@ -224,6 +251,11 @@ public class KeyboardReader extends Thread{
         return new NumPlayersMessage(nickname, num);
     }
 
+    /**
+     * This method checks if the leaders' choice params are accepted.
+     * @param params cli input
+     * @return the message
+     */
     private CtoSMessage leadersChoice(List<String> params){
         if(params == null){
             System.out.println("please insert a valid list of player");
@@ -233,6 +265,11 @@ public class KeyboardReader extends Thread{
         return new LeadersChoiceMessage(nickname, new ArrayList<>(List.of(params.get(0).toUpperCase().split(","))));
     }
 
+    /**
+     * This method checks if the starting resources params are accepted.
+     * @param params cli input
+     * @return the message
+     */
     private CtoSMessage startingResource(List<String> params){
         if(params == null){
             System.out.println("please insert a valid list of resources");
@@ -247,6 +284,11 @@ public class KeyboardReader extends Thread{
         return new StartingResourcesMessage(nickname, resources);
     }
 
+    /**
+     * This method checks if the switch shelves' params are accepted.
+     * @param params cli input
+     * @return the message
+     */
     private CtoSMessage switchShelf(List<String> params){
         if(params == null || params.size() != 1){
             System.out.println("please insert a valid choice for shelves");
@@ -266,6 +308,11 @@ public class KeyboardReader extends Thread{
         return new SwitchShelfMessage(nickname, shelf1, shelf2);
     }
 
+    /**
+     * This method checks if the leader activations' params are accepted.
+     * @param params cli input
+     * @return the message
+     */
     private CtoSMessage leaderActivation(List<String> params){
         if(params == null || params.size() > 1){
             System.out.println("you have to chose only one leader");
@@ -275,6 +322,11 @@ public class KeyboardReader extends Thread{
         return new LeaderActivationMessage(nickname, params.get(0).toUpperCase());
     }
 
+    /**
+     * This method checks if the leader discarding params are accepted.
+     * @param params cli input
+     * @return the message
+     */
     private CtoSMessage leaderDiscarding(List<String> params){
         if(params == null || params.size() > 1){
             System.out.println("you have to chose only one leader");
@@ -288,6 +340,11 @@ public class KeyboardReader extends Thread{
         return new LeaderDiscardingMessage(nickname, params.get(0).toUpperCase());
     }
 
+    /**
+     * This method checks if the market draw params are accepted.
+     * @param params cli input
+     * @return the message
+     */
     private CtoSMessage marketDraw(List<String> params){
         if(params == null || params.size() != 1){
             System.out.println("please select a valid choice of row/column");
@@ -320,6 +377,11 @@ public class KeyboardReader extends Thread{
 
     }
 
+    /**
+     * This method checks if the white marble conversions params are accepted.
+     * @param params cli input
+     * @return the message
+     */
     private CtoSMessage whiteMarblesConversion(List<String> params){
         List<PhysicalResource> resources = parseInPhysicalResourcesList(params);
         if(resources == null)
@@ -328,6 +390,11 @@ public class KeyboardReader extends Thread{
         return new WhiteMarblesConversionMessage(nickname, resources);
     }
 
+    /**
+     * This method checks if the white resources selection params are accepted and, if so, creates the objects list.
+     * @param params
+     * @return the corresponding list of resources objects
+     */
     private List<PhysicalResource> parseInPhysicalResourcesList(List<String> params){
         if(params == null){
             System.out.println("please select some resources");
@@ -343,6 +410,11 @@ public class KeyboardReader extends Thread{
         return resources;
     }
 
+    /**
+     * This method checks if the warehouse insertion's params are accepted.
+     * @param params cli input
+     * @return the message
+     */
     private CtoSMessage warehouseInsertion(List<String> params){
         List<PhysicalResource> resources = parseInPhysicalResourcesList(params);
         if(resources == null)
@@ -351,6 +423,11 @@ public class KeyboardReader extends Thread{
         return new WarehouseInsertionMessage(nickname, resources);
     }
 
+    /**
+     * This method checks if the white dev card draw's params are accepted.
+     * @param params cli input
+     * @return the message
+     */
     private CtoSMessage devCardDraw(List<String> params){
         if(params == null || params.size() != 2){
             System.out.println("please select a row and a column");
@@ -371,6 +448,11 @@ public class KeyboardReader extends Thread{
         return new DevCardDrawMessage(nickname, row, column);
     }
 
+    /**
+     * This method checks if the payments' params are accepted.
+     * @param params cli input
+     * @return the message
+     */
     private CtoSMessage payments(List<String> params){
         int numParams = params.size();
         if( numParams < 2){
@@ -409,10 +491,20 @@ public class KeyboardReader extends Thread{
         return new PaymentsMessage(nickname, strongboxCosts, warehouseCosts);
     }
 
+    /**
+     * This method checks if the written id is a valid id card.
+     * @param element cli input
+     * @return the result
+     */
     private boolean isValidCardID(String element){
         return(((element.startsWith("l")||element.startsWith("d")) && element.substring(1).matches("\\d+")) || element.equals("basicprod") || element.equals("bp"));
     }
 
+    /**
+     * This method checks if the production's params are accepted.
+     * @param params cli input
+     * @return the message
+     */
     private CtoSMessage production(List<String> params){
         int numParams = params.size();
         if(numParams < 2){
@@ -473,6 +565,11 @@ public class KeyboardReader extends Thread{
         return new ProductionMessage(nickname, IDs, new Production(uCosts, uEarnings));
     }
 
+    /**
+     * This method checks if the dev card placement's params are accepted.
+     * @param params cli input
+     * @return the message
+     */
     private CtoSMessage devCardPlacement(List<String> params){
         if(params == null || params.size() != 1){
             System.out.println("please select a valid column");
@@ -484,10 +581,19 @@ public class KeyboardReader extends Thread{
         return new DevCardPlacementMessage(nickname, num);
     }
 
+    /**
+     * This method returns an EndTurnMessage.
+     * @return the message
+     */
     private CtoSMessage endTurn(){
         return new EndTurnMessage(nickname);
     }
 
+    /**
+     * This method checks if the rematch offer/acceptation params are accepted.
+     * @param params cli input
+     * @return the message
+     */
     private CtoSMessage rematch(List<String> params){
         if(params == null || params.size() > 1){
             System.out.println("please insert only y for yes or n for no");
@@ -495,6 +601,11 @@ public class KeyboardReader extends Thread{
         return new RematchMessage(nickname, params.get(0).equals("y"));
     }
 
+    /**
+     * This method checks if the single resource's params are accepted.
+     * @param param cli input
+     * @return resource object
+     */
     private PhysicalResource parseInPhysicalResource(String param){
         List<String> elements = List.of(param.split(","));
         if(elements.size() != 2)
@@ -545,6 +656,12 @@ public class KeyboardReader extends Thread{
         }
     }
 
+    /**
+     * This method checks if the costs of warehouse inserted in cli are correct.
+     * @param param cli input
+     * @param warehouseCosts the warehouse costs
+     * @return the result
+     */
     private boolean addWarehouseCosts(String param, Map<Integer, PhysicalResource> warehouseCosts){
         int shelf;
         PhysicalResource resource;
@@ -567,6 +684,11 @@ public class KeyboardReader extends Thread{
         return true;
     }
 
+    /**
+     * Run method: called at the beginning of thread instantiation.
+     * Keeps checking for general command inputs, such as 'help', 'discountMap', etc. and directly calls methods on the
+     * ClientController for these ones.
+     */
     @Override
     public void run() {
         CtoSMessage messageToSend;
@@ -614,6 +736,9 @@ public class KeyboardReader extends Thread{
         client.exit();
     }
 
+    /**
+     * This method prints the help map on cli, depending on the current state of the player.
+     */
     public void printHelpMap() {
         StateName currentState = getClientController().getCurrentState();
 

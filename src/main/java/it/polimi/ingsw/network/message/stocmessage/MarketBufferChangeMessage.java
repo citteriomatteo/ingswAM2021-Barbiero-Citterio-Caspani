@@ -5,6 +5,10 @@ import it.polimi.ingsw.network.client.Client;
 
 import java.util.List;
 
+/**
+ * This class implements the MarketBufferChangeMessage from server to client.
+ * Message structure: { nickname, selection, list of buffered resources }
+ */
 public class MarketBufferChangeMessage extends StoCMessage{
 
     private static final StoCMessageType type = StoCMessageType.BUFFER_CHANGE;

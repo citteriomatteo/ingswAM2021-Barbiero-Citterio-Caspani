@@ -3,7 +3,9 @@ package it.polimi.ingsw.network.message.ctosmessage;
 import it.polimi.ingsw.network.message.stocmessage.RetryMessage;
 import it.polimi.ingsw.network.server.ControlBase;
 
-
+/**
+ * This class implements the NumPlayersMessage, sent to server in the phase of choosing number of players for a match.
+ */
 public class NumPlayersMessage extends CtoSMessage{
     private static final CtoSMessageType type = CtoSMessageType.NUM_PLAYERS;
     private final int numPlayers;

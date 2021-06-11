@@ -6,6 +6,9 @@ import it.polimi.ingsw.network.message.MessageType;
 import it.polimi.ingsw.network.message.stocmessage.RetryMessage;
 import it.polimi.ingsw.network.server.ControlBase;
 
+/**
+ * This class implements the EndTurnMessage, to notify the players involved in nextTurn operation about their next states.
+ */
 public class EndTurnMessage extends CtoSMessage {
 
     private static final CtoSMessageType type = CtoSMessageType.END_TURN;

@@ -2,6 +2,9 @@ package it.polimi.ingsw.network.message.ctosmessage;
 
 import it.polimi.ingsw.network.message.MessageType;
 
+/**
+ * This enumeration unifies all client-to-server message types.
+ */
 public enum CtoSMessageType implements MessageType
 {
     PING(0),

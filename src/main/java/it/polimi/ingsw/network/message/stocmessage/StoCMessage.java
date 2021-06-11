@@ -10,6 +10,9 @@ import java.util.List;
 
 import static it.polimi.ingsw.network.server.ServerUtilities.serverCall;
 
+/**
+ * This abstract class implements the common structure of every server-to-client message.
+ */
 public abstract class StoCMessage extends Message {
 
     public StoCMessage(String nickname) {

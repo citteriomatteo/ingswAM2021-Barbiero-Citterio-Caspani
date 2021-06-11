@@ -7,7 +7,6 @@ import it.polimi.ingsw.network.client.Client;
  * This class implements a message that notifies the player about a Retry request. Something went wrong.
  * Message structure: { error string }
  */
-
 public class RetryMessage extends StoCMessage {
 
     private static final StoCMessageType type = StoCMessageType.RETRY;

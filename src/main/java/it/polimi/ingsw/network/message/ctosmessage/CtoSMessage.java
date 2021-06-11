@@ -6,7 +6,9 @@ import it.polimi.ingsw.network.server.ControlBase;
 
 import static it.polimi.ingsw.view.ClientController.getClientController;
 
-
+/**
+ * This class implements the the common client-to-server message.
+ */
 public abstract class CtoSMessage extends Message {
 
     public CtoSMessage(String nickname) {

@@ -12,7 +12,6 @@ import it.polimi.ingsw.view.lightmodel.LightPlayer;
  * It is possible to build the message one step at a time or all together.
  * Message structure: { nickname, number of the tile, Map<player_nickname,new value of tile> }
  */
-
 public class VaticanReportMessage extends StoCMessage {
 
     private static final StoCMessageType type = StoCMessageType.VATICAN_REPORT;

@@ -2,6 +2,10 @@ package it.polimi.ingsw.network.message.stocmessage;
 
 import it.polimi.ingsw.network.client.Client;
 
+/**
+ * This class implements the GoodbyeMessage from server to client, for disconnection or end of match with no rematch.
+ * Message structure: { nickname, string-made message, abnormal condition flag }
+ */
 public class GoodbyeMessage extends StoCMessage {
 
     private static final StoCMessageType type = StoCMessageType.GOODBYE;

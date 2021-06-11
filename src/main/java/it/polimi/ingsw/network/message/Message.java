@@ -17,6 +17,10 @@ public abstract class Message {
         return nickname;
     }
 
+    /**
+     * This method is redefined in every message and returns the specific type of the message.
+     * @return the type
+     */
     public abstract MessageType getType();
 
 }

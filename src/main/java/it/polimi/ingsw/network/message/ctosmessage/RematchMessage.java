@@ -6,6 +6,10 @@ import it.polimi.ingsw.network.message.MessageType;
 import it.polimi.ingsw.network.message.stocmessage.RetryMessage;
 import it.polimi.ingsw.network.server.ControlBase;
 
+/**
+ * This class implements the RematchMessage.
+ * Message structure: { nickname, accepted/declined }
+ */
 public class RematchMessage extends CtoSMessage {
     private static final CtoSMessageType type = CtoSMessageType.REMATCH;
     private final boolean accepted;

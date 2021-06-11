@@ -110,7 +110,7 @@ public class ClientCLI implements View
 
     @Override
     public void drawConfigurationLayout() {
-        //TODO
+
     }
 
     @Override

@@ -6,6 +6,10 @@ import java.util.List;
 
 import static it.polimi.ingsw.view.ClientController.getClientController;
 
+/**
+ * This class implements the BinarySelectionMessage from server to client.
+ * Message structure: { nickname, selection, string-made comment }
+ */
 public class HandLeadersStateMessage extends StoCMessage {
 
     private static final StoCMessageType type = StoCMessageType.HAND_LEADERS_STATE;

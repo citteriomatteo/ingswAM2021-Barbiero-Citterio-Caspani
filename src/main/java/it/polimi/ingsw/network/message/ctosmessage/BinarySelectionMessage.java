@@ -3,6 +3,9 @@ package it.polimi.ingsw.network.message.ctosmessage;
 import it.polimi.ingsw.network.message.stocmessage.RetryMessage;
 import it.polimi.ingsw.network.server.ControlBase;
 
+/**
+ * This class implements the BinarySelectionMessage.
+ */
 public class BinarySelectionMessage extends CtoSMessage {
     private static final CtoSMessageType type = CtoSMessageType.BINARY_SELECTION;
     private final boolean selection;

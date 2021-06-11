@@ -145,11 +145,24 @@ public class PersonalBoard implements Effector
     public DevCardSlots getDevCardSlots() { return devCardSlots; }
 
     //ALL SETTERS:
-    //todo JAVADOC
+
+    /**
+     * Setter for strongbox.
+     * Used for invalid payments reset.
+     * @param strongBox the new version
+     * @return true
+     */
     public boolean setStrongBox(StrongBox strongBox){
         this.strongBox = strongBox;
         return true;
     }
+
+    /**
+     * Setter for warehouse.
+     * Used for invalid payments reset.
+     * @param warehouse the new warehouse
+     * @return true
+     */
     public boolean setWarehouse(Warehouse warehouse){
         this.warehouse = warehouse;
         return true;
