@@ -117,7 +117,7 @@ public class  CardGrid {
      * @return true if the stack in the given position is empty
      * @throws InvalidCardRequestException if it is tried to control a stack out of range
      */
-    boolean isEmpty(int lv, int color) throws InvalidCardRequestException {
+     boolean isEmpty(int lv, int color) throws InvalidCardRequestException {
         if (lv < 1 || lv > MAX_LEVEL || color < 1 || color > CardColor.values().length)
             throw new InvalidCardRequestException("Tried to control a card out of range");
         try {
@@ -126,6 +126,20 @@ public class  CardGrid {
         catch (EmptyStackException e){
             return true;
         }
+        return false;
+    }
+
+    /**
+     * Checks if there's an empty column
+     * This method is used in matchEndingProcedure (MatchController.class) to see if Lorenzo has won the match or not.
+     * @return true if an empty column exists, false elsewhere.
+     */
+    public boolean emptyColumnExists() {
+        for(int i = 0; i < CardColor.values().length; i++)
+            try {
+                if(isEmpty(1,i) && isEmpty(2,i) && isEmpty(3,i))
+                    return true;
+            } catch (InvalidCardRequestException exc) { return false; }
         return false;
     }
 

@@ -317,7 +317,8 @@ public class ClientCLI implements View
         results.append("Match has ended, this is the ultimate ranking:\n");
         int i = 1;
         for (String player : sortedRanking.keySet()){
-            results.append(i).append(") ").append(player).append(": ").append(sortedRanking.get(player)).append("\n");
+            results.append(i).append(") ").append(player).append(": ");
+            results.append(player.equals("Lorenzo \nthe Magnificent") ? "" : sortedRanking.get(player)).append("\n");
             i++;
         }
 

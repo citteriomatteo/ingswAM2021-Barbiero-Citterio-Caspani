@@ -37,7 +37,8 @@ public class RematchPhaseSceneController implements SceneController{
         for(String nickname : getOrderedMapOf(ranking).keySet()) {
             HBox playerLine = (HBox) rankingBox.getChildren().get(count);
             ((Label) playerLine.getChildren().get(1)).setText(nickname);
-            ((Label) playerLine.getChildren().get(2)).setText(ranking.get(nickname).toString());
+            ((Label) playerLine.getChildren().get(2))
+                    .setText(nickname.equals("Lorenzo \nthe Magnificent") ? "" : ranking.get(nickname).toString());
             count++;
         }
 

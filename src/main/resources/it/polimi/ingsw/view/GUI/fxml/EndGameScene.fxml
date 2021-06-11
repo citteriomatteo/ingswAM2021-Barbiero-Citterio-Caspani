@@ -16,7 +16,7 @@
             <Image url="@../images/generalBackground.jpg" />
          </image>
       </ImageView>
-      <Label layoutX="279.0" layoutY="56.0" text="THE MATCH HAS ENDED.">
+      <Label id="matchEndingTitle" fx:id="matchEndingTitle" layoutX="279.0" layoutY="56.0" text="THE MATCH HAS ENDED.">
          <font>
             <Font name="Apple Chancery" size="18.0" />
          </font>

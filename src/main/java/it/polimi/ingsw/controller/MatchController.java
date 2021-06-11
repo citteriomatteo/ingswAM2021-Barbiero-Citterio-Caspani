@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.Production;
 import it.polimi.ingsw.model.match.*;
 import it.polimi.ingsw.model.match.player.Player;
+import it.polimi.ingsw.model.match.player.personalBoard.faithPath.SingleFaithPath;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
 import it.polimi.ingsw.network.message.stocmessage.EndGameResultsMessage;
 import it.polimi.ingsw.network.message.stocmessage.NextStateMessage;
@@ -524,6 +525,7 @@ public class MatchController {
 
     /**
      * This method handles the whole end match procedure, sending results to the player and initializing the last controller.
+     * It inserts "Lorenzo the Magnificent" in first or last position, in case the match is single player.
      * @param e the exception
      */
     private void matchEndingProcedure(MatchEndedException e){
@@ -532,6 +534,19 @@ public class MatchController {
         lastUsedState = StateName.END_MATCH;
         for(Player p : match.getPlayers())
             new NextStateMessage(p.getNickname(), lastUsedState).send(p.getNickname());
+
+        //adding Lorenzo to the ranking
+        if(match.getPlayers().size() == 1) {
+
+            boolean lorenzoWon = match.getCardGrid().emptyColumnExists();
+            if(( (SingleFaithPath) match.getCurrentPlayer().getPersonalBoard().getFaithPath() ).getBlackPosition() == 24)
+                lorenzoWon = true;
+
+            e.getRanking().put("Lorenzo \nthe Magnificent", (lorenzoWon ? 999 : -1));
+            System.out.println("putting Lorenzo to " + (lorenzoWon ? 999 : -1) + "points in the ranking");
+
+
+        }
 
         EndGameResultsMessage message = new EndGameResultsMessage("", e.getMessage(), e.getRanking());
         message.sendBroadcast(match);
