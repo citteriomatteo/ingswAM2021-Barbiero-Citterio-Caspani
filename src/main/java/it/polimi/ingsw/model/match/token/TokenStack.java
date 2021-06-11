@@ -5,6 +5,9 @@ import it.polimi.ingsw.model.match.SingleMatch;
 import java.util.Collections;
 import java.util.Stack;
 
+/**
+ * This class handles correctly the token stack for single player's Lorenzo extractions.
+ */
 public class TokenStack {
     private Stack<Token> tokenStack = new Stack<>();
 

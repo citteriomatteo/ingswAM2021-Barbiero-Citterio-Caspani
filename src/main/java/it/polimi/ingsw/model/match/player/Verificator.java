@@ -5,7 +5,9 @@ import it.polimi.ingsw.model.essentials.PhysicalResource;
 
 import java.util.List;
 
-//todo JAVADOC
+/**
+ * This interface allows the implementers to access to some verify methods on the Player's class.
+ */
 public interface Verificator
 {
     /**

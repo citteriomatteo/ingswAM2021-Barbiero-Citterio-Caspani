@@ -12,6 +12,9 @@ import java.util.List;
 
 import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
 
+/**
+ * This class implements the Match functionalities.
+ */
 public abstract class Match implements Communicator {
     private final Market market;
     private final LeaderStack leaderStack ;
@@ -27,7 +30,10 @@ public abstract class Match implements Communicator {
             this.leaderStack = new LeaderStack(matchConfiguration.getAllLeaderCards());
     }
 
-    //todo JAVADOC
+    /**
+     * Custom constructor, for initializing a match after a custom configuration creation.
+     * @param matchConfiguration
+     */
     public Match(MatchConfiguration matchConfiguration){
         this.matchConfiguration = matchConfiguration;
         this.market = new Market();

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.essentials;
 
-//TODO JAVADOC
+/**
+ * This enumeration keeps all the available cards' colors.
+ */
 public enum CardColor {
     GREEN(1),    //ordinal: 0
     BLUE(2),     //1
@@ -10,6 +12,9 @@ public enum CardColor {
     private final int val;
     CardColor(int v) { val = v; }
 
-    //TODO JAVADOC
+    /**
+     * This method returns the position of the single value on the enumeration's list.
+     * @return
+     */
     public int getVal() { return val; }
 }

@@ -6,6 +6,9 @@ import it.polimi.ingsw.model.match.Communicator;
 
 import java.util.*;
 
+/**
+ * This abstract class implements the common FaithPath things.
+ */
 public abstract class FaithPath
 {
     private int faithMarker;

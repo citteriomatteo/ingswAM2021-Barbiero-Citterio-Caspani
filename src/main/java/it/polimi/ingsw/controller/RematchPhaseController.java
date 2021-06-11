@@ -12,6 +12,10 @@ import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.network.server.ServerUtilities.serverCall;
 
+/**
+ * This controller is used to handle the end match and rematch phase, accepting rematch offer and responses from the players.
+ */
+
 public class RematchPhaseController
 {
     private int numResponses=0;
@@ -19,6 +23,10 @@ public class RematchPhaseController
     private List<String> pendantPlayers;
 
 
+    /**
+     * The constructor initializes pendantPlayers.
+     * @param players the players in match
+     */
     public RematchPhaseController(List<Player> players){
         this.players = players;
         pendantPlayers = new ArrayList<>();
@@ -26,6 +34,15 @@ public class RematchPhaseController
             pendantPlayers.add(p.getNickname());
     }
 
+    /**
+     * This method gets a response and ends game if the response is false.
+     * Elsewhere, it keeps waiting for all the responses.
+     * @param nickname the sender
+     * @param value its choice
+     * @return a boolean
+     * @throws MatchRestartException if all responses has arrived and are all positive.
+     * @throws RetryException if parameters are wrong
+     */
     public boolean response(String nickname, boolean value) throws MatchRestartException, RetryException {
 
         if(!pendantPlayers.contains(nickname))

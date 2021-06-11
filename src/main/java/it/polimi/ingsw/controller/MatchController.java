@@ -19,6 +19,11 @@ import static java.util.Map.entry;
 import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
 
 
+/**
+ * This class works as a proxy controller, delegating the job to the various other controllers.
+ * It also controls the computability of messages from clients, before calling the controllers.
+ */
+
 public class MatchController {
     private Match match;
     private TurnController turnController;
@@ -44,7 +49,10 @@ public class MatchController {
         );
     }
 
-
+    /**
+     * Standard configuration constructor: only players passed to the controller.
+     * @param playersInMatch the players
+     */
     public MatchController(List<Player> playersInMatch) {
         MatchConfiguration configuration = assignConfiguration("src/main/resources/json/StandardConfiguration.json");
         cardMap = initCardMap(configuration);
@@ -69,6 +77,12 @@ public class MatchController {
 
     }
 
+    /**
+     * Constructor that's specific for a custom configuration.
+     * @param playersInMatch the players
+     * @param configuration  the custom configuration
+     * @throws RetryException
+     */
     public MatchController(List<Player> playersInMatch, MatchConfiguration configuration) throws RetryException {
         cardMap = initCardMap(configuration);
 
@@ -88,6 +102,10 @@ public class MatchController {
 
     }
 
+    /**
+     * Specific constructor for single player matches with the standard configuration.
+     * @param player the only player in match
+     */
     public MatchController(Player player) {
         MatchConfiguration configuration = MatchConfiguration.assignConfiguration("src/main/resources/json/StandardConfiguration.json");
         cardMap = initCardMap(configuration);
@@ -108,6 +126,10 @@ public class MatchController {
 
     }
 
+    /**
+     * Specific constructor for single player matches with a custom configuration.
+     * @param player the only player in match
+     */
     public MatchController(Player player, MatchConfiguration configuration) throws RetryException {
         cardMap = initCardMap(configuration);
 
@@ -126,11 +148,22 @@ public class MatchController {
         rematchPhaseController = null;
 
     }
+
     //%%%%%%%%%%%%%%%%%% GETTER %%%%%%%%%%%%%%%%%%%
+
+    /**
+     * Getter for the current player.
+     * @return the current player
+     */
     public Player getCurrentPlayer(){
         return match.getCurrentPlayer();
     }
 
+    /**
+     * Getter for the current state of the player which nickname is passed as a parameter.
+     * @param nickname the nickname
+     * @return         a StateName
+     */
     public StateName getCurrentState(String nickname) {
         if (turnController == null)
             return startingPhaseController.getPlayerState(nickname);
@@ -144,10 +177,18 @@ public class MatchController {
         }
     }
 
+    /**
+     * Getter for the map of cards
+     * @return the cards map
+     */
     public Map<String, Card> getCardMap(){
         return cardMap;
     }
 
+    /**
+     * Getter for the match instance
+     * @return the match
+     */
     public Match getMatch(){
         return match;
     }
@@ -155,6 +196,11 @@ public class MatchController {
 
     //%%%%%%%%%%%%%%%%%% SETTER %%%%%%%%%%%%%%%%%%%
 
+    /**
+     * This method sets the game state of the player with this nickname to the state passed.
+     * @param nickname the player
+     * @param state    its state
+     */
     public void setState(String nickname, StateName state){
         if(state.getVal()<4)
             startingPhaseController.setState(nickname, state);
@@ -165,9 +211,23 @@ public class MatchController {
         }
     }
 
+    /**
+     * This method sets the number of white marbles drawn during the last market draw.
+     * @param num the number
+     */
     public void setWhiteMarblesDrawn(int num){ turnController.setWhiteMarbleDrawn(num);}
+
+    /**
+     * This method eventually raises the last round flag.
+     * @param lastRound the value of the flag
+     */
     public void setLastRound(boolean lastRound) { turnController.setLastRound(lastRound);}
 
+    /**
+     * This method initializes the card map with the cards in the passed configuration.
+     * @param configuration the configuration
+     * @return the filled map
+     */
     public Map<String, Card> initCardMap(MatchConfiguration configuration){
         Map<String, Card> map = new HashMap<>();
         for (int i=1; i<=configuration.getAllDevCards().size(); i++)
@@ -178,6 +238,13 @@ public class MatchController {
         return map;
     }
 
+    /**
+     * This method calculates if the arrived message is valid for the sender player's state.
+     * @param nickname the sender
+     * @param type     the type of the message
+     * @return         the result
+     * @throws RetryException in case the message is not accepted basing on his current state.
+     */
     private boolean isComputable(String nickname, CtoSMessageType type) throws RetryException {
         if (turnController == null) {
             if(match.getPlayer(nickname) == null)
@@ -196,6 +263,14 @@ public class MatchController {
         return true;
     }
 
+    /**
+     * This method accepts the starting leaders' choices and sends the player
+     * to the StartingResource or StartingPhaseDone state.
+     * @param nickname the player
+     * @param leaders  its leaders
+     * @return a boolean
+     * @throws RetryException if isComputable goes wrong
+     */
     public synchronized boolean startingLeader(String nickname, List<String> leaders) throws RetryException {
         boolean isComputable = isComputable(nickname, LEADERS_CHOICE);
         if (!isComputable)
@@ -209,6 +284,13 @@ public class MatchController {
 
     }
 
+    /**
+     * This method accepts the starting resources' choices and proceeds with the player's state.
+     * @param nickname the player
+     * @param resources the resources chosen
+     * @return a boolean
+     * @throws RetryException if isComputable goes wrong.
+     */
     public synchronized boolean startingResources(String nickname, List<PhysicalResource> resources) throws RetryException {
         boolean isComputable = isComputable(nickname, CtoSMessageType.STARTING_RESOURCES);
         if (!isComputable)
@@ -221,6 +303,11 @@ public class MatchController {
         return true;
     }
 
+    /**
+     * This method handles the player's disconnection and proceeds going ahead with the turns.
+     * @param player the disconnected one
+     * @return a boolean
+     */
     public synchronized  boolean disconnection(Player player){
         if(turnController!=null && player.equals(match.getCurrentPlayer()) && match.getPlayers().size() != 1){
             try {
@@ -239,6 +326,12 @@ public class MatchController {
         return true;
     }
 
+    /**
+     * This method checks if the player is in end turn's phase and, eventually, passes to the next player's turn.
+     * @param nickname the player that finished a turn
+     * @return a boolean
+     * @throws RetryException from isComputable
+     */
     public synchronized boolean nextTurn(String nickname) throws RetryException {
         boolean isComputable = isComputable(nickname, CtoSMessageType.END_TURN);
         if (!isComputable)
@@ -253,6 +346,14 @@ public class MatchController {
         return true;
     }
 
+    /**
+     * This method accepts switch shelves' messages from the clients and delegates the operation to the turnController.
+     * @param nickname the sender
+     * @param shelf1 the first shelf
+     * @param shelf2 the second shelf
+     * @return a boolean
+     * @throws RetryException from isComputable
+     */
     public synchronized boolean switchShelf(String nickname, int shelf1, int shelf2) throws RetryException {
         boolean isComputable = isComputable(nickname, CtoSMessageType.SWITCH_SHELF);
         if (!isComputable)
@@ -264,6 +365,13 @@ public class MatchController {
 
     }
 
+    /**
+     * This method accepts leader activation's messages from the clients and delegates the operation to the turnController.
+     * @param nickname the sender
+     * @param leaderId the chosen leader
+     * @return a boolean
+     * @throws RetryException from isComputable
+     */
     public synchronized boolean leaderActivation(String nickname, String leaderId) throws RetryException {
         boolean isComputable = isComputable(nickname, CtoSMessageType.LEADER_ACTIVATION);
         if (!isComputable)
@@ -274,6 +382,13 @@ public class MatchController {
         return true;
     }
 
+    /**
+     * This method accepts leader discarding messages from the clients and delegates the operation to the turnController.
+     * @param nickname the sender
+     * @param leaderId the chosen leader
+     * @return a boolean
+     * @throws RetryException from isComputable
+     */
     public synchronized boolean leaderDiscarding(String nickname, String leaderId) throws RetryException {
         boolean isComputable = isComputable(nickname, CtoSMessageType.LEADER_DISCARDING);
         if (!isComputable)
@@ -284,6 +399,14 @@ public class MatchController {
         return true;
     }
 
+    /**
+     * This method accepts market draws' messages from the clients and delegates the operation to the turnController.
+     * @param nickname the sender
+     * @param row row/column
+     * @param num the number of row/column
+     * @return a boolean
+     * @throws RetryException from isComputable
+     */
     public synchronized boolean marketDraw(String nickname, boolean row, int num) throws RetryException {
         boolean isComputable = isComputable(nickname, CtoSMessageType.MARKET_DRAW);
         if (!isComputable)
@@ -294,6 +417,13 @@ public class MatchController {
         return true;
     }
 
+    /**
+     * This method accepts conversions' messages from the clients and delegates the operation to the turnController.
+     * @param nickname the sender
+     * @param resources the resources converted
+     * @return a boolean
+     * @throws RetryException from isComputable
+     */
     public synchronized boolean whiteMarblesConversion(String nickname, List<PhysicalResource> resources) throws RetryException {
         boolean isComputable = isComputable(nickname, CtoSMessageType.WHITE_MARBLE_CONVERSIONS);
         if (!isComputable)
@@ -304,6 +434,13 @@ public class MatchController {
         return true;
     }
 
+    /**
+     * This method accepts warehouse insertions' messages from the clients and delegates the operation to the turnController.
+     * @param nickname the sender
+     * @param resources the resources, with the quantity = shelf.
+     * @return a boolean
+     * @throws RetryException from isComputable
+     */
     public synchronized boolean warehouseInsertion(String nickname, List<PhysicalResource> resources) throws RetryException {
         boolean isComputable = isComputable(nickname, CtoSMessageType.WAREHOUSE_INSERTION);
         if (!isComputable)
@@ -314,6 +451,14 @@ public class MatchController {
         return true;
     }
 
+    /**
+     * This method accepts dev card draws' messages from the clients and delegates the operation to the turnController.
+     * @param nickname the sender
+     * @param row the row
+     * @param column the column
+     * @return a boolean
+     * @throws RetryException from isComputable
+     */
     public synchronized boolean devCardDraw(String nickname, int row, int column) throws RetryException {
         boolean isComputable = isComputable(nickname, CtoSMessageType.DEV_CARD_DRAW);
         if (!isComputable)
@@ -324,6 +469,14 @@ public class MatchController {
         return true;
     }
 
+    /**
+     * This method accepts payments' messages from the clients and delegates the operation to the turnController.
+     * @param nickname the sender
+     * @param strongboxCosts the costs from sb
+     * @param warehouseCosts the costs from wh
+     * @return a boolean
+     * @throws RetryException from isComputable
+     */
     public synchronized boolean payments(String nickname, List<PhysicalResource> strongboxCosts, Map<Integer, PhysicalResource> warehouseCosts) throws RetryException {
         boolean isComputable = isComputable(nickname, CtoSMessageType.PAYMENTS);
         if (!isComputable)
@@ -334,6 +487,13 @@ public class MatchController {
         return true;
     }
 
+    /**
+     * This method accepts dev card placement's messages from the clients and delegates the operation to the turnController.
+     * @param nickname the sender
+     * @param column the slot
+     * @return a boolean
+     * @throws RetryException from isComputable
+     */
     public synchronized boolean devCardPlacement(String nickname, int column) throws RetryException {
         boolean isComputable = isComputable(nickname, CtoSMessageType.DEV_CARD_PLACEMENT);
         if (!isComputable)
@@ -344,6 +504,14 @@ public class MatchController {
         return true;
     }
 
+    /**
+     * This method accepts productions' messages from the clients and delegates the operation to the turnController.
+     * @param nickname the sender
+     * @param cardIds the ids of cards produced
+     * @param productionOfUnknown the production of all unknowns
+     * @return a boolean
+     * @throws RetryException from isComputable
+     */
     public synchronized boolean production(String nickname, List<String> cardIds, Production productionOfUnknown) throws RetryException {
         boolean isComputable = isComputable(nickname, CtoSMessageType.PRODUCTION);
         if (!isComputable)
@@ -354,6 +522,10 @@ public class MatchController {
         return true;
     }
 
+    /**
+     * This method handles the whole end match procedure, sending results to the player and initializing the last controller.
+     * @param e the exception
+     */
     private void matchEndingProcedure(MatchEndedException e){
         rematchPhaseController = new RematchPhaseController(match.getPlayers());
 
@@ -365,6 +537,13 @@ public class MatchController {
         message.sendBroadcast(match);
     }
 
+    /**
+     * This method accepts rematch response's messages from the clients and delegates the operation to the rematchController.
+     * @param nickname the sender
+     * @param value the acceptation/decline
+     * @return a boolean
+     * @throws RetryException from isComputable
+     */
     public synchronized boolean response(String nickname, boolean value) throws RetryException {
         boolean isComputable = isComputable(nickname, CtoSMessageType.REMATCH);
         if (!isComputable)
@@ -378,7 +557,10 @@ public class MatchController {
         return true;
     }
 
-
+    /**
+     * This method is called when every player in match has accepted the rematch: it re-initializes controllers, the summary and
+     * clears players' content back to start.
+     */
     private void restartMatch(){
         List<Player> oldPlayers = match.getPlayers();
         MatchConfiguration oldConfiguration = match.getMatchConfiguration();

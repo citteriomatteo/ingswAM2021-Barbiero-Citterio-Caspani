@@ -5,6 +5,9 @@ import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.model.match.SingleCardGrid;
 import it.polimi.ingsw.model.match.SingleMatch;
 
+/**
+ * This class implements the blue token.
+ */
 public class BlueToken extends Token{
 
     /**

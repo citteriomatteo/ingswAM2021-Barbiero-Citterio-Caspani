@@ -4,6 +4,9 @@ import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.model.match.SingleMatch;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.SingleFaithPath;
 
+/**
+ * This class implements the plus two token.
+ */
 public class PlusTwoToken extends Token{
 
     /**

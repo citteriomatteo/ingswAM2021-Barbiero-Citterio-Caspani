@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class extends common faith path things with single player features.
+ */
 public class SingleFaithPath extends FaithPath {
     private int blackCrossMarker;
 

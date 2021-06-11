@@ -7,6 +7,9 @@ import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class implements the discount map.
+ */
 public class DiscountMap
 {
     private final Map<ResType, Integer> discountMap;

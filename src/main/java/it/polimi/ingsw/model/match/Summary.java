@@ -38,7 +38,13 @@ public class Summary implements ModelObserver {
 
     private List<PlayerSummary> playersSummary;
 
-    //todo JAVADOC
+    /**
+     * This constructor is used for Summary's initialization in a custom configuration match.
+     * @param playersInMatch the players' list
+     * @param cardMap the already compiled cards map
+     * @param faithPath the custom (or default eventually) faith path
+     * @param basicProd the custom (or default eventually) basic production
+     */
     public Summary(List<Player> playersInMatch, Map<String, Card> cardMap, List<Cell> faithPath, Production basicProd){
         //cardMap init
         this.cardMap = cardMap;
@@ -391,15 +397,23 @@ public class Summary implements ModelObserver {
 
     //GETTERS:
 
-    //todo ALL JAVADOC
+    /** Getter for summarized market */
     public char[][] getMarket() { return market; }
+    /** Getter for summarized slide marble */
     public char getSideMarble() { return sideMarble; }
+    /** Getter for summarized card grid (list<String id, Integer depth>) */
     public List<String>[][] getCardGrid() { return cardGrid; }
+    /** Getter for summarized faith path */
     public List<String> getFaithPath() { return faithPath; }
+    /** Getter for summarized lorenzo marker */
     public int getLorenzoMarker() { return lorenzoMarker; }
+    /** Getter for summarized cards map */
     public Map<String, Card> getCardMap() { return cardMap; }
+    /** Getter for summarized basic production */
     public Production getBasicProd() { return basicProd; }
+    /** Getter for the list of all players' summaries */
     public List<PlayerSummary> getPlayersSummary() { return playersSummary; }
+    /** Getter for the list of all players' nicknames. */
     public List<String> getPlayersNicknames() { return playersSummary.stream().map(PlayerSummary::getNickname).collect(Collectors.toList()); }
 
 

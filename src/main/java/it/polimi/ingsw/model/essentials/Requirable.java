@@ -2,7 +2,9 @@ package it.polimi.ingsw.model.essentials;
 
 import it.polimi.ingsw.model.match.player.Verificator;
 
-//TODO JAVADOC
+/**
+ * This interface unifies CardTypes and resources (for cards activation).
+ */
 public interface Requirable {
 
     /**

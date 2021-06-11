@@ -6,13 +6,17 @@ import it.polimi.ingsw.exceptions.*;
 
 import java.util.*;
 
+/**
+ * This class implements the basic warehouse.
+ */
 public class ConcreteWarehouse implements Warehouse
 {
     private final List<PhysicalResource> shelves;
     private final List<PhysicalResource> marketBuffer;
 
-    //todo JAVADOC
-    //constructor initializes the three shelves with UNKNOWN type and zero quantity.
+    /**
+     * The constructor initializes the three shelves with UNKNOWN type and zero quantity.
+     */
     public ConcreteWarehouse()
     {
         shelves = new ArrayList<>();
@@ -218,7 +222,9 @@ public class ConcreteWarehouse implements Warehouse
     }
 
     /**
-     * //todo JAVADOC
+     * This method checks if the resources are effectively placeable.
+     * @param resources the list of resources
+     * @return the result
      */
     public boolean isPlaceable(List<PhysicalResource> resources){
         //CHECKS IF THERE IS A PLACE FOR AT LEAST A RESOURCE IN THE BUFFER. IF SO, THROWS A "RETRY" EXCEPTION

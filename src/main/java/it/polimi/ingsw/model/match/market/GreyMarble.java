@@ -5,7 +5,11 @@ import it.polimi.ingsw.model.essentials.PhysicalResource;
 import it.polimi.ingsw.model.essentials.ResType;
 import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.Adder;
-//todo JAVADOC
+
+/**
+ * This method implements the grey marble.
+ */
+
 public class GreyMarble extends Marble {
 
     /**
@@ -25,6 +29,10 @@ public class GreyMarble extends Marble {
         return false;
     }
 
+    /**
+     * Redefinition of class' toString
+     * @return a string
+     */
     public String toString() {
         return "GreyMarble";
     }

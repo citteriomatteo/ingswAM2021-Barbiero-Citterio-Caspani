@@ -12,6 +12,9 @@ import it.polimi.ingsw.network.message.stocmessage.TokenDrawMessage;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class extends common things defined in Match class with single player features.
+ */
 public class SingleMatch extends Match{
     private final Player currentPlayer;
     private final SingleCardGrid singleCardGrid;

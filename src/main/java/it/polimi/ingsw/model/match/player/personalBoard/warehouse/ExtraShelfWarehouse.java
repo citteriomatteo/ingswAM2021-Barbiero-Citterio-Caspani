@@ -7,6 +7,9 @@ import it.polimi.ingsw.exceptions.*;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class implements the extra warehouse with an additional shelf.
+ */
 public class ExtraShelfWarehouse implements WarehouseDecorator
 {
     private Warehouse oldWarehouse;

@@ -9,6 +9,10 @@ import it.polimi.ingsw.exceptions.ShelfInsertException;
 
 import java.util.*;
 
+/**
+ * This interface is a piece of Decorator pattern implementation.
+ * Implemented by Warehouse.
+ */
 public interface Warehouse
 {
     /**

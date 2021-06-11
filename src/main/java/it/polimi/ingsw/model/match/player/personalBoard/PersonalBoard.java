@@ -15,6 +15,9 @@ import it.polimi.ingsw.model.match.player.personalBoard.warehouse.Warehouse;
 
 import java.util.*;
 
+/**
+ * This class implements the player's personal board.
+ */
 public class PersonalBoard implements Effector
 {
     private final Player player;

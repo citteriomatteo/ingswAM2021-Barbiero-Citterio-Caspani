@@ -22,6 +22,11 @@ public enum ResType {
         return image;
     }
 
+    /**
+     * This method returns the res type that corresponds to an image object (for GUI).
+     * @param image the image
+     * @return the res type
+     */
     public static ResType valueOfImage(Image image){
         for (ResType type : ResType.values())
             if(type.asImage().equals(image))
