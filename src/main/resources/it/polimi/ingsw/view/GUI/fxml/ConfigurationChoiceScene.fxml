@@ -3,15 +3,18 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <Pane fx:id="basePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="561.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.InitSceneController">
     <ImageView fitHeight="360.0" fitWidth="565.0" pickOnBounds="true">
         <Image url="@../images/generalBackground.jpg" />
     </ImageView>
+   <Rectangle arcHeight="50.0" arcWidth="50.0" height="94.0" layoutX="101.0" layoutY="45.0" opacity="0.7" stroke="WHITE" strokeType="INSIDE" width="369.0" />
     <Button id="default" layoutX="131.0" layoutY="180.0" mnemonicParsing="false" onAction="#selection" prefHeight="50.0" prefWidth="103.0" text="DEFAULT" userData="true">
         <font>
         <Font name="Songti SC Black" size="15.0" />
@@ -19,6 +22,9 @@
         <cursor>
         <Cursor fx:constant="HAND" />
         </cursor>
+      <effect>
+         <DropShadow />
+      </effect>
     </Button>
     <Button id="customize" disable="true" layoutX="316.0" layoutY="180.0" mnemonicParsing="false" onAction="#selection" prefHeight="50.0" prefWidth="121.0" text="CUSTOMIZED" userData="false">
         <font>
@@ -28,7 +34,7 @@
         <Cursor fx:constant="HAND" />
         </cursor>
     </Button>
-    <Label alignment="CENTER" layoutX="16.0" layoutY="103.0" prefHeight="38.0" prefWidth="529.0" text="Select settings">
+    <Label alignment="CENTER" layoutX="115.0" layoutY="63.0" prefHeight="58.0" prefWidth="344.0" text="Select settings" textFill="WHITE">
         <font>
         <Font name="Songti SC Black" size="40.0" />
         </font>

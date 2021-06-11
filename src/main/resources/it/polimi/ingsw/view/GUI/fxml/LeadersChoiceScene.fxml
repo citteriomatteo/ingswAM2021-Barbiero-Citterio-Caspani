@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<Pane fx:id="basePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.StartingPhaseSceneController">
+<Pane fx:id="basePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.StartingPhaseSceneController">
    <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true">
       <Image url="@../images/generalBackground.jpg" />
    </ImageView>
+   <Rectangle arcHeight="50.0" arcWidth="50.0" height="113.0" layoutX="65.0" layoutY="37.0" opacity="0.7" stroke="WHITE" strokeType="INSIDE" width="659.0" />
    <HBox fx:id="leadersHBox" alignment="CENTER" layoutX="37.0" layoutY="183.0" prefHeight="247.0" prefWidth="724.0" spacing="20.0">
       <ImageView fx:id="firstCard" fitHeight="250.0" fitWidth="280.0" onMouseClicked="#cardSelection" pickOnBounds="true" preserveRatio="true">
          <HBox.margin>
@@ -32,11 +32,14 @@
    </HBox>
    <Button id="confirmButton" layoutX="722.0" layoutY="540.0" mnemonicParsing="false" onAction="#sendLeaders" prefHeight="38.0" prefWidth="51.0" text="→">
       <font>
-         <Font name="Verdana Italic" size="25.0" />
-      </font></Button>
-   <Label alignment="CENTER" layoutX="1.0" layoutY="71.0" prefHeight="58.0" prefWidth="800.0" text="Choose two leaders">
+         <Font name="System Italic" size="18.0" />
+      </font>
+      <effect>
+         <DropShadow />
+      </effect></Button>
+   <Label alignment="CENTER" layoutX="-5.0" layoutY="56.0" prefHeight="58.0" prefWidth="800.0" text="Choose two leaders" textFill="WHITE">
       <font>
-         <Font name="Songti SC Black" size="57.0" />
+         <Font size="52.0" />
       </font></Label>
    <Label fx:id="errorLabel" layoutX="302.0" layoutY="521.0" opacity="0.0" text="msg from server" textAlignment="CENTER" textFill="RED">
       <font>

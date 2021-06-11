@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<Pane fx:id="basePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.StartingPhaseSceneController">
+<Pane fx:id="basePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.StartingPhaseSceneController">
    <ImageView id="servantCount" fitHeight="600.0" fitWidth="802.0" layoutX="-1.0" opacity="0.75" pickOnBounds="true">
       <Image url="@../images/generalBackground.jpg" />
    </ImageView>
-   <Label id="startinResLabel" fx:id="startingResourcesLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="1.0" layoutY="125.0" prefHeight="46.0" prefWidth="800.0" text="Choose your starting resources." textAlignment="CENTER">
+   <Rectangle arcHeight="50.0" arcWidth="50.0" height="118.0" layoutX="14.0" layoutY="99.0" opacity="0.7" stroke="WHITE" strokeType="INSIDE" width="772.0" />
+   <Label id="startinResLabel" fx:id="startingResourcesLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="1.0" layoutY="125.0" prefHeight="46.0" prefWidth="800.0" text="Choose your starting resources" textAlignment="CENTER" textFill="WHITE">
       <font>
          <Font name="Songti SC Black" size="45.0" />
       </font>
@@ -22,7 +21,7 @@
       <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0">
          <Label fx:id="stoneCount" text="x0">
             <font>
-               <Font name="Songti SC Black" size="26.0" />
+               <Font name="System Bold" size="26.0" />
             </font>
          </Label>
          <ImageView fx:id="stoneImage" fitHeight="114.0" fitWidth="85.0" onMouseClicked="#addStone" pickOnBounds="true" preserveRatio="true">
@@ -32,7 +31,7 @@
       <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0">
          <Label fx:id="shieldCount" text="x0">
             <font>
-               <Font name="Songti SC Black" size="26.0" />
+               <Font name="System Bold" size="26.0" />
             </font>
          </Label>
          <ImageView fx:id="ShieldImage" fitHeight="90.0" fitWidth="85.0" onMouseClicked="#addShield" pickOnBounds="true" preserveRatio="true">
@@ -42,7 +41,7 @@
       <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0">
          <Label fx:id="servantCount" text="x0">
             <font>
-               <Font name="Songti SC Black" size="26.0" />
+               <Font name="System Bold" size="26.0" />
             </font>
          </Label>
          <ImageView fx:id="servantImage" fitHeight="114.0" fitWidth="85.0" onMouseClicked="#addServant" pickOnBounds="true" preserveRatio="true">
@@ -52,7 +51,7 @@
       <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0">
          <Label fx:id="coinCount" text="x0">
             <font>
-               <Font name="Songti SC Black" size="26.0" />
+               <Font name="System Bold" size="26.0" />
             </font>
          </Label>
          <ImageView fx:id="coinImage" fitHeight="114.0" fitWidth="85.0" onMouseClicked="#addCoin" pickOnBounds="true" preserveRatio="true">
@@ -62,8 +61,11 @@
    </HBox>
    <Button fx:id="confirmButton" layoutX="374.0" layoutY="443.0" mnemonicParsing="false" onAction="#chooseResources" prefHeight="46.0" prefWidth="54.0" text="→">
       <font>
-         <Font size="25.0" />
-      </font></Button>
+         <Font size="23.0" />
+      </font>
+      <effect>
+         <DropShadow />
+      </effect></Button>
    <Label id="errorLabel" layoutX="336.0" layoutY="517.0" opacity="0.0" text="error msg from server" textFill="RED">
       <font>
          <Font size="15.0" />

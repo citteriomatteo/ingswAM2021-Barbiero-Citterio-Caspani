@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="140.0" prefWidth="602.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="140.0" prefWidth="602.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fitHeight="90.0" fitWidth="104.0" layoutX="22.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/warning.png" />
          </image>
       </ImageView>
-      <Label id="errorLabel" alignment="CENTER" layoutX="163.0" layoutY="27.0" prefHeight="90.0" prefWidth="416.0" text="Error message" textFill="WHITE" wrapText="true">
+      <Label id="errorLabel" alignment="CENTER" layoutX="163.0" layoutY="27.0" prefHeight="90.0" prefWidth="416.0" text="Error message" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
             <Font name="Calisto MT" size="18.0" />
          </font>

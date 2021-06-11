@@ -4,6 +4,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <Pane id="basePane" fx:id="basePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GUI.GoodbyeSceneController">
@@ -13,9 +14,10 @@
             <Image url="@../images/newLogo.jpg" />
          </image>
       </ImageView>
-      <Label id="errorMessage" fx:id="errorMessage" alignment="CENTER" layoutX="-6.0" layoutY="265.0" prefHeight="80.0" prefWidth="606.0">
+      <Rectangle arcHeight="50.0" arcWidth="50.0" height="114.0" layoutX="17.0" layoutY="255.0" opacity="0.72" stroke="WHITE" strokeType="INSIDE" width="565.0" />
+      <Label id="errorMessage" fx:id="errorMessage" alignment="CENTER" layoutX="35.0" layoutY="256.0" prefHeight="114.0" prefWidth="527.0" textFill="WHITE" wrapText="true">
          <font>
-            <Font name="Songti SC Black" size="14.0" />
+            <Font name="Arial" size="20.0" />
          </font>
       </Label>
    </children>
