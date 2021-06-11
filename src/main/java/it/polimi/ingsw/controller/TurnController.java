@@ -366,13 +366,14 @@ public class TurnController {
             }
         }
         else{
-            removeDiscounts(discounts, currentPlayer.getTempDevCard().getPrice());
+            List<PhysicalResource> actualCosts = new ArrayList<>(currentPlayer.getTempDevCard().getPrice());
+            removeDiscounts(discounts, actualCosts);
 
-            if(payments.size() != currentPlayer.getTempDevCard().getPrice().size())
+            if(payments.size() != actualCosts.size())
                 throw new RetryException("Payments don't match the chosen production ones.");
             boolean found = false;
             for (PhysicalResource p : payments) {
-                for (PhysicalResource p1 : currentPlayer.getTempDevCard().getPrice())
+                for (PhysicalResource p1 : actualCosts)
                     if (p.equals(p1) && p.getQuantity() == p1.getQuantity()) {
                         found = true;
                         break;
