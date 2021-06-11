@@ -26,12 +26,12 @@ public class VaticanReportCellTest extends CommonThingsTest
 
         SingleFaithPath path = (SingleFaithPath) match.getCurrentPlayer().getPersonalBoard().getFaithPath();
         for(int i=0; i<24; i++)
-            System.out.println(path.getFaithPath().get(i).singleVaticanReport());
-        assertTrue(path.getFaithPath().get(8).singleVaticanReport());
+            System.out.println(path.getFaithPath().get(i).singleVaticanReport(player));
+        assertTrue(path.getFaithPath().get(8).singleVaticanReport(player));
         path.addFaithPoints(9, match);
         System.out.println("AFTER:");
         for(int i=0; i<25; i++)
-            System.out.println(path.getFaithPath().get(i).singleVaticanReport());
-        assertFalse(path.getFaithPath().get(8).singleVaticanReport());
+            System.out.println(path.getFaithPath().get(i).singleVaticanReport(player));
+        assertFalse(path.getFaithPath().get(8).singleVaticanReport(player));
     }
 }

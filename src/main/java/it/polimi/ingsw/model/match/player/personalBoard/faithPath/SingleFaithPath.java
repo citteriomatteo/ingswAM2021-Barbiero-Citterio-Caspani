@@ -35,7 +35,6 @@ public class SingleFaithPath extends FaithPath {
      * @throws LastRoundException          if Lorenzo ends the path journey
      */
     public boolean addBlackPoints(int points, Player player) throws LastRoundException {
-        //critical error: wrong tokens!
         if(points<0)
         {
             System.err.println("Application shutdown due to an internal error.");
@@ -58,7 +57,7 @@ public class SingleFaithPath extends FaithPath {
      * @return true (for Cell collapse), else false.
      */
     public boolean blackVaticanReport(Player player) {
-        if(getFaithPath().get(blackCrossMarker).singleVaticanReport())
+        if(getFaithPath().get(blackCrossMarker).singleVaticanReport(player))
         {
             List<Cell> fp = getFaithPath();
             if ((fp.get(getPosition()).getReportSection()>0 && fp.get(getPosition()).getReportSection() < fp.get(blackCrossMarker).getReportSection())

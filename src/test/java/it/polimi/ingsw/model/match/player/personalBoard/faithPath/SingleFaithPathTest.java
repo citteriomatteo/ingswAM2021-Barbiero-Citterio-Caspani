@@ -38,7 +38,7 @@ public class SingleFaithPathTest extends FaithPathTest
         path.addBlackPoints(10, player);
         assertEquals(10, path.getBlackPosition()); assertEquals(0, path.getPosition());
         assertEquals(2, path.getPopeTiles().get(0));
-        assertFalse(path.getFaithPath().get(9).singleVaticanReport());
+        assertFalse(path.getFaithPath().get(9).singleVaticanReport(player));
     }
 
     //Instruction coverage for black marker getter.

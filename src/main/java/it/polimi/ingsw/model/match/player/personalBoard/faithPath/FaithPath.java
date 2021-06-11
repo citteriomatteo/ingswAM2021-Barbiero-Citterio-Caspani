@@ -54,7 +54,7 @@ public abstract class FaithPath
         for(; steps>0 && faithMarker<faithPath.size()-1; steps--)
         {
             faithMarker++;
-            if(communicator.getPlayers().size()==1 && faithPath.get(faithMarker).singleVaticanReport())
+            if(communicator.getPlayers().size()==1 && faithPath.get(faithMarker).singleVaticanReport(communicator.getPlayers().get(0)))
                 cellCollapse(faithMarker);
             else
                 if(communicator.getPlayers().size()>1 && faithPath.get(faithMarker).vaticanReport(communicator))
@@ -89,8 +89,31 @@ public abstract class FaithPath
      */
     public boolean cellCollapse(int pos)
     {
-        try{faithPath.set(pos, new Cell(faithPath.get(pos).getWinPoints(), faithPath.get(pos).getReportSection()));}
+        System.out.println("collapsing the cell at pos "+pos);
+        try {
+            faithPath.set(pos, new Cell(faithPath.get(pos).getWinPoints(), faithPath.get(pos).getReportSection()));
+        }
         catch(FaithPathCreationException e) { e.printStackTrace(); System.err.println("Application shutdown due to an internal error."); }
+        return true;
+    }
+
+    /**
+     * This method is called when a player steps onto a VaticanReportCell.
+     * It checks if the current player is in the same report section of the report Cell or before and turns the
+     * relative pope tile upside or downside.
+     * @param section   the stepped report section
+     * @return          true
+     * @see VaticanReportCell
+     */
+    public boolean externalVaticanReport(int section)
+    {
+        if(getFaithPath().get(getPosition()).getReportSection()<section)
+            setPopeTile(section - 1, 2);
+
+        else
+            setPopeTile(section - 1, 1);
+
+
         return true;
     }
 

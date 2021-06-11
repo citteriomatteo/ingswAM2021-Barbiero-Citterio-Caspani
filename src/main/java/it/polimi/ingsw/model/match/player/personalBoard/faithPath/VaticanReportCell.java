@@ -36,7 +36,7 @@ public class VaticanReportCell extends Cell
     {
         for(Player p : communicator.getPlayers())
         {
-            MultiFaithPath path = (MultiFaithPath) p.getPersonalBoard().getFaithPath();
+            FaithPath path = p.getPersonalBoard().getFaithPath();
             path.externalVaticanReport(getReportSection());
         }
 
@@ -55,7 +55,16 @@ public class VaticanReportCell extends Cell
      * @see Cell
      */
     @Override
-    public boolean singleVaticanReport() {return true;}
+    public boolean singleVaticanReport(Player player) {
+        player.getPersonalBoard().getFaithPath().externalVaticanReport(getReportSection());
+
+        //update_call
+        Map<String, List<Integer>> popeMap = new HashMap<>();
+        popeMap.put(player.getNickname(), player.getPersonalBoard().getFaithPath().getPopeTiles());
+        player.updatePopeTiles(player.getNickname(), popeMap);
+
+        return true;
+    }
 
     /** @return true if it's a vatican report cell, else false */
     @Override

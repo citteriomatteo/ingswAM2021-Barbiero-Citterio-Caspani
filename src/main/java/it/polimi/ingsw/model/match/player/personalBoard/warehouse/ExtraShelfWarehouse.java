@@ -166,7 +166,8 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
     public Map<ResType, Integer> getWarehouse()
     {
         Map<ResType, Integer> requestedMap = oldWarehouse.getWarehouse();
-        requestedMap.replace(extraShelf.getType(), (requestedMap.get(extraShelf.getType()) + extraShelf.getQuantity()));
+        if(requestedMap.containsKey(extraShelf.getType()))
+            requestedMap.replace(extraShelf.getType(), ((requestedMap.get(extraShelf.getType())==null ? 0 : requestedMap.get(extraShelf.getType())) + extraShelf.getQuantity()));
         return requestedMap;
     }
 

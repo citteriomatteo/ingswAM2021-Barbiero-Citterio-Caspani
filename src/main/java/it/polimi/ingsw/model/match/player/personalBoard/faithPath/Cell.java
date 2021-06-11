@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.match.player.personalBoard.faithPath;
 
 import it.polimi.ingsw.exceptions.FaithPathCreationException;
 import it.polimi.ingsw.model.match.Communicator;
+import it.polimi.ingsw.model.match.player.Player;
 
 /**
  * This class implements a cell.
@@ -38,7 +39,7 @@ public class Cell
      * @return            false
      * @see VaticanReportCell
      */
-    public boolean singleVaticanReport() { return false; }
+    public boolean singleVaticanReport(Player player) { return false; }
 
     /** @return the vatican report section associated to this Cell */
     public int getReportSection() { return vaticanReportSection; }
