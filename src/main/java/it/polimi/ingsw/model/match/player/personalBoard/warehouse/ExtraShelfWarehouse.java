@@ -166,13 +166,14 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
     public Map<ResType, Integer> getWarehouse()
     {
         Map<ResType, Integer> requestedMap = oldWarehouse.getWarehouse();
-        requestedMap.replace(extraShelf.getType(), (requestedMap.get(extraShelf.getType()) == null ? 0 : requestedMap.get(extraShelf.getType())) + extraShelf.getQuantity());
+        requestedMap.merge(extraShelf.getType(), extraShelf.getQuantity(), Integer::sum);
+       // requestedMap.replace(extraShelf.getType(), (requestedMap.get(extraShelf.getType()) == null ? 0 : requestedMap.get(extraShelf.getType())) + extraShelf.getQuantity());
 
         return requestedMap;
     }
 
     /**
-     * @return an ArrayList representing all the extended warehouse status.
+     * @return a List representing all the extended warehouse status.
      */
     @Override
     public List<PhysicalResource> getWarehouseDisposition()

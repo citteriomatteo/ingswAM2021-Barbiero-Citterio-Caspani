@@ -41,7 +41,7 @@ public class PlayerHandler implements Runnable, ControlBase {
     private Timer heartbeat;
 
     /**
-     * Generate a PlayerHandler
+     * Generates a PlayerHandler
      * @param socket the socket for communication with the player
      */
     public PlayerHandler(Socket socket) {
@@ -88,7 +88,6 @@ public class PlayerHandler implements Runnable, ControlBase {
     }
     @Override
     public void setMatchController(MatchController matchController) {
-        //System.out.println("set the matchController for " + player);
         this.matchController = matchController;
         inMatch.set(true);
     }
@@ -100,6 +99,13 @@ public class PlayerHandler implements Runnable, ControlBase {
 
 //%%%%%%%%%%%%%%%% MAIN FUNCTION %%%%%%%%%%%%%%%%%%%%
 
+    /**
+     * Handles the communication with the client, reading the messages from the socket and redistributing them
+     * to the correct controller until the connection drops or the play session comes to an end.
+     * If the player disconnects, this thread run comes to an end but the instance remains saved in {@link ServerUtilities}
+     * ready to be used for reconnection issues
+     */
+    @Override
     public void run() {
         try {
             //initialize the player and do the configuration, exit from here when is assigned a MatchController
@@ -128,7 +134,7 @@ public class PlayerHandler implements Runnable, ControlBase {
     }
 
     /**
-     * Initialization of the player, set writer and reader, talk with the client and set nickname and the correct match
+     * Initialization of the player, sets writer and reader, talks with the client and sets nickname and the correct match
      * @throws IOException if something goes wrong with the reading or writing with the player
      * @throws DisconnectionException if the client disconnects
      */
