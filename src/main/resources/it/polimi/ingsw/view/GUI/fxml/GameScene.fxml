@@ -2001,6 +2001,11 @@
       </VBox>
       <Pane id="paymentsPane" fx:id="paymentsPane" disable="true" layoutX="64.0" layoutY="15.0" prefHeight="392.0" prefWidth="689.0" style="-fx-background-color: black;" visible="false">
          <children>
+            <ImageView id="paymentsBackground" fitHeight="392.0" fitWidth="689.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/bricksBackground.jpg" />
+               </image>
+            </ImageView>
             <ImageView id="paymentsStrongBox" fitHeight="181.0" fitWidth="267.0" layoutX="14.0" layoutY="116.0" onDragDropped="#dropResourcePayments" onDragOver="#acceptDrop" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/cassa_tesoro.png" />
@@ -2101,6 +2106,11 @@
       </Pane>
       <Pane fx:id="productionPane" disable="true" layoutX="753.0" layoutY="241.0" prefHeight="318.0" prefWidth="522.0" style="-fx-background-color: black;" visible="false">
          <children>
+            <ImageView id="conversionsBackground" fitHeight="318.0" fitWidth="522.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/bricksBackground.jpg" />
+               </image>
+            </ImageView>
             <Text fill="WHITE" layoutX="81.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose how to convert the unknown costs">
                <font>
                   <Font size="18.0" />

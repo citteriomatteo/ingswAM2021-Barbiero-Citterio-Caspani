@@ -398,7 +398,7 @@ public class TurnSceneController implements SceneController{
      * and restore the payments pane to his starting situation
      */
     public void resetPayments() {
-        VBox resourcesVBox = (VBox) paymentsPane.getChildren().get(1);
+        VBox resourcesVBox = (VBox) paymentsPane.getChildren().get(2);
         for(Node n : resourcesVBox.getChildren()){
             HBox resourceHBox = (HBox) n;
             Label resourceLabel = (Label) resourceHBox.getChildren().get(1);
@@ -659,7 +659,7 @@ public class TurnSceneController implements SceneController{
     }
 
     private void endPaymentsPhase() {
-        VBox resourcesVBox = (VBox) paymentsPane.getChildren().get(1);
+        VBox resourcesVBox = (VBox) paymentsPane.getChildren().get(2);
         for(Node n : resourcesVBox.getChildren()){
             HBox resourceHBox = (HBox) n;
             Label resourceLabel = (Label) resourceHBox.getChildren().get(1);
@@ -1157,7 +1157,7 @@ public class TurnSceneController implements SceneController{
 
     public void convertUCosts(MouseEvent mouseEvent) {
         int numActualUCosts = 0;
-        HBox uCostsHBox = (HBox) productionPane.getChildren().get(1);
+        HBox uCostsHBox = (HBox) productionPane.getChildren().get(2);
         VBox resVBox;
         Label resLabel;
         int newQuantity;
@@ -1222,7 +1222,7 @@ public class TurnSceneController implements SceneController{
         int numUEarningsToProduce = 0;
         int numActualEarnings = 0;
         int newFirstResource = uEarnings.size()-1;
-        HBox uCostsHBox = (HBox) productionPane.getChildren().get(3);
+        HBox uCostsHBox = (HBox) productionPane.getChildren().get(4);
         VBox resVBox;
         Label resLabel;
         int newQuantity;
@@ -1290,7 +1290,7 @@ public class TurnSceneController implements SceneController{
     }
 
     public void closeProductionPane() {
-        HBox hBox = (HBox) productionPane.getChildren().get(1);
+        HBox hBox = (HBox) productionPane.getChildren().get(2);
         VBox vBox;
 
         for (Node node : hBox.getChildren()){
@@ -1298,7 +1298,7 @@ public class TurnSceneController implements SceneController{
             ((Label) vBox.getChildren().get(0)).setText("x0");
         }
 
-        hBox = (HBox) productionPane.getChildren().get(3);
+        hBox = (HBox) productionPane.getChildren().get(4);
 
         for (Node node : hBox.getChildren()){
             vBox = (VBox) node;
@@ -1401,7 +1401,7 @@ public class TurnSceneController implements SceneController{
         if(selectedPlace.getParent().isVisible()) {
             success = true;
 
-            VBox paymentsResources = (VBox) paymentsPane.getChildren().get(1);
+            VBox paymentsResources = (VBox) paymentsPane.getChildren().get(2);
 
             for(Node n : paymentsResources.getChildren()){
                 HBox res = (HBox) n;
