@@ -14,12 +14,21 @@ public class WarehouseChangeMessage extends StoCMessage {
     private static final StoCMessageType type = StoCMessageType.WAREHOUSE_CHANGE;
     private final List<PhysicalResource> newWarehouse;
 
+    /**
+     * Constructor of a warehouse update's message.
+     * @param nickname the nickname
+     * @param newWarehouse the latest warehouse's version
+     */
     public WarehouseChangeMessage(String nickname, List<PhysicalResource> newWarehouse){
         super(nickname);
         this.newWarehouse = newWarehouse;
     }
-
+    @Override
     public StoCMessageType getType(){ return type; }
+    /**
+     * Getter
+     * @return the new warehouse
+     */
     public List<PhysicalResource> getNewWarehouse(){ return newWarehouse; }
 
     @Override

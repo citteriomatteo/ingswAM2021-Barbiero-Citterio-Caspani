@@ -12,15 +12,30 @@ public class TokenDrawMessage extends StoCMessage {
     private final String tokenName;
     private final int remainingTokens;
 
+    /**
+     * Constructor of the token draw message.
+     * @param nickname the nickname
+     * @param tokenName the token string name
+     * @param remainingTokens the number of remaining tokens on the stack
+     */
     public TokenDrawMessage(String nickname, String tokenName, int remainingTokens){
         super(nickname);
         this.tokenName = tokenName;
         this.remainingTokens = remainingTokens;
     }
 
+    @Override
     public StoCMessageType getType(){ return type; }
+    /**
+     * Getter
+     * @return the remaining tokens number
+     */
     public int getRemainingTokens(){ return remainingTokens; }
-    public String tokenName(){ return tokenName; }
+    /**
+     * Getter
+     * @return the token name
+     */
+    public String getTokenName(){ return tokenName; }
 
     @Override
     public boolean compute(Client client){

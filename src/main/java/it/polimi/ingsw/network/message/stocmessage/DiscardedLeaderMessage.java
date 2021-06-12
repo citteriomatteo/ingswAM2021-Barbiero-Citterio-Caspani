@@ -9,6 +9,10 @@ import it.polimi.ingsw.network.client.Client;
 public class DiscardedLeaderMessage extends StoCMessage {
     private static final StoCMessageType type = StoCMessageType.DISCARDED_LEADER;
 
+    /**
+     * Constructor of a discarded leader notify message.
+     * @param nickname the receiver
+     */
     public DiscardedLeaderMessage(String nickname){
         super(nickname);
     }
@@ -20,6 +24,7 @@ public class DiscardedLeaderMessage extends StoCMessage {
         return true;
     }
 
+    @Override
     public StoCMessageType getType(){
         return type;
     }

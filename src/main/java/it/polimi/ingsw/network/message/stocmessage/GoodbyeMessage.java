@@ -12,6 +12,12 @@ public class GoodbyeMessage extends StoCMessage {
     private final String msg;
     private final boolean abnormalCondition;
 
+    /**
+     * Constructor of a goodbye message to gently disconnect the client.
+     * @param nickname the receiver
+     * @param msg the message
+     * @param abnormalCondition an abnormal condition's flag
+     */
     public GoodbyeMessage(String nickname, String msg, boolean abnormalCondition) {
         super(nickname);
         this.msg = msg;
@@ -25,7 +31,16 @@ public class GoodbyeMessage extends StoCMessage {
     }
     @Override
     public StoCMessageType getType() { return type; }
+
+    /**
+     * Getter
+     * @return the message
+     */
     public String getMsg() { return msg; }
+    /**
+     * Getter
+     * @return the abnormal condition's flag
+     */
     public boolean isAbnormalCondition() {
         return abnormalCondition;
     }

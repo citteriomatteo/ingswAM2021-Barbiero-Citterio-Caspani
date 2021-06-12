@@ -13,7 +13,10 @@ public class EndTurnMessage extends CtoSMessage {
 
     private static final CtoSMessageType type = CtoSMessageType.END_TURN;
 
-
+    /**
+     * Constructor of the end turn message, sent when the current player finishes its turn.
+     * @param nickname the sender
+     */
     public EndTurnMessage(String nickname){
         super(nickname);
     }

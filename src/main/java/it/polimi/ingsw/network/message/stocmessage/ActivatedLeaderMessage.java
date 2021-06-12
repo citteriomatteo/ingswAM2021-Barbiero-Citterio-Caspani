@@ -11,6 +11,11 @@ public class ActivatedLeaderMessage extends StoCMessage {
     private static final StoCMessageType type = StoCMessageType.ACTIVATED_LEADER;
     private final String cardID;
 
+    /**
+     * Constructor of an activated leader's notify message.
+     * @param nickname the receiver
+     * @param cardID the id of the leader
+     */
     public ActivatedLeaderMessage(String nickname, String cardID){
         super(nickname);
         this.cardID = cardID;
@@ -22,9 +27,15 @@ public class ActivatedLeaderMessage extends StoCMessage {
         return true;
     }
 
+    @Override
     public StoCMessageType getType(){
         return type;
     }
+
+    /**
+     * Getter
+     * @return the card's ID
+     */
     public String getCardID(){
         return cardID;
     }

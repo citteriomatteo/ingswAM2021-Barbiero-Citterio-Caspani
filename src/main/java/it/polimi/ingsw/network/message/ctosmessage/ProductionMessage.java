@@ -17,6 +17,12 @@ public class ProductionMessage extends CtoSMessage {
     private final List<String> cardIds;
     private final Production productionOfUnknown;
 
+    /**
+     * Constructor of a production message: contains the cards chosen and the relative unknown conversions.
+     * @param nickname the sender
+     * @param cardIds list of cards to produce
+     * @param productionOfUnknown unknown conversions
+     */
     public ProductionMessage(String nickname, List<String> cardIds, Production productionOfUnknown) {
         super(nickname);
         this.cardIds = cardIds;

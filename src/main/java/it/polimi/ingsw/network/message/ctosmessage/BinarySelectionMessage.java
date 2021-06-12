@@ -11,12 +11,23 @@ public class BinarySelectionMessage extends CtoSMessage {
     private final boolean selection;
     private final String comment;
 
+    /**
+     * Constructor with comment
+     * @param nickname the sender
+     * @param selection the selection value
+     * @param comment the comment
+     */
     public BinarySelectionMessage(String nickname, boolean selection, String comment){
             super(nickname);
             this.selection = selection;
             this.comment = comment;
         }
 
+    /**
+     * Constructor without comment
+     * @param nickname the sender
+     * @param selection the selection value
+     */
     public BinarySelectionMessage(String nickname, boolean selection) {
         super(nickname);
         this.selection = selection;
@@ -42,11 +53,17 @@ public class BinarySelectionMessage extends CtoSMessage {
     public CtoSMessageType getType() {
         return type;
     }
-
+    /**
+     * Getter
+     * @return the selection value
+     */
     public boolean getSelection() {
         return selection;
     }
-
+    /**
+     * Getter
+     * @return the comment
+     */
     public String getComment() {
         return comment;
     }

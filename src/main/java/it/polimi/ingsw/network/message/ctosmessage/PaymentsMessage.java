@@ -18,6 +18,12 @@ public class PaymentsMessage extends CtoSMessage {
     private final List<PhysicalResource> strongboxCosts;
     private final Map<Integer,PhysicalResource> warehouseCosts;
 
+    /**
+     * Constructor of a payments' message.
+     * @param nickname the sender
+     * @param strongboxCosts the costs from strongbox
+     * @param warehouseCosts the costs from warehouse
+     */
     public PaymentsMessage(String nickname, List<PhysicalResource> strongboxCosts, Map<Integer,PhysicalResource> warehouseCosts) {
         super(nickname);
         this.warehouseCosts = warehouseCosts;

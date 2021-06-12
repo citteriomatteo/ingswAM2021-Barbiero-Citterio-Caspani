@@ -31,12 +31,26 @@ public abstract class CtoSMessage extends Message {
         return getClientController().send(this);
     }
 
+    /**
+     * Checks if a variable of the message is null.
+     * @return true if it finds a null value
+     */
     public abstract boolean isSomethingNull();
 
+    /**
+     * Returns the message's type.
+     * @return the type of the specific message
+     */
     @Override
     public abstract CtoSMessageType getType();
 
-    public void sendRetryMessage(String nickname,ControlBase controlBase,  String error){
+    /**
+     * Creates a retry message and sends it back immediately to the client.
+     * @param nickname the receiver
+     * @param controlBase interface used to get the current player
+     * @param error the error message
+     */
+    public void sendRetryMessage(String nickname, ControlBase controlBase,  String error){
         new RetryMessage(nickname, controlBase.getCurrentState(), error).send(nickname);
     }
 }

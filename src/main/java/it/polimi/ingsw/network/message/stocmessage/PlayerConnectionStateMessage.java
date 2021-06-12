@@ -11,6 +11,11 @@ public class PlayerConnectionStateMessage extends StoCMessage{
     private static final StoCMessageType type = StoCMessageType.PLAYER_DISCONNECTED;
     private final boolean connected;
 
+    /**
+     * Constructor of a new player connection state's message.
+     * @param nickname the player that has connected/disconnected
+     * @param connected the new connection state
+     */
     public PlayerConnectionStateMessage(String nickname, boolean connected) {
         super(nickname);
         this.connected = connected;
@@ -28,6 +33,10 @@ public class PlayerConnectionStateMessage extends StoCMessage{
         return false;
     }
 
+    /**
+     * Getter
+     * @return the connection state
+     */
     public boolean getConnected(){
         return connected;
     }

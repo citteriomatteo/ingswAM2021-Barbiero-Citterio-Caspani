@@ -14,6 +14,11 @@ public class LeaderDiscardingMessage extends CtoSMessage {
     private static final CtoSMessageType type = CtoSMessageType.LEADER_DISCARDING;
     private final String leaderId;
 
+    /**
+     * Constructor of the leader discarding message.
+     * @param nickname the sender
+     * @param leaderId the id of the discarded leader
+     */
     public LeaderDiscardingMessage(String nickname, String leaderId) {
         super(nickname);
         this.leaderId = leaderId;

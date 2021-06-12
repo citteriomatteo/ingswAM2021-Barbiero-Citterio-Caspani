@@ -13,6 +13,11 @@ public class LeaderActivationMessage extends CtoSMessage {
     private static final CtoSMessageType type = CtoSMessageType.LEADER_ACTIVATION;
     private final String leaderId;
 
+    /**
+     * Constructor of the leader activation's message.
+     * @param nickname the sender
+     * @param leader the id of the chosen leader
+     */
     public LeaderActivationMessage(String nickname, String leader) {
         super(nickname);
         this.leaderId = leader;

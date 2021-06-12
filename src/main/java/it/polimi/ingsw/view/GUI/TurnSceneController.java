@@ -416,6 +416,7 @@ public class TurnSceneController implements SceneController{
         populateDevCardSlots(player.getDevCardSlots(), devCardSlots);
         if(player.getTempDevCard()!=null)
             tempDevCard.setImage(getSceneProxy().getCardImage(player.getTempDevCard()));
+        placeDevCardPhaseDisables();
     }
 
     /**
@@ -601,6 +602,7 @@ public class TurnSceneController implements SceneController{
     }
 
     public void placeDevCardPhaseDisables(){
+        System.out.println("passo di qua ora");
         marketPane.setDisable(true);
         cardGrid.setDisable(true);
         tempDevCard.setDisable(false);

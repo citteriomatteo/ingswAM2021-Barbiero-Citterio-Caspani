@@ -13,6 +13,11 @@ public class NextStateMessage extends StoCMessage {
     private static final StoCMessageType type = StoCMessageType.NEXT_STATE;
     private final StateName newState;
 
+    /**
+     * Constructor of the next state's message.
+     * @param nickname the receiver
+     * @param newState the new state
+     */
     public NextStateMessage(String nickname, StateName newState){
         super(nickname);
         this.newState = newState;
@@ -25,6 +30,11 @@ public class NextStateMessage extends StoCMessage {
     }
     @Override
     public StoCMessageType getType() { return type; }
+
+    /**
+     * Getter
+     * @return the new state of the player
+     */
     public StateName getNewState() { return newState; }
 
 }

@@ -10,15 +10,28 @@ public class NumPlayersMessage extends CtoSMessage{
     private static final CtoSMessageType type = CtoSMessageType.NUM_PLAYERS;
     private final int numPlayers;
 
+    /**
+     * Constructor of the message for the number of players chosen for a multi match.
+     * @param nickname the sender
+     * @param numPlayers the number of players
+     */
     public NumPlayersMessage(String nickname, int numPlayers) {
         super(nickname);
         this.numPlayers = numPlayers;
     }
 
+    /**
+     * Getter
+     * @return the number of players
+     */
     public int getNumPlayers() {
         return numPlayers;
     }
 
+    /**
+     * Checks if the number is accepted by the game rules.
+     * @return
+     */
     private boolean isValid(){
         return numPlayers >= 2 && numPlayers <= 4;
     }

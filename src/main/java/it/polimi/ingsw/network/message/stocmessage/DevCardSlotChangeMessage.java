@@ -16,6 +16,11 @@ public class DevCardSlotChangeMessage extends StoCMessage {
     private static final StoCMessageType type = StoCMessageType.DEV_CARD_SLOT_CHANGE;
     private final List<String>[] newDevSlots;
 
+    /**
+     * Constructor of a dev card slot update message.
+     * @param nickname the receiver
+     * @param newDevSlots the new dev card slots
+     */
     public DevCardSlotChangeMessage(String nickname, List<String>[] newDevSlots){
         super(nickname);
         this.newDevSlots = newDevSlots;
@@ -27,10 +32,15 @@ public class DevCardSlotChangeMessage extends StoCMessage {
         return true;
     }
 
+    @Override
     public StoCMessageType getType(){
         return type;
     }
 
+    /**
+     * Getter
+     * @return the new dev card slots
+     */
     public List<String>[] getNewDevSlots() {
         return newDevSlots;
     }

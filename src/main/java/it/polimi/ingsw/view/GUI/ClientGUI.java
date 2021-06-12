@@ -15,19 +15,13 @@ import static it.polimi.ingsw.view.GUI.SceneProxy.getSceneProxy;
 public class ClientGUI implements View {
 
     @Override
-    public void showAll(LightMatch match) {
-
-    }
+    public void showAll(LightMatch match) { }
 
     @Override
-    public void drawCards(List<String> id) {
-
-    }
+    public void drawCards(List<String> id) { }
 
     @Override
-    public void printTitle() {
-
-    }
+    public void printTitle() { }
 
     @Override
     public void drawLoginLayout() {
@@ -55,9 +49,7 @@ public class ClientGUI implements View {
     }
 
     @Override
-    public void drawConfigurationLayout() {
-
-    }
+    public void drawConfigurationLayout() { }
 
     @Override
     public void drawWaitingLayout() {
@@ -183,14 +175,10 @@ public class ClientGUI implements View {
     }
 
     @Override
-    public void printDiscountMap(LightPlayer player) {
-
-    }
+    public void printDiscountMap(LightPlayer player) { }
 
     @Override
-    public void printWhiteMarbleConversions(LightPlayer player) {
-
-    }
+    public void printWhiteMarbleConversions(LightPlayer player) { }
 
     @Override
     public void updateMatch(LightMatch match) {
@@ -225,13 +213,11 @@ public class ClientGUI implements View {
     @Override
     public void updateStrongbox(String nickname, LightMatch match) {
         getSceneProxy().updateStrongBox(nickname, match.getLightPlayer(nickname).getStrongbox());
-
     }
 
     @Override
     public void updateFaithMarker(String nickname, LightMatch match) {
         getSceneProxy().updateFaithMarker(nickname, match.getLightPlayer(nickname).getFaithMarker());
-
     }
 
     @Override
@@ -247,24 +233,18 @@ public class ClientGUI implements View {
     @Override
     public void updateHandLeaders(String nickname, LightMatch match) {
         getSceneProxy().updateHandLeaders(nickname, match.getLightPlayer(nickname).getHandLeaders());
-
     }
 
     @Override
     public void updateActiveLeaders(String nickname, LightMatch match) {
         getSceneProxy().updateActiveLeaders(nickname, match.getLightPlayer(nickname).getActiveLeaders());
-
     }
 
     @Override
-    public void updateWhiteMarbleConversions(String nickname, LightMatch match) {
-
-    }
+    public void updateWhiteMarbleConversions(String nickname, LightMatch match) { }
 
     @Override
-    public void updateDiscountMap(String nickname, LightMatch match) {
-
-    }
+    public void updateDiscountMap(String nickname, LightMatch match) { }
 
     @Override
     public void updateTempDevCard(String nickname, LightMatch match) {

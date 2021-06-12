@@ -13,6 +13,12 @@ public class RetryMessage extends StoCMessage {
     private StateName currentState;
     private final String errMessage;
 
+    /**
+     * Constructor of a retry message.
+     * @param nickname the receiver
+     * @param currentState the current state after the retry (the same as before, for a force reset)
+     * @param errMessage an error message
+     */
     public RetryMessage(String nickname, StateName currentState, String errMessage){
         super(nickname);
         this.currentState = currentState;
@@ -28,7 +34,15 @@ public class RetryMessage extends StoCMessage {
     }
     @Override
     public StoCMessageType getType(){ return type; }
+    /**
+     * Getter
+     * @return the error message
+     */
     public String getErrorMessage(){ return errMessage; }
+    /**
+     * Getter
+     * @return the current state
+     */
     public StateName getCurrentState(){ return currentState; }
 
 }

@@ -20,7 +20,11 @@ public class WarehouseInsertionMessage extends CtoSMessage {
     private static final CtoSMessageType type = CtoSMessageType.WAREHOUSE_INSERTION;
     private final List<PhysicalResource> resources;
 
-
+    /**
+     * Constructor of a warehouse insertion message.
+     * @param nickname the sender
+     * @param resources the resources with type - shelf
+     */
     public WarehouseInsertionMessage(String nickname, List<PhysicalResource> resources) {
         super(nickname);
         this.resources = resources;

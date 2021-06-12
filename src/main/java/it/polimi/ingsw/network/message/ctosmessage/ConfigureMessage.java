@@ -11,6 +11,11 @@ public class ConfigureMessage extends CtoSMessage {
     private static final CtoSMessageType type = CtoSMessageType.CONFIGURE;
     private final MatchConfiguration config;
 
+    /**
+     * Constructor of the configuration message
+     * @param nickname the sender
+     * @param config a version of the configuration
+     */
     public ConfigureMessage(String nickname, MatchConfiguration config){
         super(nickname);
         this.config = config;

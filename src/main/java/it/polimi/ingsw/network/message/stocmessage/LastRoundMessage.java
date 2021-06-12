@@ -10,6 +10,11 @@ public class LastRoundMessage extends StoCMessage {
 
     private static final StoCMessageType type = StoCMessageType.LAST_ROUND;
 
+    /**
+     * Constructor of a last round's message.
+     * @param nickname the receiver
+     * @param msg a string message
+     */
     public LastRoundMessage(String nickname, String msg) {
         super(nickname);
     }

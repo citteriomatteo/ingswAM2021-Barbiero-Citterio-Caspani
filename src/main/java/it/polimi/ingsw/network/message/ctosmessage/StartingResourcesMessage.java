@@ -17,6 +17,11 @@ public class StartingResourcesMessage extends CtoSMessage {
     private static final CtoSMessageType type = CtoSMessageType.STARTING_RESOURCES;
     private final List<PhysicalResource> resources;
 
+    /**
+     * Constructor of a message containing the starting resource of a player in multi matches.
+     * @param nickname the sender
+     * @param resources the list of resources
+     */
     public StartingResourcesMessage(String nickname, List<PhysicalResource> resources) {
         super(nickname);
         this.resources = resources;

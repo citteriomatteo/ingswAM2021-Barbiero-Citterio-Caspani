@@ -9,6 +9,10 @@ import it.polimi.ingsw.network.server.ControlBase;
 public class LoginMessage extends CtoSMessage{
     private static final CtoSMessageType type = CtoSMessageType.LOGIN;
 
+    /**
+     * Constructor of the login message
+     * @param nickname the nickname chosen by the new client
+     */
     public LoginMessage(String nickname) {
         super(nickname);
     }

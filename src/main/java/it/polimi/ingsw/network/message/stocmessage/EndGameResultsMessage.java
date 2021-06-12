@@ -18,6 +18,12 @@ public class EndGameResultsMessage extends StoCMessage {
     private final String msg;
     private final Map<String, Integer> ranking;
 
+    /**
+     * Constructor of an end game results' message.
+     * @param nickname the receiver
+     * @param msg an extra message string
+     * @param ranking the final non-sorted leaderboard of the match
+     */
     public EndGameResultsMessage(String nickname, String msg, Map<String, Integer> ranking){
         super(nickname);
         this.msg = msg;
@@ -30,11 +36,20 @@ public class EndGameResultsMessage extends StoCMessage {
         return false;
     }
 
+    @Override
     public StoCMessageType getType(){
         return type;
     }
+    /**
+     * Getter
+     * @return the leaderboard
+     */
     public Map<String, Integer> getRanking(){
         return ranking;
     }
+    /**
+     * Getter
+     * @return the message
+     */
     public String getMsg() { return msg; }
 }

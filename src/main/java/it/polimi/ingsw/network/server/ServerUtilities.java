@@ -131,6 +131,7 @@ public class ServerUtilities {
             player.getSummary().updateConnectionState(nickname, true);
 
             System.out.println(nickname + " has been reconnected");
+
             (new PlayerConnectionStateMessage(nickname, true)).sendBroadcast(player.getMatch().getPlayers().
                                         stream().
                                         filter((x)-> x != player).

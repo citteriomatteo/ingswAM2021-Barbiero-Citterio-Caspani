@@ -14,6 +14,12 @@ public class DevCardDrawMessage extends CtoSMessage {
     private final int row;
     private final int column;
 
+    /**
+     * Constructor of the dev card draw message.
+     * @param nickname the sender
+     * @param row the row number
+     * @param column the column number
+     */
     public DevCardDrawMessage(String nickname, int row, int column) {
         super(nickname);
         this.row = row;

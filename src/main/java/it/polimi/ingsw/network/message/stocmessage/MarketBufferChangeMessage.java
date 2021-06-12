@@ -14,6 +14,11 @@ public class MarketBufferChangeMessage extends StoCMessage{
     private static final StoCMessageType type = StoCMessageType.BUFFER_CHANGE;
     private final List<PhysicalResource> newBuffer;
 
+    /**
+     * Constructor of a market buffer change message.
+     * @param nickname the receiver
+     * @param newBuffer the new buffer state
+     */
     public MarketBufferChangeMessage(String nickname, List<PhysicalResource> newBuffer){
         super(nickname);
         this.newBuffer = newBuffer;
@@ -30,6 +35,10 @@ public class MarketBufferChangeMessage extends StoCMessage{
         return type;
     }
 
+    /**
+     * Getter
+     * @return the new buffer state
+     */
     public List<PhysicalResource> getNewBuffer() {
         return newBuffer;
     }

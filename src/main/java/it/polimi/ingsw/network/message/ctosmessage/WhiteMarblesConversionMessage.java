@@ -16,6 +16,11 @@ public class WhiteMarblesConversionMessage extends CtoSMessage {
     private static final CtoSMessageType type = CtoSMessageType.WHITE_MARBLE_CONVERSIONS;
     private final List<PhysicalResource> resources;
 
+    /**
+     * Constructor of a messgae containing white marble conversions in case of multiple conversion leaders.
+     * @param nickname the sender
+     * @param resources list of converted resources
+     */
     public WhiteMarblesConversionMessage(String nickname, List<PhysicalResource> resources) {
         super(nickname);
         this.resources = resources;

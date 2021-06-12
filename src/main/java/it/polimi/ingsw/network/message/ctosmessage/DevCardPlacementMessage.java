@@ -14,6 +14,11 @@ public class DevCardPlacementMessage extends CtoSMessage {
     private static final CtoSMessageType type = CtoSMessageType.DEV_CARD_PLACEMENT;
     private final int column;
 
+    /**
+     * Constructor of the dev card placement message.
+     * @param nickname the sender
+     * @param column the chosen column number
+     */
     public DevCardPlacementMessage(String nickname, int column) {
         super(nickname);
         this.column = column;

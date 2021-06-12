@@ -63,8 +63,17 @@ public abstract class StoCMessage extends Message {
         return receiver.write(this);
     }
 
+    /**
+     * Getter
+     * @return the StoCMessage's type
+     */
     @Override
     public abstract StoCMessageType getType();
 
+    /**
+     * Computes the message, causing different behaviours on the Client system.
+     * @param client the client
+     * @return the result
+     */
     public abstract boolean compute(Client client);
 }

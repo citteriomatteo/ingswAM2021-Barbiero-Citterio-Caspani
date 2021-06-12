@@ -14,6 +14,12 @@ public class SwitchShelfMessage extends CtoSMessage {
     private final int shelf1;
     private final int shelf2;
 
+    /**
+     * Constructor of a switch shelf message.
+     * @param nickname the sender
+     * @param shelf1 the first shelf
+     * @param shelf2 the second shelf
+     */
     public SwitchShelfMessage(String nickname, int shelf1, int shelf2) {
         super(nickname);
         this.shelf1 = shelf1;
@@ -63,6 +69,10 @@ public class SwitchShelfMessage extends CtoSMessage {
         return type;
     }
 
+    /**
+     * Redefines the basic toString method, returning the json format of the message.
+     * @return the message in json format
+     */
     @Override
     public String toString() {
         return "SwitchShelfMessage{" +

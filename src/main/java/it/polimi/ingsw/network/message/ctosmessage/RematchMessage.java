@@ -14,7 +14,11 @@ public class RematchMessage extends CtoSMessage {
     private static final CtoSMessageType type = CtoSMessageType.REMATCH;
     private final boolean accepted;
 
-
+    /**
+     * Constructor of a rematch message.
+     * @param nickname the sender
+     * @param accepted boolean containing the choice of the player
+     */
     public RematchMessage(String nickname, boolean accepted){
         super(nickname);
         this.accepted = accepted;
@@ -44,5 +48,9 @@ public class RematchMessage extends CtoSMessage {
         return type;
     }
 
+    /**
+     * Getter
+     * @return the choice of the player
+     */
     public boolean hasAccepted() { return accepted; }
 }

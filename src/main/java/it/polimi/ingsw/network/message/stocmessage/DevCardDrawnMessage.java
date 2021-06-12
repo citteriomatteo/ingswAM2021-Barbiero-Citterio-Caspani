@@ -11,6 +11,11 @@ public class DevCardDrawnMessage extends StoCMessage {
     private static final StoCMessageType type = StoCMessageType.DEV_CARD_DRAWN;
     private final String cardID;
 
+    /**
+     * Constructor of a dev card drawn message.
+     * @param nickname the receiver
+     * @param cardID the leader's ID
+     */
     public DevCardDrawnMessage(String nickname, String cardID) {
         super(nickname);
         this.cardID = cardID;
@@ -22,6 +27,10 @@ public class DevCardDrawnMessage extends StoCMessage {
         return true;
     }
 
+    /**
+     * Getter
+     * @return the card's ID
+     */
     public String getCardID() { return cardID; }
 
     @Override

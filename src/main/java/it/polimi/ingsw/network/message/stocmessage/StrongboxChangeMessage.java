@@ -17,6 +17,11 @@ public class StrongboxChangeMessage extends StoCMessage {
     private static final StoCMessageType type = StoCMessageType.STRONGBOX_CHANGE;
     private final List<PhysicalResource> newStrongbox;
 
+    /**
+     * Constructor of a strongbox update's message.
+     * @param nickname the nickname
+     * @param newStrongbox the new strongbox state
+     */
     public StrongboxChangeMessage(String nickname, List<PhysicalResource> newStrongbox){
         super(nickname);
         this.newStrongbox = newStrongbox;
@@ -29,6 +34,10 @@ public class StrongboxChangeMessage extends StoCMessage {
     }
     @Override
     public StoCMessageType getType(){ return type; }
+    /**
+     * Getter
+     * @return the new strongbox state
+     */
     public List<PhysicalResource> getNewStrongbox(){ return newStrongbox; }
 
 }

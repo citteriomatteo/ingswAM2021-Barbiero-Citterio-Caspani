@@ -12,6 +12,11 @@ public class NewFaithPositionMessage extends StoCMessage {
     private static final StoCMessageType type = StoCMessageType.NEW_FAITH_POSITION;
     private final int newPosition;
 
+    /**
+     * Constructor of a new faith position's message.
+     * @param nickname the interested of the change
+     * @param newPosition its new position
+     */
     public NewFaithPositionMessage(String nickname, int newPosition){
         super(nickname);
         this.newPosition = newPosition;
@@ -28,6 +33,11 @@ public class NewFaithPositionMessage extends StoCMessage {
 
     @Override
     public StoCMessageType getType(){ return type; }
+
+    /**
+     * Getter
+     * @return the new position
+     */
     public int getNewPosition(){ return newPosition; }
 
 }

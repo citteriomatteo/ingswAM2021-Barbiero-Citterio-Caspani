@@ -15,6 +15,11 @@ public class LeadersChoiceMessage extends CtoSMessage {
     private static final CtoSMessageType type = CtoSMessageType.LEADERS_CHOICE;
     private final List<String> leaderIds;
 
+    /**
+     * Constructor
+     * @param nickname the sender
+     * @param leaderIds the list of chosen leaders' ids
+     */
     public LeadersChoiceMessage(String nickname, List<String> leaderIds) {
         super(nickname);
         this.leaderIds = leaderIds;

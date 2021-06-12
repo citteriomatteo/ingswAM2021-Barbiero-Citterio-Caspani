@@ -9,6 +9,10 @@ import it.polimi.ingsw.network.server.ControlBase;
 public class DisconnectionMessage extends CtoSMessage{
     private static final CtoSMessageType type = CtoSMessageType.DISCONNECTION;
 
+    /**
+     * Constructor of the disconnection message.
+     * @param nickname the disconnected player
+     */
     public DisconnectionMessage(String nickname) {
         super(nickname);
     }

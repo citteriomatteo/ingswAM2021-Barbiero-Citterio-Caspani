@@ -137,7 +137,6 @@ public class MultiMatch extends Match {
      */
     @Override
     public StateName nextTurn(){
-
         StateName state;
         if(currentPlayer.isConnected())
             currentPlayer.updateLastUsedState(currentPlayer.getNickname(), StateName.WAITING_FOR_TURN);

@@ -15,6 +15,12 @@ public class MarketDrawMessage extends CtoSMessage {
     private final boolean row;
     private final int num;
 
+    /**
+     * Constructor of a market draw message.
+     * @param nickname the sender
+     * @param row a row/column boolean
+     * @param num the number of the row/column
+     */
     public MarketDrawMessage(String nickname, boolean row, int num) {
         super(nickname);
         this.row = row;

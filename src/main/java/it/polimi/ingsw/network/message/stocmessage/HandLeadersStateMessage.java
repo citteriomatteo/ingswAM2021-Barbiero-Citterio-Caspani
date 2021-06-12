@@ -15,6 +15,11 @@ public class HandLeadersStateMessage extends StoCMessage {
     private static final StoCMessageType type = StoCMessageType.HAND_LEADERS_STATE;
     private final List<String> handLeaders;
 
+    /**
+     * Constructor of an hand leaders' state message.
+     * @param nickname the receiver
+     * @param handLeaders the new state
+     */
     public HandLeadersStateMessage(String nickname, List<String> handLeaders) {
         super(nickname);
         this.handLeaders = handLeaders;
@@ -28,6 +33,10 @@ public class HandLeadersStateMessage extends StoCMessage {
     @Override
     public StoCMessageType getType() { return type; }
 
+    /**
+     * Getter
+     * @return the new hand leaders' version
+     */
     public List<String> getHandLeaders() { return handLeaders; }
 
 }
