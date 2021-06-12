@@ -145,8 +145,11 @@ public class MultiMatch extends Match {
         numPlayer = (numPlayer+1)%(players.size());
         currentPlayer = players.get(numPlayer);
 
-        if(!currentPlayer.isConnected())
+        if(!currentPlayer.isConnected()) {
+            if(allPlayersAreDisconnected())
+                return StateName.STARTING_TURN;
             state = this.nextTurn();
+        }
         else{
             StateName prevState = currentPlayer.getSummary().getPlayerSummary(currentPlayer.getNickname()).getLastUsedState();
             if (prevState == StateName.END_TURN || prevState == StateName.WAITING_FOR_TURN) {
@@ -160,6 +163,18 @@ public class MultiMatch extends Match {
         }
 
         return state;
+    }
+
+    /**
+     * Returns true if all the players are disconnected
+     * @return true if all the players are disconnected
+     */
+    private boolean allPlayersAreDisconnected() {
+        for(Player p : players)
+            if(p.isConnected())
+                return false;
+
+        return true;
     }
 
     /**
