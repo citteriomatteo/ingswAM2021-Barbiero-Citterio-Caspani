@@ -607,6 +607,7 @@ public class TurnSceneController implements SceneController{
         cardGrid.setDisable(true);
         tempDevCard.setDisable(false);
         endPaymentsPhase();
+
         for(Node node : devCardSlots.getChildren()){
             StackPane stackPane = (StackPane) node;
             int firstFree = findFreePosition(stackPane);
@@ -1209,6 +1210,10 @@ public class TurnSceneController implements SceneController{
         if(uCosts.size() == 2) {
             unknownCost1.setImage(uCosts.get(0).getType().asImage());
             unknownCost2.setImage(uCosts.get(1).getType().asImage());
+        }
+        else if(uCosts.size() == 1 && uCosts.get(0).getQuantity() == 2){
+            unknownCost1.setImage(uCosts.get(0).getType().asImage());
+            unknownCost2.setImage(uCosts.get(0).getType().asImage());
         }
         else if(uCosts.size() == 1)
             unknownCost1.setImage(uCosts.get(0).getType().asImage());
