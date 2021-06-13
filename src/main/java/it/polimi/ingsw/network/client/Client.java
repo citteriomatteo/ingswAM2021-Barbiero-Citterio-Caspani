@@ -44,7 +44,7 @@ public class Client {
 
     /**
      * Gets the instance of the Client singleton
-     * @return he instance of the Client singleton
+     * @return the instance of the Client singleton
      */
     public static Client getClient(){
         return instance;

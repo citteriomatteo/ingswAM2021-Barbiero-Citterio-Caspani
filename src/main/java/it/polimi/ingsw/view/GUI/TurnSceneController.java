@@ -156,6 +156,7 @@ public class TurnSceneController implements SceneController{
         message = null;
         resetPayments();
         endProductionPhase();
+        closeProductionPane();
 
         updateMarket(match.getMarket());
         updateCardGrid(match.getCardGrid());
@@ -386,6 +387,35 @@ public class TurnSceneController implements SceneController{
     }
 
     /**
+     * Modifies the passed StackPane according to the passed values (the passed stackPane should only contain ImageViews),
+     * disables the imageViews under the depth newDepth, changes the image with that precise depth and remove all
+     * the imageViews that goes over that depth
+     * @param stackPane the stackPane you want to modify
+     * @param newDepth the new depth of the stack
+     * @param topCard the Id of the card that should be on the top of the stack
+     */
+    private void setStackPaneContent(StackPane stackPane, int newDepth, String topCard) {
+        ImageView imageView;
+        List<Node> cards = stackPane.getChildren();
+        for (int k = cards.size()-1; k >= 0; k--) {
+            imageView = (ImageView) cards.get(k);
+            if(imageView.getEffect() != null) {
+                imageView.setEffect(null);
+                imageView.setFitWidth(imageView.getFitWidth() - ENLARGEMENT_CARD);
+                imageView.setFitHeight(imageView.getFitHeight() - ENLARGEMENT_CARD);
+            }
+            if (k < newDepth)
+                imageView.setDisable(true);
+            else if (k == newDepth) {
+                imageView.setImage(getSceneProxy().getCardImage(topCard));
+                imageView.setDisable(false);
+            } else {
+                stackPane.getChildren().remove(imageView);
+            }
+        }
+    }
+
+    /**
      * Sets the text on the button Confirm to EndTurn
      */
     public void endTurnState() {
@@ -521,6 +551,7 @@ public class TurnSceneController implements SceneController{
 
 
 //%%%%%%%%%%%%%%%%%%%%%% DISABLE FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 //todo: all JavaDoc Disable
 
     public void disableAll(boolean value) {
@@ -593,8 +624,6 @@ public class TurnSceneController implements SceneController{
         //ids of the elements to keep enabled
         List<String> importantIds = new ArrayList<>(List.of("warehousePane", "strongbox"));
 
-        System.out.println("enabling only: "+importantIds);
-
         keepEnabledOnly(importantIds);
 
         //information field text setting for this state
@@ -602,7 +631,6 @@ public class TurnSceneController implements SceneController{
     }
 
     public void placeDevCardPhaseDisables(){
-        System.out.println("passo di qua ora");
         marketPane.setDisable(true);
         cardGrid.setDisable(true);
         tempDevCard.setDisable(false);
@@ -618,7 +646,6 @@ public class TurnSceneController implements SceneController{
 
         //ids of the elements to keep enabled
         List<String> importantIds = new ArrayList<>(List.of("warehousePane","devCardSlots", "1DevSlot", "2DevSlot", "3DevSlot"));
-        System.out.println("enabling only: "+importantIds);
         keepEnabledOnly(importantIds);
 
         //information field text setting for this state
@@ -700,16 +727,13 @@ public class TurnSceneController implements SceneController{
     public void useLeader(MouseEvent mouseEvent) {
         if(getClientController().getCurrentState().equals(StateName.MARKET_ACTION)){
             int numWhiteDrawn = match.numWhiteDrawn(row, numMarket);
-            System.out.println("num white to draw: " + numWhiteDrawn);
             Node leader = (Node) mouseEvent.getSource();
             int numConverted = Integer.parseInt(countWhite1.getText().substring(1)) + Integer.parseInt(countWhite2.getText().substring(1));
 
             String leaderId = getSceneProxy().getCardID(((ImageView) mouseEvent.getSource()).getImage());
 
            if(Integer.parseInt((String) leader.getUserData()) == 1){
-               System.out.println("1st leader click:");
                 if(Integer.parseInt(countWhite1.getText().substring(1)) < numWhiteDrawn) {
-                    System.out.println("incrementing 1st label");
                     countWhite1.setText("x" + (Integer.parseInt(countWhite1.getText().substring(1)) + 1));
                     whiteConversions.add(new PhysicalResource(getWhiteConversion(leaderId), 1));
                 }
@@ -717,19 +741,15 @@ public class TurnSceneController implements SceneController{
                if(numConverted == numWhiteDrawn && Integer.parseInt(countWhite2.getText().substring(1)) > 0) {
                    for (PhysicalResource conversion : whiteConversions)
                        if(!conversion.getType().equals(getWhiteConversion(leaderId))) {
-                           System.out.println("removing resource");
                            whiteConversions.remove(conversion);
                            break;
                        }
-                   System.out.println("decrementing 2nd label");
                    countWhite2.setText("x" + (Integer.parseInt(countWhite2.getText().substring(1))-1));
                }
 
            }
            else {
-               System.out.println("2nd leader click:");
                if(Integer.parseInt(countWhite2.getText().substring(1)) < numWhiteDrawn) {
-                   System.out.println("incrementing 2nd label");
                    countWhite2.setText("x" + (Integer.parseInt(countWhite2.getText().substring(1)) + 1));
                    whiteConversions.add(new PhysicalResource(getWhiteConversion(leaderId), 1));
                }
@@ -737,11 +757,9 @@ public class TurnSceneController implements SceneController{
                if(numConverted == numWhiteDrawn && Integer.parseInt(countWhite1.getText().substring(1)) > 0) {
                    for (PhysicalResource conversion : whiteConversions)
                        if(!conversion.getType().equals(getWhiteConversion(leaderId))) {
-                           System.out.println("removing resource");
                            whiteConversions.remove(conversion);
                            break;
                        }
-                   System.out.println("decrementing 1st label");
                    countWhite1.setText("x" + (Integer.parseInt(countWhite1.getText().substring(1))-1));
                }
            }
@@ -1281,9 +1299,6 @@ public class TurnSceneController implements SceneController{
                 secondProdLeaderUnknown.setImage(((PhysicalResource) uEarnings.get(uEarnings.size()-1)).getType().asImage());
         }
 
-        System.out.println(cardsToProduce);
-        System.out.println(uEarnings);
-
         message = new ProductionMessage(player.getNickname(), cardsToProduce, new Production(uCosts, uEarnings));
 
         mouseEvent.consume();
@@ -1334,7 +1349,6 @@ public class TurnSceneController implements SceneController{
     public void dropResourceWarehouse(DragEvent dragEvent) {
         boolean success;
         ImageView selectedPlace = (ImageView)dragEvent.getSource();
-        System.out.println("selected place: "+ selectedPlace);
         Image draggedImage = dragEvent.getDragboard().getImage();
         if(selectedPlace.getImage() == null) {
             success = true;
@@ -1488,12 +1502,10 @@ public class TurnSceneController implements SceneController{
             for(String cardId : newActiveLeaders)
                 if(getSceneProxy().isSlotLeader(cardId))
                     if(!firstSlotActivated) {
-                        System.out.println("shelf4 activated");
                         firstSlotActivated = true;
                         SceneProxy.getChildById(warehousePane, "shelf4").setDisable(false);
                     }
                     else {
-                        System.out.println("shelf5 activated");
                         SceneProxy.getChildById(warehousePane, "shelf5").setDisable(false);
                     }
 
@@ -1510,6 +1522,10 @@ public class TurnSceneController implements SceneController{
         }
     }
 
+    /**
+     * Updates the graphic visualization of the market to the new passed value
+     * @param market the new value
+     */
     public void updateMarket(char[][] market) {
         ImageView imageView;
         for(int i=0; i< 3; i++){
@@ -1687,12 +1703,21 @@ public class TurnSceneController implements SceneController{
 
     }
 
+    /**
+     * Updates the graphic visualization of the last token drawn and the remaining tokens to the new passed values
+     * @param tokenName the name of the extracted token
+     * @param remainingTokens the number of tokens remained in the pile
+     */
     public void updateTokenDrawn(String tokenName, int remainingTokens) {
 
         this.remainingTokens.setText("(" + remainingTokens + " remaining)");
         tokenDrawn.setImage(new Image(getClass().getResourceAsStream("images/punchBoard/"+tokenName+".png")));
     }
 
+    /**
+     * Updates the graphic visualization of the CardGrid to the new passed value
+     * @param cards the new value
+     */
     public void updateCardGrid(List<String>[][] cards){
         StackPane stackPane;
         List<String> cardAndDepth;
@@ -1711,27 +1736,10 @@ public class TurnSceneController implements SceneController{
         }
     }
 
-    private void setStackPaneContent(StackPane stackPane, int newDepth, String topCard) {
-        ImageView imageView;
-        List<Node> cards = stackPane.getChildren();
-        for (int k = cards.size()-1; k >= 0; k--) {
-            imageView = (ImageView) cards.get(k);
-            if(imageView.getEffect() != null) {
-                imageView.setEffect(null);
-                imageView.setFitWidth(imageView.getFitWidth() - ENLARGEMENT_CARD);
-                imageView.setFitHeight(imageView.getFitHeight() - ENLARGEMENT_CARD);
-            }
-            if (k < newDepth)
-                imageView.setDisable(true);
-            else if (k == newDepth) {
-                imageView.setImage(getSceneProxy().getCardImage(topCard));
-                imageView.setDisable(false);
-            } else {
-                stackPane.getChildren().remove(imageView);
-            }
-        }
-    }
-
+    /**
+     * Updates the graphic visualization of the TempDevCard to the new passed value or remove the image if the id is not correct or it is null or ""
+     * @param card the id of the new tempDevCard or null if there isn't a tempDevCard
+     */
     public void updateTempDevCard(String card){
         if(card == null || card.equals("")) {
             tempDevCard.setImage(null);

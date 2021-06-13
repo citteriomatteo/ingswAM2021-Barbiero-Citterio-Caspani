@@ -17,6 +17,10 @@ import java.io.InputStream;
 import static it.polimi.ingsw.network.client.Client.getClient;
 import static it.polimi.ingsw.view.GUI.TurnSceneController.populatePlayerPane;
 
+/**
+ * Class that handles the display of windows for the scenes and changes the current scene,
+ * it contains different static methods for handling the process
+ */
 public class JavaFXGUI extends Application {
     private static Scene scene;
     private static Stage stage;
@@ -25,11 +29,17 @@ public class JavaFXGUI extends Application {
     private static Stage popUpZoom;
     private static Scene zoom;
 
+    /**
+     * Sets up the different possible stages and shows the first scene im the main stage passed -> LoginScene
+     * @param stage the primary stage created in {@link Application} methods
+     */
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) {
         // Show the scene containing the root layout.
         JavaFXGUI.stage = stage;
-        scene = new Scene(loadFXML(SceneName.LoginScene.name()));
+        try {
+            scene = new Scene(loadFXML(SceneName.LoginScene.name()));
+        } catch (IOException ignored) {}
         stage.setScene(scene);
         stage.setResizable(false);
         InputStream imageStream = getClass().getResourceAsStream("images/punchBoard/inkwell.png");
@@ -43,6 +53,11 @@ public class JavaFXGUI extends Application {
         stage.show();
     }
 
+    /**
+     * Changes the root of the current scene, showing a different scene and resizes the window to the relative dimension
+     * @param fxml the name of next scene you want to display on the stage, this should be provided by {@link SceneName#name()}
+     * @throws IOException if a scene with that name is not found in fxml folder
+     */
     static void setRoot(String fxml) throws IOException {
         Parent next = loadFXML(fxml);
         scene.setRoot(next);
@@ -52,9 +67,11 @@ public class JavaFXGUI extends Application {
     /**
      * Creates an additional stage for warning messages that will show the specific error message on necessity without showing it
      */
-    private void setUpWarningStage() throws IOException {
+    private void setUpWarningStage() {
         JavaFXGUI.popUpStage = new Stage();
-        popUpScene = new Scene(loadFXML(SceneName.WarningScene.name()));
+        try {
+            popUpScene = new Scene(loadFXML(SceneName.WarningScene.name()));
+        } catch (IOException ignored) {}
 
         popUpStage.setScene(popUpScene);
         popUpStage.setResizable(false);
@@ -106,11 +123,20 @@ public class JavaFXGUI extends Application {
         popUpStage.show();
     }
 
+    /**
+     * Returns the Parent of the scene if a scene with that name is found in fxml folder
+     * @param fxml the name of the scene you want to load
+     * @return the Parent of the scene if a scene with that name is found in fxml folder
+     * @throws IOException if a scene with that name is not found in fxml folder
+     */
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(JavaFXGUI.class.getResource("fxml/" + fxml + ".fxml"));
         return fxmlLoader.load();
     }
 
+    /**
+     * When the main stage is closed kindly closes the connection with the server sending him a notification message
+     */
     @Override
     public void stop() {
         Platform.exit();

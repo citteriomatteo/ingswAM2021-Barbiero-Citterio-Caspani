@@ -7,6 +7,7 @@
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.Lighting?>
 <?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.image.Image?>
@@ -2068,6 +2069,9 @@
                </children>
             </VBox>
          </children>
+         <effect>
+            <DropShadow />
+         </effect>
       </Pane>
       <Pane id="lorenzoPane" fx:id="lorenzoPane" layoutX="870.0" layoutY="25.0" prefHeight="331.0" prefWidth="374.0" visible="false">
          <children>
@@ -2111,12 +2115,12 @@
                   <Image url="@../images/bricksBackground.jpg" />
                </image>
             </ImageView>
-            <Text fill="WHITE" layoutX="81.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose how to convert the unknown costs">
+            <Text fill="WHITE" layoutX="17.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown costs" textAlignment="CENTER" wrappingWidth="455.15728759765625">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
-            <HBox layoutX="21.0" layoutY="38.0" prefHeight="102.0" prefWidth="470.0" spacing="30.0">
+            <HBox layoutX="21.0" layoutY="29.0" prefHeight="102.0" prefWidth="470.0" spacing="30.0">
                <children>
                   <VBox alignment="CENTER_RIGHT" prefHeight="102.0" prefWidth="90.0">
                      <children>
@@ -2188,7 +2192,7 @@
                   </VBox>
                </children>
             </HBox>
-            <Text fill="WHITE" layoutX="78.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose how to convert the unknown earnings">
+            <Text fill="WHITE" layoutX="24.0" layoutY="159.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown earnings" textAlignment="CENTER" wrappingWidth="455.15728759765625">
                <font>
                   <Font size="18.0" />
                </font>
@@ -2265,8 +2269,11 @@
                   </VBox>
                </children>
             </HBox>
-            <Button layoutX="247.0" layoutY="279.0" mnemonicParsing="false" onAction="#closeProductionPane" text="ok" />
+            <Button layoutX="247.0" layoutY="279.0" mnemonicParsing="false" onAction="#closeProductionPane" text="✓" />
          </children>
+         <effect>
+            <DropShadow />
+         </effect>
       </Pane>
       <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="1250.0" layoutY="9.0" onMouseClicked="#refreshAll" pickOnBounds="true" preserveRatio="true">
          <image>

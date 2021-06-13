@@ -16,14 +16,18 @@ import java.util.Map;
 import static it.polimi.ingsw.network.client.Client.getClient;
 import static java.util.Map.entry;
 
-
+/**
+ * Channel for communication between the ClientGUI and the sceneControllers, implementing Proxy and singleton patterns.
+ * Every command called on this proxy will be redirected to the right scene controller, if present, using {@link Platform#runLater}.
+ * The class contains also some utility methods
+ */
 public class SceneProxy {
     private static SceneProxy instance;
     private InitSceneController initSceneController;
     private StartingPhaseSceneController startingPhaseSceneController;
     private TurnSceneController turnSceneController;
     private RematchPhaseSceneController rematchPhaseSceneController;
-    private GoodbyeSceneController goodbyeSceneController = null;
+    private GoodbyeSceneController goodbyeSceneController;
     private Map<String, Image> idToImageMap;
     private Map<Image, String> imageToIdMap;
     private SceneController actualController;
@@ -41,7 +45,7 @@ public class SceneProxy {
         return instance;
     }
 
-    //%%%%%%%%%%%%%%%%%%%%%%%%SETTER%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    //%%%%%%%%%%%%%%%%%%%%%%%% SETTER %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     public void setInitSceneController(InitSceneController initSceneController) {
         this.initSceneController = initSceneController;
@@ -141,6 +145,17 @@ public class SceneProxy {
         return imageToIdMap.get(image);
     }
 
+    /**
+     * Returns the image of the marble associated with the given char
+     * w -> white
+     * r -> red
+     * b -> blue
+     * y -> yellow
+     * g -> gray
+     * p -> purple
+     * @param marble the unique char that identify the marble
+     * @return the relative image or null if there isn't an image associated with that char
+     */
     public Image getMarbleImage(char marble){
         return charToImageMap.get(marble);
     }
@@ -157,6 +172,10 @@ public class SceneProxy {
         return number >= 5 && number <= 8;
     }
 
+    /**
+     * If the scene passed is different from the current one, changes the scene displayed by the main stage with the passed scene
+     * @param scene the scene you want to display
+     */
     public void changeScene(SceneName scene){
         if(actualScene == scene)
             return;
@@ -333,8 +352,6 @@ public class SceneProxy {
 
     public void printGoodbye(String msg) {
         Platform.runLater(()->{
-            //if(rematchPhaseSceneController != null)
-                //rematchPhaseSceneController.printGoodbyeMessage(msg);
             if(goodbyeSceneController != null)
                 goodbyeSceneController.printGoodbyeMessage(msg);
 
