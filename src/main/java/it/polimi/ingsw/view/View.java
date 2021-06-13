@@ -16,134 +16,160 @@ import java.util.Map;
 public interface View extends ViewObserver {
 
     /**
-     * Set to print all about the match and has to be redefined in each View class.
+     * Shows all about the match.
+     * Implementation may change consistently depending on the type of View used.
      * @param match the match
      */
     void showAll(LightMatch match);
     /**
-     * Set to print a list of requested cards and has to be redefined in each View class.
+     * Shows the list of requested cards.
+     * Implementation may change consistently depending on the type of View used.
      * @param id the list of cards to print
      */
     void drawCards(List<String> id);
 
-
     /**
-     * Set to print the game title and has to be redefined in each View class.
+     * Shows the game title.
+     * Implementation may change consistently depending on the type of View used.
      */
     void printTitle();
     /**
-     * Set to print the login layout and has to be redefined in each View class.
+     * Shows the login layout.
+     * Implementation may change consistently depending on the type of View used.
      */
     void drawLoginLayout();
     /**
-     * Set to print the reconnection message layout and has to be redefined in each View class.
+     * Shows the reconnection message layout.
+     * Implementation may change consistently depending on the type of View used.
      */
     void drawReconnectionLayout();
     /**
-     * Set to print the single/multi choice layout and has to be redefined in each View class.
+     * Shows the single/multi choice layout.
+     * Implementation may change consistently depending on the type of View used.
      */
     void drawNewPlayerLayout();
     /**
-     * Set to print the "number of players" choice layout and has to be redefined in each View class.
+     * Shows the "number of players" choice layout.
+     * Implementation may change consistently depending on the type of View used.
      */
     void drawNumPlayersLayout();
     /**
-     * Set to print the configuration choice layout and has to be redefined in each View class.
+     * Shows the configuration choice layout.
+     * Implementation may change consistently depending on the type of View used.
      */
     void drawConfigurationChoice();
     /**
-     * Set to print the configuration build layout and has to be redefined in each View class.
+     * Shows the configuration build layout.
+     * Implementation may change consistently depending on the type of View used.
      */
     void drawConfigurationLayout();
     /**
-     * Set to print the waiting layout and has to be redefined in each View class.
+     * Shows the waiting layout.
+     * Implementation may change consistently depending on the type of View used.
      */
     void drawWaitingLayout();
     /**
-     * Set to print the "starting phase end" waiting layout and has to be redefined in each View class.
+     * Shows the "starting phase end" waiting layout.
+     * Implementation may change consistently depending on the type of View used.
      */
     void drawStartingPhaseDone();
     /**
-     * Set to print the leaders choice layout and has to be redefined in each View class.
+     * Shows the leaders choice layout.
+     * Implementation may change consistently depending on the type of View used.
      */
     void drawLeadersChoiceLayout();
     /**
-     * Set to print the starting resources choice layout and has to be redefined in each View class.
+     * Shows the starting resources choice layout.
+     * Implementation may change consistently depending on the type of View used.
      * @param yourPosition to print a more precise layout on how many resources you can pick
      */
     void drawResourcesChoiceLayout(int yourPosition);
     /**
-     * Set to print the "your turn" or "wait for your turn" layout and has to be redefined in each View class.
+     * Shows the "your turn" or "wait for your turn" layout.
+     * Implementation may change consistently depending on the type of View used.
      * @param yourTurn your turn/not your turn
      */
     void drawYourTurnLayout(boolean yourTurn);
     /**
-     * Set to print the white marble conversions layout and has to be redefined in each View class.
+     * Shows the white marble conversions layout.
+     * Implementation may change consistently depending on the type of View used.
      */
     void drawWhiteMarbleConversionsLayout();
     /**
-     * Set to print the resources placement layout and has to be redefined in each View class.
+     * Shows the resources placement layout.
+     * Implementation may change consistently depending on the type of View used.
      */
     void drawResPlacementLayout();
     /**
-     * Set to print the dev card payments layout and has to be redefined in each View class.
+     * Shows the dev card payments layout.
+     * Implementation may change consistently depending on the type of View used.
      */
     void drawBuyDevCardLayout();
     /**
-     * Set to print the dev card placement layout and has to be redefined in each View class.
+     * Shows the dev card placement layout.
+     * Implementation may change consistently depending on the type of View used.
      */
     void drawPlaceDevCardLayout();
     /**
-     * Set to print the production layout and has to be redefined in each View class.
+     * Shows the production layout.
+     * Implementation may change consistently depending on the type of View used.
      */
     void drawProductionLayout();
     /**
-     * Set to print the end of turn layout and has to be redefined in each View class.
+     * Shows the end of turn layout.
+     * Implementation may change consistently depending on the type of View used.
      */
     void drawEndTurnLayout();
     /**
-     * Set to print the end of match layout and has to be redefined in each View class.
+     * Shows the end of match layout.
+     * Implementation may change consistently depending on the type of View used.
      */
     void drawEndMatchLayout();
     /**
-     * Set to print the "rematch offered" layout and has to be redefined in each View class.
+     * Shows the "rematch offered" layout.
+     * Implementation may change consistently depending on the type of View used.
      */
     void drawRematchOfferLayout(String nickname);
     /**
-     * Set to print the goodbye layout in case of server disconnection and has to be redefined in each View class.
+     * Shows the goodbye layout in case of server disconnection.
+     * Implementation may change consistently depending on the type of View used.
      */
     void drawGoodbyeLayout(String msg);
 
     /**
-     * Set to print a new token's draw in single-player matches and has to be redefined in each View class.
+     * Shows a new token's draw in single-player matches.
+     * Implementation may change consistently depending on the type of View used.
      * @param tokenName the name of the token
      * @param remainingTokens the number of tokens left
      */
     void printTokenDraw(String tokenName, int remainingTokens);
     /**
-     * Set to print the last round flag/notify and has to be redefined in each View class.
+     * Graphically shows the last round.
+     * Implementation may change consistently depending on the type of View used.
      */
     void printLastRound();
     /**
-     * Set to print the final match ranking and has to be redefined in each View class.
+     * Shows the final match ranking.
+     * Implementation may change consistently depending on the type of View used.
      * @param message an end match message
      * @param ranking the non-sorted ranking map
      */
     void printMatchResults(String message, Map<String, Integer> ranking);
     /**
-     * Set to notify the player about a bad choice he has done, and has to be redefined in each View class.
+     * Graphically notifies the player about a bad choice he has done.
+     * Implementation may change consistently depending on the type of View used.
      * @param errMessage the error message
      * @param currentState the state after the unacceptable move (usually the same as before)
      * @param match the match
      */
     void printRetry(String errMessage, StateName currentState, LightMatch match);
     /**
-     * Set to print the discount map in the CLI version of the game.
+     * Prints the discount map in the CLI version of the game.
      * @param player the light player
      */
     void printDiscountMap(LightPlayer player);
     /**
-     * Set to print the white marble conversions' map in the CLI version of the game.
+     * Prints the white marble conversions' map in the CLI version of the game.
      * @param player the light player
      */
     void printWhiteMarbleConversions(LightPlayer player);

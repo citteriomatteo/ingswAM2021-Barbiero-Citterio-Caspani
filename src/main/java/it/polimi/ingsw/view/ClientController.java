@@ -20,7 +20,13 @@ import static it.polimi.ingsw.network.client.Client.getClient;
 import static it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType.*;
 import static java.util.Map.entry;
 
-
+/**
+ * This class implements a Singleton controller for the client.
+ * This controller's functionalities are shared by every class that implements View.
+ * Its main task is to handle the flow of game messages, including principally retry and next state messages,
+ * and check if a certain message coming from the client is able to be accepted from the server (only in terms of
+ * current state).
+ */
 public class ClientController
 {
     static private final ClientController instance = new ClientController();
@@ -58,24 +64,41 @@ public class ClientController
         );
     }
 
+    /**
+     * Constructor: sets the player to the LOGIN state, ready to start.
+     */
     private ClientController(){
         currentState = StateName.LOGIN;
     }
 
+    /**
+     * Static getter method.
+     * @return the Singleton instance of the ClientController
+     */
     public static ClientController getClientController(){
         return instance;
     }
 
 
+    /**
+     * Setter of the view (in order to call update/layout methods on it).
+     * @param view the cli/gui view
+     */
     public void setView(View view){
         this.view = view;
         view.printTitle();
     }
 
-
+    /**
+     * Processes retry/next states messages:
+     * - for retries: prints an error layout message after re-printing the current state layout message.
+     * - for next states: prints the new state layout message and sets the lastRound flag to false at the beginning
+     *                    of the starting phase (for a correct rematch reset).
+     * @param msg the received message
+     */
     public void updateCurrentState(StoCMessage msg){
         if(msg.getType().equals(StoCMessageType.RETRY)) {
-            RetryMessage rMsg= (RetryMessage)msg;
+            RetryMessage rMsg = (RetryMessage) msg;
             this.currentState = rMsg.getCurrentState();
             printMoveLegend(msg);
             printRetry(rMsg.getErrorMessage(), rMsg.getCurrentState());
@@ -94,25 +117,44 @@ public class ClientController
 
     }
 
-    //quando si ha una retry (da parte del server o dalla keyboardReader) viene chiamata questa, che aggiorna la lastLayout.
+    /**
+     * Called after an internal (from the KeyboardReader) or external (after a server's retry message) retry call.
+     * @param errMessage the error message
+     * @param currentState the state of the player after the retry
+     */
     public void printRetry(String errMessage, StateName currentState){
         view.printRetry(errMessage, currentState, match);
     }
 
+    /**
+     * Calls the specific view's ranking print method.
+     * @param message an extra message
+     * @param ranking the final non-sorted ranking
+     */
     public void printMatchResults(String message, Map<String, Integer> ranking){
         view.printMatchResults(message, ranking);
-
     }
 
+    /**
+     * Calls the specific view's last round print method.
+     */
     public void printLastRound(){
         view.printLastRound();
     }
 
+    /**
+     * Calls the specific view's token draw print method.
+     * @param tokenName the name of the token
+     * @param remainingTokens the number of tokens left on the stack
+     */
     public void printTokenDraw(String tokenName, int remainingTokens){
         view.printTokenDraw(tokenName, remainingTokens);
     }
 
-
+    /**
+     * Calls a layout draw on the specific view depending on the player's current state.
+     * @param msg passed for the REMATCH_OFFER state to print who offered a rematch
+     */
     public void printMoveLegend(StoCMessage msg){
 
         switch(currentState){
@@ -186,7 +228,7 @@ public class ClientController
     }
 
     /**
-     * Controls if the message can be sent to the server and then sends it
+     * Controls if the message can be sent to the server and then sends it.
      * @param message the message to send
      * @return true if the message has been sent
      */
@@ -201,22 +243,41 @@ public class ClientController
         return false;
     }
 
+    /**
+     * Converts a processed binary selection into a RematchMessage (for the last rematch phase).
+     * @param message the binary selection message
+     * @return the corresponding rematch message
+     */
     private RematchMessage convertIntoRematchMessage(BinarySelectionMessage message){
         boolean selection = message.getSelection();
         return new RematchMessage(message.getNickname(), selection);
     }
 
+    /**
+     * Checks if the CtoSMessageType is correct basing on the current player's state.
+     * @param type the type of the message
+     * @return true if it's accepted to leave the client, false elsewhere
+     */
     public boolean isAccepted(CtoSMessageType type){
         if (type == DISCONNECTION)
             return true;
         return acceptedMessagesMap.get(currentState).contains(type);
     }
 
+    /**
+     * Takes a Summary and sets the local LightMatch with it.
+     * @param summary the summary coming from the SummaryMessage
+     */
     public void setLightMatch(Summary summary){
         match = new LightMatch(summary, this.view);
-
     }
 
+    /**
+     * Takes a string request, elaborates it and extracts the IDs of the cards to print.
+     * Then calls the drawCards method on the view to print them properly.
+     * @param request the string to elaborate
+     * @return true if the command is correct
+     */
     public boolean printCardInfo(String request){
         List<String> splitRequest = new ArrayList(Arrays.asList(request.split("\\s+")));
         splitRequest.remove(0);
@@ -235,32 +296,75 @@ public class ClientController
         return true;
     }
 
+    /**
+     * Calls a "rematch offered" layout print on the view.
+     * @param message the nickname of the proposer
+     * @return true
+     */
     public boolean printRematchOffer(String message){
         view.drawRematchOfferLayout(message);
         return true;
     }
 
+    /**
+     * Receives a goodbye message from the server and calls the layout method on the view to print it properly.
+     * @param msg the goodbye message
+     * @return true
+     */
     public boolean printGoodbyeMessage(String msg) {
         view.drawGoodbyeLayout(msg);
         return true;
     }
 
+    /**
+     * Receives a "discount map" print request from the client and calls the print method on the CLI view to print it properly.
+     * @param nickname the nickname of the requester
+     * @return true
+     */
     public boolean printDiscountMap(String nickname){
         view.printDiscountMap(match.getLightPlayer(nickname));
         return true;
     }
+    /**
+     * Receives a "white marble conversions" print request from the client and calls the print method
+     * on the CLI view to print it properly.
+     * @param nickname the nickname of the requester
+     * @return true
+     */
     public boolean printWhiteMarbleConversions(String nickname){
         view.printWhiteMarbleConversions(match.getLightPlayer(nickname));
         return true;
     }
+
+    //&&&&&&&&&&&&&&&&& GETTERS AND SETTERS &&&&&&&&&&&&&&&&&
+    /**
+     * Getter
+     * @return the light match
+     */
     public LightMatch getMatch(){ return match; }
+    /**
+     * Getter
+     * @return the current state
+     */
     public StateName getCurrentState() { return currentState; }
+    /**
+     * Getter
+     * @return the player's nickname
+     */
     public String getNickname() {
         return nickname;
     }
+    /**
+     * Setter
+     * @param nickname the nickname to set to the player
+     */
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+    /**
+     * Getter
+     * @return the view instance
+     */
     public View getView(){
         return view;
     }
