@@ -1064,8 +1064,7 @@ public class TurnSceneController implements SceneController{
                 cardsToProduce.remove(selectedCard);
                 removeResource(numInArray, numUEarningsToProduce, actualUEarnings);
 
-                productionPane.setDisable(true);
-                productionPane.setVisible(false);
+                closeProductionPane();
 
                 if(getSceneProxy().getCardID(((ImageView) activeLeaders.getChildren().get(0)).getImage()).equals(selectedCard))
                     firstProdLeaderUnknown.setImage(null);
@@ -1074,9 +1073,6 @@ public class TurnSceneController implements SceneController{
             }
 
         }
-
-        System.out.println(cardsToProduce);
-        System.out.println(uEarnings);
 
         message = new ProductionMessage(player.getNickname(), cardsToProduce, new Production(uCosts, uEarnings));
 
@@ -1130,11 +1126,12 @@ public class TurnSceneController implements SceneController{
             unknownCost1.setImage(null);
             unknownCost2.setImage(null);
             unknownEarning.setImage(null);
-            productionPane.setDisable(true);
-            productionPane.setVisible(false);
+
             uCosts = new ArrayList<>();
 
             removeResource(numUofLeaders, numUEarningsToProduce, actualUEarnings);
+
+            closeProductionPane();
 
 
         }
@@ -1150,8 +1147,6 @@ public class TurnSceneController implements SceneController{
             productionPane.getChildren().get(1).setDisable(false);
         }
 
-        System.out.println(cardsToProduce);
-        System.out.println(uEarnings);
 
         message = new ProductionMessage(player.getNickname(), cardsToProduce, new Production(uCosts, uEarnings));
     }
