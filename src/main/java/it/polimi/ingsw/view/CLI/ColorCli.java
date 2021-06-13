@@ -1,5 +1,8 @@
 package it.polimi.ingsw.view.CLI;
 
+/**
+ * This enumeration is used to simplify the use of color in command line interfaces, using ANSI codes.
+ */
 public enum ColorCli
 {
     //Color end string, color reset
@@ -23,6 +26,10 @@ public enum ColorCli
 
     private final String code;
 
+    /**
+     * Constructor
+     * @param code an ansi code
+     */
     ColorCli(String code) {
         this.code = code;
     }
@@ -32,6 +39,10 @@ public enum ColorCli
         return code;
     }
 
+    /**
+     * Converts the content of an ANSI code avoiding special characters, such as [ or ] .
+     * @return the regex string
+     */
     public String toRegexString(){
         StringBuilder regex = new StringBuilder();
         for(char c : code.toCharArray()){
@@ -42,6 +53,11 @@ public enum ColorCli
         return regex.toString();
     }
 
+    /**
+     * Gets a string and returns it coloured.
+     * @param str the string to colour
+     * @return the coloured string
+     */
     public String paint(String str){
         StringBuilder builder = new StringBuilder(this.code);
         builder.append(str).append(CLEAR.code);

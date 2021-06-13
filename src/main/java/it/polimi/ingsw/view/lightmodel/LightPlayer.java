@@ -7,6 +7,11 @@ import it.polimi.ingsw.model.match.player.PlayerSummary;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * This class implements a summarized version of the Player class present in the server.
+ * It contains the same information as the Summary, but they're overwritten here in order to implement a new
+ * Observer-Observable paradigm specific for the View.
+ */
 public class LightPlayer {
 
     //player's general things
@@ -169,19 +174,79 @@ public class LightPlayer {
 
     //GETTERS:
 
+    /**
+     * Getter
+     * @return the color
+     */
     public String getColor() { return color; }
+    /**
+     * Getter
+     * @return the nickname
+     */
     public String getNickname() { return nickname; }
+    /**
+     * Getter
+     * @return the light warehouse
+     */
     public List<PhysicalResource> getWarehouse() { return warehouse; }
+    /**
+     * Getter
+     * @return the light market buffer
+     */
     public List<PhysicalResource> getMarketBuffer() { return marketBuffer; }
+    /**
+     * Getter
+     * @return the light strongbox
+     */
     public List<PhysicalResource> getStrongbox() { return strongbox; }
+    /**
+     * Getter
+     * @return the faith marker
+     */
     public int getFaithMarker() { return faithMarker; }
+    /**
+     * Getter
+     * @return the light pope tiles' list
+     */
     public List<Integer> getPopeTiles() { return popeTiles; }
+    /**
+     * Getter
+     * @return the light dev card slots
+     */
     public List<String>[] getDevCardSlots() { return devCardSlots; }
+    /**
+     * Getter
+     * @return the light hand leaders' list
+     */
     public List<String> getHandLeaders() { return handLeaders; }
+    /**
+     * Getter
+     * @return the light active leaders' list
+     */
     public List<String> getActiveLeaders() { return activeLeaders; }
+    /**
+     * Getter
+     * @return the white marble conversions
+     */
     public List<PhysicalResource> getWhiteMarbleConversions() { return whiteMarbleConversions; }
+    /**
+     * Getter
+     * @return the discount map
+     */
     public List<PhysicalResource> getDiscountMap() { return discountMap; }
+    /**
+     * Getter
+     * @return the temporary dev card
+     */
     public String getTempDevCard() { return tempDevCard; }
+    /**
+     * Getter
+     * @return the temporary production
+     */
     public Production getTempProduction() { return tempProduction; }
+    /**
+     * Getter
+     * @return the connection state of the player
+     */
     public boolean isConnected() { return connected; }
 }

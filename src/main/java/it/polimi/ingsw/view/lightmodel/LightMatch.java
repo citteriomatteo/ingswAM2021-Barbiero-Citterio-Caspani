@@ -101,6 +101,11 @@ public class LightMatch extends ViewObservable {
         updateLorenzoMarker(this);
     }
 
+    /**
+     * This method sets the connection state of the player with this nickname to the 'connected' value.
+     * @param nickname the nickname
+     * @param connected the connection value
+     */
     public void setConnected(String nickname, boolean connected) {
         getLightPlayer(nickname).setConnected(connected);
       //  updateMatch(this); removed because gave problems with gui, added a showAll inside the updateDisconnections
@@ -241,6 +246,12 @@ public class LightMatch extends ViewObservable {
         return -1;
     }
 
+    /**
+     * Returns the number of white marbles drawn during the last market draw.
+     * @param row row/column boolean
+     * @param num the number of the row/column
+     * @return the number of white marbles
+     */
     public int numWhiteDrawn(boolean row, int num){
 
         num--;
@@ -266,14 +277,51 @@ public class LightMatch extends ViewObservable {
 
     //GETTERS:
 
+    /**
+     * Getter
+     * @return the card map
+     */
     public static Map<String, Card> getCardMap() { return cardMap; }
+    /**
+     * Getter
+     * @return the basic production
+     */
     public Production getBasicProd() { return basicProd; }
+    /**
+     * Getter
+     * @return the light market
+     */
     public char[][] getMarket() { return market; }
+    /**
+     * Getter
+     * @return the side marble of the market
+     */
     public char getSideMarble() { return sideMarble; }
+    /**
+     * Getter
+     * @return the light card grid, containing the top cards and the depths of every stack
+     */
     public List<String>[][] getCardGrid() { return cardGrid; }
+    /**
+     * Getter
+     * @return the light faith path
+     */
     public List<String> getFaithPath() { return faithPath; }
+    /**
+     * Getter
+     * @return the lorenzo's position (in single-player matches)
+     */
     public int getLorenzoMarker() { return lorenzoMarker; }
+    /**
+     * Getter
+     * @return the list of all light players instances
+     */
     public List<LightPlayer> getLightPlayers() { return lightPlayers; }
+    /**
+     * Getter of a specific LightPlayer's instance.
+     * @param nickname the requested player's nickname
+     * @return the corresponding last player
+     */
     public LightPlayer getLightPlayer(String nickname){
         for(LightPlayer p : lightPlayers)
             if(p.getNickname().equals(nickname))

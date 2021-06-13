@@ -14,6 +14,11 @@ import java.util.stream.Collectors;
 import static it.polimi.ingsw.view.ClientController.getClientController;
 import static it.polimi.ingsw.view.lightmodel.LightMatch.getCardMap;
 
+/**
+ * This class implements all the visual functions needed by the CLI version of the game to run.
+ * Implements View in order to offer the player the choice to play in CLI or in GUI (both views) and implements
+ * all the methods offered by the interface plus others needed only by this type of graphic.
+ */
 public class ClientCLI implements View
 {
     //todo: insert match reference for showAll()
@@ -21,6 +26,9 @@ public class ClientCLI implements View
     private boolean lastRound = false;
     private static final Integer DEFAULT_SHIFT = 12, ZERO_SHIFT = 0;
 
+    /**
+     * Empty constructor.
+     */
     public ClientCLI(){
     }
 
@@ -55,6 +63,9 @@ public class ClientCLI implements View
 
     }
 
+    /**
+     * Prints a suggestive title for the login phase.
+     */
     @Override
     public void printTitle(){
         StringBuilder str = new StringBuilder();
@@ -70,31 +81,43 @@ public class ClientCLI implements View
                 ;
 
         // attempt for animation, remove comment to see
-        // animation(str);
+        //animation(str);
 
         str.insert(0, ColorCli.YELLOW_BOLD).append(ColorCli.CLEAR);
         str.append("Welcome!\n");
         System.out.println(str);
     }
 
+    /**
+     * Prints a "login" layout on terminal.
+     */
     @Override
     public void drawLoginLayout() {
         lastLayout = "Insert the command \"login\" followed by your nickname";
         System.out.println(lastLayout);
     }
 
+    /**
+     * Prints a "reconnection" layout on terminal.
+     */
     @Override
     public void drawReconnectionLayout() {
         lastLayout = "There's already a disconnected player with this nickname. Is it you?";
         System.out.println(lastLayout);
     }
 
+    /**
+     * Prints a "single/multi choice" layout on terminal.
+     */
     @Override
     public void drawNewPlayerLayout() {
         lastLayout = "Write \"single\" or \"yes|(y)\" if you want to play a single player match, \"multi\" or \"no|(n)\" if you prefer to play in multiplayer mode";
         System.out.println(lastLayout);
     }
 
+    /**
+     * Prints a "number of players choice" layout on terminal.
+     */
     @Override
     public void drawNumPlayersLayout() {
         lastLayout = "Choose the number of players you want to play with.\n" +
@@ -102,34 +125,53 @@ public class ClientCLI implements View
         System.out.println(lastLayout);
     }
 
+    /**
+     * Prints a "configuration choice" layout on terminal.
+     */
     @Override
     public void drawConfigurationChoice() {
         lastLayout = "Do you want to play with the default configuration?";
         System.out.println(lastLayout);
     }
 
+    /**
+     * Prints a "configuration creation" layout on terminal and starts configuration creation procedure in CLI mode.
+     */
     @Override
     public void drawConfigurationLayout() {
 
     }
 
+    /**
+     * Prints a "waiting" layout on terminal.
+     */
     @Override
     public void drawWaitingLayout() {
         lastLayout = "Waiting...";
         System.out.println(lastLayout);
     }
 
+    /**
+     * Prints a "end of starting phase waiting" layout on terminal.
+     */
     @Override
     public void drawStartingPhaseDone() {
 
     }
 
+    /**
+     * Prints a "initial leaders choice" layout on terminal.
+     */
     @Override
     public void drawLeadersChoiceLayout() {
         lastLayout = "Choose two Leaders";
         System.out.println(lastLayout);
     }
 
+    /**
+     * Prints a "initial resources choice" layout on terminal.
+     * @param yourPosition to print a message containing the amount to resources the player is able to pick
+     */
     @Override
     public void drawResourcesChoiceLayout(int yourPosition) {
         int numResources = yourPosition/2;
@@ -137,6 +179,10 @@ public class ClientCLI implements View
         System.out.println(lastLayout);
     }
 
+    /**
+     * Prints a "your turn/wait for your turn" layout on terminal.
+     * @param yourTurn your turn/not your turn flag
+     */
     @Override
     public void drawYourTurnLayout(boolean yourTurn) {
         if(yourTurn)
@@ -146,12 +192,18 @@ public class ClientCLI implements View
         System.out.println(lastLayout);
     }
 
+    /**
+     * Prints a "convert white marbles" layout on terminal.
+     */
     @Override
     public void drawWhiteMarbleConversionsLayout() {
         lastLayout = "Choose how to convert the white marbles";
         System.out.println(lastLayout);
     }
 
+    /**
+     * Prints a "place resources" layout on terminal.
+     */
     @Override
     public void drawResPlacementLayout() {
 
@@ -159,30 +211,45 @@ public class ClientCLI implements View
         System.out.println(lastLayout);
     }
 
+    /**
+     * Prints a "pay a dev card" layout on terminal.
+     */
     @Override
     public void drawBuyDevCardLayout() {
         lastLayout = "Pay the card you've chosen";
         System.out.println(lastLayout);
     }
 
+    /**
+     * Prints a "place your dev card" layout on terminal.
+     */
     @Override
     public void drawPlaceDevCardLayout() {
         lastLayout = "Place the card you've chosen";
         System.out.println(lastLayout);
     }
 
+    /**
+     * Prints a "production" layout on terminal.
+     */
     @Override
     public void drawProductionLayout() {
         lastLayout = "Choose where to pay the resources from for your production";
         //System.out.println(lastLayout);
     }
 
+    /**
+     * Prints a "end of turn" layout on terminal.
+     */
     @Override
     public void drawEndTurnLayout() {
         lastLayout = "Discard/activate a leader, switch some shelves or finish your turn";
         //System.out.println(lastLayout);
     }
 
+    /**
+     * Causes a "last round" graphic layout update on terminal thanks to the showAll method.
+     */
     @Override
     public void printLastRound(){
         //lastLayout = "It's the last round. Hurry up!";
@@ -195,16 +262,30 @@ public class ClientCLI implements View
 
     }
 
+    /**
+     * Prints a "rematch offered" layout on terminal.
+     * @param message used as the nickname of the proposer
+     */
     @Override
     public void drawRematchOfferLayout(String message) {
         System.out.println(message + " offered a rematch.\nAccept? [y/n]");
     }
 
+    /**
+     * Prints a "goodbye: server is now offline" layout on terminal.
+     * @param msg the goodbye message
+     */
     @Override
     public void drawGoodbyeLayout(String msg) {
         System.out.println(msg);
     }
 
+    /**
+     * Prints a "retry" layout on terminal, depending on the current state.
+     * @param errMessage the error message
+     * @param currentState the state after the bad move
+     * @param match the match
+     */
     @Override
     public void printRetry(String errMessage, StateName currentState, LightMatch match) {
         //todo: fix this adding a errorLabel variable to be printed after the show all and removed at the change state
@@ -218,90 +299,157 @@ public class ClientCLI implements View
     }
 
 
+    /**
+     * Causes a showAll method call to print everything.
+     * @param match the match
+     */
     @Override
     public void updateMatch(LightMatch match) {
         showAll(match);
     }
-
+    /**
+     * Causes a showAll method call to print everything.
+     * @param match the match
+     */
     @Override
     public void updateMarket(LightMatch match) {
         showAll(match);
     }
-
+    /**
+     * Causes a showAll method call to print everything.
+     * @param match the match
+     */
     @Override
     public void updateCardGrid(LightMatch match) {
         showAll(match);
     }
-
+    /**
+     * Causes a showAll method call to print everything.
+     * @param match the match
+     */
     @Override
     public void updateLorenzoMarker(LightMatch match) {
         showAll(match);
     }
-
+    /**
+     * Causes a showAll method call to print everything.
+     * @param nickname  the nickname
+     * @param match the match
+     */
     @Override
     public void updateWarehouse(String nickname, LightMatch match) {
         showAll(match);
     }
-
+    /**
+     * Causes a showAll method call to print everything.
+     * @param nickname  the nickname
+     * @param match the match
+     */
     @Override
     public void updateMarketBuffer(String nickname, LightMatch match) {
         showAll(match);
     }
-
+    /**
+     * Causes a showAll method call to print everything.
+     * @param nickname  the nickname
+     * @param match the match
+     */
     @Override
     public void updateStrongbox(String nickname, LightMatch match) {
         showAll(match);
     }
-
+    /**
+     * Causes a showAll method call to print everything.
+     * @param nickname  the nickname
+     * @param match the match
+     */
     @Override
     public void updateFaithMarker(String nickname, LightMatch match) {
         showAll(match);
     }
-
+    /**
+     * Causes a showAll method call to print everything.
+     * @param nickname  the nickname
+     * @param match the match
+     */
     @Override
     public void updatePopeTiles(String nickname, LightMatch match) {
         showAll(match);
     }
-
+    /**
+     * Causes a showAll method call to print everything.
+     * @param nickname  the nickname
+     * @param match the match
+     */
     @Override
     public void updateDevCardSlots(String nickname, LightMatch match) {
         showAll(match);
     }
-
+    /**
+     * Causes a showAll method call to print everything.
+     * @param nickname  the nickname
+     * @param match the match
+     */
     @Override
     public void updateHandLeaders(String nickname, LightMatch match) {
         showAll(match);
     }
-
+    /**
+     * Causes a showAll method call to print everything.
+     * @param nickname  the nickname
+     * @param match the match
+     */
     @Override
     public void updateActiveLeaders(String nickname, LightMatch match) {
         showAll(match);
     }
-
+    /**
+     * Causes a showAll method call to print everything.
+     * @param nickname  the nickname
+     * @param match the match
+     */
     @Override
     public void updateWhiteMarbleConversions(String nickname, LightMatch match) {
         showAll(match);
     }
-
+    /**
+     * Causes a showAll method call to print everything.
+     * @param nickname  the nickname
+     * @param match the match
+     */
     @Override
     public void updateDiscountMap(String nickname, LightMatch match) {
         showAll(match);
     }
-
+    /**
+     * Causes a showAll method call to print everything.
+     * @param nickname  the nickname
+     * @param match the match
+     */
     @Override
     public void updateTempDevCard(String nickname, LightMatch match) {
         showAll(match);
     }
-
+    /**
+     * Causes a showAll method call to print everything.
+     * @param nickname  the nickname
+     * @param connected the connection state of the player
+     */
     @Override
     public void updateDisconnections(String nickname, boolean connected) {
         showAll(getClientController().getMatch());
         if(connected)
-            System.out.println("Player " +nickname+ " is back in the game."); //todo: use a controller function that can inform the view, not directly the print
+            System.out.println("Player " +nickname+ " is back in the game.");
         else
             System.out.println("Player " +nickname+ " has left the match.");
     }
 
+    /**
+     * Prints the match results after the game's end.
+     * First of all, sorts the map by value, then surrounds the ranking with a yellow frame and offers text information about the rematch.
+     * @param nickname the nickname of this player
+     * @param ranking the complete ranking.
+     */
     @Override
     public void printMatchResults(String nickname, Map<String, Integer> ranking){
         //LinkedHashMap preserve the ordering of elements in which they are inserted
@@ -328,6 +476,11 @@ public class ClientCLI implements View
 
     }
 
+    /**
+     * Prints a token drawn message on CLI at the end of single-player turn ends.
+     * @param tokenName the name of the token
+     * @param remainingTokens the number of tokens left
+     */
     @Override
     public void printTokenDraw(String tokenName, int remainingTokens){
         System.out.println("The "+tokenName+" has been drawn: "+remainingTokens+" remaining.");
@@ -336,6 +489,10 @@ public class ClientCLI implements View
 
     //CLI PRINT METHODS OF COMMON THINGS:
 
+    /**
+     * Proceeds printing every element on the match, using string-merge functions to show elements horizontally.
+     * @param match the summarized match
+     */
     @Override
     public void showAll(LightMatch match){
 
@@ -377,6 +534,11 @@ public class ClientCLI implements View
 
     }
 
+    /**
+     * Has the task to print all the elements that are common to every player (card grid, market, basic production,
+     * faith path for cli) in top of everything.
+     * @param match the summarized match
+     */
     private void showCommonThings(LightMatch match){
         StringBuilder marketGraphic = new StringBuilder();
         showMarket(match.getMarket(), match.getSideMarble(), marketGraphic);
@@ -402,6 +564,12 @@ public class ClientCLI implements View
 
     }
 
+    /**
+     * Adds the market to the StringBuilder passed as a parameter.
+     * @param market the market
+     * @param sideMarble the side marble
+     * @param marketGraphic the market's string modified by reference
+     */
     private void showMarket(char[][] market, char sideMarble, StringBuilder marketGraphic){
         StringBuilder str = new StringBuilder();
         str.append("\nMARKET STATUS:\n");
@@ -421,6 +589,11 @@ public class ClientCLI implements View
         marketGraphic.append(str);
     }
 
+    /**
+     * Adds the card grid to the StringBuilder passed as a parameter.
+     * @param cardGrid the card grid
+     * @param gridGraphic the card grid's string modified by reference
+     */
     private void showCardGrid(List<String>[][] cardGrid, StringBuilder gridGraphic){
         StringBuilder grid = new StringBuilder();
         grid.append("\nCARD GRID:\n");
@@ -458,6 +631,11 @@ public class ClientCLI implements View
         gridGraphic.append(grid);
     }
 
+    /**
+     * Adds the basic production to the StringBuilder passed as a parameter.
+     * @param basicProd the basic production
+     * @param basicProdGraphic the basic prod's string modified by reference
+     */
     private void showBasicProduction(Production basicProd, StringBuilder basicProdGraphic){
         basicProdGraphic.append("\nBASIC PRODUCTION:\n");
         StringBuilder costs = new StringBuilder();
@@ -497,7 +675,11 @@ public class ClientCLI implements View
 
     }
 
-
+    /**
+     * Adds the faith path to the StringBuilder passed as a parameter.
+     * @param match the match
+     * @param pathGraphic the path's string modified by reference
+     */
     private void showFaithPath(LightMatch match, StringBuilder pathGraphic){
         System.out.println("\nFAITH PATH:\n");
         for(int i = 0; i < match.getFaithPath().size(); i++)
@@ -507,6 +689,13 @@ public class ClientCLI implements View
 
     //CLI PRINT METHODS OF PLAYER'S THINGS:
 
+    /**
+     * Adds the player's board to the StringBuilder passed as a parameter.
+     * These boards will be taken by the showAll method and merged horizontally into a single stringBuilder.
+     * @param nickname the player's nickname
+     * @param match the match
+     * @param board the board's string modified by reference
+     */
     private void showBoard(String nickname, LightMatch match, StringBuilder board){
         board.append("\n----- PERSONAL BOARD OF ").append(match.getLightPlayer(nickname).getColor()).append(nickname).append(ColorCli.CLEAR);
         if(!match.getLightPlayer(nickname).isConnected())
@@ -522,6 +711,11 @@ public class ClientCLI implements View
 
     }
 
+    /**
+     * Adds the player's warehouse to the board's StringBuilder passed as a parameter.
+     * @param player the light player
+     * @param board the board's string modified by reference
+     */
     private void showWarehouse(LightPlayer player, StringBuilder board){
         StringBuilder wh = new StringBuilder();
         wh.append("\nWAREHOUSE:\n");
@@ -603,6 +797,11 @@ public class ClientCLI implements View
 
     }
 
+    /**
+     * Adds the player's strongbox to the board's StringBuilder passed as a parameter.
+     * @param player the light player
+     * @param board the board's string modified by reference
+     */
     private void showStrongbox(LightPlayer player, StringBuilder board){
         StringBuilder sb = new StringBuilder();
         sb.append(" STRONGBOX:\n");
@@ -631,6 +830,11 @@ public class ClientCLI implements View
         board.append(putInColoredFrame(sb,ColorCli.CLEAR.toString()));
     }
 
+    /**
+     * Adds the player's dev card slots to the board's StringBuilder passed as a parameter.
+     * @param player the light player
+     * @param board the board's string modified by reference
+     */
     private void showDevCardSlots(LightPlayer player, StringBuilder board){
         StringBuilder dvs = new StringBuilder();
         board.append("\nDEVELOPMENT CARD SLOTS:\n");
@@ -660,6 +864,11 @@ public class ClientCLI implements View
 
     }
 
+    /**
+     * Adds the player's pope tiles to the board's StringBuilder passed as a parameter.
+     * @param player the light player
+     * @param board the board's string modified by reference
+     */
     private void showPopeTiles(LightPlayer player, StringBuilder board){
 
         board.append(player.getColor()).append(player.getNickname()).append(ColorCli.CLEAR).append("'s pope tiles: ");
@@ -683,6 +892,11 @@ public class ClientCLI implements View
 
     }
 
+    /**
+     * Adds the player's hand leaders to the board's StringBuilder passed as a parameter.
+     * @param player the light player
+     * @param board the board's string modified by reference
+     */
     private void showHandLeaders(LightPlayer player, StringBuilder board){
         StringBuilder hl = new StringBuilder();
         hl.append("\nHAND LEADERS: [ ");
@@ -712,6 +926,11 @@ public class ClientCLI implements View
 
     }
 
+    /**
+     * Adds the player's active leaders to the board's StringBuilder passed as a parameter.
+     * @param player the light player
+     * @param board the board's string modified by reference
+     */
     private void showActiveLeaders(LightPlayer player, StringBuilder board){
         StringBuilder al = new StringBuilder();
         al.append("\nACTIVE LEADERS: [ ");
@@ -731,6 +950,12 @@ public class ClientCLI implements View
         board.append(al);
     }
 
+    /**
+     * Adds the player's temp dev card to the board's StringBuilder passed as a parameter.
+     * @param nickname the light player's nickname
+     * @param match the light match
+     * @param board the board's string modified by reference
+     */
     public void showTempDevCard(String nickname, LightMatch match, StringBuilder board){
         board.append("\nDEVELOPMENT CARD TO PAY: ");
         board.append("[ ").append(match.getLightPlayer(nickname).getTempDevCard()).append(" ]");
@@ -750,6 +975,12 @@ public class ClientCLI implements View
         System.out.println(cards);
     }
 
+    /**
+     * Returns all the information about the requested leader card printed inside a yellow frame.
+     * @param card the card object
+     * @param id the id (to print at the top)
+     * @return the stringBuilder of the card
+     */
     private StringBuilder drawLeaderCard(LeaderCard card, String id){
         StringBuilder cardStr = new StringBuilder();
         cardStr.append(" (LEADER CARD ").append(id).append(")\n");
@@ -774,6 +1005,12 @@ public class ClientCLI implements View
         //System.out.println(putInColoredFrame(cardStr, ColorCli.CLEAR.toString()));
         return putInColoredFrame(cardStr, ColorCli.CLEAR.toString());
     }
+    /**
+     * Returns all the information about the requested dev card printed inside a yellow frame.
+     * @param card the card object
+     * @param id the id (to print at the top)
+     * @return the stringBuilder of the card
+     */
     private StringBuilder drawDevCard(DevelopmentCard card, String id){
         StringBuilder cardStr = new StringBuilder();
 
@@ -809,6 +1046,10 @@ public class ClientCLI implements View
         return putInColoredFrame(cardStr, ColorCli.CLEAR.toString());
     }
 
+    /**
+     * Prints the discount map inside a frame on 'dm' cli request.
+     * @param player the light player
+     */
     @Override
     public void printDiscountMap(LightPlayer player){
 
@@ -830,6 +1071,10 @@ public class ClientCLI implements View
 
     }
 
+    /**
+     * Prints the white marble conversions' map inside a frame on 'wmc' cli request.
+     * @param player the light player
+     */
     @Override
     public void printWhiteMarbleConversions(LightPlayer player) {
         StringBuilder dm = new StringBuilder(" White marble conversions: \n");
@@ -851,6 +1096,14 @@ public class ClientCLI implements View
 
     //STYLING METHODS:
 
+    /**
+     * Returns a single cell printed correctly (with a frame which color depends on the type of the cell, the win points,
+     * the faith markers, etc.)
+     * @param match the match
+     * @param pos the cell position
+     * @param cell the cell
+     * @return the cell
+     */
     public StringBuilder getPrintedCell(LightMatch match, int pos, String cell){
         StringBuilder str = new StringBuilder();
         String[] elements = cell.split("-");
@@ -890,6 +1143,11 @@ public class ClientCLI implements View
         return putInColoredFrame(str,color);
     }
 
+    /**
+     * Returns a symbol that identifies a card requirement for a leader activation.
+     * @param color the color of the card
+     * @return the coloured symbol
+     */
     private String coloredCardColor(CardColor color){
         String sign = "█ ";
         switch (color){
@@ -906,6 +1164,12 @@ public class ClientCLI implements View
         }
     }
 
+    /**
+     * Uses coloredCardColor method to add inside the StringBuilder passed as a parameter a complete card requirement
+     * of a leader card.
+     * @param type the card type (color, level)
+     * @param str the StringBuilder to modify by reference
+     */
     private void appendColoredCardType(CardType type, StringBuilder str){
         str.append(coloredCardColor(type.getColor()).repeat(Math.max(0, type.getQuantity())));
         str.append(type.getColor().toString());
@@ -913,6 +1177,11 @@ public class ClientCLI implements View
             str.append(", Lv.").append(type.getLevel());
     }
 
+    /**
+     * Adds a little unicode symbol after the leader card's ID to identify its power.
+     * @param cardId the card's id
+     * @param str the string to compile by reference
+     */
     private void addLeaderSymbol(String cardId, StringBuilder str){
         String symbol = "";
         if(!cardId.equals("-1"))
@@ -920,6 +1189,11 @@ public class ClientCLI implements View
         str.append(cardId).append(symbol);
     }
 
+    /**
+     * Receives a resource and converts it to a special coloured string.
+     * @param resource the resource object
+     * @param str the string to compile by reference
+     */
     public static void addColouredResource(Resource resource, StringBuilder str) {
         if(resource.isPhysical()) {
             ResType type = ((PhysicalResource) resource).getType();
@@ -946,6 +1220,11 @@ public class ClientCLI implements View
 
     }
 
+    /**
+     * Receives a marble char and converts it to a unicode's coloured "circle" character.
+     * @param marble the marble char
+     * @param str the string to compile by reference
+     */
     public static void addColouredMarble(char marble, StringBuilder str){
         String marblePoint = "●";
         switch(marble){
@@ -970,6 +1249,20 @@ public class ClientCLI implements View
         }
     }
 
+    /**
+     * Takes two StringBuilder objects and merges them horizontally.
+     * Calculates the max row length in order to know how many spaces to print after every line-stamp, to put everything
+     * perfectly lined up.
+     * It also keeps count of maximum row lengths gotten before (in case of multiple merges it's necessary to save
+     * the maximum, eventually, each time you find a new one) and the number of already merged elements (to know
+     * how many boxes of spaces to print at every line, for multiple merges purposes again).
+     * @param str1 the first string
+     * @param str2 the second string
+     * @param maxCols the maximum row length until now
+     * @param SHIFT the number of spaces to leave between blocks
+     * @param mergeCounter the number of elements that have already been merged and that are present in str1
+     * @return the new merged string
+     */
     private StringBuilder mergePrintingObjects(StringBuilder str1, StringBuilder str2, Integer maxCols, int SHIFT, int mergeCounter){
 
         if(str1.length() == 0)
@@ -1006,10 +1299,22 @@ public class ClientCLI implements View
         return mergedOne;
     }
 
+    /**
+     * Adds a precise number of spaces in the string builder.
+     * @param str the string to put spaces on
+     * @param distance the number of spaces
+     */
     private void putSomeDistance(StringBuilder str, int distance){
         str.append(" ".repeat(Math.max(0, distance)));
     }
 
+    /**
+     * Calculates the effective size of a string, using toRegexString() method, searching every color escape command
+     * and removing it in a separate string. Then, it returns the real length.
+     * Extremely useful in order to print things horizontally.
+     * @param str the string to process
+     * @return the real length
+     */
     private int noANSIOccurrencesSize(String str){
         String str2 = str;
         for(ColorCli escape : ColorCli.values())
@@ -1017,6 +1322,12 @@ public class ClientCLI implements View
         return str2.length();
     }
 
+    /**
+     * Takes a string and a color and returns the string inside a coloured frame.
+     * @param str the string
+     * @param color the color escape CLI command
+     * @return the modified string
+     */
     private StringBuilder putInColoredFrame(StringBuilder str, String color){
         StringBuilder finalStr = new StringBuilder();
 
@@ -1049,11 +1360,18 @@ public class ClientCLI implements View
         return finalStr;
     }
 
+    /**
+     * Stamps fifty \n to guarantee a clean refresh of the screen before a new update.
+     */
     private void clearScreen(){
         for(int i = 0; i < 50; i++)
             System.out.println();
     }
 
+    /**
+     * Setter
+     * @param lastRound the last round value
+     */
     @Override
     public void setLastRound(boolean lastRound) { this.lastRound = lastRound; }
 
