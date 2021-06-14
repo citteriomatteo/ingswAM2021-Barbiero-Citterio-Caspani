@@ -556,8 +556,10 @@ public class TurnSceneController implements SceneController{
 
 //%%%%%%%%%%%%%%%%%%%%%% DISABLE FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-//todo: all JavaDoc Disable
-
+    /**
+     * Disables or enables common things and the player's pane.
+     * @param value disable boolean value
+     */
     public void disableAll(boolean value) {
         marketPane.setDisable(value);
         cardGrid.setDisable(value);
@@ -569,7 +571,7 @@ public class TurnSceneController implements SceneController{
     }
 
     /**
-     * This method keeps enabled only the requested elements inside the player pane and disables everything else inside the pane.
+     * Keeps enabled only the requested elements inside the player pane and disables everything else inside the pane.
      * Confirm button always remain activated
      * @param ids list of chosen elements' ids
      */
@@ -580,6 +582,10 @@ public class TurnSceneController implements SceneController{
             n.setDisable(!ids.contains(n.getId()));
     }
 
+    /**
+     * Sets a disable pattern for the white marble conversions phase.
+     * In this phase, only warehouse (for switches) and active leaders must be enabled.
+     */
     public void marketActionPhaseDisables(){
         marketPane.setDisable(true);
         cardGrid.setDisable(true);
@@ -599,6 +605,10 @@ public class TurnSceneController implements SceneController{
         informationField.appendText("\nConvert each white marble.");
     }
 
+    /**
+     * Sets a disable pattern for the resources placement phase.
+     * In this phase, only warehouse and market buffer must be enabled (for switches and insertions).
+     */
     public void resourcesPlacementPhaseDisables(){
         marketPane.setDisable(true);
         cardGrid.setDisable(true);
@@ -618,6 +628,11 @@ public class TurnSceneController implements SceneController{
         informationField.appendText("\nPlace the resources you've got.");
     }
 
+    /**
+     * Sets a disable pattern for the development card payments phase.
+     * In this phase, only the payments pane, warehouse and strongbox must be enabled (to drag and drop resources
+     * from a resources storage to the pane).
+     */
     public void buyDevActionPhaseDisables(){
         marketPane.setDisable(true);
         cardGrid.setDisable(true);
@@ -634,6 +649,11 @@ public class TurnSceneController implements SceneController{
         informationField.appendText("\nPay the card you've chosen.");
     }
 
+    /**
+     * Sets a disable pattern for the development card placement phase.
+     * In this phase, only the warehouse (for switches), the temporary dev card slot and the dev card slots
+     * must be enabled (to drag and drop the card into a slot).
+     */
     public void placeDevCardPhaseDisables(){
         marketPane.setDisable(true);
         cardGrid.setDisable(true);
@@ -656,6 +676,11 @@ public class TurnSceneController implements SceneController{
         informationField.appendText("\nPlace your Development card.");
     }
 
+    /**
+     * Sets a disable pattern for the production phase.
+     * In this phase, only the payments pane, the resources storage and the dev card slots must be enabled
+     * (in order to select cards to produce and have the chance to pay them).
+     */
     public void productionActionPhaseDisables(){
         marketPane.setDisable(true);
         cardGrid.setDisable(true);
@@ -673,6 +698,10 @@ public class TurnSceneController implements SceneController{
 
     }
 
+    /**
+     * Sets a disable pattern for the end of turn phase.
+     * In this phase, only the warehouse (for switches) and the leaders menuBars (for activations/discards) must be enabled.
+     */
     public void endTurnPhaseDisables(){
         marketPane.setDisable(true);
         cardGrid.setDisable(true);
@@ -691,7 +720,8 @@ public class TurnSceneController implements SceneController{
     }
 
     /**
-     * Sets the text in all Labels as "x0" and than disables and makes invisible the paymentsPane.
+     * Resets the payments pane for the next payment (setting all labels to "x0"),
+     * then sets invisible and disables the pane.
      */
     private void endPaymentsPhase() {
         VBox resourcesVBox = (VBox) paymentsPane.getChildren().get(2);
@@ -1870,10 +1900,17 @@ public class TurnSceneController implements SceneController{
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LAST ROUND FUNCTIONS  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+    /**
+     * Setter
+     * @param value the new last round value
+     */
     public void setLastRound(boolean value) {
         this.lastRound = value;
     }
 
+    /**
+     * Puts visible the flag about the last round of the match.
+     */
     public void printLastRound() {
         lastRoundFlag.setVisible(true);
     }
