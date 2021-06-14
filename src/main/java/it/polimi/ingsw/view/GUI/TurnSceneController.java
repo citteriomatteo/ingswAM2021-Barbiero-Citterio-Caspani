@@ -477,7 +477,11 @@ public class TurnSceneController implements SceneController{
 
 //%%%%%%%%%%%%%%%%%%%%%% ONE TIME FUNCTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    //todo: javadoc
+    /**
+     * Prepare the scene before the starts of the game: sets the id of the players' boards and makes invisible the remaining boards.
+     * Than calls the updates to loads all the elements in the scene, including the personalBoard of every player.
+     * This methods is also call in case of reconnection.
+     */
     public void loadStartingMatch() {
         List<LightPlayer> enemies = new ArrayList<>(match.getLightPlayers());
         enemies.remove(player);
@@ -686,6 +690,9 @@ public class TurnSceneController implements SceneController{
 
     }
 
+    /**
+     * Sets the text in all Labels as "x0" and than disables and makes invisible the paymentsPane.
+     */
     private void endPaymentsPhase() {
         VBox resourcesVBox = (VBox) paymentsPane.getChildren().get(2);
         for(Node n : resourcesVBox.getChildren()){
@@ -697,6 +704,10 @@ public class TurnSceneController implements SceneController{
         paymentsPane.setVisible(false);
     }
 
+    /**
+     * Removes all the images of the resources chosen for converting the unknowns and
+     * removes all the glow effects on the cards produced
+     */
     private void endProductionPhase(){
         basicProduction.setEffect(null);
         unknownCost1.setImage(null);
@@ -724,6 +735,15 @@ public class TurnSceneController implements SceneController{
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%  LEADERS POWER %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+    /**
+     * Activate the power of the clicked leader only if it's a leader that convert the white marbles
+     * or if it is a leader that can start a production.
+     * In the first case adds the conversion to the list of conversion and if the list is full decrease the count of the conversions of the other type,
+     * after that create a message ({@link WhiteMarblesConversionMessage}).
+     * In the second case calls the relative function.
+     * @param mouseEvent the mouseEvent that calls the method.
+     */
+    @FXML
     public void useLeader(MouseEvent mouseEvent) {
         if(getClientController().getCurrentState().equals(StateName.MARKET_ACTION)){
             int numWhiteDrawn = match.numWhiteDrawn(row, numMarket);
@@ -733,46 +753,52 @@ public class TurnSceneController implements SceneController{
             String leaderId = getSceneProxy().getCardID(((ImageView) mouseEvent.getSource()).getImage());
 
            if(Integer.parseInt((String) leader.getUserData()) == 1){
-                if(Integer.parseInt(countWhite1.getText().substring(1)) < numWhiteDrawn) {
-                    countWhite1.setText("x" + (Integer.parseInt(countWhite1.getText().substring(1)) + 1));
-                    whiteConversions.add(new PhysicalResource(getWhiteConversion(leaderId), 1));
-                }
-
-               if(numConverted == numWhiteDrawn && Integer.parseInt(countWhite2.getText().substring(1)) > 0) {
-                   for (PhysicalResource conversion : whiteConversions)
-                       if(!conversion.getType().equals(getWhiteConversion(leaderId))) {
-                           whiteConversions.remove(conversion);
-                           break;
-                       }
-                   countWhite2.setText("x" + (Integer.parseInt(countWhite2.getText().substring(1))-1));
-               }
+               useWhiteLeader(numWhiteDrawn, numConverted, leaderId, countWhite1, countWhite2);
 
            }
            else {
-               if(Integer.parseInt(countWhite2.getText().substring(1)) < numWhiteDrawn) {
-                   countWhite2.setText("x" + (Integer.parseInt(countWhite2.getText().substring(1)) + 1));
-                   whiteConversions.add(new PhysicalResource(getWhiteConversion(leaderId), 1));
-               }
-
-               if(numConverted == numWhiteDrawn && Integer.parseInt(countWhite1.getText().substring(1)) > 0) {
-                   for (PhysicalResource conversion : whiteConversions)
-                       if(!conversion.getType().equals(getWhiteConversion(leaderId))) {
-                           whiteConversions.remove(conversion);
-                           break;
-                       }
-                   countWhite1.setText("x" + (Integer.parseInt(countWhite1.getText().substring(1))-1));
-               }
+               useWhiteLeader(numWhiteDrawn, numConverted, leaderId, countWhite2, countWhite1);
            }
 
            message = new WhiteMarblesConversionMessage(player.getNickname(), whiteConversions);
         }
-        else //todo: check if the type of the clicked leader is production or not
+        else if(getClientController().getCurrentState().equals(StateName.STARTING_TURN))
             produce(mouseEvent);
+    }
+
+    /**
+     * Adds the chosen conversion to the list of white marbles conversions and increase the count on the relative Text.
+     * If the list is full decrease the count of the conversions of the other type.
+     * @param numWhiteDrawn the number of white marbles drawn.
+     * @param numConverted the number of conversions already chosen.
+     * @param leaderId the id of the selected leader.
+     * @param countWhite1 the text field associated to the clicked leader.
+     * @param countWhite2 the text field associated to the other white leader.
+     */
+    private void useWhiteLeader(int numWhiteDrawn, int numConverted, String leaderId, Text countWhite1, Text countWhite2) {
+        if(Integer.parseInt(countWhite1.getText().substring(1)) < numWhiteDrawn) {
+            countWhite1.setText("x" + (Integer.parseInt(countWhite1.getText().substring(1)) + 1));
+            whiteConversions.add(new PhysicalResource(getWhiteConversion(leaderId), 1));
+        }
+
+        if(numConverted == numWhiteDrawn && Integer.parseInt(countWhite2.getText().substring(1)) > 0) {
+            for (PhysicalResource conversion : whiteConversions)
+                if(!conversion.getType().equals(getWhiteConversion(leaderId))) {
+                    whiteConversions.remove(conversion);
+                    break;
+                }
+            countWhite2.setText("x" + (Integer.parseInt(countWhite2.getText().substring(1))-1));
+        }
     }
 
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%  START / END TURN FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+    /**
+     * Sets the right text on informationField and confirmButton.
+     * Disables all the panes you can't use in this phase.
+     * @param yourTurn true if it's your turn, false if it's not.
+     */
     public void yourTurn(boolean yourTurn) {
         informationField.clear();
         if (yourTurn)
@@ -782,7 +808,6 @@ public class TurnSceneController implements SceneController{
 
         confirmButton.setText("Confirm");
         disableAll(!yourTurn);
-        //todo: when the turn starts i can also activate a production
     }
 
     /**
@@ -814,6 +839,10 @@ public class TurnSceneController implements SceneController{
 
     }
 
+    /**
+     * Create a message ({@link LeaderActivationMessage} with the id of the leader to activate.
+     * @param actionEvent the actionEvent who calls the method
+     */
     @FXML
     public void activateLeader(ActionEvent actionEvent) {
         MenuItem node = (MenuItem) actionEvent.getSource();
@@ -825,6 +854,10 @@ public class TurnSceneController implements SceneController{
         actionEvent.consume();
     }
 
+    /**
+     * Removes the image of the selected leader and create a message ({@link LeaderDiscardingMessage} with the id of the leader to discard.
+     * @param actionEvent the actionEvent who calls the method
+     */
     @FXML
     public void discardLeader(ActionEvent actionEvent) {
         MenuItem node = (MenuItem) actionEvent.getSource();
@@ -860,6 +893,10 @@ public class TurnSceneController implements SceneController{
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%% MARKET DRAW %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+    /**
+     * Creates a message ({@link MarketDrawMessage}) to draw the chosen column.
+     * @param mouseEvent the mouseEvent who calls the method
+     */
     @FXML
     public void columnCall(MouseEvent mouseEvent) {
         int numColumn = marketDraw(mouseEvent);
@@ -870,6 +907,13 @@ public class TurnSceneController implements SceneController{
         mouseEvent.consume();
     }
 
+    /**
+     * Sets a glow effect on the imageView of the arrow associated with the chosen draw/column
+     * and removes all the effects on the other arrows.
+     * Returns the number of the chosen row/column.
+     * @param mouseEvent the mouseEvent that starts the sequence.
+     * @return the number of the chosen row/column.
+     */
     private int marketDraw(MouseEvent mouseEvent) {
         Node node = (Node) mouseEvent.getSource();
         String data = (String) node.getUserData();
@@ -885,6 +929,10 @@ public class TurnSceneController implements SceneController{
         return numSelected;
     }
 
+    /**
+     * Creates a message ({@link MarketDrawMessage}) to draw the chosen row.
+     * @param mouseEvent the mouseEvent who calls the method
+     */
     @FXML
     public void rowCall(MouseEvent mouseEvent) {
         int numRow = marketDraw(mouseEvent);
@@ -1025,6 +1073,13 @@ public class TurnSceneController implements SceneController{
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PRODUCTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+    /**
+     * Adds the chosen card ({@link MouseEvent#getSource()}) to the list of cards to produce if it is not already contained, adds a glow effect on the card,
+     * and increases numEarnings if the card chosen is a leader card.
+     * Otherwise if the card is already on the list, the method removes it, removes the glow effect and removes the chosen conversions if they exist.
+     * Finally the method creates a message ({@link ProductionMessage})
+     * @param mouseEvent that calls the function
+     */
     @FXML
     public void produce(MouseEvent mouseEvent) {
         ImageView imageViewCard = (ImageView) mouseEvent.getSource();
@@ -1062,13 +1117,6 @@ public class TurnSceneController implements SceneController{
                 imageViewCard.setEffect(null);
                 int numInArray = cardsToProduce.indexOf(selectedCard) + 1;
 
-//                Resource uEarning = uEarnings.get(numInArray);
-//                uEarnings.remove(numInArray);
-//                if(uEarning.getQuantity() > 1){
-//                    uEarning = new PhysicalResource(((PhysicalResource) uEarning).getType(), uEarning.getQuantity() - 1);
-//                    uEarnings.add(uEarning);
-//                }
-
                 int numUEarningsToProduce = 0;
                 int actualUEarnings = 0;
                 for (String card : cardsToProduce) {
@@ -1080,6 +1128,7 @@ public class TurnSceneController implements SceneController{
                     actualUEarnings += uEarning.getQuantity();
 
                 cardsToProduce.remove(selectedCard);
+                numUEarnings --;
                 removeResource(numInArray, numUEarningsToProduce, actualUEarnings);
 
                 closeProductionPane();
@@ -1097,6 +1146,12 @@ public class TurnSceneController implements SceneController{
         mouseEvent.consume();
     }
 
+    /**
+     * Removes the resource associate to the card you want to deselect.
+     * @param numInArray the position of the card in the list.
+     * @param numUEarningsToProduce the total number of earnings to choose
+     * @param actualUEarnings the number of chosen earnings
+     */
     private void removeResource(int numInArray, int numUEarningsToProduce, int actualUEarnings) {
         int count = 0;
         if(numUEarningsToProduce == actualUEarnings){
@@ -1116,6 +1171,13 @@ public class TurnSceneController implements SceneController{
         }
     }
 
+    /**
+     * Adds "BASICPROD" to the list of cards to produce if it is not already contained, adds a glow effect on the card,
+     * and increases numUCosts and numUEarnings.
+     * Otherwise if the card is already on the list, the method removes it, removes the glow effect and removes the chosen conversions if they exist.
+     * Finally the method creates a message ({@link ProductionMessage})
+     */
+    @FXML
     public void produceBasicProd() {
         int index = cardsToProduce.indexOf("BASICPROD");
 
@@ -1151,6 +1213,8 @@ public class TurnSceneController implements SceneController{
 
             closeProductionPane();
 
+            numUEarnings --;
+            numUCosts -= 2;
 
         }
         else {
@@ -1169,6 +1233,14 @@ public class TurnSceneController implements SceneController{
         message = new ProductionMessage(player.getNickname(), cardsToProduce, new Production(uCosts, uEarnings));
     }
 
+    /**
+     * Increase the count on the label of the clicked resource ({@link MouseEvent#getSource()})
+     * and adds the resource to the list of conversions for unknown costs.
+     * It also put on the imageView of the unknown cost of the card the image of the chosen resource.
+     * If already exists a conversion for the selected unknown cost it replace it.
+     * @param mouseEvent the mouseEvent that calls the method.
+     */
+    @FXML
     public void convertUCosts(MouseEvent mouseEvent) {
         int numActualUCosts = 0;
         HBox uCostsHBox = (HBox) productionPane.getChildren().get(2);
@@ -1236,8 +1308,15 @@ public class TurnSceneController implements SceneController{
         mouseEvent.consume();
     }
 
+    /**
+     * Increase the count on the label of the clicked resource ({@link MouseEvent#getSource()})
+     * and adds the resource to the list of conversions for unknown earnings.
+     * It also put on the imageView of the unknown earning of the card the image of the chosen resource.
+     * If already exists a conversion for the selected unknown earning it replace it.
+     * @param mouseEvent the mouseEvent that calls the method.
+     */
+    @FXML
     public void convertUEarnings(MouseEvent mouseEvent) {
-        int numUEarningsToProduce = 0;
         int numActualEarnings = 0;
         int newFirstResource = uEarnings.size()-1;
         HBox uCostsHBox = (HBox) productionPane.getChildren().get(4);
@@ -1253,16 +1332,13 @@ public class TurnSceneController implements SceneController{
                 break;
             }
 
-        for (String card : cardsToProduce)
-            if(card.startsWith("L") || card.startsWith("B"))
-                numUEarningsToProduce++;
 
         PhysicalResource selectedResource = new PhysicalResource(selectedType, 1);
 
         for (Resource uEarning : uEarnings)
             numActualEarnings += uEarning.getQuantity();
 
-        if(numUEarningsToProduce == numActualEarnings){
+        if(numUEarnings == numActualEarnings){
             Resource oldestResource = uEarnings.get(newFirstResource);
             newQuantity = oldestResource.getQuantity() - 1;
             uEarnings.remove(newFirstResource);
@@ -1281,7 +1357,6 @@ public class TurnSceneController implements SceneController{
         }
         else {
             uEarnings.add(selectedResource);
-            newQuantity = 1;
         }
 
 
@@ -1304,6 +1379,10 @@ public class TurnSceneController implements SceneController{
         mouseEvent.consume();
     }
 
+    /**
+     * Sets the text of each label as "x0" and than sets productionPane as invisible and disabled.
+     */
+    @FXML
     public void closeProductionPane() {
         HBox hBox = (HBox) productionPane.getChildren().get(2);
         VBox vBox;
@@ -1345,6 +1424,12 @@ public class TurnSceneController implements SceneController{
         mouseEvent.consume();
     }
 
+    /**
+     * If you can drop the resource here({@link DragEvent#getSource()}) sets a temporary message {@link WarehouseInsertionMessage} with the relative list of chosen resources,
+     * and set the image of the chosen resource in the selected imageView.
+     * It doesn't control if you can place effectively the resource but only if there is still space in the HBox
+     * @param dragEvent the event that triggered this method
+     */
     @FXML
     public void dropResourceWarehouse(DragEvent dragEvent) {
         boolean success;
@@ -1407,6 +1492,12 @@ public class TurnSceneController implements SceneController{
         dragEvent.consume();
     }
 
+    /**
+     * If you can drop the resource here({@link DragEvent#getSource()}) increments the count on the relative label.
+     * Than it modify the list of payments from strongbox or from warehouse depends on the granParent of {@link DragEvent#getGestureSource()}
+     * and sets a temporary message {@link PaymentsMessage} with the relative lists of resources to pay from warehouse or strongbox.
+     * @param dragEvent the event that triggered this method
+     */
     @FXML
     public void dropResourcePayments(DragEvent dragEvent) {
         boolean success;
