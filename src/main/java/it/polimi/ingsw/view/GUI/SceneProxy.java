@@ -34,10 +34,17 @@ public class SceneProxy {
     private SceneName actualScene;
     private Map<Character, Image> charToImageMap;
 
-    public SceneProxy() {
+    /**
+     * Private constructor of the SceneProxy, since it is a singleton no one should create an instance of this class.
+     */
+    private SceneProxy() {
         setMarblesMap();
     }
 
+    /**
+     * Gets the instance of the SceneProxy singleton, follows the principle of lazy initialization
+     * @return the instance of the SceneProxy singleton
+     */
     public static SceneProxy getSceneProxy(){
         if (instance == null)
             instance = new SceneProxy();
@@ -47,6 +54,10 @@ public class SceneProxy {
 
     //%%%%%%%%%%%%%%%%%%%%%%%% SETTER %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+    /**
+     * Changes the actual SceneController to the InitSceneController passed, removes all the other possible controllers associated
+     * @param initSceneController the controller you want to set as the active one
+     */
     public void setInitSceneController(InitSceneController initSceneController) {
         this.initSceneController = initSceneController;
         this.actualController = initSceneController;
@@ -56,6 +67,10 @@ public class SceneProxy {
         this.goodbyeSceneController = null;
     }
 
+    /**
+     * Changes the actual SceneController to the StartingPhaseSceneController passed, removes all the other possible controllers associated
+     * @param startingPhaseSceneController the controller you want to set as the active one
+     */
     public void setStartingPhaseSceneController(StartingPhaseSceneController startingPhaseSceneController) {
         this.initSceneController = null;
         this.startingPhaseSceneController = startingPhaseSceneController;
@@ -66,6 +81,10 @@ public class SceneProxy {
 
     }
 
+    /**
+     * Changes the actual SceneController to the TurnSceneController passed, removes all the other possible controllers associated
+     * @param turnSceneController the controller you want to set as the active one
+     */
     public void setTurnSceneController(TurnSceneController turnSceneController) {
         this.initSceneController = null;
         this.startingPhaseSceneController = null;
@@ -76,6 +95,10 @@ public class SceneProxy {
 
     }
 
+    /**
+     * Changes the actual SceneController to the RematchPhaseSceneController passed, removes all the other possible controllers associated
+     * @param rematchPhaseSceneController the controller you want to set as the active one
+     */
     public void setRematchPhaseSceneController(RematchPhaseSceneController rematchPhaseSceneController) {
         this.initSceneController = null;
         this.startingPhaseSceneController = null;
@@ -86,12 +109,22 @@ public class SceneProxy {
 
     }
 
+    /**
+     * Saves on this the GoodbyePhaseSceneController passed
+     * @param goodbyeSceneController the controller you want to set as active
+     */
     public void setGoodbyePhaseSceneController(GoodbyeSceneController goodbyeSceneController) {
 
         this.goodbyeSceneController = goodbyeSceneController;
         this.actualController = goodbyeSceneController;
     }
 
+    /**
+     * Creates a map that links IDs to the images of the cards and vice versa based on the passed map
+     * @param cardMap a map that links IDs with the Card objects ({@link it.polimi.ingsw.model.essentials.DevelopmentCard} and {@link it.polimi.ingsw.model.essentials.leader.LeaderCard})
+     *                Dev. Cards Ids have to start with D
+     *                Leader Cards Ids have to start with L
+     */
     public void setCardMap(Map<String, Card> cardMap){
         InputStream imageStream;
         Image image;
@@ -115,6 +148,10 @@ public class SceneProxy {
         //TODO: modify in case of editor
     }
 
+    /**
+     * Builds the map that associate to a character the right image for the market Marbles,
+     * the map is then used when {@link SceneProxy#getMarbleImage(char)} is called
+     */
     public void setMarblesMap(){
         charToImageMap = Map.ofEntries(
                 entry('w', new Image(getClass().getResourceAsStream("images/punchBoard/whiteMarble.png"))),
@@ -146,13 +183,15 @@ public class SceneProxy {
     }
 
     /**
-     * Returns the image of the marble associated with the given char
-     * w -> white
-     * r -> red
-     * b -> blue
-     * y -> yellow
-     * g -> gray
-     * p -> purple
+     * Returns the image of the marble associated with the given char:
+     * <ul>
+     * <li> w -> white
+     * <li> r -> red
+     * <li> b -> blue
+     * <li> y -> yellow
+     * <li> g -> gray
+     * <li> p -> purple
+     * </ul>
      * @param marble the unique char that identify the marble
      * @return the relative image or null if there isn't an image associated with that char
      */
@@ -190,6 +229,11 @@ public class SceneProxy {
             }
         });
     }
+
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% RUN_LATER METHODS (PROXY) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+//TODO: all runLater methods javadoc, maybe copy from the method recalled javadoc, adding a line for reconnection when necessary or the condition of the current scene
 
     public void disableAll(boolean value){
         loadSceneIfReconnected(SceneName.GameScene);
@@ -273,19 +317,6 @@ public class SceneProxy {
         });
     }
 
-    /**
-     * Returns the child of the given father with the given id
-     * @param father a pane
-     * @param Id the id of the node you want to search for
-     * @return the child node or null if there isn't such a child
-     */
-    public static Node getChildById(Pane father, String Id){
-        for(Node child : father.getChildren())
-            if(Id.equals(child.getId()))
-                return child;
-            return null;
-    }
-
     public void yourTurn(boolean yourTurn) {
         loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()->{
@@ -354,7 +385,6 @@ public class SceneProxy {
         Platform.runLater(()->{
             if(goodbyeSceneController != null)
                 goodbyeSceneController.printGoodbyeMessage(msg);
-
         });
     }
 
@@ -463,4 +493,17 @@ public class SceneProxy {
                     }
             }
         }
+
+    /**
+     * Returns the child of the given father with the given id
+     * @param father a pane
+     * @param Id the id of the node you want to search for
+     * @return the child node or null if there isn't such a child
+     */
+    public static Node getChildById(Pane father, String Id){
+        for(Node child : father.getChildren())
+            if(Id.equals(child.getId()))
+                return child;
+        return null;
+    }
 }

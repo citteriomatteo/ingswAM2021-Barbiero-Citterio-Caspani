@@ -5,7 +5,7 @@ import javafx.scene.control.Label;
 import static it.polimi.ingsw.view.GUI.SceneProxy.getSceneProxy;
 
 /**
- * A scene controller used to used for communicating with the goodbye scene.
+ * A scene controller used to communicate with the goodbye scene.
  */
 public class GoodbyeSceneController implements SceneController {
     public Label errorMessage;

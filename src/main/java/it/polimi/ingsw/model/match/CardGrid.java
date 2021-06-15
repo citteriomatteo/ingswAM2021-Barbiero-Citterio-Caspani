@@ -19,12 +19,17 @@ public class  CardGrid {
     static final int MAX_LEVEL = 3;
 
     /**
-     * For tests only
-     * Return a copy of the two-dimensional array of decks that form the grid
+     * Returns a shallow copy of the two-dimensional array of decks that form the grid, changes in Stack objects will be transferred into this.
+     * Use with caution
      * @return a copy of the entire grid
      */
     public Stack<DevelopmentCard>[][] getGrid() {
-        return grid.clone();
+        Stack<DevelopmentCard>[][] res = new Stack[MAX_LEVEL][CardColor.values().length];
+        for (int i = 0; i < MAX_LEVEL; i++) {
+            res[i] = grid[i].clone();
+        }
+        return res;
+//        return grid.clone();
     }
 
     /**

@@ -16,6 +16,9 @@ import java.util.Map;
 import static it.polimi.ingsw.network.client.Client.getClient;
 import static it.polimi.ingsw.view.GUI.SceneProxy.getSceneProxy;
 
+/**
+ * A scene controller used to communicate with the EndGame scene
+ */
 public class RematchPhaseSceneController implements SceneController{
     
     public Pane basePane;
@@ -24,8 +27,9 @@ public class RematchPhaseSceneController implements SceneController{
     public Label rematchLabel;
     public VBox rankingBox;
 
-    private boolean rematchOffered = false;
-
+    /**
+     * Creates an instance and links it to the {@link SceneProxy}.
+     */
     public RematchPhaseSceneController(){
         getSceneProxy().setRematchPhaseSceneController(this);
     }
@@ -48,7 +52,6 @@ public class RematchPhaseSceneController implements SceneController{
     }
 
     public void printRematchOffer(String nickname) {
-        rematchOffered = true;
         rematchLabel.setText(nickname + " has offered a rematch. Want to play again?");
     }
 
@@ -69,13 +72,6 @@ public class RematchPhaseSceneController implements SceneController{
         new RematchMessage(getClient().getNickname(),false).send();
 
         rematchLabel.setText("You declined. Thanks for playing!");
-    }
-
-    public void printGoodbye(String msg) {
-        rematchButton.setDisable(true);
-        exitButton.setDisable(true);
-
-        rematchLabel.setText(msg);
     }
 
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& UTILITY METHODS &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
