@@ -15,6 +15,9 @@ import static it.polimi.ingsw.network.client.Client.getClient;
 import static it.polimi.ingsw.view.ClientController.getClientController;
 import static it.polimi.ingsw.view.GUI.SceneProxy.getSceneProxy;
 
+/**
+ * A scene controller used for communicating with the scenes of the login phase.
+ */
 public class InitSceneController implements SceneController{
     public Pane basePane;
     public TextField loginTextBox;
@@ -23,10 +26,16 @@ public class InitSceneController implements SceneController{
     public Button declineButton;
 
 
+    /**
+     * Creates an instance and links it to the {@link SceneProxy}.
+     */
     public InitSceneController() {
         getSceneProxy().setInitSceneController(this);
     }
 
+    /**
+     * Sends a LoginMessage with getting the nickname by the string in loginTextBox.
+     */
     @FXML
     public void login() {
         String nickname = loginTextBox.getCharacters().toString();
@@ -34,13 +43,21 @@ public class InitSceneController implements SceneController{
         (new LoginMessage(nickname)).send();
     }
 
+    /**
+     * Shows a pop up with a warning message.
+     * It's called when the nickname chosen is unacceptable.
+     * @param message the warning message by the server.
+     */
     @FXML
     public void loginError(String message){
-//        loginErrorLabel.setText(message);
-//        loginErrorLabel.setOpacity(1);
         JavaFXGUI.popUpWarning(message);
     }
 
+    /**
+     * Gets the boolean choice by the userData associate with the button and
+     * sends a BinarySelectionMessage to the server.
+     * @param actionEvent the ActionEvent that calls the method.
+     */
     @FXML
     public void selection(ActionEvent actionEvent){
         Node node = (Node) actionEvent.getSource();
@@ -49,7 +66,11 @@ public class InitSceneController implements SceneController{
         (new BinarySelectionMessage(getClient().getNickname(), selection)).send();
     }
 
-
+    /**
+     * Gets the number of player the client wants by the userData associate with the button and
+     * sends a NumPlayersMessage to the server.
+     * @param actionEvent the ActionEvent that calls the method.
+     */
     @FXML
     public void numPlayers(ActionEvent actionEvent) {
         Node node = (Node) actionEvent.getSource();
@@ -58,12 +79,19 @@ public class InitSceneController implements SceneController{
         new NumPlayersMessage(getClient().getNickname(), numPlayers).send();
     }
 
-
-    public void reconnect(ActionEvent actionEvent) {
+    /**
+     * Sends a positive BinarySelectionMessage to re-enter the player in the game from which he disconnected.
+     */
+    @FXML
+    public void reconnect() {
         new BinarySelectionMessage(getClient().getNickname(), true).send();
     }
 
-    public void backToLogin(ActionEvent actionEvent) {
+    /**
+     * Sends a negative BinarySelectionMessage to inform the server that this is not the player disconnected with the same name.
+     */
+    @FXML
+    public void backToLogin() {
         new BinarySelectionMessage(getClient().getNickname(), false).send();
     }
 }
