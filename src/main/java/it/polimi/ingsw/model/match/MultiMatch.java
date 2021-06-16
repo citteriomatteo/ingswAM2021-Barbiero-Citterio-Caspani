@@ -132,8 +132,10 @@ public class MultiMatch extends Match {
     }
 
     /**
-     * This method finish the turn and change the currentPlayer
-     * @return true if it worked //todo: correct JavaDoc
+     * Sets the state of the last currentPlayer as WAITING_FOR_TURN.
+     * Then if all the players in the match are disconnected returns STARTING_TURN and finishes, else calls itself while reaches a connected player.
+     * When it founds a connected player gets the last used state of that player and then evolves the player's state.
+     * @return the state of the current player.
      */
     @Override
     public StateName nextTurn(){

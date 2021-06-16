@@ -110,8 +110,8 @@ public class SingleMatch extends Match{
     }
 
     /**
-     * This method finish the turn by calling the draw method in tokenStack
-     * @return true if the draw method worked
+     * This method finish the turn by calling the draw method in tokenStack and than evolving the state of the player.
+     * @return the state of the currentPlayer.
      * @throws LastRoundException if the number of a certain type of developmentCards became 0
      */
     @Override

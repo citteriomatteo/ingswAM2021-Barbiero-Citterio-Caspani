@@ -4,7 +4,7 @@ import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.model.match.player.Adder;
 
 /**
- * This method implements the red marble.
+ * This class implements the red marble.
  */
 
 public class RedMarble extends Marble {

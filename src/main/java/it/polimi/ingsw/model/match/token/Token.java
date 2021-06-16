@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.SingleMatch;
 
 /**
- * This class is common for every token and implements the common operation( such as onDraw, updates, ...)
+ * This abstract class is common for every token and implements the common operation( such as onDraw, updates, ...)
  */
 public abstract class Token {
 
@@ -20,7 +20,7 @@ public abstract class Token {
     /**
      * This method is called by the four tokens that draw some cards from the grid.
      * This goes to update the card grid, in order to cause a CardGridChangeMessage creation.
-     * @param match
+     * @param match the match.
      */
     public void updateCardGrid(Match match){
         //update_call

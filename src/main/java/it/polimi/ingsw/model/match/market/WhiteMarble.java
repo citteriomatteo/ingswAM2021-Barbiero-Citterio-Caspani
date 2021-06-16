@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.match.market;
 import it.polimi.ingsw.model.match.player.Adder;
 
 /**
- * This method implements the white marble.
+ * This class implements the white marble.
  */
 
 public class WhiteMarble extends Marble {

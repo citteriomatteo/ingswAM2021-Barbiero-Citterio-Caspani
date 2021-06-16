@@ -6,7 +6,7 @@ import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.model.match.player.Adder;
 
 /**
- * This method implements the yellow marble.
+ * This class implements the yellow marble.
  */
 
 public class YellowMarble extends Marble {
