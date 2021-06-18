@@ -18,7 +18,7 @@ import static it.polimi.ingsw.view.GUI.SceneProxy.getSceneProxy;
 /**
  * A scene controller used for communicating with the scenes of the login phase.
  */
-public class InitSceneController implements SceneController{
+public class InitSceneController{
     public Pane basePane;
     public TextField loginTextBox;
     public Label loginErrorLabel;

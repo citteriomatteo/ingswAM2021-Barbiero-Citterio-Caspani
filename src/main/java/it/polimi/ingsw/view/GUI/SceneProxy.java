@@ -30,7 +30,6 @@ public class SceneProxy {
     private GoodbyeSceneController goodbyeSceneController;
     private Map<String, Image> idToImageMap;
     private Map<Image, String> imageToIdMap;
-    private SceneController actualController;
     private SceneName actualScene;
     private Map<Character, Image> charToImageMap;
 
@@ -60,7 +59,6 @@ public class SceneProxy {
      */
     public void setInitSceneController(InitSceneController initSceneController) {
         this.initSceneController = initSceneController;
-        this.actualController = initSceneController;
         this.startingPhaseSceneController = null;
         this.turnSceneController = null;
         this.rematchPhaseSceneController = null;
@@ -74,7 +72,6 @@ public class SceneProxy {
     public void setStartingPhaseSceneController(StartingPhaseSceneController startingPhaseSceneController) {
         this.initSceneController = null;
         this.startingPhaseSceneController = startingPhaseSceneController;
-        this.actualController = startingPhaseSceneController;
         this.turnSceneController = null;
         this.rematchPhaseSceneController = null;
         this.goodbyeSceneController = null;
@@ -89,7 +86,6 @@ public class SceneProxy {
         this.initSceneController = null;
         this.startingPhaseSceneController = null;
         this.turnSceneController = turnSceneController;
-        this.actualController = turnSceneController;
         this.rematchPhaseSceneController = null;
         this.goodbyeSceneController = null;
 
@@ -104,7 +100,6 @@ public class SceneProxy {
         this.startingPhaseSceneController = null;
         this.turnSceneController = null;
         this.rematchPhaseSceneController = rematchPhaseSceneController;
-        this.actualController = rematchPhaseSceneController;
         this.goodbyeSceneController = null;
 
     }
@@ -116,7 +111,6 @@ public class SceneProxy {
     public void setGoodbyePhaseSceneController(GoodbyeSceneController goodbyeSceneController) {
 
         this.goodbyeSceneController = goodbyeSceneController;
-        this.actualController = goodbyeSceneController;
     }
 
     /**
@@ -235,51 +229,64 @@ public class SceneProxy {
 
 //TODO: all runLater methods javadoc, maybe copy from the method recalled javadoc, adding a line for reconnection when necessary or the condition of the current scene
 
+    /**
+     * If the player is reconnected change scene to GameScene, then calls {@link TurnSceneController#disableAll(boolean)}
+     * @param value the value to pass at disableAll method
+     */
     public void disableAll(boolean value){
         loadSceneIfReconnected(SceneName.GameScene);
-        Platform.runLater(()-> {
-            turnSceneController.disableAll(value);
-        });
+        Platform.runLater(()-> turnSceneController.disableAll(value));
     }
 
+    /**
+     * If the player is reconnected change scene to GameScene, then calls {@link TurnSceneController#marketActionPhaseDisables()}
+     */
     public void marketActionPhaseDisables(){
         loadSceneIfReconnected(SceneName.GameScene);
-        Platform.runLater(()-> {
-            turnSceneController.marketActionPhaseDisables();
-        });
+        Platform.runLater(()-> turnSceneController.marketActionPhaseDisables());
     }
+
+    /**
+     * If the player is reconnected change scene to GameScene, then calls {@link TurnSceneController#resourcesPlacementPhaseDisables()}
+     */
     public void resourcesPlacementPhaseDisables() {
         loadSceneIfReconnected(SceneName.GameScene);
-        Platform.runLater(()-> {
-            turnSceneController.resourcesPlacementPhaseDisables();
-        });
+        Platform.runLater(()-> turnSceneController.resourcesPlacementPhaseDisables());
     }
+
+    /**
+     * If the player is reconnected change scene to GameScene, then calls {@link TurnSceneController#buyDevActionPhaseDisables()}
+     */
     public void buyDevActionPhaseDisables() {
         loadSceneIfReconnected(SceneName.GameScene);
-        Platform.runLater(()-> {
-            turnSceneController.buyDevActionPhaseDisables();
-        });
+        Platform.runLater(()-> turnSceneController.buyDevActionPhaseDisables());
     }
+
+    /**
+     * If the player is reconnected change scene to GameScene, then calls {@link TurnSceneController#placeDevCardPhaseDisables()}
+     */
     public void placeDevCardPhaseDisables() {
         loadSceneIfReconnected(SceneName.GameScene);
-        Platform.runLater(()-> {
-            turnSceneController.placeDevCardPhaseDisables();
-        });
+        Platform.runLater(()-> turnSceneController.placeDevCardPhaseDisables());
     }
+
+    /**
+     * If the player is reconnected change scene to GameScene, then calls {@link TurnSceneController#productionActionPhaseDisables()}
+     */
     public void productionActionPhaseDisables() {
         loadSceneIfReconnected(SceneName.GameScene);
-        Platform.runLater(()-> {
-            turnSceneController.productionActionPhaseDisables();
-        });
+        Platform.runLater(()-> turnSceneController.productionActionPhaseDisables());
     }
 
+    /**
+     * If the player is reconnected change scene to GameScene, then calls {@link TurnSceneController#endTurnPhaseDisables()}
+     */
     public void endTurnPhaseDisables() {
         loadSceneIfReconnected(SceneName.GameScene);
-        Platform.runLater(()-> {
-            turnSceneController.endTurnPhaseDisables();
-        });
+        Platform.runLater(()-> turnSceneController.endTurnPhaseDisables());
     }
 
+    //------------------------------------------------------------------todo: continue javadoc
     public void loadLeaderCards(List<String> leaders){
         loadSceneIfReconnected(SceneName.LeadersChoiceScene);
         Platform.runLater(()->{

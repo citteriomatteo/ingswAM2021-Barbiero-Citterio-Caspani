@@ -30,7 +30,7 @@ import static it.polimi.ingsw.view.GUI.SceneProxy.getSceneProxy;
 /**
  * A scene controller used for communicating with the gameScene
  */
-public class TurnSceneController implements SceneController{
+public class TurnSceneController{
     private static final int ENLARGEMENT_CARD = 5;
     private static final int ZOOM_CARD = 25;
 

@@ -27,7 +27,7 @@ import static it.polimi.ingsw.network.client.Client.getClient;
 /**
  * A scene controller used for communicating with the scenes of the starting phase
  */
-public class StartingPhaseSceneController implements SceneController{
+public class StartingPhaseSceneController{
     private List<ResType> startingResources;
     private int numResources;
     public Pane basePane;

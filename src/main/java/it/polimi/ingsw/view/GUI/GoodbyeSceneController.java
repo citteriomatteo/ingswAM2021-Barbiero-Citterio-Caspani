@@ -7,7 +7,7 @@ import static it.polimi.ingsw.view.GUI.SceneProxy.getSceneProxy;
 /**
  * A scene controller used to communicate with the goodbye scene.
  */
-public class GoodbyeSceneController implements SceneController {
+public class GoodbyeSceneController{
     public Label errorMessage;
 
     /**

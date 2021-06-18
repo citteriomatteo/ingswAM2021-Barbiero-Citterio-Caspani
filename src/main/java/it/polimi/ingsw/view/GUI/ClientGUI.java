@@ -12,6 +12,10 @@ import static it.polimi.ingsw.network.client.Client.getClient;
 import static it.polimi.ingsw.view.ClientController.getClientController;
 import static it.polimi.ingsw.view.GUI.SceneProxy.getSceneProxy;
 
+/**
+ * This class implements visual functions needed by the GUI version of the game to run.
+ * It utilize JavaFX and fxml files.
+ */
 public class ClientGUI implements View {
 
     /**

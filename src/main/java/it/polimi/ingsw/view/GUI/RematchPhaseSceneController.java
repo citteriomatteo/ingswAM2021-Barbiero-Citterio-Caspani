@@ -1,14 +1,13 @@
 package it.polimi.ingsw.view.GUI;
 
 import it.polimi.ingsw.network.message.ctosmessage.RematchMessage;
-import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-import javax.print.attribute.IntegerSyntax;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -19,7 +18,7 @@ import static it.polimi.ingsw.view.GUI.SceneProxy.getSceneProxy;
 /**
  * A scene controller used to communicate with the EndGame scene
  */
-public class RematchPhaseSceneController implements SceneController{
+public class RematchPhaseSceneController{
     
     public Pane basePane;
     public Button rematchButton;
@@ -34,7 +33,10 @@ public class RematchPhaseSceneController implements SceneController{
         getSceneProxy().setRematchPhaseSceneController(this);
     }
 
-
+    /**
+     * Populate the ranking table with the players sorted by their points
+     * @param ranking a map that links every player to his score
+     */
     public void printMatchResults(Map<String, Integer> ranking) {
         int count = 0;
 
@@ -51,10 +53,18 @@ public class RematchPhaseSceneController implements SceneController{
 
     }
 
+    /**
+     * Shows the name of the player who has offered a rematch
+     * @param nickname the name of the player who has offered a rematch
+     */
     public void printRematchOffer(String nickname) {
         rematchLabel.setText(nickname + " has offered a rematch. Want to play again?");
     }
 
+    /**
+     * Sends a RematchMessage with true value and sets disabled the buttons on the scene
+     */
+    @FXML
     public void rematchClicked() {
 
         rematchButton.setDisable(true);
@@ -65,6 +75,10 @@ public class RematchPhaseSceneController implements SceneController{
         rematchLabel.setText("Wait for other players to accept or decline...");
     }
 
+    /**
+     * Sends a RematchMessage with false value and sets disabled the buttons on the scene
+     */
+    @FXML
     public void exitClicked() {
         rematchButton.setDisable(true);
         exitButton.setDisable(true);
@@ -76,6 +90,11 @@ public class RematchPhaseSceneController implements SceneController{
 
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& UTILITY METHODS &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
+    /**
+     * Orders a map passed on the basis of his Integer values, the LinkedHashMap returned preserve this order
+     * @param ranking a map that links String to Integer
+     * @return a LinkedHashMap ordered by the Integer score value
+     */
     private LinkedHashMap<String, Integer> getOrderedMapOf(Map<String, Integer> ranking) {
 
         //LinkedHashMap preserve the ordering of elements in which they are inserted
