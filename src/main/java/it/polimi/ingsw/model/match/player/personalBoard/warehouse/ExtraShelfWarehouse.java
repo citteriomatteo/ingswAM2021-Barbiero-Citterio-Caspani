@@ -129,7 +129,7 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
                 throw new InvalidQuantityException("The resource is not present in the marketBuffer! Operation failed.");
 
             if((res.getQuantity()+extraShelf.getQuantity())>shelfSize ||
-                    !res.getType().equals(extraShelf.getType()) && extraShelf.getQuantity() > 0)
+                    !res.getType().equals(extraShelf.getType()))
                 throw new ShelfInsertException("Error in leader shelf insert procedure! Operation cancelled.");
 
             //Shelf update:

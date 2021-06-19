@@ -286,7 +286,9 @@ public class SceneProxy {
         Platform.runLater(()-> turnSceneController.endTurnPhaseDisables());
     }
 
-    //------------------------------------------------------------------todo: continue javadoc
+    /**
+     * If the player is reconnected change scene to LeadersChoiceScene, then calls {@link StartingPhaseSceneController#loadLeaderCards(List)}
+     */
     public void loadLeaderCards(List<String> leaders){
         loadSceneIfReconnected(SceneName.LeadersChoiceScene);
         Platform.runLater(()->{
@@ -295,6 +297,9 @@ public class SceneProxy {
         });
     }
 
+    /**
+     * If the player is reconnected change scene to StartingResourceScene, then calls {@link StartingPhaseSceneController#loadStartingResources(int)}
+     */
     public void loadStartingResources(int numResources){
         loadSceneIfReconnected(SceneName.StartingResourceScene);
         Platform.runLater(()->{
@@ -302,6 +307,8 @@ public class SceneProxy {
                 startingPhaseSceneController.loadStartingResources(numResources);
         });
     }
+
+    //------------------------------------------------------------------todo: continue javadoc
 
     public void loginError(String errMessage) {
         Platform.runLater(()->{

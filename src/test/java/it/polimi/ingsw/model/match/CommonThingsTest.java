@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.essentials.Card;
 import it.polimi.ingsw.model.essentials.Production;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
-import it.polimi.ingsw.model.match.player.personalBoard.faithPath.FaithPath;
 import it.polimi.ingsw.observer.ModelObserver;
 
 import java.util.*;

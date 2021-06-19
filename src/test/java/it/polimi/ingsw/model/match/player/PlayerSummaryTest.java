@@ -81,7 +81,7 @@ public class PlayerSummaryTest extends CommonThingsTest
     @Test
     public void updateStrongboxTest() throws WrongSettingException, SingleMatchException, NegativeQuantityException {
         //TODO
-/*
+
         Player player1 = new Player("player1");
         Player player2 = new Player("player2");
         Player player3 = new Player("player3");
@@ -91,7 +91,8 @@ public class PlayerSummaryTest extends CommonThingsTest
         Match match = new MultiMatch(players, assignConfiguration("src/test/resources/TotalFreeConfiguration.json"));
 
         setCardMap(match.getMatchConfiguration());
-        Summary summary = new Summary(match, cardMap);
+
+        Summary summary = new Summary(match, cardMap, matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         for(Player p : match.getPlayers())
             p.setSummary(summary);
 
@@ -100,7 +101,8 @@ public class PlayerSummaryTest extends CommonThingsTest
         curr.addToStrongBox(new PhysicalResource(ResType.STONE, 5));
         curr.updateStrongbox(curr.getNickname(), curr.getPersonalBoard().getStrongBox());
 
-        assertEquals(curr.getPersonalBoard().getStrongBox().getNumberOf(ResType.STONE), summary.getPlayerSummary(curr.getNickname()).getStrongbox().get(1).getQuantity());
+        assertEquals(curr.getPersonalBoard().getStrongBox().getNumberOf(ResType.STONE),
+                getNumberOf(summary.getPlayerSummary(curr.getNickname()), ResType.STONE));
 
         curr.addToStrongBox(new PhysicalResource(ResType.COIN, 3));
         curr.addToStrongBox(new PhysicalResource(ResType.SERVANT, 7));
@@ -111,10 +113,10 @@ public class PlayerSummaryTest extends CommonThingsTest
             System.out.println(type + " - " + curr.getPersonalBoard().getStrongBox().getNumberOf(type));
 
         //fixed positions of the resources: unknown is not present in the strongbox -> ordinal doesn't work don't know how to solve
-        assertEquals(curr.getPersonalBoard().getStrongBox().getNumberOf(ResType.STONE), summary.getPlayerSummary(curr.getNickname()).getStrongbox().get(1).getQuantity());
-        assertEquals(curr.getPersonalBoard().getStrongBox().getNumberOf(ResType.COIN), summary.getPlayerSummary(curr.getNickname()).getStrongbox().get(3).getQuantity());
-        assertEquals(curr.getPersonalBoard().getStrongBox().getNumberOf(ResType.SERVANT), summary.getPlayerSummary(curr.getNickname()).getStrongbox().get(0).getQuantity());
-*/
+        assertEquals(curr.getPersonalBoard().getStrongBox().getNumberOf(ResType.STONE), getNumberOf(summary.getPlayerSummary(curr.getNickname()), ResType.STONE));
+        assertEquals(curr.getPersonalBoard().getStrongBox().getNumberOf(ResType.COIN), getNumberOf(summary.getPlayerSummary(curr.getNickname()), ResType.COIN));
+        assertEquals(curr.getPersonalBoard().getStrongBox().getNumberOf(ResType.SERVANT), getNumberOf(summary.getPlayerSummary(curr.getNickname()), ResType.SERVANT));
+
     }
 
     @Test
@@ -184,6 +186,11 @@ public class PlayerSummaryTest extends CommonThingsTest
         sortedPlayerAL = sortedPlayerAL.stream().sorted().collect(Collectors.toList());
         assertEquals(sortedPlayerAL, sortedSummaryAL);
 
+    }
+
+    public int getNumberOf(PlayerSummary ps, ResType type) {
+        return ps.getStrongbox().stream().filter((x)->x.getType().equals(type))
+                .collect(Collectors.toList()).get(0).getQuantity();
     }
 
 }
