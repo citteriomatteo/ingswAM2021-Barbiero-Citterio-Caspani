@@ -80,8 +80,6 @@ public class PlayerSummaryTest extends CommonThingsTest
 
     @Test
     public void updateStrongboxTest() throws WrongSettingException, SingleMatchException, NegativeQuantityException {
-        //TODO
-
         Player player1 = new Player("player1");
         Player player2 = new Player("player2");
         Player player3 = new Player("player3");
@@ -92,7 +90,7 @@ public class PlayerSummaryTest extends CommonThingsTest
 
         setCardMap(match.getMatchConfiguration());
 
-        Summary summary = new Summary(match, cardMap, matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
+        Summary summary = new Summary(match, cardMap, config.getCustomPath(), config.getBasicProduction());
         for(Player p : match.getPlayers())
             p.setSummary(summary);
 
@@ -188,6 +186,7 @@ public class PlayerSummaryTest extends CommonThingsTest
 
     }
 
+    //replaces the functionality of the getNumberOf() method of Strongbox's class (for the player summary).
     public int getNumberOf(PlayerSummary ps, ResType type) {
         return ps.getStrongbox().stream().filter((x)->x.getType().equals(type))
                 .collect(Collectors.toList()).get(0).getQuantity();
