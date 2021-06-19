@@ -27,7 +27,7 @@ public class SummaryMessage extends StoCMessage {
 
         for(PlayerSummary ps : summary.getPlayersSummary())
             if(!ps.getNickname().equals(nickname))
-                ps.getHandLeaders().stream().map((x)->(LeaderCard) null).collect(Collectors.toList());
+                ps.getHandLeaders().stream().map((x)->(LeaderCard) null).collect(Collectors.toList());  //todo: why here?
 
         this.summary = summary;
     }

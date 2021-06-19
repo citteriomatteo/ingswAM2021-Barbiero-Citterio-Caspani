@@ -247,7 +247,7 @@ public class TurnSceneController{
         for (int i = 0; i < leaders.size(); i++) {
             leader = (ImageView) leaders.get(i);
             if(newHandLeaders.size()>i && newHandLeaders.get(0).equals("-1"))
-                leader.setImage(new Image(TurnSceneController.class.getResourceAsStream("images/leaderCards/leaderCardBack.png")));
+                leader.setImage(new Image(Objects.requireNonNull(TurnSceneController.class.getResourceAsStream("images/leaderCards/leaderCardBack.png"))));
             else if (newHandLeaders.size()>i)
                 ((ImageView) handLeaders.getChildren().get(i)).setImage(getSceneProxy().getCardImage(newHandLeaders.get(i)));
             else
@@ -377,9 +377,9 @@ public class TurnSceneController{
     static public void setPopeTileImage(int order, int value, ImageView popeTileView){
         Image tile;
         if(value == 1) //tile is upside
-            tile = new Image(TurnSceneController.class.getResourceAsStream("images/punchBoard/upsidePopeTile"+(order)+".png"));
+            tile = new Image(Objects.requireNonNull(TurnSceneController.class.getResourceAsStream("images/punchBoard/upsidePopeTile" + (order) + ".png")));
         else if(value == 2) //tile is downside
-            tile = new Image(TurnSceneController.class.getResourceAsStream("images/punchBoard/PopeTile"+(order)+".png"));
+            tile = new Image(Objects.requireNonNull(TurnSceneController.class.getResourceAsStream("images/punchBoard/PopeTile" + (order) + ".png")));
         else
             tile = null;
 
@@ -1832,7 +1832,7 @@ public class TurnSceneController{
     public void updateTokenDrawn(String tokenName, int remainingTokens) {
 
         this.remainingTokens.setText("(" + remainingTokens + " remaining)");
-        tokenDrawn.setImage(new Image(getClass().getResourceAsStream("images/punchBoard/"+tokenName+".png")));
+        tokenDrawn.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/punchBoard/" + tokenName + ".png"))));
     }
 
     /**

@@ -10,7 +10,7 @@ import it.polimi.ingsw.network.client.Client;
 public class RetryMessage extends StoCMessage {
 
     private static final StoCMessageType type = StoCMessageType.RETRY;
-    private StateName currentState;
+    private final StateName currentState;
     private final String errMessage;
 
     /**

@@ -1,10 +1,7 @@
 package it.polimi.ingsw.network.message.stocmessage;
 
 import it.polimi.ingsw.model.essentials.PhysicalResource;
-import it.polimi.ingsw.model.essentials.ResType;
-import it.polimi.ingsw.model.match.player.personalBoard.StrongBox;
 import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.network.message.Message;
 
 import java.util.List;
 

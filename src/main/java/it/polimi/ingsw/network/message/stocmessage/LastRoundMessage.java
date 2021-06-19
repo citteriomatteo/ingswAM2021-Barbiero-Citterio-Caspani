@@ -13,9 +13,8 @@ public class LastRoundMessage extends StoCMessage {
     /**
      * Constructor of a last round's message.
      * @param nickname the receiver
-     * @param msg a string message
      */
-    public LastRoundMessage(String nickname, String msg) {
+    public LastRoundMessage(String nickname) {
         super(nickname);
     }
 

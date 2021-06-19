@@ -33,11 +33,4 @@ public enum StoCMessageType implements MessageType {
     REMATCH_OFFERED,
     NEXT_STATE
 
-//    private final int val;
-//
-//    StoCMessageType(int val){
-//        this.val = val;
-//    }
-//
-//    public int getVal(){ return val; }
 }

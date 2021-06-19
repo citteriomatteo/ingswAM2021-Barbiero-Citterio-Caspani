@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.message.ctosmessage;
 
 import it.polimi.ingsw.exceptions.RetryException;
-import it.polimi.ingsw.network.message.stocmessage.RetryMessage;
 import it.polimi.ingsw.network.server.ControlBase;
 
 /**

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.ReconnectionException;
-import it.polimi.ingsw.model.match.MatchConfiguration;
 import it.polimi.ingsw.model.match.Summary;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
@@ -72,7 +71,7 @@ public class InitController {
      *         false otherwise, in that case this method doesn't make any change
      */
     public boolean login(String nickname){
-        if(!isAccepted(LOGIN))
+        if(isNotAccepted(LOGIN))
             return false;
 
         try {
@@ -106,7 +105,7 @@ public class InitController {
      *         false otherwise, in that case this method doesn't make any change
      */
     public boolean selection(boolean choice) {
-        if(!isAccepted(BINARY_SELECTION))
+        if(isNotAccepted(BINARY_SELECTION))
             return false;
 
         switch (currentState){
@@ -200,7 +199,7 @@ public class InitController {
      *         false otherwise, in that case this method doesn't make any change
      */
     public boolean setNumberOfPlayers(int num){
-        if(!isAccepted(NUM_PLAYERS))
+        if(isNotAccepted(NUM_PLAYERS))
             return false;
         System.out.println(client.getPlayer() + " is searching for " + num + " players...");
         //Save the desired number of players in a variable in order to use this information later
@@ -254,12 +253,12 @@ public class InitController {
     }
 
     /**
-     * Verifies if a CtoS Message is accepted in the current State of this controller
+     * Verifies if a CtoS Message is not accepted in the current State of this controller
      * @param messageType the type of message you want to verify
-     * @return true if is accepted
+     * @return true if is the message type is not accepted
      */
-    public boolean isAccepted(CtoSMessageType messageType){
-        return messageType.equals(acceptedMessageMap.get(currentState));
+    public boolean isNotAccepted(CtoSMessageType messageType){
+        return !messageType.equals(acceptedMessageMap.get(currentState));
     }
 
     /**

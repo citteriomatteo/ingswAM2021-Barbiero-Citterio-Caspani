@@ -1,11 +1,6 @@
 package it.polimi.ingsw.network.message.stocmessage;
 
-import it.polimi.ingsw.model.match.market.Marble;
 import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.network.message.Message;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This class implements the message that the server sends to every client in the match

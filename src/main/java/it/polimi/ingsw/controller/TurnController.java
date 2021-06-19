@@ -1,10 +1,9 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.essentials.*;
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.model.essentials.*;
 import it.polimi.ingsw.model.essentials.leader.LeaderCard;
 import it.polimi.ingsw.model.essentials.leader.ProductionEffect;
-import it.polimi.ingsw.exceptions.RetryException;
 import it.polimi.ingsw.model.match.Match;
 import it.polimi.ingsw.model.match.player.Player;
 import it.polimi.ingsw.model.match.player.personalBoard.StrongBox;
@@ -13,11 +12,13 @@ import it.polimi.ingsw.model.match.player.personalBoard.warehouse.WarehouseDecor
 import it.polimi.ingsw.network.message.stocmessage.LastRoundMessage;
 import it.polimi.ingsw.network.message.stocmessage.NextStateMessage;
 
-import static it.polimi.ingsw.controller.MatchController.getKeyByValue;
-
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
+import static it.polimi.ingsw.controller.MatchController.getKeyByValue;
 
 /**
  * This controller handles all the messages and moves that characterize the turn phase.
@@ -622,7 +623,7 @@ public class TurnController {
      */
     private void isLastRound(){
         lastRound = true;
-        new LastRoundMessage("", "This is the last round").sendBroadcast(match);
+        new LastRoundMessage("").sendBroadcast(match);
     }
 
     /**

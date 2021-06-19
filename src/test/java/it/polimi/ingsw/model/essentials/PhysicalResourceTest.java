@@ -4,16 +4,14 @@ import it.polimi.ingsw.exceptions.InvalidQuantityException;
 import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.exceptions.ShelfInsertException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
-
-import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-
-import it.polimi.ingsw.model.match.*;
+import it.polimi.ingsw.model.match.CommonThingsTest;
+import it.polimi.ingsw.model.match.Match;
+import it.polimi.ingsw.model.match.MatchConfiguration;
+import it.polimi.ingsw.model.match.SingleMatch;
 import it.polimi.ingsw.model.match.player.Player;
-import it.polimi.ingsw.observer.ModelObserver;
 import org.junit.jupiter.api.Test;
+
+import java.util.Random;
 
 import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;

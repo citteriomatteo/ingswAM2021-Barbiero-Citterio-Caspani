@@ -8,7 +8,6 @@ import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static it.polimi.ingsw.jsonUtilities.Preferences.readPortFromJSON;
 import static it.polimi.ingsw.network.server.ServerUtilities.serverCall;
 
 /**

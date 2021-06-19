@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static it.polimi.ingsw.network.client.Client.getClient;
 import static java.util.Map.entry;
@@ -148,12 +149,12 @@ public class SceneProxy {
      */
     public void setMarblesMap(){
         charToImageMap = Map.ofEntries(
-                entry('w', new Image(getClass().getResourceAsStream("images/punchBoard/whiteMarble.png"))),
-                entry('r', new Image(getClass().getResourceAsStream("images/punchBoard/redMarble.png"))),
-                entry('b', new Image(getClass().getResourceAsStream("images/punchBoard/blueMarble.png"))),
-                entry('y', new Image(getClass().getResourceAsStream("images/punchBoard/yellowMarble.png"))),
-                entry('g', new Image(getClass().getResourceAsStream("images/punchBoard/greyMarble.png"))),
-                entry('p', new Image(getClass().getResourceAsStream("images/punchBoard/purpleMarble.png")))
+                entry('w', new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/punchBoard/whiteMarble.png")))),
+                entry('r', new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/punchBoard/redMarble.png")))),
+                entry('b', new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/punchBoard/blueMarble.png")))),
+                entry('y', new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/punchBoard/yellowMarble.png")))),
+                entry('g', new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/punchBoard/greyMarble.png")))),
+                entry('p', new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/punchBoard/purpleMarble.png"))))
         );
 
     }
@@ -227,7 +228,55 @@ public class SceneProxy {
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% RUN_LATER METHODS (PROXY) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-//TODO: all runLater methods javadoc, maybe copy from the method recalled javadoc, adding a line for reconnection when necessary or the condition of the current scene
+    /**
+     * If the player is playing the game, calls {@link TurnSceneController#loadStartingMatch()}
+     */
+    public void loadStartingMatch() {
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.loadStartingMatch();
+        });
+    }
+
+    /**
+     * If the player is reconnected change scene to LeadersChoiceScene,
+     * then calls {@link StartingPhaseSceneController#loadLeaderCards(List)} forwarding the passed parameter
+     * @param leaders the list of leaders extracted by the server
+     */
+    public void loadLeaderCards(List<String> leaders){
+        loadSceneIfReconnected(SceneName.LeadersChoiceScene);
+        Platform.runLater(()->{
+            if(startingPhaseSceneController != null)
+                startingPhaseSceneController.loadLeaderCards(leaders);
+        });
+    }
+
+    /**
+     * If the player is reconnected change scene to StartingResourceScene,
+     * then calls {@link StartingPhaseSceneController#loadStartingResources(int)} forwarding the passed parameter
+     * @param numResources the number of resource that the player has to choose
+     */
+    public void loadStartingResources(int numResources){
+        loadSceneIfReconnected(SceneName.StartingResourceScene);
+        Platform.runLater(()->{
+            if(startingPhaseSceneController != null)
+                startingPhaseSceneController.loadStartingResources(numResources);
+        });
+    }
+
+    /**
+     * If the player is reconnected change scene to GameScene, then calls {@link TurnSceneController#yourTurn(boolean)}
+     * @param yourTurn true if it's the turn of the player
+     */
+    public void yourTurn(boolean yourTurn) {
+        loadSceneIfReconnected(SceneName.GameScene);
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.yourTurn(yourTurn);
+        });
+    }
+
+    //-> %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DISABLE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     /**
      * If the player is reconnected change scene to GameScene, then calls {@link TurnSceneController#disableAll(boolean)}
@@ -286,30 +335,12 @@ public class SceneProxy {
         Platform.runLater(()-> turnSceneController.endTurnPhaseDisables());
     }
 
-    /**
-     * If the player is reconnected change scene to LeadersChoiceScene, then calls {@link StartingPhaseSceneController#loadLeaderCards(List)}
-     */
-    public void loadLeaderCards(List<String> leaders){
-        loadSceneIfReconnected(SceneName.LeadersChoiceScene);
-        Platform.runLater(()->{
-            if(startingPhaseSceneController != null)
-                startingPhaseSceneController.loadLeaderCards(leaders);
-        });
-    }
+    //-> %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ERROR %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     /**
-     * If the player is reconnected change scene to StartingResourceScene, then calls {@link StartingPhaseSceneController#loadStartingResources(int)}
+     * If the player is in the init phase, calls {@link InitSceneController#loginError(String)}
+     * @param errMessage the error message to display
      */
-    public void loadStartingResources(int numResources){
-        loadSceneIfReconnected(SceneName.StartingResourceScene);
-        Platform.runLater(()->{
-            if(startingPhaseSceneController != null)
-                startingPhaseSceneController.loadStartingResources(numResources);
-        });
-    }
-
-    //------------------------------------------------------------------todo: continue javadoc
-
     public void loginError(String errMessage) {
         Platform.runLater(()->{
             if(initSceneController != null)
@@ -317,6 +348,10 @@ public class SceneProxy {
         });
     }
 
+    /**
+     * If the player is in the starting phase, calls {@link StartingPhaseSceneController#leadersChoiceError(String)}
+     * @param errMessage the error message to display
+     */
     public void leadersChoiceError(String errMessage){
         Platform.runLater(()->{
             if (startingPhaseSceneController != null)
@@ -324,42 +359,10 @@ public class SceneProxy {
         });
     }
 
-    public void loadStartingMatch() {
-        Platform.runLater(()->{
-            if(turnSceneController != null)
-                turnSceneController.loadStartingMatch();
-        });
-    }
-
-    public void yourTurn(boolean yourTurn) {
-        loadSceneIfReconnected(SceneName.GameScene);
-        Platform.runLater(()->{
-            if(turnSceneController != null)
-                turnSceneController.yourTurn(yourTurn);
-        });
-    }
-
-    public void updateMarket(char[][] market) {
-        Platform.runLater(()->{
-            if(turnSceneController != null)
-                turnSceneController.updateMarket(market);
-        });
-    }
-
-    public void updateMarketBuffer(String nickname, List<PhysicalResource> marketBuffer) {
-        Platform.runLater(()->{
-            if(turnSceneController != null)
-                turnSceneController.updateMarketBuffer(nickname, marketBuffer);
-            });
-    }
-
-    public void updateWarehouse(String nickname, List<PhysicalResource> warehouse) {
-        Platform.runLater(()->{
-            if(turnSceneController != null)
-                turnSceneController.updateWarehouse(nickname, warehouse);
-        });
-    }
-
+    /**
+     * If the player is playing the game, calls {@link TurnSceneController#printRetry} forwarding the passed parameter
+     * @param errMessage the error message to display
+     */
     public void printRetry(String errMessage) {
         Platform.runLater(()->{
             if(turnSceneController != null)
@@ -367,41 +370,164 @@ public class SceneProxy {
         });
     }
 
-    public void setLastRound(boolean value) {
+    //-> %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% UPDATE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    /**
+     * If the player is playing the game, calls {@link TurnSceneController#updateCardGrid} forwarding the passed parameter
+     * @param cardGrid the new value
+     */
+    public void updateCardGrid(List<String>[][] cardGrid){
         Platform.runLater(()->{
             if(turnSceneController != null)
-                turnSceneController.setLastRound(value);
+                turnSceneController.updateCardGrid(cardGrid);
         });
     }
 
-    public void printLastRound() {
+    /**
+     * If the player is playing the game, calls {@link TurnSceneController#updateTempDevCard} forwarding the passed parameter
+     * @param card the id of the new tempDevCard or null if there isn't a tempDevCard
+     */
+    public void updateTempDevCard(String card){
         Platform.runLater(()->{
             if(turnSceneController != null)
-                turnSceneController.printLastRound();
+                turnSceneController.updateTempDevCard(card);
         });
     }
 
-    public void printMatchResults(Map<String, Integer> ranking) {
+    /**
+     * If the player is playing the game, calls {@link TurnSceneController#updateMarket} forwarding the passed parameter
+     * @param market the new value
+     */
+    public void updateMarket(char[][] market) {
         Platform.runLater(()->{
-            if(rematchPhaseSceneController != null)
-                rematchPhaseSceneController.printMatchResults(ranking);
+            if(turnSceneController != null)
+                turnSceneController.updateMarket(market);
         });
     }
 
-    public void printRematchOffer(String nickname) {
+    /**
+     * If the player is playing the game, calls {@link TurnSceneController#updateMarketBuffer} forwarding the passed parameters
+     * @param nickname the player whom the update is faced to
+     * @param marketBuffer the new value
+     */
+    public void updateMarketBuffer(String nickname, List<PhysicalResource> marketBuffer) {
         Platform.runLater(()->{
-            if(rematchPhaseSceneController != null)
-                rematchPhaseSceneController.printRematchOffer(nickname);
-        });
+            if(turnSceneController != null)
+                turnSceneController.updateMarketBuffer(nickname, marketBuffer);
+            });
     }
 
-    public void printGoodbye(String msg) {
+    /**
+     * If the player is playing the game, calls {@link TurnSceneController#updateWarehouse} forwarding the passed parameters
+     * @param nickname the player whom the update is faced to
+     * @param warehouse the new value
+     */
+    public void updateWarehouse(String nickname, List<PhysicalResource> warehouse) {
         Platform.runLater(()->{
-            if(goodbyeSceneController != null)
-                goodbyeSceneController.printGoodbyeMessage(msg);
+            if(turnSceneController != null)
+                turnSceneController.updateWarehouse(nickname, warehouse);
         });
     }
 
+    /**
+     * If the player is playing the game, calls {@link TurnSceneController#updateHandLeaders} forwarding the passed parameters
+     * @param nickname the player whom the update is faced to
+     * @param handLeaders the new value
+     */
+    public void updateHandLeaders(String nickname, List<String> handLeaders) {
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.updateHandLeaders(nickname, handLeaders);
+        });
+    }
+
+    /**
+     * If the player is playing the game, calls {@link TurnSceneController#updateActiveLeaders} forwarding the passed parameters
+     * @param nickname the player whom the update is faced to
+     * @param activeLeaders the new value
+     */
+    public void updateActiveLeaders(String nickname, List<String> activeLeaders) {
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.updateActiveLeaders(nickname, activeLeaders);
+        });
+    }
+
+    /**
+     * If the player is playing the game, calls {@link TurnSceneController#updateFaithMarker} forwarding the passed parameters
+     * @param nickname the player whom the update is faced to
+     * @param faithMarker the new value
+     */
+    public void updateFaithMarker(String nickname, int faithMarker) {
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.updateFaithMarker(nickname, faithMarker);
+        });
+    }
+
+    /**
+     * If the player is playing the game, calls {@link TurnSceneController#updatePopeTiles} forwarding the passed parameters
+     * @param nickname the player whom the update is faced to
+     * @param popeTiles the new values
+     */
+    public void updatePopeTiles(String nickname, List<Integer> popeTiles) {
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.updatePopeTiles(nickname, popeTiles);
+        });
+    }
+
+    /**
+     * If the player is playing the game, calls {@link TurnSceneController#updateStrongBox} forwarding the passed parameters
+     * @param nickname the player whom the update is faced to
+     * @param strongbox the new value
+     */
+    public void updateStrongBox(String nickname, List<PhysicalResource> strongbox) {
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.updateStrongBox(nickname, strongbox);
+        });
+    }
+
+    /**
+     * If the player is playing the game, calls {@link TurnSceneController#updateDisconnections} forwarding the passed parameters
+     * @param nickname the player whom the update is faced to
+     * @param connected true if the player is connected, false if it is disconnected
+     */
+    public void updateDisconnections(String nickname, boolean connected) {
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.updateDisconnections(nickname, connected);
+        });
+    }
+
+    /**
+     * If the player is playing the game, calls {@link TurnSceneController#updateDevCardSlots} forwarding the passed parameters
+     * @param nickname the player whom the update is faced to
+     * @param devCardSlots the new value
+     */
+    public void updateDevCardSlots(String nickname, List<String>[] devCardSlots){
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.updateDevCardSlots(nickname, devCardSlots);
+        });
+    }
+
+    /**
+     * If the player is playing the game, calls {@link TurnSceneController#updateTokenDrawn} forwarding the passed parameters
+     * @param tokenName the name of the extracted token
+     * @param remainingTokens the number of tokens remained in the pile
+     */
+    public void updateTokenDrawn(String tokenName, int remainingTokens){
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.updateTokenDrawn(tokenName, remainingTokens);
+        });
+    }
+
+    /**
+     * If the player is reconnected change scene to GameScene, then calls {@link TurnSceneController#endTurnState()}
+     */
     public void endTurnState() {
         loadSceneIfReconnected(SceneName.GameScene);
         Platform.runLater(()->{
@@ -410,76 +536,11 @@ public class SceneProxy {
         });
     }
 
-    public void updateHandLeaders(String nickname, List<String> handLeaders) {
-        Platform.runLater(()->{
-            if(turnSceneController != null)
-                turnSceneController.updateHandLeaders(nickname, handLeaders);
-        });
-    }
+    //-> %%%%%%%%%%%%%%%%%%%%%%%%%%% OTHERS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    public void updateActiveLeaders(String nickname, List<String> activeLeaders) {
-        Platform.runLater(()->{
-            if(turnSceneController != null)
-                turnSceneController.updateActiveLeaders(nickname, activeLeaders);
-        });
-    }
-
-    public void updateFaithMarker(String nickname, int faithMarker) {
-        Platform.runLater(()->{
-            if(turnSceneController != null)
-                turnSceneController.updateFaithMarker(nickname, faithMarker);
-        });
-    }
-
-    public void updatePopeTiles(String nickname, List<Integer> popeTiles) {
-        Platform.runLater(()->{
-            if(turnSceneController != null)
-                turnSceneController.updatePopeTiles(nickname, popeTiles);
-        });
-    }
-
-    public void updateStrongBox(String nickname, List<PhysicalResource> strongbox) {
-        Platform.runLater(()->{
-            if(turnSceneController != null)
-                turnSceneController.updateStrongBox(nickname, strongbox);
-        });
-    }
-
-    public void updateDisconnections(String nickname, boolean connected) {
-        Platform.runLater(()->{
-            if(turnSceneController != null)
-                turnSceneController.updateDisconnections(nickname, connected);
-        });
-    }
-
-    public void updateCardGrid(List<String>[][] cardGrid){
-        Platform.runLater(()->{
-            if(turnSceneController != null)
-                turnSceneController.updateCardGrid(cardGrid);
-        });
-    }
-
-    public void updateTempDevCard(String card){
-        Platform.runLater(()->{
-            if(turnSceneController != null)
-                turnSceneController.updateTempDevCard(card);
-        });
-    }
-
-    public void updateDevCardSlots(String nickname, List<String>[] devCardSlots){
-        Platform.runLater(()->{
-            if(turnSceneController != null)
-                turnSceneController.updateDevCardSlots(nickname, devCardSlots);
-        });
-    }
-
-    public void updateTokenDrawn(String tokenName, int remainingTokens){
-        Platform.runLater(()->{
-            if(turnSceneController != null)
-                turnSceneController.updateTokenDrawn(tokenName, remainingTokens);
-        });
-    }
-
+    /**
+     * If the player is playing the game, calls {@link TurnSceneController#resetPayments()}
+     */
     public void resetPayments() {
         Platform.runLater(()->{
             if(turnSceneController != null)
@@ -487,10 +548,67 @@ public class SceneProxy {
         });
     }
 
+    /**
+     * If the player is playing the game, calls {@link TurnSceneController#resetPlacement()}
+     */
     public void resetPlacement(){
         Platform.runLater(()->{
             if(turnSceneController != null)
                 turnSceneController.resetPlacement();
+        });
+    }
+
+    /**
+     * If the player is playing the game, calls {@link TurnSceneController#setLastRound} forwarding the passed parameter
+     * @param value the new last round value
+     */
+    public void setLastRound(boolean value) {
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.setLastRound(value);
+        });
+    }
+
+    /**
+     * If the player is playing the game, calls {@link TurnSceneController#printLastRound()}
+     */
+    public void printLastRound() {
+        Platform.runLater(()->{
+            if(turnSceneController != null)
+                turnSceneController.printLastRound();
+        });
+    }
+
+    /**
+     * If the player is in the rematch phase, calls {@link RematchPhaseSceneController#printMatchResults} forwarding the passed parameter
+     * @param ranking a map that links every player to his score
+     */
+    public void printMatchResults(Map<String, Integer> ranking) {
+        Platform.runLater(()->{
+            if(rematchPhaseSceneController != null)
+                rematchPhaseSceneController.printMatchResults(ranking);
+        });
+    }
+
+    /**
+     * If the player is in the rematch phase, calls {@link RematchPhaseSceneController#printRematchOffer} forwarding the passed parameter
+     * @param nickname the name of the player who has offered a rematch
+     */
+    public void printRematchOffer(String nickname) {
+        Platform.runLater(()->{
+            if(rematchPhaseSceneController != null)
+                rematchPhaseSceneController.printRematchOffer(nickname);
+        });
+    }
+
+    /**
+     * If the player is in the final phase, calls {@link GoodbyeSceneController#printGoodbyeMessage} forwarding the passed parameter
+     * @param msg the message to display
+     */
+    public void printGoodbye(String msg) {
+        Platform.runLater(()->{
+            if(goodbyeSceneController != null)
+                goodbyeSceneController.printGoodbyeMessage(msg);
         });
     }
 

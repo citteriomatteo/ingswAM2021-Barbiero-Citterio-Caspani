@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DevCardSlotsTest {
 
     @Test
-    public void pushNewCardTest() throws InvalidQuantityException, NegativeQuantityException {
+    public void pushNewCardTest() throws InvalidQuantityException {
         DevCardSlots slots = new DevCardSlots();
 
         DevelopmentCard card = new DevelopmentCard(new CardType(CardColor.GREEN, 1),
@@ -77,7 +77,7 @@ public class DevCardSlotsTest {
     }
 
     @Test
-    public void getTopTest() throws InvalidQuantityException, NegativeQuantityException {
+    public void getTopTest() throws InvalidQuantityException {
         DevCardSlots slots = new DevCardSlots();
 
         DevelopmentCard card = new DevelopmentCard(new CardType(CardColor.GREEN, 1),

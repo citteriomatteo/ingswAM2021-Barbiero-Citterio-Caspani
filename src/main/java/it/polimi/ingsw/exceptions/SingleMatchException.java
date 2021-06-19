@@ -1,7 +1,7 @@
 package it.polimi.ingsw.exceptions;
 
 /**
- * This exception handles a rare and remote problem that consists in creating a multiMatch with just one player partecipating.
+ * This exception handles a rare and remote problem that consists in creating a multiMatch with just one player participating.
  */
 public class SingleMatchException extends Throwable {
 

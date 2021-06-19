@@ -26,7 +26,7 @@ public interface Adder  {
 
     /**
      * This method adds the resource to the warehouse.
-     * @param resource the resourse to add
+     * @param resource the resource to add
      * @return a boolean
      */
     boolean addToWarehouse(PhysicalResource resource);

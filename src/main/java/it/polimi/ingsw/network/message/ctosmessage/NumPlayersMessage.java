@@ -30,7 +30,7 @@ public class NumPlayersMessage extends CtoSMessage{
 
     /**
      * Checks if the number is accepted by the game rules.
-     * @return
+     * @return true if it is accepted
      */
     private boolean isValid(){
         return numPlayers >= 2 && numPlayers <= 4;

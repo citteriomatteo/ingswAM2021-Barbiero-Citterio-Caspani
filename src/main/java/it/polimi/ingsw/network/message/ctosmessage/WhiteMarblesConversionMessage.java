@@ -2,8 +2,6 @@ package it.polimi.ingsw.network.message.ctosmessage;
 
 import it.polimi.ingsw.exceptions.RetryException;
 import it.polimi.ingsw.model.essentials.PhysicalResource;
-import it.polimi.ingsw.network.message.Message;
-import it.polimi.ingsw.network.message.stocmessage.RetryMessage;
 import it.polimi.ingsw.network.server.ControlBase;
 
 import java.util.List;
@@ -17,7 +15,7 @@ public class WhiteMarblesConversionMessage extends CtoSMessage {
     private final List<PhysicalResource> resources;
 
     /**
-     * Constructor of a messgae containing white marble conversions in case of multiple conversion leaders.
+     * Constructor of a message containing white marble conversions in case of multiple conversion leaders.
      * @param nickname the sender
      * @param resources list of converted resources
      */

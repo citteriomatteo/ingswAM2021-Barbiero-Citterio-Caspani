@@ -72,7 +72,7 @@ public class CardGridTest extends CommonThingsTest {
         Player player = new Player("player1");
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/StandardConfiguration.json");
         setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
-        Match match = new SingleMatch(player);
+        new SingleMatch(player);
 
         player.addToStrongBox(new PhysicalResource(ResType.SHIELD, 2));
 

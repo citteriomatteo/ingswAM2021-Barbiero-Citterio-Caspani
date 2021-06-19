@@ -1,18 +1,21 @@
 package it.polimi.ingsw.model.essentials;
-import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
-import static org.junit.jupiter.api.Assertions.*;
 
 import it.polimi.ingsw.exceptions.LastRoundException;
 import it.polimi.ingsw.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.exceptions.WrongSettingException;
-import it.polimi.ingsw.model.match.*;
+import it.polimi.ingsw.model.match.CommonThingsTest;
+import it.polimi.ingsw.model.match.Match;
+import it.polimi.ingsw.model.match.MatchConfiguration;
+import it.polimi.ingsw.model.match.SingleMatch;
 import it.polimi.ingsw.model.match.player.Player;
-import it.polimi.ingsw.observer.ModelObserver;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
-import java.io.FileNotFoundException;
-import java.util.*;
+import static it.polimi.ingsw.model.match.MatchConfiguration.assignConfiguration;
+import static org.junit.jupiter.api.Assertions.*;
 
 /*
 Test for Production class
