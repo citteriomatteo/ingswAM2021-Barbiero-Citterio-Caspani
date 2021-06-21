@@ -129,7 +129,7 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
                 throw new InvalidQuantityException("The resource is not present in the marketBuffer! Operation failed.");
 
             if((res.getQuantity()+extraShelf.getQuantity())>shelfSize ||
-                    !res.getType().equals(extraShelf.getType()))
+                    (!res.getType().equals(extraShelf.getType()) && !res.getType().equals(ResType.UNKNOWN)))
                 throw new ShelfInsertException("Error in leader shelf insert procedure! Operation cancelled.");
 
             //Shelf update:
@@ -214,10 +214,11 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
                 shelf2 = shelf1;
                 shelf1 = buff;
             }
-            if(shelf1<=3)
-                for(int i=0; i<3; i++)
-                    if(i!=(shelf1-1) && disp.get(i).getType().equals(disp.get(shelf2-1).getType()))
-                        throw new ShelfInsertException ("Impossible switch: resource type"+disp.get(shelf2-1).getType()+" is already present on basic warehouse.");
+            if(shelf1<=3) {
+                for (int i = 0; i < 3; i++)
+                    if (i != (shelf1 - 1) && disp.get(i).getType().equals(disp.get(shelf2 - 1).getType()))
+                        throw new ShelfInsertException("Impossible switch: resource type" + disp.get(shelf2 - 1).getType() + " is already present on basic warehouse.");
+            }
             else
                 if(!disp.get(shelf1-1).getType().equals(disp.get(shelf2-1).getType()))
                     throw new ShelfInsertException("Impossible switch: two leaders slots are not compatible.");
