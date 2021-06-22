@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.message.ctosmessage;
 
-import it.polimi.ingsw.exceptions.DisconnectionException;
+import it.polimi.ingsw.gameLogic.exceptions.DisconnectionException;
 import it.polimi.ingsw.network.server.ControlBase;
 
 /**

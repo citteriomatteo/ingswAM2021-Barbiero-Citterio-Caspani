@@ -1,9 +1,9 @@
 package it.polimi.ingsw.view.CLI;
 
-import it.polimi.ingsw.controller.StateName;
-import it.polimi.ingsw.model.essentials.*;
-import it.polimi.ingsw.model.essentials.leader.LeaderCard;
-import it.polimi.ingsw.model.essentials.leader.SlotEffect;
+import it.polimi.ingsw.gameLogic.controller.StateName;
+import it.polimi.ingsw.gameLogic.model.essentials.*;
+import it.polimi.ingsw.gameLogic.model.essentials.leader.LeaderCard;
+import it.polimi.ingsw.gameLogic.model.essentials.leader.SlotEffect;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.lightmodel.LightMatch;
 import it.polimi.ingsw.view.lightmodel.LightPlayer;
@@ -624,8 +624,7 @@ public class ClientCLI implements View
                 grid.append(" (").append(lists[j].get(1)).append(") ] ");
                 grid.append(ColorCli.CLEAR);
             }
-            for(int k = 0; k <= i; k++)
-                grid.append("○");
+            grid.append("○".repeat(i + 1));
             grid.append("\n");
         }
         gridGraphic.append(grid);
@@ -1339,8 +1338,7 @@ public class ClientCLI implements View
 
         //first row
         finalStr.append(color).append("╔");
-        for(int i = 0; i < maxCols+2; i++)
-            finalStr.append("═");
+        finalStr.append("═".repeat(Math.max(0, maxCols + 2)));
         finalStr.append("╗\n").append(ColorCli.CLEAR);
 
         //stringBuilder rows processing
@@ -1353,8 +1351,7 @@ public class ClientCLI implements View
 
         //last row
         finalStr.append(color).append("╚");
-        for(int i = 0; i < maxCols+2; i++)
-            finalStr.append("═");
+        finalStr.append("═".repeat(Math.max(0, maxCols + 2)));
         finalStr.append("╝\n").append(ColorCli.CLEAR);
 
         return finalStr;

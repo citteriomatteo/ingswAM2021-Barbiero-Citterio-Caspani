@@ -1,9 +1,9 @@
 package it.polimi.ingsw.network.server;
 
-import it.polimi.ingsw.controller.InitController;
-import it.polimi.ingsw.controller.MatchController;
-import it.polimi.ingsw.controller.StateName;
-import it.polimi.ingsw.model.match.player.Player;
+import it.polimi.ingsw.gameLogic.controller.InitController;
+import it.polimi.ingsw.gameLogic.controller.MatchController;
+import it.polimi.ingsw.gameLogic.controller.StateName;
+import it.polimi.ingsw.gameLogic.model.match.player.Player;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
 
 /**

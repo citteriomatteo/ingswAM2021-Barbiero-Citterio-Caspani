@@ -2,11 +2,11 @@ package it.polimi.ingsw.jsonUtilities;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
-import it.polimi.ingsw.model.essentials.*;
-import it.polimi.ingsw.model.essentials.leader.*;
-import it.polimi.ingsw.model.match.market.*;
-import it.polimi.ingsw.model.match.player.personalBoard.faithPath.Cell;
-import it.polimi.ingsw.model.match.player.personalBoard.faithPath.VaticanReportCell;
+import it.polimi.ingsw.gameLogic.model.essentials.*;
+import it.polimi.ingsw.gameLogic.model.essentials.leader.*;
+import it.polimi.ingsw.gameLogic.model.match.market.*;
+import it.polimi.ingsw.gameLogic.model.match.player.personalBoard.faithPath.Cell;
+import it.polimi.ingsw.gameLogic.model.match.player.personalBoard.faithPath.VaticanReportCell;
 import it.polimi.ingsw.network.message.ctosmessage.*;
 import it.polimi.ingsw.network.message.ctosmessage.BinarySelectionMessage;
 import it.polimi.ingsw.network.message.stocmessage.*;

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.server;
 
-import it.polimi.ingsw.exceptions.ReconnectionException;
-import it.polimi.ingsw.model.match.player.Player;
+import it.polimi.ingsw.gameLogic.exceptions.ReconnectionException;
+import it.polimi.ingsw.gameLogic.model.match.player.Player;
 import it.polimi.ingsw.network.message.stocmessage.PlayerConnectionStateMessage;
 
 import java.util.*;

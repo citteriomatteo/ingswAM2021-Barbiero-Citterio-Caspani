@@ -1,12 +1,13 @@
 package it.polimi.ingsw.network.client;
 
 import com.google.gson.JsonSyntaxException;
-import it.polimi.ingsw.exceptions.DisconnectionException;
+import it.polimi.ingsw.gameLogic.exceptions.DisconnectionException;
 import it.polimi.ingsw.jsonUtilities.MyJsonParser;
 import it.polimi.ingsw.jsonUtilities.Parser;
 import it.polimi.ingsw.network.message.ctosmessage.*;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessageType;
+import it.polimi.ingsw.view.CLI.KeyboardReader;
 import it.polimi.ingsw.view.ClientController;
 import it.polimi.ingsw.view.GUI.ClientGUI;
 import it.polimi.ingsw.view.GUI.JavaFXGUI;

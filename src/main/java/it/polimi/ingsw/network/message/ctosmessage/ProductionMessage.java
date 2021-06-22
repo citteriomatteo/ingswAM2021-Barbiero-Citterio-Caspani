@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.message.ctosmessage;
 
-import it.polimi.ingsw.exceptions.RetryException;
-import it.polimi.ingsw.model.essentials.Production;
+import it.polimi.ingsw.gameLogic.exceptions.RetryException;
+import it.polimi.ingsw.gameLogic.model.essentials.Production;
 import it.polimi.ingsw.network.server.ControlBase;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view.GUI;
 
-import it.polimi.ingsw.model.essentials.Card;
-import it.polimi.ingsw.model.essentials.PhysicalResource;
+import it.polimi.ingsw.gameLogic.model.essentials.Card;
+import it.polimi.ingsw.gameLogic.model.essentials.PhysicalResource;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -116,7 +116,7 @@ public class SceneProxy {
 
     /**
      * Creates a map that links IDs to the images of the cards and vice versa based on the passed map
-     * @param cardMap a map that links IDs with the Card objects ({@link it.polimi.ingsw.model.essentials.DevelopmentCard} and {@link it.polimi.ingsw.model.essentials.leader.LeaderCard})
+     * @param cardMap a map that links IDs with the Card objects ({@link it.polimi.ingsw.gameLogic.model.essentials.DevelopmentCard} and {@link it.polimi.ingsw.gameLogic.model.essentials.leader.LeaderCard})
      *                Dev. Cards Ids have to start with D
      *                Leader Cards Ids have to start with L
      */

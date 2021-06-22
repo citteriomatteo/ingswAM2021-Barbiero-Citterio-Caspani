@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.controller.StateName;
+import it.polimi.ingsw.gameLogic.controller.StateName;
 import it.polimi.ingsw.view.lightmodel.LightMatch;
 import it.polimi.ingsw.view.lightmodel.LightPlayer;
 import it.polimi.ingsw.view.observer.ViewObserver;

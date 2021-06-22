@@ -1,8 +1,8 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.controller.StateName;
-import it.polimi.ingsw.model.essentials.Card;
-import it.polimi.ingsw.model.match.Summary;
+import it.polimi.ingsw.gameLogic.controller.StateName;
+import it.polimi.ingsw.gameLogic.model.essentials.Card;
+import it.polimi.ingsw.gameLogic.model.match.Summary;
 import it.polimi.ingsw.network.message.ctosmessage.BinarySelectionMessage;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessage;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;

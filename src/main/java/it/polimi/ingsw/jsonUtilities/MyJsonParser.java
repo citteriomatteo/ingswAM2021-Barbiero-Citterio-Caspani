@@ -2,7 +2,7 @@ package it.polimi.ingsw.jsonUtilities;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.model.match.MatchConfiguration;
+import it.polimi.ingsw.gameLogic.model.match.MatchConfiguration;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessage;
 import it.polimi.ingsw.network.message.stocmessage.StoCMessage;
 import org.jetbrains.annotations.NotNull;

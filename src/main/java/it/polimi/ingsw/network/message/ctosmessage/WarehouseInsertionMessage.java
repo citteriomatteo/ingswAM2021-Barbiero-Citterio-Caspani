@@ -1,8 +1,8 @@
 package it.polimi.ingsw.network.message.ctosmessage;
 
-import it.polimi.ingsw.controller.StateName;
-import it.polimi.ingsw.exceptions.RetryException;
-import it.polimi.ingsw.model.essentials.PhysicalResource;
+import it.polimi.ingsw.gameLogic.controller.StateName;
+import it.polimi.ingsw.gameLogic.exceptions.RetryException;
+import it.polimi.ingsw.gameLogic.model.essentials.PhysicalResource;
 import it.polimi.ingsw.network.server.ControlBase;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view.GUI;
 
-import it.polimi.ingsw.model.essentials.PhysicalResource;
-import it.polimi.ingsw.model.essentials.ResType;
+import it.polimi.ingsw.gameLogic.model.essentials.PhysicalResource;
+import it.polimi.ingsw.gameLogic.model.essentials.ResType;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Glow;

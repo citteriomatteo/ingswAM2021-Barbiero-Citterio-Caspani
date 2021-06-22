@@ -1,9 +1,9 @@
 package it.polimi.ingsw.view.lightmodel;
 
-import it.polimi.ingsw.model.essentials.Card;
-import it.polimi.ingsw.model.essentials.PhysicalResource;
-import it.polimi.ingsw.model.essentials.Production;
-import it.polimi.ingsw.model.match.Summary;
+import it.polimi.ingsw.gameLogic.model.essentials.Card;
+import it.polimi.ingsw.gameLogic.model.essentials.PhysicalResource;
+import it.polimi.ingsw.gameLogic.model.essentials.Production;
+import it.polimi.ingsw.gameLogic.model.match.Summary;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.CLI.ColorCli;
 import it.polimi.ingsw.view.observer.ViewObservable;
@@ -54,7 +54,7 @@ public class LightMatch extends ViewObservable {
 
     /**
      * This method sets the map of cards' IDs.
-     * @param cardMap
+     * @param cardMap a map that links ids with cards
      */
     public void setCardMap(Map<String, Card> cardMap) { LightMatch.cardMap = cardMap; }
 

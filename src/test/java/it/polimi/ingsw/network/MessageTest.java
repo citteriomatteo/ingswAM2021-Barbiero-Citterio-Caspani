@@ -3,11 +3,11 @@ package it.polimi.ingsw.network;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.exceptions.NegativeQuantityException;
-import it.polimi.ingsw.model.essentials.PhysicalResource;
-import it.polimi.ingsw.model.essentials.ResType;
+import it.polimi.ingsw.gameLogic.exceptions.NegativeQuantityException;
+import it.polimi.ingsw.gameLogic.model.essentials.PhysicalResource;
+import it.polimi.ingsw.gameLogic.model.essentials.ResType;
 import it.polimi.ingsw.network.message.ctosmessage.*;
-import it.polimi.ingsw.model.essentials.Production;
+import it.polimi.ingsw.gameLogic.model.essentials.Production;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileReader;

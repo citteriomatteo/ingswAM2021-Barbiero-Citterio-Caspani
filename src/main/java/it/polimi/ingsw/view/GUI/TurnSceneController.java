@@ -1,10 +1,10 @@
 package it.polimi.ingsw.view.GUI;
 
-import it.polimi.ingsw.controller.StateName;
-import it.polimi.ingsw.model.essentials.PhysicalResource;
-import it.polimi.ingsw.model.essentials.Production;
-import it.polimi.ingsw.model.essentials.ResType;
-import it.polimi.ingsw.model.essentials.Resource;
+import it.polimi.ingsw.gameLogic.controller.StateName;
+import it.polimi.ingsw.gameLogic.model.essentials.PhysicalResource;
+import it.polimi.ingsw.gameLogic.model.essentials.Production;
+import it.polimi.ingsw.gameLogic.model.essentials.ResType;
+import it.polimi.ingsw.gameLogic.model.essentials.Resource;
 import it.polimi.ingsw.network.message.ctosmessage.*;
 import it.polimi.ingsw.view.lightmodel.LightMatch;
 import it.polimi.ingsw.view.lightmodel.LightPlayer;
@@ -1017,7 +1017,7 @@ public class TurnSceneController{
     public void dragCard(MouseEvent mouseEvent) {
         Dragboard db = tempDevCard.startDragAndDrop(TransferMode.MOVE);
         ClipboardContent content = new ClipboardContent();
-        content.putImage((new Image(getClass().getResourceAsStream("images/handCard.png"))));
+        content.putImage((new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/handCard.png")))));
         db.setContent(content);
 
         //Avoid behind objects to detect this event
@@ -1263,6 +1263,17 @@ public class TurnSceneController{
         message = new ProductionMessage(player.getNickname(), cardsToProduce, new Production(uCosts, uEarnings));
     }
 
+    private PhysicalResource extractSelectedResource(ImageView selectedResourceImageView){
+        ResType selectedType = ResType.UNKNOWN;
+        for (ResType type : ResType.values())
+            if(type.toString().toLowerCase().equals(selectedResourceImageView.getId())) {
+                selectedType = type;
+                break;
+            }
+
+        return new PhysicalResource(selectedType, 1);
+    }
+
     /**
      * Increase the count on the label of the clicked resource ({@link MouseEvent#getSource()})
      * and adds the resource to the list of conversions for unknown costs.
@@ -1277,15 +1288,7 @@ public class TurnSceneController{
         VBox resVBox;
         Label resLabel;
         int newQuantity;
-        ImageView selectedResourceImageView = ((ImageView) mouseEvent.getSource());
-        ResType selectedType = ResType.UNKNOWN;
-        for (ResType type : ResType.values())
-            if(type.toString().toLowerCase().equals(selectedResourceImageView.getId())) {
-                selectedType = type;
-                break;
-            }
-
-        PhysicalResource selectedResource = new PhysicalResource(selectedType, 1);
+        PhysicalResource selectedResource = extractSelectedResource((ImageView) mouseEvent.getSource());
 
         for (PhysicalResource uCost : uCosts)
             numActualUCosts += uCost.getQuantity();
@@ -1353,17 +1356,8 @@ public class TurnSceneController{
         VBox resVBox;
         Label resLabel;
         int newQuantity;
-        ImageView selectedResourceImageView = ((ImageView) mouseEvent.getSource());
-        ResType selectedType = ResType.UNKNOWN;
 
-        for (ResType type : ResType.values())
-            if(type.toString().toLowerCase().equals(selectedResourceImageView.getId())) {
-                selectedType = type;
-                break;
-            }
-
-
-        PhysicalResource selectedResource = new PhysicalResource(selectedType, 1);
+        PhysicalResource selectedResource = extractSelectedResource((ImageView) mouseEvent.getSource());
 
         for (Resource uEarning : uEarnings)
             numActualEarnings += uEarning.getQuantity();
@@ -1469,7 +1463,7 @@ public class TurnSceneController{
             success = true;
 
             selectedPlace.setImage(draggedImage);
-            chosenResources.add(new PhysicalResource(temporaryRes, searchShelf(selectedPlace)));
+            chosenResources.add(0, new PhysicalResource(temporaryRes, searchShelf(selectedPlace)));
 
             message = new WarehouseInsertionMessage(player.getNickname(), chosenResources);
         }

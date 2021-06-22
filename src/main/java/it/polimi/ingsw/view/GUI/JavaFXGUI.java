@@ -64,6 +64,8 @@ public class JavaFXGUI extends Application {
         Parent next = loadFXML(fxml);
         scene.setRoot(next);
         stage.sizeToScene();
+
+        stage.setFullScreen(true);
     }
 
     /**

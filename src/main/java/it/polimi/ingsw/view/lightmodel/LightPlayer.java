@@ -1,8 +1,8 @@
 package it.polimi.ingsw.view.lightmodel;
 
-import it.polimi.ingsw.model.essentials.PhysicalResource;
-import it.polimi.ingsw.model.essentials.Production;
-import it.polimi.ingsw.model.match.player.PlayerSummary;
+import it.polimi.ingsw.gameLogic.model.essentials.PhysicalResource;
+import it.polimi.ingsw.gameLogic.model.essentials.Production;
+import it.polimi.ingsw.gameLogic.model.match.player.PlayerSummary;
 
 import java.util.List;
 import java.util.ArrayList;
