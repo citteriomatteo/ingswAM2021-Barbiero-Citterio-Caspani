@@ -66,10 +66,12 @@ public class ClientApp {
         getClient().setSocket(hostName, portNumber);
 
         getClient().heartbeat();
+
+        new Thread(()->getClient().startClient()).start();
+
         getClient().setView(cliChoice);
 
-        getClient().startClient();
 
-        getClient().terminateConnection();
+        //getClient().terminateConnection();
     }
 }

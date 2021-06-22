@@ -59,6 +59,8 @@ public class JavaFXGUI extends Application {
      * @throws IOException if a scene with that name is not found in fxml folder
      */
     static void setRoot(String fxml) throws IOException {
+        if(scene == null)
+            return ;
         Parent next = loadFXML(fxml);
         scene.setRoot(next);
         stage.sizeToScene();

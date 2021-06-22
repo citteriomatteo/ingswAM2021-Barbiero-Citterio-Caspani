@@ -84,7 +84,8 @@ public class Client {
 
         View view = new ClientGUI();
         controller.setView(view);
-        new Thread(()-> Application.launch(JavaFXGUI.class)).start();
+        //new Thread(()-> Application.launch(JavaFXGUI.class)).start();
+        Application.launch(JavaFXGUI.class);
     }
 
     /**
@@ -103,11 +104,14 @@ public class Client {
                 return;
             }
 
+
             messageFromServer.compute(this);
 
             if(messageFromServer.getType().equals(StoCMessageType.GOODBYE))
                 play.set(false);
             }
+
+        terminateConnection();
     }
 
     /**
