@@ -130,6 +130,7 @@ public class MatchController {
     /**
      * Specific constructor for single player matches with a custom configuration.
      * @param player the only player in match
+     * @param configuration the chosen configuration
      */
     public MatchController(Player player, MatchConfiguration configuration) throws RetryException {
         cardMap = initCardMap(configuration);

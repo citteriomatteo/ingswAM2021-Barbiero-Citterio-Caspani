@@ -128,11 +128,13 @@ public interface View extends ViewObserver {
     /**
      * Shows the "rematch offered" layout.
      * Implementation may change consistently depending on the type of View used.
+     * @param nickname the nickname of the player
      */
     void drawRematchOfferLayout(String nickname);
     /**
      * Shows the goodbye layout in case of server disconnection.
      * Implementation may change consistently depending on the type of View used.
+     * @param msg the goodbye message
      */
     void drawGoodbyeLayout(String msg);
 

@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * This class implements a message that notifies to every client the final leaderboard.
  * It can also be built step by step.
- * Message structure: { Map<nickname, final points> }
+ * Message structure: { Map of [nickname, final points] }
  */
 
 public class EndGameResultsMessage extends StoCMessage {

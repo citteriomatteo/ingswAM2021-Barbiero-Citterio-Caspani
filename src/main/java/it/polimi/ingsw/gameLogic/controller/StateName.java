@@ -2,9 +2,13 @@ package it.polimi.ingsw.gameLogic.controller;
 
 /**
  * This enumeration is used to keep together all the types of messages.
+ * The values are divided by a \n to indicate:
+ * - states used in LoginPhase
+ * - States used in StartingPhase
+ * - States used in TurnController
  */
 public enum StateName {
-    //States used in LoginPhase
+
     CLIENT_START(0),
     LOGIN(0),
     RECONNECTION(0),
@@ -16,12 +20,12 @@ public enum StateName {
     WAITING(0),
     WAITING_FOR_PLAYERS(0),
     START_GAME(0),
-    //States used in StartingPhase
+
     WAITING_FOR_TURN (-1),
     WAITING_LEADERS (1),
     WAITING_RESOURCES (2),
     STARTING_PHASE_DONE (3),
-    //States used in TurnController
+
     STARTING_TURN (4),
     MARKET_ACTION (5),
     RESOURCES_PLACEMENT (6),

@@ -402,7 +402,7 @@ public class Player extends ModelObservable implements Adder, Verificator {
 
     /**
      * This method discards the non-chosen leaders from handLeader.
-     * @requires the leader card must be contained in the handLeader list.
+     * Requires that the leader card must be contained in the handLeader list.
      * @param leader the leader to discard
      * @return       true
      */
@@ -503,7 +503,7 @@ public class Player extends ModelObservable implements Adder, Verificator {
 
     /**
      *This method takes the Temp DevelopmentCard from the tempDevCard object and puts it in the DevCardSlot.
-     * @requires The player must have already payed the relative resources himself before.
+     * Requires that the player must have already payed the relative resources himself before.
      * @param slot  the slot in which the card will be inserted
      * @return      true
      */

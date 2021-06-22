@@ -67,7 +67,7 @@ public class Production {
     /**
      * Adds the earnings of this to the StrongBox or the FaitPath of the player.
      * This method doesn't control if the costs had been already payed.
-     * @requires the costs have to be paid by the player before anywhere else
+     * Requires that the costs have to be paid by the player before anywhere else
      * @param adder the player whom the earnings has to be added to
      * @return true
      * @throws LastRoundException if this production make the player reach the end of his FaithPath

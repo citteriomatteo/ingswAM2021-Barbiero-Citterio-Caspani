@@ -23,7 +23,6 @@ import static it.polimi.ingsw.gameLogic.controller.MatchController.getKeyByValue
 import static it.polimi.ingsw.gameLogic.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
-
 public class MatchControllerTest extends CommonThingsTest {
     private static MatchController matchController;
     private Player player;

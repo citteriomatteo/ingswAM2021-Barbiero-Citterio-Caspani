@@ -20,7 +20,7 @@ public class SingleCardGrid extends CardGrid {
      * {[lv1, GREEN], [lv1, BLUE], [lv1, YELLOW], [lv1, PURPLE], [lv2, GREEN], [lv2, BLUE], ...etc.}
      * following the order of the color in the enumeration CardColor.
      * You have to provide at least one card of any type.
-     * @requires The list 'cards' have to be previously correctly sorted
+     * Requires that the list 'cards' have to be previously correctly sorted
      * @param cards a sorted list of all the DevelopmentCards in the game
      * @throws WrongSettingException if are given not enough CardTypes or in the wrong order
      * @see CardType

@@ -75,7 +75,7 @@ public class LeaderCard implements Card {
 
     /**
      * Activate the precise effect and then add the leader to the ActiveLeader List
-     * @requires The player must have already called isActivable himself before.
+     * Requires that the player must have already called isActivable himself before.
      * @param effector the PersonalBoard owned by the player who wants to activate the LeaderCard
      * @return true if the method has worked correctly
      */

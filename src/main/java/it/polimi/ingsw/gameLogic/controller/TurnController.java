@@ -62,6 +62,8 @@ public class TurnController {
     /**
      * This method goes on with the turn, return the new state of the player and eventually notifying the end of match.
      * @return a StateName
+     * @throws MatchEndedException when the match is really finshed (the last round has finished)
+     * @return the current State of the player, after the new turn rotation
      */
     public StateName nextTurn() throws MatchEndedException {
         //If it's the last turn of the last player of the last round...
@@ -602,9 +604,13 @@ public class TurnController {
         currentPlayer.getSummary().updateLastUsedState(currentPlayer.getNickname(), newState);
     }
 
-    /** Getter for current player */
+    /** Getter for current player
+     * @return the current player
+     */
     public Player getCurrentPlayer(){ return currentPlayer; }
-    /** Getter for current player's state */
+    /** Getter for current player's state
+     * @return the current state
+     */
     public StateName getCurrentState() { return currentState; }
     /** Setter for current player's state */
     public void setCurrentState(StateName currentState) { this.currentState = currentState; }
