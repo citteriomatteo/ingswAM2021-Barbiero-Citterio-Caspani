@@ -21,7 +21,6 @@ public class PlayerTest extends CommonThingsTest
         p2.payFromStrongbox(new PhysicalResource(ResType.COIN,3));
     }
 
-
     public void addSequence(Player p1, Player p2) throws InvalidQuantityException, InvalidOperationException{
         p1.addToWarehouse(new PhysicalResource(ResType.SERVANT,3));
         p1.addToWarehouse(new PhysicalResource(ResType.COIN, 2));

@@ -171,7 +171,6 @@ public class DevCardSlotsTest {
         assertEquals(10, slots.getWinPoints());
     }
 
-
     @Test
     public void getCardsNumberTest(){
         DevCardSlots slots = setSituation();

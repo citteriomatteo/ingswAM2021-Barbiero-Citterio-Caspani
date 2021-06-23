@@ -8,7 +8,6 @@ import it.polimi.ingsw.gameLogic.model.match.player.Player;
 import it.polimi.ingsw.gameLogic.model.match.player.PlayerSummary;
 import it.polimi.ingsw.gameLogic.model.match.player.personalBoard.DevCardSlots;
 import it.polimi.ingsw.gameLogic.model.match.player.personalBoard.DiscountMap;
-import it.polimi.ingsw.gameLogic.model.match.player.personalBoard.PersonalBoard;
 import it.polimi.ingsw.gameLogic.model.match.player.personalBoard.StrongBox;
 import it.polimi.ingsw.gameLogic.model.match.player.personalBoard.faithPath.Cell;
 import it.polimi.ingsw.gameLogic.model.match.player.personalBoard.warehouse.Warehouse;
@@ -218,16 +217,6 @@ public class Summary implements ModelObserver {
      */
     public void updateConnectionState(String nickname, boolean connected){
         getPlayerSummary(nickname).updateConnectionState(connected);
-    }
-
-
-    /**
-     * This method, when called, updates the personal board of the requested player in the summary.
-     * @param nickname  the requested player
-     * @param personalBoard the personal board
-     */
-    public void updatePersonalBoard(String nickname, PersonalBoard personalBoard){
-        getPlayerSummary(nickname).updatePersonalBoard(personalBoard, cardMap);
     }
 
     /**

@@ -16,8 +16,7 @@ import java.util.Map;
 import static it.polimi.ingsw.gameLogic.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MultiFaithPathTest extends FaithPathTest
-{
+public class MultiFaithPathTest extends FaithPathTest {
 
     public Map<String, Card> getCardMap(MatchConfiguration configuration) {
         Map<String, Card> cardMap = new HashMap<>();

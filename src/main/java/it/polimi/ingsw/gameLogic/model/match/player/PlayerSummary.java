@@ -6,16 +6,15 @@ import it.polimi.ingsw.gameLogic.model.essentials.*;
 import it.polimi.ingsw.gameLogic.model.essentials.leader.LeaderCard;
 import it.polimi.ingsw.gameLogic.model.match.player.personalBoard.DevCardSlots;
 import it.polimi.ingsw.gameLogic.model.match.player.personalBoard.DiscountMap;
-import it.polimi.ingsw.gameLogic.model.match.player.personalBoard.PersonalBoard;
 import it.polimi.ingsw.gameLogic.model.match.player.personalBoard.StrongBox;
 import it.polimi.ingsw.gameLogic.model.match.player.personalBoard.warehouse.Warehouse;
-import static it.polimi.ingsw.gameLogic.controller.MatchController.getKeyByValue;
-
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static it.polimi.ingsw.gameLogic.controller.MatchController.getKeyByValue;
 
 /**
  * This class implements the summary of a single player.
@@ -143,8 +142,6 @@ public class PlayerSummary
         //temp production init
         updateTempProduction(player.getTempProduction());
 
-
-
     }
 
     //UPDATE METHODS ( CALLED BY THE SUMMARY ) :
@@ -155,15 +152,6 @@ public class PlayerSummary
      */
     public void updateConnectionState(boolean connected){
         this.connected = connected;
-    }
-
-    /**
-     * This method, when called, updates the personal board in this player's summary.
-     * @param personalBoard the personal board
-     * @param cardMap       the card map
-     */
-    public void updatePersonalBoard(PersonalBoard personalBoard, Map<String, Card> cardMap){
-
     }
 
     /**

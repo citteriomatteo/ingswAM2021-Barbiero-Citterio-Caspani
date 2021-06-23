@@ -1,27 +1,26 @@
 package it.polimi.ingsw.gameLogic.model.match;
 
-import it.polimi.ingsw.gameLogic.exceptions.*;
+import it.polimi.ingsw.gameLogic.exceptions.InvalidOperationException;
+import it.polimi.ingsw.gameLogic.exceptions.LastRoundException;
+import it.polimi.ingsw.gameLogic.exceptions.SingleMatchException;
+import it.polimi.ingsw.gameLogic.exceptions.WrongSettingException;
 import it.polimi.ingsw.gameLogic.model.essentials.Card;
 import it.polimi.ingsw.gameLogic.model.match.player.Player;
+import it.polimi.ingsw.gameLogic.model.match.player.PlayerSummary;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static it.polimi.ingsw.gameLogic.model.match.MatchConfiguration.assignConfiguration;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import static it.polimi.ingsw.gameLogic.controller.MatchController.getKeyByValue;
-
-
-import java.util.*;
+import static it.polimi.ingsw.gameLogic.model.match.MatchConfiguration.assignConfiguration;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class SummaryTest extends CommonThingsTest {
 
     public Map<String, Card> cardMap = getCardMap(assignConfiguration("src/test/resources/TotalFreeConfiguration.json"));
-
-    public void setCardMap(MatchConfiguration configuration) {
-        for (int i = 1; i <= configuration.getAllDevCards().size(); i++)
-            cardMap.put("D" + i, configuration.getAllDevCards().get(i - 1));
-        for (int i = 1; i <= configuration.getAllLeaderCards().size(); i++)
-            cardMap.put("L" + i, configuration.getAllLeaderCards().get(i - 1));
-    }
 
     @Test
     public void updateMarketTest() throws WrongSettingException, SingleMatchException, LastRoundException, InvalidOperationException
@@ -59,7 +58,6 @@ public class SummaryTest extends CommonThingsTest {
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
         setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         Match match = new MultiMatch(players, matchConfiguration);
-        setCardMap(match.getMatchConfiguration());
         Summary summary = new Summary(match, cardMap,matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         for(Player p : match.getPlayers())
             p.setSummary(summary);
@@ -75,5 +73,30 @@ public class SummaryTest extends CommonThingsTest {
         assertEquals(getKeyByValue(cardMap, match.getCardGrid().getTop()[1][0]), summary.getCardGrid()[1][0].get(0));
         assertEquals(getKeyByValue(cardMap, match.getCardGrid().getTop()[2][0]), summary.getCardGrid()[2][0].get(0));
        }
+
+    @Test
+    public void personalizedSummaryTest() throws WrongSettingException, SingleMatchException {
+        Player player1 = new Player("player1");
+        Player player2 = new Player("player2");
+        Player player3 = new Player("player3");
+        Player player4 = new Player("player4");
+        List<Player> players = new ArrayList<>(List.of(player1,player2,player3,player4));
+        MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/TotalFreeConfiguration.json");
+        Match match = new MultiMatch(players, matchConfiguration);
+        Summary summary = new Summary(match, cardMap, matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
+        for(Player p : match.getPlayers()) {
+            p.setSummary(summary);
+            summary.getPlayerSummary(p.getNickname()).updateHandLeaders(p.getHandLeaders(), cardMap);
+        }
+
+        Summary personalizedSummary = summary.personalizedSummary(player1.getNickname());
+        PlayerSummary player2Summary = summary.getPlayerSummary(player2.getNickname());
+        PlayerSummary obscuredPlayer2Summary = personalizedSummary.getPlayerSummary(player2.getNickname());
+
+        assertEquals(player2Summary.getFaithMarker(), obscuredPlayer2Summary.getFaithMarker());
+
+        assertNotEquals(player2Summary.getHandLeaders(), obscuredPlayer2Summary.getHandLeaders());
+
+    }
 
 }

@@ -16,11 +16,10 @@ import java.util.*;
 import static it.polimi.ingsw.gameLogic.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class FaithPathTest extends CommonThingsTest
-{
+public class FaithPathTest extends CommonThingsTest {
+
     //Generates 25-steps path, same report sections as the default path.
-    public static ArrayList<Cell> generatePath() throws FaithPathCreationException
-    {
+    public static ArrayList<Cell> generatePath() throws FaithPathCreationException {
         ArrayList<Cell> path = new ArrayList<>();
         List<Integer> wp = Arrays.asList(0,0,0,1,0,0,2,0,0,4,0,0,6,0,0,9,0,0,12,0,0,16,0,0,20);
         List<Integer> vrs = Arrays.asList(0,0,0,0,0,1,1,1,1,0,0,0,2,2,2,2,2,0,0,3,3,3,3,3,3);
@@ -50,8 +49,7 @@ public class FaithPathTest extends CommonThingsTest
     }
 
     @Test
-    public void addFaithPointsTest() throws SingleMatchException, WrongSettingException, LastRoundException
-    {
+    public void addFaithPointsTest() throws SingleMatchException, WrongSettingException, LastRoundException {
         Player player = new Player("player1");
         Player player1 = new Player("player2");
         List<Player> players = new ArrayList<>();

@@ -47,4 +47,9 @@ public class PurpleTokenTest extends CommonThingsTest {
 
         assertThrows(LastRoundException.class,()->purpleToken.onDraw(singleMatch));
     }
+
+    @Test
+    public void testToString(){
+        assertEquals(purpleToken.getClass().getSimpleName(), purpleToken.toString());
+    }
 }

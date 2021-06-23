@@ -7,15 +7,14 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CellTest
-{
+public class CellTest {
+
     /*
     Creates a new cell and calls every available function, looking for a full instruction coverage.
     MISSING VATICANREPORT INSTRUCTION COVERAGE: NO COMUNICATOR YET!
      */
     @Test
-    public void basicCellOperationsTest() throws FaithPathCreationException
-    {
+    public void basicCellOperationsTest() throws FaithPathCreationException {
         Random rnd = new Random();
         int wp = rnd.nextInt(50), vrs = rnd.nextInt(50);
         Cell cell = new Cell(wp, vrs);

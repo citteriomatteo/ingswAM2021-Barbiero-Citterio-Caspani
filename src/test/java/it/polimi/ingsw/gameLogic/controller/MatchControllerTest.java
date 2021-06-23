@@ -49,6 +49,18 @@ public class MatchControllerTest extends CommonThingsTest {
     }
 
     @Test
+    public void singlePlayerInitializationTest(){
+        MatchController controller = new MatchController(new Player("player"));
+        assertEquals(8,controller.getMatch().getMatchConfiguration().getAllDevCards().get(23).getWinPoints());
+    }
+
+    @Test
+    public void singlePlayerCustomInitializationTest() throws RetryException {
+        MatchController controller = new MatchController(new Player("player"), assignConfiguration("src/test/resources/PartialFreeConfiguration.json"));
+        assertEquals(4,controller.getMatch().getMatchConfiguration().getAllDevCards().get(5).getWinPoints());
+    }
+
+    @Test
     public void isComputableTest() throws RetryException {
         initialization();
         Player player = matchController.getCurrentPlayer();
@@ -60,6 +72,7 @@ public class MatchControllerTest extends CommonThingsTest {
         assertThrows(RetryException.class, ()->matchController.devCardDraw(match1.getNextPlayer().getNickname(), 1, 1 ));
 
     }
+
     @Test
     public void startingLeaderTest() throws RetryException {
         initialization();
@@ -75,6 +88,7 @@ public class MatchControllerTest extends CommonThingsTest {
         assertThrows(RetryException.class, ()->matchController.startingLeader(player.getNickname(), List.of("a")));
 
     }
+
     @Test
     public void startingResourcesTest() throws RetryException, NegativeQuantityException {
         initialization();
@@ -320,6 +334,8 @@ public class MatchControllerTest extends CommonThingsTest {
 
     @Test
     public void paymentsTest() throws RetryException, InvalidQuantityException, ShelfInsertException {
+        muteOutput();
+
         initializationCosts();
         player = matchController.getCurrentPlayer();
         match = matchController.getMatch();

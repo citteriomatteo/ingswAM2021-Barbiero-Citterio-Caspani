@@ -9,7 +9,6 @@ import it.polimi.ingsw.gameLogic.model.match.CardGrid;
 import it.polimi.ingsw.gameLogic.model.match.market.Market;
 import it.polimi.ingsw.gameLogic.model.match.player.personalBoard.DevCardSlots;
 import it.polimi.ingsw.gameLogic.model.match.player.personalBoard.DiscountMap;
-import it.polimi.ingsw.gameLogic.model.match.player.personalBoard.PersonalBoard;
 import it.polimi.ingsw.gameLogic.model.match.player.personalBoard.StrongBox;
 import it.polimi.ingsw.gameLogic.model.match.player.personalBoard.faithPath.Cell;
 import it.polimi.ingsw.gameLogic.model.match.player.personalBoard.warehouse.Warehouse;
@@ -53,11 +52,7 @@ public interface ModelObserver {
      */
     void updateConnectionState(String nickname, boolean connected);
     /**
-     * This method, when called, updates the personal board of the requested player in the summary.
-     * @param nickname  the requested player
-     * @param personalBoard the personal board
-     */
-    void updatePersonalBoard(String nickname, PersonalBoard personalBoard);
+
     /**
      * This method, when called, updates the market buffer of the requested player in the summary.
      * @param nickname  the requested player

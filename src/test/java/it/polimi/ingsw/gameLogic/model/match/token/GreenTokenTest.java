@@ -46,4 +46,9 @@ public class GreenTokenTest extends CommonThingsTest {
 
         assertThrows(LastRoundException.class,()->greenToken.onDraw(singleMatch));
     }
+
+    @Test
+    public void testToString(){
+        assertEquals(greenToken.getClass().getSimpleName(), greenToken.toString());
+    }
 }

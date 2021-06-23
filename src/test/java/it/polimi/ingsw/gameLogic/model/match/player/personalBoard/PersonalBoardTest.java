@@ -26,8 +26,7 @@ public class PersonalBoardTest extends FaithPathTest
     Also tests the correct behaviour of every leader activated.
      */
     @Test
-    public void personalBoardTest() throws NegativeQuantityException, WrongSettingException
-    {
+    public void personalBoardTest() throws NegativeQuantityException, WrongSettingException {
         ArrayList<PhysicalResource> bcost= new ArrayList<>();
         ArrayList bearnings= new ArrayList<>();
         bcost.add(new PhysicalResource(ResType.UNKNOWN,2));

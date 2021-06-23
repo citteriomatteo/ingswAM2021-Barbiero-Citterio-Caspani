@@ -35,4 +35,9 @@ public class PlusTwoTokenTest extends CommonThingsTest {
         assertEquals(singleFaithPath.getBlackPosition(),2);
 
     }
+
+    @Test
+    public void testToString(){
+        assertEquals(plusTwoToken.getClass().getSimpleName(), plusTwoToken.toString());
+    }
 }

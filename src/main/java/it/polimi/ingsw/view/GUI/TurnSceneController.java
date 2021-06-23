@@ -379,7 +379,7 @@ public class TurnSceneController{
         if(value == 1) //tile is upside
             tile = new Image(Objects.requireNonNull(TurnSceneController.class.getResourceAsStream("images/punchBoard/upsidePopeTile" + (order) + ".png")));
         else if(value == 2) //tile is downside
-            tile = new Image(Objects.requireNonNull(TurnSceneController.class.getResourceAsStream("images/punchBoard/PopeTile" + (order) + ".png")));
+            tile = new Image(Objects.requireNonNull(TurnSceneController.class.getResourceAsStream("images/punchBoard/popeTile" + (order) + ".png")));
         else
             tile = null;
 

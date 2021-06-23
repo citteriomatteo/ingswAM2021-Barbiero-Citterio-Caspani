@@ -23,6 +23,7 @@ import static it.polimi.ingsw.jsonUtilities.GsonHandler.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MessageTest {
+
     @Test
     public void parsingTest() throws NegativeQuantityException {
         //Set the path where to find the file json
@@ -68,8 +69,6 @@ public class MessageTest {
         messages.add(new EndTurnMessage(nickname));
 
         messages.add(new RematchMessage(nickname, true));
-
-
 
 
         //extrapolate the type of the collection

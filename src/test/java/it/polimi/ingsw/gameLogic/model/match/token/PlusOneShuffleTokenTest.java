@@ -37,4 +37,9 @@ public class PlusOneShuffleTokenTest extends CommonThingsTest {
         assertNotEquals(tokenStack,singleMatch.getTokenStack().getStack());
         assertEquals(tokenStack.size(),singleMatch.getTokenStack().getStack().size());
     }
+
+    @Test
+    public void testToString(){
+        assertEquals(plusOneShuffleToken.getClass().getSimpleName(), plusOneShuffleToken.toString());
+    }
 }

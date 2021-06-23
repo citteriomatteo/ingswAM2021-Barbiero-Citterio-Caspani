@@ -11,17 +11,14 @@ import org.junit.jupiter.api.Test;
 import static it.polimi.ingsw.gameLogic.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SingleFaithPathTest extends FaithPathTest
-{
-
+public class SingleFaithPathTest extends FaithPathTest {
 
     /*
     Creates path, tests match end and negative starting marker exception and
     , meanwhile, player's popeTiles correct switching when blackReport is called.
      */
     @Test
-    public void blackPointAndBlackReportTest() throws LastRoundException, WrongSettingException
-    {
+    public void blackPointAndBlackReportTest() throws LastRoundException, WrongSettingException {
         Player player = new Player("player1");
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
         setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
@@ -36,8 +33,7 @@ public class SingleFaithPathTest extends FaithPathTest
 
     //Instruction coverage for black marker getter.
     @Test
-    public void getBlackPositionTest() throws WrongSettingException
-    {
+    public void getBlackPositionTest() throws WrongSettingException {
         Player player = new Player("player1");
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
         setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());

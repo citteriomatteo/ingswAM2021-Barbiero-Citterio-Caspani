@@ -11,8 +11,7 @@ public class DiscountMapTest
     private final DiscountMap discountMap = new DiscountMap();
 
     @Test
-    public void testSetDiscount() throws NegativeQuantityException
-    {
+    public void testSetDiscount() throws NegativeQuantityException {
         PhysicalResource resource = new PhysicalResource(ResType.COIN, 1);
         this.discountMap.setDiscount(resource);
         Assertions.assertFalse(this.discountMap.getDiscountMap().isEmpty());
@@ -23,8 +22,7 @@ public class DiscountMapTest
     }
 
     @Test
-    public void testApplyDiscount() throws NegativeQuantityException
-    {
+    public void testApplyDiscount() throws NegativeQuantityException {
         PhysicalResource resource = new PhysicalResource(ResType.COIN, 2);
         PhysicalResource resource1 = new PhysicalResource(ResType.COIN, 3);
         PhysicalResource resource2 = new PhysicalResource(ResType.STONE, 1);

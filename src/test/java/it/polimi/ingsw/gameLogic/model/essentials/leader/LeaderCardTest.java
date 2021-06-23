@@ -27,7 +27,6 @@ import static it.polimi.ingsw.jsonUtilities.GsonHandler.requirableConfig;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LeaderCardTest extends CommonThingsTest {
-
     private LeaderCard slotLeader;
 
     //Tests the constructor

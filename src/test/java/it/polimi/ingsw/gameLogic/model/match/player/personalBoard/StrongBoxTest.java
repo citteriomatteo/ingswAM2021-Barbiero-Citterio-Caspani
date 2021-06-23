@@ -1,26 +1,26 @@
 package it.polimi.ingsw.gameLogic.model.match.player.personalBoard;
-import static org.junit.jupiter.api.Assertions.*;
-import java.util.Random;
-
-import it.polimi.ingsw.gameLogic.model.essentials.PhysicalResource;
-import it.polimi.ingsw.gameLogic.model.essentials.ResType;
 import it.polimi.ingsw.gameLogic.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.gameLogic.exceptions.NotEnoughResourcesException;
+import it.polimi.ingsw.gameLogic.model.essentials.PhysicalResource;
+import it.polimi.ingsw.gameLogic.model.essentials.ResType;
 import org.junit.jupiter.api.Test;
+
+import java.util.Random;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class StrongBoxTest
 {
     @Test
-    public void initializationTest()
-    {
+    public void initializationTest() {
         StrongBox sb = new StrongBox();
         for(ResType key: sb.getResources().keySet())
             assertEquals(sb.getResources().get(key), 0);
     }
 
     @Test
-    public void putTest() throws NegativeQuantityException
-    {
+    public void putTest() throws NegativeQuantityException {
         StrongBox sb = new StrongBox();
         Random gen = new Random();
         for(int i=0; i<50; i++)

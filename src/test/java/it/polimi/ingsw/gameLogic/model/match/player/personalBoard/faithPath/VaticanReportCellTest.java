@@ -12,11 +12,10 @@ import org.junit.jupiter.api.Test;
 import static it.polimi.ingsw.gameLogic.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class VaticanReportCellTest extends CommonThingsTest
-{
+public class VaticanReportCellTest extends CommonThingsTest {
+
     @Test
-    public void generalInstructionCoverageTest() throws WrongSettingException, LastRoundException
-    {
+    public void generalInstructionCoverageTest() throws WrongSettingException, LastRoundException {
         muteOutput();
 
         Player player = new Player("player1");
@@ -34,4 +33,5 @@ public class VaticanReportCellTest extends CommonThingsTest
             System.out.println(path.getFaithPath().get(i).singleVaticanReport(player));
         assertFalse(path.getFaithPath().get(8).singleVaticanReport(player));
     }
+
 }

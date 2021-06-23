@@ -54,7 +54,7 @@ public class SingleCardGrid extends CardGrid {
             System.exit(1);
         }
 
-        if(super.isEmpty(lv, color))
+        if(super.isEmpty(3, color) && super.isEmpty(1,color) && super.isEmpty(2, color))
             //Cards of that color are finished: Lorenzo win the game -> You lost
             throw new LastRoundException("Player have lost -> Lorenzo finished the " + color + " cards");
 

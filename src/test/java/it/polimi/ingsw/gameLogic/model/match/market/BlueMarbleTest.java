@@ -23,8 +23,6 @@ public class BlueMarbleTest extends CommonThingsTest {
     private Player player;
     private Match match;
 
-
-
     @Test
     public void testOnDraw() throws NegativeQuantityException, LastRoundException, FileNotFoundException, WrongSettingException, SingleMatchException {
         List<Player> players = new ArrayList<>(List.of(new Player("player1"),new Player("player2")));

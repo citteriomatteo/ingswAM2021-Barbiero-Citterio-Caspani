@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 //Test for DevelopmentCard class
 public class DevelopmentCardTest extends CommonThingsTest {
-    DevelopmentCard devCard;
+    private DevelopmentCard devCard;
 
     //Tests the constructor
     @Test

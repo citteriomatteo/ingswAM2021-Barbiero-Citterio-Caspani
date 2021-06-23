@@ -67,6 +67,9 @@ public class SingleCardGridTest {
 
         assertEquals(cardExpected, card);
 
+        grid.take(2,CardColor.GREEN.getVal());
+        assertThrows(LastRoundException.class, ()-> grid.take(3, CardColor.GREEN.getVal()));
+
     }
 
     @Test

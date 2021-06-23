@@ -1,24 +1,24 @@
 package it.polimi.ingsw.gameLogic.model.match.token;
 
-import it.polimi.ingsw.gameLogic.model.essentials.CardColor;
-import it.polimi.ingsw.gameLogic.model.essentials.CardType;
 import it.polimi.ingsw.gameLogic.exceptions.LastRoundException;
 import it.polimi.ingsw.gameLogic.exceptions.NegativeQuantityException;
 import it.polimi.ingsw.gameLogic.exceptions.WrongSettingException;
+import it.polimi.ingsw.gameLogic.model.essentials.CardColor;
+import it.polimi.ingsw.gameLogic.model.essentials.CardType;
 import it.polimi.ingsw.gameLogic.model.match.CommonThingsTest;
 import it.polimi.ingsw.gameLogic.model.match.MatchConfiguration;
 import it.polimi.ingsw.gameLogic.model.match.SingleMatch;
 import it.polimi.ingsw.gameLogic.model.match.player.Player;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
+
 import static it.polimi.ingsw.gameLogic.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.FileNotFoundException;
-
 public class BlueTokenTest extends CommonThingsTest {
     private SingleMatch singleMatch;
-    private BlueToken blueToken;
+    private BlueToken blueToken = new BlueToken();
 
     @Test
     public void testOnDraw() throws NegativeQuantityException, LastRoundException, FileNotFoundException, WrongSettingException {
@@ -26,8 +26,6 @@ public class BlueTokenTest extends CommonThingsTest {
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/StandardConfiguration.json");
         setSummary(p, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
         singleMatch = new SingleMatch(p);
-
-        blueToken = new BlueToken();
 
         assertTrue(blueToken.onDraw(singleMatch));
 
@@ -46,5 +44,10 @@ public class BlueTokenTest extends CommonThingsTest {
 
         assertThrows(LastRoundException.class,()->blueToken.onDraw(singleMatch));
 
+    }
+
+    @Test
+    public void testToString(){
+        assertEquals(blueToken.getClass().getSimpleName(), blueToken.toString());
     }
 }

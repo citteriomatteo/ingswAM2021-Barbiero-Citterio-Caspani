@@ -10,6 +10,7 @@ import it.polimi.ingsw.gameLogic.model.match.player.personalBoard.faithPath.Cell
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A configuration of the match all contained in one object
@@ -34,6 +35,11 @@ public class MatchConfiguration
         this.customPath = customPath;
         this.basicProduction = basicProduction;
     }
+
+    /**
+     * Default constructor, it builds an empty configuration, all the variables have to be passed via setter
+     */
+    public MatchConfiguration(){}
 
     //GETTER
     /**
@@ -105,4 +111,14 @@ public class MatchConfiguration
             return null;
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MatchConfiguration)) return false;
+        MatchConfiguration that = (MatchConfiguration) o;
+        return Objects.equals(getAllDevCards(), that.getAllDevCards()) && Objects.equals(getAllLeaderCards(), that.getAllLeaderCards())
+                && Objects.equals(getCustomPath(), that.getCustomPath()) && Objects.equals(getBasicProduction(), that.getBasicProduction());
+    }
+
 }

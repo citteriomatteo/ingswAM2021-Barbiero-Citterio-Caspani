@@ -79,7 +79,6 @@ public class CardGridTest extends CommonThingsTest {
         assertTrue(grid.isBuyable(player,1, CardColor.GREEN.getVal()));
     }
 
-
     @Test
     public void takeTest() throws InvalidCardRequestException, NoMoreCardsException, InvalidQuantityException, LastRoundException {
         DevelopmentCard card = grid.take(1,CardColor.GREEN.getVal());
@@ -111,8 +110,7 @@ public class CardGridTest extends CommonThingsTest {
     }
 
     @Test
-    public void controlCardOutOfRangeTest()
-    {
+    public void controlCardOutOfRangeTest() {
         Player player = new Player("player1");
 
         assertThrows(InvalidCardRequestException.class, () -> grid.isBuyable(player,3,5));
