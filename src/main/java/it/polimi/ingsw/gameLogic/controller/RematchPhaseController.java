@@ -36,6 +36,8 @@ public class RematchPhaseController
     /**
      * This method gets a response and ends game if the response is false.
      * Elsewhere, it keeps waiting for all the responses.
+     * If we're in the case of a single match, the rematch offer coincides with the last rematch acceptation: the match
+     *    has to restart immediately.
      * @param nickname the sender
      * @param value its choice
      * @throws MatchRestartException if all responses has arrived and are all positive.
@@ -55,6 +57,10 @@ public class RematchPhaseController
             return;
         }
         if(numResponses==0) {
+
+            if(players.size() == 1)
+                throw new MatchRestartException("Restart the match.");
+
             numResponses++;
             new RematchOfferedMessage("", nickname).sendBroadcast(pendantPlayers);
             return;

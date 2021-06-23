@@ -403,7 +403,7 @@ public class Summary implements ModelObserver {
     public char[][] getMarket() { return market; }
     /** Getter for summarized slide marble */
     public char getSideMarble() { return sideMarble; }
-    /** Getter for summarized card grid (list of {String id, Integer depth}) */
+    /** Getter for summarized card grid (list of {String id, Integer depthc}) */
     public List<String>[][] getCardGrid() { return cardGrid; }
     /** Getter for summarized faith path */
     public List<String> getFaithPath() { return faithPath; }

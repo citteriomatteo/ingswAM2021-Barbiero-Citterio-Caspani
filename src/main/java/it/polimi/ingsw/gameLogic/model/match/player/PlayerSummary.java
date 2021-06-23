@@ -25,17 +25,17 @@ public class PlayerSummary
 {
     //player's general things
     private boolean connected;
-    private String nickname;
+    private final String nickname;
     private List<PhysicalResource> warehouse;
     private List<PhysicalResource> marketBuffer;
     private List<PhysicalResource> strongbox;
     private int faithMarker;
     private List<Integer> popeTiles;
-    private List<String>[] devCardSlots;
+    private final List<String>[] devCardSlots;
     private List<String> handLeaders;
-    private List<String> activeLeaders;
-    private List<PhysicalResource> whiteMarbleConversions;
-    private List<PhysicalResource> discountMap;
+    private final List<String> activeLeaders;
+    private final List<PhysicalResource> whiteMarbleConversions;
+    private final List<PhysicalResource> discountMap;
 
     //stuff for multiple states' operations
     private String tempDevCard;
