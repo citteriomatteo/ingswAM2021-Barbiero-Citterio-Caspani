@@ -216,13 +216,12 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
             }
             if(shelf1<=3) {
                 for (int i = 0; i < 3; i++)
-                    if (i != (shelf1 - 1) && disp.get(i).getType().equals(disp.get(shelf2 - 1).getType()))
+                    if (i != (shelf1 - 1) && disp.get(i).getType().equals(disp.get(shelf2 - 1).getType()) && disp.get(i).getQuantity() > 0)
                         throw new ShelfInsertException("Impossible switch: resource type" + disp.get(shelf2 - 1).getType() + " is already present on basic warehouse.");
 
                 if(!disp.get(shelf2 - 1).getType().equals(disp.get(shelf1 - 1).getType())
                         && !disp.get(shelf1 - 1).getType().equals(ResType.UNKNOWN))
-                    throw new ShelfInsertException("Impossible switch: the leader does not accept the resource in the shelf "+shelf1);
-
+                    throw new ShelfInsertException("Impossible switch: the leader does not accept the resource in the shelf " + shelf1);
             }
             else
                 if(!disp.get(shelf1-1).getType().equals(disp.get(shelf2-1).getType())

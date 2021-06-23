@@ -87,7 +87,7 @@ Per cambiare i parametri di connessione, aggiungere in fondo al comando da termi
 - `--port` `<port number>` : per specificare una porta preferenziale;
 
 ### MASTERS OF RENAISSANCE'S SERVER
-Per lanciare Masters of Renaissance Server aprire il terminale, posizionarsi nella root del file Jar e digitare il comando:
+Per lanciare Masters of Renaissance Server è necessario aprire il terminale, posizionarsi nella root del file Jar e digitare il comando:
 ```
 java -jar mastersOfRenaissance-server.jar
 ```

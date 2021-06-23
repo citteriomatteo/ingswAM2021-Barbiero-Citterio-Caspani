@@ -94,7 +94,7 @@ public class ConcreteWarehouse implements Warehouse
 
         //Shelf update:
         try {
-            PhysicalResource newShelf = new PhysicalResource(res.getType(), shelves.get(shelf).getQuantity() + res.getQuantity());
+            PhysicalResource newShelf = new PhysicalResource((res.getQuantity() == 0 ? ResType.UNKNOWN : res.getType()), shelves.get(shelf).getQuantity() + res.getQuantity());
             shelves.set(shelf, newShelf);
         }
         catch(NegativeQuantityException e) { e.printStackTrace(); System.err.println("Application shutdown due to an internal error in "+this.getClass().getSimpleName()+"."); }
