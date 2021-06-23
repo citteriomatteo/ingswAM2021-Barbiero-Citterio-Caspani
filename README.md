@@ -41,7 +41,7 @@ L'intera documentazione del progetto, tra classi e funzioni, è presente al segu
       La procedura di attesa e creazione di una partita viene reiterata per i giocatori che si connetteranno dopo, appena la partita di cui il server si sta occupando di costruire è iniziata.
 - Extra Feature:
     - __Rivincita:__ al termine di una partita ne viene presentata la classifica finale e i giocatori possono chiedere la rivincita agli altri presenti.
-      Il giocatore più veloce a chiedere la rivincita verrà visualizzato sugli schermi degli altri giocatori, i quali potranno accettare o rifiutare la proposta. Se tutti i giocatori accettano, la partita riparte dalla fase iniziale con la stessa configurazione della partita precedente.
+      Il giocatore più veloce a chiedere la rivincita verrà visualizzato sugli schermi degli altri, i quali potranno accettare o rifiutare la proposta. Se tutti i giocatori accettano, la partita riparte dalla fase iniziale con la stessa configurazione della partita precedente.
       Questa feature è ottima e comoda, soprattutto, se combinata alla funzionalità aggiuntiva di customizzazione dei parametri: la rivincita permetterebbe di saltare la trafila di creazione di una configurazione e passare diretti all'azione.
 
 
@@ -56,7 +56,6 @@ Questo progetto richiede Java 11 (o una delle versioni successive) per funzionar
 ### MASTERS OF RENAISSANCE'S CLIENT
 Il gioco è disponibile in due versioni: CLI e GUI.
 Di seguito le istruzioni su come lanciare il gioco in entrambe le versioni.
-Le seguenti istruzioni descrivono come eseguire il client con interfaccia CLI o GUI.
 
 #### CLI
 Per poter giocare a Masters of Renaissance in versione CLI, digitare da terminale il comando:

@@ -160,7 +160,7 @@
             <configuration>
               <shadedArtifactAttached>true</shadedArtifactAttached>
               <shadedClassifierName>project-classifier</shadedClassifierName>
-              <outputFile>deliveries/jar/mastersOfRenaissance-client.jar</outputFile>
+              <outputFile>mastersOfRenaissance-client.jar</outputFile>
               <transformers>
                 <transformer
                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
@@ -179,7 +179,7 @@
             <configuration>
               <shadedArtifactAttached>true</shadedArtifactAttached>
               <shadedClassifierName>project-classifier</shadedClassifierName>
-              <outputFile>deliveries/jar/mastersOfRenaissance-server.jar</outputFile>
+              <outputFile>mastersOfRenaissance-server.jar</outputFile>
               <transformers>
                 <transformer
                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">

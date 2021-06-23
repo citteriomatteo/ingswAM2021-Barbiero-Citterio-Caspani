@@ -30,15 +30,15 @@ public class ExtraShelfWarehouseTest extends CommonThingsTest
         Warehouse extrawh2 = new ExtraShelfWarehouse(extrawh1, new PhysicalResource(ResType.values()[rnd.nextInt(5)], 2));
         List<PhysicalResource> shelves = new ArrayList<>();
 
-        PhysicalResource res1 = new PhysicalResource(ResType.values()[1], rnd.nextInt(2));
+        PhysicalResource res1 = new PhysicalResource(ResType.values()[1], rnd.nextInt(1)+1);
         shelves.add(res1);
-        PhysicalResource res2 = new PhysicalResource(ResType.values()[2], rnd.nextInt(3));
+        PhysicalResource res2 = new PhysicalResource(ResType.values()[2], rnd.nextInt(2)+1);
         shelves.add(res2);
-        PhysicalResource res3 = new PhysicalResource(ResType.values()[3], rnd.nextInt(4));
+        PhysicalResource res3 = new PhysicalResource(ResType.values()[3], rnd.nextInt(3)+1);
         shelves.add(res3);
-        PhysicalResource res4 = new PhysicalResource(extrawh2.getWarehouseDisposition().get(3).getType(), rnd.nextInt(3));
+        PhysicalResource res4 = new PhysicalResource(extrawh2.getWarehouseDisposition().get(3).getType(), rnd.nextInt(2)+1);
         shelves.add(res4);
-        PhysicalResource res5 = new PhysicalResource(extrawh2.getWarehouseDisposition().get(4).getType(), rnd.nextInt(3));
+        PhysicalResource res5 = new PhysicalResource(extrawh2.getWarehouseDisposition().get(4).getType(), rnd.nextInt(2)+1);
         shelves.add(res5);
         extrawh2.marketDraw(res1); extrawh2.marketDraw(res2); extrawh2.marketDraw(res3); extrawh2.marketDraw(res4); extrawh2.marketDraw(res5);
         extrawh2.moveInShelf(res1, 1);
@@ -153,7 +153,9 @@ public class ExtraShelfWarehouseTest extends CommonThingsTest
         //"basic-extra switch" ok and not ok test:
         //ok
         extrawh2.switchShelf(1,4);
-        Assertions.assertEquals(extrawh2.getWarehouseDisposition().get(0), whbefore.get(3));
+        System.out.println(extrawh2.getWarehouseDisposition());
+        System.out.println(whbefore);
+        Assertions.assertEquals(extrawh2.getWarehouseDisposition().get(0), new PhysicalResource(ResType.UNKNOWN, 0));
         Assertions.assertEquals(extrawh2.getWarehouseDisposition().get(3), whbefore.get(0));
         extrawh2.switchShelf(1,4);
         assertEquals(whbefore, extrawh2.getWarehouseDisposition());

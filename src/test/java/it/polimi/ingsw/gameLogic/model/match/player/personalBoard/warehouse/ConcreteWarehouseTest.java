@@ -29,11 +29,11 @@ public class ConcreteWarehouseTest
             Warehouse wh = new ConcreteWarehouse();
             List<PhysicalResource> shelves = new ArrayList<>();
 
-            PhysicalResource res1 = new PhysicalResource(ResType.values()[1], rnd.nextInt(2));
+            PhysicalResource res1 = new PhysicalResource(ResType.values()[1], rnd.nextInt(1)+1);
             shelves.add(res1);
-            PhysicalResource res2 = new PhysicalResource(ResType.values()[2], rnd.nextInt(3));
+            PhysicalResource res2 = new PhysicalResource(ResType.values()[2], rnd.nextInt(2)+1);
             shelves.add(res2);
-            PhysicalResource res3 = new PhysicalResource(ResType.values()[3], rnd.nextInt(4));
+            PhysicalResource res3 = new PhysicalResource(ResType.values()[3], rnd.nextInt(3)+1);
             shelves.add(res3);
             wh.marketDraw(res1); wh.marketDraw(res2); wh.marketDraw(res3);
             wh.moveInShelf(res1, 1);
@@ -87,7 +87,7 @@ public class ConcreteWarehouseTest
             Warehouse wh = new ConcreteWarehouse();
 
             //1) exception test (made on the third shelf) -> "no warehouse modify" test
-            PhysicalResource res = new PhysicalResource(ResType.values()[rnd.nextInt(4)+1], rnd.nextInt(4));
+            PhysicalResource res = new PhysicalResource(ResType.values()[rnd.nextInt(4)+1], rnd.nextInt(3)+1);
             wh.marketDraw(res);
             wh.moveInShelf(res, 3);
             PhysicalResource shelfbefore = wh.getWarehouseDisposition().get(2);
