@@ -44,6 +44,11 @@ public class ProductionTest extends CommonThingsTest {
         }
         Production production = new Production(cost, earnings);
         assertTrue(production.getCost().size() <= ResType.values().length, "Wrong dimension of cost List in constructor");
+
+        Production production2 = new Production(production);
+        assertEquals(production2,production);
+        production2 = production.clone();
+        assertEquals(production2,production);
     }
 
     @Test

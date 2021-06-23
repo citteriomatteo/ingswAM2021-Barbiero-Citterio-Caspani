@@ -21,6 +21,8 @@ public class FaithPointTest extends CommonThingsTest {
     public void testCreate() {
 
         assertThrows(InvalidQuantityException.class, ()-> new FaithPoint(-2));
+        FaithPoint faithPoint = new FaithPoint(2);
+        assertEquals(2, faithPoint.getQuantity());
     }
 
     @Test

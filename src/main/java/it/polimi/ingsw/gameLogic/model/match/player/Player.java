@@ -41,25 +41,21 @@ public class Player extends ModelObservable implements Adder, Verificator {
     /**
      * This method sets the initial configuration of the player's leaders.
      * @param handLeaders is the Leaders list
-     * @return false
      */
-    public boolean setInitialHandLeaders(List<LeaderCard> handLeaders) {
+    public void setInitialHandLeaders(List<LeaderCard> handLeaders) {
         this.handLeaders = handLeaders;
-        return true;
     }
 
     /**
      * This method sets the initial configuration of the player's leaders.
      * @param handLeaders is the Leaders list
-     * @return false
      */
-    public boolean setHandLeaders(List<LeaderCard> handLeaders) {
+    public void setHandLeaders(List<LeaderCard> handLeaders) {
         this.handLeaders = handLeaders;
 
         //update_call
         updateHandLeaders(this.nickname, handLeaders);
 
-        return true;
     }
 
     /**
@@ -92,7 +88,7 @@ public class Player extends ModelObservable implements Adder, Verificator {
 
     /**
      * This method sets the temporary dev card.
-     * @return true if the tempdevcard was null before, else false.
+     * @return true if the tempDevCard was null before, else false.
      */
     public boolean setTempDevCard(DevelopmentCard tempDevCard){
         if(this.tempDevCard==null) {
@@ -480,9 +476,8 @@ public class Player extends ModelObservable implements Adder, Verificator {
      *This method takes the Temp DevelopmentCard and puts it in tempDevCard.
      * @param gridR the chosen row
      * @param gridC the chosen column
-     * @return      true
      */
-    public boolean drawDevelopmentCard(int gridR, int gridC) throws NoMoreCardsException, InvalidCardRequestException, LastRoundException {
+    public void drawDevelopmentCard(int gridR, int gridC) throws NoMoreCardsException, InvalidCardRequestException, LastRoundException {
         try {
             setTempDevCard(match.getCardGrid().take(gridR, gridC));
         }
@@ -497,7 +492,6 @@ public class Player extends ModelObservable implements Adder, Verificator {
         updateTempDevCard(this.nickname, this.tempDevCard);
         updateCardGrid(getMatch().getCardGrid());
 
-        return true;
     }
 
 
@@ -505,9 +499,8 @@ public class Player extends ModelObservable implements Adder, Verificator {
      *This method takes the Temp DevelopmentCard from the tempDevCard object and puts it in the DevCardSlot.
      * Requires that the player must have already payed the relative resources himself before.
      * @param slot  the slot in which the card will be inserted
-     * @return      true
      */
-    public boolean insertDevelopmentCard(int slot) throws LastRoundException, InvalidOperationException {
+    public void insertDevelopmentCard(int slot) throws LastRoundException, InvalidOperationException {
         personalBoard.getDevCardSlots().pushNewCard(slot, tempDevCard);
         tempDevCard = null;
 
@@ -519,7 +512,6 @@ public class Player extends ModelObservable implements Adder, Verificator {
             throw new LastRoundException("The player " + this +
                     " has reached " + WINNING_CONDITION_CARDS + " cards in his DevCardSlots");
 
-        return true;
     }
 
     /**

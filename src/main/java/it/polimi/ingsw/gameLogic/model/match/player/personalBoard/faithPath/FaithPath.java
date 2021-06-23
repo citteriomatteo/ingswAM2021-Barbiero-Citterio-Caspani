@@ -89,7 +89,6 @@ public abstract class FaithPath
      */
     public boolean cellCollapse(int pos)
     {
-        System.out.println("collapsing the cell at pos "+pos);
         try {
             faithPath.set(pos, new Cell(faithPath.get(pos).getWinPoints(), faithPath.get(pos).getReportSection()));
         }

@@ -2,22 +2,28 @@ package it.polimi.ingsw.gameLogic.model.essentials.leader;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.gameLogic.model.essentials.*;
 import it.polimi.ingsw.gameLogic.exceptions.*;
-import it.polimi.ingsw.gameLogic.model.match.*;
+import it.polimi.ingsw.gameLogic.model.essentials.CardColor;
+import it.polimi.ingsw.gameLogic.model.essentials.CardType;
+import it.polimi.ingsw.gameLogic.model.essentials.PhysicalResource;
+import it.polimi.ingsw.gameLogic.model.essentials.ResType;
+import it.polimi.ingsw.gameLogic.model.match.CommonThingsTest;
+import it.polimi.ingsw.gameLogic.model.match.Match;
+import it.polimi.ingsw.gameLogic.model.match.MatchConfiguration;
+import it.polimi.ingsw.gameLogic.model.match.MultiMatch;
 import it.polimi.ingsw.gameLogic.model.match.player.Player;
 import it.polimi.ingsw.gameLogic.model.match.player.personalBoard.PersonalBoard;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.*;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
+import static it.polimi.ingsw.gameLogic.model.match.MatchConfiguration.assignConfiguration;
 import static it.polimi.ingsw.jsonUtilities.GsonHandler.effectConfig;
 import static it.polimi.ingsw.jsonUtilities.GsonHandler.requirableConfig;
-import static it.polimi.ingsw.gameLogic.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LeaderCardTest extends CommonThingsTest {
@@ -69,10 +75,11 @@ public class LeaderCardTest extends CommonThingsTest {
     // Test the activation of all kinds of leaders
     // It prepares the match with a player and then activate all the four leaders in his hand
     // verifying that have had the desired effect
-    @Test
+    @RepeatedTest(5)
     public void leaderActivationTest() throws WrongSettingException, SingleMatchException {
-        PhysicalResource effectResource;
+        muteOutput();
 
+        PhysicalResource effectResource;
         List<Player> players = new ArrayList<>(List.of(new Player("Giorgio"), new Player("Luca")));
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
         setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(),matchConfiguration.getBasicProduction());
@@ -87,6 +94,7 @@ public class LeaderCardTest extends CommonThingsTest {
             leader = handLeaders.get(i);
             effect = leader.getEffect();
             System.out.println("--> Found a " + effect.getClass().getName() + " leader");
+            System.out.println(effect);
 
             if (effect instanceof DiscountEffect) {
                 effectResource = ((DiscountEffect) effect).getDiscount();
@@ -118,6 +126,9 @@ public class LeaderCardTest extends CommonThingsTest {
                 int evolvedDimension = personalBoard.getActiveProductionLeaders().size();
                 assertEquals(previousDimension+1, evolvedDimension);
             }
+
+            assertTrue(effect.toCLIString().replaceAll("\\s","").contains(effect.getEffectSymbol()));
+
         }
     }
 
@@ -151,6 +162,7 @@ public class LeaderCardTest extends CommonThingsTest {
         joe.drawDevelopmentCard(1, CardColor.GREEN.getVal());
         joe.insertDevelopmentCard(2);
         assertTrue(slotLeader.isActivable(joe));
+
     }
 
 }

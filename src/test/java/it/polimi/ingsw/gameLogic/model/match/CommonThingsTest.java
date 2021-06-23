@@ -6,9 +6,12 @@ import it.polimi.ingsw.gameLogic.model.match.player.Player;
 import it.polimi.ingsw.gameLogic.model.match.player.personalBoard.faithPath.Cell;
 import it.polimi.ingsw.gameLogic.model.observer.ModelObserver;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.*;
 
 public class CommonThingsTest {
+    private static final boolean showPrint = false;
 
     public Map<String, Card> getCardMap(MatchConfiguration configuration) {
         Map<String, Card> cardMap = new HashMap<>();
@@ -30,4 +33,14 @@ public class CommonThingsTest {
 
     }
 
+    //if static variable ShowPrint is false redirect the output to not show system.out.println on screen
+    public void muteOutput() {
+
+        if(!showPrint) {
+            try {
+                ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+                System.setOut(new PrintStream(buffer));
+            } catch (Exception ignored) { }
+        }
+    }
 }

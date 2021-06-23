@@ -544,7 +544,6 @@ public class MatchController {
                 lorenzoWon = true;
 
             e.getRanking().put("Lorenzo \nthe Magnificent", (lorenzoWon ? 999 : -1));
-            System.out.println("putting Lorenzo to " + (lorenzoWon ? 999 : -1) + "points in the ranking");
 
 
         }

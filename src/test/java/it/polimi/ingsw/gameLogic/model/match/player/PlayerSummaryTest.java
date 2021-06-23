@@ -80,6 +80,8 @@ public class PlayerSummaryTest extends CommonThingsTest
 
     @Test
     public void updateStrongboxTest() throws WrongSettingException, SingleMatchException, NegativeQuantityException {
+        muteOutput();
+
         Player player1 = new Player("player1");
         Player player2 = new Player("player2");
         Player player3 = new Player("player3");
@@ -161,6 +163,8 @@ public class PlayerSummaryTest extends CommonThingsTest
 
     @Test
     public void updateActiveLeaders() throws WrongSettingException, SingleMatchException {
+        muteOutput();
+
         Player player1 = new Player("player1");
         Player player2 = new Player("player2");
         Player player3 = new Player("player3");

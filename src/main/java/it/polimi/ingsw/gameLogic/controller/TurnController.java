@@ -62,7 +62,7 @@ public class TurnController {
     /**
      * This method goes on with the turn, return the new state of the player and eventually notifying the end of match.
      * @return a StateName
-     * @throws MatchEndedException when the match is really finshed (the last round has finished)
+     * @throws MatchEndedException when the match is really finished (the last round has finished)
      * @return the current State of the player, after the new turn rotation
      */
     public StateName nextTurn() throws MatchEndedException {

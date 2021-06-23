@@ -17,6 +17,8 @@ public class VaticanReportCellTest extends CommonThingsTest
     @Test
     public void generalInstructionCoverageTest() throws WrongSettingException, LastRoundException
     {
+        muteOutput();
+
         Player player = new Player("player1");
         MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
         setSummary(player, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());

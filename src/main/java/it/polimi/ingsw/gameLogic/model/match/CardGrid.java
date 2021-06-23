@@ -140,7 +140,7 @@ public class  CardGrid {
      * @return true if an empty column exists, false elsewhere.
      */
     public boolean emptyColumnExists() {
-        for(int i = 0; i < CardColor.values().length; i++)
+        for(int i = 1; i <= CardColor.values().length; i++)
             try {
                 if(isEmpty(1,i) && isEmpty(2,i) && isEmpty(3,i))
                     return true;

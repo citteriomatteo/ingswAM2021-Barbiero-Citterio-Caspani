@@ -89,6 +89,10 @@ public class CardGridTest extends CommonThingsTest {
                         new ArrayList<>(List.of(new FaithPoint(1)))), 1);
 
         assertEquals(cardExpected, card);
+        grid.take(2,CardColor.GREEN.getVal());
+        grid.take(3,CardColor.GREEN.getVal());
+
+        assertTrue(grid.emptyColumnExists());
 
     }
 

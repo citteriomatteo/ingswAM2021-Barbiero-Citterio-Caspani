@@ -1,6 +1,5 @@
 package it.polimi.ingsw.gameLogic.model.essentials;
 
-
 import it.polimi.ingsw.gameLogic.exceptions.InvalidOperationException;
 import it.polimi.ingsw.gameLogic.exceptions.InvalidQuantityException;
 import it.polimi.ingsw.gameLogic.exceptions.WrongSettingException;
@@ -18,7 +17,6 @@ import static it.polimi.ingsw.gameLogic.model.match.MatchConfiguration.assignCon
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CardTypeTest extends CommonThingsTest {
-    private Player player;
 
     @Test
     public void testEquals() throws InvalidQuantityException {
@@ -32,6 +30,12 @@ public class CardTypeTest extends CommonThingsTest {
         assertNotEquals(card1, card4);
         assertNotEquals(card3, card4);
 
+    }
+
+    @Test
+    public void testIsResource(){
+        Requirable card = new CardType(CardColor.BLUE, 2, 3);
+        assertFalse(card.isAResource());
     }
 
     @Test
@@ -51,7 +55,7 @@ public class CardTypeTest extends CommonThingsTest {
                 new Production(new ArrayList<>(List.of(new PhysicalResource(ResType.COIN, 1))),
                         new ArrayList<>(List.of(new FaithPoint(1)))), 1);
 
-        player = new Player("player1");
+        Player player = new Player("player1");
         MatchConfiguration configuration = assignConfiguration("src/test/resources/PartialFreeConfiguration.json");
         setSummary(player, getCardMap(configuration), configuration.getCustomPath(), configuration.getBasicProduction());
         Match match = new SingleMatch(player);

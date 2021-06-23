@@ -258,7 +258,6 @@ public class PlayerHandler implements Runnable, ControlBase {
      */
     public synchronized void keepAlive(){
         out.println("ping");
-      //  System.out.println("send ping to " + getNickname() + " at " + new Timestamp(System.currentTimeMillis()));
     }
 
     /**

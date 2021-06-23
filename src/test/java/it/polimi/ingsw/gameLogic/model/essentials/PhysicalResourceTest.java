@@ -17,7 +17,7 @@ import static it.polimi.ingsw.gameLogic.model.match.MatchConfiguration.assignCon
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PhysicalResourceTest extends CommonThingsTest {
-    private Player player = new Player("player1");
+    private final Player player = new Player("player1");
 
     @Test
     public void testCreate() {
@@ -29,8 +29,14 @@ public class PhysicalResourceTest extends CommonThingsTest {
             assertThrows(NegativeQuantityException.class, ()-> new PhysicalResource(ResType.values()[randomType], randomQuantity));
         }
 
-
     }
+
+    @Test
+    public void testIsResource(){
+        Requirable resource = new PhysicalResource(ResType.STONE, 3);
+        assertTrue(resource.isAResource());
+    }
+
     @Test
     public void testEquals() throws NegativeQuantityException {
         PhysicalResource resource1 = new PhysicalResource(ResType.STONE, 3);

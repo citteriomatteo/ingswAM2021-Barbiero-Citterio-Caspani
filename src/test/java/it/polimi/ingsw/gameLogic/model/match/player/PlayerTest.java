@@ -62,7 +62,7 @@ public class PlayerTest extends CommonThingsTest
 
         /*tests that player has exactly floor(16/5)=3 points for the resources, 5 points for the pope tiles and 12 for the faith path.
         player1 has only floor(20/5)=4 points for the resources instead.*/
-        assertEquals(20,player.totalWinPoints());  //todo: fix test
+        assertEquals(20,player.totalWinPoints());
         assertEquals(4,player1.totalWinPoints());
     }
 

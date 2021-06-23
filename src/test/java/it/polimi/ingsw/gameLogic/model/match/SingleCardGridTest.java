@@ -3,12 +3,9 @@ package it.polimi.ingsw.gameLogic.model.match;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.gameLogic.exceptions.*;
+import it.polimi.ingsw.gameLogic.model.essentials.*;
 import it.polimi.ingsw.jsonUtilities.GsonHandler;
-import it.polimi.ingsw.gameLogic.model.essentials.CardColor;
-import it.polimi.ingsw.gameLogic.model.essentials.CardType;
-import it.polimi.ingsw.gameLogic.model.essentials.DevelopmentCard;
-import it.polimi.ingsw.gameLogic.exceptions.LastRoundException;
-import it.polimi.ingsw.gameLogic.exceptions.WrongSettingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,6 +13,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -59,6 +57,17 @@ public class SingleCardGridTest {
         assertThrows(LastRoundException.class, ()->grid.discard(CardColor.GREEN));
     }
 
+    @Test
+    public void takeTest() throws InvalidCardRequestException, NoMoreCardsException, InvalidQuantityException, LastRoundException {
+        DevelopmentCard card = grid.take(1,CardColor.GREEN.getVal());
+        DevelopmentCard cardExpected = new DevelopmentCard(new CardType(CardColor.GREEN, 1),
+                new ArrayList<>(List.of(new PhysicalResource(ResType.SHIELD, 2))),
+                new Production(new ArrayList<>(List.of(new PhysicalResource(ResType.COIN, 1))),
+                        new ArrayList<>(List.of(new FaithPoint(1)))), 1);
+
+        assertEquals(cardExpected, card);
+
+    }
 
     @Test
     public void discardTest(){

@@ -43,7 +43,7 @@ public class SlotEffect implements Effect{
     @Override
     public String toString() {
         return "SlotEffect{" +
-                "extraShelf=" + extraShelf +
+                "extraShelf=" + getExtraShelf() +
                 '}';
     }
 
