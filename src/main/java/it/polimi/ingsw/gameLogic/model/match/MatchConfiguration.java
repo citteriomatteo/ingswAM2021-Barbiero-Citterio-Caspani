@@ -9,6 +9,7 @@ import it.polimi.ingsw.gameLogic.model.match.player.personalBoard.faithPath.Cell
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -58,7 +59,8 @@ public class MatchConfiguration
      * @return a list of cell that represents the custom FaithPath in this configuration
      */
     public List<Cell> getCustomPath() {
-        return customPath;
+        List<Cell> clonedPath = new ArrayList<>(customPath);
+        return clonedPath;
     }
     /**
      * @return the custom basicProduction of this configuration
