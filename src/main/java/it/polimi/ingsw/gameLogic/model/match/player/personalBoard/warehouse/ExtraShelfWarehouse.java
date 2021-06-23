@@ -129,7 +129,7 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
                 throw new InvalidQuantityException("The resource is not present in the marketBuffer! Operation failed.");
 
             if((res.getQuantity()+extraShelf.getQuantity())>shelfSize ||
-                    (!res.getType().equals(extraShelf.getType()) && !res.getType().equals(ResType.UNKNOWN)))
+                    (!res.getType().equals(extraShelf.getType()) && res.getQuantity() > 0))
                 throw new ShelfInsertException("Error in leader shelf insert procedure! Operation cancelled.");
 
             //Shelf update:
@@ -218,9 +218,15 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
                 for (int i = 0; i < 3; i++)
                     if (i != (shelf1 - 1) && disp.get(i).getType().equals(disp.get(shelf2 - 1).getType()))
                         throw new ShelfInsertException("Impossible switch: resource type" + disp.get(shelf2 - 1).getType() + " is already present on basic warehouse.");
+
+                if(!disp.get(shelf2 - 1).getType().equals(disp.get(shelf1 - 1).getType())
+                        && !disp.get(shelf1 - 1).getType().equals(ResType.UNKNOWN))
+                    throw new ShelfInsertException("Impossible switch: the leader does not accept the resource in the shelf "+shelf1);
+
             }
             else
-                if(!disp.get(shelf1-1).getType().equals(disp.get(shelf2-1).getType()))
+                if(!disp.get(shelf1-1).getType().equals(disp.get(shelf2-1).getType())
+                && !(disp.get(shelf1-1).getQuantity() == 0 && disp.get(shelf2-1).getQuantity() == 0))
                     throw new ShelfInsertException("Impossible switch: two leaders slots are not compatible.");
 
             PhysicalResource buffRes1= take(shelf1, getWarehouseDisposition().get(shelf1-1).getQuantity());
@@ -231,6 +237,7 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
                 moveInShelf(buffRes1, shelf2);
             }
             catch(InvalidQuantityException | ShelfInsertException e){
+                //already checked before the possibility of the move: system has to close in case this exceptions happen
                 System.err.println("System shutdown due to an internal error."); System.exit(1);
             }
         }
