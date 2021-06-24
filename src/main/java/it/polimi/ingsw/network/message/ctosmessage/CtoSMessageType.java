@@ -12,6 +12,7 @@ public enum CtoSMessageType implements MessageType
     NUM_PLAYERS(0),
     BINARY_SELECTION(0),
     CONFIGURE(0),
+    ADD_FAITH(1),
     LEADERS_CHOICE(2),
     STARTING_RESOURCES(2),
     SWITCH_SHELF(2),

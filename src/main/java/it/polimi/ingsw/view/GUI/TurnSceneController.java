@@ -70,6 +70,8 @@ public class TurnSceneController{
     public ImageView tokenDrawn;
     public Label remainingTokens;
 
+    public Button faithButton;
+
     private final LightMatch match;
     private final LightPlayer player;
 
@@ -103,6 +105,7 @@ public class TurnSceneController{
         player = match.getLightPlayer(getClient().getNickname());
 
         initializeTemporaryVariables();
+
     }
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%% UTILITY FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1144,9 +1147,9 @@ public class TurnSceneController{
                 numUEarnings += 1;
                 productionPane.setDisable(false);
                 productionPane.setVisible(true);
-                productionPane.getChildren().get(0).setVisible(false);
                 productionPane.getChildren().get(1).setVisible(false);
-                productionPane.getChildren().get(1).setDisable(true);
+                productionPane.getChildren().get(2).setVisible(false);
+                productionPane.getChildren().get(2).setDisable(true);
             }
             else{
                 imageViewCard.setEffect(null);
@@ -1895,7 +1898,15 @@ public class TurnSceneController{
         JavaFXGUI.popUpWarning(errMessage);
     }
 
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CHEATING %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+    /**
+     * Creates a new AddFaithMessage and sends it to the server.
+     */
+    @FXML
+    public void addFaith() {
+        (new AddFaithMessage(player.getNickname())).send();
+    }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LAST ROUND FUNCTIONS  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     /**
