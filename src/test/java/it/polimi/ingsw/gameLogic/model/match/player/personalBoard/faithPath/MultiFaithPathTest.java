@@ -32,9 +32,9 @@ public class MultiFaithPathTest extends FaithPathTest {
             WrongSettingException, LastRoundException {
         List<Player> players = new ArrayList<>(List.of(new Player("player1"),
                 new Player("player2"), new Player("player3")));
-        MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/TotalFreeConfiguration.json");
+        MatchConfiguration matchConfiguration = assignConfiguration("src/test/resources/StandardConfiguration.json");
+        Match match = new MultiMatch(players, matchConfiguration);
         setSummaries(players, getCardMap(matchConfiguration), matchConfiguration.getCustomPath(), matchConfiguration.getBasicProduction());
-        Match match = new MultiMatch(players);
 
         match.getCurrentPlayer().addFaithPoints(9);
         assertEquals(match.getPlayers().get(0).getPersonalBoard().getFaithPath().getPopeTiles().get(0),1);
@@ -55,6 +55,9 @@ public class MultiFaithPathTest extends FaithPathTest {
         //"last vatican report before ending" test;
         match.nextTurn();
         assertThrows(LastRoundException.class, ()->match.getCurrentPlayer().addFaithPoints(24));
+        System.out.println("p1: "+match.getPlayers().get(0).getPersonalBoard().getFaithPath().getPopeTiles());
+        System.out.println("p2: "+match.getPlayers().get(1).getPersonalBoard().getFaithPath().getPopeTiles());
+        System.out.println("p3: "+match.getPlayers().get(2).getPersonalBoard().getFaithPath().getPopeTiles());
 
         tiles = match.getPlayers().get(0).getPersonalBoard().getFaithPath().getPopeTiles();
         assertEquals(1,tiles.get(0)); assertEquals(2,tiles.get(1)); assertEquals(2,tiles.get(2));

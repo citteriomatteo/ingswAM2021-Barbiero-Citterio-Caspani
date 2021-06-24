@@ -56,11 +56,12 @@ public class MatchConfiguration
         return allLeaderCards;
     }
     /**
+     * Modified getter: returns a copy of the faith track (useful in order not to modify the real version, for rematches).
      * @return a list of cell that represents the custom FaithPath in this configuration
      */
     public List<Cell> getCustomPath() {
-        List<Cell> clonedPath = new ArrayList<>(customPath);
-        return clonedPath;
+        List<Cell> cloned = new ArrayList<>(customPath);
+        return cloned;
     }
     /**
      * @return the custom basicProduction of this configuration

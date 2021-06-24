@@ -72,15 +72,17 @@ public class MultiMatch extends Match {
         this.players = players;
         this.currentPlayer = players.get(0);
         this.cardGrid = new CardGrid(matchConfiguration.getAllDevCards());
+
+        ArrayList<Cell> customPath = (ArrayList<Cell>) matchConfiguration.getCustomPath();
         for (int i = 0; i < 2; i++) {
-            players.get(i).setPersonalBoard(new PersonalBoard((ArrayList<Cell>) matchConfiguration.getCustomPath(), 0, matchConfiguration.getBasicProduction(), players.get(i)));
+            players.get(i).setPersonalBoard(new PersonalBoard(customPath, 0, matchConfiguration.getBasicProduction(), players.get(i)));
             players.get(i).setMatch(this);
 
             players.get(i).setInitialHandLeaders(getLeaderStack().draw(4));
         }
         if (players.size() > 2) {
             for (int j = 2; j < players.size(); j++) {
-                players.get(j).setPersonalBoard(new PersonalBoard((ArrayList<Cell>) matchConfiguration.getCustomPath(), 1, matchConfiguration.getBasicProduction(), players.get(j)));
+                players.get(j).setPersonalBoard(new PersonalBoard(customPath, 1, matchConfiguration.getBasicProduction(), players.get(j)));
                 players.get(j).setMatch(this);
                 players.get(j).setInitialHandLeaders(getLeaderStack().draw(4));
 

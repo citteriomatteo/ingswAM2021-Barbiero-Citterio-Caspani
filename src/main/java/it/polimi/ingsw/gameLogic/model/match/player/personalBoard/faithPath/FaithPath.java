@@ -112,7 +112,6 @@ public abstract class FaithPath
         else
             setPopeTile(section - 1, 1);
 
-
         return true;
     }
 
