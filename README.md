@@ -5,9 +5,11 @@ Benvenuti nel gioco da tavolo "Maestri del Rinascimento", in versione digitale!
 ![alt text](src/main/resources/it/polimi/ingsw/view/GUI/images/newLogo.jpg)
 
 La versione da noi proposta sfrutta il pattern __Model-View-Controller__ per permettere che un solo server, hostato su macchina, sia in grado di gestire differenti partite in simultanea, ciascuna composta da un massimo di 4 giocatori.
-Tutto ciò che riguarda comunicazione tra i giocatori e il server centrale, connessioni, disconnessioni e riconnessioni è interamente gestito utilizzando le Socket come canale comunicativo.
+Tutto ciò che riguarda comunicazione tra i giocatori e il server centrale, connessioni, disconnessioni e riconnessioni è interamente gestito utilizzando Socket TCP come canale comunicativo.
 
 Inoltre, è possibile giocare a "Maestri del Rinascimento" in due differenti modalità: da linea di comando (CLI), con grafica avanzata (GUI).
+
+Prima di iniziare a giocare, consultare il [regolamento di Masters Of Renaissance](https://github.com/citteriomatteo/ingswAM2021-Barbiero-Citterio-Caspani/tree/main/deliveries/Masters%20of%20Renaissance_Rules_ITA.pdf) per scoprire tutte le caratteristiche del gioco.
 
 ## Documentazione
 
@@ -33,7 +35,7 @@ L'intera documentazione del progetto, tra classi e funzioni, è presente al segu
 - Regolamento Completo
 - Versione CLI
 - Versione GUI
-- Utilizzo di Socket
+- Utilizzo di Socket TCP
 - 2 Features aggiuntive:
     - __Resilienza alle Disconnessioni:__ un giocatore è libero di disconnettersi e riconnettersi in seguito in partita, riaccedendo con lo stesso nickname.
       Lo stato del giocatore viene mantenuto anche nel mezzo di un turno semi-completato, dandogli la possibilità, una volta che il turno tornerà suo, di riprendere dal punto esatto in cui era rimasto.
@@ -55,6 +57,9 @@ Questo progetto richiede Java 11 (o una delle versioni successive) per funzionar
 
 ### MASTERS OF RENAISSANCE'S CLIENT
 Il gioco è disponibile in due versioni: CLI e GUI.
+
+Per godere della massima esperienza di gioco, è necessaria una minima risoluzione schermo di 1024x768 per giocare con grafica avanzata e avviare la versione CLI su un qualsiasi terminale Unix (preferibilmente con Line Wrapping disabilitato).
+
 Di seguito le istruzioni su come lanciare il gioco in entrambe le versioni.
 
 #### CLI
@@ -79,7 +84,7 @@ java -jar mastersOfRenaissance-client.jar --gui
 dopo essersi posizionati nella directory in cui risiedono i jar.
 
 #### Parametri di lancio del Client
-Il Client, una volta eseguito, cercherà di connettersi ad un server in esecuzione su macchina locale (127.0.0.1) alla porta 1337.
+Il Client, una volta eseguito, cercherà di connettersi ad un server in esecuzione su macchina locale (127.0.0.1) alla porta 2500.
 Per cambiare i parametri di connessione, aggiungere in fondo al comando da terminale i seguenti settaggi opzionali:
 - `--ip` `<ip>`,
   `--address` `<ip>`: per modificare l'indirizzo IP del server;
@@ -90,7 +95,7 @@ Per lanciare Masters of Renaissance Server è necessario aprire il terminale, po
 ```
 java -jar mastersOfRenaissance-server.jar
 ```
-Il server verrà lanciato in macchina locale e la porta utilizzata per la comunicazione viene presa come argomento da terminale.
+Il server verrà lanciato in macchina locale e la porta utilizzata per la comunicazione viene presa come argomento da terminale, oppure quella di default (2337) se non diversamente specificata.
 
 ## Membri del team
 - [__Federico Caspani__](https://github.com/FedericoCaspani)
