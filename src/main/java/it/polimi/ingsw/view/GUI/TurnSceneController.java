@@ -1483,14 +1483,25 @@ public class TurnSceneController{
     }
 
     /**
-     * Controls if the grandParent of the source is the same of the gesture source, if not -> the drop is acceptable
+     * Checks if source of the dragEvent is compatible with the gestureSource and in case accept the transferMode "MOVE"
      * @param dragEvent the relative dragEvent
      */
     @FXML
     public void acceptDrop(DragEvent dragEvent) {
         Node gestureSource = (Node)dragEvent.getGestureSource();
-        if(!gestureSource.equals(tempDevCard) && !((gestureSource.getParent().getParent()).equals(((Node) dragEvent.getSource()).getParent().getParent())))
-            dragEvent.acceptTransferModes(TransferMode.MOVE);
+        Node source = (Node) dragEvent.getSource();
+        if(gestureSource.equals(tempDevCard)){
+            if(source.getParent().getParent().equals(devCardSlots))
+                dragEvent.acceptTransferModes(TransferMode.MOVE);
+        }
+        else if(gestureSource.getParent().equals(marketBufferBox)){
+            if(source.getParent().getParent().equals(warehousePane))
+                dragEvent.acceptTransferModes(TransferMode.MOVE);
+        }
+        else if(gestureSource.getParent().getParent().equals(warehousePane) || gestureSource.getParent().getParent().equals(strongBox)) {
+            if (source.getParent().equals(paymentsPane))
+                dragEvent.acceptTransferModes(TransferMode.MOVE);
+        }
 
         dragEvent.consume();
     }
