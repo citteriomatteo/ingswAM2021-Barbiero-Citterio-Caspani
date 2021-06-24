@@ -199,7 +199,7 @@
                         <Image url="@../images/board/faithMarker.png" />
                      </image>
                   </ImageView>
-                  <ImageView id="step20" fitHeight="74.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="14" GridPane.halignment="CENTER">
+                  <ImageView id="step18" fitHeight="74.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="12" GridPane.halignment="CENTER">
                      <image>
                         <Image url="@../images/board/faithMarker.png" />
                      </image>
@@ -209,7 +209,7 @@
                         <Image url="@../images/board/faithMarker.png" />
                      </image>
                   </ImageView>
-                  <ImageView id="step18" fitHeight="74.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="12" GridPane.halignment="CENTER">
+                  <ImageView id="step20" fitHeight="74.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="14" GridPane.halignment="CENTER">
                      <image>
                         <Image url="@../images/board/faithMarker.png" />
                      </image>
@@ -1167,7 +1167,7 @@
                               <Image url="@../images/board/faithMarker.png" />
                            </image>
                         </ImageView>
-                        <ImageView id="step20" fitHeight="74.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="14" GridPane.halignment="CENTER">
+                        <ImageView id="step18" fitHeight="74.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="12" GridPane.halignment="CENTER">
                            <image>
                               <Image url="@../images/board/faithMarker.png" />
                            </image>
@@ -1177,7 +1177,7 @@
                               <Image url="@../images/board/faithMarker.png" />
                            </image>
                         </ImageView>
-                        <ImageView id="step18" fitHeight="74.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="12" GridPane.halignment="CENTER">
+                        <ImageView id="step20" fitHeight="74.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="14" GridPane.halignment="CENTER">
                            <image>
                               <Image url="@../images/board/faithMarker.png" />
                            </image>
@@ -1496,7 +1496,7 @@
                               <Image url="@../images/board/faithMarker.png" />
                            </image>
                         </ImageView>
-                        <ImageView id="step20" fitHeight="74.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="14" GridPane.halignment="CENTER">
+                        <ImageView id="step18" fitHeight="74.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="12" GridPane.halignment="CENTER">
                            <image>
                               <Image url="@../images/board/faithMarker.png" />
                            </image>
@@ -1506,7 +1506,7 @@
                               <Image url="@../images/board/faithMarker.png" />
                            </image>
                         </ImageView>
-                        <ImageView id="step18" fitHeight="74.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="12" GridPane.halignment="CENTER">
+                        <ImageView id="step20" fitHeight="74.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="14" GridPane.halignment="CENTER">
                            <image>
                               <Image url="@../images/board/faithMarker.png" />
                            </image>
@@ -1829,7 +1829,7 @@
                               <Image url="@../images/board/faithMarker.png" />
                            </image>
                         </ImageView>
-                        <ImageView id="step20" fitHeight="74.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="14" GridPane.halignment="CENTER">
+                        <ImageView id="step18" fitHeight="74.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="12" GridPane.halignment="CENTER">
                            <image>
                               <Image url="@../images/board/faithMarker.png" />
                            </image>
@@ -1839,7 +1839,7 @@
                               <Image url="@../images/board/faithMarker.png" />
                            </image>
                         </ImageView>
-                        <ImageView id="step18" fitHeight="74.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="12" GridPane.halignment="CENTER">
+                        <ImageView id="step20" fitHeight="74.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" visible="false" GridPane.columnIndex="14" GridPane.halignment="CENTER">
                            <image>
                               <Image url="@../images/board/faithMarker.png" />
                            </image>
