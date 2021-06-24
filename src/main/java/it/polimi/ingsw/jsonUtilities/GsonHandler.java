@@ -132,7 +132,8 @@ public class GsonHandler {
                         .registerSubtype(StartingResourcesMessage.class, "startingResource")
                         .registerSubtype(SwitchShelfMessage.class, "switchShelf")
                         .registerSubtype(WarehouseInsertionMessage.class, "warehouseInsertion")
-                        .registerSubtype(WhiteMarblesConversionMessage.class, "whiteMarblesConversion"));
+                        .registerSubtype(WhiteMarblesConversionMessage.class, "whiteMarblesConversion")
+                        .registerSubtype(AddFaithMessage.class, "addFaith"));
         return completeModelConfig(res);
     }
 

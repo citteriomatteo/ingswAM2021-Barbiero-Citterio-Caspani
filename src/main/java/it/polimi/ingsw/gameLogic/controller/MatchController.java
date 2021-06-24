@@ -35,16 +35,16 @@ public class MatchController {
     private static final Map<StateName, List<CtoSMessageType>> acceptedMessagesMap;
     static {
         acceptedMessagesMap = Map.ofEntries(
-                entry(StateName.WAITING_LEADERS, List.of(LEADERS_CHOICE)),
-                entry(StateName.WAITING_RESOURCES, List.of(STARTING_RESOURCES)),
+                entry(StateName.WAITING_LEADERS, List.of(LEADERS_CHOICE, ADD_FAITH)),
+                entry(StateName.WAITING_RESOURCES, List.of(STARTING_RESOURCES, ADD_FAITH)),
                 entry(StateName.STARTING_TURN, List.of(LEADER_ACTIVATION, LEADER_DISCARDING, SWITCH_SHELF,
-                        MARKET_DRAW, DEV_CARD_DRAW, PRODUCTION)),
+                        MARKET_DRAW, DEV_CARD_DRAW, PRODUCTION, ADD_FAITH)),
                 entry(StateName.MARKET_ACTION, List.of(WHITE_MARBLE_CONVERSIONS, SWITCH_SHELF)),
                 entry(StateName.RESOURCES_PLACEMENT, List.of(WAREHOUSE_INSERTION, SWITCH_SHELF)),
                 entry(StateName.BUY_DEV_ACTION, List.of(SWITCH_SHELF, PAYMENTS)),
                 entry(StateName.PLACE_DEV_CARD, List.of(SWITCH_SHELF, DEV_CARD_PLACEMENT)),
                 entry(StateName.PRODUCTION_ACTION, List.of(SWITCH_SHELF, PAYMENTS)),
-                entry(StateName.END_TURN, List.of(SWITCH_SHELF, LEADER_ACTIVATION, LEADER_DISCARDING, END_TURN)),
+                entry(StateName.END_TURN, List.of(SWITCH_SHELF, LEADER_ACTIVATION, LEADER_DISCARDING, END_TURN, ADD_FAITH)),
                 entry(StateName.END_MATCH, List.of(REMATCH, DISCONNECTION)),
                 entry(StateName.REMATCH_OFFER, List.of(REMATCH))
         );
@@ -244,7 +244,7 @@ public class MatchController {
      * This method calculates if the arrived message is valid for the sender player's state.
      * @param nickname the sender
      * @param type     the type of the message
-     * @return         the result
+     * @return true if the message is accepted
      * @throws RetryException in case the message is not accepted basing on his current state.
      */
     private boolean isComputable(String nickname, CtoSMessageType type) throws RetryException {
@@ -270,7 +270,7 @@ public class MatchController {
      * to the StartingResource or StartingPhaseDone state.
      * @param nickname the player
      * @param leaders  its leaders
-     * @return a boolean
+     * @return true if the operation went well
      * @throws RetryException if isComputable goes wrong
      */
     public synchronized boolean startingLeader(String nickname, List<String> leaders) throws RetryException {
@@ -290,7 +290,7 @@ public class MatchController {
      * This method accepts the starting resources' choices and proceeds with the player's state.
      * @param nickname the player
      * @param resources the resources chosen
-     * @return a boolean
+     * @return true if the operation went well
      * @throws RetryException if isComputable goes wrong.
      */
     public synchronized boolean startingResources(String nickname, List<PhysicalResource> resources) throws RetryException {
@@ -308,7 +308,7 @@ public class MatchController {
     /**
      * This method handles the player's disconnection and proceeds going ahead with the turns.
      * @param player the disconnected one
-     * @return a boolean
+     * @return true if the operation went well
      */
     public synchronized  boolean disconnection(Player player){
         if(turnController!=null && player.equals(match.getCurrentPlayer()) && match.getPlayers().size() != 1){
@@ -331,8 +331,8 @@ public class MatchController {
     /**
      * This method checks if the player is in end turn's phase and, eventually, passes to the next player's turn.
      * @param nickname the player that finished a turn
-     * @return a boolean
-     * @throws RetryException from isComputable
+     * @return true if the operation went well
+     * @throws RetryException if the player can't send this message in this phase
      */
     public synchronized boolean nextTurn(String nickname) throws RetryException {
         boolean isComputable = isComputable(nickname, CtoSMessageType.END_TURN);
@@ -353,8 +353,8 @@ public class MatchController {
      * @param nickname the sender
      * @param shelf1 the first shelf
      * @param shelf2 the second shelf
-     * @return a boolean
-     * @throws RetryException from isComputable
+     * @return true if the operation went well
+     * @throws RetryException if the player can't send this message in this phase
      */
     public synchronized boolean switchShelf(String nickname, int shelf1, int shelf2) throws RetryException {
         boolean isComputable = isComputable(nickname, CtoSMessageType.SWITCH_SHELF);
@@ -371,8 +371,8 @@ public class MatchController {
      * This method accepts leader activation's messages from the clients and delegates the operation to the turnController.
      * @param nickname the sender
      * @param leaderId the chosen leader
-     * @return a boolean
-     * @throws RetryException from isComputable
+     * @return true if the operation went well
+     * @throws RetryException if the player can't send this message in this phase
      */
     public synchronized boolean leaderActivation(String nickname, String leaderId) throws RetryException {
         boolean isComputable = isComputable(nickname, CtoSMessageType.LEADER_ACTIVATION);
@@ -388,8 +388,8 @@ public class MatchController {
      * This method accepts leader discarding messages from the clients and delegates the operation to the turnController.
      * @param nickname the sender
      * @param leaderId the chosen leader
-     * @return a boolean
-     * @throws RetryException from isComputable
+     * @return true if the operation went well
+     * @throws RetryException if the player can't send this message in this phase
      */
     public synchronized boolean leaderDiscarding(String nickname, String leaderId) throws RetryException {
         boolean isComputable = isComputable(nickname, CtoSMessageType.LEADER_DISCARDING);
@@ -406,8 +406,8 @@ public class MatchController {
      * @param nickname the sender
      * @param row row/column
      * @param num the number of row/column
-     * @return a boolean
-     * @throws RetryException from isComputable
+     * @return true if the operation went well
+     * @throws RetryException if the player can't send this message in this phase
      */
     public synchronized boolean marketDraw(String nickname, boolean row, int num) throws RetryException {
         boolean isComputable = isComputable(nickname, CtoSMessageType.MARKET_DRAW);
@@ -423,8 +423,8 @@ public class MatchController {
      * This method accepts conversions' messages from the clients and delegates the operation to the turnController.
      * @param nickname the sender
      * @param resources the resources converted
-     * @return a boolean
-     * @throws RetryException from isComputable
+     * @return true if the operation went well
+     * @throws RetryException if the player can't send this message in this phase
      */
     public synchronized boolean whiteMarblesConversion(String nickname, List<PhysicalResource> resources) throws RetryException {
         boolean isComputable = isComputable(nickname, CtoSMessageType.WHITE_MARBLE_CONVERSIONS);
@@ -440,8 +440,8 @@ public class MatchController {
      * This method accepts warehouse insertions' messages from the clients and delegates the operation to the turnController.
      * @param nickname the sender
      * @param resources the resources, with the quantity = shelf.
-     * @return a boolean
-     * @throws RetryException from isComputable
+     * @return true if the operation went well
+     * @throws RetryException if the player can't send this message in this phase
      */
     public synchronized boolean warehouseInsertion(String nickname, List<PhysicalResource> resources) throws RetryException {
         boolean isComputable = isComputable(nickname, CtoSMessageType.WAREHOUSE_INSERTION);
@@ -458,8 +458,8 @@ public class MatchController {
      * @param nickname the sender
      * @param row the row
      * @param column the column
-     * @return a boolean
-     * @throws RetryException from isComputable
+     * @return true if the operation went well
+     * @throws RetryException if the player can't send this message in this phase
      */
     public synchronized boolean devCardDraw(String nickname, int row, int column) throws RetryException {
         boolean isComputable = isComputable(nickname, CtoSMessageType.DEV_CARD_DRAW);
@@ -476,8 +476,8 @@ public class MatchController {
      * @param nickname the sender
      * @param strongboxCosts the costs from sb
      * @param warehouseCosts the costs from wh
-     * @return a boolean
-     * @throws RetryException from isComputable
+     * @return true if the operation went well
+     * @throws RetryException if the player can't send this message in this phase
      */
     public synchronized boolean payments(String nickname, List<PhysicalResource> strongboxCosts, Map<Integer, PhysicalResource> warehouseCosts) throws RetryException {
         boolean isComputable = isComputable(nickname, CtoSMessageType.PAYMENTS);
@@ -493,8 +493,8 @@ public class MatchController {
      * This method accepts dev card placement's messages from the clients and delegates the operation to the turnController.
      * @param nickname the sender
      * @param column the slot
-     * @return a boolean
-     * @throws RetryException from isComputable
+     * @return true if the operation went well
+     * @throws RetryException if the player can't send this message in this phase
      */
     public synchronized boolean devCardPlacement(String nickname, int column) throws RetryException {
         boolean isComputable = isComputable(nickname, CtoSMessageType.DEV_CARD_PLACEMENT);
@@ -511,8 +511,8 @@ public class MatchController {
      * @param nickname the sender
      * @param cardIds the ids of cards produced
      * @param productionOfUnknown the production of all unknowns
-     * @return a boolean
-     * @throws RetryException from isComputable
+     * @return true if the operation went well
+     * @throws RetryException if the player can't send this message in this phase
      */
     public synchronized boolean production(String nickname, List<String> cardIds, Production productionOfUnknown) throws RetryException {
         boolean isComputable = isComputable(nickname, CtoSMessageType.PRODUCTION);
@@ -520,6 +520,22 @@ public class MatchController {
             return false;
 
         lastUsedState = turnController.production(cardIds, productionOfUnknown);
+
+        return true;
+    }
+
+    /**
+     * This method accepts addFaith's messages from the clients and delegates the operation to the turnController.
+     * @param nickname the sender
+     * @return true if the operation went well
+     * @throws RetryException if the player can't send this message in this phase
+     */
+    public synchronized boolean addFaith(String nickname) throws RetryException {
+        boolean isComputable = isComputable(nickname, ADD_FAITH);
+        if (!isComputable)
+            return false;
+
+        lastUsedState = turnController.addFaith();
 
         return true;
     }

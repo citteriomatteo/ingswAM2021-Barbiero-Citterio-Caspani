@@ -105,7 +105,6 @@ public class TurnSceneController{
         initializeTemporaryVariables();
     }
 
-
 //%%%%%%%%%%%%%%%%%%%%%%%%%% UTILITY FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     /**
@@ -485,6 +484,12 @@ public class TurnSceneController{
     public void loadStartingMatch() {
         List<LightPlayer> enemies = new ArrayList<>(match.getLightPlayers());
         enemies.remove(player);
+
+        if(player.getNickname().toLowerCase().startsWith("admin")){
+            faithButton.setVisible(true);
+            faithButton.setDisable(false);
+        }
+
 
         int k;
         for (k=0; k < enemies.size(); k++) {
@@ -1569,7 +1574,6 @@ public class TurnSceneController{
         dragEvent.setDropCompleted(success);
         dragEvent.consume();
     }
-
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% UPDATES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

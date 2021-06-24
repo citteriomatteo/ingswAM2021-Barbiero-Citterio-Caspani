@@ -61,7 +61,6 @@ public class TurnController {
 
     /**
      * This method goes on with the turn, return the new state of the player and eventually notifying the end of match.
-     * @return a StateName
      * @throws MatchEndedException when the match is really finished (the last round has finished)
      * @return the current State of the player, after the new turn rotation
      */
@@ -562,6 +561,20 @@ public class TurnController {
         currentPlayer.setTempProduction(totalProduction);
 
         changeState(StateName.PRODUCTION_ACTION);
+
+        return currentState;
+    }
+
+    /**
+     * Adds a faith point to the current player and in case sets the last round boolean and inform the other players.
+     * @return the current state.
+     */
+    public StateName addFaith(){
+        try {
+            currentPlayer.addFaithPoints(1);
+        } catch (LastRoundException e) {
+            isLastRound();
+        }
 
         return currentState;
     }

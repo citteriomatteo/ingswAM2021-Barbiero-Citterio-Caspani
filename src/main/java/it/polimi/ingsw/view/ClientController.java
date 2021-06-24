@@ -52,13 +52,13 @@ public class ClientController
                 entry(StateName.STARTING_PHASE_DONE,List.of(PING)),
                 entry(StateName.WAITING_FOR_TURN, List.of(PING)),
                 entry(StateName.STARTING_TURN, List.of(LEADER_ACTIVATION, LEADER_DISCARDING, SWITCH_SHELF,
-                        MARKET_DRAW, DEV_CARD_DRAW, PRODUCTION)),
+                        MARKET_DRAW, DEV_CARD_DRAW, PRODUCTION, ADD_FAITH)),
                 entry(StateName.MARKET_ACTION, List.of(WHITE_MARBLE_CONVERSIONS, SWITCH_SHELF)),
                 entry(StateName.RESOURCES_PLACEMENT, List.of(WAREHOUSE_INSERTION, SWITCH_SHELF)),
                 entry(StateName.BUY_DEV_ACTION, List.of(SWITCH_SHELF, PAYMENTS)),
                 entry(StateName.PLACE_DEV_CARD, List.of(SWITCH_SHELF, DEV_CARD_PLACEMENT)),
                 entry(StateName.PRODUCTION_ACTION, List.of(SWITCH_SHELF, PAYMENTS)),
-                entry(StateName.END_TURN, List.of(SWITCH_SHELF, LEADER_ACTIVATION, LEADER_DISCARDING, END_TURN)),
+                entry(StateName.END_TURN, List.of(SWITCH_SHELF, LEADER_ACTIVATION, LEADER_DISCARDING, END_TURN, ADD_FAITH)),
                 entry(StateName.END_MATCH, List.of(REMATCH, DISCONNECTION)),
                 entry(StateName.REMATCH_OFFER, List.of(REMATCH, DISCONNECTION))
         );
