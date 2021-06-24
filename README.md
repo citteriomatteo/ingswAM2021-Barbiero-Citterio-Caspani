@@ -9,7 +9,7 @@ Tutto ciò che riguarda comunicazione tra i giocatori e il server centrale, conn
 
 Inoltre, è possibile giocare a "Maestri del Rinascimento" in due differenti modalità: da linea di comando (CLI), con grafica avanzata (GUI).
 
-Prima di iniziare a giocare, consultare il [regolamento di Masters Of Renaissance](https://github.com/citteriomatteo/ingswAM2021-Barbiero-Citterio-Caspani/tree/main/deliveries/Masters%20of%20Renaissance_Rules_ITA.pdf) per scoprire tutte le caratteristiche del gioco.
+Prima di iniziare a giocare, consultare il [regolamento di Masters Of Renaissance](https://github.com/citteriomatteo/ingswAM2021-Barbiero-Citterio-Caspani/tree/main/deliveries/Masters_of_Renaissance_Rules.pdf) per scoprire tutte le caratteristiche del gioco.
 
 ## Documentazione
 
@@ -95,7 +95,7 @@ Per lanciare Masters of Renaissance Server è necessario aprire il terminale, po
 ```
 java -jar mastersOfRenaissance-server.jar
 ```
-Il server verrà lanciato in macchina locale e la porta utilizzata per la comunicazione viene presa come argomento da terminale, oppure quella di default (2337) se non diversamente specificata.
+Il server verrà lanciato in macchina locale e la porta utilizzata per la comunicazione viene presa come argomento da terminale, oppure quella di default (2500) se non diversamente specificata.
 
 ## Membri del team
 - [__Federico Caspani__](https://github.com/FedericoCaspani)
