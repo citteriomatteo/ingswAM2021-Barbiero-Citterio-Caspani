@@ -106,6 +106,10 @@ public class KeyboardReader extends Thread{
             else if(command.equals("warehouseinsertion") || command.equals("wi")){
                 return new WarehouseInsertionMessage(nickname, new ArrayList<>(List.of(new PhysicalResource(ResType.UNKNOWN,0))));
             }
+            else if(command.equals("addfaith") || command.equals("af")) {
+                return new AddFaithMessage(nickname);
+            }
+
             else{
                 CtoSMessage message = selection(command);
                 if(message == null) {
