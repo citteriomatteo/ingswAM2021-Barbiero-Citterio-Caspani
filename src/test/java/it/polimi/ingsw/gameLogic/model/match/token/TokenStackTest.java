@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Stack;
 
-import static it.polimi.ingsw.gameLogic.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TokenStackTest extends CommonThingsTest {

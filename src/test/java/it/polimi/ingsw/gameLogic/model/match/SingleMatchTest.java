@@ -6,7 +6,6 @@ import it.polimi.ingsw.gameLogic.model.match.player.Player;
 import it.polimi.ingsw.gameLogic.model.match.token.PlusOneShuffleToken;
 import org.junit.jupiter.api.Test;
 
-import static it.polimi.ingsw.gameLogic.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SingleMatchTest extends CommonThingsTest {

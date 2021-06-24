@@ -15,8 +15,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 
-import static it.polimi.ingsw.gameLogic.model.match.MatchConfiguration.assignConfiguration;
-
 public class PurpleMarbleTest extends CommonThingsTest {
     private Player player = new Player("player1");
     private Match match;

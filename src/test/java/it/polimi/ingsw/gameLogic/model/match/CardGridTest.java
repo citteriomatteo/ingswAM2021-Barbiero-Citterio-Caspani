@@ -18,7 +18,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static it.polimi.ingsw.gameLogic.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CardGridTest extends CommonThingsTest {

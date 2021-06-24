@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.gameLogic.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CardTypeTest extends CommonThingsTest {

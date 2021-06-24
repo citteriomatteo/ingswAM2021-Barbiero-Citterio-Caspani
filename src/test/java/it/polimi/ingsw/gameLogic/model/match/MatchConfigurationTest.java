@@ -2,10 +2,9 @@ package it.polimi.ingsw.gameLogic.model.match;
 
 import org.junit.jupiter.api.Test;
 
-import static it.polimi.ingsw.gameLogic.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MatchConfigurationTest {
+public class MatchConfigurationTest extends CommonThingsTest {
 
     @Test
     public void settingConfiguration(){

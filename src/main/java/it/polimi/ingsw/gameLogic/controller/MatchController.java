@@ -55,7 +55,7 @@ public class MatchController {
      * @param playersInMatch the players
      */
     public MatchController(List<Player> playersInMatch) {
-        MatchConfiguration configuration = assignConfiguration("src/main/resources/json/StandardConfiguration.json");
+        MatchConfiguration configuration = assignConfiguration("StandardConfiguration.json");
         cardMap = initCardMap(configuration);
 
         //setting the starting summary to everyone
@@ -108,7 +108,7 @@ public class MatchController {
      * @param player the only player in match
      */
     public MatchController(Player player) {
-        MatchConfiguration configuration = MatchConfiguration.assignConfiguration("src/main/resources/json/StandardConfiguration.json");
+        MatchConfiguration configuration = MatchConfiguration.assignConfiguration("StandardConfiguration.json");
         cardMap = initCardMap(configuration);
 
         //setting the starting summary to the player

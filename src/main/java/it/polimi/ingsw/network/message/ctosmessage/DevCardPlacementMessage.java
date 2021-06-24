@@ -42,7 +42,7 @@ public class DevCardPlacementMessage extends CtoSMessage {
             sendRetryMessage(getNickname(), controlBase, e.getMessage());
             return false;
         }
-        //TODO
+
     }
 
     @Override

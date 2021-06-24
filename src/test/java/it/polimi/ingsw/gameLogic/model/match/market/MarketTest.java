@@ -8,12 +8,11 @@ import it.polimi.ingsw.gameLogic.model.match.Match;
 import it.polimi.ingsw.gameLogic.model.match.MatchConfiguration;
 import it.polimi.ingsw.gameLogic.model.match.SingleMatch;
 import it.polimi.ingsw.gameLogic.model.match.player.Player;
-
-import java.util.Random;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
-import static it.polimi.ingsw.gameLogic.model.match.MatchConfiguration.assignConfiguration;
+import java.util.Random;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MarketTest extends CommonThingsTest {

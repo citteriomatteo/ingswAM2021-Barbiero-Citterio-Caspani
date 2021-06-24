@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
-import static it.polimi.ingsw.gameLogic.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PhysicalResourceTest extends CommonThingsTest {

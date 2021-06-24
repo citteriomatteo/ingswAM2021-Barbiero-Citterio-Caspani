@@ -181,7 +181,6 @@ public class Client {
         out.println("ping");
     }
 
-
     /**
      * Closes streams and socket.
      */

@@ -21,7 +21,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.gameLogic.model.match.MatchConfiguration.assignConfiguration;
 import static it.polimi.ingsw.jsonUtilities.GsonHandler.effectConfig;
 import static it.polimi.ingsw.jsonUtilities.GsonHandler.requirableConfig;
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,14 +1,13 @@
 package it.polimi.ingsw.gameLogic.model.match;
 
-import it.polimi.ingsw.jsonUtilities.MyJsonParser;
-import it.polimi.ingsw.jsonUtilities.Parser;
 import it.polimi.ingsw.gameLogic.model.essentials.DevelopmentCard;
 import it.polimi.ingsw.gameLogic.model.essentials.Production;
 import it.polimi.ingsw.gameLogic.model.essentials.leader.LeaderCard;
 import it.polimi.ingsw.gameLogic.model.match.player.personalBoard.faithPath.Cell;
+import it.polimi.ingsw.jsonUtilities.MyJsonParser;
+import it.polimi.ingsw.jsonUtilities.Parser;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -96,18 +95,17 @@ public class MatchConfiguration
 
     // %%%%% UTILITY METHODS %%%%%
 
-    //Returns the configuration at the path "config".
     /**
      * Function used to read the configuration from the json file at 'config' filePath
-     * @param config the file path of the configuration file
+     * @param config the file path of the configuration file, relative to the directory "json/"
      * @return the object read in the json
      */
     public static MatchConfiguration assignConfiguration(String config){
         Parser parser = MyJsonParser.getParser();
         try {
-            FileReader reader = new FileReader(config);
+            InputStreamReader reader = new InputStreamReader(Objects.requireNonNull(MatchConfiguration.class.getResourceAsStream("/it/polimi/ingsw/json/" + config)));
             return parser.readMatchConfiguration(reader);
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Application shutdown due to an internal error " );
             System.exit(1);

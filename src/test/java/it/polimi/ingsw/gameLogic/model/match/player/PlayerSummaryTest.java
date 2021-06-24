@@ -1,7 +1,5 @@
 package it.polimi.ingsw.gameLogic.model.match.player;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.gameLogic.exceptions.*;
 import it.polimi.ingsw.gameLogic.model.essentials.Card;
 import it.polimi.ingsw.gameLogic.model.essentials.PhysicalResource;
@@ -9,19 +7,16 @@ import it.polimi.ingsw.gameLogic.model.essentials.ResType;
 import it.polimi.ingsw.gameLogic.model.match.*;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.gameLogic.controller.MatchController.getKeyByValue;
-import static it.polimi.ingsw.jsonUtilities.GsonHandler.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class PlayerSummaryTest extends CommonThingsTest
-{
+public class PlayerSummaryTest extends CommonThingsTest {
+
     public Map<String, Card> cardMap = getCardMap(assignConfiguration("src/test/resources/PartialFreeConfiguration.json"));
 
     public void setCardMap(MatchConfiguration configuration) {
@@ -29,19 +24,6 @@ public class PlayerSummaryTest extends CommonThingsTest
             cardMap.put("D" + i, configuration.getAllDevCards().get(i - 1));
         for (int i = 1; i <= configuration.getAllLeaderCards().size(); i++)
             cardMap.put("L" + i, configuration.getAllLeaderCards().get(i - 1));
-    }
-    //useful in order to use the free configuration in tests
-    private MatchConfiguration assignConfiguration(String config){
-        Gson g = cellConfig(resourceConfig(requirableConfig(effectConfig(new GsonBuilder())))).setPrettyPrinting().create();
-        try {
-            FileReader reader = new FileReader(config);
-            return g.fromJson(reader, MatchConfiguration.class);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            System.err.println("Application shutdown due to an internal error in " + this.getClass().getSimpleName());
-            System.exit(1);
-            return null;
-        }
     }
 
     @Test

@@ -25,7 +25,7 @@ public abstract class Match implements Communicator {
      * from a json file
      */
     public Match(){
-            matchConfiguration = assignConfiguration("src/main/resources/json/StandardConfiguration.json");
+            matchConfiguration = assignConfiguration("StandardConfiguration.json");
             this.market = new Market();
             this.leaderStack = new LeaderStack(matchConfiguration.getAllLeaderCards());
     }

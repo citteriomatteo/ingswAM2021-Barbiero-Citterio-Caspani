@@ -9,7 +9,6 @@ import it.polimi.ingsw.gameLogic.model.match.SingleMatch;
 import it.polimi.ingsw.gameLogic.model.match.player.Player;
 import org.junit.jupiter.api.Test;
 
-import static it.polimi.ingsw.gameLogic.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class VaticanReportCellTest extends CommonThingsTest {

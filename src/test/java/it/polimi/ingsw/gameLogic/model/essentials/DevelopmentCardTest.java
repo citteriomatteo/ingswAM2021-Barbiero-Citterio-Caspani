@@ -15,7 +15,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-import static it.polimi.ingsw.gameLogic.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
 //Test for DevelopmentCard class

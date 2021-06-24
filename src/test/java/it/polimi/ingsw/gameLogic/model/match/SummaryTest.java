@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 import static it.polimi.ingsw.gameLogic.controller.MatchController.getKeyByValue;
-import static it.polimi.ingsw.gameLogic.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 

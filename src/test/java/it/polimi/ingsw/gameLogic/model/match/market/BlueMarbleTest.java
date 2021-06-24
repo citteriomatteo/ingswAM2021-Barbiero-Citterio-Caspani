@@ -17,8 +17,6 @@ import org.junit.jupiter.api.Test;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-import static it.polimi.ingsw.gameLogic.model.match.MatchConfiguration.assignConfiguration;
-
 public class BlueMarbleTest extends CommonThingsTest {
     private Player player;
     private Match match;

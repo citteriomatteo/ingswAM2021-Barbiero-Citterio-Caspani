@@ -5,9 +5,9 @@ Benvenuti nel gioco da tavolo "Maestri del Rinascimento", in versione digitale!
 ![alt text](src/main/resources/it/polimi/ingsw/view/GUI/images/newLogo.jpg)
 
 La versione da noi proposta sfrutta il pattern __Model-View-Controller__ per permettere che un solo server, hostato su macchina, sia in grado di gestire differenti partite in simultanea, ciascuna composta da un massimo di 4 giocatori.
-Tutto ciò che riguarda comunicazione tra i giocatori e il server centrale, connessioni, disconnessioni e riconnessioni è interamente gestito utilizzando Socket TCP come canale comunicativo.
+Tutto ciò che riguarda la comunicazione tra i giocatori e il server centrale, connessioni, disconnessioni e riconnessioni è interamente gestito utilizzando Socket TCP come canale comunicativo.
 
-Inoltre, è possibile giocare a "Maestri del Rinascimento" in due differenti modalità: da linea di comando (CLI), con grafica avanzata (GUI).
+Inoltre, è possibile giocare a "Maestri del Rinascimento" in due differenti modalità: da linea di comando (CLI) oppure attraverso interfaccia grafica (GUI).
 
 Prima di iniziare a giocare, consultare il [regolamento di Masters Of Renaissance](https://github.com/citteriomatteo/ingswAM2021-Barbiero-Citterio-Caspani/tree/main/deliveries/Masters_of_Renaissance_Rules.pdf) per scoprire tutte le caratteristiche del gioco.
 
@@ -95,7 +95,8 @@ Per lanciare Masters of Renaissance Server è necessario aprire il terminale, po
 ```
 java -jar mastersOfRenaissance-server.jar
 ```
-Il server verrà lanciato in macchina locale e la porta utilizzata per la comunicazione viene presa come argomento da terminale, oppure quella di default (2500) se non diversamente specificata.
+Il server verrà lanciato sulla macchina locale, accettando connessioni sulla porta 2500. 
+Per cambiare tale valore, aggiungere in coda al comando un numero, questo verrà utilizzato come nuova porta.
 
 ## Membri del team
 - [__Federico Caspani__](https://github.com/FedericoCaspani)

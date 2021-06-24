@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
-import static it.polimi.ingsw.gameLogic.model.match.MatchConfiguration.assignConfiguration;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerTest extends CommonThingsTest

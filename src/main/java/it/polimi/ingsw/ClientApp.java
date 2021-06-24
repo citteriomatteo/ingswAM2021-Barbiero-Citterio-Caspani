@@ -16,7 +16,7 @@ public class ClientApp {
 
     public static void main(String[] args) {
         String hostName = "127.0.0.1";
-        int portNumber = 1337;
+        int portNumber = 2500;
         boolean cliChoice = false;
         boolean foundIP = false, foundPort = false, foundView = false;
         for (int i = 0; i < args.length; i++) {
