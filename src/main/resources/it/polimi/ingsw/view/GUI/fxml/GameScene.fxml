@@ -2289,6 +2289,6 @@
          </image>
       </ImageView>
       <TextArea id="controlBox" fx:id="informationField" layoutX="856.0" layoutY="680.0" prefHeight="102.0" prefWidth="382.0" scrollTop="10.0" wrapText="true" />
-      <Button fx:id="faithButton" disable="true" layoutX="142.0" layoutY="439.0" mnemonicParsing="false" onAction="#addFaith" prefHeight="37.0" prefWidth="52.0" text="+1" textFill="RED" visible="false" />
+      <Button fx:id="faithButton" disable="true" layoutX="142.0" layoutY="748.0" mnemonicParsing="false" onAction="#addFaith" prefHeight="35.0" prefWidth="52.0" text="+1" textFill="RED" visible="false" />
    </children>
 </Pane>
