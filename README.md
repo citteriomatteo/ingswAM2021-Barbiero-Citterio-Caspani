@@ -9,7 +9,7 @@ Tutto ciò che riguarda la comunicazione tra i giocatori e il server centrale, c
 
 Inoltre, è possibile giocare a "Maestri del Rinascimento" in due differenti modalità: da linea di comando (CLI) oppure attraverso interfaccia grafica (GUI).
 
-Prima di iniziare a giocare, consultare il [regolamento di Masters Of Renaissance](https://github.com/citteriomatteo/ingswAM2021-Barbiero-Citterio-Caspani/tree/main/deliveries/Masters_of_Renaissance_Rules.pdf) per scoprire tutte le caratteristiche del gioco.
+Prima di iniziare a giocare, consultare il [regolamento di Masters Of Renaissance](https://github.com/citteriomatteo/ingswAM2021-Barbiero-Citterio-Caspani/tree/main/deliveries/documents/Masters_of_Renaissance_Rules.pdf) per scoprire tutte le caratteristiche del gioco.
 
 ## Documentazione
 
