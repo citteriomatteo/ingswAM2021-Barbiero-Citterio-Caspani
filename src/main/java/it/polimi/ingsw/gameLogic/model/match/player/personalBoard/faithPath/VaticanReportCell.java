@@ -15,7 +15,7 @@ public class VaticanReportCell extends Cell
 {
     /**
      * This constructor calls the super-class method.
-     * @param winPoints            defines the winpoints of the cell
+     * @param winPoints            defines the winPoints of the cell
      * @param vaticanReportSection defines the number of the report section the Cell is in.
      * @throws FaithPathCreationException (propagated)
      */
@@ -48,7 +48,7 @@ public class VaticanReportCell extends Cell
     }
 
     /**
-     * This method specifies, in a Singleplayer match, that this Cell is a VaticanReportCell.
+     * This method specifies, in a SinglePlayer match, that this Cell is a VaticanReportCell.
      * @return true
      * @see Cell
      */

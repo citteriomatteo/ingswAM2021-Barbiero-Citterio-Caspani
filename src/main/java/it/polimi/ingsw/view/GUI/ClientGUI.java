@@ -8,7 +8,6 @@ import it.polimi.ingsw.view.lightmodel.LightPlayer;
 import java.util.List;
 import java.util.Map;
 
-import static it.polimi.ingsw.network.client.Client.getClient;
 import static it.polimi.ingsw.view.ClientController.getClientController;
 import static it.polimi.ingsw.view.GUI.SceneProxy.getSceneProxy;
 
@@ -111,7 +110,7 @@ public class ClientGUI implements View {
     @Override
     public void drawLeadersChoiceLayout() {
         getSceneProxy().changeScene(SceneName.LeadersChoiceScene);
-        getSceneProxy().loadLeaderCards(getClientController().getMatch().getLightPlayer(getClient().getNickname()).getHandLeaders());
+        getSceneProxy().loadLeaderCards(getClientController().getMatch().getLightPlayer(getClientController().getNickname()).getHandLeaders());
     }
 
     /**
@@ -276,8 +275,10 @@ public class ClientGUI implements View {
                 getSceneProxy().leadersChoiceError(errMessage);
                 break;
             case RESOURCES_PLACEMENT:
-                getSceneProxy().updateMarketBuffer(getClient().getNickname(), match.getLightPlayer(getClient().getNickname()).getMarketBuffer());
-                getSceneProxy().updateWarehouse(getClient().getNickname(), match.getLightPlayer(getClient().getNickname()).getWarehouse());
+                String nickname = getClientController().getNickname();
+
+                getSceneProxy().updateMarketBuffer(nickname, match.getLightPlayer(nickname).getMarketBuffer());
+                getSceneProxy().updateWarehouse(nickname, match.getLightPlayer(nickname).getWarehouse());
                 getSceneProxy().printRetry(errMessage);
                 break;
             case PRODUCTION_ACTION:

@@ -42,7 +42,7 @@ public class NumPlayersMessage extends CtoSMessage{
             sendRetryMessage(getNickname(), controlBase, "You forgot some parameters");
             return false;
         }
-        if (isValid()) {
+        if (!getIsLocal() && isValid()) {
             if(controlBase.getInitController().setNumberOfPlayers(numPlayers))
                 return true;
             new RetryMessage(getNickname(), controlBase.getCurrentState(),

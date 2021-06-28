@@ -88,7 +88,7 @@ public class PersonalBoard implements Effector
      /**
      * This method evolves the warehouse onto a new ExtraShelf version.
      * The new shelf define procedure is made by the ExtraShelfWarehouse constructor.
-     * @param extraShelf is the resource that has all the informations about the new shelf (quantity and type)
+     * @param extraShelf is the resource that has all the information about the new shelf (quantity and type)
      * @return           true
      */
     public boolean warehouseEvolution(PhysicalResource extraShelf)
@@ -150,21 +150,17 @@ public class PersonalBoard implements Effector
      * Setter for strongbox.
      * Used for invalid payments reset.
      * @param strongBox the new version
-     * @return true
      */
-    public boolean setStrongBox(StrongBox strongBox){
+    public void setStrongBox(StrongBox strongBox){
         this.strongBox = strongBox;
-        return true;
     }
 
     /**
      * Setter for warehouse.
      * Used for invalid payments reset.
      * @param warehouse the new warehouse
-     * @return true
      */
-    public boolean setWarehouse(Warehouse warehouse){
+    public void setWarehouse(Warehouse warehouse){
         this.warehouse = warehouse;
-        return true;
     }
 }

@@ -15,6 +15,8 @@ import java.util.Map;
 import java.util.Objects;
 
 import static it.polimi.ingsw.network.client.Client.getClient;
+import static it.polimi.ingsw.network.client.LocalClient.getLocalClient;
+import static it.polimi.ingsw.view.ClientController.getClientController;
 import static java.util.Map.entry;
 
 /**
@@ -140,7 +142,6 @@ public class SceneProxy {
 
         }
 
-        //TODO: modify in case of editor
     }
 
     /**
@@ -220,7 +221,10 @@ public class SceneProxy {
                 JavaFXGUI.setRoot(scene.name());
             } catch (IOException e) {
                 e.printStackTrace();
-                getClient().exit();
+                if(getClientController().isLocal())
+                    getLocalClient().exit();
+                else
+                    getClient().exit();
             }
         });
     }

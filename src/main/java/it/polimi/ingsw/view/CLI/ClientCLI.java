@@ -87,7 +87,7 @@ public class ClientCLI implements View
     @Override
     public void drawNumPlayersLayout() {
         lastLayout = "Choose the number of players you want to play with.\n" +
-                "Write \"numplayers|(np)\" followed by the number of players that will form the match you want to make";
+                "Write \"numPlayers|(np)\" followed by the number of players that will form the match you want to make";
         System.out.println(lastLayout);
     }
 
@@ -579,9 +579,6 @@ public class ClientCLI implements View
         for (int i = cardGrid.length-1; i >= 0; i--) {
             List<String>[] lists = cardGrid[i];
             for (int j = 0; j < lists.length; j++) {
-                StringBuilder points = new StringBuilder();
-                DevelopmentCard card = (DevelopmentCard) getCardMap().get(lists[j].get(0));
-
                 grid.append(columnColors[j]);
 
                 grid.append("[ ");

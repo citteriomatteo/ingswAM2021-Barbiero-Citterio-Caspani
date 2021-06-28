@@ -35,7 +35,7 @@ public class Cell
     public boolean vaticanReport(Communicator communicator) {return false;}
 
     /**
-     * This method specifies, in a Singleplayer match, that this Cell is not a VaticanReportCell.
+     * This method specifies, in a SinglePlayer match, that this Cell is not a VaticanReportCell.
      * @return            false
      * @see VaticanReportCell
      */

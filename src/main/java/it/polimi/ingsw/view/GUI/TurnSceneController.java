@@ -22,7 +22,6 @@ import javafx.scene.text.Text;
 
 import java.util.*;
 
-import static it.polimi.ingsw.network.client.Client.getClient;
 import static it.polimi.ingsw.view.ClientController.getClientController;
 import static it.polimi.ingsw.view.GUI.SceneProxy.getChildById;
 import static it.polimi.ingsw.view.GUI.SceneProxy.getSceneProxy;
@@ -102,7 +101,7 @@ public class TurnSceneController{
     public TurnSceneController() {
         getSceneProxy().setTurnSceneController(this);
         match = getClientController().getMatch();
-        player = match.getLightPlayer(getClient().getNickname());
+        player = match.getLightPlayer(getClientController().getNickname());
 
         initializeTemporaryVariables();
 
@@ -1773,7 +1772,7 @@ public class TurnSceneController{
         Pane interestedBoard = null;
 
         //searching the pane
-        if(nickname.equals(getClient().getNickname()))
+        if(nickname.equals(getClientController().getNickname()))
             interestedBoard = myPane;
         else
             for(Node board : enemiesBox.getChildren())

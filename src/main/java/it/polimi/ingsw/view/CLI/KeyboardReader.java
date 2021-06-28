@@ -12,7 +12,6 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 import static it.polimi.ingsw.gameLogic.controller.StateName.*;
-import static it.polimi.ingsw.network.client.Client.getClient;
 import static it.polimi.ingsw.view.ClientController.getClientController;
 import static java.util.Map.entry;
 
@@ -75,10 +74,12 @@ public class KeyboardReader extends Thread{
 
     /**
      * This constructor initializes the bufferedReader for reading keyboard inputs.
+     * Sets this thread as daemon only if this is an online match.
      * @param client the client
      */
     public KeyboardReader(Client client) {
-        setDaemon(true);
+        if(!getClientController().isLocal())
+            setDaemon(true);
         keyboard = new BufferedReader(new InputStreamReader(System.in));
         this.client = client;
     }
@@ -339,7 +340,7 @@ public class KeyboardReader extends Thread{
         }
 
         //deleting the discarded leader without waiting for a server's response.
-        client.getController().getMatch().getLightPlayer(getClient().getNickname()).getHandLeaders().remove(params.get(0).toUpperCase());
+        client.getController().getMatch().getLightPlayer(getClientController().getNickname()).getHandLeaders().remove(params.get(0).toUpperCase());
 
 
         return new LeaderDiscardingMessage(nickname, params.get(0).toUpperCase());

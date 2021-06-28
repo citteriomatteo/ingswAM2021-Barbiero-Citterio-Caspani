@@ -25,7 +25,7 @@ public interface Effector
     /**
      * This method evolves the warehouse onto a new ExtraShelf version.
      * The new shelf define procedure is made by the ExtraShelfWarehouse constructor.
-     * @param extraShelf is the resource that has all the informations about the new shelf (quantity and type)
+     * @param extraShelf is the resource that has all the information about the new shelf (quantity and type)
      * @return           true
      */
     boolean warehouseEvolution(PhysicalResource extraShelf);

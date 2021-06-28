@@ -28,7 +28,7 @@ import static it.polimi.ingsw.network.server.TimeoutBufferedReader.getNewTimeout
  */
 public class Client {
     private static final int PING_RATE = 30000; //30 seconds
-    private static final Client instance = new Client();
+    private static Client instance;
     private static final Parser parser = MyJsonParser.getParser();
     private static final ClientController controller = ClientController.getClientController();
 
@@ -41,13 +41,15 @@ public class Client {
      * Private constructor of the Client, since it is a singleton no one should create an instance of this class.
      * This constructor doesn't set any parameter
      */
-    private Client(){ }
+    Client(){ }
 
     /**
      * Gets the instance of the Client singleton
      * @return the instance of the Client singleton
      */
     public static Client getClient(){
+        if(instance == null)
+            instance = new Client();
         return instance;
     }
 

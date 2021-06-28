@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.message.ctosmessage;
 
+import it.polimi.ingsw.network.client.LocalClient;
 import it.polimi.ingsw.network.message.stocmessage.RetryMessage;
 import it.polimi.ingsw.network.server.ControlBase;
 
@@ -19,10 +20,16 @@ public class LoginMessage extends CtoSMessage{
 
     @Override
     public boolean computeMessage(ControlBase controlBase) {
-        if(controlBase.getInitController().login(getNickname()))
+        if(getIsLocal()) {
+            ((LocalClient) controlBase).createPlayer(getNickname());
             return true;
-        controlBase.write(new RetryMessage(controlBase.getNickname(), controlBase.getCurrentState(), "You can't send a " + type + " message in this moment"));
-        return false;
+        }
+        else{
+            if(controlBase.getInitController().login(getNickname()))
+                return true;
+            controlBase.write(new RetryMessage(controlBase.getNickname(), controlBase.getCurrentState(), "You can't send a " + type + " message in this moment"));
+            return false;
+        }
     }
 
     @Override

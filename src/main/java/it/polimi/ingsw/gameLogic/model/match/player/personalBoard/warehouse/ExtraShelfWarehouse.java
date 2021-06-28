@@ -57,7 +57,7 @@ public class ExtraShelfWarehouse implements WarehouseDecorator
     {
         for(PhysicalResource r : getBuffer())
             if(extraShelf.getType().equals(r.getType()) && (extraShelf.getQuantity()+r.getQuantity())<=shelfSize)
-                throw new InvalidOperationException("There's a space in warehouse for atleast a buffer resource! Retry to select.");
+                throw new InvalidOperationException("There's a space in warehouse for at least a buffer resource! Retry to select.");
 
         return oldWarehouse.discardRemains();
     }

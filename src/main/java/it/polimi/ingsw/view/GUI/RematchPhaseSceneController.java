@@ -12,7 +12,7 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static it.polimi.ingsw.network.client.Client.getClient;
+import static it.polimi.ingsw.view.ClientController.getClientController;
 import static it.polimi.ingsw.view.GUI.SceneProxy.getSceneProxy;
 
 /**
@@ -70,7 +70,7 @@ public class RematchPhaseSceneController{
         rematchButton.setDisable(true);
         exitButton.setDisable(true);
 
-        new RematchMessage(getClient().getNickname(),true).send();
+        new RematchMessage(getClientController().getNickname(),true).send();
 
         rematchLabel.setText("Wait for other players to accept or decline...");
     }
@@ -83,7 +83,7 @@ public class RematchPhaseSceneController{
         rematchButton.setDisable(true);
         exitButton.setDisable(true);
 
-        new RematchMessage(getClient().getNickname(),false).send();
+        new RematchMessage(getClientController().getNickname(),false).send();
 
         rematchLabel.setText("You declined. Thanks for playing!");
     }

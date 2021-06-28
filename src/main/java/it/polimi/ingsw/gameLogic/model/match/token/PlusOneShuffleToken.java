@@ -2,7 +2,6 @@ package it.polimi.ingsw.gameLogic.model.match.token;
 
 import it.polimi.ingsw.gameLogic.exceptions.LastRoundException;
 import it.polimi.ingsw.gameLogic.model.match.SingleMatch;
-import it.polimi.ingsw.gameLogic.model.match.player.personalBoard.faithPath.SingleFaithPath;
 
 /**
  * This class implements the plus one shuffle token.
@@ -17,8 +16,6 @@ public class PlusOneShuffleToken extends Token{
      */
     @Override
     public boolean onDraw(SingleMatch match) throws LastRoundException {
-        SingleFaithPath singleFaithPath = (SingleFaithPath) match.getCurrentPlayer().getPersonalBoard().getFaithPath();
-
         return (match.getCurrentPlayer().addBlackPoints(1) && match.getTokenStack().shuffle());
     }
 

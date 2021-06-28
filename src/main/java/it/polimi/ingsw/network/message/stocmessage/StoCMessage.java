@@ -8,6 +8,7 @@ import it.polimi.ingsw.network.server.ControlBase;
 
 import java.util.List;
 
+import static it.polimi.ingsw.network.client.LocalClient.getLocalClient;
 import static it.polimi.ingsw.network.server.ServerUtilities.serverCall;
 
 /**
@@ -22,33 +23,41 @@ public abstract class StoCMessage extends Message {
     /**
      * Write this message to all the given players
      * @param players the players you want to send the message to
-     * @return true if the message has been sent to all the players, false if the message hasn't been sent to someone
      */
-    public boolean sendBroadcast(List<String> players){
+    public void sendBroadcast(List<String> players){
         ControlBase receiver;
-        boolean sentToAll = true;
-        for(String player : players) {
-            receiver = serverCall().findControlBase(player);
-            if(receiver == null || !receiver.write(this))
-                sentToAll = false;
+
+        if(getIsLocal()) {
+            receiver = getLocalClient();
+            receiver.write(this);
         }
-        return sentToAll;
+        else {
+            for (String player : players) {
+                receiver = serverCall().findControlBase(player);
+                if (receiver == null || !receiver.write(this))
+                    return;
+            }
+        }
     }
 
     /**
      * Write this message to all the players inside the match
      * @param match the match whose players you want to send the message to
-     * @return true if the message has been sent to all the players, false if the message hasn't been sent to someone
      */
-    public boolean sendBroadcast(Match match){
+    public void sendBroadcast(Match match){
         ControlBase receiver;
-        boolean sentToAll = true;
-        for(Player player : match.getPlayers()) {
-            receiver = serverCall().findControlBase(player.getNickname());
-            if(receiver == null || !receiver.write(this))
-                sentToAll = false;
+
+        if(getIsLocal()) {
+            receiver = getLocalClient();
+            receiver.write(this);
         }
-        return sentToAll;
+        else {
+            for (Player player : match.getPlayers()) {
+                receiver = serverCall().findControlBase(player.getNickname());
+                if (receiver == null || !receiver.write(this))
+                    return;
+            }
+        }
     }
 
     /**
@@ -57,9 +66,15 @@ public abstract class StoCMessage extends Message {
      * @return true if the message has been sent, false if not
      */
     public boolean send(String player){
-        ControlBase receiver = serverCall().findControlBase(player);
+        ControlBase receiver;
+
+        if(getIsLocal())
+            receiver = getLocalClient();
+        else
+            receiver = serverCall().findControlBase(player);
         if(receiver == null)
             return false;
+
         return receiver.write(this);
     }
 

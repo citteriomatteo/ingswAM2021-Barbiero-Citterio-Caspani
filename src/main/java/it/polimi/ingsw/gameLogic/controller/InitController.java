@@ -225,13 +225,12 @@ public class InitController {
      * the queue, so this method has to be called only when the queue for the match participants is full
      * The player in WAITING_FOR_PLAYERS (the host of the match) has to be the last one that receive this command.
      * If this controller is in WAITING, set it to START_GAME, the player will receive the other information soon.
-     * @return true if the player was in a waiting state, false otherwise
      */
-    public boolean startGame(){
+    public void startGame(){
         switch (currentState) {
             case WAITING:
                 changeState(StateName.START_GAME);
-                return true;
+                return;
 
             case WAITING_FOR_PLAYERS:
                 changeState(StateName.START_GAME);
@@ -239,10 +238,8 @@ public class InitController {
                 System.out.println("forming a new match for... " + playersInMatch);
                 MatchController controller = new MatchController(playersInMatch);
                 setMatchController(controller);  //<-- exit from init
-                return true;
 
         }
-        return false;
     }
 
     /**

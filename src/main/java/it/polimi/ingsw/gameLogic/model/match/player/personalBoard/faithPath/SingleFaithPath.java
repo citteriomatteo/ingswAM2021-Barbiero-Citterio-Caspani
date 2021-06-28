@@ -15,7 +15,7 @@ public class SingleFaithPath extends FaithPath {
     private int blackCrossMarker;
 
     /**
-     * This is the constructor of the Singleplayer FaithPath.
+     * This is the constructor of the SinglePlayer FaithPath.
      * @param faithPath                   is the list of the Cells
      * @param faithMarker                 is the starting point of the player on the path
      */

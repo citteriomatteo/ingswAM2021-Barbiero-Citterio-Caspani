@@ -147,7 +147,6 @@ public class GsonHandler {
 
         GsonBuilder res = builder.registerTypeAdapterFactory(RuntimeTypeAdapterFactory
                         .of(StoCMessage.class, "Message")
-                        .registerSubtype(it.polimi.ingsw.network.message.stocmessage.BinarySelectionMessage.class, "binarySelection")
                         .registerSubtype(SummaryMessage.class, "Summary")
                         .registerSubtype(CardGridChangeMessage.class, "cardGridChange")
                         .registerSubtype(DevCardSlotChangeMessage.class, "devCardSlotChange")

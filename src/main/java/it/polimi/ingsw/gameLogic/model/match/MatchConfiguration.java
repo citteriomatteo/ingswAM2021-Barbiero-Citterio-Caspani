@@ -59,8 +59,7 @@ public class MatchConfiguration
      * @return a list of cell that represents the custom FaithPath in this configuration
      */
     public List<Cell> getCustomPath() {
-        List<Cell> cloned = new ArrayList<>(customPath);
-        return cloned;
+        return new ArrayList<>(customPath);
     }
     /**
      * @return the custom basicProduction of this configuration

@@ -6,8 +6,23 @@ package it.polimi.ingsw.network.message;
  *  - for CtoSMessages: the nickname of the client that contacts the controller.
  */
 public abstract class Message {
-
+    private static boolean isLocal = false;
     private final String nickname;
+
+    /**
+     * Sets the 'isLocal' variable to indicate that this match is played locally
+     */
+    public static void setIsLocal(){
+        isLocal = true;
+    }
+
+    /**
+     * Getter
+     * @return the value of 'isLocal'
+     */
+    public static boolean getIsLocal(){
+        return isLocal;
+    }
 
     /**
      * General constructor: called by every subclass to store a nickname.

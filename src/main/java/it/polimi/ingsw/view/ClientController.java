@@ -3,6 +3,7 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.gameLogic.controller.StateName;
 import it.polimi.ingsw.gameLogic.model.essentials.Card;
 import it.polimi.ingsw.gameLogic.model.match.Summary;
+import it.polimi.ingsw.network.message.Message;
 import it.polimi.ingsw.network.message.ctosmessage.BinarySelectionMessage;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessage;
 import it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType;
@@ -17,6 +18,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.network.client.Client.getClient;
+import static it.polimi.ingsw.network.client.LocalClient.getLocalClient;
 import static it.polimi.ingsw.network.message.ctosmessage.CtoSMessageType.*;
 import static java.util.Map.entry;
 
@@ -34,6 +36,7 @@ public class ClientController
     private View view;     // Controller has a View reference for managing retry and next state directly
     private StateName currentState;
     private String nickname;
+    private boolean local = false;
     private static final Map<StateName, List<CtoSMessageType>> acceptedMessagesMap;
     static {
         acceptedMessagesMap = Map.ofEntries(
@@ -71,6 +74,7 @@ public class ClientController
         currentState = StateName.LOGIN;
     }
 
+
     /**
      * Static getter method.
      * @return the Singleton instance of the ClientController
@@ -79,6 +83,16 @@ public class ClientController
         return instance;
     }
 
+    /**
+     * Called when the match is played locally.
+     * Sets the variable 'local' as true and sets the corresponding variable in Message.
+     */
+    public void setIsLocal(){
+        if(!local)
+            this.local = true;
+
+        Message.setIsLocal();
+    }
 
     /**
      * Setter of the view (in order to call update/layout methods on it).
@@ -87,6 +101,14 @@ public class ClientController
     public void setView(View view){
         this.view = view;
         view.printTitle();
+    }
+
+    /**
+     * Getter
+     * @return true if this match is played locally, false elsewhere.
+     */
+    public boolean isLocal(){
+        return local;
     }
 
     /**
@@ -155,7 +177,7 @@ public class ClientController
      * Calls a layout draw on the specific view depending on the player's current state.
      * @param msg passed for the REMATCH_OFFER state to print who offered a rematch
      */
-    public void printMoveLegend(StoCMessage msg){
+    private void printMoveLegend(StoCMessage msg){
 
         switch(currentState){
             case LOGIN:
@@ -236,9 +258,12 @@ public class ClientController
         if(message.getType().equals(CtoSMessageType.BINARY_SELECTION) && currentState.equals(StateName.END_MATCH))
             message = convertIntoRematchMessage((BinarySelectionMessage) message);
 
-        if(isAccepted(message.getType()))
-            return getClient().writeMessage(message);
-
+        if(isAccepted(message.getType())) {
+            if(local)
+                return getLocalClient().writeMessage(message);
+            else
+                return getClient().writeMessage(message);
+        }
         printRetry("You're in " + currentState + ". Operation not available: retry. Write 'help' for message tips.", currentState);
         return false;
     }
@@ -276,13 +301,12 @@ public class ClientController
      * Takes a string request, elaborates it and extracts the IDs of the cards to print.
      * Then calls the drawCards method on the view to print them properly.
      * @param request the string to elaborate
-     * @return true if the command is correct
      */
-    public boolean printCardInfo(String request){
+    public void printCardInfo(String request){
         List<String> splitRequest = new ArrayList(Arrays.asList(request.split("\\s+")));
         splitRequest.remove(0);
         if(splitRequest.size() != 1)
-            return false;
+            return;
         List<String> cards = new ArrayList(Arrays.asList(splitRequest.get(0).split(",")));
         for(int i = 0; i < cards.size(); i++) {
             Card chosen = LightMatch.getCardMap().get(cards.get(i).toUpperCase());
@@ -293,47 +317,38 @@ public class ClientController
         }
         view.drawCards(cards.stream().map(String::toUpperCase).collect(Collectors.toList()));
 
-        return true;
     }
 
     /**
      * Calls a "rematch offered" layout print on the view.
      * @param message the nickname of the proposer
-     * @return true
      */
-    public boolean printRematchOffer(String message){
+    public void printRematchOffer(String message){
         view.drawRematchOfferLayout(message);
-        return true;
     }
 
     /**
      * Receives a goodbye message from the server and calls the layout method on the view to print it properly.
      * @param msg the goodbye message
-     * @return true
      */
-    public boolean printGoodbyeMessage(String msg) {
+    public void printGoodbyeMessage(String msg) {
         view.drawGoodbyeLayout(msg);
-        return true;
     }
 
     /**
      * Receives a "discount map" print request from the client and calls the print method on the CLI view to print it properly.
      * @param nickname the nickname of the requester
-     * @return true
      */
-    public boolean printDiscountMap(String nickname){
+    public void printDiscountMap(String nickname){
         view.printDiscountMap(match.getLightPlayer(nickname));
-        return true;
     }
     /**
      * Receives a "white marble conversions" print request from the client and calls the print method
      * on the CLI view to print it properly.
      * @param nickname the nickname of the requester
-     * @return true
      */
-    public boolean printWhiteMarbleConversions(String nickname){
+    public void printWhiteMarbleConversions(String nickname){
         view.printWhiteMarbleConversions(match.getLightPlayer(nickname));
-        return true;
     }
 
     //&&&&&&&&&&&&&&&&& GETTERS AND SETTERS &&&&&&&&&&&&&&&&&

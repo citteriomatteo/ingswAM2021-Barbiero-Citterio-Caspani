@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import static it.polimi.ingsw.network.client.Client.getClient;
+import static it.polimi.ingsw.network.client.LocalClient.getLocalClient;
+import static it.polimi.ingsw.view.ClientController.getClientController;
 import static it.polimi.ingsw.view.GUI.TurnSceneController.populatePlayerPane;
 
 /**
@@ -139,12 +141,15 @@ public class JavaFXGUI extends Application {
     }
 
     /**
-     * When the main stage is closed kindly closes the connection with the server sending him a notification message
+     * When the main stage if this is an online match kindly closes the connection with the server sending him a notification message
      */
     @Override
     public void stop() {
         Platform.exit();
-        getClient().exit();
+        if(getClientController().isLocal())
+            getLocalClient().exit();
+        else
+            getClient().exit();
         System.exit(0);
     }
 

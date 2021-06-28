@@ -22,7 +22,6 @@ import javafx.scene.layout.VBox;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static it.polimi.ingsw.network.client.Client.getClient;
 
 /**
  * A scene controller used for communicating with the scenes of the starting phase
@@ -119,7 +118,7 @@ public class StartingPhaseSceneController{
             leadersChoiceError("Please choose 2 leaders");
             return;
         }
-        (new LeadersChoiceMessage(getClient().getNickname(), leaders)).send();
+        (new LeadersChoiceMessage(getClientController().getNickname(), leaders)).send();
     }
 
     /**
@@ -222,7 +221,7 @@ public class StartingPhaseSceneController{
                 .map((x)->new PhysicalResource(x, 1))
                 .collect(Collectors.toList());
         if(numResources==chosenResources.size()) {
-            getClientController().getMatch().setMarketBuffer(getClient().getNickname(), chosenResources);
+            getClientController().getMatch().setMarketBuffer(getClientController().getNickname(), chosenResources);
             getSceneProxy().changeScene(SceneName.GameScene);
             getSceneProxy().loadStartingMatch();
         }

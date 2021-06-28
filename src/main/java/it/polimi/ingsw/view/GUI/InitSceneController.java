@@ -11,7 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
-import static it.polimi.ingsw.network.client.Client.getClient;
 import static it.polimi.ingsw.view.ClientController.getClientController;
 import static it.polimi.ingsw.view.GUI.SceneProxy.getSceneProxy;
 
@@ -63,7 +62,7 @@ public class InitSceneController{
         Node node = (Node) actionEvent.getSource();
         String data = (String) node.getUserData();
         boolean selection = Boolean.parseBoolean(data);
-        (new BinarySelectionMessage(getClient().getNickname(), selection)).send();
+        (new BinarySelectionMessage(getClientController().getNickname(), selection)).send();
     }
 
     /**
@@ -76,7 +75,7 @@ public class InitSceneController{
         Node node = (Node) actionEvent.getSource();
         String data = (String) node.getUserData();
         int numPlayers = Integer.parseInt(data);
-        new NumPlayersMessage(getClient().getNickname(), numPlayers).send();
+        new NumPlayersMessage(getClientController().getNickname(), numPlayers).send();
     }
 
     /**
@@ -84,7 +83,7 @@ public class InitSceneController{
      */
     @FXML
     public void reconnect() {
-        new BinarySelectionMessage(getClient().getNickname(), true).send();
+        new BinarySelectionMessage(getClientController().getNickname(), true).send();
     }
 
     /**
@@ -92,6 +91,6 @@ public class InitSceneController{
      */
     @FXML
     public void backToLogin() {
-        new BinarySelectionMessage(getClient().getNickname(), false).send();
+        new BinarySelectionMessage(getClientController().getNickname(), false).send();
     }
 }
