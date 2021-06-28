@@ -1431,6 +1431,10 @@ public class TurnSceneController{
             ((Label) vBox.getChildren().get(0)).setText("x0");
         }
 
+
+        productionPane.getChildren().get(1).setVisible(true);
+        productionPane.getChildren().get(2).setVisible(true);
+        productionPane.getChildren().get(2).setDisable(false);
         productionPane.setDisable(true);
         productionPane.setVisible(false);
     }
@@ -1490,11 +1494,8 @@ public class TurnSceneController{
     public void acceptDrop(DragEvent dragEvent) {
         Node gestureSource = (Node)dragEvent.getGestureSource();
         Node source = (Node) dragEvent.getSource();
-        if(gestureSource.equals(tempDevCard)){
-            if(source.getParent().getParent().equals(devCardSlots))
-                dragEvent.acceptTransferModes(TransferMode.MOVE);
-        }
-        else if(gestureSource.getParent().equals(marketBufferBox)){
+
+        if(gestureSource.getParent().equals(marketBufferBox)){
             if(source.getParent().getParent().equals(warehousePane))
                 dragEvent.acceptTransferModes(TransferMode.MOVE);
         }
@@ -1955,8 +1956,10 @@ public class TurnSceneController{
      */
     @FXML
     public void sendMessage() {
-        if(endTurn())
+        if(endTurn()) {
+            refreshAll();
             (new EndTurnMessage(player.getNickname())).send();
+        }
         else {
             if (message != null) {
                 message.send();
