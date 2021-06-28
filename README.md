@@ -20,7 +20,7 @@ Ai seguenti link sono consultabili entrambe le versioni:
 - [UML Finali]()
 
 ### JavaDoc
-L'intera documentazione del progetto, tra classi e funzioni, è presente al seguente link : [Javadoc](https://github.com/citteriomatteo/ingswAM2021-Barbiero-Citterio-Caspani/tree/main/deliveries/javadoc/index.html)
+L'intera documentazione del progetto, tra classi e funzioni, è presente al seguente link : [Javadoc](https://github.com/citteriomatteo/ingswAM2021-Barbiero-Citterio-Caspani/tree/main/deliveries/javadoc)
 
 ### Librerie e Plugins
 |Libreria/Plugin|Descrizione|
@@ -40,8 +40,8 @@ L'intera documentazione del progetto, tra classi e funzioni, è presente al segu
     - __Resilienza alle Disconnessioni:__ un giocatore è libero di disconnettersi e riconnettersi in seguito in partita, riaccedendo con lo stesso nickname.
       Lo stato del giocatore viene mantenuto anche nel mezzo di un turno semi-completato, dandogli la possibilità, una volta che il turno tornerà suo, di riprendere dal punto esatto in cui era rimasto.
     - __Partite Multiple:__ il server è in grado di gestire più partite in simultanea, e la creazione dei match avviene in serie.
-      La procedura di attesa e creazione di una partita viene reiterata per i giocatori che si connetteranno dopo, appena la partita di cui il server si sta occupando di costruire è iniziata.
-      __Partita Locale:__ avviando il jar con comando aggiuntivo `--local` è possibile avviare il gioco senza ausilio di un server in ascolto.
+      La procedura di attesa e creazione di una partita viene reiterata per i giocatori che si connetteranno dopo, appena la partita di cui il server si sta occupando di costruire è iniziata. 
+    - __Partita Locale:__ avviando il jar con comando aggiuntivo `--local` è possibile avviare il gioco senza ausilio di un server in ascolto.
       Il dispositivo diventerà stand-alone e si occuperà di tenere traccia dello status di gioco e gestirlo in maniera totalmente interna e indipendente.
       Questa modalità, però, non sostituisce la canonica partita singola: è comunque possibile giocare contro Lorenzo avviando il gioco secondo il suo normale setup e usufruire delle potenzialità di ripresa del match a seguito di una disconnessione.
 - Extra Feature:
