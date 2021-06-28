@@ -36,6 +36,7 @@ public class Cell
 
     /**
      * This method specifies, in a SinglePlayer match, that this Cell is not a VaticanReportCell.
+     * @param player the only player in the single-match
      * @return            false
      * @see VaticanReportCell
      */

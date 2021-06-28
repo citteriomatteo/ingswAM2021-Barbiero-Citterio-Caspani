@@ -3,6 +3,10 @@ package it.polimi.ingsw.network.message.ctosmessage;
 import it.polimi.ingsw.gameLogic.exceptions.RetryException;
 import it.polimi.ingsw.network.server.ControlBase;
 
+/**
+ * This cheat message is used by any admin player to receive a faith point.
+ * Message structure: { nickname }
+ */
 public class AddFaithMessage extends CtoSMessage{
     private static final CtoSMessageType type = CtoSMessageType.ADD_FAITH;
 
