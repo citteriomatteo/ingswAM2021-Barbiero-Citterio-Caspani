@@ -572,6 +572,7 @@ public class TurnSceneController{
         cardGrid.setDisable(value);
         tempDevCard.setDisable(value);
         myPane.setDisable(value);
+        faithButton.setDisable(value);
         if(value)
             for(Node n : myPane.getChildren())
                 n.setDisable(false);
@@ -597,6 +598,7 @@ public class TurnSceneController{
         marketPane.setDisable(true);
         cardGrid.setDisable(true);
         tempDevCard.setDisable(true);
+        faithButton.setDisable(true);
 
         //ids of the elements to keep enabled
         List<String> importantIds = new ArrayList<>(List.of("warehousePane", "activeLeaders"));
@@ -620,6 +622,7 @@ public class TurnSceneController{
         marketPane.setDisable(true);
         cardGrid.setDisable(true);
         tempDevCard.setDisable(true);
+        faithButton.setDisable(true);
 
         //ids of the elements to keep enabled
         List<String> importantIds = new ArrayList<>(List.of("warehousePane", "marketBufferBox"));
@@ -646,6 +649,7 @@ public class TurnSceneController{
         paymentsPane.setDisable(false);
         paymentsPane.setVisible(true);
         tempDevCard.setDisable(false);
+        faithButton.setDisable(true);
 
         //ids of the elements to keep enabled
         List<String> importantIds = new ArrayList<>(List.of("warehousePane", "strongbox"));
@@ -666,6 +670,7 @@ public class TurnSceneController{
         cardGrid.setDisable(true);
         tempDevCard.setDisable(false);
         endPaymentsPhase();
+        faithButton.setDisable(true);
 
         for(Node node : devCardSlots.getChildren()){
             StackPane stackPane = (StackPane) node;
@@ -694,6 +699,7 @@ public class TurnSceneController{
         paymentsPane.setDisable(false);
         paymentsPane.setVisible(true);
         tempDevCard.setDisable(true);
+        faithButton.setDisable(true);
 
         //ids of the elements to keep enabled
         List<String> importantIds = new ArrayList<>(List.of("warehousePane", "strongbox","devCardSlots", "1DevSlot", "2DevSlot", "3DevSlot"));
@@ -715,6 +721,7 @@ public class TurnSceneController{
         tempDevCard.setDisable(true);
         endPaymentsPhase();
         endProductionPhase();
+        faithButton.setDisable(false);
 
         //ids of the elements to keep enabled
         List<String> importantIds = new ArrayList<>(List.of("warehousePane", "leaderActions1", "leaderActions2"));

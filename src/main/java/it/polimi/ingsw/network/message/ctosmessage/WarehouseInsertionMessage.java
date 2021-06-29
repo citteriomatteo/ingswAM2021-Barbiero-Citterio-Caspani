@@ -52,7 +52,7 @@ public class WarehouseInsertionMessage extends CtoSMessage {
     }
 
     @Override
-    public boolean send(){   //todo: in case of refactor starting resource change this
+    public boolean send(){
         if(getClientController().getCurrentState()== StateName.WAITING_RESOURCES)
             return (new StartingResourcesMessage(super.getNickname(), resources)).send();
         else
