@@ -38,7 +38,7 @@ public class Client {
     private AtomicBoolean play;
 
     /**
-     * Private constructor of the Client, since it is a singleton no one should create an instance of this class.
+     * Friendly constructor of the Client, since it is a singleton no one should create an instance of this class.
      * This constructor doesn't set any parameter
      */
     Client(){ }
@@ -118,7 +118,7 @@ public class Client {
     }
 
     /**
-     * This method disconnects the player from the server.
+     * Kindly closes the connection with the server sending him a notification message
      */
     public void exit(){
         System.out.println("...Exiting from game");

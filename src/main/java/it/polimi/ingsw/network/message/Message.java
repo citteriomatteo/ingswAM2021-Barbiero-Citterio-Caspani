@@ -18,7 +18,7 @@ public abstract class Message {
 
     /**
      * Getter
-     * @return the value of 'isLocal'
+     * @return true if the player is playing a local game
      */
     public static boolean getIsLocal(){
         return isLocal;

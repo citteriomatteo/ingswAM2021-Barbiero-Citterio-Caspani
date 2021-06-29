@@ -74,9 +74,8 @@ public class ClientController
         currentState = StateName.LOGIN;
     }
 
-
     /**
-     * Static getter method.
+     * Returns the Singleton instance of the ClientController
      * @return the Singleton instance of the ClientController
      */
     public static ClientController getClientController(){
@@ -250,7 +249,7 @@ public class ClientController
     }
 
     /**
-     * Controls if the message can be sent to the server and then sends it.
+     * Controls if the message can be sent to the server and then sends it, or compute it directly if the match is played locally
      * @param message the message to send
      * @return true if the message has been sent
      */
