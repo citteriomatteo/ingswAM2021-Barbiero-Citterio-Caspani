@@ -31,6 +31,7 @@ public class SingleFaithPath extends FaithPath {
      * This method adds "steps" points, one by one. For every cell passed,
      * it checks for a vatican report: if a report is effectively called, it collapses vaticanReportCell to Cell.
      * @param points        represents the points that Lorenzo has done
+     * @param player        the only player in the single-match
      * @return              true
      * @throws LastRoundException          if Lorenzo ends the path journey
      */
@@ -54,6 +55,7 @@ public class SingleFaithPath extends FaithPath {
 
     /**
      * This method checks, if Lorenzo is in a report cell, how to turn the player's pope tile depending on its position.
+     * @param player the only player in the single-match
      * @return true (for Cell collapse), else false.
      */
     public boolean blackVaticanReport(Player player) {

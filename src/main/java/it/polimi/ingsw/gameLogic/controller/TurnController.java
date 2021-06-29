@@ -625,10 +625,16 @@ public class TurnController {
      * @return the current state
      */
     public StateName getCurrentState() { return currentState; }
-    /** Setter for current player's state */
+    /** Setter for current player's state
+     @param currentState the new state
+      */
     public void setCurrentState(StateName currentState) { this.currentState = currentState; }
-    /** Setter for white marbles drawn */
+    /** Setter for white marbles drawn
+     @param whiteMarbleDrawn the number of white marble drawn during the last market move
+     */
     public void setWhiteMarbleDrawn(int whiteMarbleDrawn) { this.whiteMarbleDrawn = whiteMarbleDrawn; }
-    /** Setter for last round's flag */
+    /** Setter for last round's flag
+     @param lastRound is true if it's the last round, false elsewhere
+     */
     public void setLastRound(boolean lastRound){ this.lastRound = lastRound ;}
 }

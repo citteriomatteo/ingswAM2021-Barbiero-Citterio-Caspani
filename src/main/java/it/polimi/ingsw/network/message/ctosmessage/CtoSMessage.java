@@ -11,6 +11,10 @@ import static it.polimi.ingsw.view.ClientController.getClientController;
  */
 public abstract class CtoSMessage extends Message {
 
+    /**
+     * Constructor for the CtoSMessage, which only takes the nickname of the player that is writing to the server.
+     * @param nickname the sender's nickname
+     */
     public CtoSMessage(String nickname) {
         super(nickname);
     }

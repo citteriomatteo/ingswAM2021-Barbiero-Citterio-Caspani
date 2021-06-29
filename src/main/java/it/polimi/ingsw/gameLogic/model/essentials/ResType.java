@@ -20,6 +20,10 @@ public enum ResType {
         image = new Image(Objects.requireNonNull(ResType.class.getResourceAsStream("/it/polimi/ingsw/view/GUI/" + s)));
     }
 
+    /**
+     * Returns the image that corresponds to the resource type (for GUI purposes)
+     * @return the Image object
+     */
     public Image asImage(){
         return image;
     }
