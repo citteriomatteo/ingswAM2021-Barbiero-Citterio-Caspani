@@ -132,7 +132,7 @@ public class ClientController
                 view.setLastRound(false);
             printMoveLegend(msg);
             if(match != null && !((NextStateMessage) msg).getNewState().equals(StateName.END_MATCH))
-                view.showAll(match); //todo: TO REMOVE
+                view.showAll(match);
 
         }
 

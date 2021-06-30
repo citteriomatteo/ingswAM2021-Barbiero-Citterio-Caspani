@@ -21,7 +21,6 @@ import static it.polimi.ingsw.view.lightmodel.LightMatch.getCardMap;
  */
 public class ClientCLI implements View
 {
-    //todo: insert match reference for showAll()
     private String lastLayout;
     private boolean lastRound = false;
     private static final Integer DEFAULT_SHIFT = 12, ZERO_SHIFT = 0;
@@ -254,7 +253,6 @@ public class ClientCLI implements View
      */
     @Override
     public void printRetry(String errMessage, StateName currentState, LightMatch match) {
-        //todo: fix this adding a errorLabel variable to be printed after the show all and removed at the change state
         String message = "Message from server: " + errMessage;
         if(match!=null) {
             lastLayout = message;

@@ -35,7 +35,6 @@ public class ConfigureMessage extends CtoSMessage {
             sendRetryMessage(getNickname(), controlBase, "You forgot some parameters");
             return false;
         }
-        //TODO
         return false;
     }
 
