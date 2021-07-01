@@ -263,7 +263,7 @@ public class ClientController
             else
                 return getClient().writeMessage(message);
         }
-        printRetry("You're in " + currentState + ". Operation not available: retry. Write 'help' for message tips.", currentState);
+        printRetry("You're in " + currentState + ". Operation not available: retry.", currentState);
         return false;
     }
 

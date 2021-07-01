@@ -253,7 +253,7 @@ public class ClientCLI implements View
      */
     @Override
     public void printRetry(String errMessage, StateName currentState, LightMatch match) {
-        String message = "Message from server: " + errMessage;
+        String message = "Message from server: " + errMessage + " Write 'help' for message tips.";
         if(match!=null) {
             lastLayout = message;
             showAll(match);
