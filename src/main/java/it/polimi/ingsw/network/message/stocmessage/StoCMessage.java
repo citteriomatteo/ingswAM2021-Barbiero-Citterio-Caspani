@@ -54,8 +54,8 @@ public abstract class StoCMessage extends Message {
         else {
             for (Player player : match.getPlayers()) {
                 receiver = serverCall().findControlBase(player.getNickname());
-                if (receiver == null || !receiver.write(this))
-                    return;
+                if (receiver != null)
+                    receiver.write(this);
             }
         }
     }
