@@ -16,8 +16,8 @@ Prima di iniziare a giocare, consultare il [regolamento di Masters Of Renaissanc
 ### UML
 I diagrammi che seguono rappresentano l'evoluzione schematica del prodotto, da una prima progettazione al diagramma del prodotto finale.
 Ai seguenti link sono consultabili entrambe le versioni:
-- [UML Iniziali](https://github.com/citteriomatteo/ingswAM2021-Barbiero-Citterio-Caspani/tree/main/deliveries/uml.png)
-- [UML Finali]()
+- [UML Iniziale](https://github.com/citteriomatteo/ingswAM2021-Barbiero-Citterio-Caspani/tree/main/deliveries/uml/model_uml.png)
+- [UML Finali](https://github.com/citteriomatteo/ingswAM2021-Barbiero-Citterio-Caspani/tree/main/deliveries/uml/finals)
 
 ### JavaDoc
 L'intera documentazione del progetto, tra classi e funzioni, è presente al seguente link : [Javadoc](https://github.com/citteriomatteo/ingswAM2021-Barbiero-Citterio-Caspani/tree/main/deliveries/javadoc)

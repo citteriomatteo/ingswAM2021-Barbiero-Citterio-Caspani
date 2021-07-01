@@ -141,7 +141,7 @@ public class JavaFXGUI extends Application {
     }
 
     /**
-     * When the main stage if this is an online match kindly closes the connection with the server sending him a notification message
+     * When the main stage is closed, if this is an online match kindly closes the connection with the server sending him a notification message
      */
     @Override
     public void stop() {

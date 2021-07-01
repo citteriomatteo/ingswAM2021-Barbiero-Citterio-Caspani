@@ -11,7 +11,7 @@ import it.polimi.ingsw.network.server.ControlBase;
 import it.polimi.ingsw.view.ClientController;
 
 /**
- * Singleton class for manage a local match
+ * Singleton class for manage a local match, it contains all the game logic and the "network" stub
  */
 public class LocalClient extends Client implements ControlBase {
     private static LocalClient instance;
@@ -38,7 +38,7 @@ public class LocalClient extends Client implements ControlBase {
     }
 
     /**
-     * Calls the super method and if cliChoice is true sets the state to login
+     * Calls {@link Client#setView} and if cliChoice is true sets the initial state to login
      * @param cliChoice if true set up a CLI, if false set up a GUI
      */
     @Override
@@ -50,7 +50,7 @@ public class LocalClient extends Client implements ControlBase {
     }
 
     /**
-     * Close the thread.
+     * Writes an exiting message
      */
     @Override
     public void exit() {
@@ -58,9 +58,9 @@ public class LocalClient extends Client implements ControlBase {
     }
 
     /**
-     * Computes the message.
-     * @param msg the message to compute.
-     * @return true if all want good.
+     * Computes directly the message
+     * @param msg the message to compute
+     * @return true if the execution succeeded
      */
     @Override
     public boolean writeMessage(CtoSMessage msg) {
@@ -73,7 +73,7 @@ public class LocalClient extends Client implements ControlBase {
     }
 
     /**
-     * Sets the nickname of the player on clientController and sets the player's instance and the matchController
+     * Sets the nickname of the player on clientController and creates the game logic (the player's instance and the matchController)
      * @param nickname the nickname of the player
      */
     public void createPlayer(String nickname){
@@ -88,7 +88,7 @@ public class LocalClient extends Client implements ControlBase {
     }
 
     /**
-     * @return the current state of the player, either if he is in the first phases of connection or inside a match
+     * @return the current state of the player inside the match
      */
     @Override
     public StateName getCurrentState() {
@@ -104,7 +104,8 @@ public class LocalClient extends Client implements ControlBase {
     }
 
     /**
-     * @return the InitController related to this
+     * Returns nothing because this ControlBase has not an InitController
+     * @return null
      */
     @Override
     public InitController getInitController() {
@@ -121,7 +122,6 @@ public class LocalClient extends Client implements ControlBase {
 
     /**
      * Sets the player related to this client
-     *
      * @param player the player related to this client
      */
     @Override
@@ -130,9 +130,7 @@ public class LocalClient extends Client implements ControlBase {
     }
 
     /**
-     * Links the match controller to this client, when this method is called
-     * the client is considered in the match and so he will accept different types of messages
-     *
+     * Links the passed match controller to this client
      * @param controller the matchController to link
      */
     @Override
@@ -143,6 +141,7 @@ public class LocalClient extends Client implements ControlBase {
     /**
      * Method called at the end of the match -> if this method is called the match has comes naturally to
      * an end and the player can be disconnected without issues
+     * It does nothing for local game
      */
     @Override
     public void endGame() {
@@ -151,9 +150,9 @@ public class LocalClient extends Client implements ControlBase {
 
     /**
      * Writes something to this player, the message has to be written in one of the subclasses of {@link StoCMessage}
-     *
+     * The message will be directly computed
      * @param msg the message you want to send to this player
-     * @return true if the message has been sent, false if something goes wrong in the output stream
+     * @return true
      */
     @Override
     public boolean write(StoCMessage msg) {

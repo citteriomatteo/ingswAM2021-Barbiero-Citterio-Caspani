@@ -7,7 +7,7 @@ import static it.polimi.ingsw.view.ClientController.getClientController;
 
 /**
  * Main class for starting client, it can handle different arguments:
- * --local sets starts a match played locally
+ * --local if present, starts the match as local without communication with the server, eventually [--ip] or [--port] parameters wont be taken into account
  * --ip/IP/address [address] sets the address to find the server
  * --port [num] sets the port on which the server is listening
  * --cli/CLI chose to start a CLI
@@ -31,7 +31,6 @@ public class ClientApp {
                 case "--ip":
                 case "--IP":
                 case "--address":
-                    online = true;
                     if(i+1 != args.length && !args[i+1].startsWith("-")){
                         hostName = args[i+1];
                         foundIP = true;
@@ -65,7 +64,6 @@ public class ClientApp {
         }
 
         if(online) {
-
             if (!foundIP)
                 hostName = readHostFromJSON();
             if (!foundPort)
@@ -74,21 +72,15 @@ public class ClientApp {
                 cliChoice = readViewFromJSON();
 
             getClient().setSocket(hostName, portNumber);
-
             getClient().heartbeat();
-
             new Thread(() -> getClient().startClient()).start();
-
             getClient().setView(cliChoice);
         }
-        else{
 
+        else {
             getClientController().setIsLocal();
-
             getLocalClient().setView(cliChoice);
         }
 
-
-        //getClient().terminateConnection();
     }
 }

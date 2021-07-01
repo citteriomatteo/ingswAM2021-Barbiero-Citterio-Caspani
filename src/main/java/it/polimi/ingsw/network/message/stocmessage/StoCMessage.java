@@ -21,7 +21,7 @@ public abstract class StoCMessage extends Message {
     }
 
     /**
-     * Write this message to all the given players
+     * Writes this message to all the given players or computes it locally if the message is sent during a local play
      * @param players the players you want to send the message to
      */
     public void sendBroadcast(List<String> players){
@@ -41,7 +41,7 @@ public abstract class StoCMessage extends Message {
     }
 
     /**
-     * Write this message to all the players inside the match
+     * Writes this message to all the players inside the match or computes it locally if the message is sent during a local play
      * @param match the match whose players you want to send the message to
      */
     public void sendBroadcast(Match match){
@@ -61,7 +61,7 @@ public abstract class StoCMessage extends Message {
     }
 
     /**
-     * Write this message to the given player
+     * Write this message to the given player or computes it locally if the message is sent during a local play
      * @param player the player you want to send the message to
      * @return true if the message has been sent, false if not
      */

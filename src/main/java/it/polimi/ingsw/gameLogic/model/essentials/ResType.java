@@ -16,8 +16,12 @@ public enum ResType {
 
     private final Image image;
 
-    ResType(String s) {
-        image = new Image(Objects.requireNonNull(ResType.class.getResourceAsStream("/it/polimi/ingsw/view/GUI/" + s)));
+    /**
+     * Private constructor, it links every instance of the enumeration class with the correct image
+     * @param path the path where to find the image to take
+     */
+    ResType(String path) {
+        image = new Image(Objects.requireNonNull(ResType.class.getResourceAsStream("/it/polimi/ingsw/view/GUI/" + path)));
     }
 
     /**
