@@ -34,8 +34,8 @@ public abstract class StoCMessage extends Message {
         else {
             for (String player : players) {
                 receiver = serverCall().findControlBase(player);
-                if (receiver == null || !receiver.write(this))
-                    return;
+                if (receiver != null)
+                    receiver.write(this);
             }
         }
     }
@@ -72,6 +72,7 @@ public abstract class StoCMessage extends Message {
             receiver = getLocalClient();
         else
             receiver = serverCall().findControlBase(player);
+
         if(receiver == null)
             return false;
 
